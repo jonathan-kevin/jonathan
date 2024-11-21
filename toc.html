@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Table of contents</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+</head>
+
+<body style="display: flex;flex-direction: row; gap: 24px; min-height: 100vh;">
+	<main>
+
+		<article>
+			<section id="Menu">
+				<h2>Menu item information</h2>
+				<p>Menu items provide a pathway for users to access various features or pages in the application. They
+					should be clearly labeled and easily recognizable to enhance navigation. Each menu item can be
+					customized with icons, text labels, and links to specific sections.</p>
+			</section>
+
+			<section id="SQL">
+				<h2>SQL</h2>
+				<p>SQL (Structured Query Language) is used to manage and manipulate relational databases. It allows
+					users to retrieve, update, and delete data within a structured format, making it essential for
+					data-driven applications.</p>
+			</section>
+
+			<section id="UseInsert">
+				<h2>Use Insert/Update</h2>
+				<p>The INSERT statement in SQL is used to add new records to a table, while the UPDATE statement
+					modifies existing records. These commands are essential for keeping database records current and
+					accurate.</p>
+			</section>
+
+			<section id="UseInfoSQL">
+				<h2>Use InfoSQL</h2>
+				<p>InfoSQL is a collection of SQL commands used specifically to retrieve metadata about the database,
+					such as table structures, data types, and index information. This helps developers understand the
+					database schema better.</p>
+			</section>
+
+			<section id="Grid">
+				<h2>Grid settings</h2>
+				<p>Grid settings allow developers to control the layout and appearance of data displayed in grid format,
+					such as a table or matrix. These settings include row and column alignment, cell padding, and font
+					styles.</p>
+			</section>
+
+			<section id="Field">
+				<h2>Field information</h2>
+				<p>Fields represent individual pieces of data within a database table. Each field has a specific data
+					type, such as text, number, or date, and plays a crucial role in structuring the information within
+					the database.</p>
+			</section>
+
+			<section id="Advanced">
+				<h2>Advanced settings</h2>
+				<p>Advanced settings provide additional configuration options for experienced users. These settings
+					often include options for database optimization, permissions, and other complex configurations.</p>
+			</section>
+
+			<section id="Hide">
+				<h2>Hide menu item in menu group</h2>
+				<p>This option allows administrators to hide certain menu items from specific user groups or roles. This
+					is useful for simplifying the interface or restricting access to sensitive areas.</p>
+			</section>
+
+			<section id="Access">
+				<h2>Access permissions</h2>
+				<p>Access permissions control which users can view, edit, or delete specific data or features within an
+					application. Proper configuration of access permissions is crucial for maintaining data security and
+					integrity.</p>
+			</section>
+
+			<section id="Use">
+				<h2>Use custom access control</h2>
+				<p>Custom access control allows developers to set specific access rules that align with an
+					organization’s unique needs. This might include role-based permissions, time-based restrictions, or
+					location-based access.</p>
+			</section>
+		</article>
+		<nav aria-labelledby="toc" class="saToC">
+			<h2 id="toc" class="saToCHeading">Table of contents</h2>
+			<button aria-expanded="true" aria-controls="toc-list" id="toc-btn" class="saToCButton">
+				<h2>Table of contents</h2>
+				<i class="saIcon far fa-angle-up"></i>
+			</button>
+			<div class="saToCIndicator"></div>
+			<ul id="toc-list" aria-live="polite">
+				<li class="saActive">
+					<a href="#Menu"><span>Menu item information</span></a>
+				</li>
+				<li>
+					<a href="#SQL"><span>SQL</span></a>
+				</li>
+				<li>
+					<a href="#UseInsert"><span>Use Insert/Update</span></a>
+				</li>
+
+				<li>
+					<a href="#UseInfoSQL"><span>Use InfoSQL</span></a>
+				</li>
+				<li>
+					<a href="#Grid"><span>Grid settings</span></a>
+				</li>
+				<li>
+					<a href="#Field"><span>Field information</span>
+						<i class="saIcon fas fa-hexagon-xmark saError" data-tooltip="This section has an error."
+							aria-label="This section has an error."></i>
+					</a>
+				</li>
+				<li>
+					<a href="#Advanced"><span>Advanced settings</span></a>
+				</li>
+				<li>
+					<a href="#Hide"><span>Hide menu item in menu group, menu group, menu group, menu group</span></a>
+				</li>
+				<li>
+					<a href="#Access"><span>Access permissions</span></a>
+				</li>
+				<li>
+					<a href="#Use"><span>Use custom access control</span></a>
+				</li>
+			</ul>
+		</nav>
+	</main>
+
+	<script>
+		$(document).ready(function () {
+			const $navLinks = $('.saToC a');
+			const $body = $('body');
+			const sections = $navLinks.map(function () {
+				return $($(this).attr('href'));
+			}).get();
+
+			$(window).on('scroll', function () {
+				if ($body.hasClass('saLargeScreen')) {
+					const scrollTop = $(this).scrollTop();
+
+					sections.forEach(function ($section) {
+						const sectionOffsetTop = $section.offset().top;
+
+						if (sectionOffsetTop <= scrollTop + 80 && sectionOffsetTop > scrollTop) {
+							const id = $section.attr('id');
+
+							$navLinks.each(function () {
+								const $link = $(this);
+								const $listItem = $link.closest('li');
+
+								if ($link.attr('href') === `#${id}`) {
+									$listItem.attr('aria-current', 'true');
+								} else {
+									$listItem.attr('aria-current', 'false');
+								}
+							});
+						}
+					});
+				};
+			});
+		});
+	</script>
+</body>
+
+</html>

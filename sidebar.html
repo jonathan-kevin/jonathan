@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sidebar</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+</head>
+
+<body>
+
+	<aside class="saAside">
+		<nav class="saSidebar" aria-label="Side bar">
+			<div class="saResizeHandle"></div>
+			<section>
+				<img class="saCustomerLogo" alt="Company log" src="./src/img/logo.svg"></img>
+				<label>
+					<input type="search" aria-label="Search" placeholder="Search">
+					<i class="saIcon far fa-search"></i>
+				</label>
+				<label>
+					<div class="saLabel">Cat</div>
+					<select name="cat" id="cat">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+					</select>
+				</label>
+			</section>
+			<section class="saSection">
+				<h3 id="tablist" class="saScreenReaderOnly">Toggle menu/favorites</h3>
+				<div class="saInputBoolean" role="tablist" aria-labelledby="tablist">
+					<button id="tab-1" type="button" role="tab" aria-selected="true" aria-controls="tabpanel-1">
+						<i class="saIcon far fa-bars"></i>
+						<span>Menu</span>
+					</button>
+					<button id="tab-2" type="button" role="tab" aria-selected="false" aria-controls="tabpanel-2"
+						tabindex="-1">
+						<i class="saIcon far fa-star"></i>
+						<span>Favorites</span>
+					</button>
+				</div>
+				<div class="saTabPanel" role="tabpanel" id="tabpanel-1" aria-labelledby="tab-1" aria-selected="true">
+					<ul>
+						<li class="saFeatured saPink">
+							<a href="#">
+								<i class="saIcon far fa-user-shield"></i>
+								<span>
+									Admin Dashboard
+								</span>
+							</a>
+						</li>
+						<li class="saFeatured saGreen">
+							<a href="#">
+								<i class="saIcon far fa-users-cog"></i>
+								<span>
+									User Management
+								</span>
+							</a>
+						</li>
+						<li class="saFeatured saPurple">
+							<a href="#">
+								<i class="saIcon far fa-cloud-meatball"></i>
+								<span>
+									Updates
+								</span>
+							</a>
+						</li>
+						<li class="saFeatured saRed">
+							<a href="#">
+								<i class="saIcon far fa-gem"></i>
+								<span>
+									Scores
+								</span>
+							</a>
+						</li>
+					</ul>
+
+					<h4>Settings</h4>
+					<ul>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-cog"></i>
+								<span>
+									General Settings
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-lock"></i>
+								<span>
+									Security Settings
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-bell"></i>
+								<span>
+									Notifications
+								</span>
+							</a>
+						</li>
+					</ul>
+
+					<h4>Reports</h4>
+					<ul>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-chart-line"></i>
+								<span>
+									Analytics
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-file-alt"></i>
+								<span>
+									Activity Logs
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-database"></i>
+								<span>
+									Data Reports
+								</span>
+							</a>
+						</li>
+					</ul>
+
+					<h4>Tools</h4>
+					<ul>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-wrench"></i>
+								<span>
+									Maintenance
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-key"></i>
+								<span>
+									API Keys
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-cloud-upload-alt"></i>
+								<span>
+									Backup & Restore
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-clipboard-check"></i>
+								<span>
+									Audit Trails
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-cogs"></i>
+								<span>
+									System Settings
+								</span>
+							</a>
+						</li>
+					</ul>
+					<ul>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-tools"></i>
+								<span>
+									System Maintenance
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-unlock-alt"></i>
+								<span>
+									Access Tokens
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-database"></i>
+								<span>
+									Data Backup
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-shield-alt"></i>
+								<span>
+									Security Logs
+								</span>
+							</a>
+						</li>
+					</ul>
+					<h4>Tools</h4>
+					<ul>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-database"></i>
+								<span>
+									Data Management
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-user-shield"></i>
+								<span>
+									Security Policies
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-bug"></i>
+								<span>
+									Error Logs
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-tools"></i>
+								<span>
+									Developer Tools
+								</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="saTabPanel saHidden" role="tabpanel" id="tabpanel-2" aria-labelledby="tab-2" aria-selected="false">
+					<ul>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-feather"></i>
+								<span>
+									Menu item
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-bird"></i>
+								<span>
+									Menu item
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-pen"></i>
+								<span>
+									Edit favorites
+								</span>
+							</a>
+						</li>
+					</ul>
+					<ul>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-feather"></i>
+								<span>
+									Menu item
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-bird"></i>
+								<span>
+									Menu item
+								</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="saIcon far fa-pen"></i>
+								<span>
+									Edit favorites
+								</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</section>
+			<section role="toolbar">
+				<button type="button" aria-expanded="false" class="saUserDropdown">
+					<img src="./src/img/avatar2.png">
+					<div class="saUser">
+						<div class="saName">Name Lastname</div>
+						<div class="saDescription">name.lastname@multisoft.se</div>
+					</div>
+					<i class="saIcon far fa-angle-down"></i>
+				</button>
+				<div class="saButtonGroup">
+					<button type="button" aria-label="Settings">
+						<div class="saIcon far fa-gear"></div>
+					</button>
+					<button type="button" aria-label="New tab">
+						<div class="saIcon far fa-window-restore"></div>
+					</button>
+					<button type="button" aria-label="Help" aria-expanded="false">
+						<div class="saIcon far fa-life-ring"></div>
+					</button>
+					<button type="button" aria-label="Notifications" aria-expanded="false">
+						<div class="saIcon far fa-bell"></div>
+					</button>
+				</div>
+				<div class="saSideBarFooter">
+					<div class="saSoftadminLogo">
+						<div class="saLogo"></div>
+						<div class="saWordmark"></div>
+					</div>
+					<button type="button" aria-label="Expand sidebar" aria-expanded="true" class="saExpander">
+						<div class="saIcon far fa-angles-left"></div>
+					</button>
+				</div>
+			</section>
+		</nav>
+	</aside>
+	<main>
+	</main>
+	<script>
+
+		$(document).ready(function () {
+			$('.saExpander').click(function () {
+				$('nav').toggleClass('saMinimized');
+				sidebar.css('width', '');
+				sidebar.css('transition', 'ease width .2s');
+			});
+
+			const sidebar = $('nav');
+			const handle = $('.saResizeHandle');
+			let isResizing = false;
+
+			handle.on('mousedown', function (e) {
+				e.preventDefault();
+				isResizing = true;
+				$('body').css('cursor', 'ew-resize');
+				sidebar.css('transition-duration', '0');
+			});
+
+			$(document).on('mousemove', function (e) {
+				if (isResizing) {
+					const newWidth = e.pageX - sidebar.offset().left;
+					sidebar.css('width', newWidth + 'px');
+					sidebar.css('transition', 'ease width 0s');
+				}
+			}).on('mouseup', function () {
+				isResizing = false;
+				$('body').css('cursor', '');
+				sidebar.css('transition', 'ease width .2s');
+			});
+
+			handle.on('dblclick', function () {
+				sidebar.css('width', '');
+			});
+
+			$('[role=tablist]').each(function () {
+				const $tablist = $(this);
+				const $tabs = $tablist.find('[role=tab]');
+				const $tabpanels = $tabs.map(function () {
+					return $('#' + $(this).attr('aria-controls'))[0];
+				});
+				const $firstTab = $tabs.first();
+				const $lastTab = $tabs.last();
+
+				// Initialize tabs
+				$tabs.each(function (i) {
+					const $tab = $(this);
+
+					$tab.attr({
+						'tabindex': -1,
+						'aria-selected': 'false'
+					});
+
+					$($tabpanels[i]).addClass('saHidden');
+
+					$tab.on('keydown', function (e) {
+						handleKeydown(e, $tab, $firstTab, $lastTab, $tabs);
+					});
+
+					$tab.on('click', function () {
+						setSelectedTab($tab, $tabs, $tabpanels);
+					});
+				});
+
+				// Set the initial selected tab
+				setSelectedTab($firstTab, $tabs, $tabpanels, false);
+			});
+
+			function setSelectedTab($currentTab, $tabs, $tabpanels, setFocus = true) {
+				$tabs.each(function (i) {
+					const $tab = $(this);
+					const $tabpanel = $($tabpanels[i]);
+
+					if ($tab.is($currentTab)) {
+						$tab.attr('aria-selected', 'true').removeAttr('tabindex');
+						$tabpanel.removeClass('saHidden');
+						if (setFocus) $tab.focus();
+					} else {
+						$tab.attr('aria-selected', 'false').attr('tabindex', -1);
+						$tabpanel.addClass('saHidden');
+					}
+				});
+			}
+
+			function handleKeydown(event, $currentTab, $firstTab, $lastTab, $tabs) {
+				let preventDefault = true;
+
+				switch (event.key) {
+					case 'ArrowLeft':
+						selectPreviousTab($currentTab, $firstTab, $lastTab, $tabs);
+						break;
+					case 'ArrowRight':
+						selectNextTab($currentTab, $firstTab, $lastTab, $tabs);
+						break;
+					case 'Home':
+						setSelectedTab($firstTab, $tabs, $tabs.map((i, tab) => $('#' + $(tab).attr('aria-controls'))[0]));
+						break;
+					case 'End':
+						setSelectedTab($lastTab, $tabs, $tabs.map((i, tab) => $('#' + $(tab).attr('aria-controls'))[0]));
+						break;
+					default:
+						preventDefault = false;
+				}
+
+				if (preventDefault) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+			}
+
+			function selectPreviousTab($currentTab, $firstTab, $lastTab, $tabs) {
+				const $prevTab = $currentTab.is($firstTab) ? $lastTab : $currentTab.prev();
+				setSelectedTab($prevTab, $tabs, $tabs.map((i, tab) => $('#' + $(tab).attr('aria-controls'))[0]));
+			}
+
+			function selectNextTab($currentTab, $firstTab, $lastTab, $tabs) {
+				const $nextTab = $currentTab.is($lastTab) ? $firstTab : $currentTab.next();
+				setSelectedTab($nextTab, $tabs, $tabs.map((i, tab) => $('#' + $(tab).attr('aria-controls'))[0]));
+			}
+		});
+	</script>
+</body>
+
+</html>
