@@ -73,28 +73,27 @@
 		const $lightboxImg = $lightboxOverlay.find('img');
 		const $dialogCloseButton = $('.saDialogButtonClose');
 		const $lightbox = $('.saLightBox');
-		const $lightboxImgTrigger = $('.saLightBoxButton');
+		const $lightboxButton = $('.saLightBoxButton');
 		const $canLightBoxTrigger = $('.saCanLightBox');
 		const body = $('body');
 
 		const initialOpacity = 0.8;
 		const minOpacity = 0;
-		let startY = 0, currentY = 0, translateY = 0, isMultiTouch = false, lastTapTime = 0;
+		let startY = 0, currentY = 0, translateY = 0, currentX = 0, translateX = 0, isMultiTouch = false, lastTapTime = 0;
 
 		function initializeLightbox() {
-			$canLightBoxTrigger.on('click', handleLightboxOpen);
+			$canLightBoxTrigger.on('click', openDialog);
 			$dialogCloseButton.on('click', closeDialog);
 			$lightboxOverlay.on('click', handleOverlayClick);
 			$lightboxImg.on('load', setDynamicBackgroundColor);
 			$lightboxOverlay.on('touchstart', handleTouchStart);
 			$lightboxOverlay.on('touchmove', handleTouchMove);
-			$lightboxImgTrigger.on('touchend', handleDoubleTapZoom);
-			$lightboxImgTrigger.on('click', daZoom);
+			$lightboxButton.on('click', zoomFull);
 			$lightboxOverlay.on('touchend', handleTouchEnd);
 			$(document).on('keydown', handleKeyEvents);
 		}
 
-		function handleLightboxOpen(event) {
+		function openDialog(event) {
 			event.preventDefault();
 			resetTransforms();
 			const imgSrc = $(this).attr('img');
@@ -103,10 +102,12 @@
 			body.addClass('saDialogOpen');
 			$dialogCloseButton.focus();
 			$(this).attr('aria-expanded', 'true');
+			zoomEnabled();
 		}
 
 		function resetTransforms() {
 			startY = currentY = translateY = 0;
+			startX = currentX = translateX = 0;
 			$lightboxImg.css('transform', 'translate(0, 0) scale(1)');
 			$lightboxOverlay.css('--backdrop', initialOpacity);
 		}
@@ -155,58 +156,57 @@
 			isMultiTouch = event.originalEvent.touches.length > 1;
 			if (!isMultiTouch) {
 				startY = event.originalEvent.touches[0].clientY;
+				startX = event.originalEvent.touches[0].clientX;
 			}
 		}
 
 		function handleTouchMove(event) {
 			if (isMultiTouch || $lightbox.hasClass('saZoomFull') || event.originalEvent.touches.length > 1) return;
 
-			currentY = event.originalEvent.touches[0].clientY;
-			translateY = currentY - startY;
+			if (body.hasClass('saSmallScreen')) {
+				currentY = event.originalEvent.touches[0].clientY;
+				currentX = event.originalEvent.touches[0].clientX;
+				translateY = currentY - startY;
+				translateX = currentX - startX;
 
+				console.log(`Dragging: translateX=${translateX}, translateY=${translateY}`); // Debug
 
-			const newOpacity = Math.max(minOpacity, initialOpacity - Math.abs(translateY) / 400);
-			const newScale = Math.max(0.8, 1 - Math.abs(translateY) / 400);
+				const newOpacity = Math.max(minOpacity, initialOpacity - Math.abs(translateY) / 400);
+				const newScale = Math.max(0.5, 1 - Math.abs(translateY) / 800);
 
-			$lightboxImg.css({
-				transform: `translate(0, ${translateY}px) scale(${newScale})`,
-				transition: 'none'
-			});
+				$lightboxImg.css({
+					transform: `translate(${translateX}px, ${translateY}px) scale(${newScale})`,
+					transition: 'none',
+				});
+				$lightboxOverlay.css('--backdrop', newOpacity);
 
-			$lightboxOverlay.css('--backdrop', newOpacity);
-			event.preventDefault();
-		}
-
-		function handleDoubleTapZoom(event) {
-			if (isMultiTouch || body.hasClass('saPc')) return;
-
-			event.preventDefault();
-			const currentTime = Date.now();
-			const tapInterval = currentTime - lastTapTime;
-
-			if (tapInterval < 300 && tapInterval > 0) {
-				const isZoomed = $lightbox.hasClass('saZoomFull');
-				$lightbox.toggleClass('saZoomFull', !isZoomed).removeClass('saWider saTaller');
-				if (!isZoomed) adjustZoomClass();
+				event.preventDefault(); // Stop default scroll behavior
+				event.stopPropagation(); // Prevent interference from other listeners
 			}
-
-			lastTapTime = currentTime;
 		}
 
-		function daZoom(event) {
+
+		function zoomFull(event) {
 			if (body.hasClass('saSmallScreen')) return;
 			event.preventDefault();
 
-			const isZoomed = $lightbox.hasClass('saZoomFull');
-			$lightbox.toggleClass('saZoomFull', !isZoomed).removeClass('saWider saTaller');
-			if (!isZoomed) adjustZoomClass();
+			if ($lightbox.hasClass('saZoomEnabled saZoomFull')) {
+				$lightbox.removeClass('saZoomFull');
+			}
+
+			else if ($lightbox.hasClass('saZoomEnabled') && !$lightbox.hasClass('saZoomFull')) {
+				$lightbox.addClass('saZoomFull');
+			}
 		}
 
-		function adjustZoomClass() {
-			const imgAspectRatio = $lightboxImg[0].naturalWidth / $lightboxImg[0].naturalHeight;
-			const screenAspectRatio = $(window).width() / $(window).height();
-			const classToAdd = imgAspectRatio > screenAspectRatio ? 'saWider' : 'saTaller';
-			$lightbox.addClass(classToAdd);
+		function zoomEnabled() {
+			if ($lightboxImg[0].naturalWidth >= $(window).width() || $lightboxImg[0].naturalHeight >= $(window).height()) {
+				$lightbox.addClass('saZoomEnabled');
+			}
+
+			else {
+				$lightbox.removeClass('saZoomEnabled');
+			}
 		}
 
 		function handleTouchEnd(event) {
@@ -214,13 +214,17 @@
 
 			const threshold = 80;
 			const screenHeight = window.innerHeight;
+			const screenWidth = window.innerHeight;
 
-			if (Math.abs(translateY) > threshold && !$lightbox.hasClass('saZoomFull')) {
-				const direction = translateY > 0 ? 1 : -1;
+			if (Math.abs(translateY) > threshold) {
+				const directionY = translateY > 0 ? 1 : -1;
+				const directionX = translateX > 0 ? 1 : -1;
+
 				$lightboxImg.css({
-					transform: `translate(0, ${direction * screenHeight}px) scale(0.1)`,
+					transform: `translate(${directionX}px, ${directionY * screenHeight}px) scale(0.1)`,
 					transition: 'transform 0.2s ease'
 				});
+
 				$lightboxOverlay.css('--backdrop', 0);
 
 				closeDialogWithDelay(200);
@@ -237,16 +241,21 @@
 			body.removeClass('saDialogOpen');
 			$lightboxOverlay[0].close();
 			resetTransforms();
-			$lightbox.removeClass('saZoomFull saWider saTaller');
+			$lightbox.removeClass('saZoomFull saZoomEnabled');
 			$lightboxImg.css('transition', 'none').removeAttr('background-color');
 			$canLightBoxTrigger.attr('aria-expanded', 'false');
-			$lightboxImgTrigger.attr('aria-expanded', 'false');
+			$lightboxButton.attr('aria-expanded', 'false');
 			$lightboxImg.removeAttr('src');
 		}
 
 		function handleKeyEvents(event) {
 			if (event.key === 'Escape') closeDialog();
 		}
+
+		$(window).resize(function () {
+			zoomEnabled();
+		});
+
 
 		// Initialize lightbox functionality
 		initializeLightbox();
