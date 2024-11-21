@@ -29240,7 +29240,13 @@ body.saDialogOpen .saLightBoxOverlay {
 }
 .saLightBoxButton {
   animation: ScaleIn 0.07s ease-in;
+  cursor: default;
+}
+.saZoomEnabled .saLightBoxButton {
   cursor: zoom-in;
+}
+.saSmallScreen .saZoomEnabled .saLightBoxButton {
+  cursor: default;
 }
 .saZoomFull .saLightBoxButton {
   cursor: zoom-out;
@@ -29251,6 +29257,7 @@ body.saDialogOpen .saLightBoxOverlay {
 .saLightBoxButton img {
   display: flex;
   -webkit-user-select: none;
+  user-select: none;
   margin: auto;
   width: auto;
   height: auto;
@@ -29264,19 +29271,7 @@ body.saDialogOpen .saLightBoxOverlay {
   max-width: calc(100vw - 32px);
 }
 .saZoomFull .saLightBoxButton img {
-  max-height: unset;
-  max-width: unset;
-  border-radius: 0;
-}
-.saZoomFull.saWider img {
-  height: 100%;
   max-height: none;
-  max-width: none;
-  border-radius: 0;
-}
-.saZoomFull.saTaller img {
-  max-height: none;
-  width: 100%;
   max-width: none;
   border-radius: 0;
 }
