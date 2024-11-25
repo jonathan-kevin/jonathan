@@ -28579,26 +28579,6 @@ main:has(.saToC) section:last-child {
 .saSmallScreen .saToCHeading {
   display: none;
 }
-.saLargeScreen .saToCIndicator {
-  display: none;
-}
-@supports (height: anchor-size(height)) {
-  .saLargeScreen .saToCIndicator {
-    display: block;
-    position: fixed;
-    position-anchor: --anchor;
-    position-area: x-start center;
-    transform: translateX(1px);
-    background-color: #2d6ce1;
-    width: 1px;
-    height: calc(anchor-size(height) - 8px);
-    z-index: 9;
-    transition: ease top 0.1s, ease height 0.2s;
-  }
-}
-.saSmallScreen .saToCIndicator {
-  display: none;
-}
 .saToC {
   display: flex;
   flex-direction: column;
@@ -28644,20 +28624,19 @@ main:has(.saToC) section:last-child {
   color: #2d6ce1;
   font-weight: 500;
   letter-spacing: 0;
-  anchor-name: --anchor;
+  border-color: #2d6ce1;
 }
-@supports not (height: anchor-size(height)) {
-  .saLargeScreen .saToC li[aria-current="true"] a {
-    border-color: #2d6ce1;
-  }
+.saToC li:has(ul)::before {
+  content: "";
+  height: 100%;
+  width: 1px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #dde3eC;
 }
-.saToC ul:has(a:hover) li[aria-current="true"] a {
-  anchor-name: unset;
-}
-@media (pointer: fine) {
-  .saToC ul:has(a:hover) li[aria-current="true"] a:hover {
-    anchor-name: --anchor;
-  }
+.saToC li ul {
+  padding: 8px 0 8px 24px;
 }
 .saToC a {
   display: flex;
@@ -28680,21 +28659,12 @@ main:has(.saToC) section:last-child {
 @media (pointer: fine) {
   .saToC a:hover {
     color: #313a44;
-    anchor-name: --anchor;
-  }
-  @supports not (height: anchor-size(height)) {
-    .saToC a:hover {
-      border-color: #404c5b;
-    }
+    border-color: #404c5b;
   }
 }
 .saToC a:active {
   color: #1f59bf;
-}
-@supports not (height: anchor-size(height)) {
-  .saToC a:active {
-    border-color: #313a44;
-  }
+  border-color: #313a44;
 }
 .saToC a .saIcon {
   font-size: 16px;
