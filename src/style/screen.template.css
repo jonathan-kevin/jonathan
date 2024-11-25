@@ -13798,66 +13798,143 @@ legend + .saInputCardsWrapper {
   align-items: center;
   justify-content: center;
   gap: 4px;
-  font-size: 12px;
-  line-height: 12px;
-  font-weight: 500;
   background-color: #eef1f5;
-  padding: 4px 8px;
-  border-radius: 12px;
   width: fit-content;
-  height: 24px;
-  transition: ease 0.2s background-color, ease 0.2s color;
+  transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
+  box-shadow: inset 0 0 0 0 transparent;
   height: unset;
   position: relative;
   background-color: #313a44;
   color: #fff;
 }
+.saInputCardWrapper .saPill:has(:enabled) {
+  cursor: pointer;
+}
+@media (pointer: fine) {
+  .saInputCardWrapper .saPill:has(:enabled):hover {
+    background-color: #eff0fd;
+    color: #1f59bf;
+  }
+  .saInputCardWrapper .saPill:has(:enabled):hover.saOutline {
+    box-shadow: inset 0 0 0 1px #2d6ce1;
+  }
+}
+.saInputCardWrapper .saPill:has(:enabled):active {
+  background-color: #cfd2f8;
+  color: #224795;
+}
+.saInputCardWrapper .saPill::before {
+  content: "";
+  height: 44px;
+  width: 100%;
+  background-color: transparent;
+  opacity: 0;
+  position: absolute;
+}
+.saInputCardWrapper .saPill.saSmall {
+  height: 24px;
+  min-width: 40px;
+  border-radius: 12px;
+  padding: 4px 8px;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 12px;
+}
+.saInputCardWrapper .saPill.saMedium {
+  min-width: 64px;
+  height: 32px;
+  border-radius: 16px;
+  padding: 0 12px;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 14px;
+}
+.saInputCardWrapper .saPill.saLarge {
+  min-width: 64px;
+  height: 40px;
+  border-radius: 20px;
+  padding: 0 12px;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 14px;
+}
 .saInputCardWrapper .saPill.saDisabled {
   background: #eef1f5;
   color: #adbdd1;
+  cursor: not-allowed;
+}
+.saInputCardWrapper .saPill.saOutline {
+  box-shadow: inset 0 0 0 1px #ccd5e2;
+}
+.saInputCardWrapper .saPill:has(:checked) {
+  background-color: #2d6ce1;
+  color: #fff;
+}
+.saInputCardWrapper .saPill:has(:checked).saOutline {
+  background-color: #eff0fd;
+  color: #1f59bf;
+  box-shadow: inset 0 0 0 1px #2d6ce1;
+}
+.saInputCardWrapper .saPill input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  background: none;
+  border-radius: 16px;
+  cursor: inherit;
 }
 .saInputCardWrapper .saPill.saColorWarning {
-  background: #ffefd3;
-  color: #956a15;
+  color: #fff;
+  background-color: #956a15;
 }
 .saInputCardWrapper .saPill.saColorGeyser {
-  background: #ccd5e2;
+  color: #fff;
 }
 .saInputCardWrapper .saPill.saColorTango {
-  background: #ffede4;
-  color: #b75617;
+  color: #fff;
+  background-color: #b75617;
 }
 .saInputCardWrapper .saPill.saColorAmethyst {
-  background: #f8edfd;
-  color: #8b4af1;
+  color: #fff;
+  background-color: #8b4af1;
 }
 .saInputCardWrapper .saPill.saColorPunkPink {
-  background: #ffecf6;
-  color: #d1199f;
+  color: #fff;
+  background-color: #d1199f;
 }
 .saInputCardWrapper .saPill.saColorMountainMeadow {
-  background: #e1f6e1;
-  color: #278239;
+  color: #fff;
+  background-color: #278239;
 }
 .saInputCardWrapper .saPill.saColorCrimson {
-  background: #ffedeb;
-  color: #e0163e;
+  color: #fff;
+  background-color: #e0163e;
 }
 .saInputCardWrapper .saPill.saColorPicton {
-  background: #e2f4fa;
-  color: #237c91;
+  color: #fff;
+  background-color: #237c91;
 }
 .saInputCardWrapper .saPill.saColorPrimary {
-  background: #eff0fd;
-  color: #2d6ce1;
+  color: #fff;
+  background-color: #2d6ce1;
 }
 .saInputCardWrapper .saPill.saColorTory {
-  background: #cfd2f8;
-  color: #1f59bf;
+  color: #fff;
+  background-color: #2d6ce1;
 }
 .saInputCardWrapper .saPill.saColorMadison {
-  background: #313a44;
   color: #fff;
+  background-color: #fff;
 }
 .saInputCardWrapper .saInputCardBody {
   display: flex;
@@ -14428,9 +14505,6 @@ legend + .saInputCardsWrapper {
 .saDatePicker {
   gap: 4px;
 }
-.saDateTimePickerWrapper {
-  gap: 16px;
-}
 .saDatePickerRoot {
   animation: 0.1s ease-in-out saScaleIn;
   position: absolute;
@@ -14445,9 +14519,14 @@ legend + .saInputCardsWrapper {
   border: solid 1px #ccd5e2;
   background: #fff;
   font-size: 14px;
+  height: fit-content;
 }
 .saDatePickerRoot * {
   box-sizing: border-box;
+}
+.saDatePickerRoot.saDateTimePickerWrapper,
+.saDatePickerRoot.saDateRangePickerWrapper {
+  gap: 16px;
 }
 .saDatePickerRoot a {
   text-decoration: none;
@@ -14500,18 +14579,61 @@ legend + .saInputCardsWrapper {
   height: 288px;
 }
 .saDatePickerRoot .saMonth {
-  display: flex;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
   font-size: 16px;
-  align-items: center;
   font-weight: 600;
-  gap: 8px;
   color: #313a44;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  gap: 8px;
+  padding: 8px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 14px;
+  padding: 8px 0;
+}
+.saDatePickerRoot .saMonth .saButtonText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.saDatePickerRoot .saMonth .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
 }
 .saDatePickerRoot .saMonth .saIcon {
-  color: #60748b;
-  font-size: 14px;
-  transition: ease all 0.2s;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saDatePickerRoot .saMonth:active {
+  border-radius: 12px;
+}
+.saDatePickerRoot .saMonth .saIcon {
+  font-size: 16px;
+  min-width: 18px;
+  max-width: 18px;
+}
+.saDatePickerRoot .saMonth .saIcon {
+  color: #7088a4;
+  font-size: 16px;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
 }
 @media (pointer: fine) {
   .saDatePickerRoot .saMonth:hover {
@@ -14553,31 +14675,39 @@ legend + .saInputCardsWrapper {
   transform: translateY(32px);
   opacity: 0;
 }
-.saDatePickerRoot .saMonths a .saIcon {
+.saDatePickerRoot .saMonths button {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
+}
+.saDatePickerRoot .saMonths .saIcon {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 16px;
   height: 32px;
   min-width: 32px;
   position: relative;
   border-radius: 8px;
-  color: #60748b;
+  color: #7088a4;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
 }
-.saDatePickerRoot .saMonths a .saIcon::after {
-  content: '';
+.saDatePickerRoot .saMonths .saIcon::after {
+  content: "";
   position: absolute;
   height: 48px;
   width: 48px;
 }
 @media (pointer: fine) {
-  .saDatePickerRoot .saMonths a .saIcon:hover {
+  .saDatePickerRoot .saMonths .saIcon:hover {
     background: #f8f9fB;
     color: #2d6ce1;
   }
 }
-.saDatePickerRoot .saMonths a .saIcon:active {
+.saDatePickerRoot .saMonths .saIcon:active {
   background: #eef1f5;
   border-radius: 12px;
 }
@@ -14601,8 +14731,7 @@ legend + .saInputCardsWrapper {
   font-size: 12px;
   min-width: 16px;
   height: 32px;
-  color: #60748b;
-  opacity: 0.8;
+  color: #8fa5c0;
 }
 .saDatePickerRoot .saWeekNr.saEmpty {
   height: 24px;
@@ -14614,8 +14743,7 @@ legend + .saInputCardsWrapper {
   min-width: 32px;
   height: 24px;
   font-size: 12px;
-  color: #60748b;
-  opacity: 0.8;
+  color: #8fa5c0;
 }
 .saDatePickerRoot .saDateRow {
   display: flex;
@@ -14629,63 +14757,235 @@ legend + .saInputCardsWrapper {
   opacity: 0;
 }
 .saDatePickerRoot .saDate {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
   height: 32px;
   min-width: 32px;
   font-size: 14px;
   cursor: pointer;
-  transition: ease all 0.2s;
-  position: relative;
   color: var(--Sa-Color-Label);
-  line-height: 14px;
+  line-height: 16px;
   border-radius: 8px;
+  position: relative;
+  background-color: transparent;
+}
+.saDatePickerRoot .saDate::after {
+  content: "";
+  position: absolute;
+  height: calc(100% + 4px);
+  width: calc(100% + 4px);
+  background-color: transparent;
+  opacity: 0;
 }
 @media (pointer: fine) {
   .saDatePickerRoot .saDate:hover {
-    background: #f8f9fB;
-    color: var(--Sa-Color-LabelHover);
+    background-color: #eff0fd;
+    color: #1f59bf;
+    box-shadow: inset 0 0 0 2px #2d6ce1;
   }
 }
 .saDatePickerRoot .saDate:active {
-  background: #eef1f5;
+  background-color: #cfd2f8;
+  color: #224795;
   border-radius: 12px;
 }
 .saDatePickerRoot .saDate.saToday {
   color: var(--Sa-Color-LabelHover);
-  font-weight: 700;
 }
 .saDatePickerRoot .saDate.saDisabled {
   color: #ccd5e2;
   pointer-events: none;
 }
 .saDatePickerRoot .saDate.saDateActive {
-  background: var(--Sa-Color-IconMarked);
-  color: var(--Sa-Color-LabelHover);
-  border: 1px solid var(--Sa-Color-LabelHover);
+  background-color: #2d6ce1;
+  color: #fff;
 }
 .saDatePickerRoot .saDate.saDateActive.saToday {
   font-weight: 400;
+}
+.saDateRangePickerWrapper.saDatePickerRoot .saDate {
+  transition: none;
+}
+.saDatePickerRoot .saDate.saDateInRange {
+  color: #1f59bf;
+}
+.saDatePickerRoot .saDate.saDateInRange::before {
+  content: "";
+  height: 100%;
+  width: calc(100% + 4px);
+  left: -4px;
+  position: absolute;
+  z-index: -1;
+  background-color: #eff0fd;
+}
+.saDatePickerRoot .saDate.saDateInRange:last-child::before {
+  border-radius: 0 4px 4px 0;
+}
+.saDatePickerRoot .saDate.saDateInRange:nth-child(2)::before {
+  border-radius: 4px 0 0 4px;
+  left: 0;
+  width: 100%;
+}
+.saDatePickerRoot .saDate.saDateInRange:has(+ .saDateEnd)::before {
+  width: calc(100% + 8px);
+}
+.saDatePickerRoot .saDate.saDateStart {
+  border-radius: 8px 0 0 8px;
+}
+.saDatePickerRoot .saDate.saDateStart:has(+ .saDateEnd)::before {
+  content: "";
+  height: 100%;
+  width: calc(100% + 4px);
+  left: 0;
+  position: absolute;
+  z-index: -1;
+  background-color: #2d6ce1;
+  border-radius: 8px 0 0 8px;
+}
+.saDatePickerRoot .saDate.saDateEnd {
+  border-radius: 0 8px 8px 0;
+}
+.saDatePickerRoot .saDate.saDateActive.saDateStart.saDateEnd {
+  border-radius: 8px;
+}
+.saDatePickerRoot .saDate.saDateInRange:has(+ .saEmpty)::before {
+  border-radius: 0 4px 4px 0;
+}
+.saDatePickerRoot .saDate.saDateInRange:nth-child(2):has(+ .saEmpty)::before {
+  border-radius: 4px;
+}
+.saDatePickerRoot .saDate.saEmpty + .saDateInRange::before {
+  border-radius: 4px 0 0 4px;
 }
 .saDatePickerRoot .saDate.saEmpty {
   pointer-events: none;
 }
 .saDatePickerRoot .saTodayLink {
-  display: flex;
-  font-size: 14px;
-  color: #2d6ce1;
-  transition: ease color 0.2s;
-  transition: transform 0.2s ease, visibility 0.2s ease, opacity 0.2s ease;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  color: #2d6ce1;
+  background: transparent;
+  width: fit-content;
+}
+.saDatePickerRoot .saTodayLink .saButtonText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.saDatePickerRoot .saTodayLink .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saDatePickerRoot .saTodayLink .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saStandard .saDatePickerRoot .saTodayLink {
+  gap: 8px;
+  height: 40px;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+.saStandard .saDatePickerRoot .saTodayLink:active {
+  border-radius: 12px;
+}
+.saStandard .saDatePickerRoot .saTodayLink .saIcon {
+  font-size: 20px;
+  min-width: 26px;
+}
+.saCompact .saDatePickerRoot .saTodayLink {
+  gap: 8px;
+  padding: 8px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.saCompact .saDatePickerRoot .saTodayLink:active {
+  border-radius: 12px;
+}
+.saCompact .saDatePickerRoot .saTodayLink .saIcon {
+  font-size: 16px;
+  min-width: 18px;
+  max-width: 18px;
+}
+.saSmallScreen .saDatePickerRoot .saTodayLink {
+  gap: 8px;
+  border-radius: 8px;
+  height: 40px;
+  font-size: 16px;
+  padding: 8px 12px;
+}
+.saSmallScreen .saDatePickerRoot .saTodayLink:active {
+  border-radius: 12px;
+}
+.saSmallScreen .saDatePickerRoot .saTodayLink .saIcon {
+  font-size: 20px;
+  min-width: 26px;
+}
+.saDatePickerRoot .saTodayLink .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saDatePickerRoot .saTodayLink.saDestructive {
+  color: #e0163e;
+}
+.saDatePickerRoot .saTodayLink.saDestructive .saIcon {
+  color: #e0163e;
+}
+@media (pointer: fine) {
+  .saDatePickerRoot .saTodayLink.saDestructive:hover {
+    color: #e0163e;
+    background: #ffedeb;
+  }
+  .saDatePickerRoot .saTodayLink.saDestructive:hover .saIcon {
+    color: #e0163e;
+  }
+}
+.saDatePickerRoot .saTodayLink.saDestructive:active {
+  color: #fff;
+  background: #e0163e;
+}
+.saDatePickerRoot .saTodayLink.saDestructive:active > .saIcon {
+  color: #fff;
 }
 @media (pointer: fine) {
   .saDatePickerRoot .saTodayLink:hover {
-    text-decoration: underline;
+    background: #f8f9fB;
+    color: #2d6ce1;
+  }
+  .saDatePickerRoot .saTodayLink:hover .saIcon {
+    color: var(--Sa-Color-IconHover);
   }
 }
 .saDatePickerRoot .saTodayLink:active {
-  color: #8f9eed;
+  background: #dde3eC;
+}
+.saDatePickerRoot .saTodayLink:disabled {
+  background: #ccd5e2;
+  pointer-events: none;
+  color: #7088a4;
+}
+.saDatePickerRoot .saTodayLink:disabled .saIcon {
+  color: #7088a4;
 }
 .saDatePickerRoot:has(.saYearPicker.saActive).saDatePickerRoot .saTodayLink {
   visibility: hidden;
@@ -14701,6 +15001,11 @@ legend + .saInputCardsWrapper {
   display: flex;
   flex-direction: row;
   gap: 16px;
+}
+.saDatePickerRoot .saDateRangePicker {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
 }
 .saDatePickerRoot .saButtonRow {
   display: flex;
@@ -14793,9 +15098,8 @@ legend + .saInputCardsWrapper {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  border-left: 1px solid #eef1f5;
+  border-left: 1px solid #dde3eC;
   padding: 0 0 0 16px;
-  transition: ease all 0.2s;
   margin-top: 8px;
   height: 272px;
   transition: transform 0.2s ease, visibility 0.2s ease, border 0.2s ease, opacity 0.2s ease;
@@ -14825,7 +15129,6 @@ legend + .saInputCardsWrapper {
   background-color: #fff;
   background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
   background-attachment: local, local, scroll, scroll;
-  padding: 8px 16px;
   gap: 4px;
 }
 .saDatePickerRoot .saDatePickerSlot {
@@ -14860,8 +15163,8 @@ legend + .saInputCardsWrapper {
 .saDatePickerRoot .saDatePickerSlot.saSelected {
   background: var(--Sa-Color-IconMarked);
   color: var(--Sa-Color-LabelHover);
-  pointer-events: none;
   box-shadow: inset 0 0 0 1px var(--Sa-Color-LabelHover);
+  color: #1f59bf;
 }
 .saDatePickerRoot .saDatePickerSlot.saSelected.saYearCurrent {
   font-weight: inherit;
@@ -20509,14 +20812,9 @@ body.saMiniView {
   align-items: center;
   justify-content: center;
   gap: 4px;
-  font-size: 12px;
-  line-height: 12px;
-  font-weight: 500;
   background-color: #eef1f5;
-  padding: 4px 8px;
-  border-radius: 12px;
-  height: 24px;
-  transition: ease 0.2s background-color, ease 0.2s color;
+  transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
+  box-shadow: inset 0 0 0 0 transparent;
   position: relative;
   padding: 0 12px;
   border-radius: 16px;
@@ -20528,52 +20826,134 @@ body.saMiniView {
   gap: 8px;
   cursor: pointer;
 }
+.saGroupView .saPillGroup .saPill:has(:enabled) {
+  cursor: pointer;
+}
+@media (pointer: fine) {
+  .saGroupView .saPillGroup .saPill:has(:enabled):hover {
+    background-color: #eff0fd;
+    color: #1f59bf;
+  }
+  .saGroupView .saPillGroup .saPill:has(:enabled):hover.saOutline {
+    box-shadow: inset 0 0 0 1px #2d6ce1;
+  }
+}
+.saGroupView .saPillGroup .saPill:has(:enabled):active {
+  background-color: #cfd2f8;
+  color: #224795;
+}
+.saGroupView .saPillGroup .saPill::before {
+  content: "";
+  height: 44px;
+  width: 100%;
+  background-color: transparent;
+  opacity: 0;
+  position: absolute;
+}
+.saGroupView .saPillGroup .saPill.saSmall {
+  height: 24px;
+  min-width: 40px;
+  border-radius: 12px;
+  padding: 4px 8px;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 12px;
+}
+.saGroupView .saPillGroup .saPill.saMedium {
+  min-width: 64px;
+  height: 32px;
+  border-radius: 16px;
+  padding: 0 12px;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 14px;
+}
+.saGroupView .saPillGroup .saPill.saLarge {
+  min-width: 64px;
+  height: 40px;
+  border-radius: 20px;
+  padding: 0 12px;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 14px;
+}
 .saGroupView .saPillGroup .saPill.saDisabled {
   background: #eef1f5;
   color: #adbdd1;
+  cursor: not-allowed;
+}
+.saGroupView .saPillGroup .saPill.saOutline {
+  box-shadow: inset 0 0 0 1px #ccd5e2;
+}
+.saGroupView .saPillGroup .saPill:has(:checked) {
+  background-color: #2d6ce1;
+  color: #fff;
+}
+.saGroupView .saPillGroup .saPill:has(:checked).saOutline {
+  background-color: #eff0fd;
+  color: #1f59bf;
+  box-shadow: inset 0 0 0 1px #2d6ce1;
+}
+.saGroupView .saPillGroup .saPill input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  background: none;
+  border-radius: 16px;
+  cursor: inherit;
 }
 .saGroupView .saPillGroup .saPill.saColorWarning {
-  background: #ffefd3;
-  color: #956a15;
+  color: #fff;
+  background-color: #956a15;
 }
 .saGroupView .saPillGroup .saPill.saColorGeyser {
-  background: #ccd5e2;
+  color: #fff;
 }
 .saGroupView .saPillGroup .saPill.saColorTango {
-  background: #ffede4;
-  color: #b75617;
+  color: #fff;
+  background-color: #b75617;
 }
 .saGroupView .saPillGroup .saPill.saColorAmethyst {
-  background: #f8edfd;
-  color: #8b4af1;
+  color: #fff;
+  background-color: #8b4af1;
 }
 .saGroupView .saPillGroup .saPill.saColorPunkPink {
-  background: #ffecf6;
-  color: #d1199f;
+  color: #fff;
+  background-color: #d1199f;
 }
 .saGroupView .saPillGroup .saPill.saColorMountainMeadow {
-  background: #e1f6e1;
-  color: #278239;
+  color: #fff;
+  background-color: #278239;
 }
 .saGroupView .saPillGroup .saPill.saColorCrimson {
-  background: #ffedeb;
-  color: #e0163e;
+  color: #fff;
+  background-color: #e0163e;
 }
 .saGroupView .saPillGroup .saPill.saColorPicton {
-  background: #e2f4fa;
-  color: #237c91;
+  color: #fff;
+  background-color: #237c91;
 }
 .saGroupView .saPillGroup .saPill.saColorPrimary {
-  background: #eff0fd;
-  color: #2d6ce1;
+  color: #fff;
+  background-color: #2d6ce1;
 }
 .saGroupView .saPillGroup .saPill.saColorTory {
-  background: #cfd2f8;
-  color: #1f59bf;
+  color: #fff;
+  background-color: #2d6ce1;
 }
 .saGroupView .saPillGroup .saPill.saColorMadison {
-  background: #313a44;
   color: #fff;
+  background-color: #fff;
 }
 @media (pointer: fine) {
   .saGroupView .saPillGroup .saPill.saActive:hover {
@@ -27675,6 +28055,153 @@ a.saKpiOuter:active {
 .saInfoSqlChartWrapper .saEmptyStateDescription {
   font-size: 12px;
 }
+.saPill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  gap: 4px;
+  background-color: #eef1f5;
+  width: fit-content;
+  transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
+  box-shadow: inset 0 0 0 0 transparent;
+}
+.saPill:has(:enabled) {
+  cursor: pointer;
+}
+@media (pointer: fine) {
+  .saPill:has(:enabled):hover {
+    background-color: #eff0fd;
+    color: #1f59bf;
+  }
+  .saPill:has(:enabled):hover.saOutline {
+    box-shadow: inset 0 0 0 1px #2d6ce1;
+  }
+}
+.saPill:has(:enabled):active {
+  background-color: #cfd2f8;
+  color: #224795;
+}
+.saPill::before {
+  content: "";
+  height: 44px;
+  width: 100%;
+  background-color: transparent;
+  opacity: 0;
+  position: absolute;
+}
+.saPill.saSmall {
+  height: 24px;
+  min-width: 40px;
+  border-radius: 12px;
+  padding: 4px 8px;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 12px;
+}
+.saPill.saMedium {
+  min-width: 64px;
+  height: 32px;
+  border-radius: 16px;
+  padding: 0 12px;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 14px;
+}
+.saPill.saLarge {
+  min-width: 64px;
+  height: 40px;
+  border-radius: 20px;
+  padding: 0 12px;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 14px;
+}
+.saPill.saDisabled {
+  background: #eef1f5;
+  color: #adbdd1;
+  cursor: not-allowed;
+}
+.saPill.saOutline {
+  box-shadow: inset 0 0 0 1px #ccd5e2;
+}
+.saPill:has(:checked) {
+  background-color: #2d6ce1;
+  color: #fff;
+}
+.saPill:has(:checked).saOutline {
+  background-color: #eff0fd;
+  color: #1f59bf;
+  box-shadow: inset 0 0 0 1px #2d6ce1;
+}
+.saPill input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  background: none;
+  border-radius: 16px;
+  cursor: inherit;
+}
+.saPill.saColorWarning {
+  color: #fff;
+  background-color: #956a15;
+}
+.saPill.saColorGeyser {
+  color: #fff;
+}
+.saPill.saColorTango {
+  color: #fff;
+  background-color: #b75617;
+}
+.saPill.saColorAmethyst {
+  color: #fff;
+  background-color: #8b4af1;
+}
+.saPill.saColorPunkPink {
+  color: #fff;
+  background-color: #d1199f;
+}
+.saPill.saColorMountainMeadow {
+  color: #fff;
+  background-color: #278239;
+}
+.saPill.saColorCrimson {
+  color: #fff;
+  background-color: #e0163e;
+}
+.saPill.saColorPicton {
+  color: #fff;
+  background-color: #237c91;
+}
+.saPill.saColorPrimary {
+  color: #fff;
+  background-color: #2d6ce1;
+}
+.saPill.saColorTory {
+  color: #fff;
+  background-color: #2d6ce1;
+}
+.saPill.saColorMadison {
+  color: #fff;
+  background-color: #fff;
+}
+.saPillGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 /*
  * Menu item specific styles for general menu item laout.
  */
@@ -29616,16 +30143,12 @@ main {
   transition: ease inset 0.2s;
 }
 .saChatDay {
+  position: relative;
   gap: 4px;
-  font-size: 12px;
-  line-height: 12px;
-  font-weight: 500;
   background-color: #eef1f5;
-  padding: 4px 8px;
-  border-radius: 12px;
   width: fit-content;
-  height: 24px;
-  transition: ease 0.2s background-color, ease 0.2s color;
+  transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
+  box-shadow: inset 0 0 0 0 transparent;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29640,52 +30163,134 @@ main {
   z-index: 1;
   transform-origin: top;
 }
+.saChatDay:has(:enabled) {
+  cursor: pointer;
+}
+@media (pointer: fine) {
+  .saChatDay:has(:enabled):hover {
+    background-color: #eff0fd;
+    color: #1f59bf;
+  }
+  .saChatDay:has(:enabled):hover.saOutline {
+    box-shadow: inset 0 0 0 1px #2d6ce1;
+  }
+}
+.saChatDay:has(:enabled):active {
+  background-color: #cfd2f8;
+  color: #224795;
+}
+.saChatDay::before {
+  content: "";
+  height: 44px;
+  width: 100%;
+  background-color: transparent;
+  opacity: 0;
+  position: absolute;
+}
+.saChatDay.saSmall {
+  height: 24px;
+  min-width: 40px;
+  border-radius: 12px;
+  padding: 4px 8px;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 12px;
+}
+.saChatDay.saMedium {
+  min-width: 64px;
+  height: 32px;
+  border-radius: 16px;
+  padding: 0 12px;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 14px;
+}
+.saChatDay.saLarge {
+  min-width: 64px;
+  height: 40px;
+  border-radius: 20px;
+  padding: 0 12px;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 14px;
+}
 .saChatDay.saDisabled {
   background: #eef1f5;
   color: #adbdd1;
+  cursor: not-allowed;
+}
+.saChatDay.saOutline {
+  box-shadow: inset 0 0 0 1px #ccd5e2;
+}
+.saChatDay:has(:checked) {
+  background-color: #2d6ce1;
+  color: #fff;
+}
+.saChatDay:has(:checked).saOutline {
+  background-color: #eff0fd;
+  color: #1f59bf;
+  box-shadow: inset 0 0 0 1px #2d6ce1;
+}
+.saChatDay input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  background: none;
+  border-radius: 16px;
+  cursor: inherit;
 }
 .saChatDay.saColorWarning {
-  background: #ffefd3;
-  color: #956a15;
+  color: #fff;
+  background-color: #956a15;
 }
 .saChatDay.saColorGeyser {
-  background: #ccd5e2;
+  color: #fff;
 }
 .saChatDay.saColorTango {
-  background: #ffede4;
-  color: #b75617;
+  color: #fff;
+  background-color: #b75617;
 }
 .saChatDay.saColorAmethyst {
-  background: #f8edfd;
-  color: #8b4af1;
+  color: #fff;
+  background-color: #8b4af1;
 }
 .saChatDay.saColorPunkPink {
-  background: #ffecf6;
-  color: #d1199f;
+  color: #fff;
+  background-color: #d1199f;
 }
 .saChatDay.saColorMountainMeadow {
-  background: #e1f6e1;
-  color: #278239;
+  color: #fff;
+  background-color: #278239;
 }
 .saChatDay.saColorCrimson {
-  background: #ffedeb;
-  color: #e0163e;
+  color: #fff;
+  background-color: #e0163e;
 }
 .saChatDay.saColorPicton {
-  background: #e2f4fa;
-  color: #237c91;
+  color: #fff;
+  background-color: #237c91;
 }
 .saChatDay.saColorPrimary {
-  background: #eff0fd;
-  color: #2d6ce1;
+  color: #fff;
+  background-color: #2d6ce1;
 }
 .saChatDay.saColorTory {
-  background: #cfd2f8;
-  color: #1f59bf;
+  color: #fff;
+  background-color: #2d6ce1;
 }
 .saChatDay.saColorMadison {
-  background: #313a44;
   color: #fff;
+  background-color: #fff;
 }
 .saChatUnreadWrapper + .saMessageGroup .saChatDayWrapper {
   margin-top: 0;
@@ -29735,16 +30340,12 @@ main {
   opacity: 0;
 }
 .saChatUnread {
+  position: relative;
   gap: 4px;
-  font-size: 12px;
-  line-height: 12px;
-  font-weight: 500;
   background-color: #eef1f5;
-  padding: 4px 8px;
-  border-radius: 12px;
   width: fit-content;
-  height: 24px;
-  transition: ease 0.2s background-color, ease 0.2s color;
+  transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
+  box-shadow: inset 0 0 0 0 transparent;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29759,52 +30360,134 @@ main {
   white-space: nowrap;
   z-index: 2;
 }
+.saChatUnread:has(:enabled) {
+  cursor: pointer;
+}
+@media (pointer: fine) {
+  .saChatUnread:has(:enabled):hover {
+    background-color: #eff0fd;
+    color: #1f59bf;
+  }
+  .saChatUnread:has(:enabled):hover.saOutline {
+    box-shadow: inset 0 0 0 1px #2d6ce1;
+  }
+}
+.saChatUnread:has(:enabled):active {
+  background-color: #cfd2f8;
+  color: #224795;
+}
+.saChatUnread::before {
+  content: "";
+  height: 44px;
+  width: 100%;
+  background-color: transparent;
+  opacity: 0;
+  position: absolute;
+}
+.saChatUnread.saSmall {
+  height: 24px;
+  min-width: 40px;
+  border-radius: 12px;
+  padding: 4px 8px;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 12px;
+}
+.saChatUnread.saMedium {
+  min-width: 64px;
+  height: 32px;
+  border-radius: 16px;
+  padding: 0 12px;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 14px;
+}
+.saChatUnread.saLarge {
+  min-width: 64px;
+  height: 40px;
+  border-radius: 20px;
+  padding: 0 12px;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 14px;
+}
 .saChatUnread.saDisabled {
   background: #eef1f5;
   color: #adbdd1;
+  cursor: not-allowed;
+}
+.saChatUnread.saOutline {
+  box-shadow: inset 0 0 0 1px #ccd5e2;
+}
+.saChatUnread:has(:checked) {
+  background-color: #2d6ce1;
+  color: #fff;
+}
+.saChatUnread:has(:checked).saOutline {
+  background-color: #eff0fd;
+  color: #1f59bf;
+  box-shadow: inset 0 0 0 1px #2d6ce1;
+}
+.saChatUnread input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  background: none;
+  border-radius: 16px;
+  cursor: inherit;
 }
 .saChatUnread.saColorWarning {
-  background: #ffefd3;
-  color: #956a15;
+  color: #fff;
+  background-color: #956a15;
 }
 .saChatUnread.saColorGeyser {
-  background: #ccd5e2;
+  color: #fff;
 }
 .saChatUnread.saColorTango {
-  background: #ffede4;
-  color: #b75617;
+  color: #fff;
+  background-color: #b75617;
 }
 .saChatUnread.saColorAmethyst {
-  background: #f8edfd;
-  color: #8b4af1;
+  color: #fff;
+  background-color: #8b4af1;
 }
 .saChatUnread.saColorPunkPink {
-  background: #ffecf6;
-  color: #d1199f;
+  color: #fff;
+  background-color: #d1199f;
 }
 .saChatUnread.saColorMountainMeadow {
-  background: #e1f6e1;
-  color: #278239;
+  color: #fff;
+  background-color: #278239;
 }
 .saChatUnread.saColorCrimson {
-  background: #ffedeb;
-  color: #e0163e;
+  color: #fff;
+  background-color: #e0163e;
 }
 .saChatUnread.saColorPicton {
-  background: #e2f4fa;
-  color: #237c91;
+  color: #fff;
+  background-color: #237c91;
 }
 .saChatUnread.saColorPrimary {
-  background: #eff0fd;
-  color: #2d6ce1;
+  color: #fff;
+  background-color: #2d6ce1;
 }
 .saChatUnread.saColorTory {
-  background: #cfd2f8;
-  color: #1f59bf;
+  color: #fff;
+  background-color: #2d6ce1;
 }
 .saChatUnread.saColorMadison {
-  background: #313a44;
   color: #fff;
+  background-color: #fff;
 }
 .saLine {
   width: 0;
@@ -30670,4 +31353,89 @@ input.saAvatarCheckbox::after {
 .saRangeDual .saMin {
   position: absolute;
   z-index: 1;
+}
+.saControl {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.saInputDateRange {
+  flex-direction: column;
+  position: relative;
+  max-width: 100%;
+  background-color: #fff;
+  box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+  border: none;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 240px;
+  height: 40px;
+  cursor: text;
+}
+.saSmallScreen .saInputDateRange {
+  width: 100%;
+}
+.saCompact .saInputDateRange {
+  height: 32px;
+  width: 240px;
+}
+.saInputDateRange span {
+  pointer-events: none;
+  color: #7088a4;
+  margin: 0 -8px;
+}
+.saInputDateRange input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 100%;
+  width: 80px;
+  background-color: transparent;
+  margin: 0;
+  padding-inline-start: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  padding: 0 8px;
+  border: none;
+  font-size: 14px;
+  cursor: text;
+  outline: none;
+  color: #313a44;
+  width: 12ch;
+}
+.saInputDateRange input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+.saInputDateRange input:first-child {
+  padding-right: 16px;
+}
+.saInputDateRange input:nth-child(3) {
+  padding-left: 16px;
+}
+.saInputDateRange:focus-visible {
+  outline: none;
+}
+@media (pointer: fine) {
+  .saInputDateRange:hover {
+    box-shadow: inset 0 0 0 2px #2d6ce1;
+  }
+}
+.saInputDateRange:focus-within {
+  background: #f8f9fB;
+  box-shadow: inset 0 0 0 2px #2d6ce1;
+}
+.saInputDateRange::placeholder {
+  color: #60748b;
+}
+.saInputDateRange:disabled {
+  pointer-events: none;
+  border-color: transparent;
+  box-shadow: none;
+  background: #eef1f5;
+  color: #8fa5c0;
 }
