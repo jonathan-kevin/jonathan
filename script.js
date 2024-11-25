@@ -40,10 +40,10 @@ $(document).keydown(function (event) {
 $(document).ready(function () {
 	var theToggler = $("<button>", {
 		id: "theToggler",
-		text: "Standard",
+		text: "Compact",
 	});
 
-	$("body").addClass("saPc saLargeScreen saStandard").append(theToggler);
+	$("body").addClass("saPc saLargeScreen saCompact").append(theToggler);
 
 	function toggleClasses() {
 		if ($("body").hasClass("saStandard")) {

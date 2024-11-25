@@ -6280,6 +6280,7 @@ div.saPopupOverlay {
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: left;
+  line-height: 18px;
 }
 .saPageHeader .saSpecialLinksWrapper,
 .saPartHeader .saSpecialLinksWrapper,
@@ -6471,6 +6472,7 @@ div.saPopupOverlay {
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: left;
+  line-height: 18px;
 }
 .saPageHeader .saBadgeCount,
 .saPartButtons .saBadgeCount {
@@ -6518,6 +6520,18 @@ div.saPopupOverlay {
 .saPageHeader .saCollectorWrapper,
 .saPartButtons .saCollectorWrapper {
   display: flex;
+}
+.saPageHeader .saCollectorWrapper h3,
+.saPartButtons .saCollectorWrapper h3 {
+  font-size: 12px;
+  line-height: 12px;
+  color: #60748b;
+  padding: 16px 0 0 12px;
+  font-weight: 400;
+}
+.saPageHeader .saCollectorWrapper h3:first-child,
+.saPartButtons .saCollectorWrapper h3:first-child {
+  padding-top: 12px;
 }
 .saPageHeader .saActionLinks,
 .saPartButtons .saActionLinks {
@@ -6783,6 +6797,21 @@ div.saPopupOverlay {
 .saSmallScreen .saPartButtons .saActionLinks .saActionLink .saIcon {
   font-size: 20px;
   min-width: 26px;
+}
+.saPageHeader .saActionLinks .saActionLink.saOpen,
+.saPartButtons .saActionLinks .saActionLink.saOpen {
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  border-color: var(--Sa-Color-SecondaryButtonBorderHover);
+}
+.saPageHeader .saActionLinks .saActionLink.saOpen .saIcon,
+.saPartButtons .saActionLinks .saActionLink.saOpen .saIcon,
+.saPageHeader .saActionLinks .saActionLink.saOpen .saButtonText,
+.saPartButtons .saActionLinks .saActionLink.saOpen .saButtonText {
+  color: #1f59bf;
+}
+.saPageHeader .saActionLinks .saActionLink.saOpen .saIcon:last-child,
+.saPartButtons .saActionLinks .saActionLink.saOpen .saIcon:last-child {
+  transform: rotate(180deg);
 }
 .saPageHeader .saActionLinks .saActionLink.saInactive,
 .saPartButtons .saActionLinks .saActionLink.saInactive,
@@ -10620,6 +10649,7 @@ div.saPopupOverlay {
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: left;
+  line-height: 18px;
 }
 .saImageCarouselWrapper .saCarousel .saBadgeCount {
   display: flex;
@@ -10661,6 +10691,16 @@ div.saPopupOverlay {
 }
 .saImageCarouselWrapper .saCarousel .saCollectorWrapper {
   display: flex;
+}
+.saImageCarouselWrapper .saCarousel .saCollectorWrapper h3 {
+  font-size: 12px;
+  line-height: 12px;
+  color: #60748b;
+  padding: 16px 0 0 12px;
+  font-weight: 400;
+}
+.saImageCarouselWrapper .saCarousel .saCollectorWrapper h3:first-child {
+  padding-top: 12px;
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks {
   display: flex;
@@ -10883,6 +10923,17 @@ div.saPopupOverlay {
 .saSmallScreen .saImageCarouselWrapper .saCarousel .saActionLinks .saActionLink .saIcon {
   font-size: 20px;
   min-width: 26px;
+}
+.saImageCarouselWrapper .saCarousel .saActionLinks .saActionLink.saOpen {
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  border-color: var(--Sa-Color-SecondaryButtonBorderHover);
+}
+.saImageCarouselWrapper .saCarousel .saActionLinks .saActionLink.saOpen .saIcon,
+.saImageCarouselWrapper .saCarousel .saActionLinks .saActionLink.saOpen .saButtonText {
+  color: #1f59bf;
+}
+.saImageCarouselWrapper .saCarousel .saActionLinks .saActionLink.saOpen .saIcon:last-child {
+  transform: rotate(180deg);
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saActionLink.saInactive,
 .saImageCarouselWrapper .saCarousel .saActionLinks .saActionLink.saInactive:hover,
@@ -18891,14 +18942,19 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saContextMenu .saActionLinkList {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
-.saContextMenu .saActionLinkList::after {
-  content: '';
-  display: flex;
+.saContextMenu .saActionLinkList:not(:last-child) {
+  padding-bottom: 4px;
+}
+.saContextMenu .saActionLinkList:not(:last-child)::after {
+  content: "";
   align-self: center;
   width: calc(100% - 16px);
   height: 1px;
-  background-color: #eef1f5;
+  background-color: #dde3eC;
+  position: absolute;
+  bottom: 0;
 }
 .saSmallScreen .saSmallScreenMenu {
   display: flex;
@@ -19713,6 +19769,7 @@ softadmin-nodegraph .saDragged {
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: left;
+  line-height: 18px;
 }
 .saIFrameTabs .saContextMenu button {
   width: 100%;
@@ -28695,8 +28752,18 @@ container {
   overflow-x: auto;
   overflow-y: hidden;
   padding: 4px 0;
+  box-sizing: border-box;
+}
+.saWizard * {
+  box-sizing: border-box;
+}
+.saRow.saArrow .saWizard {
+  gap: 48px;
 }
 .saFramed .saWizard {
+  gap: 0;
+}
+.saFramed2 .saWizard {
   gap: 0;
 }
 .saCol .saWizard:not(.saSmallScreen .saWizard) {
@@ -28917,6 +28984,21 @@ container {
   border-color: #ffcd71;
   background-color: #ffefd3;
 }
+.saFramed2 .saStep:last-child .saStepInner::after {
+  content: none;
+}
+.saFramed2 .saStep:first-child .saStepInner {
+  padding-left: 12px;
+}
+.saFramed2 .saStep:nth-child(odd) .saStepInner  {
+  background-color: #ccd5e2;
+}
+.saFramed2 .saStep:nth-child(even) .saStepInner  {
+  background-color: #eef1f5;
+}
+.saRow.saArrow .saStep:last-child .saStepInner:last-child::after {
+  content: none;
+}
 .saStepInner {
   display: flex;
   gap: 8px;
@@ -28924,6 +29006,18 @@ container {
   color: #313a44;
   transition: ease background-color 0.2s, ease box-shadow 0.2s;
   cursor: default;
+}
+.saRow.saArrow .saStepInner {
+  position: relative;
+}
+.saRow.saArrow .saStepInner::after {
+  content: "\f178";
+  position: absolute;
+  transform: translateY(-50%);
+  font-family: "Font Awesome 6 Pro";
+  font-size: 12px;
+  top: 50%;
+  right: -30px;
 }
 .saFramed .saStepInner {
   border: 1px solid #ccd5e2;
@@ -28936,6 +29030,61 @@ container {
 .saSmallScreen .saFramed .saStepInner {
   height: 44px;
   width: 100%;
+}
+.saFramed3 .saStepInner {
+  padding: 0 12px 0 32px;
+  position: relative;
+  box-sizing: border-box;
+  border: none;
+}
+.saFramed3 .saStepInner:hover {
+  z-index: unset;
+}
+.saFramed3 .saStepInner::before {
+  content: "";
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  left: 0;
+  background-color: red;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 40% 50%);
+}
+.saFramed3 .saStepInner::after {
+  content: "";
+  position: absolute;
+  height: 28px;
+  width: 28px;
+  transform: translateY(-50%) rotate(45deg);
+  right: -13px;
+  top: 50%;
+  box-sizing: border-box;
+  z-index: 999;
+  border-start-end-radius: 4px;
+  background-color: inherit;
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+.saFramed2 .saStepInner {
+  padding: 0 12px 0 32px;
+  position: relative;
+  box-sizing: border-box;
+  border: none;
+}
+.saFramed2 .saStepInner:hover {
+  z-index: unset;
+}
+.saFramed2 .saStepInner::after {
+  content: "";
+  position: absolute;
+  height: 28px;
+  width: 28px;
+  transform: translateY(-50%) rotate(45deg);
+  right: -13px;
+  top: 50%;
+  box-sizing: border-box;
+  z-index: 999;
+  border-start-end-radius: 4px;
+  background-color: inherit;
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
 }
 .saRow .saStepInner {
   flex-direction: row;
@@ -29000,7 +29149,6 @@ a.saStepInner:active .saStepHeading .saIcon {
 .saStepIcon {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   height: 24px;
   width: 24px;
   min-width: 24px;
@@ -29012,8 +29160,23 @@ a.saStepInner:active .saStepHeading .saIcon {
   line-height: 24px;
   text-align: center;
   transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s border-color, ease 0.2s box-shadow;
+  overflow: hidden;
+  position: relative;
 }
-.saStepIcon .saIcon,
+.saStepIcon .saIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+  width: 24px;
+  transition: ease 0.2s transform;
+  position: absolute;
+  top: -1px;
+  left: -1px;
+}
+.saStepIcon .saIcon.fa-arrow-up-right {
+  top: 24px;
+}
 .saStepIcon.saIcon {
   display: flex;
   justify-content: center;
@@ -29023,14 +29186,12 @@ a.saStepInner:active .saStepHeading .saIcon {
 }
 .saStepText {
   display: flex;
+  justify-content: center;
   flex-direction: column;
   gap: 4px;
   font-size: 14px;
   padding-bottom: 2px;
   max-width: 264px;
-}
-.saRow .saStepText:not(:has(.saStepDescription)) {
-  padding-top: 6px;
 }
 .saSmallScreen .saStepText {
   display: none;
@@ -30415,9 +30576,9 @@ input.saAvatarCheckbox::after {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 4px;
+  padding: 0 4px;
   height: 24px;
-  min-width: 48px;
+  min-width: 40px;
   border-radius: 24px;
   position: absolute;
   text-align: center;
@@ -30480,6 +30641,10 @@ input.saAvatarCheckbox::after {
   cursor: grab;
   transition: ease box-shadow 0.2s, ease outline 1s;
 }
+.saSmallScreen .saInputSlider::-webkit-slider-thumb {
+  height: 44px;
+  width: 44px;
+}
 :disabled.saInputSlider::-webkit-slider-thumb {
   background: #ccd5e2;
   box-shadow: none;
@@ -30533,7 +30698,13 @@ input.saAvatarCheckbox::after {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
-.saMin {
+.saRangeQuad .saSlider:not(:nth-child(2)) {
+  position: absolute;
+  z-index: 1;
+  background-color: transparent !important;
+  top: 0;
+}
+.saRangeDual .saMin {
   position: absolute;
   z-index: 1;
 }

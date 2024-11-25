@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Checkbox tree ✔️</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+</head>
+
+<body>
+
+	<style>
+		main {
+			padding: 24px;
+		}
+	</style>
+	<button id="crowMan">ROW/COL</button>
+	<main>
+		<div class="saTreeWrapper saCheckboxTreeWrapper" role="tree" aria-multiselectable="true">
+			<div class="saCheckboxTreeHeader">
+				<label class="saCheckboxWrapper">
+					<input class="saCheckbox" type="checkbox" tabindex="-1">
+					<span>
+						Välj alla
+					</span>
+				</label>
+				<div class="saCheckboxTreeNumberOfChecked">0 valda</div>
+			</div>
+			<div class="saCheckboxTreeSticky">
+				<div class="saInputTextWrapper">
+					<i class="saLeadingIcon far fa-search"></i>
+					<input class="saInputText saCheckboxTreeFilter" type="search" placeholder="Filtrera..."
+						tabindex="-1">
+				</div>
+			</div>
+			<div class="saCheckboxTree">
+
+				<div class="saNoResults" role="alert" style="display: none;">
+					Inget resultat hittades.
+				</div>
+
+				<fieldset style="height: 320px;">
+					<div class="saCheckboxOuter saOpen">
+						<label class="saCheckboxWrapper">
+							<input class="saCheckbox saCheckboxJs" type="checkbox" tabindex="0" aria-level="1"
+								role="treeviewitem" aria-selected="false" aria-expanded="true" aria-owns="MI_MC_TREE-0">
+							<span>Europe</span>
+						</label>
+						<button class="saIcon far fa-angle-down saExpandArrowJs" type="button" tabindex="-1"
+							aria-hidden="true" aria-expanded="true" aria-owns="MI_MC_TREE-0"></button>
+					</div>
+					<div class="saCheckboxTreeInner" role="group" id="MI_MC_TREE-0">
+						<div class="saCheckboxOuter saOpen">
+							<label class="saCheckboxWrapper">
+								<input class="saCheckbox saCheckboxJs" type="checkbox" tabindex="-1" aria-level="2"
+									role="treeviewitem" aria-selected="false" aria-expanded="true"
+									aria-owns="MI_MC_TREE-1">
+								<span>The Nordics</span>
+							</label>
+							<button class="saIcon far fa-angle-down saExpandArrowJs" type="button" tabindex="-1"
+								aria-hidden="true" aria-expanded="true" aria-owns="MI_MC_TREE-1"></button>
+						</div>
+						<div class="saCheckboxTreeInner" role="group" id="MI_MC_TREE-1">
+							<div class="saCheckboxOuter saOpen">
+								<label class="saCheckboxWrapper">
+									<input class="saCheckbox saCheckboxJs" type="checkbox" tabindex="-1" aria-level="3"
+										role="treeviewitem" aria-selected="false" aria-expanded="true"
+										aria-owns="MI_MC_TREE-3">
+									<span>Sweden</span>
+								</label>
+								<button class="saIcon far fa-angle-down saExpandArrowJs" type="button" tabindex="-1"
+									aria-hidden="true" aria-expanded="true" aria-owns="MI_MC_TREE-3"></button>
+							</div>
+							<div class="saCheckboxTreeInner" role="group" id="MI_MC_TREE-3">
+								<div class="saCheckboxOuter saOpen">
+									<label class="saCheckboxWrapper">
+										<input class="saCheckbox saCheckboxJs" type="checkbox" tabindex="-1"
+											aria-level="4" role="treeviewitem" aria-selected="false"
+											aria-expanded="true" aria-owns="MI_MC_TREE-5">
+										<span>Region Kalmar</span>
+									</label>
+									<button class="saIcon far fa-angle-down saExpandArrowJs" type="button" tabindex="-1"
+										aria-hidden="true" aria-expanded="true" aria-owns="MI_MC_TREE-5"></button>
+								</div>
+								<div class="saCheckboxTreeInner" role="group" id="MI_MC_TREE-5">
+									<div class="saCheckboxOuter saOpen">
+										<label class="saCheckboxWrapper">
+											<input class="saCheckbox saCheckboxJs" type="checkbox" tabindex="-1"
+												aria-level="5" role="treeviewitem" aria-selected="false"
+												aria-expanded="true" aria-owns="MI_MC_TREE-6">
+											<span>Kalmar</span>
+										</label>
+										<button class="saIcon far fa-angle-down saExpandArrowJs" type="button"
+											tabindex="-1" aria-hidden="true" aria-expanded="true"
+											aria-owns="MI_MC_TREE-6"></button>
+									</div>
+									<div class="saCheckboxTreeInner" role="group" id="MI_MC_TREE-6">
+										<div class="saCheckboxOuter">
+											<label class="saCheckboxWrapper">
+												<input class="saCheckbox saCheckboxJs" type="checkbox" tabindex="-1"
+													aria-level="6" role="treeviewitem" aria-selected="false"
+													aria-expanded="true">
+												<span>Ängö</span>
+											</label>
+										</div>
+										<div class="saCheckboxOuter">
+											<label class="saCheckboxWrapper">
+												<input class="saCheckbox saCheckboxJs" type="checkbox" tabindex="-1"
+													aria-level="6" role="treeviewitem" aria-selected="false"
+													aria-expanded="true">
+												<span>Kvarnholmen</span>
+											</label>
+										</div>
+										<div class="saCheckboxOuter">
+											<label class="saCheckboxWrapper">
+												<input class="saCheckbox saCheckboxJs" type="checkbox" tabindex="-1"
+													aria-level="6" role="treeviewitem" aria-selected="false"
+													aria-expanded="true" aria-owns="MI_MC_TREE-7">
+												<span>Malmen</span>
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="saCheckboxOuter" aria-selected="false">
+							<label class="saCheckboxWrapper">
+								<input class="saCheckbox saCheckboxJs" type="checkbox" tabindex="-1" aria-level="2"
+									role="treeviewitem" aria-selected="false">
+								<span>Benelux</span>
+							</label>
+						</div>
+					</div>
+					<div class="saCheckboxOuter" aria-selected="false">
+						<label class="saCheckboxWrapper">
+							<input class="saCheckbox saCheckboxJs" type="checkbox" tabindex="-1" aria-level="1"
+								role="treeviewitem" aria-selected="false">
+							<span>Asia</span>
+						</label>
+					</div>
+					<div class="saCheckboxOuter" aria-selected="false">
+						<label class="saCheckboxWrapper">
+							<input class="saCheckbox saCheckboxJs" type="checkbox" tabindex="-1" aria-level="1"
+								role="treeviewitem" aria-selected="false">
+							<span>Asia</span>
+						</label>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</main>
+
+	<script>
+		$(document).ready(function () {
+
+			$('#clickable li').click(function (e) {
+				e.preventDefault();
+				$('#clickable li').removeAttr('aria-current');
+
+				$(this).attr('aria-current', 'true');
+			});
+			$('#crowMan').click(function (e) {
+				e.preventDefault();
+
+				if ($('.saWizard').hasClass('saCol')) {
+					$('.saWizard').removeClass('saCol').addClass('saRow');
+				}
+
+				else {
+					$('.saWizard').removeClass('saRow').addClass('saCol');
+				}
+			});
+		});
+	</script>
+</body>
+
+</html>
