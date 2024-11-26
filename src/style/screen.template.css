@@ -31498,20 +31498,41 @@ main:has(.saInputDateRange) .saSmallScreen {
   color: #8fa5c0;
 }
 .saDateRangeFooter {
-  min-height: 44px;
+  min-height: 88px;
 }
 .saDateRangeFooterRange {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .saDateRangeFooterRange .saInputTextWrapper {
-  width: 48vw;
+  width: calc((100vw - 24px - 16px) / 2);
   margin-right: 0;
+}
+.saDateRangeFooterRange .saInputTextWrapper .saInputText {
+  height: 44px;
+}
+.saDateRangeFooterRange .saInputTextWrapper .saInputText.saDateActive {
+  background-color: red;
+}
+.saDateRangeFooterRange .saInputTextWrapper .saInputText::-webkit-calendar-picker-indicator {
+  display: none;
+}
+.saSmallScreen .saDateRangePickerWrapper {
+  gap: 0;
 }
 .saSmallScreen .saDateRangePickerWrapper .saPillGroup {
   flex-wrap: nowrap;
   overflow-x: auto;
-  overflow-y: hidden;
   min-height: 44px;
+  align-items: center;
+  margin: 0 -8px;
+  padding: 0 8px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.saSmallScreen .saDateRangePickerWrapper .saPillGroup::-webkit-scrollbar {
+  display: none;
 }
 .saSmallScreen .saDateRangePickerWrapper .saPillGroup .saPill {
   white-space: nowrap;
