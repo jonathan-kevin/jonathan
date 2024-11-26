@@ -151,7 +151,7 @@ h6 {
   align-items: center;
   border-radius: 8px;
   position: fixed;
-  bottom: 1rem;
+  top: 1rem;
   right: 1rem;
   background: #313a44;
   color: #eef1f5;
@@ -161,7 +161,7 @@ h6 {
   transition: ease background 0.2s, ease border-radius 0.2s, ease color 0.2s, ease box-shadow 0.2s;
   font-size: 0.875rem;
   box-shadow: 0 0 0 0 #ccd5e2;
-  z-index: 4;
+  z-index: 9999999;
 }
 @media (pointer: fine) {
   #theToggler:hover,
@@ -14528,6 +14528,20 @@ legend + .saInputCardsWrapper {
 .saDatePickerRoot.saDateRangePickerWrapper {
   gap: 16px;
 }
+.saSmallScreen .saDatePickerRoot.saDateTimePickerWrapper,
+.saSmallScreen .saDatePickerRoot.saDateRangePickerWrapper {
+  animation: none;
+  position: static;
+  z-index: unset;
+  width: 100%;
+  user-select: unset;
+  padding: 8px;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  background: unset;
+  height: 100%;
+}
 .saDatePickerRoot a {
   text-decoration: none;
 }
@@ -14681,6 +14695,9 @@ legend + .saInputCardsWrapper {
   -moz-appearance: none;
   background-color: transparent;
 }
+.saSmallScreen .saDatePickerRoot .saMonths {
+  display: none;
+}
 .saDatePickerRoot .saMonths .saIcon {
   display: flex;
   align-items: center;
@@ -14724,6 +14741,12 @@ legend + .saInputCardsWrapper {
   transform: translateY(32px);
   opacity: 0;
 }
+.saSmallScreen .saDatePickerRoot .saDayRow {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 2;
+}
 .saDatePickerRoot .saWeekNr {
   display: flex;
   align-items: center;
@@ -14732,6 +14755,9 @@ legend + .saInputCardsWrapper {
   min-width: 16px;
   height: 32px;
   color: #8fa5c0;
+}
+.saSmallScreen .saDatePickerRoot .saWeekNr {
+  height: 40px;
 }
 .saDatePickerRoot .saWeekNr.saEmpty {
   height: 24px;
@@ -14744,6 +14770,10 @@ legend + .saInputCardsWrapper {
   height: 24px;
   font-size: 12px;
   color: #8fa5c0;
+}
+.saSmallScreen .saDatePickerRoot .saDay {
+  width: 100%;
+  min-width: unset;
 }
 .saDatePickerRoot .saDateRow {
   display: flex;
@@ -14782,6 +14812,11 @@ legend + .saInputCardsWrapper {
   width: calc(100% + 4px);
   background-color: transparent;
   opacity: 0;
+}
+.saSmallScreen .saDatePickerRoot .saDate {
+  height: 40px;
+  width: 100%;
+  min-width: unset;
 }
 @media (pointer: fine) {
   .saDatePickerRoot .saDate:hover {
@@ -14997,6 +15032,9 @@ legend + .saInputCardsWrapper {
   flex-direction: column;
   gap: 4px;
 }
+.saSmallScreen .saDatePickerRoot .saDatePickerMonth {
+  padding-right: 4px;
+}
 .saDatePickerRoot .saDateTimePicker {
   display: flex;
   flex-direction: row;
@@ -15006,6 +15044,12 @@ legend + .saInputCardsWrapper {
   display: flex;
   flex-direction: row;
   gap: 32px;
+}
+.saSmallScreen .saDatePickerRoot .saDateRangePicker {
+  overflow: auto;
+  flex-direction: column;
+  height: 80vh;
+  gap: 16px;
 }
 .saDatePickerRoot .saButtonRow {
   display: flex;
@@ -31359,6 +31403,20 @@ input.saAvatarCheckbox::after {
   flex-direction: column;
   gap: 8px;
 }
+main:has(.saInputDateRange) {
+  display: flex;
+  flex-direction: column;
+  gap: 200px;
+}
+main:has(.saInputDateRange) .saSmallScreen {
+  flex-direction: column;
+}
+.saPc .saShowSmallScreen {
+  display: none;
+}
+.saSmallScreen .saShowLargeScreen {
+  display: none;
+}
 .saInputDateRange {
   flex-direction: column;
   position: relative;
@@ -31438,4 +31496,30 @@ input.saAvatarCheckbox::after {
   box-shadow: none;
   background: #eef1f5;
   color: #8fa5c0;
+}
+.saDateRangeFooter {
+  min-height: 44px;
+}
+.saDateRangeFooterRange {
+  display: flex;
+}
+.saDateRangeFooterRange .saInputTextWrapper {
+  width: 48vw;
+  margin-right: 0;
+}
+.saSmallScreen .saDateRangePickerWrapper .saPillGroup {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-height: 44px;
+}
+.saSmallScreen .saDateRangePickerWrapper .saPillGroup .saPill {
+  white-space: nowrap;
+  min-width: fit-content;
+}
+.saSmallScreen .saDateRangePickerWrapper .saDayRow {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 2;
 }
