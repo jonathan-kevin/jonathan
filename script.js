@@ -38,29 +38,41 @@ $(document).keydown(function (event) {
 });
 
 $(document).ready(function () {
-	var theToggler = $("<button>", {
-		id: "theToggler",
-		text: "Compact",
-	});
+    var theToggler = $("<button>", {
+        id: "theToggler",
+        text: "Compact",
+    });
 
-	$("body").addClass("saPc saLargeScreen saCompact").append(theToggler);
+    $("body").addClass("saPc saLargeScreen saCompact").append(theToggler);
 
-	function toggleClasses() {
-		if ($("body").hasClass("saStandard")) {
-			$("body").removeClass("saStandard").addClass("saCompact saPc saLargeScreen");
-			$("#theToggler").text("Compact");
-		}
-		else if ($("body").hasClass("saCompact")) {
-			$("body").removeClass("saCompact saPc saLargeScreen").addClass("saSmallScreen");
-			$("#theToggler").text("SmallScreen");
-		}
-		else {
-			$("body").removeClass("saSmallScreen").addClass("saStandard saPc saLargeScreen");
-			$("#theToggler").text("Standard");
-		}
-	}
+    var path = window.location.pathname.toLowerCase();
 
-	$("#theToggler").click(function () {
-		toggleClasses();
-	});
+    if (path.includes("smallscreen")) {
+        $("body").removeClass().addClass("saSmallScreen");
+        $("#theToggler").text("SmallScreen");
+    } else if (path.includes("standard")) {
+        $("body").removeClass().addClass("saStandard saPc saLargeScreen");
+        $("#theToggler").text("Standard");
+    } else if (path.includes("compact")) {
+        $("body").removeClass().addClass("saCompact saPc saLargeScreen");
+        $("#theToggler").text("Compact");
+    }
+
+    function toggleClasses() {
+        if ($("body").hasClass("saStandard")) {
+            $("body").removeClass("saStandard").addClass("saCompact saPc saLargeScreen");
+            $("#theToggler").text("Compact");
+        } else if ($("body").hasClass("saCompact")) {
+            $("body").removeClass("saCompact saPc saLargeScreen").addClass("saSmallScreen");
+            $("#theToggler").text("SmallScreen");
+        } else {
+            $("body").removeClass("saSmallScreen").addClass("saStandard saPc saLargeScreen");
+            $("#theToggler").text("Standard");
+        }
+    }
+
+    $("#theToggler").click(function () {
+        toggleClasses();
+    });
 });
+

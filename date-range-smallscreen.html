@@ -40,7 +40,7 @@
 				</div>
 
 				<div class="saPopupOverlay saBottomSheetOverlay">
-					<div class="saBottomSheet saEaseTransition" style="top: 88px; height: calc(100vh - 88px);">
+					<div class="saBottomSheet saEaseTransition" style="top: 64px; height: calc(100vh - 64px);">
 						<div class="saSheetDragHandle">
 							<div class="saDraggableThumb"></div>
 						</div>
@@ -53,31 +53,41 @@
 								</div>
 								<div class="saDateRangeFooter">
 									<div role="group" class="saPillGroup" aria-label="Select predefined period">
-										<label class="saPill saSmall">
+										<label class="saPill saMedium">
 											<span>Custom date range</span>
 											<input type="radio" name="Pill" value="" checked>
 										</label>
-										<label class="saPill saSmall">
+										<label class="saPill saMedium">
 											<span>Last 7 days</span>
 											<input type="radio" name="Pill" value="2">
 										</label>
-										<label class="saPill saSmall">
+										<label class="saPill saMedium">
 											<span>Last 14 days</span>
 											<input type="radio" name="Pill" value="1">
 										</label>
-										<label class="saPill saSmall">
+										<label class="saPill saMedium">
 											<span>Last month</span>
 											<input type="radio" name="Pill" value="3">
 										</label>
+										<label class="saPill saMedium">
+											<span>Last 90 days</span>
+											<input type="radio" name="Pill" value="4">
+										</label>
+										<label class="saPill saMedium">
+											<span>This year</span>
+											<input type="radio" name="Pill" value="5">
+										</label>
 									</div>
 									<div class="saDateRangeFooterRange">
-										<label class="saInputTextWrapper saLabeled"><span
-												class="saLabeledLabel">From</span><input class="saInputText saActive"
-												id="dateRangeInputStart2" type="date"></label>
+										<label class="saInputTextWrapper saLabeled">
+											<span class="saLabeledLabel">From date</span>
+											<input class="saInputText saActive" id="dateRangeInputStart2" type="date">
+										</label>
 										<span aria-hidden="true">—</span>
-										<label class="saInputTextWrapper saLabeled"><span
-												class="saLabeledLabel">To</span><input class="saInputText"
-												id="dateRangeInputEnd2" type="date"></label>
+										<label class="saInputTextWrapper saLabeled">
+											<span class="saLabeledLabel">To date</span>
+											<input class="saInputText" id="dateRangeInputEnd2" type="date">
+										</label>
 									</div>
 								</div>
 							</div>
@@ -130,13 +140,13 @@
                 </div>
                 <div class="saDayRow">
                     <div class="saWeekNr saEmpty"></div>
-                    <div class="saDay" aria-label="Monday">Mon</div>
-                    <div class="saDay" aria-label="Tuesday">Tue</div>
-                    <div class="saDay" aria-label="Wednesday">Wed</div>
-                    <div class="saDay" aria-label="Thursday">Thu</div>
-                    <div class="saDay" aria-label="Friday">Fri</div>
-                    <div class="saDay" aria-label="Saturday">Sat</div>
-                    <div class="saDay" aria-label="Sunday">Sun</div>
+                    <div class="saDay" aria-label="Monday"><abbr>Mon</abbr></div>
+                    <div class="saDay" aria-label="Tuesday"><abbr>Tue</abbr></div>
+                    <div class="saDay" aria-label="Wednesday"><abbr>Wed</abbr></div>
+                    <div class="saDay" aria-label="Thursday"><abbr>Thu</abbr></div>
+                    <div class="saDay" aria-label="Friday"><abbr>Fri</abbr></div>
+                    <div class="saDay" aria-label="Saturday"><abbr>Sat</abbr></div>
+                    <div class="saDay" aria-label="Sunday"><abbr>Sun</abbr></div>
                 </div>
             </div>`);
 
@@ -225,8 +235,8 @@
 					$this.addClass('saDateStart saDateActive').attr({ 'aria-selected': 'true', 'aria-pressed': 'true' });
 
 					// Update input values and toggle classes
-					$startInput.val(formatDate(startDate)).addClass('saActive');
-					$endInput.val('').removeClass('saActive');
+					$startInput.val(formatDate(startDate)).removeClass('saActive');
+					$endInput.val('').addClass('saActive');
 
 					isSelectingEndDate = true;
 				} else {
@@ -252,8 +262,8 @@
 						.removeClass('saDateInRange').attr({ 'aria-selected': 'true', 'aria-pressed': 'true' });
 
 					// Update input values and toggle classes
-					$startInput.val(formatDate(startDate)).removeClass('saActive');
-					$endInput.val(formatDate(endDate)).addClass('saActive');
+					$startInput.val(formatDate(startDate)).addClass('saActive');
+					$endInput.val(formatDate(endDate)).removeClass('saActive');
 
 					isSelectingEndDate = false;
 				}
@@ -295,8 +305,8 @@
 						$endInput.val(formatDate(hoverEndDate)).removeClass('saActive');
 
 						if (new Date(hoverDate) < new Date(startDate)) {
-							$startInput.removeClass('saActive');
-							$endInput.addClass('saActive');
+							$startInput.addClass('saActive');
+							$endInput.removeClass('saActive');
 						}
 					}
 				},
