@@ -38,25 +38,28 @@ $(document).keydown(function (event) {
 });
 
 $(document).ready(function () {
-    var theToggler = $("<button>", {
+    var path = window.location.pathname.toLowerCase();
+
+	var theToggler = $("<button>", {
         id: "theToggler",
         text: "Compact",
+		title: "Toggle between saStandard, saCompact and saSmallScreen"
     });
 
     $("body").addClass("saPc saLargeScreen saCompact").append(theToggler);
 
-    var path = window.location.pathname.toLowerCase();
-
-    if (path.includes("smallscreen")) {
-        $("body").removeClass().addClass("saSmallScreen");
-        $("#theToggler").text("SmallScreen");
-    } else if (path.includes("standard")) {
-        $("body").removeClass().addClass("saStandard saPc saLargeScreen");
-        $("#theToggler").text("Standard");
-    } else if (path.includes("compact")) {
-        $("body").removeClass().addClass("saCompact saPc saLargeScreen");
-        $("#theToggler").text("Compact");
-    }
+	setTimeout(() => {
+		if (path.includes("smallscreen")) {
+			$("body").removeClass().addClass("saSmallScreen");
+			$("#theToggler").text("SmallScreen");
+		} else if (path.includes("standard")) {
+			$("body").removeClass().addClass("saStandard saPc saLargeScreen");
+			$("#theToggler").text("Standard");
+		} else if (path.includes("compact")) {
+			$("body").removeClass().addClass("saCompact saPc saLargeScreen");
+			$("#theToggler").text("Compact");
+		}
+	}, 200);
 
     function toggleClasses() {
         if ($("body").hasClass("saStandard")) {

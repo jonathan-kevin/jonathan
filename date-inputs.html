@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Title</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+</head>
+
+<body style="display: flex;">
+	<div class="pagecontentframe" style="width: 100%; max-height: 95vh; padding: 24px;">
+		<main aria-label="Date pickers">
+			<div class="saControl">
+				<label class="saLabelWrapper" id="dateRangeLabel">
+					<div class="saLabel">
+						Mating season
+					</div>
+					<div class="saDescription">
+						Select the date range for the mating season of this bird species.
+					</div>
+				</label>
+
+				<div id="dateRange" class="saInputDateRange saInputTextWrapper">
+					<input type="text" id="dateRangeInputStart" aria-describedby="dateRangeLabel" aria-label="Date from"
+						value="2025-06-12" tabindex="1"
+						pattern="\b(?:\d{1,2}[-/]\d{1,2}[-/]\d{2,4}|\d{2,4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2} \w{3,9} \d{2,4}|\w{3,9} \d{1,2}, \d{2,4}|\d{1,2} \w{3,9}|\w{3,9} \d{1,2})\b">
+					<span>—</span>
+					<input type="text" id="dateRangeInputEnd" aria-describedby="dateRangeLabel" aria-label="Date to"
+						value="2025-06-21" tabindex="2"
+						pattern="\b(?:\d{1,2}[-/]\d{1,2}[-/]\d{2,4}|\d{2,4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2} \w{3,9} \d{2,4}|\w{3,9} \d{1,2}, \d{2,4}|\d{1,2} \w{3,9}|\w{3,9} \d{1,2})\b">
+					<div class="saTrailingIconsWrapper">
+						<button class="saIcon saActionIcon far fa-calendar" type="button">
+						</button>
+					</div>
+				</div>
+
+				<div class="saDateRangePickerWrapper saPicker saDatePickerRoot saManyWeeks saPopupItemJs"
+					style="position:relative;">
+					<div class="saDateRangePicker">
+						<div class="saDatePickerMonth saShowSmallScreen" aria-label="Month name">
+							<div class="saDatePickerMonthHeading">
+								<div class="saMonthWrapper">
+									<button class="saMonth" tabindex="3" aria-expanded="false">
+										<span>May 2025</span><i class="saIcon far fa-angle-down"></i>
+									</button>
+									<ul class="saYearPicker"></ul>
+								</div>
+							</div>
+							<div class="saDayRow">
+								<div class="saWeekNr saEmpty"></div>
+								<div class="saDay">Mon</div>
+								<div class="saDay">Tue</div>
+								<div class="saDay">Wed</div>
+								<div class="saDay">Thu</div>
+								<div class="saDay">Fri</div>
+								<div class="saDay">Sat</div>
+								<div class="saDay">Sun</div>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 22">22</div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<button type="button" class="saDate saDateElement" aria-label="June 01">1</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 23">23</div>
+								<button type="button" class="saDate saDateElement" aria-label="June 02">2</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 03">3</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 04">4</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 05">5</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 06">6</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 07">7</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 08">8</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 24">24</div>
+								<button type="button" class="saDate saDateElement saToday"
+									aria-label="June 09">9</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 10">10</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 11">11</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 12">12</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 13">13</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 14">14</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 15">15</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 25">25</div>
+								<button type="button" class="saDate saDateElement" aria-label="June 16">16</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 17">17</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 18">18</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 19">19</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 20">20</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 21">21</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 22">22</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 26">26</div>
+								<button type="button" class="saDate saDateElement" aria-label="June 23">23</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 24">24</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 25">25</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 26">26</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 27">27</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 28">28</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 29">29</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 27">27</div>
+								<button type="button" class="saDate saDateElement" aria-label="June 30">30</button>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+							</div>
+						</div>
+						<div class="saDatePickerMonth" aria-label="Month name">
+							<div class="saDatePickerMonthHeading">
+								<div class="saMonthWrapper">
+									<button class="saMonth" tabindex="3" aria-expanded="false">
+										<span>June 2025</span><i class="saIcon far fa-angle-down"></i>
+									</button>
+									<ul class="saYearPicker"></ul>
+								</div>
+							</div>
+							<div class="saDayRow">
+								<div class="saWeekNr saEmpty"></div>
+								<div class="saDay">Mon</div>
+								<div class="saDay">Tue</div>
+								<div class="saDay">Wed</div>
+								<div class="saDay">Thu</div>
+								<div class="saDay">Fri</div>
+								<div class="saDay">Sat</div>
+								<div class="saDay">Sun</div>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 22">22</div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<button type="button" class="saDate saDateElement" aria-label="June 01">1</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 23">23</div>
+								<button type="button" class="saDate saDateElement" aria-label="June 02">2</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 03">3</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 04">4</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 05">5</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 06">6</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 07">7</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 08">8</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 24">24</div>
+								<button type="button" class="saDate saDateElement saToday"
+									aria-label="June 09">9</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 10">10</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 11">11</button>
+								<button type="button" class="saDate saDateElement saDateActive saDateStart"
+									aria-label="June 12">12</button>
+								<button type="button" class="saDate saDateElement saDateInRange"
+									aria-label="June 13">13</button>
+								<button type="button" class="saDate saDateElement saDateInRange"
+									aria-label="June 14">14</button>
+								<button type="button" class="saDate saDateElement saDateInRange"
+									aria-label="June 15">15</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 25">25</div>
+								<button type="button" class="saDate saDateElement saDateInRange"
+									aria-label="June 16">16</button>
+								<button type="button" class="saDate saDateElement saDateInRange"
+									aria-label="June 17">17</button>
+								<button type="button" class="saDate saDateElement saDateInRange"
+									aria-label="June 18">18</button>
+								<button type="button" class="saDate saDateElement saDateInRange"
+									aria-label="June 19">19</button>
+								<button type="button" class="saDate saDateElement saDateInRange"
+									aria-label="June 20">20</button>
+								<button type="button" class="saDate saDateElement saDateActive saDateEnd"
+									aria-label="June 21">21</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 22">22</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 26">26</div>
+								<button type="button" class="saDate saDateElement" aria-label="June 23">23</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 24">24</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 25">25</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 26">26</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 27">27</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 28">28</button>
+								<button type="button" class="saDate saDateElement" aria-label="June 29">29</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 27">27</div>
+								<button type="button" class="saDate saDateElement" aria-label="June 30">30</button>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+							</div>
+						</div>
+						<div class="saDatePickerMonth">
+							<div class="saDatePickerMonthHeading">
+								<div class="saMonthWrapper">
+									<button type="button" class="saMonth" tabindex="4" aria-expanded="false">
+										<span>July 2025</span>
+										<i class="saIcon far fa-angle-down"></i>
+									</button>
+									<ul class="saYearPicker"></ul>
+								</div>
+								<div class="saMonths">
+									<button type="button" aria-label="Previous month" tabindex="5">
+										<i class="saIcon far fa-angle-left"></i>
+									</button>
+									<button type="button" aria-label="Next month" tabindex="6">
+										<i class="saIcon far fa-angle-right"></i>
+									</button>
+								</div>
+							</div>
+							<div class="saDayRow">
+								<div class="saWeekNr saEmpty"></div>
+								<time class="saDay">Mon</time>
+								<time class="saDay">Tue</time>
+								<time class="saDay">Wed</time>
+								<time class="saDay">Thu</time>
+								<time class="saDay">Fri</time>
+								<time class="saDay">Sat</time>
+								<time class="saDay">Sun</time>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 27">27</div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<button type="button" class="saDate saDateElement" aria-label="July 01">1</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 02">2</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 03">3</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 04">4</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 05">5</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 06">6</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 28">28</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 07">7</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 08">8</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 09">9</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 10">10</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 11">11</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 12">12</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 13">13</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 29">29</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 14">14</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 15">15</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 16">16</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 17">17</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 18">18</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 19">19</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 20">20</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 30">30</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 21">21</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 22">22</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 23">23</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 24">24</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 25">25</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 26">26</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 27">27</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 31">31</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 28">28</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 29">29</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 30">30</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 31">31</button>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+							</div>
+							<div class="saDateRow saShowLargeScreen">
+								<div class="saWeekNr saEmpty"></div>
+								<div class="saDate saEmpty"></div>
+								<div class="saDate saEmpty"></div>
+								<div class="saDate saEmpty"></div>
+								<div class="saDate saEmpty"></div>
+								<div class="saDate saEmpty"></div>
+								<div class="saDate saEmpty"></div>
+								<div class="saDate saEmpty"></div>
+							</div>
+						</div>
+						<div class="saDatePickerMonth saShowSmallScreen">
+							<div class="saDatePickerMonthHeading">
+								<div class="saMonthWrapper">
+									<button type="button" class="saMonth" tabindex="4" aria-expanded="false">
+										<span>August 2025</span>
+										<i class="saIcon far fa-angle-down"></i>
+									</button>
+									<ul class="saYearPicker"></ul>
+								</div>
+								<div class="saMonths">
+									<button type="button" aria-label="Previous month" tabindex="5">
+										<i class="saIcon far fa-angle-left"></i>
+									</button>
+									<button type="button" aria-label="Next month" tabindex="6">
+										<i class="saIcon far fa-angle-right"></i>
+									</button>
+								</div>
+							</div>
+							<div class="saDayRow">
+								<div class="saWeekNr saEmpty"></div>
+								<time class="saDay">Mon</time>
+								<time class="saDay">Tue</time>
+								<time class="saDay">Wed</time>
+								<time class="saDay">Thu</time>
+								<time class="saDay">Fri</time>
+								<time class="saDay">Sat</time>
+								<time class="saDay">Sun</time>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 27">27</div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<button type="button" class="saDate saDateElement" aria-label="August 01">1</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 02">2</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 03">3</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 04">4</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 05">5</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 06">6</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 28">28</div>
+								<button type="button" class="saDate saDateElement" aria-label="August 07">7</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 08">8</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 09">9</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 10">10</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 11">11</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 12">12</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 13">13</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 29">29</div>
+								<button type="button" class="saDate saDateElement" aria-label="August 14">14</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 15">15</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 16">16</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 17">17</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 18">18</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 19">19</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 20">20</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 30">30</div>
+								<button type="button" class="saDate saDateElement" aria-label="August 21">21</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 22">22</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 23">23</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 24">24</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 25">25</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 26">26</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 27">27</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 31">31</div>
+								<button type="button" class="saDate saDateElement" aria-label="August 28">28</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 29">29</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 30">30</button>
+								<button type="button" class="saDate saDateElement" aria-label="August 31">31</button>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+							</div>
+						</div>
+						<div class="saDatePickerMonth saShowSmallScreen">
+							<div class="saDatePickerMonthHeading">
+								<div class="saMonthWrapper">
+									<button type="button" class="saMonth" tabindex="4" aria-expanded="false">
+										<span>September 2025</span>
+										<i class="saIcon far fa-angle-down"></i>
+									</button>
+									<ul class="saYearPicker"></ul>
+								</div>
+								<div class="saMonths">
+									<button type="button" aria-label="Previous month" tabindex="5">
+										<i class="saIcon far fa-angle-left"></i>
+									</button>
+									<button type="button" aria-label="Next month" tabindex="6">
+										<i class="saIcon far fa-angle-right"></i>
+									</button>
+								</div>
+							</div>
+							<div class="saDayRow">
+								<div class="saWeekNr saEmpty"></div>
+								<time class="saDay">Mon</time>
+								<time class="saDay">Tue</time>
+								<time class="saDay">Wed</time>
+								<time class="saDay">Thu</time>
+								<time class="saDay">Fri</time>
+								<time class="saDay">Sat</time>
+								<time class="saDay">Sun</time>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 27">27</div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<button type="button" class="saDate saDateElement" aria-label="July 01">1</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 02">2</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 03">3</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 04">4</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 05">5</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 06">6</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 28">28</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 07">7</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 08">8</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 09">9</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 10">10</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 11">11</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 12">12</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 13">13</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 29">29</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 14">14</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 15">15</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 16">16</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 17">17</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 18">18</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 19">19</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 20">20</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 30">30</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 21">21</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 22">22</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 23">23</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 24">24</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 25">25</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 26">26</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 27">27</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 31">31</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 28">28</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 29">29</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 30">30</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 31">31</button>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+							</div>
+						</div>
+						<div class="saDatePickerMonth saShowSmallScreen">
+							<div class="saDatePickerMonthHeading">
+								<div class="saMonthWrapper">
+									<button type="button" class="saMonth" tabindex="4" aria-expanded="false">
+										<span>October 2025</span>
+										<i class="saIcon far fa-angle-down"></i>
+									</button>
+									<ul class="saYearPicker"></ul>
+								</div>
+								<div class="saMonths">
+									<button type="button" aria-label="Previous month" tabindex="5">
+										<i class="saIcon far fa-angle-left"></i>
+									</button>
+									<button type="button" aria-label="Next month" tabindex="6">
+										<i class="saIcon far fa-angle-right"></i>
+									</button>
+								</div>
+							</div>
+							<div class="saDayRow">
+								<div class="saWeekNr saEmpty"></div>
+								<time class="saDay">Mon</time>
+								<time class="saDay">Tue</time>
+								<time class="saDay">Wed</time>
+								<time class="saDay">Thu</time>
+								<time class="saDay">Fri</time>
+								<time class="saDay">Sat</time>
+								<time class="saDay">Sun</time>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 27">27</div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<button type="button" class="saDate saDateElement" aria-label="July 01">1</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 02">2</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 03">3</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 04">4</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 05">5</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 06">6</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 28">28</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 07">7</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 08">8</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 09">9</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 10">10</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 11">11</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 12">12</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 13">13</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 29">29</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 14">14</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 15">15</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 16">16</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 17">17</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 18">18</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 19">19</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 20">20</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 30">30</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 21">21</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 22">22</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 23">23</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 24">24</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 25">25</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 26">26</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 27">27</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 31">31</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 28">28</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 29">29</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 30">30</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 31">31</button>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+							</div>
+						</div>
+						<div class="saDatePickerMonth saShowSmallScreen">
+							<div class="saDatePickerMonthHeading">
+								<div class="saMonthWrapper">
+									<button type="button" class="saMonth" tabindex="4" aria-expanded="false">
+										<span>November 2025</span>
+										<i class="saIcon far fa-angle-down"></i>
+									</button>
+									<ul class="saYearPicker"></ul>
+								</div>
+								<div class="saMonths">
+									<button type="button" aria-label="Previous month" tabindex="5">
+										<i class="saIcon far fa-angle-left"></i>
+									</button>
+									<button type="button" aria-label="Next month" tabindex="6">
+										<i class="saIcon far fa-angle-right"></i>
+									</button>
+								</div>
+							</div>
+							<div class="saDayRow">
+								<div class="saWeekNr saEmpty"></div>
+								<time class="saDay">Mon</time>
+								<time class="saDay">Tue</time>
+								<time class="saDay">Wed</time>
+								<time class="saDay">Thu</time>
+								<time class="saDay">Fri</time>
+								<time class="saDay">Sat</time>
+								<time class="saDay">Sun</time>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 27">27</div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<button type="button" class="saDate saDateElement" aria-label="July 01">1</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 02">2</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 03">3</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 04">4</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 05">5</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 06">6</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 28">28</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 07">7</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 08">8</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 09">9</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 10">10</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 11">11</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 12">12</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 13">13</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 29">29</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 14">14</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 15">15</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 16">16</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 17">17</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 18">18</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 19">19</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 20">20</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 30">30</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 21">21</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 22">22</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 23">23</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 24">24</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 25">25</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 26">26</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 27">27</button>
+							</div>
+							<div class="saDateRow">
+								<div class="saWeekNr" aria-label="Week 31">31</div>
+								<button type="button" class="saDate saDateElement" aria-label="July 28">28</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 29">29</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 30">30</button>
+								<button type="button" class="saDate saDateElement" aria-label="July 31">31</button>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+								<div class="saDate saDateElement saEmpty"></div>
+							</div>
+						</div>
+
+					</div>
+
+					<fieldset class="saPillGroup">
+						<legend class="saScreenReaderOnly">
+							Select predefined period
+						</legend>
+						<label class="saPill saSmall">
+							<span>Custom date range</span>
+							<input type="radio" name="Pill" value="" checked>
+						</label>
+						<label class="saPill saSmall">
+							<span>Last 7 days</span>
+							<input type="radio" name="Pill" value="2">
+						</label>
+						<label class="saPill saSmall">
+							<span>Last 14 days</span>
+							<input type="radio" name="Pill" value="1">
+						</label>
+						<label class="saPill saSmall">
+							<span>Last month</span>
+							<input type="radio" name="Pill" value="3">
+						</label>
+					</fieldset>
+				</div>
+			</div>
+
+			<div class="saControl">
+				<label class="saLabelWrapper" id="openIntervalLabelFuture">
+					<div class="saLabel">
+						Birds born after
+					</div>
+					<div class="saDescription">
+						Birds born from this date onward.
+					</div>
+				</label>
+				<div class="saInputTextWrapper saDateField saHasTrailingIcons">
+
+					<input class="saInputText saDate" name="open" id="opnIntervalInputFuture"
+						aria-describedby="openIntervalLabelFuture" value="2025-06-12">
+					<div class="saTrailingIconsWrapper">
+						<button class="saIcon saActionIcon far fa-calendar" tabindex="-1" type="button"
+							aria-hidden="true">
+						</button>
+					</div>
+				</div>
+				<div class="saDatePicker saPicker saDatePickerRoot saDateOpenIntervalPicker saPopupItemJs saManyWeeks"
+					style="position: relative;" id="openIntervalFuture">
+					<div class="saDatePickerMonthHeading">
+						<div class="saMonthWrapper">
+							<button class="saMonth" aria-expanded="false">
+								<span>June 2025</span>
+								<i class="saIcon far fa-angle-down"></i>
+							</button>
+							<ul class="saYearPicker">
+
+							</ul>
+						</div>
+						<div class="saMonths">
+							<button>
+								<i class="saIcon far fa-angle-left"></i>
+							</button>
+							<button>
+								<i class="saIcon far fa-angle-right"></i>
+							</button>
+						</div>
+					</div>
+					<div class="saDayRow">
+						<div class="saWeekNr saEmpty"></div>
+						<div class="saDay">Mon</div>
+						<div class="saDay">Tue</div>
+						<div class="saDay">Wed</div>
+						<div class="saDay">Thu</div>
+						<div class="saDay">Fri</div>
+						<div class="saDay">Sat</div>
+						<div class="saDay">Sun</div>
+					</div>
+					<div class="saDateRow">
+						<div class="saWeekNr">22</div>
+						<div class="saDate saDateElement">26</div>
+						<div class="saDate saDateElement">27</div>
+						<div class="saDate saDateElement">28</div>
+						<div class="saDate saDateElement">29</div>
+						<div class="saDate saDateElement">30</div>
+						<div class="saDate saDateElement">31</div>
+						<div class="saDate saDateElement">1</div>
+					</div>
+					<div class="saDateRow">
+						<div class="saWeekNr">23</div>
+						<div class="saDate saDateElement">2</div>
+						<div class="saDate saDateElement">3</div>
+						<div class="saDate saDateElement">4</div>
+						<div class="saDate saDateElement">5</div>
+						<div class="saDate saDateElement">6</div>
+						<div class="saDate saDateElement">7</div>
+						<div class="saDate saDateElement">8</div>
+					</div>
+					<div class="saDateRow">
+						<div class="saWeekNr">24</div>
+						<div class="saDate saDateElement saToday">9</div>
+						<div class="saDate saDateElement">10</div>
+						<div class="saDate saDateElement">11</div>
+						<div class="saDate saDateElement saDateActive saDateStart">12</div>
+						<div class="saDate saDateElement saDateInRange">13</div>
+						<div class="saDate saDateElement saDateInRange">14</div>
+						<div class="saDate saDateElement saDateInRange">15</div>
+					</div>
+					<div class="saDateRow">
+						<div class="saWeekNr">25</div>
+						<div class="saDate saDateElement saDateInRange">16</div>
+						<div class="saDate saDateElement saDateInRange">17</div>
+						<div class="saDate saDateElement saDateInRange">18</div>
+						<div class="saDate saDateElement saDateInRange">19</div>
+						<div class="saDate saDateElement saDateInRange">20</div>
+						<div class="saDate saDateElement saDateInRange">21</div>
+						<div class="saDate saDateElement saDateInRange">22</div>
+					</div>
+					<div class="saDateRow">
+						<div class="saWeekNr">26</div>
+						<div class="saDate saDateElement saDateInRange">23</div>
+						<div class="saDate saDateElement saDateInRange">24</div>
+						<div class="saDate saDateElement saDateInRange">25</div>
+						<div class="saDate saDateElement saDateInRange">26</div>
+						<div class="saDate saDateElement saDateInRange">27</div>
+						<div class="saDate saDateElement saDateInRange">28</div>
+						<div class="saDate saDateElement saDateInRange">29</div>
+					</div>
+					<div class="saDateRow">
+						<div class="saWeekNr">27</div>
+						<div class="saDate saDateElement saDateInRange">30</div>
+						<div class="saDate saDateElement saDateInRange">1</div>
+						<div class="saDate saDateElement saDateInRange">2</div>
+						<div class="saDate saDateElement saDateInRange">3</div>
+						<div class="saDate saDateElement saDateInRange">4</div>
+						<div class="saDate saDateElement saDateInRange">5</div>
+						<div class="saDate saDateElement saDateInRange">6</div>
+					</div>
+					<button class="saTodayLink saDateElement" type="button">
+						Today
+					</button>
+				</div>
+			</div>
+
+			<div class="saControl">
+				<label class="saLabelWrapper" id="openIntervalLabelPast">
+					<div class="saLabel">
+						Birds born before
+					</div>
+					<div class="saDescription">
+						Birds born on or before this date.
+					</div>
+				</label>
+				<div class="saInputTextWrapper saDateField saHasTrailingIcons">
+
+					<input class="saInputText saDate" name="open" id="opnIntervalInputPast"
+						aria-describedby="openIntervalLabelPast" value="2025-06-12">
+					<div class="saTrailingIconsWrapper">
+						<button class="saIcon saActionIcon far fa-calendar" tabindex="-1" type="button"
+							aria-hidden="true">
+						</button>
+					</div>
+				</div>
+				<div class="saDatePicker saPicker saDatePickerRoot saDateOpenIntervalPicker saPopupItemJs saManyWeeks"
+					style="position: relative;" id="openIntervalPast">
+					<div class="saDatePickerMonthHeading">
+						<div class="saMonthWrapper">
+							<button class="saMonth" aria-expanded="false">
+								<span>June 2025</span>
+								<i class="saIcon far fa-angle-down"></i>
+							</button>
+							<ul class="saYearPicker">
+
+							</ul>
+						</div>
+						<div class="saMonths">
+							<button>
+								<i class="saIcon far fa-angle-left"></i>
+							</button>
+							<button>
+								<i class="saIcon far fa-angle-right"></i>
+							</button>
+						</div>
+					</div>
+					<div class="saDayRow">
+						<div class="saWeekNr saEmpty"></div>
+						<div class="saDay">Mon</div>
+						<div class="saDay">Tue</div>
+						<div class="saDay">Wed</div>
+						<div class="saDay">Thu</div>
+						<div class="saDay">Fri</div>
+						<div class="saDay">Sat</div>
+						<div class="saDay">Sun</div>
+					</div>
+					<div class="saDateRow">
+						<div class="saWeekNr">22</div>
+						<div class="saDate saDateElement saDateInRange">26</div>
+						<div class="saDate saDateElement saDateInRange">27</div>
+						<div class="saDate saDateElement saDateInRange">28</div>
+						<div class="saDate saDateElement saDateInRange">29</div>
+						<div class="saDate saDateElement saDateInRange">30</div>
+						<div class="saDate saDateElement saDateInRange">31</div>
+						<div class="saDate saDateElement saDateInRange">1</div>
+					</div>
+					<div class="saDateRow">
+						<div class="saWeekNr">23</div>
+						<div class="saDate saDateElement saDateInRange">2</div>
+						<div class="saDate saDateElement saDateInRange">3</div>
+						<div class="saDate saDateElement saDateInRange">4</div>
+						<div class="saDate saDateElement saDateInRange">5</div>
+						<div class="saDate saDateElement saDateInRange">6</div>
+						<div class="saDate saDateElement saDateInRange">7</div>
+						<div class="saDate saDateElement saDateInRange">8</div>
+					</div>
+					<div class="saDateRow">
+						<div class="saWeekNr">24</div>
+						<div class="saDate saDateElement saDateInRange saToday">9</div>
+						<div class="saDate saDateElement saDateInRange">10</div>
+						<div class="saDate saDateElement saDateInRange">11</div>
+						<div class="saDate saDateElement saDateActive saDateEnd">12</div>
+						<div class="saDate saDateElement">13</div>
+						<div class="saDate saDateElement">14</div>
+						<div class="saDate saDateElement">15</div>
+					</div>
+					<div class="saDateRow">
+						<div class="saWeekNr">25</div>
+						<div class="saDate saDateElement">16</div>
+						<div class="saDate saDateElement">17</div>
+						<div class="saDate saDateElement">18</div>
+						<div class="saDate saDateElement">19</div>
+						<div class="saDate saDateElement">20</div>
+						<div class="saDate saDateElement">21</div>
+						<div class="saDate saDateElement">22</div>
+					</div>
+					<div class="saDateRow">
+						<div class="saWeekNr">26</div>
+						<div class="saDate saDateElement">23</div>
+						<div class="saDate saDateElement">24</div>
+						<div class="saDate saDateElement">25</div>
+						<div class="saDate saDateElement">26</div>
+						<div class="saDate saDateElement">27</div>
+						<div class="saDate saDateElement">28</div>
+						<div class="saDate saDateElement">29</div>
+					</div>
+					<div class="saDateRow">
+						<div class="saWeekNr">27</div>
+						<div class="saDate saDateElement">30</div>
+						<div class="saDate saDateElement">1</div>
+						<div class="saDate saDateElement">2</div>
+						<div class="saDate saDateElement">3</div>
+						<div class="saDate saDateElement">4</div>
+						<div class="saDate saDateElement">5</div>
+						<div class="saDate saDateElement">6</div>
+					</div>
+					<button class="saTodayLink saDateElement" type="button">
+						Today
+					</button>
+				</div>
+			</div>
+
+			<div class="saCalendarSection saDesktopCalendar saTimeScheduleCalendar saResourceCalendar">
+				<div class="saCalendarSectionInner">
+					<div class="saCalendarSidebar">
+						<div class="saCalendarSidebarInner">
+							<div class="saCalendarSidebarSection saSidebarCalendar">
+								<div class="saDatePicker saDatePickerRoot saManyWeeks">
+									<div class="saDatePickerMonthHeading"><span class="saCalendarSidebarHeading">June
+											2025</span>
+										<div class="saMonths">
+											<button>
+												<i class="saIcon far fa-angle-left"></i>
+											</button>
+											<button>
+												<i class="saIcon far fa-angle-right"></i>
+											</button>
+										</div>
+									</div>
+									<div class="saDayRow">
+										<div class="saWeekNr saEmpty"></div>
+										<div class="saDay">Mon</div>
+										<div class="saDay">Tue</div>
+										<div class="saDay">Wed</div>
+										<div class="saDay">Thu</div>
+										<div class="saDay">Fri</div>
+										<div class="saDay">Sat</div>
+										<div class="saDay">Sun</div>
+									</div>
+									<div class="saDateRow">
+										<div class="saWeekNr">22</div>
+										<div class="saDate saDateElement">26</div>
+										<div class="saDate saDateElement">27</div>
+										<div class="saDate saDateElement">28</div>
+										<div class="saDate saDateElement">29</div>
+										<div class="saDate saDateElement">30</div>
+										<div class="saDate saDateElement">31</div>
+										<div class="saDate saDateElement">1</div>
+									</div>
+									<div class="saDateRow">
+										<div class="saWeekNr">23</div>
+										<div class="saDate saDateElement">2</div>
+										<div class="saDate saDateElement">3</div>
+										<div class="saDate saDateElement">4</div>
+										<div class="saDate saDateElement">5</div>
+										<div class="saDate saDateElement">6</div>
+										<div class="saDate saDateElement">7</div>
+										<div class="saDate saDateElement">8</div>
+									</div>
+									<div class="saDateRow">
+										<div class="saWeekNr">24</div>
+										<div class="saDate saDateElement saToday">9</div>
+										<div class="saDate saDateElement">10</div>
+										<div class="saDate saDateElement">11</div>
+										<div class="saDate saDateElement saDateActive">12</div>
+										<div class="saDate saDateElement">13</div>
+										<div class="saDate saDateElement">14</div>
+										<div class="saDate saDateElement">15</div>
+									</div>
+									<div class="saDateRow">
+										<div class="saWeekNr">25</div>
+										<div class="saDate saDateElement">16</div>
+										<div class="saDate saDateElement">17</div>
+										<div class="saDate saDateElement">18</div>
+										<div class="saDate saDateElement">19</div>
+										<div class="saDate saDateElement">20</div>
+										<div class="saDate saDateElement">21</div>
+										<div class="saDate saDateElement">22</div>
+									</div>
+									<div class="saDateRow">
+										<div class="saWeekNr">26</div>
+										<div class="saDate saDateElement">23</div>
+										<div class="saDate saDateElement">24</div>
+										<div class="saDate saDateElement">25</div>
+										<div class="saDate saDateElement">26</div>
+										<div class="saDate saDateElement">27</div>
+										<div class="saDate saDateElement">28</div>
+										<div class="saDate saDateElement">29</div>
+									</div>
+									<div class="saDateRow">
+										<div class="saWeekNr">27</div>
+										<div class="saDate saDateElement">30</div>
+										<div class="saDate saDateElement">1</div>
+										<div class="saDate saDateElement">2</div>
+										<div class="saDate saDateElement">3</div>
+										<div class="saDate saDateElement">4</div>
+										<div class="saDate saDateElement">5</div>
+										<div class="saDate saDateElement">6</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="saDatePicker saPicker saDatePickerRoot saPopupItemJs saManyWeeks" style="position: relative;"
+				id="single">
+				<div class="saDatePickerMonthHeading">
+					<div class="saMonthWrapper">
+						<button class="saMonth" aria-expanded="false">
+							<span>June 2025</span>
+							<i class="saIcon far fa-angle-down"></i>
+						</button>
+						<ul class="saYearPicker">
+
+						</ul>
+					</div>
+					<div class="saMonths">
+						<button>
+							<i class="saIcon far fa-angle-left"></i>
+						</button>
+						<button>
+							<i class="saIcon far fa-angle-right"></i>
+						</button>
+					</div>
+				</div>
+				<div class="saDayRow">
+					<div class="saWeekNr saEmpty"></div>
+					<div class="saDay">Mon</div>
+					<div class="saDay">Tue</div>
+					<div class="saDay">Wed</div>
+					<div class="saDay">Thu</div>
+					<div class="saDay">Fri</div>
+					<div class="saDay">Sat</div>
+					<div class="saDay">Sun</div>
+				</div>
+				<div class="saDateRow">
+					<div class="saWeekNr">22</div>
+					<div class="saDate saDateElement">26</div>
+					<div class="saDate saDateElement">27</div>
+					<div class="saDate saDateElement">28</div>
+					<div class="saDate saDateElement">29</div>
+					<div class="saDate saDateElement">30</div>
+					<div class="saDate saDateElement">31</div>
+					<div class="saDate saDateElement">1</div>
+				</div>
+				<div class="saDateRow">
+					<div class="saWeekNr">23</div>
+					<div class="saDate saDateElement">2</div>
+					<div class="saDate saDateElement">3</div>
+					<div class="saDate saDateElement">4</div>
+					<div class="saDate saDateElement">5</div>
+					<div class="saDate saDateElement">6</div>
+					<div class="saDate saDateElement">7</div>
+					<div class="saDate saDateElement">8</div>
+				</div>
+				<div class="saDateRow">
+					<div class="saWeekNr">24</div>
+					<div class="saDate saDateElement saToday">9</div>
+					<div class="saDate saDateElement">10</div>
+					<div class="saDate saDateElement">11</div>
+					<div class="saDate saDateElement saDateActive">12</div>
+					<div class="saDate saDateElement">13</div>
+					<div class="saDate saDateElement">14</div>
+					<div class="saDate saDateElement">15</div>
+				</div>
+				<div class="saDateRow">
+					<div class="saWeekNr">25</div>
+					<div class="saDate saDateElement">16</div>
+					<div class="saDate saDateElement">17</div>
+					<div class="saDate saDateElement">18</div>
+					<div class="saDate saDateElement">19</div>
+					<div class="saDate saDateElement">20</div>
+					<div class="saDate saDateElement">21</div>
+					<div class="saDate saDateElement">22</div>
+				</div>
+				<div class="saDateRow">
+					<div class="saWeekNr">26</div>
+					<div class="saDate saDateElement">23</div>
+					<div class="saDate saDateElement">24</div>
+					<div class="saDate saDateElement">25</div>
+					<div class="saDate saDateElement">26</div>
+					<div class="saDate saDateElement">27</div>
+					<div class="saDate saDateElement">28</div>
+					<div class="saDate saDateElement">29</div>
+				</div>
+				<div class="saDateRow">
+					<div class="saWeekNr">27</div>
+					<div class="saDate saDateElement">30</div>
+					<div class="saDate saDateElement">1</div>
+					<div class="saDate saDateElement">2</div>
+					<div class="saDate saDateElement">3</div>
+					<div class="saDate saDateElement">4</div>
+					<div class="saDate saDateElement">5</div>
+					<div class="saDate saDateElement">6</div>
+				</div>
+				<button class="saTodayLink saDateElement" type="button">
+					Today
+				</button>
+			</div>
+			<div class="saDateTimePickerWrapper saPicker saDatePickerRoot saManyWeeks saPopupItemJs saIgnoreNextFocusEventJs"
+				tabindex="0" style="position: relative;">
+				<div class="saDateTimePicker">
+					<div class="saDatePickerMonth">
+						<div class="saDatePickerMonthHeading">
+							<div class="saMonthWrapper">
+								<button class="saMonth" aria-expanded="false">
+									<span>June 2025</span>
+									<i class="saIcon far fa-angle-down"></i>
+								</button>
+								<ul class="saYearPicker"></ul>
+							</div>
+							<div class="saMonths"><a><i class="saIcon far fa-angle-left"></i></a><a aria-hidden="true"
+									class=""><i class="saIcon far fa-angle-right"></i></a></div>
+						</div>
+						<div class="saDayRow">
+							<div class="saWeekNr saEmpty"></div>
+							<div class="saDay">Mon</div>
+							<div class="saDay">Tue</div>
+							<div class="saDay">Wed</div>
+							<div class="saDay">Thu</div>
+							<div class="saDay">Fri</div>
+							<div class="saDay">Sat</div>
+							<div class="saDay">Sun</div>
+						</div>
+						<div class="saDateRow">
+							<div class="saWeekNr">22</div>
+							<div class="saDate saDateElement">26</div>
+							<div class="saDate saDateElement">27</div>
+							<div class="saDate saDateElement">28</div>
+							<div class="saDate saDateElement">29</div>
+							<div class="saDate saDateElement">30</div>
+							<div class="saDate saDateElement">31</div>
+							<div class="saDate saDateElement">1</div>
+						</div>
+						<div class="saDateRow">
+							<div class="saWeekNr">23</div>
+							<div class="saDate saDateElement">2</div>
+							<div class="saDate saDateElement">3</div>
+							<div class="saDate saDateElement">4</div>
+							<div class="saDate saDateElement">5</div>
+							<div class="saDate saDateElement">6</div>
+							<div class="saDate saDateElement">7</div>
+							<div class="saDate saDateElement">8</div>
+						</div>
+						<div class="saDateRow">
+							<div class="saWeekNr">24</div>
+							<div class="saDate saDateElement saToday">9</div>
+							<div class="saDate saDateElement">10</div>
+							<div class="saDate saDateElement">11</div>
+							<div class="saDate saDateElement saDateActive">12</div>
+							<div class="saDate saDateElement">13</div>
+							<div class="saDate saDateElement">14</div>
+							<div class="saDate saDateElement">15</div>
+						</div>
+						<div class="saDateRow">
+							<div class="saWeekNr">25</div>
+							<div class="saDate saDateElement">16</div>
+							<div class="saDate saDateElement">17</div>
+							<div class="saDate saDateElement">18</div>
+							<div class="saDate saDateElement">19</div>
+							<div class="saDate saDateElement">20</div>
+							<div class="saDate saDateElement">21</div>
+							<div class="saDate saDateElement">22</div>
+						</div>
+						<div class="saDateRow">
+							<div class="saWeekNr">26</div>
+							<div class="saDate saDateElement">23</div>
+							<div class="saDate saDateElement">24</div>
+							<div class="saDate saDateElement">25</div>
+							<div class="saDate saDateElement">26</div>
+							<div class="saDate saDateElement">27</div>
+							<div class="saDate saDateElement">28</div>
+							<div class="saDate saDateElement">29</div>
+						</div>
+						<div class="saDateRow">
+							<div class="saWeekNr">27</div>
+							<div class="saDate saDateElement">30</div>
+							<div class="saDate saDateElement">1</div>
+							<div class="saDate saDateElement">2</div>
+							<div class="saDate saDateElement">3</div>
+							<div class="saDate saDateElement">4</div>
+							<div class="saDate saDateElement">5</div>
+							<div class="saDate saDateElement">6</div>
+						</div>
+					</div>
+					<div class="saTimeSlotPickerWrapper"><label>Time</label>
+						<ul class="saTimeSlotPicker">
+							<li class="saDatePickerSlot saDateElement">00:00</li>
+							<li class="saDatePickerSlot saDateElement">00:30</li>
+							<li class="saDatePickerSlot saDateElement">01:00</li>
+							<li class="saDatePickerSlot saDateElement">01:30</li>
+							<li class="saDatePickerSlot saDateElement saSelected">02:00</li>
+							<li class="saDatePickerSlot saDateElement">02:30</li>
+							<li class="saDatePickerSlot saDateElement">03:00</li>
+							<li class="saDatePickerSlot saDateElement">03:30</li>
+							<li class="saDatePickerSlot saDateElement">04:00</li>
+							<li class="saDatePickerSlot saDateElement">04:30</li>
+							<li class="saDatePickerSlot saDateElement">05:00</li>
+							<li class="saDatePickerSlot saDateElement">05:30</li>
+							<li class="saDatePickerSlot saDateElement">06:00</li>
+							<li class="saDatePickerSlot saDateElement">06:30</li>
+							<li class="saDatePickerSlot saDateElement">07:00</li>
+							<li class="saDatePickerSlot saDateElement">07:30</li>
+							<li class="saDatePickerSlot saDateElement">08:00</li>
+							<li class="saDatePickerSlot saDateElement">08:30</li>
+							<li class="saDatePickerSlot saDateElement">09:00</li>
+							<li class="saDatePickerSlot saDateElement">09:30</li>
+							<li class="saDatePickerSlot saDateElement">10:00</li>
+							<li class="saDatePickerSlot saDateElement">10:30</li>
+							<li class="saDatePickerSlot saDateElement">11:00</li>
+							<li class="saDatePickerSlot saDateElement">11:30</li>
+							<li class="saDatePickerSlot saDateElement">12:00</li>
+							<li class="saDatePickerSlot saDateElement">12:30</li>
+							<li class="saDatePickerSlot saDateElement">13:00</li>
+							<li class="saDatePickerSlot saDateElement">13:30</li>
+							<li class="saDatePickerSlot saDateElement">14:00</li>
+							<li class="saDatePickerSlot saDateElement">14:30</li>
+							<li class="saDatePickerSlot saDateElement">15:00</li>
+							<li class="saDatePickerSlot saDateElement">15:30</li>
+							<li class="saDatePickerSlot saDateElement">16:00</li>
+							<li class="saDatePickerSlot saDateElement">16:30</li>
+							<li class="saDatePickerSlot saDateElement">17:00</li>
+							<li class="saDatePickerSlot saDateElement">17:30</li>
+							<li class="saDatePickerSlot saDateElement">18:00</li>
+							<li class="saDatePickerSlot saDateElement">18:30</li>
+							<li class="saDatePickerSlot saDateElement">19:00</li>
+							<li class="saDatePickerSlot saDateElement">19:30</li>
+							<li class="saDatePickerSlot saDateElement">20:00</li>
+							<li class="saDatePickerSlot saDateElement">20:30</li>
+							<li class="saDatePickerSlot saDateElement">21:00</li>
+							<li class="saDatePickerSlot saDateElement">21:30</li>
+							<li class="saDatePickerSlot saDateElement">22:00</li>
+							<li class="saDatePickerSlot saDateElement">22:30</li>
+							<li class="saDatePickerSlot saDateElement">23:00</li>
+							<li class="saDatePickerSlot saDateElement">23:30</li>
+						</ul>
+					</div>
+				</div>
+				<div class="saButtonRow">
+					<button class="saDatePickerButton saButtonPrimary" type="button">
+						Select
+					</button>
+					<button class="saDatePickerButton saButtonSecondary" type="button">
+						Cancel
+					</button>
+					<button class="saTodayLink saDateElement" type="button">Today</button>
+				</div>
+			</div>
+		</main>
+	</div>
+	<script>
+
+		$(document).ready(function () {
+
+			$('.saSidebarCalendar .saDate').click(function (e) {
+				$('.saSidebarCalendar .saDate').removeClass('saDateActive');
+				$(this).addClass('saDateActive');
+			});
+
+			$('.saDateTimePickerWrapper .saDate').click(function (e) {
+				$('.saDateTimePickerWrapper .saDate').removeClass('saDateActive');
+				$(this).addClass('saDateActive');
+			});
+
+			$('.saDatePickerSlot').click(function (e) {
+				$('.saDatePickerSlot').removeClass('saSelected');
+				$(this).addClass('saSelected');
+			});
+
+
+			$('#single .saDate').click(function (e) {
+				$('#single .saDate').removeClass('saDateActive');
+				$(this).addClass('saDateActive');
+			});
+
+			$('#openIntervalFuture .saDate').click(function (e) {
+				$('#openIntervalFuture .saDate').removeClass('saDateActive saDateInRange saDateStart');
+				$(this).addClass('saDateActive saDateStart');
+
+				const allDates = $('#openIntervalFuture .saDate');
+				const activeIndex = allDates.index(this);
+
+				allDates.slice(activeIndex + 1).addClass('saDateInRange');
+			});
+
+			$('#openIntervalPast .saDate').click(function (e) {
+				$('#openIntervalPast .saDate').removeClass('saDateActive saDateInRange saDateEnd');
+				$(this).addClass('saDateActive saDateEnd');
+
+				const allDates = $('#openIntervalPast .saDate');
+				const activeIndex = allDates.index(this);
+
+				allDates.slice(0, activeIndex).addClass('saDateInRange');
+			});
+
+			let startDate = null;
+			let endDate = null;
+			let isSelectingEndDate = false;
+
+			$('.saDateRangePickerWrapper .saDateElement').on('click', function () {
+				let $this = $(this);
+				let dateValue = $this.attr('aria-label');
+
+				if (!isSelectingEndDate) {
+					startDate = dateValue;
+					endDate = null;
+
+					$('.saDateRangePickerWrapper .saDateElement').removeClass('saDateStart saDateActive saDateEnd saDateInRange');
+					$this.addClass('saDateStart saDateActive');
+
+					$('#dateRangeInputStart').val(formatDate(startDate));
+					$('#dateRangeInputEnd').val('');
+
+					isSelectingEndDate = true;
+				} else {
+					endDate = dateValue;
+
+					if (new Date(startDate) > new Date(endDate)) {
+						[startDate, endDate] = [endDate, startDate];
+					}
+
+					$('.saDateElement').each(function () {
+						let current = $(this).attr('aria-label');
+						if (new Date(current) > new Date(startDate) && new Date(current) < new Date(endDate)) {
+							$(this).addClass('saDateInRange');
+						}
+					});
+
+					$(`.saDateElement[aria-label="${startDate}"]`).addClass('saDateStart saDateActive').removeClass('saDateInRange');
+					$(`.saDateElement[aria-label="${endDate}"]`).addClass('saDateEnd saDateActive').removeClass('saDateInRange');
+
+					// Update both start and end inputs
+					$('#dateRangeInputStart').val(formatDate(startDate));
+					$('#dateRangeInputEnd').val(formatDate(endDate));
+
+					isSelectingEndDate = false;
+				}
+			});
+
+			// Handle hover event to dynamically show the range
+			$('.saDateRangePickerWrapper .saDateElement').hover(function () {
+				if (isSelectingEndDate && startDate) {
+					let hoverDate = $(this).attr('aria-label');
+
+					// Reset range classes
+					$('.saDateRangePickerWrapper .saDateElement').removeClass('saDateInRange saDateEnd saDateActive');
+
+					let hoverStartDate = startDate;
+					let hoverEndDate = hoverDate;
+
+					if (new Date(hoverDate) < new Date(startDate)) {
+						[hoverStartDate, hoverEndDate] = [hoverDate, startDate];
+					}
+
+					// Add classes for the hover range
+					$('.saDateElement').each(function () {
+						let current = $(this).attr('aria-label');
+						if (new Date(current) > new Date(hoverStartDate) && new Date(current) < new Date(hoverEndDate)) {
+							$(this).addClass('saDateInRange');
+						}
+					});
+
+					$(`.saDateElement[aria-label="${hoverStartDate}"]`).addClass('saDateStart saDateActive').removeClass('saDateInRange');
+					$(`.saDateElement[aria-label="${hoverEndDate}"]`).addClass('saDateEnd saDateActive').removeClass('saDateInRange');
+
+					$('#dateRangeInputStart').val(formatDate(hoverStartDate));
+					$('#dateRangeInputEnd').val(formatDate(hoverEndDate));
+				}
+			}, function () {
+				if (isSelectingEndDate && startDate) {
+					$('#dateRangeInputStart').val(formatDate(startDate));
+					if (endDate) {
+						$('#dateRangeInputEnd').val(formatDate(endDate));
+					}
+				}
+			});
+
+			function formatDate(dateStr) {
+				let date = new Date(dateStr);
+				let month = String(date.getMonth() + 1).padStart(2, '0');
+				let day = String(date.getDate()).padStart(2, '0');
+				return `2025-${month}-${day}`;
+			}
+
+		});
+
+	</script>
+</body>
+
+</html>
