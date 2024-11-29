@@ -30,10 +30,11 @@
 					</div>
 				</label>
 
-				<button id="dateRange" class="saInputDateRangeSmallScreen saInputTextWrapper" aria-expanded="false" aria-label="Date range">
-					<div class="saRangeValue" id="dateRangeInputStart">yyyy-mm-dd</div>
+				<button id="dateRange" class="saInputDateRangeSmallScreen saInputTextWrapper" aria-expanded="false"
+					aria-label="Date range">
+					<div class="saRangeValue" id="dateRangeInputStart">Date from</div>
 					<span aria-hidden="true" class="saSep">—</span>
-					<div class="saRangeValue" id="dateRangeInputEnd">yyyy-mm-dd</div>
+					<div class="saRangeValue" id="dateRangeInputEnd">Date to</div>
 					<div class="saTrailingIconsWrapper">
 						<div class="saIcon saActionIcon far fa-calendar" type="button"
 							style="height: 40px; width: 40px; right: -7px; margin: 0; border-radius: 8px;">
@@ -112,6 +113,13 @@
 				}
 			});
 
+			$('.saPill').click(function (e) {
+				$('.saBottomSheetOverlay').hide();
+					$startInput.removeClass('saActive');
+					$endInput.removeClass('saActive');
+					$('#dateRange').attr('aria-expanded', 'false');
+			});
+
 			$('#dateRange').click(function (e) {
 				$('.saBottomSheetOverlay').show();
 				$startInput.addClass('saActive');
@@ -140,6 +148,81 @@
 			let $monthDiv = null;
 			let $weekRow = null;
 
+			let placeholderHTML = `
+			    <div class="saDatePickerMonth saPlaceholder" aria-hidden="true">
+			        <div class="saDatePickerMonthHeading">
+			            <div class="saMonthWrapper">
+			                <button class="saMonth" disabled>
+			                    <time>Month Year</time>
+			                    <i class="saIcon far fa-angle-down"></i>
+			                </button>
+			            </div>
+			        </div>
+			        <div class="saDayRow">
+			            <div class="saWeekNr saEmpty"></div>
+			            <div class="saDay"><abbr>Mon</abbr></div>
+			            <div class="saDay"><abbr>Tue</abbr></div>
+			            <div class="saDay"><abbr>Wed</abbr></div>
+			            <div class="saDay"><abbr>Thu</abbr></div>
+			            <div class="saDay"><abbr>Fri</abbr></div>
+			            <div class="saDay"><abbr>Sat</abbr></div>
+			            <div class="saDay"><abbr>Sun</abbr></div>
+			        </div>
+			        <div class="saDateRow">
+			            <time class="saWeekNr">W</time>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			        </div>
+					 <div class="saDateRow">
+			            <time class="saWeekNr">W</time>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			        </div>
+					 <div class="saDateRow">
+			            <time class="saWeekNr">W</time>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			        </div>
+					<div class="saDateRow">
+			            <time class="saWeekNr">W</time>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			        </div>
+					<div class="saDateRow">
+			            <time class="saWeekNr">W</time>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			            <div class="saDate saDateElement saEmpty"></div>
+			        </div>
+			    </div>
+			`;
+
+			//$container.append(placeholderHTML);
+
 			dateArray.forEach(originalDate => {
 				let date = new Date(originalDate);
 
@@ -148,26 +231,26 @@
 					currentMonth = monthLabel;
 
 					$monthDiv = $(`
-            <div class="saDatePickerMonth" aria-label="${monthLabel}">
-                <div class="saDatePickerMonthHeading">
-                    <div class="saMonthWrapper">
-                        <button class="saMonth" aria-expanded="false" aria-label="${monthLabel}">
-                            <time datetime="${date.toISOString().slice(0, 7)}">${monthLabel}</time>
-                            <i class="saIcon far fa-angle-down"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="saDayRow">
-                    <div class="saWeekNr saEmpty"></div>
-                    <div class="saDay" aria-label="Monday"><abbr>Mon</abbr></div>
-                    <div class="saDay" aria-label="Tuesday"><abbr>Tue</abbr></div>
-                    <div class="saDay" aria-label="Wednesday"><abbr>Wed</abbr></div>
-                    <div class="saDay" aria-label="Thursday"><abbr>Thu</abbr></div>
-                    <div class="saDay" aria-label="Friday"><abbr>Fri</abbr></div>
-                    <div class="saDay" aria-label="Saturday"><abbr>Sat</abbr></div>
-                    <div class="saDay" aria-label="Sunday"><abbr>Sun</abbr></div>
-                </div>
-            </div>`);
+        		    <div class="saDatePickerMonth" aria-label="${monthLabel}">
+        		        <div class="saDatePickerMonthHeading">
+        		            <div class="saMonthWrapper">
+        		                <button class="saMonth" aria-expanded="false" aria-label="${monthLabel}">
+        		                    <time datetime="${date.toISOString().slice(0, 7)}">${monthLabel}</time>
+        		                    <i class="saIcon far fa-angle-down"></i>
+        		                </button>
+        		            </div>
+        		        </div>
+        		        <div class="saDayRow">
+        		            <div class="saWeekNr saEmpty"></div>
+        		            <div class="saDay" aria-label="Monday"><abbr>Mon</abbr></div>
+        		            <div class="saDay" aria-label="Tuesday"><abbr>Tue</abbr></div>
+        		            <div class="saDay" aria-label="Wednesday"><abbr>Wed</abbr></div>
+        		            <div class="saDay" aria-label="Thursday"><abbr>Thu</abbr></div>
+        		            <div class="saDay" aria-label="Friday"><abbr>Fri</abbr></div>
+        		            <div class="saDay" aria-label="Saturday"><abbr>Sat</abbr></div>
+        		            <div class="saDay" aria-label="Sunday"><abbr>Sun</abbr></div>
+        		        </div>
+        		    </div>`);
 
 					$container.append($monthDiv);
 
@@ -237,6 +320,64 @@
 			const $startInput = $('#dateRangeInputStart2, #dateRangeInputStart');
 			const $endInput = $('#dateRangeInputEnd2, #dateRangeInputEnd');
 
+			$startInput.on('change', function () {
+				const startDate = new Date($(this).val());
+				const endDate = new Date($endInput.val());
+
+				if (isNaN(startDate)) return; // Skip if invalid date
+
+				// Validate and update the date range
+				if (!isNaN(endDate) && startDate > endDate) {
+					$endInput.val($(this).val()); // Auto-adjust end date to match start date
+				}
+
+				updateDateRange(startDate, endDate);
+			});
+
+			$endInput.on('change', function () {
+				const startDate = new Date($startInput.val());
+				const endDate = new Date($(this).val());
+
+				if (isNaN(endDate)) return;
+
+				if (!isNaN(startDate) && endDate < startDate) {
+					$startInput.val($(this).val());
+				}
+
+				updateDateRange(startDate, endDate);
+			});
+
+			function updateDateRange(startDate, endDate) {
+				// Reset all classes and attributes
+				$('.saDateRangePickerWrapper .saDateElement')
+					.removeClass('saDateStart saDateEnd saDateInRange saDateActive')
+					.attr({ 'aria-selected': 'false', 'aria-pressed': 'false' });
+
+				// Validate startDate and endDate
+				if (isNaN(startDate) || isNaN(endDate)) {
+					console.warn('Invalid date range:', { startDate, endDate });
+					return;
+				}
+
+				$('.saDateElement').each(function () {
+					const currentDate = new Date($(this).find('time').attr('datetime'));
+
+					if (currentDate.getTime() === startDate.getTime()) {
+						$(this)
+							.addClass('saDateStart saDateActive')
+							.attr({ 'aria-selected': 'true', 'aria-pressed': 'true' });
+					} else if (currentDate.getTime() === endDate.getTime()) {
+						$(this)
+							.addClass('saDateEnd saDateActive')
+							.attr({ 'aria-selected': 'true', 'aria-pressed': 'true' });
+					} else if (currentDate > startDate && currentDate < endDate) {
+						$(this)
+							.addClass('saDateInRange')
+							.attr({ 'aria-selected': 'false', 'aria-pressed': 'true' });
+					}
+				});
+			}
+
 			$('.saDateRangePickerWrapper .saDateElement').on('click', function () {
 				let $this = $(this);
 				let dateValue = $this.attr('aria-label');
@@ -304,15 +445,22 @@
 						let hoverDate = $(this).attr('aria-label');
 
 						// Reset classes and attributes
-						$('.saDateRangePickerWrapper .saDateElement').removeClass('saDateInRange saDateStart saDateEnd saDateActive')
+						$('.saDateRangePickerWrapper .saDateElement')
+							.removeClass('saDateInRange saDateStart saDateEnd saDateActive')
 							.attr({ 'aria-selected': 'false', 'aria-pressed': 'false' });
 
 						// Determine hover range
 						let hoverStartDate = startDate;
 						let hoverEndDate = hoverDate;
 
+						// Swap start and end if hover date is before the current start date
 						if (new Date(hoverDate) < new Date(startDate)) {
 							[hoverStartDate, hoverEndDate] = [hoverDate, startDate];
+							$endInput.removeClass('saActive'); // Activate end input
+							$startInput.addClass('saActive'); // Deactivate start input
+						} else {
+							$startInput.removeClass('saActive'); // Activate start input
+							$endInput.addClass('saActive'); // Deactivate end input
 						}
 
 						// Highlight hover range
@@ -323,27 +471,32 @@
 							}
 						});
 
-						$(`.saDateElement[aria-label="${hoverStartDate}"]`).addClass('saDateStart saDateActive')
+						// Highlight start and end dates
+						$(`.saDateElement[aria-label="${hoverStartDate}"]`)
+							.addClass('saDateStart saDateActive')
 							.removeClass('saDateInRange');
-						$(`.saDateElement[aria-label="${hoverEndDate}"]`).addClass('saDateEnd saDateActive')
+						$(`.saDateElement[aria-label="${hoverEndDate}"]`)
+							.addClass('saDateEnd saDateActive')
 							.removeClass('saDateInRange');
 
-						$startInput.val(formatDate(hoverStartDate));
-						$endInput.val(formatDate(hoverEndDate));
+						// Update input values
+						$startInput.val(formatDate(hoverStartDate)).text(formatDate(hoverStartDate));
+						$endInput.val(formatDate(hoverEndDate)).text(formatDate(hoverEndDate));
 					}
 				},
 				function () {
-
+					// Reset to current start and end dates on hover out
 					if (isSelectingEndDate && startDate) {
-						$startInput.val(formatDate(startDate));
+						$startInput.val(formatDate(startDate)).text(formatDate(startDate));
 						$endInput.val('');
 
-						if (endDate) {;
-							$endInput.val(formatDate(endDate));
+						if (endDate) {
+							$endInput.val(formatDate(endDate)).text(formatDate(endDate));
 						}
 					}
 				}
 			);
+
 
 
 			function formatDate(dateStr) {
