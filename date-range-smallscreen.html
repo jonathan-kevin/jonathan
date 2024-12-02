@@ -32,9 +32,9 @@
 
 				<button id="dateRange" class="saInputDateRangeSmallScreen saInputTextWrapper" aria-expanded="false"
 					aria-label="Date range">
-					<div class="saRangeValue" id="dateRangeInputStart">Date from</div>
+					<div class="saRangeValue" id="dateRangeInputStart">yyyy-mm-dd</div>
 					<span aria-hidden="true" class="saSep">—</span>
-					<div class="saRangeValue" id="dateRangeInputEnd">Date to</div>
+					<div class="saRangeValue" id="dateRangeInputEnd">yyyy-mm-dd</div>
 					<div class="saTrailingIconsWrapper">
 						<div class="saIcon saActionIcon far fa-calendar" type="button"
 							style="height: 40px; width: 40px; right: -7px; margin: 0; border-radius: 8px;">
@@ -103,25 +103,27 @@
 	<script>
 
 		$(document).ready(function () {
+			const $sheetOverlay = $('.saBottomSheetOverlay');
 
 			$(document).on('keydown', function (event) {
 				if (event.key === "Escape") {
-					$('.saBottomSheetOverlay').hide();
+					$sheetOverlay.hide();
 					$startInput.removeClass('saActive');
 					$endInput.removeClass('saActive');
 					$('#dateRange').attr('aria-expanded', 'false');
 				}
 			});
 
+
 			$('.saPill').click(function (e) {
-				$('.saBottomSheetOverlay').hide();
+				$sheetOverlay.hide();
 					$startInput.removeClass('saActive');
 					$endInput.removeClass('saActive');
 					$('#dateRange').attr('aria-expanded', 'false');
 			});
 
 			$('#dateRange').click(function (e) {
-				$('.saBottomSheetOverlay').show();
+				$sheetOverlay.show();
 				$startInput.addClass('saActive');
 				$endInput.removeClass('saActive');
 				$('#dateRange').attr('aria-expanded', 'true');
@@ -320,6 +322,17 @@
 			const $startInput = $('#dateRangeInputStart2, #dateRangeInputStart');
 			const $endInput = $('#dateRangeInputEnd2, #dateRangeInputEnd');
 
+			$($startInput).click(function (e) {
+				$endInput.removeClass('saActive');
+				$startInput.addClass('saActive');
+			});
+
+			$($endInput).click(function (e) {
+				$startInput.removeClass('saActive');
+				$endInput.addClass('saActive');
+			});
+
+
 			$startInput.on('change', function () {
 				const startDate = new Date($(this).val());
 				const endDate = new Date($endInput.val());
@@ -431,7 +444,7 @@
 					$('.saDateRangePickerWrapper').find('.saDateStart').length > 0 &&
 					$('.saDateRangePickerWrapper').find('.saDateEnd').length > 0
 				) {
-					$('.saBottomSheetOverlay').hide();
+					$sheetOverlay.hide();
 					$startInput.removeClass('saActive');
 					$endInput.removeClass('saActive');
 					$('#dateRange').attr('aria-expanded', 'false');
