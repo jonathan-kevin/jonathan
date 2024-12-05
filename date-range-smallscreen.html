@@ -30,9 +30,9 @@
 					</div>
 				</label>
 
-				<button id="dateRange" class="saInputDateRangeSmallScreen saInputTextWrapper saPlaceholder" aria-expanded="false"
+				<button id="dateRange" class="saInputDateRangeSmallScreen saInputTextWrapper" aria-expanded="false"
 					aria-label="Date range">
-					<div class="saRangeValue" id="dateRangeInputStart">Select date range</div>
+					<div class="saRangeValue" id="dateRangeInputStart"></div>
 					<span aria-hidden="true" class="saSep">—</span>
 					<div class="saRangeValue" id="dateRangeInputEnd"></div>
 					<div class="saTrailingIconsWrapper">
@@ -124,9 +124,9 @@
 
 			$('#dateRange').click(function (e) {
 				$sheetOverlay.show();
-				$startInput.addClass('saActive').text('');
+				$startInput.addClass('saActive');
 				$endInput.removeClass('saActive');
-				$('#dateRange').attr('aria-expanded', 'true').removeClass('saPlaceholder');
+				$('#dateRange').attr('aria-expanded', 'true');
 			});
 
 			let firstDate = new Date(2025, 1, 1); // (Months are 0-based)
