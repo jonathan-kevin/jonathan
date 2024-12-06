@@ -16162,19 +16162,49 @@ legend + .saInputCardsWrapper {
   color: #313a44;
   font-family: "Lexend", sans-serif;
 }
-.right.standardview .tox .tox-tinymce {
-  border: 2px solid #adbdd1;
+.right.standardview .tox.tox-tinymce {
+  border: 1px solid var(--Sa-Color-InputFieldBorder);
+  border-radius: 8px;
   font-family: "Lexend", sans-serif;
 }
-.right.standardview .tox .tox.tox-tinymce-inline .tox-editor-header {
-  background-color: #fff;
-  border: 2px solid #adbdd1;
+.right.standardview .tox.tox-tinymce-inline .tox-editor-header {
+  border: 1px solid #f8f9fB;
+  border-radius: 8px;
+}
+.right.standardview .tox .tox-sidebar-wrap:focus-within {
+  box-shadow: inset 0 0 0 2px #2d6ce1;
 }
 .right.standardview .tox .tox-tinymce-aux {
   font-family: "Lexend", sans-serif;
 }
+.right.standardview .tox .tox-button {
+  font-family: "Lexend", sans-serif;
+}
+.right.standardview .tox .tox-tinymce-aux {
+  font-family: "Lexend", sans-serif;
+}
+.right.standardview .tox .tox-dialog__title {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.right.standardview .tox:not(.tox-tinymce-inline) .tox-editor-header {
+  background-color: #fff;
+  box-shadow: none;
+  border-bottom: 1px solid var(--Sa-Color-InputFieldBorder);
+}
+.right.standardview .tox .tox-form__group {
+  margin-bottom: 16px;
+}
+.right.standardview .tox .tox-form__group ::placeholder {
+  color: #60748b;
+}
+.right.standardview .tox:not([dir="rtl"]) .tox-form__controls-h-stack > :not(:first-child) {
+  margin-left: 8px;
+}
 .right.standardview .tox .tox-dialog__body-content .accessibility-issue--info .accessibility-issue__description {
-  background-color: rgba(0, 101, 216, 0.1);
+  background-color: #eef1f5;
   color: #313a44;
 }
 .right.standardview .tox .tox-dialog__body-content .accessibility-issue--info .tox-form__group h2 {
@@ -16264,9 +16294,15 @@ legend + .saInputCardsWrapper {
   box-shadow: inset 0 0 0 2px #fff, 0 0 0 1px #2d6ce1;
 }
 .right.standardview .tox .tox-button[disabled] {
-  background-color: #cfd2f8;
-  border-color: #cfd2f8;
-  color: #fff;
+  background-color: transparent;
+  border-color: transparent;
+  color: #adbdd1;
+}
+.right.standardview .tox .tox-button[disabled] svg {
+  fill: #adbdd1;
+}
+.right.standardview .tox .tox-button svg {
+  fill: #60748b;
 }
 .right.standardview .tox .tox-button:focus:not(:disabled),
 .right.standardview .tox .tox-button:hover:not(:disabled) {
@@ -16328,6 +16364,7 @@ legend + .saInputCardsWrapper {
 .right.standardview .tox .tox-button--secondary.tox-button--enabled[disabled] {
   background-color: #f8f9fB;
   color: #adbdd1;
+  border-color: #adbdd1;
 }
 .right.standardview .tox .tox-button--secondary.tox-button--enabled:hover:not(:disabled),
 .right.standardview .tox .tox-button--secondary.tox-button--enabled:focus:not(:disabled) {
@@ -16345,10 +16382,17 @@ legend + .saInputCardsWrapper {
 }
 .right.standardview .tox .tox-button--naked {
   color: #313a44;
+  background-color: transparent;
+  border: none;
+}
+.right.standardview .tox .tox-button--naked svg {
+  fill: #7088a4;
 }
 .right.standardview .tox .tox-button--naked[disabled] {
-  background-color: #eef1f5;
   color: #adbdd1;
+}
+.right.standardview .tox .tox-button--naked[disabled] svg {
+  fill: #adbdd1;
 }
 .right.standardview .tox .tox-button--naked:hover:not(:disabled),
 .right.standardview .tox .tox-button--naked:focus:not(:disabled) {
@@ -16362,82 +16406,83 @@ legend + .saInputCardsWrapper {
 .right.standardview .tox .tox-button--naked.tox-button--icon:hover:not(:disabled) {
   color: #2d6ce1;
 }
-.right.standardview .tox .tox-checkbox__icons .tox-checkbox-icon__unchecked svg {
-  fill: #eef1f5;
-}
-.right.standardview .tox .tox-checkbox__icons .tox-checkbox-icon__indeterminate svg,
-.right.standardview .tox .tox-checkbox__icons .tox-checkbox-icon__checked svg {
-  fill: #2d6ce1;
-}
-.right.standardview .tox .tox-checkbox--disabled {
-  color: rgba(34, 47, 62, 0.5);
-}
-.right.standardview .tox .tox-checkbox--disabled .tox-checkbox__icons .tox-checkbox-icon__checked svg {
-  fill: rgba(34, 47, 62, 0.5);
-}
-.right.standardview .tox .tox-checkbox--disabled .tox-checkbox__icons .tox-checkbox-icon__unchecked svg {
-  fill: rgba(34, 47, 62, 0.5);
-}
-.right.standardview .tox .tox-checkbox--disabled .tox-checkbox__icons .tox-checkbox-icon__indeterminate svg {
-  fill: rgba(34, 47, 62, 0.5);
-}
-.right.standardview .tox input.tox-checkbox__input:focus + .tox-checkbox__icons {
-  box-shadow: inset 0 0 0 1px #2d6ce1;
-}
 .right.standardview .tox .tox-collection--list .tox-collection__group {
   border-color: #ccd5e2;
 }
 .right.standardview .tox .tox-collection__group-heading {
   background-color: #eef1f5;
-  color: rgba(34, 47, 62, 0.702);
+  color: #313a44;
 }
 .right.standardview .tox .tox-collection__item {
   color: #313a44;
+}
+.right.standardview .tox .tox-collection__item-checkmark svg {
+  fill: #1f59bf;
+}
+.right.standardview .tox .tox-collection__item-icon svg {
+  fill: #60748b;
 }
 .right.standardview .tox .tox-collection--list .tox-collection__item--enabled {
   background-color: #fff;
   color: #313a44;
 }
 .right.standardview .tox .tox-collection--list .tox-collection__item--active {
-  background-color: #f9f9fe;
+  background-color: #eff0fd;
+  color: #1f59bf;
+}
+.right.standardview .tox .tox-collection--list .tox-collection__item--active svg {
+  fill: #2d6ce1;
+}
+.right.standardview .tox .tox-collection--list .tox-collection__item--active.tox-collection__item--state-disabled {
+  background-color: #fff;
+  color: #adbdd1;
+}
+.right.standardview .tox .tox-collection--list .tox-collection__item--active.tox-collection__item--state-disabled svg {
+  fill: #adbdd1;
 }
 .right.standardview .tox .tox-collection--toolbar .tox-collection__item--enabled {
-  background-color: #a6ccf7;
-  color: #313a44;
+  background-color: #eff0fd;
+  color: #1f59bf;
 }
 .right.standardview .tox .tox-collection--toolbar .tox-collection__item--active {
-  background-color: #cce2fa;
+  background-color: #eff0fd;
+  color: #1f59bf;
+}
+.right.standardview .tox .tox-collection--toolbar .tox-collection__item--active.tox-collection__item--state-disabled {
+  background-color: #fff;
+  color: #adbdd1;
+}
+.right.standardview .tox .tox-collection--toolbar .tox-collection__item--active.tox-collection__item--state-disabled svg {
+  fill: #adbdd1;
 }
 .right.standardview .tox .tox-collection--grid .tox-collection__item--enabled {
-  background-color: #a6ccf7;
-  color: #313a44;
+  background-color: #eff0fd;
+  color: #1f59bf;
 }
 .right.standardview .tox .tox-collection--grid .tox-collection__item--active:not(.tox-collection__item--state-disabled) {
-  background-color: #cce2fa;
-  color: #313a44;
+  background-color: #eff0fd;
+  color: #1f59bf;
 }
 .right.standardview .tox .tox-collection--list .tox-collection__item--active:not(.tox-collection__item--state-disabled) {
-  color: #313a44;
-}
-.right.standardview .tox .tox-collection--toolbar .tox-collection__item--active:not(.tox-collection__item--state-disabled) {
-  color: #313a44;
+  color: #1f59bf;
 }
 .right.standardview .tox .tox-collection__item-accessory {
-  color: rgba(34, 47, 62, 0.7);
+  color: #506072;
+  font-size: 12px;
 }
 .right.standardview .tox .tox-collection__item-caret svg {
-  fill: #313a44;
+  fill: #60748b;
 }
 .right.standardview .tox .tox-collection__item--state-disabled {
-  color: rgba(34, 47, 62, 0.5);
+  color: #adbdd1;
 }
-.right.standardview .tox .tox-collection__item--state-disabled .tox-collection__item-caret svg {
-  fill: rgba(34, 47, 62, 0.5);
+.right.standardview .tox .tox-collection__item--state-disabled svg {
+  fill: #adbdd1;
 }
 .right.standardview .tox .tox-collection--horizontal {
   background-color: #fff;
   border: 1px solid #ccd5e2;
-  box-shadow: 0 0 2px 0 rgba(34, 47, 62, 0.2), 0 4px 8px 0 rgba(34, 47, 62, 0.15);
+  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 4px rgba(49, 58, 68, 0.07);
 }
 .right.standardview .tox .tox-sv-palette-thumb {
   border: 1px solid #313a44;
@@ -16488,7 +16533,7 @@ legend + .saInputCardsWrapper {
 .right.standardview .tox .tox-comment {
   background: #fff;
   border: 1px solid #adbdd1;
-  box-shadow: 0 4px 8px 0 rgba(34, 47, 62, 0.1);
+  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 4px rgba(49, 58, 68, 0.07);
 }
 .right.standardview .tox .tox-comment__header {
   color: #313a44;
@@ -16500,7 +16545,7 @@ legend + .saInputCardsWrapper {
   color: #313a44;
 }
 .right.standardview .tox .tox-comment__expander p {
-  color: rgba(34, 47, 62, 0.7);
+  color: #313a44;
 }
 .right.standardview .tox .tox-comment-thread__overlay::after {
   background: #fff;
@@ -16523,13 +16568,13 @@ legend + .saInputCardsWrapper {
   background-color: #fff;
 }
 .right.standardview .tox .tox-user__avatar svg {
-  fill: rgba(34, 47, 62, 0.7);
+  fill: #313a44;
 }
 .right.standardview .tox .tox-user__name {
   color: #313a44;
 }
 .right.standardview .tox .tox-dialog-wrap__backdrop {
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(49, 58, 68, 0.2);
 }
 .right.standardview .tox .tox-dialog-wrap__backdrop--opaque {
   background-color: #fff;
@@ -16537,11 +16582,12 @@ legend + .saInputCardsWrapper {
 .right.standardview .tox .tox-dialog {
   background-color: #fff;
   border-color: #adbdd1;
-  box-shadow: 0 16px 16px -10px rgba(34, 47, 62, 0.15), 0 0 40px 1px rgba(34, 47, 62, 0.15);
+  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 4px rgba(49, 58, 68, 0.07);
 }
 .right.standardview .tox .tox-dialog__header {
   background-color: #fff;
   color: #313a44;
+  padding: 8px 8px 0 16px;
 }
 .right.standardview .tox .tox-dialog__title {
   font-family: "Lexend", sans-serif;
@@ -16551,7 +16597,7 @@ legend + .saInputCardsWrapper {
 }
 .right.standardview .tox .tox-dialog__body-nav-item {
   border-bottom: 2px solid transparent;
-  color: rgba(34, 47, 62, 0.7);
+  color: #313a44;
 }
 .right.standardview .tox .tox-dialog__body-nav-item:focus {
   background-color: rgba(0, 108, 231, 0.1);
@@ -16597,6 +16643,7 @@ legend + .saInputCardsWrapper {
 }
 .right.standardview .tox .tox-dialog__footer {
   background-color: #fff;
+  padding: 8px;
 }
 .right.standardview .tox .tox-dialog__busy-spinner {
   background-color: rgba(255, 255, 255, 0.75);
@@ -16622,7 +16669,7 @@ legend + .saInputCardsWrapper {
   border: 2px dashed #adbdd1;
 }
 .right.standardview .tox .tox-dropzone p {
-  color: rgba(34, 47, 62, 0.7);
+  color: #313a44;
 }
 .right.standardview .tox .tox-edit-area::before {
   border: 2px solid #2d6ce1;
@@ -16630,24 +16677,8 @@ legend + .saInputCardsWrapper {
 .right.standardview .tox .tox-edit-area__iframe {
   background-color: #fff;
 }
-.right.standardview .tox .tox.tox-inline-edit-area {
+.right.standardview .tox .tox-inline-edit-area {
   border: 1px dotted #adbdd1;
-}
-.right.standardview .tox .tox:not(.tox-tinymce-inline) .tox-editor-header {
-  background-color: #fff;
-  box-shadow: 0 2px 2px -2px rgba(34, 47, 62, 0.1), 0 8px 8px -4px rgba(34, 47, 62, 0.07);
-}
-.right.standardview .tox .tox:not(.tox-tinymce-inline).tox-tinymce--toolbar-bottom .tox-editor-header {
-  border-top: 1px solid #ccd5e2;
-}
-.right.standardview .tox .tox:not(.tox-tinymce-inline).tox-tinymce--toolbar-sticky-on .tox-editor-header {
-  background-color: #fff;
-  box-shadow: 0 2px 2px -2px rgba(34, 47, 62, 0.2), 0 8px 8px -4px rgba(34, 47, 62, 0.15);
-}
-.right.standardview .tox .tox:not(
-			.tox-tinymce-inline
-		).tox-tinymce--toolbar-sticky-on.tox-tinymce--toolbar-bottom .tox-editor-header {
-  box-shadow: 0 2px 2px -2px rgba(34, 47, 62, 0.2), 0 8px 8px -4px rgba(34, 47, 62, 0.15);
 }
 .right.standardview .tox .tox-control-wrap__status-icon-invalid svg {
   fill: #e0163e;
@@ -16659,15 +16690,13 @@ legend + .saInputCardsWrapper {
 .right.standardview .tox .tox-color-input span:hover:not([aria-disabled="true"]) {
   border-color: #2d6ce1;
 }
-.right.standardview .tox .tox-color-input span::before {
-  background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.25) 25%, transparent 25%), linear-gradient(-45deg, rgba(0, 0, 0, 0.25) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.25) 75%), linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.25) 75%);
-  background-position: 0 0, 0 6px, 6px -6px, -6px 0;
-  background-size: 12px 12px;
-  border: 1px solid #fff;
+.right.standardview .tox .tox-label {
+  padding-bottom: 4px;
 }
 .right.standardview .tox .tox-label,
 .right.standardview .tox .tox-toolbar-label {
-  color: rgba(34, 47, 62, 0.7);
+  color: #313a44;
+  font-weight: 500;
 }
 .right.standardview .tox .tox-form__group--error {
   color: #e0163e;
@@ -16678,14 +16707,14 @@ legend + .saInputCardsWrapper {
 .right.standardview .tox .tox-textfield,
 .right.standardview .tox .tox-toolbar-textfield {
   background-color: #fff;
-  border-color: #adbdd1;
+  border-color: #ccd5e2;
   color: #313a44;
   font-family: "Lexend", sans-serif;
 }
 .right.standardview .tox .tox-textarea[disabled],
 .right.standardview .tox .tox-textfield[disabled] {
-  background-color: #f2f2f2;
-  color: rgba(34, 47, 62, 0.85);
+  background-color: #eef1f5;
+  color: #adbdd1;
 }
 .right.standardview .tox .tox-custom-editor:focus-within,
 .right.standardview .tox .tox-listboxfield .tox-listbox--select:focus,
@@ -16694,7 +16723,7 @@ legend + .saInputCardsWrapper {
 .right.standardview .tox .tox-textfield:focus {
   background-color: #fff;
   border-color: #2d6ce1;
-  box-shadow: 0 0 0 2px rgba(0, 108, 231, 0.25);
+  box-shadow: 0 0 0 1px #2d6ce1;
 }
 .right.standardview .tox .tox-naked-btn {
   box-shadow: unset;
@@ -16704,8 +16733,8 @@ legend + .saInputCardsWrapper {
   fill: #313a44;
 }
 .right.standardview .tox .tox-listboxfield .tox-listbox--select[disabled] {
-  background-color: #f2f2f2;
-  color: rgba(34, 47, 62, 0.85);
+  background-color: #eef1f5;
+  color: #adbdd1;
 }
 .right.standardview .tox .tox-listbox__select-chevron svg {
   fill: #313a44;
@@ -16717,13 +16746,13 @@ legend + .saInputCardsWrapper {
   font-family: "Lexend", sans-serif;
 }
 .right.standardview .tox .tox-selectfield select[disabled] {
-  background-color: #f2f2f2;
-  color: rgba(34, 47, 62, 0.85);
+  background-color: #eef1f5;
+  color: #adbdd1;
 }
 .right.standardview .tox .tox-selectfield select:focus {
   background-color: #fff;
   border-color: #2d6ce1;
-  box-shadow: 0 0 0 2px rgba(0, 108, 231, 0.25);
+  box-shadow: 0 0 0 2px #2d6ce1;
 }
 .right.standardview .tox .tox-textarea-wrap {
   border-color: #adbdd1;
@@ -16738,18 +16767,18 @@ legend + .saInputCardsWrapper {
   border: 2px solid #fff;
 }
 .right.standardview .tox .tox-insert-table-picker > div {
-  border-color: #adbdd1;
+  border-color: #ccd5e2;
 }
 .right.standardview .tox .tox-insert-table-picker .tox-insert-table-picker__selected {
-  background-color: rgba(0, 108, 231, 0.5);
-  border-color: rgba(0, 108, 231, 0.5);
+  background-color: rgba(45, 108, 225, 0.5);
+  border-color: #2d6ce1;
 }
 .right.standardview .tox .tox-insert-table-picker__label {
-  color: rgba(34, 47, 62, 0.7);
+  color: #313a44;
 }
 .right.standardview .tox .tox-menu {
   background-color: #fff;
-  box-shadow: 0 0 2px 0 rgba(34, 47, 62, 0.2), 0 4px 8px 0 rgba(34, 47, 62, 0.15);
+  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 4px rgba(49, 58, 68, 0.07);
 }
 .right.standardview .tox .tox-menubar {
   background-color: #fff;
@@ -16773,20 +16802,26 @@ legend + .saInputCardsWrapper {
 .right.standardview .tox .tox-mbtn {
   color: #313a44;
 }
+.right.standardview .tox .tox-mbtn:enabled:not(.tox-tbtn--disabled) {
+  cursor: pointer;
+}
+.right.standardview .tox .tox-mbtn:enabled:not(.tox-tbtn--disabled) .tox-mbtn__select-label {
+  cursor: pointer;
+}
 .right.standardview .tox .tox-mbtn[disabled] {
-  color: rgba(34, 47, 62, 0.5);
+  color: #adbdd1;
 }
 .right.standardview .tox .tox-mbtn:focus:not(:disabled) {
-  background: #cce2fa;
-  color: #313a44;
+  background: #f9f9fe;
+  color: #2d6ce1;
 }
 .right.standardview .tox .tox-mbtn--active {
-  background: #a6ccf7;
-  color: #313a44;
+  background: #eff0fd;
+  color: #1f59bf;
 }
 .right.standardview .tox .tox-mbtn:hover:not(:disabled):not(.tox-mbtn--active) {
-  background: #cce2fa;
-  color: #313a44;
+  background: #eff0fd;
+  color: #1f59bf;
 }
 .right.standardview .tox .tox-notification--success {
   background-color: #f3fcf3;
@@ -16794,7 +16829,7 @@ legend + .saInputCardsWrapper {
   color: #313a44;
 }
 .right.standardview .tox .tox-notification--success p {
-  color: #313a44;
+  color: #1c4120;
 }
 .right.standardview .tox .tox-notification--success a {
   color: #278239;
@@ -16814,7 +16849,7 @@ legend + .saInputCardsWrapper {
   color: #b81c34;
 }
 .right.standardview .tox .tox-notification--error svg {
-  fill: #956a15;
+  fill: #e0163e;
 }
 .right.standardview .tox .tox-notification--warn,
 .right.standardview .tox .tox-notification--warning {
@@ -16854,7 +16889,7 @@ legend + .saInputCardsWrapper {
 .right.standardview .tox .tox-pop__dialog {
   background-color: #fff;
   border: 1px solid #adbdd1;
-  box-shadow: 0 0 2px 0 rgba(34, 47, 62, 0.2), 0 4px 8px 0 rgba(34, 47, 62, 0.15);
+  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 4px rgba(49, 58, 68, 0.07);
 }
 .right.standardview .tox .tox-pop.tox-pop--bottom::after {
   border-color: #fff transparent transparent transparent;
@@ -16887,73 +16922,52 @@ legend + .saInputCardsWrapper {
   background-color: #6181e6;
   border-color: #6181e6;
 }
-.right.standardview .tox .tox-slider__rail {
-  border: 1px solid #adbdd1;
-}
-.right.standardview .tox .tox-slider__handle {
-  background-color: #2d6ce1;
-  border: 2px solid #2d6ce1;
-}
-.right.standardview .tox .tox-spinner > div {
-  background-color: rgba(34, 47, 62, 0.7);
-}
-.right.standardview .tox .tox-statusbar {
-  background-color: #fff;
-  border-top: 1px solid #ccd5e2;
-  color: rgba(34, 47, 62, 0.7);
-}
-.right.standardview .tox .tox-statusbar a,
-.right.standardview .tox .tox-statusbar__path-item,
-.right.standardview .tox .tox-statusbar__wordcount {
-  color: rgba(34, 47, 62, 0.7);
-}
-.right.standardview .tox .tox-statusbar a:focus:not(:disabled):not([aria-disabled="true"]),
-.right.standardview .tox .tox-statusbar a:hover:not(:disabled):not([aria-disabled="true"]),
-.right.standardview .tox .tox-statusbar__path-item:focus:not(:disabled):not([aria-disabled="true"]),
-.right.standardview .tox .tox-statusbar__path-item:hover:not(:disabled):not([aria-disabled="true"]),
-.right.standardview .tox .tox-statusbar__wordcount:focus:not(:disabled):not([aria-disabled="true"]),
-.right.standardview .tox .tox-statusbar__wordcount:hover:not(:disabled):not([aria-disabled="true"]) {
-  color: #313a44;
-}
-.right.standardview .tox .tox-statusbar__branding svg {
-  fill: rgba(34, 47, 62, 0.8);
-}
-.right.standardview .tox .tox-statusbar__branding a:focus:not(:disabled):not([aria-disabled="true"]) svg,
-.right.standardview .tox .tox-statusbar__branding a:hover:not(:disabled):not([aria-disabled="true"]) svg {
-  fill: #313a44;
-}
-.right.standardview .tox .tox-statusbar__resize-handle svg {
-  fill: #ccd5e2;
-}
-.right.standardview .tox .tox-statusbar__resize-handle:focus svg {
-  background-color: #adbdd1;
-  box-shadow: 0 0 0 2px #adbdd1;
-}
-.right.standardview .tox .tox-throbber__busy-spinner {
-  background-color: rgba(255, 255, 255, 0.6);
-}
 .right.standardview .tox .tox-tbtn {
   color: #313a44;
+  border-radius: 4px;
+  height: 32px;
+  min-height: 32px;
 }
-.right.standardview .tox .tox-tbtn svg {
-  fill: #7088a4;
+.right.standardview .tox .tox-tbtn:enabled {
+  cursor: pointer;
 }
+.right.standardview .tox .tox-tbtn:hover,
 .right.standardview .tox .tox-tbtn:focus {
-  background: #f9f9fe;
-}
-.right.standardview .tox .tox-tbtn:hover {
-  background: #f9f9fe;
+  background: #eff0fd;
   color: #2d6ce1;
 }
-.right.standardview .tox .tox-tbtn:hover svg {
+.right.standardview .tox .tox-tbtn:hover i.far,
+.right.standardview .tox .tox-tbtn:focus i.far {
+  color: #2d6ce1;
+}
+.right.standardview .tox .tox-tbtn:hover svg,
+.right.standardview .tox .tox-tbtn:focus svg {
   fill: #2d6ce1;
 }
 .right.standardview .tox .tox-tbtn:active {
-  background: #eff0fd;
+  background: #cfd2f8;
   color: #1f59bf;
 }
 .right.standardview .tox .tox-tbtn:active svg {
-  fill: #313a44;
+  fill: #1f59bf;
+}
+.right.standardview .tox .tox-tbtn.tox-tbtn--active {
+  background: #eff0fd;
+  color: #2d6ce1;
+  box-shadow: inset 0 0 0 2px #2d6ce1;
+}
+.right.standardview .tox .tox-tbtn.tox-tbtn--active:active svg {
+  fill: #224795;
+}
+.right.standardview .tox .tox-tbtn.tox-tbtn--active svg {
+  fill: #2d6ce1;
+}
+.right.standardview .tox .tox-tbtn i.far {
+  color: #60748b;
+  font-size: 18px;
+}
+.right.standardview .tox .tox-tbtn svg {
+  fill: #60748b;
 }
 .right.standardview .tox .tox-tbtn--disabled .tox-tbtn--enabled svg {
   fill: #adbdd1;
@@ -16963,31 +16977,48 @@ legend + .saInputCardsWrapper {
 .right.standardview .tox .tox-tbtn:disabled,
 .right.standardview .tox .tox-tbtn:disabled:hover {
   color: #adbdd1;
+  background-color: transparent;
+  cursor: not-allowed;
 }
 .right.standardview .tox .tox-tbtn--disabled svg,
 .right.standardview .tox .tox-tbtn--disabled:hover svg,
 .right.standardview .tox .tox-tbtn:disabled svg,
 .right.standardview .tox .tox-tbtn:disabled:hover svg {
-  fill: #ccd5e2;
+  fill: #adbdd1;
 }
-.right.standardview .tox .tox-tbtn--enabled,
-.right.standardview .tox .tox-tbtn--enabled:hover {
-  background: #f9f9fe;
+.right.standardview .tox .tox-tbtn--enabled {
+  background: #eff0fd;
   color: #2d6ce1;
+  border: 2px solid #2d6ce1;
 }
-.right.standardview .tox .tox-tbtn--enabled svg,
-.right.standardview .tox .tox-tbtn--enabled:hover svg {
+.right.standardview .tox .tox-tbtn--enabled svg {
   fill: #2d6ce1;
+}
+.right.standardview .tox .tox-tbtn--enabled:hover {
+  background: #eff0fd;
+  color: #1f59bf;
+  border-color: #1f59bf;
+}
+.right.standardview .tox .tox-tbtn--enabled:hover svg {
+  fill: #1f59bf;
+}
+.right.standardview .tox .tox-tbtn--enabled:active {
+  background: #cfd2f8;
+  color: #224795;
+  border-color: #224795;
+}
+.right.standardview .tox .tox-tbtn--enabled:active svg {
+  fill: #224795;
 }
 .right.standardview .tox .tox-tbtn--enabled.tox-tbtn--disabled svg,
 .right.standardview .tox .tox-tbtn--enabled:hover.tox-tbtn--disabled svg {
   fill: #adbdd1;
 }
 .right.standardview .tox .tox-tbtn:focus:not(.tox-tbtn--disabled) {
-  color: #313a44;
+  color: #2d6ce1;
 }
 .right.standardview .tox .tox-tbtn:focus:not(.tox-tbtn--disabled) svg {
-  fill: #313a44;
+  fill: #2d6ce1;
 }
 .right.standardview .tox .tox-number-input .tox-input-wrapper {
   background: #f8f9fB;
@@ -16998,23 +17029,16 @@ legend + .saInputCardsWrapper {
 .right.standardview .tox .tox-number-input input {
   color: #313a44;
 }
-.right.standardview .tox .tox-number-input input:hover {
-  background: #dde3eC;
-  color: #313a44;
-}
+.right.standardview .tox .tox-number-input input:hover,
 .right.standardview .tox .tox-number-input input:focus {
-  background: #fff;
+  background: #eef1f5;
   color: #313a44;
 }
 .right.standardview .tox .tox-number-input input:disabled {
-  color: rgba(34, 47, 62, 0.5);
+  color: #adbdd1;
 }
 .right.standardview .tox .tox-number-input button {
   background: #f8f9fB;
-  color: #313a44;
-}
-.right.standardview .tox .tox-number-input button svg {
-  fill: #313a44;
 }
 .right.standardview .tox .tox-number-input button:focus {
   background: #f9f9fe;
@@ -17037,7 +17061,10 @@ legend + .saInputCardsWrapper {
   color: #adbdd1;
 }
 .right.standardview .tox .tox-number-input button:disabled svg {
-  fill: #ccd5e2;
+  fill: #adbdd1;
+}
+.right.standardview .tox .tox-number-input button svg {
+  fill: #313a44;
 }
 .right.standardview .tox .tox-number-input:focus:not(:active) > .tox-input-wrapper,
 .right.standardview .tox .tox-number-input:focus:not(:active) > button {
@@ -17048,22 +17075,47 @@ legend + .saInputCardsWrapper {
 }
 .right.standardview .tox .tox-tbtn--bespoke {
   background: #f8f9fB;
+  border: 1px solid #ccd5e2;
 }
-.right.standardview .tox .tox-split-button:hover {
-  box-shadow: 0 0 0 1px #cce2fa inset;
+.right.standardview .tox .tox-tbtn--bespoke:hover {
+  border-color: #2d6ce1;
 }
-.right.standardview .tox .tox-split-button:focus {
-  background: #cce2fa;
-  color: #313a44;
+.right.standardview .tox .tox-split-button {
+  border-radius: 4px;
+}
+.right.standardview .tox .tox-split-button:hover .tox-tbtn,
+.right.standardview .tox .tox-split-button:focus .tox-tbtn,
+.right.standardview .tox .tox-split-button:has(.tox-tbtn--enabled) .tox-tbtn {
+  background-color: #fff;
+  box-shadow: inset 0 0 0 1px #ccd5e2;
+}
+.right.standardview .tox .tox-split-button .tox-tbtn {
+  background-color: #fff;
+  box-shadow: none;
+}
+.right.standardview .tox .tox-split-button .tox-tbtn:first-child {
+  margin-right: -1px;
+}
+.right.standardview .tox .tox-split-button .tox-tbtn:hover {
+  background-color: #eff0fd;
+}
+.right.standardview .tox .tox-split-button .tox-tbtn:active {
+  background-color: #cfd2f8;
+}
+.right.standardview .tox .tox-split-button .tox-tbtn:nth-child(1) {
+  border-radius: 4px 0 0 4px;
+}
+.right.standardview .tox .tox-split-button .tox-tbtn:nth-child(2) {
+  border-radius: 0 4px 4px 0;
 }
 .right.standardview .tox .tox-split-button__chevron svg {
-  fill: rgba(34, 47, 62, 0.5);
+  fill: #7088a4;
 }
 .right.standardview .tox .tox-split-button.tox-tbtn--disabled .tox-tbtn:focus,
 .right.standardview .tox .tox-split-button.tox-tbtn--disabled .tox-tbtn:hover,
 .right.standardview .tox .tox-split-button.tox-tbtn--disabled:focus,
 .right.standardview .tox .tox-split-button.tox-tbtn--disabled:hover {
-  color: rgba(34, 47, 62, 0.5);
+  color: #adbdd1;
 }
 .right.standardview .tox .tox-toolbar-overlord {
   background-color: #fff;
@@ -17071,36 +17123,17 @@ legend + .saInputCardsWrapper {
 .right.standardview .tox .tox-toolbar,
 .right.standardview .tox .tox-toolbar__overflow,
 .right.standardview .tox .tox-toolbar__primary {
-  background-attachment: local;
   background-color: #fff;
-  background-image: repeating-linear-gradient(#ccd5e2 0 1px, transparent 1px 39px);
-  background-position: center top 40px;
-  background-size: calc(100% - 11px * 2) calc(100% - 41px);
+  background-image: none;
 }
-.right.standardview .tox .tox-toolbar-overlord > .tox-toolbar,
-.right.standardview .tox .tox-toolbar-overlord > .tox-toolbar__overflow,
-.right.standardview .tox .tox-toolbar-overlord > .tox-toolbar__primary {
-  background-position: center top 0;
-  background-size: calc(100% - 11px * 2) calc(100% - 0px);
-}
-.right.standardview .tox .tox-toolbar-overlord .tox-toolbar:not(.tox-toolbar--scrolling):first-child,
-.right.standardview .tox .tox-toolbar-overlord .tox-toolbar__primary {
-  background-position: center top 39px;
-}
-.right.standardview .tox .tox.tox-tinymce-aux .tox-toolbar__overflow {
+.right.standardview .tox .tox-tinymce-aux .tox-toolbar__overflow {
   background-color: #fff;
-  background-position: center top 43px;
-  background-size: calc(100% - 8px * 2) calc(100% - 51px);
-  box-shadow: 0 0 2px 0 rgba(34, 47, 62, 0.2), 0 4px 8px 0 rgba(34, 47, 62, 0.15);
-}
-.right.standardview .tox .tox-pop .tox-pop__dialog .tox-toolbar {
-  background-position: center top 43px;
-  background-size: calc(100% - 11px * 2) calc(100% - 51px);
+  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 4px rgba(49, 58, 68, 0.07);
 }
 .right.standardview .tox .tox-tooltip__body {
   background-color: #313a44;
-  box-shadow: 0 2px 4px rgba(34, 47, 62, 0.3);
-  color: rgba(255, 255, 255, 0.75);
+  box-shadow: none;
+  color: #fff;
 }
 .right.standardview .tox .tox-tooltip--down .tox-tooltip__arrow {
   border-left: 8px solid transparent;
@@ -17122,87 +17155,6 @@ legend + .saInputCardsWrapper {
   border-right: 8px solid #313a44;
   border-top: 8px solid transparent;
 }
-.right.standardview .tox .tox-tree .tox-trbtn {
-  color: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-trbtn svg {
-  fill: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-trbtn:focus {
-  background: #cce2fa;
-}
-.right.standardview .tox .tox-tree .tox-trbtn:hover {
-  background: #cce2fa;
-  color: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-trbtn:hover svg {
-  fill: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-trbtn:active {
-  background: #a6ccf7;
-  color: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-trbtn:active svg {
-  fill: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-trbtn--disabled,
-.right.standardview .tox .tox-tree .tox-trbtn--disabled:hover,
-.right.standardview .tox .tox-tree .tox-trbtn:disabled,
-.right.standardview .tox .tox-tree .tox-trbtn:disabled:hover {
-  color: rgba(34, 47, 62, 0.5);
-}
-.right.standardview .tox .tox-tree .tox-trbtn--disabled svg,
-.right.standardview .tox .tox-tree .tox-trbtn--disabled:hover svg,
-.right.standardview .tox .tox-tree .tox-trbtn:disabled svg,
-.right.standardview .tox .tox-tree .tox-trbtn:disabled:hover svg {
-  fill: rgba(34, 47, 62, 0.5);
-}
-.right.standardview .tox .tox-tree .tox-trbtn--enabled,
-.right.standardview .tox .tox-tree .tox-trbtn--enabled:hover {
-  background: #a6ccf7;
-  color: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-trbtn--enabled svg,
-.right.standardview .tox .tox-tree .tox-trbtn--enabled:hover svg {
-  fill: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-trbtn:focus:not(.tox-trbtn--disabled) {
-  color: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-trbtn:focus:not(.tox-trbtn--disabled) svg {
-  fill: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-tree--directory .tox-tree--directory__label .tox-mbtn.tox-mbtn--active svg,
-.right.standardview .tox .tox-tree .tox-tree--directory .tox-tree--directory__label .tox-mbtn:focus svg {
-  fill: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-tree--directory .tox-tree--directory__label:focus .tox-mbtn svg,
-.right.standardview .tox .tox-tree .tox-tree--directory .tox-tree--directory__label:hover .tox-mbtn svg {
-  fill: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-tree--directory .tox-tree--directory__label:hover:has(.tox-mbtn:hover) {
-  color: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-tree--directory .tox-tree--directory__label:hover:has(.tox-mbtn:hover) .tox-chevron svg {
-  fill: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-tree--leaf__label .tox-mbtn.tox-mbtn--active svg,
-.right.standardview .tox .tox-tree .tox-tree--leaf__label .tox-mbtn:focus svg {
-  fill: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-tree--leaf__label:hover .tox-mbtn svg {
-  fill: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-tree--leaf__label:hover:has(.tox-mbtn:hover) {
-  color: #313a44;
-}
-.right.standardview .tox .tox-tree .tox-tree--leaf__label:hover:has(.tox-mbtn:hover) .tox-chevron svg {
-  fill: #313a44;
-}
-.right.standardview .tox .tox-view-wrap,
-.right.standardview .tox .tox-view-wrap__slot-container {
-  background-color: #fff;
-}
 .right.standardview .tox .tox-view__pane_panel {
   border: 1px solid #adbdd1;
 }
@@ -17213,7 +17165,7 @@ legend + .saInputCardsWrapper {
   border: 1px solid #adbdd1;
 }
 .right.standardview .tox .tox-dialog-loading::before {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(49, 58, 68, 0.5);
 }
 .saMultiAutoSearchWrapper {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
