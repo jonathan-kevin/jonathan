@@ -30802,6 +30802,16 @@ summary .saLink:active {
   line-height: 18px;
   color: #60748b;
 }
+.tuxt {
+  position: fixed;
+  color: red;
+  left: 0;
+  top: 0;
+  font-size: 48px;
+  pointer-events: none;
+  z-index: 99999999;
+  display: none;
+}
 .saDialogButtonClose {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
@@ -30826,6 +30836,8 @@ summary .saLink:active {
   display: flex;
   z-index: 1;
   transform: translateY(-64px);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 .saDialogButtonClose .saButtonText {
   overflow: hidden;
@@ -30973,13 +30985,17 @@ body.saDialogOpen .saLightBoxOverlay {
   border-radius: 0;
 }
 .saCanLightBox {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: fit-content;
   height: fit-content;
   cursor: zoom-in;
   box-shadow: 0 0 0 0 #2d6ce1;
   transition: ease box-shadow 0.2s;
   background-color: transparent;
+  padding-inline: 0;
+  padding-block: 0;
 }
 .saCanLightBox img {
   transition: ease opacity 0.2s;
