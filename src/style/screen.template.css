@@ -145,7 +145,6 @@ h6 {
   font-variant: small-caps;
 }
 .TabNums {
-  font-feature-settings: "tnum";
   font-variant-numeric: tabular-nums;
 }
 #theToggler,
@@ -182,37 +181,70 @@ h6 {
 #crowMan {
   right: 10rem;
 }
-/*
-@font-face {
-	font-family: "Lexend";
-	src: url(../Fonts/Lexend-VariableFont_wght.ttf) format("truetype");
-	font-weight: 100 900;
-}*/
 @font-face {
   font-family: "Lexend";
-  src: url(../Fonts/Lexend-Light-Tab-Nums.ttf) format("truetype");
+  src: url(../Fonts/Lexend-VariableFont_wght.ttf) format("truetype");
+  font-weight: 100 900;
+}
+.thin {
+  font-weight: 100;
+}
+.extralight {
+  font-weight: 200;
+}
+.light {
   font-weight: 300;
 }
-@font-face {
-  font-family: "Lexend";
-  src: url(../Fonts/Lexend-Regular-Tab-Nums.ttf) format("truetype");
+.regular {
   font-weight: 400;
 }
-@font-face {
-  font-family: "Lexend";
-  src: url(../Fonts/Lexend-Medium-Tab-Nums.ttf) format("truetype");
+.medium {
   font-weight: 500;
 }
-@font-face {
-  font-family: "Lexend";
-  src: url(../Fonts/Lexend-SemiBold-Tab-Nums.ttf) format("truetype");
+.semibold {
   font-weight: 600;
 }
-@font-face {
-  font-family: "Lexend";
-  src: url(../Fonts/Lexend-Bold-Tab-Nums.ttf) format("truetype");
+.bold {
   font-weight: 700;
 }
+.extrabold {
+  font-weight: 800;
+}
+.black {
+  font-weight: 900;
+}
+/*
+
+@font-face {
+	font-family: "Lexend";
+	src: url(../Fonts/Lexend-Light-Tab-Nums.ttf) format("truetype");
+	font-weight: 300;
+}
+
+@font-face {
+	font-family: "Lexend";
+	src: url(../Fonts/Lexend-Regular-Tab-Nums.ttf) format("truetype");
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: "Lexend";
+	src: url(../Fonts/Lexend-Medium-Tab-Nums.ttf) format("truetype");
+	font-weight: 500;
+}
+
+@font-face {
+	font-family: "Lexend";
+	src: url(../Fonts/Lexend-SemiBold-Tab-Nums.ttf) format("truetype");
+	font-weight: 600;
+}
+
+@font-face {
+	font-family: "Lexend";
+	src: url(../Fonts/Lexend-Bold-Tab-Nums.ttf) format("truetype");
+	font-weight: 700;
+}
+*/
 a,
 button,
 input {
@@ -13812,6 +13844,7 @@ legend + .saInputCardsWrapper {
   width: fit-content;
   transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
   box-shadow: inset 0 0 0 0 transparent;
+  border-radius: 99rem;
   height: unset;
   position: relative;
   background-color: #313a44;
@@ -20135,6 +20168,8 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saMessageBanners {
   box-sizing: border-box;
   z-index: 1;
+  overflow: auto;
+  max-height: 96px;
 }
 .saMessageBanners * {
   box-sizing: border-box;
@@ -20155,8 +20190,6 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   top: 0;
   right: 0;
   height: 32px;
-  background: #f6ae02;
-  color: #313a44;
   font-size: 14px;
   line-height: 20px;
   font-weight: 600;
@@ -20165,11 +20198,35 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   left: 0;
   width: 100%;
 }
+.saMessageBanner .saCloseButton {
+  background-color: inherit;
+  color: inherit;
+}
+.saMessageBanner .saIcon {
+  color: inherit;
+}
+.saMessageBanner.saInformational {
+  background-color: #1f59bf;
+  color: #f9f9fe;
+}
+.saMessageBanner.saWarning {
+  background-color: #f6ae02;
+  color: #4a3612;
+}
+.saMessageBanner.saError {
+  background-color: #e0163e;
+  color: #fff8f7;
+}
+.saMessageBanner.saSuccess {
+  background-color: #278239;
+  color: #f3fcf3;
+}
 .saMessageBanner .saBannerMessageWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
+  gap: 32px;
   position: absolute;
   top: 0;
   left: 0;
@@ -20181,6 +20238,9 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
     animation-play-state: paused;
   }
 }
+.saMessageBanner .saBannerMessageWrapper:has(.saAnimated) {
+  justify-content: flex-start;
+}
 .saMessageBanner .saBannerMessage {
   display: flex;
   gap: 8px;
@@ -20191,32 +20251,46 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saMessageBanner .saBannerMessage.saAnimated {
   justify-content: flex-start;
   text-align: left;
-  animation: marquee ease-out infinite alternate;
+  animation: marquee linear infinite;
 }
 .saMessageBanner.saFadeOut {
-  animation: 0.4s ease marquee-out forwards;
+  animation: 2s ease marquee-out forwards;
+}
+.saMessageBanner.saFadeIn {
+  animation: 2s ease marquee-in forwards;
 }
 @keyframes marquee {
   from {
-    transform: translateX(50%);
+    transform: translateX(0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translateX(calc(-100% - 32px));
+  }
+}
+@keyframes marquee-in {
+  0% {
+    opacity: 0;
+    display: none;
+    height: 0px;
+  }
+  100% {
+    opacity: 1;
+    display: flex;
+    height: 32px;
   }
 }
 @keyframes marquee-out {
   0% {
-    transform: translateY(0px);
     opacity: 1;
   }
   100% {
-    transform: translateY(-72px);
     opacity: 0;
+    display: none;
+    height: 0px;
   }
 }
 .saMessageBanner .saIcon {
   font-size: 16px;
-  color: #7b5815;
 }
 .saMessageBanner .saCloseButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -20238,8 +20312,6 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   position: relative;
   margin-left: auto;
   background: transparent;
-  color: #7b5815;
-  background: #f6ae02;
   z-index: 1;
   border-radius: 0;
 }
@@ -20271,12 +20343,18 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   .saMessageBanner .saCloseButton:hover .saIcon {
     color: #fff;
   }
+  .saError.saMessageBanner .saCloseButton:hover {
+    background: #b81c34;
+  }
 }
 .saMessageBanner .saCloseButton:active {
   background: #b81c34;
 }
 .saMessageBanner .saCloseButton:active .saIcon {
   color: #fff;
+}
+.saError.saMessageBanner .saCloseButton:active {
+  background: #911d2b;
 }
 .saContextMenu .saActionLinkList {
   display: flex;
@@ -21858,6 +21936,7 @@ body.saMiniView {
   background-color: #eef1f5;
   transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
   box-shadow: inset 0 0 0 0 transparent;
+  border-radius: 99rem;
   position: relative;
   padding: 0 12px;
   border-radius: 16px;
@@ -29108,6 +29187,7 @@ a.saKpiOuter:active {
   width: fit-content;
   transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
   box-shadow: inset 0 0 0 0 transparent;
+  border-radius: 99rem;
 }
 .saPill:has(:enabled) {
   cursor: pointer;
@@ -31058,7 +31138,6 @@ main {
 }
 .saChat {
   max-width: 568px;
-  border: 1px solid #ccd5e2;
   background: #fff;
   border-radius: 16px;
   overflow: hidden;
@@ -31102,78 +31181,6 @@ main {
   font-weight: 300;
   font-size: 12px;
 }
-.saChatToolbar {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  padding: 8px;
-  border-bottom: 1px solid #ccd5e2;
-  height: 48px;
-  align-items: center;
-}
-.saChatToolbar .saButton {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
-  white-space: nowrap;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  flex-shrink: 0;
-  gap: 8px;
-  padding: 8px;
-  height: 32px;
-  border-radius: 8px;
-  font-size: 14px;
-  position: relative;
-}
-.saChatToolbar .saButton .saButtonText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.saChatToolbar .saButton .saBadgedIcon {
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
-.saChatToolbar .saButton .saIcon {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.saChatToolbar .saButton:active {
-  border-radius: 12px;
-}
-.saChatToolbar .saButton .saIcon {
-  font-size: 16px;
-  min-width: 18px;
-  max-width: 18px;
-}
-.saChatToolbar .saButton::after {
-  content: '';
-  height: 48px;
-  width: calc(100% + 8px);
-  position: absolute;
-  left: -4px;
-  top: -8px;
-}
-.saChatToolbar .IconButton {
-  border-radius: 8px;
-  padding: 8px;
-  width: 32px;
-  height: 32px;
-  max-width: 32px;
-  font-size: 16px;
-}
-.saChatToolbar .IconButton:active {
-  border-radius: 12px;
-}
 .saMessageGroupWrapper {
   display: flex;
   flex-direction: column;
@@ -31182,6 +31189,9 @@ main {
   overflow-y: auto;
   height: 100%;
   gap: 8px;
+  border: 1px solid #ccd5e2;
+  border-bottom: none;
+  border-radius: 16px 16px 0 0;
 }
 .saMessageGroup {
   display: flex;
@@ -31198,27 +31208,26 @@ main {
   position: sticky;
   top: 8px;
   z-index: 1;
-  margin-top: 32px;
+  margin-top: 40px;
   transition: ease inset 0.2s;
 }
 .saChatDay {
   position: relative;
   gap: 4px;
-  background-color: #eef1f5;
   width: fit-content;
   transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
   box-shadow: inset 0 0 0 0 transparent;
+  border-radius: 99rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #60748b;
-  background: #fff;
+  background-color: #eef1f5;
+  color: #313a44;
   font-size: 14px;
   text-align: center;
   max-height: 24px;
   min-height: 24px;
   font-weight: 400;
-  box-shadow: inset 0 0 0 1px #ccd5e2;
   z-index: 1;
   transform-origin: top;
 }
@@ -31392,7 +31401,7 @@ main {
   background: #911d2b;
 }
 .saChatUnreadWrapper::after {
-  content: '';
+  content: "";
   position: absolute;
   height: 44px;
   width: 100%;
@@ -31405,6 +31414,7 @@ main {
   width: fit-content;
   transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
   box-shadow: inset 0 0 0 0 transparent;
+  border-radius: 99rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31567,13 +31577,6 @@ main {
   position: relative;
   width: 100%;
 }
-.saMessage.saAbove {
-  background: red !important;
-  box-shadow: 0 0 0 40px orange;
-}
-.saMessage:hover {
-  background: #f8f9fB;
-}
 .saMessage:hover .saMessageToolbar {
   opacity: 1;
   transform: scale(1);
@@ -31582,7 +31585,7 @@ main {
   background: #eef1f5;
 }
 .saMessage.saSelected::after {
-  content: 'A bottom sheet should now open!';
+  content: "A bottom sheet should now open!";
   position: absolute;
   background: black;
   color: white;
@@ -31594,7 +31597,7 @@ main {
   transition: ease background-color 1s;
 }
 .saMessage.saUnread::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -31701,7 +31704,7 @@ main {
   color: #ccd5e2;
 }
 .saMessageToolbar .saButton::after {
-  content: '';
+  content: "";
   height: 44px;
   width: 100%;
   position: absolute;
@@ -31811,16 +31814,12 @@ input.saAvatarCheckbox::after {
 .saMessageHeader {
   display: flex;
   gap: 8px;
-  align-items: baseline;
+  align-items: center;
   position: relative;
   height: 32px;
-  align-items: center;
 }
 .saSenderName {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 4px;
+  display: block;
   font-size: 14px;
   line-height: 18px;
   font-weight: 500;
@@ -31832,11 +31831,14 @@ input.saAvatarCheckbox::after {
   font-size: 12px;
   line-height: 12px;
   color: #60748b;
+  margin-bottom: -2px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 .saMessageBody {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
 }
 .saMessageBody img {
   border-radius: 4px;
@@ -31849,6 +31851,132 @@ input.saAvatarCheckbox::after {
 .saChatComposer {
   position: relative;
   max-height: 50%;
+  border: 1px solid #ccd5e2;
+  border-radius: 0 0 16px 16px;
+  transition: ease box-shadow 0.2s;
+}
+.saChatComposer:focus-within,
+.saChatComposer:focus,
+.saChatComposer:focus-visible {
+  outline: none;
+  border-color: #2d6ce1;
+  box-shadow: inset 0 0 0 1px #2d6ce1;
+}
+.saChatComposerToolbar {
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+  color: #313a44;
+}
+.saChatComposerToolbar input[type="file"] {
+  visibility: hidden;
+  overflow: hidden;
+  height: 0;
+  width: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  display: contents;
+}
+.saChatComposerToolbar button {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  color: #2d6ce1;
+  background: transparent;
+  border-radius: 8px;
+  padding: 8px;
+  width: 32px;
+  height: 32px;
+  max-width: 32px;
+  font-size: 16px;
+}
+.saChatComposerToolbar button .saButtonText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.saChatComposerToolbar button .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saChatComposerToolbar button .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saChatComposerToolbar button .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saChatComposerToolbar button.saDestructive {
+  color: #e0163e;
+}
+.saChatComposerToolbar button.saDestructive .saIcon {
+  color: #e0163e;
+}
+@media (pointer: fine) {
+  .saChatComposerToolbar button.saDestructive:hover {
+    color: #e0163e;
+    background: #ffedeb;
+  }
+  .saChatComposerToolbar button.saDestructive:hover .saIcon {
+    color: #e0163e;
+  }
+}
+.saChatComposerToolbar button.saDestructive:active {
+  color: #fff;
+  background: #e0163e;
+}
+.saChatComposerToolbar button.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saChatComposerToolbar button:hover {
+    background: #f8f9fB;
+    color: #2d6ce1;
+  }
+  .saChatComposerToolbar button:hover .saIcon {
+    color: var(--Sa-Color-IconHover);
+  }
+}
+.saChatComposerToolbar button:active {
+  background: #dde3eC;
+}
+.saChatComposerToolbar button:disabled {
+  background: #ccd5e2;
+  pointer-events: none;
+  color: #7088a4;
+}
+.saChatComposerToolbar button:disabled .saIcon {
+  color: #7088a4;
+}
+.saChatComposerToolbar button:active {
+  border-radius: 12px;
+}
+.saChatComposerToolbar button.saButtonSend:disabled,
+.saChatComposerToolbar button.saButtonSend.saDisabled {
+  background-color: transparent;
+}
+.saChatComposerToolbar button.saButtonSend:disabled .saIcon,
+.saChatComposerToolbar button.saButtonSend.saDisabled .saIcon {
+  color: #adbdd1;
+}
+.saChatComposerToolbar button.saButtonSend:not(:disabled) .saIcon {
+  color: #2d6ce1;
+}
+.saChatComposerToolbar li:last-child {
+  margin-left: auto;
 }
 .saChatComposer textarea {
   width: 100%;
@@ -31857,22 +31985,19 @@ input.saAvatarCheckbox::after {
   resize: none;
   font-size: 14px;
   line-height: 20px;
-  font-family: 'Lexend', sans-serif;
+  font-family: "Lexend", sans-serif;
   appearance: none;
   padding: 16px 40px 16px 16px;
   display: block;
   margin: 0;
-  border: none;
   background: transparent;
-  border-radius: 0 0 16px 16px;
   color: #313a44;
-  border-top: 1px solid #ccd5e2;
+  border: none;
 }
 .saChatComposer textarea:focus-within,
 .saChatComposer textarea:focus,
 .saChatComposer textarea:focus-visible {
   outline: none;
-  border-top-color: #2d6ce1;
 }
 .saChatComposer textarea::placeholder {
   color: #7088a4;
@@ -31887,7 +32012,63 @@ input.saAvatarCheckbox::after {
 .saSmallScreen .saChatComposer textarea[rows] {
   height: unset;
 }
-.saButtonSend {
+.saInputEmojiPicker {
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 8px;
+  height: fit-content;
+  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 4px rgba(49, 58, 68, 0.07), 0 4px 8px rgba(49, 58, 68, 0.07), 0 8px 16px rgba(49, 58, 68, 0.07);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: absolute;
+  top: 40px;
+  right: 400px;
+}
+.saEmojiHeader {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 8px;
+}
+.saEmojiSearch {
+  position: relative;
+}
+.saEmojiSearch input {
+  height: 40px;
+  width: 100%;
+  padding: 8px 8px 8px 40px;
+  color: #313a44;
+  border-radius: 8px;
+  border: 1px solid #ccd5e2;
+}
+.saEmojiSearch input::placeholder {
+  color: #7088a4;
+}
+.saEmojiSearch input:focus + .saIcon {
+  color: #2d6ce1;
+}
+.saEmojiSearch .saIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  width: 32px;
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  color: #7088a4;
+  font-size: 16px;
+}
+.saCategories {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.saCategories a {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: 'Lexend', sans-serif;
@@ -31900,85 +32081,6 @@ input.saAvatarCheckbox::after {
   flex-shrink: 0;
   color: #2d6ce1;
   background: transparent;
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-}
-.saButtonSend .saButtonText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.saButtonSend .saBadgedIcon {
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
-.saButtonSend .saIcon {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.saButtonSend .saIcon {
-  color: var(--Sa-Color-Icon);
-}
-.saButtonSend.saDestructive {
-  color: #e0163e;
-}
-.saButtonSend.saDestructive .saIcon {
-  color: #e0163e;
-}
-@media (pointer: fine) {
-  .saButtonSend.saDestructive:hover {
-    color: #e0163e;
-    background: #ffedeb;
-  }
-  .saButtonSend.saDestructive:hover .saIcon {
-    color: #e0163e;
-  }
-}
-.saButtonSend.saDestructive:active {
-  color: #fff;
-  background: #e0163e;
-}
-.saButtonSend.saDestructive:active > .saIcon {
-  color: #fff;
-}
-@media (pointer: fine) {
-  .saButtonSend:hover {
-    background: #f8f9fB;
-    color: #2d6ce1;
-  }
-  .saButtonSend:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
-  }
-}
-.saButtonSend:active {
-  background: #dde3eC;
-}
-.saButtonSend:disabled {
-  background: #ccd5e2;
-  pointer-events: none;
-  color: #7088a4;
-}
-.saButtonSend:disabled .saIcon {
-  color: #7088a4;
-}
-.saStandard .saButtonSend {
-  border-radius: 8px;
-  padding: 8px 12px;
-  width: 40px;
-  height: 40px;
-  max-width: 40px;
-  font-size: 16px;
-}
-.saStandard .saButtonSend:active {
-  border-radius: 12px;
-}
-.saCompact .saButtonSend {
   border-radius: 8px;
   padding: 8px;
   width: 32px;
@@ -31986,47 +32088,156 @@ input.saAvatarCheckbox::after {
   max-width: 32px;
   font-size: 16px;
 }
-.saCompact .saButtonSend:active {
+.saCategories a .saButtonText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.saCategories a .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saCategories a .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saCategories a .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saCategories a.saDestructive {
+  color: #e0163e;
+}
+.saCategories a.saDestructive .saIcon {
+  color: #e0163e;
+}
+@media (pointer: fine) {
+  .saCategories a.saDestructive:hover {
+    color: #e0163e;
+    background: #ffedeb;
+  }
+  .saCategories a.saDestructive:hover .saIcon {
+    color: #e0163e;
+  }
+}
+.saCategories a.saDestructive:active {
+  color: #fff;
+  background: #e0163e;
+}
+.saCategories a.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saCategories a:hover {
+    background: #f8f9fB;
+    color: #2d6ce1;
+  }
+  .saCategories a:hover .saIcon {
+    color: var(--Sa-Color-IconHover);
+  }
+}
+.saCategories a:active {
+  background: #dde3eC;
+}
+.saCategories a:disabled {
+  background: #ccd5e2;
+  pointer-events: none;
+  color: #7088a4;
+}
+.saCategories a:disabled .saIcon {
+  color: #7088a4;
+}
+.saCategories a:active {
   border-radius: 12px;
 }
-.saSmallScreen .saButtonSend {
-  border-radius: 8px;
-  padding: 8px 12px;
-  width: 40px;
-  height: 40px;
-  max-width: 40px;
-  font-size: 16px;
+.saCategories a[aria-selected="true"] {
+  background-color: #eff0fd;
+  box-shadow: inset 0 0 0 2px #2d6ce1;
 }
-.saSmallScreen .saButtonSend:active {
-  border-radius: 12px;
-}
-.saButtonSend::after {
-  content: '';
-  height: 48px;
-  width: 48px;
-  position: absolute;
-  bottom: -8px;
-  right: -8px;
-  opacity: 0;
-}
-.saButtonSend:disabled,
-.saButtonSend.saDisabled {
-  background: transparent;
-}
-.saButtonSend:disabled .saIcon,
-.saButtonSend.saDisabled .saIcon {
-  color: #adbdd1;
-}
-.saButtonSend:not(:disabled) .saIcon {
+.saCategories a[aria-selected="true"] .saIcon {
   color: #2d6ce1;
 }
-.saSmallScreen .saButtonSend {
-  bottom: 4px;
-  right: 4px;
+.saEmojiGroup {
+  height: 320px;
+  overflow: auto;
+  padding: 0 8px 8px 8px;
+  scroll-padding: 16px;
 }
-.saSmallScreen .saButtonSend::after {
-  bottom: -4px;
-  right: -4px;
+.saEmojiGroup h3 {
+  color: #60748b;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  height: 16px;
+  padding-bottom: 4px;
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 2;
+}
+.saEmojiGroup .saEmptyState {
+  min-height: 312px;
+}
+.saEmojiGrid {
+  display: grid;
+  grid-template-columns: repeat(8, 32px);
+  gap: 8px;
+  padding: 4px 0 24px 0;
+  overflow: hidden;
+}
+.saEmojiGrid:last-child {
+  padding: 4px 0 0 0;
+}
+.saEmojiGrid button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  width: 32px;
+  position: relative;
+  background-color: transparent;
+  border-radius: 4px;
+  transition: ease border-radius 0.1s;
+}
+.saEmojiGrid button::after {
+  content: "";
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  opacity: 0;
+}
+.saEmojiGrid button div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  line-height: 32px;
+  text-align: center;
+  height: 32px;
+  width: 32px;
+  max-width: 32px;
+  transition: ease transform 0.1s;
+  transform-origin: bottom;
+}
+.saEmojiGrid button:hover,
+.saEmojiGrid button:focus-visible {
+  background-color: #eff0fd;
+}
+.saEmojiGrid button:hover div,
+.saEmojiGrid button:focus-visible div {
+  transform: scale(1.3);
+}
+.saEmojiGrid button:active {
+  background-color: #cfd2f8;
+  border-radius: 8px;
+  transition: ease border-radius 0.1s, ease background-color 0.1s;
+}
+.saEmojiGrid button:active div {
+  transform: scale(1.1);
 }
 .saRangeStepWrapper {
   display: flex;
