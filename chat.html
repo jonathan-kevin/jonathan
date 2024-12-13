@@ -411,7 +411,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="saChatComposer">
+				<form class="saChatComposer">
 					<div class="saFileUploadAreaWrapper">
 						<label class="saFileUploadArea" tabindex="0">
 							<input id="file-input" type="file" multiple>
@@ -434,19 +434,19 @@
 							</div>
 						</label>
 					</div>
-					<textarea name="message" placeholder="Write your message..."></textarea>
+					<textarea name="message" placeholder="Write your message..." enterkeyhint="send"></textarea>
 					<ul id="attached-files" class="saFileGroup"></ul>
 					<ul class="saChatComposerToolbar" role="toolbar" aria-label="This is for the message and stuff">
 						<li>
 							<button aria-label="Attach file" title="Attach file" id="attach-file-btn"><i
-									class="saIcon far fa-paperclip"></i></button>
+									class="saIcon far fa-paperclip" type="button"></i></button>
 						</li>
 						<li>
 							<button class="saDefaultIconButtonGhost saButtonSend" disabled aria-label="Send message"
-								title="Send message"><i class="saIcon far fa-paper-plane-top"></i></button>
+								title="Send message" type="submit"><i class="saIcon far fa-paper-plane-top"></i></button>
 						</li>
 					</ul>
-				</div>
+				</form>
 			</div>
 		</div>
 	</main>
@@ -487,13 +487,6 @@
 			}
 		});
 
-		// Prevent textarea blur when clicking outside
-		$('.saFileGroup').on('click', (e) => {
-			if (!$(e.target).closest('.saFileWrapper').length) {
-				$('textarea').focus();
-			}
-		});
-
 		// File input change handler
 		$('#attach-file-btn').on('click', () => $fileInput.click());
 
@@ -523,8 +516,7 @@
 		});
 
 		$textarea.on('keydown', (event) => {
-			if (event.key === 'Enter' && !event.shiftKey) {
-				event.preventDefault();
+			if (event.key === 'Enter' && !event.shiftKey && !$('body').hasClass('saSmallScreen')) {
 				sendMessage($textarea, $messageGroup);
 			}
 		});
