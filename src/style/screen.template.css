@@ -15301,86 +15301,6 @@ legend + .saInputCardsWrapper {
     transform-origin: top;
   }
 }
-.saFileUploadAreaWrapper.saMultipleFilesArea .saFolderWrapper {
-  pointer-events: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 16px;
-  transition: ease transform 0.2s;
-}
-.saFileUploadAreaWrapper.saMultipleFilesArea .saFolder {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: ease-in-out transform 0.2s;
-  perspective: 80px;
-  transform-origin: bottom;
-}
-.saFileUploadAreaWrapper.saMultipleFilesArea .saFolderBack {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  width: 64px;
-  height: 48px;
-  background: #1d59c9;
-  border-radius: 0 6px 6px 6px;
-  transition: ease-in-out box-shadow 0.2s;
-}
-.saFileUploadAreaWrapper.saMultipleFilesArea .saFolderBack::after {
-  content: '';
-  width: 20px;
-  height: 8px;
-  background: #1d59c9;
-  position: absolute;
-  top: -6px;
-  left: 0;
-  border-radius: 4px 4px 0 0;
-}
-.saFileUploadAreaWrapper.saMultipleFilesArea .saFolderFront {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #70a1ff;
-  border-radius: 6px;
-  transform-origin: bottom;
-  transition: transform 0.3s ease-in-out;
-  background: #5185e6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
-}
-.saFileUploadAreaWrapper.saMultipleFilesArea .saFolderFront .saIcon {
-  font-size: 20px;
-  color: #fff;
-}
-.saFileUploadAreaWrapper.saMultipleFilesArea .saPaper {
-  background: #e1e6ed;
-  width: 70%;
-  height: 70%;
-  position: absolute;
-  bottom: 8px;
-  border-radius: 4px;
-  transition: transform 0.3s ease-in-out, opacity 0.2s ease-out;
-  z-index: 0;
-  opacity: 0;
-}
-.saFileUploadAreaWrapper.saMultipleFilesArea .saPaper:nth-child(2) {
-  background: #eef1f5;
-  width: 80%;
-  height: 60%;
-  transition: transform 0.4s ease-in-out, opacity 0.2s ease-out;
-  z-index: 1;
-}
-.saFileUploadAreaWrapper.saMultipleFilesArea .saPaper:nth-child(3) {
-  background: #fff;
-  width: 90%;
-  height: 50%;
-  transition: transform 0.5s ease-in-out, opacity 0.2s ease-out;
-  z-index: 1;
-}
 .saFileUploadAreaWrapper.saMultipleFilesArea .saFileWrapper {
   border: 1px solid var(--Sa-Color-InputFieldBorder);
   border-bottom: none;
@@ -15396,6 +15316,86 @@ legend + .saInputCardsWrapper {
 .saFileUploadAreaWrapper.saMultipleFilesArea .saFileWrapper:only-child {
   border-radius: 8px 8px;
   border-bottom: 1px solid var(--Sa-Color-InputFieldBorder);
+}
+.saFolderWrapper {
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 16px;
+  transition: ease transform 0.2s;
+}
+.saFolder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: ease-in-out transform 0.2s;
+  perspective: 80px;
+  transform-origin: bottom;
+}
+.saFolderBack {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 64px;
+  height: 48px;
+  background: #1d59c9;
+  border-radius: 0 6px 6px 6px;
+  transition: ease-in-out box-shadow 0.2s;
+}
+.saFolderBack::after {
+  content: "";
+  width: 20px;
+  height: 8px;
+  background: #1d59c9;
+  position: absolute;
+  top: -6px;
+  left: 0;
+  border-radius: 4px 4px 0 0;
+}
+.saFolderFront {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #70a1ff;
+  border-radius: 6px;
+  transform-origin: bottom;
+  transition: transform 0.3s ease-in-out;
+  background: #5185e6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+.saFolderFront .saIcon {
+  font-size: 20px;
+  color: #fff;
+}
+.saPaper {
+  background: #e1e6ed;
+  width: 70%;
+  height: 70%;
+  position: absolute;
+  bottom: 8px;
+  border-radius: 4px;
+  transition: transform 0.3s ease-in-out, opacity 0.2s ease-out;
+  z-index: 0;
+  opacity: 0;
+}
+.saPaper:nth-child(2) {
+  background: #eef1f5;
+  width: 80%;
+  height: 60%;
+  transition: transform 0.4s ease-in-out, opacity 0.2s ease-out;
+  z-index: 1;
+}
+.saPaper:nth-child(3) {
+  background: #fff;
+  width: 90%;
+  height: 50%;
+  transition: transform 0.5s ease-in-out, opacity 0.2s ease-out;
+  z-index: 1;
 }
 .saFileUploadAreaWrapper.saFullSizeArea .saFileIcon {
   display: none;
@@ -15780,6 +15780,7 @@ legend + .saInputCardsWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   position: relative;
   width: 100%;
@@ -15891,30 +15892,31 @@ legend + .saInputCardsWrapper {
   width: 100%;
   color: #506072;
 }
-.saFileUploadAreaWrapper .saFileGroup {
+.saFileGroup {
   display: flex;
   flex-wrap: wrap;
   padding-top: 8px;
 }
-.saFileUploadAreaWrapper .saFileGroup:empty {
+.saFileGroup:empty {
   display: none;
 }
-.saFileUploadAreaWrapper .saFileWrapper {
+.saFileWrapper {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 16px;
   position: relative;
   width: 100%;
   min-height: 48px;
   overflow: hidden;
 }
-.saFileUploadAreaWrapper .saFileWrapper.saError {
+.saFileWrapper.saError {
   background-color: #ffedeb;
 }
-.saFileUploadAreaWrapper .saFileWrapper.saEmptyFile {
+.saFileWrapper.saEmptyFile {
   background-color: #fff9ed;
 }
-.saFileUploadAreaWrapper .saFileUploadProgress {
+.saFileUploadProgress {
   display: flex;
   appearance: none;
   -webkit-appearance: none;
@@ -15923,24 +15925,24 @@ legend + .saInputCardsWrapper {
   width: 100%;
   transition: ease opacity 0.2s, ease width 0.2s;
 }
-.saFileUploadAreaWrapper .saFileUploadProgress::-webkit-progress-bar {
+.saFileUploadProgress::-webkit-progress-bar {
   background: #dde3eC;
   border-radius: 2px;
 }
-.saFileUploadAreaWrapper .saFileUploadProgress::-webkit-progress-value {
+.saFileUploadProgress::-webkit-progress-value {
   background: #2d6ce1;
   border-radius: 2px;
   transition: ease opacity 0.2s, ease width 0.2s;
 }
-.saFileUploadAreaWrapper .saDone .saFileUploadProgress::-webkit-progress-value {
+.saDone .saFileUploadProgress::-webkit-progress-value {
   background: #29bb4e;
 }
-.saFileUploadAreaWrapper .saFileButtonGroup {
+.saFileButtonGroup {
   display: flex;
   gap: 4px;
   align-items: center;
 }
-.saFileUploadAreaWrapper .saFileButtonGroup .saDeleteButton {
+.saFileButtonGroup .saDeleteButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: 'Lexend', sans-serif;
@@ -15960,44 +15962,44 @@ legend + .saInputCardsWrapper {
   background: transparent;
   color: #e0163e;
 }
-.saFileUploadAreaWrapper .saFileButtonGroup .saDeleteButton .saButtonText {
+.saFileButtonGroup .saDeleteButton .saButtonText {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.saFileUploadAreaWrapper .saFileButtonGroup .saDeleteButton .saBadgedIcon {
+.saFileButtonGroup .saDeleteButton .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saFileUploadAreaWrapper .saFileButtonGroup .saDeleteButton .saIcon {
+.saFileButtonGroup .saDeleteButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.saFileUploadAreaWrapper .saFileButtonGroup .saDeleteButton:active {
+.saFileButtonGroup .saDeleteButton:active {
   border-radius: 12px;
 }
 @media (pointer: fine) {
-  .saFileUploadAreaWrapper .saFileButtonGroup .saDeleteButton:hover {
+  .saFileButtonGroup .saDeleteButton:hover {
     background: #e0163e;
     color: #fff;
   }
 }
-.saFileUploadAreaWrapper .saFileButtonGroup .saDeleteButton:active {
+.saFileButtonGroup .saDeleteButton:active {
   background: #b81c34;
   color: #fff;
 }
-.saFileUploadAreaWrapper .saFileButtonGroup .saDeleteButton::after {
-  content: '';
+.saFileButtonGroup .saDeleteButton::after {
+  content: "";
   height: 48px;
   width: 48px;
   position: absolute;
 }
-.saFileUploadAreaWrapper .saFile {
+.saFile {
   display: flex;
   gap: 8px;
   align-items: center;
@@ -16006,7 +16008,7 @@ legend + .saInputCardsWrapper {
   overflow: hidden;
   height: fit-content;
 }
-.saFileUploadAreaWrapper .saFile .saIcon {
+.saFile .saIcon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16015,45 +16017,45 @@ legend + .saInputCardsWrapper {
   border: 1px solid #8b4af1;
   font-size: 20px;
   border-radius: 4px;
-  height: 32px;
-  min-width: 32px;
+  height: 40px;
+  min-width: 40px;
 }
-.saFileUploadAreaWrapper .saFile .saIcon.fa-file-word {
+.saFile .saIcon.fa-file-word {
   background: #eff0fd;
   color: #2d6ce1;
   border: 1px solid #2d6ce1;
 }
-.saFileUploadAreaWrapper .saFile .saIcon.fa-video {
+.saFile .saIcon.fa-video {
   background: #ffede4;
   color: #b75617;
   border: 1px solid #b75617;
 }
-.saFileUploadAreaWrapper .saFile .saIcon.fa-file-excel {
+.saFile .saIcon.fa-file-excel {
   background: #e1f6e1;
   color: #278239;
   border: 1px solid #278239;
 }
-.saFileUploadAreaWrapper .saFile .saIcon.fa-file-pdf {
+.saFile .saIcon.fa-file-pdf {
   background: #ffedeb;
   color: #e0163e;
   border: 1px solid #e0163e;
 }
-.saFileUploadAreaWrapper .saFile .saIcon.fa-image {
+.saFile .saIcon.fa-image {
   background: #ffecf6;
   color: #d1199f;
   border: 1px solid #d1199f;
 }
-.saFileUploadAreaWrapper .saFile .saIcon.fa-exclamation {
+.saFile .saIcon.fa-exclamation {
   background: #e0163e;
   color: #fff;
   border: none;
 }
-.saFileUploadAreaWrapper .saFile .saIcon.fa-question {
+.saFile .saIcon.fa-question {
   background: #d6980d;
   color: #fff;
   border: none;
 }
-.saFileUploadAreaWrapper .saFileInner {
+.saFileInner {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -16062,28 +16064,28 @@ legend + .saInputCardsWrapper {
   transition: ease margin 0.2s;
   min-width: 0px;
 }
-.saFileUploadAreaWrapper .saFileNameWrapper {
+.saFileNameWrapper {
   display: flex;
   font-size: 14px;
   line-height: 16px;
 }
-.saSmallScreen .saFileUploadAreaWrapper .saFileNameWrapper {
+.saSmallScreen .saFileNameWrapper {
   display: inline-grid;
 }
-.saFileUploadAreaWrapper .saFileName {
+.saFileName {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   line-height: 18px;
   color: #313a44;
 }
-.saFileUploadAreaWrapper .saFileSizeWrapper {
+.saFileSizeWrapper {
   display: flex;
   flex-direction: column;
   gap: 4px;
   width: 100%;
 }
-.saFileUploadAreaWrapper .saFileSizeRow {
+.saFileSizeRow {
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -16091,49 +16093,49 @@ legend + .saInputCardsWrapper {
   line-height: 12px;
   color: #60748b;
 }
-.saFileUploadAreaWrapper .saFileSize {
+.saFileSize {
   white-space: nowrap;
 }
-.saFileUploadAreaWrapper .saError .saFileSizeRow,
-.saFileUploadAreaWrapper .saEmptyFile .saFileSizeRow,
-.saFileUploadAreaWrapper .saError .saFileUploadProgress,
-.saFileUploadAreaWrapper .saEmptyFile .saFileUploadProgress {
+.saError .saFileSizeRow,
+.saEmptyFile .saFileSizeRow,
+.saError .saFileUploadProgress,
+.saEmptyFile .saFileUploadProgress {
   display: none;
 }
-.saFileUploadAreaWrapper .saError .saFileErrorMessage,
-.saFileUploadAreaWrapper .saEmptyFile .saFileErrorMessage {
+.saError .saFileErrorMessage,
+.saEmptyFile .saFileErrorMessage {
   display: flex;
 }
-.saFileUploadAreaWrapper .saError .saLoadingWrapper {
+.saError .saLoadingWrapper {
   display: none;
 }
-.saFileUploadAreaWrapper .saError .saFileErrorMessage {
+.saError .saFileErrorMessage {
   color: #b81c34;
 }
-.saFileUploadAreaWrapper .saEmptyFile .saFileErrorMessage {
+.saEmptyFile .saFileErrorMessage {
   color: #7b5815;
 }
-.saFileUploadAreaWrapper .saFileErrorMessage {
+.saFileErrorMessage {
   display: none;
   font-size: 14px;
   line-height: 16px;
 }
-.saFileUploadAreaWrapper .saPending .saLoadingSpinner {
+.saPending .saLoadingSpinner {
   animation: none;
   border-left-color: #eef1f5;
 }
-.saFileUploadAreaWrapper .saDone.saSkipAnimation .saLoading {
+.saDone.saSkipAnimation .saLoading {
   animation: none;
   box-shadow: inset 0px 0px 0px 20px #29bb4e;
 }
-.saFileUploadAreaWrapper .saDone.saSkipAnimation .saLoadingCheck {
+.saDone.saSkipAnimation .saLoadingCheck {
   animation: none;
   stroke-dashoffset: 0;
 }
-.saFileUploadAreaWrapper .saDone .saLoading {
+.saDone .saLoading {
   display: flex;
 }
-.saFileUploadAreaWrapper .saDone .saLoadingSpinner {
+.saDone .saLoadingSpinner {
   opacity: 0;
   border-top-color: rgba(41, 187, 78, 0.2);
   border-right-color: rgba(41, 187, 78, 0.2);
@@ -16141,19 +16143,19 @@ legend + .saInputCardsWrapper {
   border-left-color: #29bb4e;
   animation: saLoadingSpinner 0.8s infinite linear, saLoadingSpinnerDone 0.8s forwards linear;
 }
-.saFileUploadAreaWrapper .saExistingFile .saLoading {
+.saExistingFile .saLoading {
   animation: none;
   box-shadow: none;
 }
-.saFileUploadAreaWrapper .saExistingFile .saLoadingCircle {
+.saExistingFile .saLoadingCircle {
   display: none;
 }
-.saFileUploadAreaWrapper .saExistingFile .saLoadingCheck {
+.saExistingFile .saLoadingCheck {
   animation: none;
   stroke: #29bb4e;
   stroke-dashoffset: 0;
 }
-.saFileUploadAreaWrapper .saExistingFile .saLoadingSpinner {
+.saExistingFile .saLoadingSpinner {
   display: none;
   animation: none;
 }
@@ -31107,25 +31109,6 @@ main {
 .saSmallScreen main {
   padding: 0;
 }
-.saChatX {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 8px;
-}
-.saChatX label {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  border: 1px solid #ccd5e2;
-  border-radius: 8px;
-  padding: 8px;
-  width: fit-content;
-  font-size: 14px;
-}
-.saSmallScreen .saChatX {
-  display: none;
-}
 .saChatWrapper {
   display: flex;
   flex: 1;
@@ -31146,6 +31129,8 @@ main {
   flex: 1;
   justify-content: space-between;
   flex-direction: column;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
 }
 .saSmallScreen .saChat {
   width: 100%;
@@ -31157,30 +31142,6 @@ main {
   user-select: none;
   user-zoom: fixed;
 }
-.saChatHeader {
-  justify-content: center;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
-  height: 40px;
-  border-bottom: 1px solid #ccd5e2;
-  background: #eef1f5;
-  font-weight: 500;
-  font-size: 16px;
-  display: flex;
-  gap: 8px;
-}
-.saSmallScreen .saChatHeader {
-  display: none;
-}
-.saChatTitle {
-  font-size: 16px;
-  font-weight: 500;
-}
-.saChatHeaderDescription {
-  font-weight: 300;
-  font-size: 12px;
-}
 .saMessageGroupWrapper {
   display: flex;
   flex-direction: column;
@@ -31189,9 +31150,16 @@ main {
   overflow-y: auto;
   height: 100%;
   gap: 8px;
-  border: 1px solid #ccd5e2;
-  border-bottom: none;
+  box-shadow: inset 0 0 0 1px #ccd5e2;
+  margin-bottom: -1px;
   border-radius: 16px 16px 0 0;
+  padding-bottom: 16px;
+}
+.saSmallScreen .saMessageGroupWrapper {
+  border-radius: 0;
+  box-shadow: none;
+  border-bottom: 1px solid #ccd5e2;
+  margin-bottom: 0;
 }
 .saMessageGroup {
   display: flex;
@@ -31199,6 +31167,9 @@ main {
   align-items: center;
   gap: 8px;
   width: 100%;
+}
+.saMessageGroup:first-child .saChatDayWrapper {
+  margin-top: 24px;
 }
 .saChatDayWrapper {
   display: flex;
@@ -31363,9 +31334,6 @@ main {
 .saChatUnreadWrapper + .saMessageGroup .saChatDayWrapper {
   margin-top: 0;
 }
-.saChatUnreadWrapper + .saMessageGroup .saChatDayWrapper .saLine {
-  display: none;
-}
 .saChatUnreadWrapper.saAbove ~ .saMessageGroup .saChatDayWrapper {
   top: 40px;
 }
@@ -31378,6 +31346,7 @@ main {
   z-index: 1;
   margin-top: 32px;
   bottom: 8px;
+  top: 40px;
   transition: ease inset 0.2s;
 }
 .saChatUnreadWrapper.saAbove {
@@ -31558,39 +31527,12 @@ main {
   color: #fff;
   background-color: #fff;
 }
-.saLine {
-  width: 0;
-  position: absolute;
-  height: 1px;
-  background: #ccd5e2;
-  transition: ease width 0.2s;
-  width: calc(100% - 32px);
-}
-.saChatUnreadWrapper .saLine {
-  background: #e0163e;
-  width: 0;
-}
 .saMessage {
   display: flex;
   gap: 8px;
   padding: 8px 24px 8px 16px;
   position: relative;
   width: 100%;
-}
-.saMessage:hover .saMessageToolbar {
-  opacity: 1;
-  transform: scale(1);
-}
-.saMessage.saSelected {
-  background: #eef1f5;
-}
-.saMessage.saSelected::after {
-  content: "A bottom sheet should now open!";
-  position: absolute;
-  background: black;
-  color: white;
-  padding: 40px;
-  z-index: 99;
 }
 .saMessage.saUnread {
   background-color: #ffedeb;
@@ -31610,29 +31552,8 @@ main {
 .saMessage.saUnread.saRead {
   background-color: #fff;
 }
-@media (pointer: fine) {
-  .saMessage.saUnread.saRead:hover {
-    background-color: #f8f9fB;
-    transition: none;
-  }
-}
-.saMessage.saUnread.saRead:has(:checked) {
-  background: #eff0fd;
-}
-@media (pointer: fine) {
-  .saMessage.saUnread.saRead:has(:checked):hover {
-    background: #eff0fd;
-  }
-}
-.saMessage:has(:checked) {
-  background: #eff0fd;
-}
-@media (pointer: fine) {
-  .saMessage:has(:checked):hover {
-    background: #eff0fd;
-  }
-}
-.saMessage.saNew p {
+.saMessage.saNew p,
+.saMessage.saNew .saFileGroup {
   animation: slider-slider 0.2s ease;
 }
 @keyframes slider-slider {
@@ -31642,93 +31563,6 @@ main {
   100% {
     transform: translateY(0px);
   }
-}
-.saMessageToolbar {
-  display: flex;
-  position: absolute;
-  right: 16px;
-  top: -8px;
-  background: #313a44;
-  padding: 4px;
-  border-radius: 12px;
-  opacity: 0;
-  transform: scale(0.8);
-  transition: ease 0.2s transform;
-  z-index: 1;
-}
-.saSmallScreen .saMessageToolbar {
-  display: none;
-}
-.saMessageToolbar .saButton {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
-  white-space: nowrap;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  flex-shrink: 0;
-  border-radius: 8px;
-  padding: 8px;
-  width: 32px;
-  height: 32px;
-  max-width: 32px;
-  font-size: 16px;
-  position: relative;
-  background: #313a44;
-}
-.saMessageToolbar .saButton .saButtonText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.saMessageToolbar .saButton .saBadgedIcon {
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
-.saMessageToolbar .saButton .saIcon {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.saMessageToolbar .saButton:active {
-  border-radius: 12px;
-}
-.saMessageToolbar .saButton .saIcon {
-  color: #ccd5e2;
-}
-.saMessageToolbar .saButton::after {
-  content: "";
-  height: 44px;
-  width: 100%;
-  position: absolute;
-  opacity: 0;
-}
-@media (pointer: fine) {
-  .saMessageToolbar .saButton:hover {
-    background: #506072;
-  }
-  .saMessageToolbar .saButton:hover .saIcon {
-    color: #fff;
-  }
-}
-.saMessageToolbar li:first-child .saButton::after {
-  width: calc(100% + 8px);
-  left: -4px;
-}
-.saMessageToolbar li:only-child .saButton::after {
-  width: calc(100% + 4px);
-  left: -4px;
-}
-.saMessageToolbar li:last-child .saButton::after {
-  width: calc(100% + 4px);
-  right: -4px;
 }
 .saSenderAvatarWrapper {
   display: flex;
@@ -31780,31 +31614,6 @@ main {
 .saSenderAvatar.saColorPunkPink {
   background: #d1199f;
 }
-input.saAvatarCheckbox {
-  position: absolute;
-  opacity: 0;
-  border-radius: 50%;
-  height: 24px;
-  width: 24px;
-  transform: scale(1);
-  transition: ease background 0.2s, ease transform 0.2s, ease opacity 0.2s;
-}
-input.saAvatarCheckbox::after {
-  height: 44px;
-  width: 44px;
-}
-.saSenderAvatarWrapper:has(input[type="checkbox"]):hover input.saAvatarCheckbox,
-.saSenderAvatarWrapper:has(input[type="checkbox"]):focus input.saAvatarCheckbox,
-.saSenderAvatarWrapper:has(input[type="checkbox"]):has(:checked) input.saAvatarCheckbox {
-  opacity: 1;
-  transform: scale(1);
-}
-.saSenderAvatarWrapper:has(input[type="checkbox"]):hover .saSenderAvatar,
-.saSenderAvatarWrapper:has(input[type="checkbox"]):focus .saSenderAvatar,
-.saSenderAvatarWrapper:has(input[type="checkbox"]):has(:checked) .saSenderAvatar {
-  opacity: 0;
-  transform: scale(0);
-}
 .saMessageInner {
   display: flex;
   flex-direction: column;
@@ -31840,43 +31649,72 @@ input.saAvatarCheckbox::after {
   flex-direction: column;
   gap: 8px;
 }
-.saMessageBody img {
-  border-radius: 4px;
-}
 .saChat .saMessageBody p {
   font-size: 14px;
   line-height: 20px;
   word-break: break-word;
 }
 .saChatComposer {
+  display: flex;
+  flex-direction: column;
   position: relative;
-  max-height: 50%;
-  border: 1px solid #ccd5e2;
+  box-shadow: inset 0 0 0 1px #ccd5e2;
   border-radius: 0 0 16px 16px;
-  transition: ease box-shadow 0.2s;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  max-height: 40%;
+}
+.saSmallScreen .saChatComposer {
+  border-radius: 0;
+  box-shadow: none;
 }
 .saChatComposer:focus-within,
 .saChatComposer:focus,
 .saChatComposer:focus-visible {
   outline: none;
   border-color: #2d6ce1;
-  box-shadow: inset 0 0 0 1px #2d6ce1;
+  box-shadow: inset 0 0 0 2px #2d6ce1;
+}
+.saChatComposer textarea {
+  width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  resize: none;
+  font-size: 14px;
+  line-height: 20px;
+  font-family: "Lexend", sans-serif;
+  appearance: none;
+  padding: 16px;
+  display: block;
+  margin: 0;
+  background: transparent;
+  color: #313a44;
+  border: none;
+}
+.saChatComposer textarea:focus-within,
+.saChatComposer textarea:focus,
+.saChatComposer textarea:focus-visible {
+  outline: none;
+}
+.saChatComposer textarea::placeholder {
+  color: #7088a4;
+}
+.saSmallScreen .saChatComposer textarea {
+  min-height: 48px;
+  height: 48px;
+  font-size: 16px;
+  border-radius: 0;
+  padding: 12px 40px 12px 16px;
+}
+.saSmallScreen .saChatComposer textarea[rows] {
+  height: unset;
 }
 .saChatComposerToolbar {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   padding: 8px;
   color: #313a44;
-}
-.saChatComposerToolbar input[type="file"] {
-  visibility: hidden;
-  overflow: hidden;
-  height: 0;
-  width: 0;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  display: contents;
 }
 .saChatComposerToolbar button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -31972,103 +31810,18 @@ input.saAvatarCheckbox::after {
 .saChatComposerToolbar button.saButtonSend.saDisabled .saIcon {
   color: #adbdd1;
 }
-.saChatComposerToolbar button.saButtonSend:not(:disabled) .saIcon {
+.saChatComposerToolbar button.saButtonSend:enabled .saIcon {
   color: #2d6ce1;
 }
 .saChatComposerToolbar li:last-child {
   margin-left: auto;
 }
-.saChatComposer textarea {
-  width: 100%;
-  min-height: 96px;
-  max-height: 100%;
-  resize: none;
-  font-size: 14px;
-  line-height: 20px;
-  font-family: "Lexend", sans-serif;
-  appearance: none;
-  padding: 16px 40px 16px 16px;
-  display: block;
-  margin: 0;
-  background: transparent;
-  color: #313a44;
-  border: none;
-}
-.saChatComposer textarea:focus-within,
-.saChatComposer textarea:focus,
-.saChatComposer textarea:focus-visible {
-  outline: none;
-}
-.saChatComposer textarea::placeholder {
-  color: #7088a4;
-}
-.saSmallScreen .saChatComposer textarea {
-  min-height: 48px;
-  height: 48px;
-  font-size: 16px;
-  border-radius: 0;
-  padding: 12px 40px 12px 16px;
-}
-.saSmallScreen .saChatComposer textarea[rows] {
-  height: unset;
-}
-.saInputEmojiPicker {
-  flex-direction: column;
-  background-color: #fff;
-  border-radius: 8px;
-  height: fit-content;
-  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 4px rgba(49, 58, 68, 0.07), 0 4px 8px rgba(49, 58, 68, 0.07), 0 8px 16px rgba(49, 58, 68, 0.07);
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  position: absolute;
-  top: 40px;
-  right: 400px;
-}
-.saEmojiHeader {
+.saAttachmentWrapper {
   display: flex;
-  flex-direction: column;
-  padding: 8px;
-  gap: 8px;
-}
-.saEmojiSearch {
+  width: calc(50% - 4px);
   position: relative;
 }
-.saEmojiSearch input {
-  height: 40px;
-  width: 100%;
-  padding: 8px 8px 8px 40px;
-  color: #313a44;
-  border-radius: 8px;
-  border: 1px solid #ccd5e2;
-}
-.saEmojiSearch input::placeholder {
-  color: #7088a4;
-}
-.saEmojiSearch input:focus + .saIcon {
-  color: #2d6ce1;
-}
-.saEmojiSearch .saIcon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 32px;
-  width: 32px;
-  position: absolute;
-  left: 4px;
-  top: 4px;
-  color: #7088a4;
-  font-size: 16px;
-}
-.saCategories {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.saCategories a {
+.saAttachmentWrapper .saDeleteButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: 'Lexend', sans-serif;
@@ -32079,165 +31832,196 @@ input.saAvatarCheckbox::after {
   justify-content: center;
   box-sizing: border-box;
   flex-shrink: 0;
-  color: #2d6ce1;
-  background: transparent;
   border-radius: 8px;
   padding: 8px;
-  width: 32px;
-  height: 32px;
-  max-width: 32px;
-  font-size: 16px;
+  width: 24px;
+  height: 24px;
+  max-width: 24px;
+  font-size: 14px;
+  background: transparent;
+  color: #e0163e;
+  position: absolute;
+  top: -8px;
+  right: -8px;
 }
-.saCategories a .saButtonText {
+.saAttachmentWrapper .saDeleteButton .saButtonText {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.saCategories a .saBadgedIcon {
+.saAttachmentWrapper .saDeleteButton .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saCategories a .saIcon {
+.saAttachmentWrapper .saDeleteButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.saCategories a .saIcon {
-  color: var(--Sa-Color-Icon);
-}
-.saCategories a.saDestructive {
-  color: #e0163e;
-}
-.saCategories a.saDestructive .saIcon {
-  color: #e0163e;
-}
-@media (pointer: fine) {
-  .saCategories a.saDestructive:hover {
-    color: #e0163e;
-    background: #ffedeb;
-  }
-  .saCategories a.saDestructive:hover .saIcon {
-    color: #e0163e;
-  }
-}
-.saCategories a.saDestructive:active {
-  color: #fff;
-  background: #e0163e;
-}
-.saCategories a.saDestructive:active > .saIcon {
-  color: #fff;
-}
-@media (pointer: fine) {
-  .saCategories a:hover {
-    background: #f8f9fB;
-    color: #2d6ce1;
-  }
-  .saCategories a:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
-  }
-}
-.saCategories a:active {
-  background: #dde3eC;
-}
-.saCategories a:disabled {
-  background: #ccd5e2;
-  pointer-events: none;
-  color: #7088a4;
-}
-.saCategories a:disabled .saIcon {
-  color: #7088a4;
-}
-.saCategories a:active {
+.saAttachmentWrapper .saDeleteButton:active {
   border-radius: 12px;
 }
-.saCategories a[aria-selected="true"] {
-  background-color: #eff0fd;
-  box-shadow: inset 0 0 0 2px #2d6ce1;
+@media (pointer: fine) {
+  .saAttachmentWrapper .saDeleteButton:hover {
+    background: #e0163e;
+    color: #fff;
+  }
 }
-.saCategories a[aria-selected="true"] .saIcon {
+.saAttachmentWrapper .saDeleteButton:active {
+  background: #b81c34;
+  color: #fff;
+}
+.saAttachmentWrapper .saDeleteButton::after {
+  content: "";
+  height: 48px;
+  width: 48px;
+  position: absolute;
+}
+.saAttachment {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #fff;
+  width: 100%;
+  border: 1px solid var(--Sa-Color-InputFieldBorder);
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+}
+.saAttachment:hover {
+  border-color: #2d6ce1;
+  background-color: #f9f9fe;
+}
+.saAttachment:hover .saFileName,
+.saAttachment:hover .saFileSizeRow {
   color: #2d6ce1;
 }
-.saEmojiGroup {
-  height: 320px;
-  overflow: auto;
-  padding: 0 8px 8px 8px;
-  scroll-padding: 16px;
-}
-.saEmojiGroup h3 {
-  color: #60748b;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1;
-  height: 16px;
-  padding-bottom: 4px;
-  position: sticky;
-  top: 0;
-  background-color: #fff;
-  z-index: 2;
-}
-.saEmojiGroup .saEmptyState {
-  min-height: 312px;
-}
-.saEmojiGrid {
-  display: grid;
-  grid-template-columns: repeat(8, 32px);
-  gap: 8px;
-  padding: 4px 0 24px 0;
-  overflow: hidden;
-}
-.saEmojiGrid:last-child {
-  padding: 4px 0 0 0;
-}
-.saEmojiGrid button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 32px;
-  width: 32px;
-  position: relative;
-  background-color: transparent;
-  border-radius: 4px;
-  transition: ease border-radius 0.1s;
-}
-.saEmojiGrid button::after {
-  content: "";
-  height: 40px;
-  width: 40px;
-  position: absolute;
-  opacity: 0;
-}
-.saEmojiGrid button div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 28px;
-  line-height: 32px;
-  text-align: center;
-  height: 32px;
-  width: 32px;
-  max-width: 32px;
-  transition: ease transform 0.1s;
-  transform-origin: bottom;
-}
-.saEmojiGrid button:hover,
-.saEmojiGrid button:focus-visible {
+.saAttachment:active {
+  border-color: #1f59bf;
   background-color: #eff0fd;
+  border-radius: 16px;
 }
-.saEmojiGrid button:hover div,
-.saEmojiGrid button:focus-visible div {
-  transform: scale(1.3);
-}
-.saEmojiGrid button:active {
-  background-color: #cfd2f8;
+.saAttachment:active .saIcon {
   border-radius: 8px;
-  transition: ease border-radius 0.1s, ease background-color 0.1s;
 }
-.saEmojiGrid button:active div {
-  transform: scale(1.1);
+.saAttachment:active .saFileName,
+.saAttachment:active .saFileSizeRow {
+  color: #1f59bf;
+}
+.saAttachment .saIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 32px;
+  height: 32px;
+  width: 32px;
+  border-radius: 4px;
+  background: #f8edfd;
+  color: #8b4af1;
+  border: 1px solid #8b4af1;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+}
+.saAttachment .saIcon.fa-file-word {
+  background: #eff0fd;
+  color: #2d6ce1;
+  border: 1px solid #2d6ce1;
+}
+.saAttachment .saIcon.fa-video {
+  background: #ffede4;
+  color: #b75617;
+  border: 1px solid #b75617;
+}
+.saAttachment .saIcon.fa-file-excel {
+  background: #e1f6e1;
+  color: #278239;
+  border: 1px solid #278239;
+}
+.saAttachment .saIcon.fa-file-pdf {
+  background: #ffedeb;
+  color: #e0163e;
+  border: 1px solid #e0163e;
+}
+.saAttachment .saIcon.fa-image {
+  background: #ffecf6;
+  color: #d1199f;
+  border: 1px solid #d1199f;
+}
+.saAttachment .saIcon.fa-exclamation {
+  background: #e0163e;
+  color: #fff;
+  border: none;
+}
+.saAttachment .saIcon.fa-question {
+  background: #d6980d;
+  color: #fff;
+  border: none;
+}
+.saImagePreview {
+  max-width: 32px;
+  max-height: 32px;
+  width: auto;
+  height: auto;
+  border-radius: 4px;
+  object-fit: contain;
+}
+.saChat .saFileUploadAreaWrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  display: none;
+}
+.saChat .saFileUploadArea {
+  border-radius: 0 0 16px 16px;
+  height: 100%;
+}
+.saChat .saFileGroup {
+  gap: 8px;
+  padding: 0;
+  cursor: text;
+}
+.saChat .saChatComposer .saFileGroup {
+  padding: 8px 8px 0 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: auto;
+  min-height: 96px;
+}
+.saChat .saChatComposer .saFileGroup:empty {
+  display: none;
+}
+.saChat .saFileWrapper {
+  border: 1px solid var(--Sa-Color-InputFieldBorder);
+  padding: 8px;
+  border-radius: 8px;
+  gap: 4px;
+  cursor: default;
+  min-height: 56px;
+  max-height: 56px;
+  height: 56px;
+}
+.saChat:has(.saFileUploadArea:active) {
+  border-radius: 16px 16px 24px 24px;
+}
+.saChat:has(.saFileUploadArea:active) .saChatComposer {
+  border-radius: 0 0 24px 24px;
+}
+.saChat:has(.saFileUploadArea:active) .saFileUploadArea {
+  border-radius: 0 0 24px 24px;
+}
+@media screen and (max-height: 600px) {
+  .saChatDayWrapper,
+  .saChatUnreadWrapper {
+    position: static;
+  }
+  .saChatComposer {
+    max-height: 80%;
+  }
 }
 .saRangeStepWrapper {
   display: flex;
