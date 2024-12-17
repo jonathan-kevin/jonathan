@@ -59,7 +59,7 @@ $(document).ready(function () {
 			$("body").removeClass().addClass("saCompact saPc saLargeScreen");
 			$("#theToggler").text("Compact");
 		}
-	}, 200);
+	}, 1000);
 
     function toggleClasses() {
         if ($("body").hasClass("saStandard")) {
