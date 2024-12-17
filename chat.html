@@ -482,6 +482,17 @@
 	<script>
 		$(document).ready(function () {
 
+			function getQueryParam(param) {
+				const params = new URLSearchParams(window.location.search);
+				return params.get(param);
+
+				console.log(param);
+			}
+
+			const firstname = getQueryParam('firstname');
+			const lastname = getQueryParam('lastname');
+
+			console.log(firstname, lastname);
 
 			// Global variables
 			const $fileInput = $('#file-input');
@@ -504,7 +515,8 @@
 			// Event listeners for drag-and-drop
 			$(document).on('dragenter dragover', () => {
 				$('.saFileUploadAreaWrapper').show();
-				console.log('dragenter or dragover');
+				$('.saComposer').css('min-height', '144px');
+				$('#file-input').show().css('visibility', 'visible');
 			});
 
 			$('.saFileUploadAreaWrapper')
@@ -517,7 +529,8 @@
 
 			$(document).on('drop', () => {
 				$('.saFileUploadAreaWrapper').hide();
-				console.log('drop');
+				$('.saComposer').css('min-height', '');
+				$('#file-input').hide().css('visibility', 'hidden');
 			});
 
 			// Escape key listener to hide file upload UI
@@ -525,6 +538,8 @@
 				if (event.key === 'Escape') {
 					$('.saFileUploadAreaWrapper').hide();
 					$('.saFileUploadArea').removeClass('saDragOver');
+					$('.saComposer').css('min-height', '');
+					$('#file-input').hide().css('visibility', 'hidden');
 				}
 			});
 
@@ -678,11 +693,11 @@
 						$messageGroup.append(`
      					   <div class="saMessage saSender saNew">
      					     <div class="saSenderAvatarWrapper">
-     					       <img data-tooltip="Emil Gyllenring" class="saSenderAvatar" src="./src/img/emilk.png" />
+     					       <img data-tooltip="${firstname} ${lastname}" class="saSenderAvatar" src="./src/img/emilk.png" />
      					     </div>
      					     <div class="saMessageInner">
      					       <div class="saMessageHeader">
-     					         <div class="saSenderName">Emil Gyllenring</div>
+     					         <div class="saSenderName">${firstname} ${lastname}</div>
      					         <time class="saMessageTime" datetime="${currentTime.toISOString()}">${formattedTime}</time>
      					       </div>
      					       <div class="saMessageBody">
