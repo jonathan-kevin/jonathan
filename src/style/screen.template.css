@@ -31099,6 +31099,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  color: #313a44;
 }
 main {
   height: 100%;
@@ -31154,6 +31155,7 @@ main {
   margin-bottom: -1px;
   border-radius: 16px 16px 0 0;
   padding-bottom: 16px;
+  scroll-padding: 104px;
 }
 .saSmallScreen .saMessageGroupWrapper {
   border-radius: 0;
@@ -31181,6 +31183,32 @@ main {
   z-index: 1;
   margin-top: 40px;
   transition: ease inset 0.2s;
+}
+.saChatUnreadWrapper {
+  z-index: 1;
+  bottom: 8px;
+  top: 40px;
+}
+.saChatUnreadWrapper .saChatDay {
+  background-color: #e0163e;
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saChatUnreadWrapper:hover .saChatDay {
+    background-color: #b81c34;
+  }
+}
+.saChatUnreadWrapper:active .saChatDay {
+  background-color: #911d2b;
+}
+.saChatUnreadWrapper.saAbove .fa-caret-up {
+  display: flex;
+}
+.saChatUnreadWrapper.saAbove .fa-caret-down {
+  display: none;
+}
+.saChatUnreadWrapper .fa-caret-up {
+  display: none;
 }
 .saChatDay {
   position: relative;
@@ -31331,200 +31359,11 @@ main {
   color: #fff;
   background-color: #fff;
 }
+.saChatDay::before {
+  content: none;
+}
 .saChatUnreadWrapper + .saMessageGroup .saChatDayWrapper {
   margin-top: 0;
-}
-.saChatUnreadWrapper.saAbove ~ .saMessageGroup .saChatDayWrapper {
-  top: 40px;
-}
-.saChatUnreadWrapper {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  position: sticky;
-  z-index: 1;
-  margin-top: 32px;
-  bottom: 8px;
-  top: 40px;
-  transition: ease inset 0.2s;
-}
-.saChatUnreadWrapper.saAbove {
-  top: 8px;
-}
-.saChatUnreadWrapper.saAbove .fa-caret-up {
-  display: flex;
-}
-.saChatUnreadWrapper.saAbove .fa-caret-down {
-  display: none;
-}
-.saChatUnreadWrapper .fa-caret-up {
-  display: none;
-}
-@media (pointer: fine) {
-  .saChatUnreadWrapper:hover .saChatUnread {
-    background: #b81c34;
-  }
-}
-.saChatUnreadWrapper:active .saChatUnread {
-  background: #911d2b;
-}
-.saChatUnreadWrapper::after {
-  content: '';
-  position: absolute;
-  height: 44px;
-  width: 100%;
-  opacity: 0;
-}
-.saChatUnread {
-  position: relative;
-  gap: 4px;
-  background-color: #eef1f5;
-  width: fit-content;
-  transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
-  box-shadow: inset 0 0 0 0 transparent;
-  border-radius: 99rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  font-size: 14px;
-  text-align: center;
-  max-height: 24px;
-  min-height: 24px;
-  font-weight: 400;
-  gap: 8px;
-  white-space: nowrap;
-}
-.saChatUnread:has(:enabled) {
-  cursor: pointer;
-}
-@media (pointer: fine) {
-  .saChatUnread:has(:enabled):hover {
-    background-color: #eff0fd;
-    color: #1f59bf;
-  }
-  .saChatUnread:has(:enabled):hover.saOutline {
-    box-shadow: inset 0 0 0 1px #2d6ce1;
-  }
-}
-.saChatUnread:has(:enabled):active {
-  background-color: #cfd2f8;
-  color: #224795;
-}
-.saChatUnread::before {
-  content: "";
-  height: 44px;
-  width: 100%;
-  background-color: transparent;
-  opacity: 0;
-  position: absolute;
-}
-.saChatUnread.saSmall {
-  height: 24px;
-  min-width: 40px;
-  border-radius: 12px;
-  padding: 4px 8px;
-  gap: 4px;
-  font-size: 12px;
-  line-height: 12px;
-}
-.saChatUnread.saMedium {
-  min-width: 64px;
-  height: 32px;
-  border-radius: 16px;
-  padding: 0 12px;
-  gap: 8px;
-  font-size: 14px;
-  line-height: 14px;
-}
-.saChatUnread.saLarge {
-  min-width: 64px;
-  height: 40px;
-  border-radius: 20px;
-  padding: 0 12px;
-  gap: 8px;
-  font-size: 14px;
-  line-height: 14px;
-}
-.saChatUnread.saDisabled {
-  background: #eef1f5;
-  color: #adbdd1;
-  cursor: not-allowed;
-}
-.saChatUnread.saOutline {
-  box-shadow: inset 0 0 0 1px #ccd5e2;
-}
-.saChatUnread:has(:checked) {
-  background-color: #2d6ce1;
-  color: #fff;
-}
-.saChatUnread:has(:checked).saOutline {
-  background-color: #eff0fd;
-  color: #1f59bf;
-  box-shadow: inset 0 0 0 1px #2d6ce1;
-}
-.saChatUnread input {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  border: none;
-  margin: 0;
-  padding: 0;
-  padding-block: 0;
-  padding-inline: 0;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  left: 0;
-  top: 0;
-  background: none;
-  border-radius: 16px;
-  cursor: inherit;
-}
-.saChatUnread.saColorWarning {
-  color: #fff;
-  background-color: #956a15;
-}
-.saChatUnread.saColorGeyser {
-  color: #fff;
-}
-.saChatUnread.saColorTango {
-  color: #fff;
-  background-color: #b75617;
-}
-.saChatUnread.saColorAmethyst {
-  color: #fff;
-  background-color: #8b4af1;
-}
-.saChatUnread.saColorPunkPink {
-  color: #fff;
-  background-color: #d1199f;
-}
-.saChatUnread.saColorMountainMeadow {
-  color: #fff;
-  background-color: #278239;
-}
-.saChatUnread.saColorCrimson {
-  color: #fff;
-  background-color: #e0163e;
-}
-.saChatUnread.saColorPicton {
-  color: #fff;
-  background-color: #237c91;
-}
-.saChatUnread.saColorPrimary {
-  color: #fff;
-  background-color: #2d6ce1;
-}
-.saChatUnread.saColorTory {
-  color: #fff;
-  background-color: #2d6ce1;
-}
-.saChatUnread.saColorMadison {
-  color: #fff;
-  background-color: #fff;
 }
 .saMessage {
   display: flex;
@@ -31546,7 +31385,7 @@ main {
   height: 100%;
   width: 4px;
   background: #e0163e;
-  transition: ease transform 60s, ease opacity 60s;
+  transition: ease transform 0.2s 10s, ease opacity 0.2s 10s;
 }
 .saMessage.saUnread.saRead {
   background-color: transparent;
@@ -32067,7 +31906,6 @@ main {
 .saChat .saFileGroup {
   gap: 8px;
   padding: 0;
-  cursor: text;
 }
 .saChat .saComposer .saFileGroup {
   padding: 8px 8px 0 8px;
@@ -32075,6 +31913,7 @@ main {
   grid-template-columns: 1fr 1fr;
   overflow: auto;
   min-height: 72px;
+  cursor: text;
 }
 .saChat .saComposer .saFileGroup:empty {
   display: none;

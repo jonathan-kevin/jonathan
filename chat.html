@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -7,9 +6,13 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
 		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="./script.js"></script>
+	<link rel="stylesheet" href="./src/style/screen.template.css?version=#">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<link rel="icon" type="image/png" size="16x16" href="./src/img/favicon.png">
+	<title>Chat</title>
 </head>
 
-<body>
+<body class="saPc saLargeScreen saCompact">
 	<main>
 		<div class="saChatWrapper">
 			<div class="saChat saUrgent">
@@ -193,16 +196,13 @@
 							</div>
 						</div>
 					</div>
-					<a href="#firstunreadmessage" class="saChatUnreadWrapper">
-						<div class="saLine"></div>
-						<div class="saChatUnread saColorCrimson saSmall" aria-live="polite">
-							2 unread messages
+					<a href="#firstunreadmessage" class="saChatDayWrapper saChatUnreadWrapper">
+						<h3 class="saChatDay saSmall">
+							<span>2 unread</span>
 							<i class="saIcon fas fa-caret-down"></i>
 							<i class="saIcon fas fa-caret-up"></i>
-						</div>
+						</h3>
 					</a>
-
-
 					<div class="saMessageGroup">
 						<div class="saChatDayWrapper">
 							<h3 class="saChatDay saSmall">
@@ -328,7 +328,7 @@
 								<time datetime="2026-12-11">Today</time>
 							</h3>
 						</div>
-						<div class="saMessage">
+						<div class="saMessage saUnread">
 							<div class="saSenderAvatarWrapper">
 								<img data-tooltip="Molker Birdley" class="saSenderAvatar"
 									src="https://cdn.prod.website-files.com/6365d860c7b7a7191055eb8a/65a75130dc955d33b7d36e5b_Katherine%20Moss-p-500.jpg">
@@ -348,10 +348,10 @@
 									<ul class="saFileGroup">
 										<li class="saAttachmentWrapper">
 											<a class="saAttachment"
-												href="https://images.pexels.com/photos/6331049/pexels-photo-6331049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+												href="https://images.pexels.com/photos/6331049/pexels-photo-6331049.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1260&amp;h=750&amp;dpr=1"
 												download="">
 												<img class="saImagePreview"
-													src="https://images.pexels.com/photos/6331049/pexels-photo-6331049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+													src="https://images.pexels.com/photos/6331049/pexels-photo-6331049.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1260&amp;h=750&amp;dpr=1"
 													alt="1_RbHzrLTpS-Dcy5EnDw17TA.jpg">
 												<div class="saFileInner">
 													<div class="saFileNameWrapper"><span
@@ -366,10 +366,10 @@
 										</li>
 										<li class="saAttachmentWrapper">
 											<a class="saAttachment"
-												href="https://images.pexels.com/photos/3530056/pexels-photo-3530056.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+												href="https://images.pexels.com/photos/3530056/pexels-photo-3530056.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1260&amp;h=750&amp;dpr=1"
 												download="">
 												<img class="saImagePreview"
-													src="https://images.pexels.com/photos/3530056/pexels-photo-3530056.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+													src="https://images.pexels.com/photos/3530056/pexels-photo-3530056.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1260&amp;h=750&amp;dpr=1"
 													alt="Group 2.png">
 												<div class="saFileInner">
 													<div class="saFileNameWrapper"><span class="saFileName">Group
@@ -440,7 +440,7 @@
 				<form class="saComposer">
 					<div class="saFileUploadAreaWrapper">
 						<label class="saFileUploadArea" tabindex="0">
-							<input id="file-input" type="file" multiple>
+							<input id="file-input" type="file" multiple="">
 							<div class="saFileUploadAreaInner">
 								<div class="saFolderWrapper">
 									<div class="saFolder">
@@ -470,7 +470,7 @@
 								type="button"><i class="saIcon far fa-paperclip"></i></button>
 						</li>
 						<li>
-							<button class="saDefaultIconButtonGhost saButtonSend" disabled aria-label="Send message"
+							<button class="saDefaultIconButtonGhost saButtonSend" disabled="" aria-label="Send message"
 								data-tooltip="Send message" type="submit"><i
 									class="saIcon far fa-paper-plane-top"></i></button>
 						</li>
@@ -482,11 +482,6 @@
 	<script>
 		$(document).ready(function () {
 
-			const textarea = document.getElementById('TextArea');
-			textarea.addEventListener('input', function () {
-				this.style.height = 'auto';
-				this.style.height = this.scrollHeight - 20 + 'px';
-			});
 
 			// Global variables
 			const $fileInput = $('#file-input');
@@ -496,6 +491,15 @@
 			const $sendButton = $('.saButtonSend');
 			const $sendButtonIcon = $('.saButtonSend i.saIcon');
 			const $messageGroup = $('.saMessageGroupWrapper');
+
+
+			$textarea.on('input', function () {
+				$(this).css('height', 'auto');
+				$(this).css('height', this.scrollHeight - 20 + 'px');
+			});
+
+
+			$messageGroup.scrollTop($messageGroup[0].scrollHeight);
 
 			// Event listeners for drag-and-drop
 			$(document).on('dragenter dragover', () => {
@@ -622,6 +626,29 @@
 				});
 			});
 
+			$(".saMessageGroupWrapper").on("scroll", function () {
+				var $parent = $(".saMessageGroupWrapper");
+				var $unreadWrapper = $(".saChatUnreadWrapper");
+				var $firstUnreadMessage = $parent.find(".saMessage.saUnread").first();
+
+				if ($firstUnreadMessage.length) {
+					var messageTop = $firstUnreadMessage.position().top;
+					var messageBottom = messageTop + $firstUnreadMessage.outerHeight();
+
+					var parentScrollTop = $parent.scrollTop();
+					var parentHeight = $parent.innerHeight();
+
+					if (messageBottom <= parentScrollTop - 144) {
+						$unreadWrapper.addClass("saAbove");
+					} else {
+						$unreadWrapper.removeClass("saAbove");
+					}
+				} else {
+					// If no unread messages exist, ensure the class is removed
+					$unreadWrapper.removeClass("saAbove");
+				}
+			});
+
 
 			function autoExpand($textarea) {
 				//
@@ -651,11 +678,11 @@
 						$messageGroup.append(`
      					   <div class="saMessage saSender saNew">
      					     <div class="saSenderAvatarWrapper">
-     					       <img data-tooltip="Olivia Rydén" class="saSenderAvatar" src="./src/img/avatar2.png" />
+     					       <img data-tooltip="Emil Gyllenring" class="saSenderAvatar" src="./src/img/emilk.png" />
      					     </div>
      					     <div class="saMessageInner">
      					       <div class="saMessageHeader">
-     					         <div class="saSenderName">Olivia Rydén</div>
+     					         <div class="saSenderName">Emil Gyllenring</div>
      					         <time class="saMessageTime" datetime="${currentTime.toISOString()}">${formattedTime}</time>
      					       </div>
      					       <div class="saMessageBody">
@@ -683,6 +710,5 @@
 			}
 		});
 	</script>
-</body>
 
-</html>
+</body>
