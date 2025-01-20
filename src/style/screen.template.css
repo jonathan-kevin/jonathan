@@ -32956,8 +32956,125 @@ main:has(.saInputDateRange) .saSmallScreen {
 }
 .saDateRangeFooter {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   gap: 8px;
+}
+.saDateRangeFooter .saResetButton {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+  gap: 8px;
+  padding: 8px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-left: auto;
+}
+.saDateRangeFooter .saResetButton .saButtonText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.saDateRangeFooter .saResetButton .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saDateRangeFooter .saResetButton .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saDateRangeFooter .saResetButton .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saDateRangeFooter .saResetButton .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .saDateRangeFooter .saResetButton:hover {
+    border-color: var(--Sa-Color-SecondaryButtonBorderHover);
+    color: var(--Sa-Color-LabelHover);
+  }
+  .saDateRangeFooter .saResetButton:hover .saIcon {
+    color: var(--Sa-Color-IconHover);
+  }
+  .saDateRangeFooter .saResetButton:hover .saBadge {
+    background-color: var(--Sa-Color-IconHover);
+  }
+}
+.saDateRangeFooter .saResetButton:active {
+  background: var(--Sa-Color-SecondaryButtonBackgroundActive);
+}
+.saDateRangeFooter .saResetButton:active .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  border-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+}
+.saDateRangeFooter .saResetButton.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.saDateRangeFooter .saResetButton.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDateRangeFooter .saResetButton.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saDateRangeFooter .saResetButton.saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saDateRangeFooter .saResetButton.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .saDateRangeFooter .saResetButton.saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saDateRangeFooter .saResetButton.saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saDateRangeFooter .saResetButton.saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saDateRangeFooter .saResetButton.saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saDateRangeFooter .saResetButton:active {
+  border-radius: 12px;
+}
+.saDateRangeFooter .saResetButton .saIcon {
+  font-size: 16px;
+  min-width: 18px;
+  max-width: 18px;
+}
+.saSmallScreen .saDateRangeFooter {
+  flex-direction: column;
+  align-items: unset;
 }
 .saDateRangeFooterRange {
   display: none;

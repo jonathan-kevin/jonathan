@@ -36,39 +36,44 @@
 					<input type="text" id="dateRangeInputEnd" aria-describedby="dateRangeLabel" aria-label="Date to"
 						value="" tabindex="2" placeholder="yyyy-mm-dd">
 					<div class="saTrailingIconsWrapper">
-						<button class="saIcon saActionIcon far fa-calendar" type="button" id="dateRange"
+						<button class="fa-calendar far saActionIcon saIcon" type="button" id="dateRange"
 							aria-expanded="false" tabindex="-1">
 						</button>
 					</div>
 				</div>
 
-				<div class="saDateRangePickerWrapper saPicker saDatePickerRoot saManyWeeks saPopupItemJs"
+				<div class="saDatePickerRoot saDateRangePickerWrapper saManyWeeks saPicker saPopupItemJs"
 					style="position:relative;" hidden>
 					<div class="saDateRangePicker">
 
 					</div>
 
-					<fieldset class="saPillGroup">
-						<legend class="saScreenReaderOnly">
-							Select predefined period
-						</legend>
-						<label class="saPill saSmall">
-							<span>Custom date range</span>
-							<input type="radio" name="Pill" value="" checked>
-						</label>
-						<label class="saPill saSmall">
-							<span>Last 7 days</span>
-							<input type="radio" name="Pill" value="2">
-						</label>
-						<label class="saPill saSmall">
-							<span>Last 14 days</span>
-							<input type="radio" name="Pill" value="1">
-						</label>
-						<label class="saPill saSmall">
-							<span>Last month</span>
-							<input type="radio" name="Pill" value="3">
-						</label>
-					</fieldset>
+					<div class="saDateRangeFooter">
+						<fieldset class="saPillGroup">
+							<legend class="saScreenReaderOnly">
+								Select predefined period
+							</legend>
+							<label class="saPill saSmall">
+								<span>Custom date range</span>
+								<input type="radio" name="Pill" value="" checked>
+							</label>
+							<label class="saPill saSmall">
+								<span>Last 7 days</span>
+								<input type="radio" name="Pill" value="2">
+							</label>
+							<label class="saPill saSmall">
+								<span>Last 14 days</span>
+								<input type="radio" name="Pill" value="1">
+							</label>
+							<label class="saPill saSmall">
+								<span>Last month</span>
+								<input type="radio" name="Pill" value="3">
+							</label>
+						</fieldset>
+						<button type="reset" class="saDestructive saResetButton">
+							Reset
+						</button>
+					</div>
 				</div>
 			</div>
 		</main>
@@ -127,12 +132,12 @@
 			<div class="saMonthWrapper">
 				<button class="saMonth" disabled>
 					<time>Month Year</time>
-					<i class="saIcon far fa-angle-down"></i>
+					<i class="fa-angle-down far saIcon"></i>
 				</button>
 			</div>
 		</div>
 		<div class="saDayRow">
-			<div class="saWeekNr saEmpty"></div>
+			<div class="saEmpty saWeekNr"></div>
 			<div class="saDay"><abbr>Mon</abbr></div>
 			<div class="saDay"><abbr>Tue</abbr></div>
 			<div class="saDay"><abbr>Wed</abbr></div>
@@ -209,12 +214,12 @@
 				<div class="saMonthWrapper">
 					<button class="saMonth" aria-expanded="false" aria-label="${monthLabel}">
 						<time datetime="${date.toISOString().slice(0, 7)}">${monthLabel}</time>
-						<i class="saIcon far fa-angle-down"></i>
+						<i class="fa-angle-down far saIcon"></i>
 					</button>
 				</div>
 			</div>
 			<div class="saDayRow">
-				<div class="saWeekNr saEmpty"></div>
+				<div class="saEmpty saWeekNr"></div>
 				<div class="saDay" aria-label="Monday"><abbr>Mon</abbr></div>
 				<div class="saDay" aria-label="Tuesday"><abbr>Tue</abbr></div>
 				<div class="saDay" aria-label="Wednesday"><abbr>Wed</abbr></div>
@@ -283,7 +288,7 @@
 				}
 			});
 
-			var monthBtns = $('<div class="saMonths"><button type="button" aria-label="Previous month" tabindex="5"><i class="saIcon far fa-angle-left"></i></button><button type="button" aria-label="Next month" tabindex="6"><i class="saIcon far fa-angle-right"></i></button></div>');
+			var monthBtns = $('<div class="saMonths"><button type="button" aria-label="Previous month" tabindex="5"><i class="fa-angle-left far saIcon"></i></button><button type="button" aria-label="Next month" tabindex="6"><i class="fa-angle-right far saIcon"></i></button></div>');
 			$('.saDatePickerMonthHeading').last().append(monthBtns);
 
 			let startDate = null;
