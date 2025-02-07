@@ -33247,11 +33247,167 @@ main:has(.saInputDateRange) .saSmallScreen {
     top: unset;
   }
 }
+.topbutton {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+  width: fit-content;
+}
+.topbutton .saButtonText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.topbutton .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.topbutton .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.topbutton .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.topbutton .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .topbutton:hover {
+    border-color: var(--Sa-Color-SecondaryButtonBorderHover);
+    color: var(--Sa-Color-LabelHover);
+  }
+  .topbutton:hover .saIcon {
+    color: var(--Sa-Color-IconHover);
+  }
+  .topbutton:hover .saBadge {
+    background-color: var(--Sa-Color-IconHover);
+  }
+}
+.topbutton:active {
+  background: var(--Sa-Color-SecondaryButtonBackgroundActive);
+}
+.topbutton:active .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  border-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+}
+.topbutton.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.topbutton.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.topbutton.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .topbutton.saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .topbutton.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .topbutton.saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.topbutton.saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.topbutton.saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.topbutton.saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saStandard .topbutton {
+  gap: 8px;
+  height: 40px;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+.saStandard .topbutton:active {
+  border-radius: 12px;
+}
+.saStandard .topbutton .saIcon {
+  font-size: 20px;
+  min-width: 26px;
+}
+.saCompact .topbutton {
+  gap: 8px;
+  padding: 8px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.saCompact .topbutton:active {
+  border-radius: 12px;
+}
+.saCompact .topbutton .saIcon {
+  font-size: 16px;
+  min-width: 18px;
+  max-width: 18px;
+}
+.saSmallScreen .topbutton {
+  gap: 8px;
+  border-radius: 8px;
+  height: 40px;
+  font-size: 16px;
+  padding: 8px 12px;
+}
+.saSmallScreen .topbutton:active {
+  border-radius: 12px;
+}
+.saSmallScreen .topbutton .saIcon {
+  font-size: 20px;
+  min-width: 26px;
+}
+.topbutton .saButtonText {
+  line-height: 18px;
+}
 .saInlineFrame {
   width: 100%;
   height: calc(100% - 40px);
   border: solid 1px #ccd5e2;
   border-radius: 8px;
+}
+.saInlineFrame.saEmpty {
+  background-color: #f8f9fB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.saInlineFrame.saEmpty .saEmptyState {
+  padding-bottom: 200px;
+  max-width: 400px;
 }
 .saInlineHeader {
   display: flex;

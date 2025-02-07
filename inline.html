@@ -15,8 +15,11 @@
 <body>
 	<main style="padding: 16px; flex-direction: column; flex-wrap: nowrap; gap: 8px;">
 		<h1>Heading</h1>
-		<button class="saButtonSecondary">Top buttons</button>
-		<div class="saInlineHeader">
+		<button id="toggleEmpty" class="topbutton">
+			<i class="fa-eye-slash fas saIcon"></i>
+			<div class="saButtonText"> Toggle empty</div>
+		</button>
+		<div class="saInlineHeader" role="toolbar" aria-controls="fileFrame">
 			<label class="saInputTextWrapper saLabeled">
 				<span class="saLabeledLabel">Document</span>
 				<select class="saDropdown saInputText">
@@ -38,9 +41,45 @@
 				</button>
 			</div>
 		</div>
+		<div class="saInlineHeader" role="toolbar" aria-controls="fileFrame" style="display: none;">
+			<label class="saInputTextWrapper saLabeled">
+				<span class="saLabeledLabel">Document</span>
+				<select class="saDropdown saInputText">
+					<option value="0">Adobe-kvitto-2023.pdf</option>
+				</select>
+				<div class="saTrailingIconsWrapper">
+					<i class="fa-angle-down far saIcon"></i>
+				</div>
+			</label>
+			<div class="saInlineButtonGroup">
+				<button type="button" aria-label="Previous document" data-tooltip="Previous document" disabled>
+					<i class="fa-caret-up fas saIcon"></i>
+				</button>
+				<button type="button" aria-label="Next document" data-tooltip="Next document" disabled>
+					<i class="fa-caret-down fas saIcon"></i>
+				</button>
+			</div>
+		</div>
+		<div class="saEmpty saInlineFrame" style="display: none;">
+			<div class="saEmptyState">
+				<div class="saEmptyStateIcon">
+					<i class="fa-search far saIcon"></i>
+				</div>
+				<div class="saEmptyStateBody">
+					<div class="saEmptyStateHeading">Document viewer is empty</div>
+					<div class="saEmptyStateDescription">The document viewer is waiting for content. Check back again
+						later.</div>
+				</div>
+			</div>
+		</div>
 		<iframe id="fileFrame" class="saInlineFrame" src="./src/img/Adobe-kvitto-2023.pdf" frameborder="0">
 		</iframe>
 	</main>
 </body>
+<script>
+	$('#toggleEmpty').click(function (e) {
+		$('.saInlineHeader, .saInlineFrame').toggle();
+	});
+</script>
 
 </html>
