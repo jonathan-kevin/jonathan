@@ -12527,7 +12527,7 @@ select.saInputText {
 }
 .saOptionListWrapper {
   z-index: 1005;
-  margin-top: 5px;
+  margin-top: 4px;
   position: absolute;
   background: #fff;
   display: none;
@@ -12538,7 +12538,7 @@ select.saInputText {
   flex: 2;
   overscroll-behavior: contain;
   padding: 4px;
-  border-radius: 12px;
+  border-radius: 8px;
   overflow-y: auto;
   overflow-x: hidden;
   border: 1px solid #f8f9fB;
@@ -12546,7 +12546,8 @@ select.saInputText {
   max-height: 448px;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 4px rgba(49, 58, 68, 0.07), 0 4px 8px rgba(49, 58, 68, 0.07), 0 8px 16px rgba(49, 58, 68, 0.07), 0 16px 32px rgba(49, 58, 68, 0.07), 0 32px 64px rgba(49, 58, 68, 0.07);
+  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 4px rgba(49, 58, 68, 0.07);
+  border: solid 1px #ccd5e2;
 }
 .saOptionListWrapper.saListColumns {
   max-width: 1200px;
@@ -14128,6 +14129,10 @@ legend + .saInputCardsWrapper {
 .saSmallScreen .saCheckboxTreeWrapper {
   width: 100%;
 }
+.saMultiAutoSearchWrapper .saCheckboxTreeWrapper {
+  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 4px rgba(49, 58, 68, 0.07);
+  border-radius: 8px;
+}
 .saCheckboxTreeWrapper .saCheckboxTree {
   overflow-y: auto;
   box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
@@ -14157,7 +14162,7 @@ legend + .saInputCardsWrapper {
   min-width: 24px;
 }
 .saCheckboxTreeWrapper .saInputText.saSuccess.saInputValidation .saInputValidationIcon::before {
-  content: "\f00c";
+  content: '\f00c';
   color: #278239;
   font-size: 24px;
 }
@@ -17203,6 +17208,103 @@ legend + .saInputCardsWrapper {
 .right.standardview .tox .tox-dialog-loading::before {
   background-color: rgba(49, 58, 68, 0.5);
 }
+.saPc main:has(.saMultiAutoSearchWrapper) {
+  max-width: 344px;
+  padding: 40px;
+}
+.saSmallScreen main:has(.saMultiAutoSearchWrapper) {
+  max-width: unset;
+  padding: 16px;
+}
+.saOptionGroupWrapper {
+  display: flex;
+  z-index: 1005;
+  margin-top: 4px;
+  position: absolute;
+  background: #fff;
+  flex-direction: column;
+  width: fit-content;
+  min-width: calc(100%);
+  max-width: 712px;
+  overscroll-behavior: contain;
+  border-radius: 8px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid #f8f9fB;
+  min-height: 32px;
+  height: fit-content;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 4px rgba(49, 58, 68, 0.07);
+  border: solid 1px #ccd5e2;
+  display: none;
+  top: 4px;
+  position: relative;
+}
+.saActive .saOptionGroupWrapper {
+  display: flex;
+}
+.saSmallScreen .saOptionGroupWrapper {
+  height: 100%;
+}
+.saSmallScreen .saOptionGroupWrapper input[type='search'] {
+  font-size: 16px;
+  height: 44px;
+  padding: 0 14px;
+}
+.saOptionGroupHeader {
+  padding: 8px;
+  border-bottom: 1px #ccd5e2 solid;
+  background-color: #f8f9fB;
+}
+.saOptionGroupHeader .saInputTextWrapper input {
+  border-radius: 4px;
+}
+.saOptionGroup {
+  padding: 8px 4px;
+  overflow: auto;
+  max-height: 448px;
+}
+.saSmallScreen .saOptionGroup {
+  max-height: unset;
+}
+.saOptionGroup label {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  height: 32px;
+  padding: 4px 8px;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: ease border-radius 0.2s;
+}
+@media (pointer: fine) {
+  .saOptionGroup label:hover {
+    background-color: #eff0fd;
+    color: #1f59bf;
+  }
+}
+.saOptionGroup label:active {
+  background-color: #cfd2f8;
+  color: #224795;
+  border-radius: 8px;
+}
+.saOptionGroup label.saFocus {
+  background-color: #2d6ce1;
+  color: #fff;
+}
+.saSmallScreen .saOptionGroup label {
+  height: 44px;
+  padding: 8px;
+}
+.saOptionGroup span {
+  font-size: 14px;
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .saMultiAutoSearchWrapper {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
@@ -17220,6 +17322,16 @@ legend + .saInputCardsWrapper {
   color: #313a44;
   box-sizing: border-box;
 }
+.saMultiAutoSearchWrapper.saHighlightFieldError .saSelectedValueWrapper {
+  outline: 2px solid #e0163e;
+  outline-offset: -2px;
+  box-shadow: none !important;
+  border-color: transparent;
+}
+.saMultiAutoSearchWrapper.saHighlightFieldError:hover .saSelectedValueWrapper,
+.saMultiAutoSearchWrapper.saHighlightFieldError:focus-within .saSelectedValueWrapper {
+  outline-color: #e0163e;
+}
 .saMultiAutoSearchWrapper.saHighlightFieldError input {
   background: #ffedeb;
 }
@@ -17229,6 +17341,7 @@ legend + .saInputCardsWrapper {
   box-shadow: none;
   background: #eef1f5;
   color: #8fa5c0;
+  outline-color: transparent;
 }
 .saMultiAutoSearchWrapper.saDisabled .saSelectedValueWrapper input {
   pointer-events: none;
@@ -17237,16 +17350,19 @@ legend + .saInputCardsWrapper {
   background: #eef1f5;
   color: #8fa5c0;
 }
+.saMultiAutoSearchWrapper:hover .saSelectedValueWrapper,
 .saMultiAutoSearchWrapper:focus-within .saSelectedValueWrapper {
-  box-shadow: 0 0 0 2px #2d6ce1;
+  outline: 2px solid #2d6ce1;
+  outline-offset: -2px;
+  background-color: #f9f9fe;
 }
-.saMultiAutoSearchWrapper input[type="search"]::-webkit-search-decoration,
-.saMultiAutoSearchWrapper input[type="search"]::-webkit-search-cancel-button,
-.saMultiAutoSearchWrapper input[type="search"]::-webkit-search-results-button,
-.saMultiAutoSearchWrapper input[type="search"]::-webkit-search-results-decoration {
+.saMultiAutoSearchWrapper input[type='search']::-webkit-search-decoration,
+.saMultiAutoSearchWrapper input[type='search']::-webkit-search-cancel-button,
+.saMultiAutoSearchWrapper input[type='search']::-webkit-search-results-button,
+.saMultiAutoSearchWrapper input[type='search']::-webkit-search-results-decoration {
   display: none;
 }
-.saMultiAutoSearchWrapper input {
+.saMultiAutoSearchWrapper input[type=''] {
   font-size: 14px;
   height: 24px;
   min-width: 24px;
@@ -17264,13 +17380,13 @@ legend + .saInputCardsWrapper {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
 }
-.saMultiAutoSearchWrapper input::placeholder {
+.saMultiAutoSearchWrapper input[type='']::placeholder {
   color: #60748b;
 }
 .saMultiAutoSearchWrapper .saSelectedValueWrapper {
   display: flex;
   align-items: center;
-  padding: 4px;
+  padding: 2px;
   padding-right: 28px;
   gap: 4px;
   min-height: 24px;
@@ -17280,11 +17396,13 @@ legend + .saInputCardsWrapper {
   flex-wrap: wrap;
   overflow-x: hidden;
   overflow-y: auto;
-  border-radius: 6px;
-  box-shadow: 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+  border-radius: 8px;
+  outline: 1px solid var(--Sa-Color-InputFieldBorder);
+  outline-offset: -1px;
+  border: 2px solid transparent;
   overscroll-behavior: none;
   position: relative;
-  cursor: text;
+  cursor: pointer;
 }
 .saMultiAutoSearchWrapper .saSelectedValueWrapper li:only-child {
   padding-left: 4px;
@@ -17311,16 +17429,6 @@ legend + .saInputCardsWrapper {
 				padding: 0 6px 0 4px;
 				border-radius: 4px;
 			}*/
-}
-.saMultiAutoSearchWrapper .saSelectedValueWrapper .saTag::after {
-  content: '';
-  height: calc(100% + 8px);
-  width: calc(100% + 8px);
-  background-color: transparent;
-  opacity: 0;
-  position: absolute;
-  left: -4px;
-  top: -4px;
 }
 .saMultiAutoSearchWrapper .saSelectedValueWrapper .saTag.saAnimate {
   animation: 0.2s saGrowIn ease;
@@ -33138,4 +33246,256 @@ main:has(.saInputDateRange) .saSmallScreen {
     position: unset;
     top: unset;
   }
+}
+.saInlineFrame {
+  width: 100%;
+  height: calc(100% - 40px);
+  border: solid 1px #ccd5e2;
+  border-radius: 8px;
+}
+.saInlineHeader {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.saInlineHeader .saInputTextWrapper {
+  margin-right: 0;
+}
+.saStandard .saInlineHeader .saInputTextWrapper .saTrailingIconsWrapper,
+.saSmallScreen .saInlineHeader .saInputTextWrapper .saTrailingIconsWrapper {
+  height: 40px;
+}
+.saStandard .saInlineHeader .saInputText,
+.saSmallScreen .saInlineHeader .saInputText {
+  height: 40px;
+}
+.saInlineButtonGroup {
+  display: flex;
+}
+.saInlineButtonGroup button {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+}
+.saInlineButtonGroup button .saButtonText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.saInlineButtonGroup button .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saInlineButtonGroup button .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saInlineButtonGroup button .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saInlineButtonGroup button .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .saInlineButtonGroup button:hover {
+    border-color: var(--Sa-Color-SecondaryButtonBorderHover);
+    color: var(--Sa-Color-LabelHover);
+  }
+  .saInlineButtonGroup button:hover .saIcon {
+    color: var(--Sa-Color-IconHover);
+  }
+  .saInlineButtonGroup button:hover .saBadge {
+    background-color: var(--Sa-Color-IconHover);
+  }
+}
+.saInlineButtonGroup button:active {
+  background: var(--Sa-Color-SecondaryButtonBackgroundActive);
+}
+.saInlineButtonGroup button:active .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  border-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+}
+.saInlineButtonGroup button.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.saInlineButtonGroup button.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saInlineButtonGroup button.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saInlineButtonGroup button.saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saInlineButtonGroup button.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .saInlineButtonGroup button.saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saInlineButtonGroup button.saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saInlineButtonGroup button.saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saInlineButtonGroup button.saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saStandard .saInlineButtonGroup button {
+  border-radius: 8px;
+  padding: 8px 12px;
+  width: 40px;
+  height: 40px;
+  max-width: 40px;
+  font-size: 16px;
+}
+.saStandard .saInlineButtonGroup button:active {
+  border-radius: 12px;
+}
+.saCompact .saInlineButtonGroup button {
+  border-radius: 8px;
+  padding: 8px;
+  width: 32px;
+  height: 32px;
+  max-width: 32px;
+  font-size: 16px;
+}
+.saCompact .saInlineButtonGroup button:active {
+  border-radius: 12px;
+}
+.saSmallScreen .saInlineButtonGroup button {
+  border-radius: 8px;
+  padding: 8px 12px;
+  width: 40px;
+  height: 40px;
+  max-width: 40px;
+  font-size: 16px;
+}
+.saSmallScreen .saInlineButtonGroup button:active {
+  border-radius: 12px;
+}
+.saInlineButtonGroup {
+  display: flex;
+  align-items: center;
+}
+.saInlineButtonGroup button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+  background-color: #fff;
+  padding: 0;
+  margin: 0;
+  color: #7088a4;
+  cursor: pointer;
+  z-index: 1;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+}
+.saStandard .saInlineButtonGroup button {
+  border-radius: 8px;
+  padding: 8px 12px;
+  width: 40px;
+  height: 40px;
+  max-width: 40px;
+  font-size: 16px;
+}
+.saStandard .saInlineButtonGroup button:active {
+  border-radius: 12px;
+}
+.saCompact .saInlineButtonGroup button {
+  border-radius: 8px;
+  padding: 8px;
+  width: 32px;
+  height: 32px;
+  max-width: 32px;
+  font-size: 16px;
+}
+.saCompact .saInlineButtonGroup button:active {
+  border-radius: 12px;
+}
+.saSmallScreen .saInlineButtonGroup button {
+  border-radius: 8px;
+  padding: 8px 12px;
+  width: 40px;
+  height: 40px;
+  max-width: 40px;
+  font-size: 16px;
+}
+.saSmallScreen .saInlineButtonGroup button:active {
+  border-radius: 12px;
+}
+.saInlineButtonGroup button:not(:first-child):not(:last-child) {
+  border-radius: 0;
+  margin-right: -1px;
+}
+.saInlineButtonGroup button:first-child {
+  border-radius: 8px 0 0 8px;
+  margin-right: -1px;
+}
+.saInlineButtonGroup button:first-child:active {
+  border-radius: 12px 0 0 12px;
+}
+.saInlineButtonGroup button:last-child {
+  border-radius: 0 8px 8px 0;
+}
+.saInlineButtonGroup button:last-child:active {
+  border-radius: 0 12px 12px 0;
+}
+@media (pointer: fine) {
+  .saInlineButtonGroup button:hover {
+    background-color: #eff0fd;
+    color: #2d6ce1;
+    box-shadow: inset 0 0 0 1px #2d6ce1;
+    z-index: 2;
+  }
+}
+.saInlineButtonGroup button:focus-visible {
+  background-color: #eff0fd;
+  color: #2d6ce1;
+  box-shadow: inset 0 0 0 1px #2d6ce1;
+  z-index: 2;
+}
+.saInlineButtonGroup button:active {
+  background-color: #cfd2f8;
+  color: #1f59bf;
+  box-shadow: inset 0 0 0 1px #1f59bf;
+  z-index: 2;
+}
+.saInlineButtonGroup button:disabled {
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px #dde3eC;
+  color: #ccd5e2;
+  background-color: #f8f9fB;
+  z-index: 0;
 }
