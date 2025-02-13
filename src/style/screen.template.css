@@ -3688,6 +3688,167 @@ div.saPopupOverlay {
 .saLargeScreen .saGridWrapper > .saPagination {
   display: none;
 }
+.saGridActionRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: #eef1f5;
+  border: solid 1px #ccd5e2;
+  border-bottom: none;
+  padding: 7px 12px 8px 12px;
+  gap: 8px;
+}
+.saGridActionButton {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+}
+.saGridActionButton .saButtonText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.saGridActionButton .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saGridActionButton .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saGridActionButton .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saGridActionButton .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .saGridActionButton:hover {
+    border-color: var(--Sa-Color-SecondaryButtonBorderHover);
+    color: var(--Sa-Color-LabelHover);
+  }
+  .saGridActionButton:hover .saIcon {
+    color: var(--Sa-Color-IconHover);
+  }
+  .saGridActionButton:hover .saBadge {
+    background-color: var(--Sa-Color-IconHover);
+  }
+}
+.saGridActionButton:active {
+  background: var(--Sa-Color-SecondaryButtonBackgroundActive);
+}
+.saGridActionButton:active .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  border-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+}
+.saGridActionButton.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.saGridActionButton.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saGridActionButton.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saGridActionButton.saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saGridActionButton.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .saGridActionButton.saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saGridActionButton.saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saGridActionButton.saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saGridActionButton.saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saStandard .saGridActionButton {
+  gap: 8px;
+  height: 40px;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+.saStandard .saGridActionButton:active {
+  border-radius: 12px;
+}
+.saStandard .saGridActionButton .saIcon {
+  font-size: 20px;
+  min-width: 26px;
+}
+.saCompact .saGridActionButton {
+  gap: 8px;
+  padding: 8px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.saCompact .saGridActionButton:active {
+  border-radius: 12px;
+}
+.saCompact .saGridActionButton .saIcon {
+  font-size: 16px;
+  min-width: 18px;
+  max-width: 18px;
+}
+.saSmallScreen .saGridActionButton {
+  gap: 8px;
+  border-radius: 8px;
+  height: 40px;
+  font-size: 16px;
+  padding: 8px 12px;
+}
+.saSmallScreen .saGridActionButton:active {
+  border-radius: 12px;
+}
+.saSmallScreen .saGridActionButton .saIcon {
+  font-size: 20px;
+  min-width: 26px;
+}
+.saGridActionButton:disabled,
+.saGridActionButton:disabled.saDestructive {
+  background-color: #fff;
+  color: #adbdd1;
+  border-color: transparent;
+}
+.saGridActionButton:disabled .saIcon,
+.saGridActionButton:disabled.saDestructive .saIcon {
+  color: #adbdd1;
+}
 .saGridTop {
   box-sizing: border-box;
   width: 100%;
@@ -3695,13 +3856,9 @@ div.saPopupOverlay {
   background: #fff;
   font-weight: 500;
   font-size: 14px;
-  height: 60px;
 }
 .saSmallScreen .saGridTop .saPagination {
   display: none;
-}
-.saStandard .saGridTop {
-  height: 72px;
 }
 .saListGrid .saGridTop {
   display: flex;
@@ -3855,23 +4012,23 @@ div.saPopupOverlay {
 .saLargeScreen .saGridTop .saGridButton.saChangeScreenModeButton {
   display: none;
 }
-#IFDEF GreenExcelButton .saGridTop .saGridButton.saExcel {
+.saGridTop .saGridButton.saExcel {
   color: #289a42;
   background: transparent;
 }
-#IFDEF GreenExcelButton .saGridTop .saGridButton.saExcel .saIcon {
+.saGridTop .saGridButton.saExcel .saIcon {
   color: #289a42;
 }
 @media (pointer: fine) {
-  #IFDEF GreenExcelButton .saGridTop .saGridButton.saExcel:hover {
+  .saGridTop .saGridButton.saExcel:hover {
     background: #e1f6e1;
     color: #278239;
   }
-  #IFDEF GreenExcelButton .saGridTop .saGridButton.saExcel:hover .saIcon {
+  .saGridTop .saGridButton.saExcel:hover .saIcon {
     color: #289a42;
   }
 }
-#IFDEF GreenExcelButton .saGridTop .saGridButton.saExcel:active {
+.saGridTop .saGridButton.saExcel:active {
   background: #a3e4a6;
   color: #246c31;
 }
@@ -3934,7 +4091,7 @@ div.saPopupOverlay {
   border-radius: 16px 16px 0px 0px;
   align-items: center;
   gap: 8px;
-  padding: 16px 16px 16px 24px;
+  padding: 15px 16px 16px 16px;
   width: 100%;
   height: 100%;
   display: flex;
@@ -4449,8 +4606,8 @@ div.saPopupOverlay {
 .saGrid .saGridExpandAllButton.inactive {
   opacity: 0.4;
 }
-.saGrid .saGridExpandAllButton[aria-expanded="true"] i,
-.saGrid .saGridExpandButton[aria-expanded="true"] i {
+.saGrid .saGridExpandAllButton[aria-expanded='true'] i,
+.saGrid .saGridExpandButton[aria-expanded='true'] i {
   transform: rotate(-180deg);
 }
 .saGrid .saGridRowButton.saDestructive {
@@ -22778,7 +22935,7 @@ body.saMiniView {
   border-bottom: none;
   border-radius: 16px 16px 0px 0px;
   align-items: center;
-  padding: 16px 16px 16px 24px;
+  padding: 15px 16px 16px 16px;
   display: flex;
   flex-direction: row;
   gap: 8px;
@@ -23776,23 +23933,23 @@ body.saMiniView {
 .saLargeScreen .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saChangeScreenModeButton {
   display: none;
 }
-#IFDEF GreenExcelButton .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel {
+.saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel {
   color: #289a42;
   background: transparent;
 }
-#IFDEF GreenExcelButton .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel .saIcon {
+.saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel .saIcon {
   color: #289a42;
 }
 @media (pointer: fine) {
-  #IFDEF GreenExcelButton .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel:hover {
+  .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel:hover {
     background: #e1f6e1;
     color: #278239;
   }
-  #IFDEF GreenExcelButton .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel:hover .saIcon {
+  .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel:hover .saIcon {
     color: #289a42;
   }
 }
-#IFDEF GreenExcelButton .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel:active {
+.saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel:active {
   background: #a3e4a6;
   color: #246c31;
 }
@@ -33247,151 +33404,6 @@ main:has(.saInputDateRange) .saSmallScreen {
     top: unset;
   }
 }
-.topbutton {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
-  white-space: nowrap;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  flex-shrink: 0;
-  border: solid 1px #ccd5e2;
-  background-color: var(--Sa-Color-SecondaryButtonBackground);
-  color: var(--Sa-Color-Label);
-  width: fit-content;
-}
-.topbutton .saButtonText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.topbutton .saBadgedIcon {
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
-.topbutton .saIcon {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.topbutton .saIcon {
-  color: var(--Sa-Color-Icon);
-}
-.topbutton .saBadge {
-  color: var(--Sa-Color-SecondaryButtonBackground);
-  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
-}
-@media (pointer: fine) {
-  .topbutton:hover {
-    border-color: var(--Sa-Color-SecondaryButtonBorderHover);
-    color: var(--Sa-Color-LabelHover);
-  }
-  .topbutton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
-  }
-  .topbutton:hover .saBadge {
-    background-color: var(--Sa-Color-IconHover);
-  }
-}
-.topbutton:active {
-  background: var(--Sa-Color-SecondaryButtonBackgroundActive);
-}
-.topbutton:active .saBadge {
-  color: var(--Sa-Color-SecondaryButtonBackgroundActive);
-  border-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
-}
-.topbutton.saDestructive {
-  color: var(--Sa-Color-DestructiveButtonBackground);
-  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
-}
-.topbutton.saDestructive .saIcon {
-  color: var(--Sa-Color-DestructiveButtonBackground);
-}
-.topbutton.saDestructive .saBadge {
-  background-color: var(--Sa-Color-DestructiveButtonBackground);
-}
-@media (pointer: fine) {
-  .topbutton.saDestructive:hover {
-    color: var(--Sa-Color-SecondaryButtonBackground);
-    background: var(--Sa-Color-DestructiveButtonBackground);
-    border-color: transparent;
-  }
-  .topbutton.saDestructive:hover .saIcon {
-    color: var(--Sa-Color-SecondaryButtonBackground);
-  }
-  .topbutton.saDestructive:hover .saBadge {
-    background-color: var(--Sa-Color-SecondaryButtonBackground);
-    color: var(--Sa-Color-DestructiveButtonBackground);
-    border-color: var(--Sa-Color-DestructiveButtonBackground);
-  }
-}
-.topbutton.saDestructive:active {
-  color: var(--Sa-Color-SecondaryButtonBackground);
-  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-  border-color: transparent;
-}
-.topbutton.saDestructive:active .saIcon {
-  color: var(--Sa-Color-SecondaryButtonBackground);
-  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.topbutton.saDestructive:active .saBadge {
-  background-color: var(--Sa-Color-SecondaryButtonBackground);
-  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saStandard .topbutton {
-  gap: 8px;
-  height: 40px;
-  font-size: 14px;
-  padding: 8px 12px;
-  border-radius: 8px;
-}
-.saStandard .topbutton:active {
-  border-radius: 12px;
-}
-.saStandard .topbutton .saIcon {
-  font-size: 20px;
-  min-width: 26px;
-}
-.saCompact .topbutton {
-  gap: 8px;
-  padding: 8px;
-  height: 32px;
-  border-radius: 8px;
-  font-size: 14px;
-}
-.saCompact .topbutton:active {
-  border-radius: 12px;
-}
-.saCompact .topbutton .saIcon {
-  font-size: 16px;
-  min-width: 18px;
-  max-width: 18px;
-}
-.saSmallScreen .topbutton {
-  gap: 8px;
-  border-radius: 8px;
-  height: 40px;
-  font-size: 16px;
-  padding: 8px 12px;
-}
-.saSmallScreen .topbutton:active {
-  border-radius: 12px;
-}
-.saSmallScreen .topbutton .saIcon {
-  font-size: 20px;
-  min-width: 26px;
-}
-.topbutton .saButtonText {
-  line-height: 18px;
-}
 .saInlineFrame {
   width: 100%;
   height: calc(100% - 40px);
@@ -33404,10 +33416,123 @@ main:has(.saInputDateRange) .saSmallScreen {
   justify-content: center;
   align-items: center;
   position: relative;
+  padding: 16px;
 }
 .saInlineFrame .saEmptyState {
   padding-bottom: 200px;
   max-width: 400px;
+  width: 100%;
+}
+.saInlineFrame.saDownload {
+  background-color: #f8f9fB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 16px;
+}
+.saInlineFileButton {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  gap: 8px;
+  overflow: hidden;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px #ccd5e2;
+  background-color: #fff;
+  color: #313a44;
+  width: fit-content;
+  max-width: 100%;
+}
+.saInlineFileButton .saButtonText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.saInlineFileButton .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saInlineFileButton .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (pointer: fine) {
+  .saInlineFileButton:hover {
+    background-color: #eff0fd;
+    color: #1f59bf;
+    box-shadow: inset 0 0 0 1px #2d6ce1;
+  }
+  .saInlineFileButton:hover .saInlineFileSize {
+    color: inherit;
+  }
+  .saInlineFileButton:hover .saInlineFileIconDownload {
+    color: #1f59bf;
+  }
+  .saInlineFileButton:hover .saInlineFileIconType {
+    background-color: #2d6ce1;
+    color: #fff;
+  }
+}
+.saInlineFileButton:active {
+  background-color: #cfd2f8;
+  color: #224795;
+  box-shadow: inset 0 0 0 1px #1f59bf;
+  border-radius: 16px;
+}
+.saInlineFileButton:active .saInlineFileSize {
+  color: inherit;
+}
+.saInlineFileButton:active .saInlineFileIconType {
+  border-radius: 8px;
+  background-color: #1f59bf;
+  color: #fff;
+}
+.saInlineFileButton:active .saInlineFileIconDownload {
+  color: #224795;
+}
+.saInlineFileIconType {
+  height: 40px;
+  width: 40px;
+  min-width: 40px;
+  background-color: #eff0fd;
+  color: #2d6ce1;
+  border-radius: 4px;
+  font-size: 24px;
+}
+.saInlineFileText {
+  text-align: left;
+  overflow: hidden;
+}
+.saInlineFileName {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.saInlineFileSize {
+  font-size: 12px;
+  color: #7088a4;
+}
+.saInlineFileIconDownload {
+  font-size: 16px;
+  color: #7088a4;
+  min-width: 32px;
 }
 .saInlineHeader {
   display: flex;
