@@ -573,47 +573,67 @@
 		$(document).ready(function () {
 			$('.saNavigator').click(function (e) {
 				e.preventDefault();
-				if ($('.saNavBar').hasClass('saActive')) {
-					$('.saNavBar').removeClass('saActive').addClass('saInactive');
-				} else {
-					$('.saNavBar').removeClass('saInactive').addClass('saActive');
-				}
+				$('.saNavBar').toggleClass('saActive saInactive');
 			});
 
 			let lastScrollTop = 0;
 			let header = $('#pageheader');
-			let headerHeight = 88;
-			let isScrolling = false;
+			const headerHeight = 88;
+			let ticking = false;
+			let scrollDirection = 0;
 
-			$(window).on('scroll', function () {
-				if (!isScrolling) {
-					isScrolling = true;
-					requestAnimationFrame(handleScroll);
-				}
-			});
-
-			function handleScroll() {
-				let scrollTop = $(window).scrollTop();
-				let delta = scrollTop - lastScrollTop; // Scroll direction (+ = down, - = up)
-
-				let currentTransform = header.css('transform');
-				let currentTranslateY = currentTransform !== 'none' ? parseInt(currentTransform.split(',')[5]) : 0;
-				let newTranslateY;
-
-				if (scrollTop <= headerHeight) {
-					newTranslateY = 0;
-				} else {
-					if (delta > 0) {
-						newTranslateY = Math.max(-headerHeight, currentTranslateY - delta);
-					} else {
-						newTranslateY = Math.min(0, currentTranslateY - delta);
-					}
-				}
-
-				header.css('transform', 'translateY(' + newTranslateY + 'px)');
-				lastScrollTop = scrollTop;
-				isScrolling = false;
+			// Debounce scroll event
+			function debounce(func, wait) {
+				let timeout;
+				return function executedFunction(...args) {
+					const later = () => {
+						clearTimeout(timeout);
+						func(...args);
+					};
+					clearTimeout(timeout);
+					timeout = setTimeout(later, wait);
+				};
 			}
+
+			// Throttle scroll calculations
+			function handleScroll() {
+				const scrollTop = $(window).scrollTop();
+
+				// Determine scroll direction with smoothing
+				if (scrollTop > lastScrollTop) {
+					scrollDirection = 1; // Scrolling down
+				} else if (scrollTop < lastScrollTop) {
+					scrollDirection = -1; // Scrolling up
+				} else {
+					scrollDirection = 0; // No scroll
+				}
+
+				// Smooth header movement
+				if (scrollTop <= headerHeight) {
+					// At the top of the page
+					header.css('transform', 'translateY(0)');
+				} else {
+					// Implement smooth hide/show logic
+					const translateAmount = scrollDirection > 0
+						? -headerHeight
+						: 0;
+
+					header.css('transform', `translateY(${translateAmount}px)`);
+				}
+
+				lastScrollTop = scrollTop;
+				ticking = false;
+			}
+
+			// Throttled scroll event handler
+			const throttledScroll = debounce(function () {
+				if (!ticking) {
+					requestAnimationFrame(handleScroll);
+					ticking = true;
+				}
+			}, 50);
+
+			$(window).on('scroll', throttledScroll);
 		});
 	</script>
 </body>
