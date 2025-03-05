@@ -583,7 +583,6 @@
 			let lastScrollTop = 0;
 			let header = $('#pageheader');
 			let headerHeight = 88;
-			//let headerHeight = header.outerHeight();
 			let isScrolling = false;
 
 			$(window).on('scroll', function () {
@@ -597,20 +596,21 @@
 				let scrollTop = $(window).scrollTop();
 				let delta = scrollTop - lastScrollTop; // Scroll direction (+ = down, - = up)
 
-				let currentTop = parseInt(header.css('top'), 10);
-				let newTop;
+				let currentTransform = header.css('transform');
+				let currentTranslateY = currentTransform !== 'none' ? parseInt(currentTransform.split(',')[5]) : 0;
+				let newTranslateY;
 
 				if (scrollTop <= headerHeight) {
-					newTop = 0;
+					newTranslateY = 0;
 				} else {
 					if (delta > 0) {
-						newTop = Math.max(-headerHeight, currentTop - delta);
+						newTranslateY = Math.max(-headerHeight, currentTranslateY - delta);
 					} else {
-						newTop = Math.min(0, currentTop - delta);
+						newTranslateY = Math.min(0, currentTranslateY - delta);
 					}
 				}
 
-				header.css('top', newTop + 'px');
+				header.css('transform', 'translateY(' + newTranslateY + 'px)');
 				lastScrollTop = scrollTop;
 				isScrolling = false;
 			}
