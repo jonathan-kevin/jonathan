@@ -140,7 +140,6 @@
 			function setDynamicBackgroundColor() {
 				const img = $lightboxImg[0];
 				if (!img.complete) return;
-
 				const avgColor = getAverageColor(img);
 				const luminance = calculateLuminance(avgColor);
 				const backgroundColor = luminance < 128 ? '#fff' : '#000';
@@ -208,7 +207,7 @@
 					translateY = currentY - startY;
 					translateX = currentX - startX;
 
-					console.log(`Dragging: translateX=${translateX}, translateY=${translateY}`); // Debug
+					console.log(`Dragging: translateX=${translateX}, translateY=${translateY}`); // Debugging
 
 					const newOpacity = Math.max(minOpacity, initialOpacity - Math.abs(translateY) / 400);
 					const newScale = Math.max(0.5, 1 - Math.abs(translateY) / 800);

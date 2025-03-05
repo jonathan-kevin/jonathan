@@ -12,16 +12,57 @@
 	<script src="./script.js"></script>
 </head>
 
-<body style="display: flex;flex-direction: row; gap: 24px; min-height: 100vh;">
+<body>
 	<main>
 
 		<article>
-			<section id="Menu">
-				<h2>Menu item information</h2>
-				<p>Menu items provide a pathway for users to access various features or pages in the application. They
-					should be clearly labeled and easily recognizable to enhance navigation. Each menu item can be
-					customized with icons, text labels, and links to specific sections.</p>
+			<section id="ErrorSummary">
+				<div class="saErrorSummaryHolder">
+					<div class="saErrorSummaryWrapper">
+						<div class="saErrorSummaryHeadingWrapper">
+							<i class="saIcon fas fa-octagon-xmark"></i>
+							<h2 class="saErrorSummaryHeading">Resolve the following errors to continue:</h2>
+						</div>
+						<button class="saErrorSummaryCloseButton" type="button" aria-label="Close error summary">
+							<i class="saIcon far fa-xmark"></i>
+						</button>
+						<ul class="saErrorSummary">
+							<li>
+								<a class="saErrorMessage" href="#eggs">You need to disclose the number of crow eggs
+									available.</a>
+							</li>
+							<li>
+								<a class="saErrorMessage" href="#eggs">You need to disclose the number of crow eggs
+									available.</a>
+							</li>
+							<li>
+								<a class="saErrorMessage" href="#eggs">You need to disclose the number of crow eggs
+									available.</a>
+							</li>
+							<li>
+								<a class="saErrorMessage" href="#eggs">You need to disclose the number of crow eggs
+									available.</a>
+							</li>
+							<li>
+								<a class="saErrorMessage" href="#eggs">You need to disclose the number of crow eggs
+									available.</a>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</section>
+			<section id="Menu">
+				<hgroup>
+					<h2>Menu item information</h2>
+					<p>Menu items provide a pathway for users to access various features or pages in the application.
+						They
+						should be clearly labeled and easily recognizable to enhance navigation. Each menu item can be
+						customized with icons, text labels, and links to specific sections.</p>
+				</hgroup>
+			</section>
+
+			<button class="addremove">Hide SQL section</button>
+
 
 			<section id="SQL">
 				<h2>SQL</h2>
@@ -51,25 +92,37 @@
 					styles.</p>
 			</section>
 
-			<section id="Field">
+			<section id="Field" class="saInputPage saCol">
 				<h2>Field information</h2>
-				<p>Fields represent individual pieces of data within a database table. Each field has a specific data
-					type, such as text, number, or date, and plays a crucial role in structuring the information within
-					the database.</p>
+				<div class="saHighlightFieldError">
+					<label class="saLabelCell" for="eggs" aria-atomic="true">
+						<div class="saLabel">
+							<span class="saMandatory">Number of eggs available</span>
+						</div>
+						<span class="saDescription">Must be at least one.</span>
+					</label>
+					<div class="saInputTextWrapper" style="max-width: 80px; padding-top: 8px;">
+						<input class="saInputText" aria-invalid="true" aria-errormessage="eggs-error" type="number"
+							min="1" name="Eggs" id="eggs">
+					</div>
+					<div class="saValidationMessage saError saErrorJs" id="eggs-error" role="alert">
+						<i class="saIcon fas fa-octagon-xmark"></i>
+						<div class="saValidationMessageText saErrorMessageTextJs">
+							You need to disclose the number of crow eggs available.
+						</div>
+					</div>
+				</div>
+
 			</section>
 
 			<section id="Advanced">
 				<h2>Advanced settings</h2>
 				<p>Advanced settings provide additional configuration options for experienced users. These settings
 					often include options for database optimization, permissions, and other complex configurations.</p>
-					<h3 id="cat">Cat</h3>
-					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, ad voluptatem obcaecati in sapiente tempora excepturi voluptas quia, nulla tenetur accusamus cum maiores vel illo quae possimus eveniet perferendis at.</p>
-					<h3 id="dog">Dog</h3>
-					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, ad voluptatem obcaecati in sapiente tempora excepturi voluptas quia, nulla tenetur accusamus cum maiores vel illo quae possimus eveniet perferendis at.</p>
 			</section>
 
 			<section id="Hide">
-				<h2>Hide menu item in menu group</h2>
+				<h2>Hide realisationsvinstbeskattningsbeskattning</h2>
 				<p>This option allows administrators to hide certain menu items from specific user groups or roles. This
 					is useful for simplifying the interface or restricting access to sensitive areas.</p>
 			</section>
@@ -88,61 +141,50 @@
 					location-based access.</p>
 			</section>
 		</article>
-		<nav aria-labelledby="toc" class="saToC">
-			<h2 id="toc" class="saToCHeading">Table of contents</h2>
-			<button aria-expanded="true" aria-controls="toc-list" id="toc-btn" class="saToCButton">
-				<h2>Table of contents</h2>
-				<i class="saIcon far fa-angle-up"></i>
-			</button>
-			<div class="saToCIndicator"></div>
-			<ul id="toc-list" aria-live="polite">
-				<li class="saActive">
-					<a href="#Menu"><span>Menu item information</span></a>
-				</li>
-				<li>
-					<a href="#SQL"><span>SQL</span></a>
-				</li>
-				<li>
-					<a href="#UseInsert"><span>Use Insert/Update</span></a>
-				</li>
+		<div class="saToC">
+			<h3 id="toc" class="saToCHeading">Table of contents</h3>
+			<nav aria-labelledby="toc">
+				<ul id="toc-list">
+					<li>
+						<a href="#Menu"><span>Menu item information</span></a>
+					</li>
+					<li id="SQLLink">
+						<a href="#SQL"><span>SQL </span></a>
+					</li>
+					<li>
+						<a href="#UseInsert"><span>Use Insert/Update</span></a>
+					</li>
 
-				<li>
-					<a href="#UseInfoSQL"><span>Use InfoSQL</span></a>
-				</li>
-				<li>
-					<a href="#Grid"><span>Grid settings</span></a>
-				</li>
-				<li>
-					<a href="#Field"><span>Field information</span>
-						<i class="saIcon fas fa-hexagon-xmark saError" data-tooltip="This section has an error."
-							aria-label="This section has an error."></i>
-					</a>
-				</li>
-				<li>
-					<a href="#Advanced"><span>Advanced settings</span></a>
-				<!--
-					<ul>
-						<li>
-							<a href="#Cat">Cat</a>
-						</li>
-
-						<li>
-							<a href="#Dog">Dog</a>
-						</li>
-					</ul>
-				-->
-				</li>
-				<li>
-					<a href="#Hide"><span>Hide menu item in menu group, menu group, menu group, menu group</span></a>
-				</li>
-				<li>
-					<a href="#Access"><span>Access permissions</span></a>
-				</li>
-				<li>
-					<a href="#Use"><span>Use custom access control</span></a>
-				</li>
-			</ul>
-		</nav>
+					<li>
+						<a href="#UseInfoSQL"><span>Use InfoSQL</span></a>
+					</li>
+					<li>
+						<a href="#Grid"><span>Grid settings</span></a>
+					</li>
+					<li>
+						<a href="#Field" data-tooltip="This section has an error."><span>Field information</span>
+							<i class="saIcon fas fa-hexagon-xmark saError" aria-label="This section has an error."></i>
+						</a>
+					</li>
+					<li>
+						<a href="#Advanced"><span>Advanced settings</span>
+							<i class="saIcon fas fa-exclamation-triangle saWarning"
+								aria-label="This section has an error."></i>
+						</a>
+					</li>
+					<li class="">
+						<a href="#Hide"><span>Hide realisationsvinstbeskattningsbeskattning</span>
+						</a>
+					</li>
+					<li>
+						<a href="#Access"><span>Access permissions</span></a>
+					</li>
+					<li>
+						<a href="#Use"><span>Use custom access control</span></a>
+					</li>
+				</ul>
+			</nav>
+		</div>
 	</main>
 
 	<script>
@@ -152,6 +194,21 @@
 			const sections = $navLinks.map(function () {
 				return $($(this).attr('href'));
 			}).get();
+
+			$('.addremove').click(function () {
+				if ($('#SQLLink').hasClass('saHide')) {
+					$('#SQLLink').removeClass('saHide').addClass('saShow');
+					$('#SQL').fadeIn();
+					$(this).text('Hide SQL section');
+				}
+
+				else {
+					$('#SQLLink').removeClass('saShow').addClass('saHide');
+					$('#SQL').fadeOut();
+					$(this).text('Show SQL section');
+				}
+			});
+
 
 			$(window).on('scroll', function () {
 				if ($body.hasClass('saLargeScreen')) {
@@ -165,12 +222,11 @@
 
 							$navLinks.each(function () {
 								const $link = $(this);
-								const $listItem = $link.closest('li');
 
 								if ($link.attr('href') === `#${id}`) {
-									$listItem.attr('aria-current', 'true');
+									$link.attr('aria-current', 'true');
 								} else {
-									$listItem.attr('aria-current', 'false');
+									$link.removeAttr('aria-current');
 								}
 							});
 						}

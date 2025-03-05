@@ -2,7 +2,7 @@ var title = $("<title>Jonathan</title>");
 
 var style = $("<link>", {
 	rel: "stylesheet",
-	href: "./src/style/screen.template.css?version=#",
+	href: "./src/style/screen.template.css",
 });
 
 var fontawesome = $("<link>", {
@@ -18,24 +18,7 @@ var favicon = $("<link>", {
 });
 
 $("head").append(style, fontawesome, favicon, title);
-function reloadCSS() {
-	const links = document.getElementsByTagName("link");
 
-	Array.from(links)
-		.filter((link) => link.rel.toLowerCase() === "stylesheet" && link.href)
-		.forEach((link) => {
-			const url = new URL(link.href, location.href);
-			url.searchParams.set("forceReload", Date.now());
-			link.href = url.href;
-		});
-}
-
-$(document).keydown(function (event) {
-	if (event.altKey && event.keyCode === 82) {
-		event.preventDefault();
-		reloadCSS();
-	}
-});
 
 $(document).ready(function () {
 	var slug = window.location.pathname + window.location.search + window.location.hash;

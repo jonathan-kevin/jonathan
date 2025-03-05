@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Slider</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+	<style>
+		.saRow {
+			display: flex;
+			gap: 8px;
+			margin-top: 80px;
+		}
+
+		.saSliderWrapper {
+			width: 80%;
+			position: relative;
+			padding: 40px;
+		}
+
+		.saSliderValue {
+			position: absolute;
+			transform: translateX(16px);
+			color: white;
+		}
+
+		.saSliderBackground {
+			position: absolute;
+			height: 8px;
+			width: 100%;
+			background: #ddd;
+			z-index: 1;
+			border-radius: 99rem;
+		}
+
+		.saInputSlider {
+			position: absolute;
+			width: 100%;
+			z-index: 10;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="saSliderWrapper saRange">
+		<div class="saSliderBackground"></div>
+		<!-- Main sliders will be dynamically added here -->
+		<div class="saRow">
+			<!-- Number inputs will be dynamically added here -->
+		</div>
+	</div>
+
+	<script>
+		$(document).ready(function () {
+			// Configuration
+			const config = {
+				min: 0,
+				max: 100,
+				handles: 4, // quad mode (change to 2 for dual, 1 for single)
+				initialValues: [5, 25, 60, 80], // Initial values for each handle
+				colors: ['#4CAF50', '#2196F3', '#FFC107', '#E91E63'] // Different color for each handle
+			};
+
+			const container = $('.saSliderWrapper');
+
+			// Store handle information
+			let handleData = [];
+
+			// Create sliders and inputs
+			function initializeSlider() {
+				// Clear any existing elements
+				container.find('.saInputSlider, .saSliderValue').remove();
+				$('.saRow').empty();
+
+				// Initialize handle data
+				handleData = [];
+
+				// Create sliders and inputs based on config
+				for (let i = 0; i < config.handles; i++) {
+					const value = config.initialValues[i];
+					const color = config.colors[i % config.colors.length];
+
+					// Store handle data
+					handleData.push({
+						id: i,
+						value: value,
+						color: color,
+						position: i // Current position in sorted order
+					});
+
+					// Create slider
+					const slider = $('<input>')
+						.addClass('saInputSlider')
+						.attr({
+							type: 'range',
+							min: config.min,
+							max: config.max,
+							value: value,
+							'data-id': i,
+							id: `slider-${i}`
+						});
+
+					// Set thumb color
+					slider.css('--thumb-color', color);
+
+					// Create handle label
+					const label = $('<div>')
+						.addClass('saSliderValue')
+						.attr('data-id', i)
+						.attr('id', `label-${i}`)
+						.text(`${i + 1}: ${value}`)
+						.css('background-color', color);
+
+					// Create number inputWrapper
+					const inputWrapper = $('<div>').addClass('saInputTextWrapper');
+
+					// Create number input
+					const input = $('<input>')
+						.addClass('saInputText')
+						.attr({
+							type: 'number',
+							min: config.min,
+							max: config.max,
+							value: value,
+							'data-id': i,
+							id: `input-${i}`,
+							tabindex: i + 1
+						});
+
+
+					// Append elements
+					container.prepend(slider);
+					container.append(label);
+					inputWrapper.append(input);
+					$('.saRow').append(inputWrapper);
+				}
+
+				// Set slider thumb colors
+				document.head.insertAdjacentHTML('beforeend', `
+                    <style>
+                        ${handleData.map(handle => `
+                            #slider-${handle.id}::-webkit-slider-thumb {
+                                background-color: ${handle.color};
+                            }
+                            #slider-${handle.id}::-moz-range-thumb {
+                                background-color: ${handle.color};
+                            }
+                        `).join('')}
+                    </style>
+                `);
+
+				// Initial update
+				updateSliderState();
+			}
+
+			// Update the visual representation of the slider
+			function updateSliderState() {
+				// Get current values and sort them
+				const currentValues = handleData.map(handle => ({
+					value: parseInt($(`#slider-${handle.id}`).val()),
+					id: handle.id,
+					color: handle.color
+				}));
+
+				currentValues.sort((a, b) => a.value - b.value);
+
+				// Reassign handles based on sorted position
+				currentValues.forEach((item, newIndex) => {
+					// Find the handle that was originally in this position
+					const originalHandle = handleData[newIndex];
+
+					// Update the handle's data
+					handleData[newIndex] = {
+						id: newIndex,  // This changes to match the new position
+						value: item.value,
+						color: originalHandle.color,  // Keep the color associated with the position
+						position: newIndex
+					};
+
+					// Update the slider
+					$(`#slider-${newIndex}`)
+						.val(item.value)
+						.attr('data-id', newIndex);
+
+					// Update the label
+					$(`#label-${newIndex}`)
+						.text(`${newIndex + 1}: ${item.value}`)
+						.css({
+							'left': `${(item.value - config.min) / (config.max - config.min) * 100}%`,
+							'background-color': originalHandle.color
+						});
+
+					// Update the input value but maintain its original ID
+					$(`#input-${newIndex}`).val(item.value);
+				});
+
+				// Update gradient background
+				updateGradient();
+			}
+
+			// Create the gradient background
+			function updateGradient() {
+				// Create a sorted copy of handle data
+				const sortedHandles = [...handleData].sort((a, b) => a.value - b.value);
+
+				let gradientString = 'linear-gradient(to right, ';
+
+				if (sortedHandles.length === 1) {
+					// Single handle - color to the left of handle
+					const percent = (sortedHandles[0].value - config.min) / (config.max - config.min) * 100;
+					gradientString += `${sortedHandles[0].color} ${percent}%, #ddd ${percent}%)`;
+				} else {
+					// Multi-handle - alternate colors between handles
+					gradientString += `#ddd 0%, `;
+
+					for (let i = 0; i < sortedHandles.length - 1; i++) {
+						const startPercent = (sortedHandles[i].value - config.min) / (config.max - config.min) * 100;
+						const endPercent = (sortedHandles[i + 1].value - config.min) / (config.max - config.min) * 100;
+
+						if (i % 2 === 0) {
+							const activeColor = sortedHandles[i].color;
+							gradientString += `#ddd ${startPercent}%, ${activeColor} ${startPercent}%, ${activeColor} ${endPercent}%, `;
+						} else {
+							gradientString += `#ddd ${startPercent}%, #ddd ${endPercent}%, `;
+						}
+					}
+
+					// Add final gradient stop
+					const lastPercent = (sortedHandles[sortedHandles.length - 1].value - config.min) / (config.max - config.min) * 100;
+					if ((sortedHandles.length - 1) % 2 === 0) {
+						gradientString += `#ddd ${lastPercent}%, #ddd 100%)`;
+					} else {
+						const activeColor = sortedHandles[sortedHandles.length - 1].color;
+						gradientString += `${activeColor} ${lastPercent}%, #ddd ${lastPercent}%, #ddd 100%)`;
+					}
+				}
+
+				$('.saSliderBackground').css('background', gradientString);
+			}
+
+			// Event handlers for slider input
+			container.on('input', '.saInputSlider', function () {
+				const id = parseInt($(this).attr('data-id'));
+				const value = parseInt($(this).val());
+
+				// Update the corresponding number input
+				$(`#input-${id}`).val(value);
+
+				updateSliderState();
+			});
+
+			// Event handlers for number input
+			container.on('input', '.saInputText', function () {  // Changed from 'change' to 'input'
+				const id = parseInt($(this).attr('data-id'));
+				const value = parseInt($(this).val()) || 0; // Handle empty/invalid input
+
+				// Update the corresponding slider
+				$(`#slider-${id}`).val(value);
+
+				updateSliderState();
+			});
+
+			// Initialize the slider
+			initializeSlider();
+		});
+	</script>
+</body>
+
+</html>

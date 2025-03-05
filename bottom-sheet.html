@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bottom sheet 📃</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+</head>
+
+<body class="saSmallScreen">
+	<main>
+		<div class="saPopupOverlay saBottomSheetOverlay">
+			<div class="saBottomSheet saEaseTransition" style="top: 50%;">
+				<div class="saSheetDragHandle">
+					<div class="saDraggableThumb"></div>
+					<button class="saSheetButton" type="button">
+						Klart
+					</button>
+				</div>
+				<div class="saSheetContent" style="height: 400px;">
+					<div class="saContextMenuWrapper saSmallScreenMenu">
+						<div class="saContextMenu">
+							<ul class="saActionLinkList">
+								<li><a>
+										<div class="saContextMenuItem">
+											<div class="saIconHolder" aria-hidden="true">
+												<i class="fa-table far icon saIcon"></i>
+											</div>
+											<span class="saButtonText">
+												Arbetsuppföljning
+											</span>
+										</div>
+									</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<script>
+		$(document).ready(function () {
+
+
+			$('#clickable li').click(function (e) {
+				e.preventDefault();
+				$('#clickable li').removeAttr('aria-current');
+
+				$(this).attr('aria-current', 'true');
+			});
+			$('#crowMan').click(function (e) {
+				e.preventDefault();
+
+				if ($('.saWizard:not(.saBordered)').hasClass('saCol')) {
+					$('.saWizard:not(.saBordered)').removeClass('saCol').addClass('saRow');
+				}
+
+				else {
+					$('.saWizard:not(.saBordered)').removeClass('saRow').addClass('saCol');
+				}
+			});
+		});
+	</script>
+</body>
+
+</html>

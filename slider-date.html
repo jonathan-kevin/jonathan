@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Slider</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+	<style>
+		.saLabel {
+			font-size: 14px;
+			line-height: 16px;
+			font-weight: 500;
+		}
+
+		.saDescription {
+			font-size: 14px;
+			line-height: 16px;
+			font-weight: 300;
+			color: #506072;
+		}
+	</style>
+</head>
+
+<body>
+	<a href="http://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range">mozilla.org</a>
+
+	<main style="padding: 80px; display: flex; align-items: flex-start; height: fit-content;">
+		<form class="daForm">
+			<div class="saControl">
+				<label id="label-dater">
+					<div class="saLabel">Date between</div>
+					<div class="saDescription">Pick a date range within 2025.</div>
+				</label>
+				<fieldset class="saSliderWrapper saRange saRangeDual" aria-labelledby="label-dater">
+					<div class="saSlider saMin">
+						<input type="range" min="0" max="100" value="0" class="saInputSlider" aria-label="Min value">
+						<input type="date" min="2025-01-01" max="2025-12-31" class="saSliderValue saMin"
+							value="2025-01-01">
+					</div>
+					<div class="saSlider saMax">
+						<input type="range" min="0" max="100" value="100" class="saInputSlider" aria-label="Max value">
+						<input type="date" min="2025-01-01" max="2025-12-31" class="saSliderValue saMax"
+							value="2025-12-31">
+					</div>
+					<datalist class="saDatalist" id="dater">
+						<option value="0" label="Jan 1st"></option>
+						<option value="50" label="Jul 1st"></option>
+						<option value="100" label="Dec 31st"></option>
+					</datalist>
+				</fieldset>
+			</div>
+
+			<!--
+
+			<div class="saControl" style="width: 320px;">
+				<label id="label-crow">
+					<div class="saLabel">Crow count</div>
+					<div class="saDescription">If crows were created before start date.</div>
+				</label>
+				<fieldset class="saSliderWrapper saRange saRangeDual" aria-labelledby="label-crow">
+					<div class="saSlider saMin">
+						<input type="range" min="0" max="100" value="25" class="saInputSlider" aria-label="Min value"
+							list="crow">
+						<input type="number" min="0" max="100" class="saSliderValue saMin" value="25" tabindex="-1"
+							aria-label="Min value">
+					</div>
+					<div class="saSlider saMax">
+						<input type="range" min="0" max="100" value="75" class="saInputSlider" aria-label="Max value"
+							list="crow">
+						<input type="number" min="0" max="100" class="saSliderValue saMax" value="75" tabindex="-1"
+							aria-label="Max value">
+					</div>
+					<datalist class="saDatalist" id="crow">
+						<option value="0" label="0"></option>
+						<option value="25" label="25"></option>
+						<option value="50" label="50"></option>
+						<option value="75" label="75"></option>
+						<option value="100" label="100"></option>
+					</datalist>
+				</fieldset>
+			</div>
+			<div class="saControl">
+				<label for="slider-9875" id="label-9875">
+					<div class="saLabel">Team size</div>
+					<div class="saDescription">The number of people that report directly to you. Non-aligned are
+						excluded.</div>
+				</label>
+				<div class="saSliderWrapper saSingle">
+					<div class="saSlider">
+						<input class="saSliderValue" type="number" min="0" max="100" value="50" tabindex="-1"
+							aria-labelledby="label-9875">
+						<input id="slider-9875" type="range" min="0" max="100" value="50" class="saInputSlider"
+							list="mark-9875">
+					</div>
+					<datalist class="saDatalist" id="mark-9875" class="saDatalist">
+						<option value="0" label="0"></option>
+						<option value="25" label="25"></option>
+						<option value="50" label="50"></option>
+						<option value="75" label="75"></option>
+						<option value="100" label="100"></option>
+					</datalist>
+				</div>
+			</div>
+			<div class="saControl">
+				<label for="slider-u" id="label-u">
+					<div class="saLabel">Number of flowers</div>
+					<div class="saDescription">The amount of flowers per employee</div>
+				</label>
+				<div class="saRangeStepWrapper">
+					<div class="saRangeStep">
+						<button type="button" class="saButton" aria-label="Minus" tabindex="-1" id="goMinus">
+							<i class="saIcon far fa-minus"></i>
+						</button>
+						<input type="number" class="saInputText saSpecial" min="0" max="100" value="50" step="5"
+							tabindex="-1" aria-describedby="label-u">
+						<button type="button" class="saButton" aria-label="Plus" tabindex="-1" id="goPlus">
+							<i class="saIcon far fa-plus"></i>
+						</button>
+					</div>
+					<div class="saSliderWrapper saSingle">
+						<div class="saSlider">
+							<input id="slider-u" type="range" min="0" max="100" value="40"
+								class="saSpecial saInputSlider" step="5" list="marg">
+						</div>
+						<datalist class="saDatalist" id="marg">
+							<option value="0" label="0"></option>
+							<option value="25" label="25"></option>
+							<option value="50" label="50"></option>
+							<option value="75" label="75"></option>
+							<option value="100" label="100"></option>
+						</datalist>
+					</div>
+				</div>
+			</div>
+			<div class="saControl" style="width: 320px;">
+				<label id="label-elk">
+					<div class="saLabel">Owl feeding</div>
+					<div class="saDescription">Weight classes must apply.</div>
+				</label>
+				<fieldset class="saSliderWrapper saRange saRangeDual saWarning" aria-labelledby="label-elk"
+					aria-describedby="warning-elk">
+					<div class="saSlider saMin">
+						<input type="range" min="0" max="100" value="20" class="saInputSlider saWarning"
+							aria-label="Min value">
+						<input type="number" min="0" max="100" class="saSliderValue saMin" value="20" tabindex="-1"
+							aria-label="Min value">
+					</div>
+					<div class="saSlider saMax">
+						<input type="range" min="0" max="100" value="90" class="saInputSlider saWarning"
+							aria-label="Max value">
+						<input type="number" min="0" max="100" class="saSliderValue saMax" value="90" tabindex="-1"
+							aria-label="Max value">
+					</div>
+				</fieldset>
+				<div class="saValidationMessage saWarning" role="alert" id="warning-elk">
+					<i class="saIcon fas fa-triangle-exclamation"></i>
+					<div class="saValidationMessageText">
+						Warning: This range might be a bit spicy!
+					</div>
+				</div>
+			</div>
+			<div class="saControl" style="width: 320px;">
+				<label id="label-xoxo">
+					<div class="saLabel">Year</div>
+					<div class="saDescription">Year of event, or closest year of check.</div>
+				</label>
+				<fieldset class="saSliderWrapper saRange saRangeDual saError" aria-labelledby="label-xoxo"
+					aria-invalid="true" aria-errormessage="error-xoxo">
+					<div class="saSlider saMin">
+						<input type="range" min="0" max="100" value="25" class="saInputSlider saError"
+							aria-label="Min value">
+						<input type="number" min="0" max="100" class="saSliderValue saMin" value="25" tabindex="-1"
+							aria-label="Min value">
+					</div>
+					<div class="saSlider saMax">
+						<input type="range" min="0" max="100" value="75" class="saInputSlider saError"
+							aria-label="Max value">
+						<input type="number" min="0" max="100" class="saSliderValue saMax" value="75" tabindex="-1"
+							aria-label="Max value">
+					</div>
+				</fieldset>
+				<div class="saValidationMessage saError" role="alert" id="error-xoxo">
+					<i class="saIcon fas fa-octagon-xmark"></i>
+					<div class="saValidationMessageText">
+						The range you have selected is indeed not valid and has never been valid.
+					</div>
+				</div>
+			</div>
+			<div class="saControl" style="width: 320px;">
+				<label id="label-ishund">
+					<div class="saLabel">Disabled dual slider</div>
+					<div class="saDescription">Select a rangé.</div>
+				</label>
+				<fieldset class="saSliderWrapper saRange saRangeDual saDisabled" aria-labelledby="label-ishund">
+					<div class="saSlider saMin">
+						<input type="range" min="0" max="100" value="25" class="saInputSlider" aria-label="Min value"
+							list="marktt" disabled>
+						<div class="saSliderValue saMin">25</div>
+					</div>
+					<div class="saSlider saMax">
+						<input type="range" min="0" max="100" value="75" class="saInputSlider" aria-label="Max value"
+							list="marktt" disabled>
+						<div class="saSliderValue saMax">75</div>
+					</div>
+				</fieldset>
+			</div>
+			<div class="saControl">
+				<label for="slider-00">
+					<div class="saLabel">Disabled</div>
+					<div class="saDescription">Enter the name by which the bird is commonly known or any given name it
+						may have.</div>
+				</label>
+				<div class="saSliderWrapper saDisabled saSingle">
+					<div class="saSlider">
+						<div class="saSliderValue">200</div>
+						<input id="slider-00" type="range" min="0" max="500" value="200" class="saInputSlider" step="10"
+							list="markx" disabled>
+					</div>
+					<datalist class="saDatalist" id="markx">
+						<option value="0" label="0"></option>
+						<option value="200" label="200"></option>
+						<option value="250" label="250"></option>
+						<option value="300" label="300"></option>
+						<option value="400" label="400"></option>
+						<option value="500" label="500"></option>
+					</datalist>
+				</div>
+			</div>
+			<div class="saControl">
+				<label for="slider-o">
+					<div class="saLabel">Growlers</div>
+					<div class="saDescription">Estimation on amount of Growlers present.</div>
+				</label>
+				<div class="saSliderWrapper saSingle">
+					<div class="saSlider">
+						<input class="saSliderValue" type="number" min="0" max="500" value="200" step="50"
+							tabindex="-1">
+						<input id="slider-o" type="range" min="0" max="500" value="200" class="saInputSlider" step="50"
+							list="mark-p">
+					</div>
+					<datalist class="saDatalist" id="mark-p" class="saDatalist">
+						<option value="0" label="0"></option>
+						<option value="200" label="200"></option>
+						<option value="250" label="250"></option>
+						<option value="300" label="300"></option>
+						<option value="400" label="400"></option>
+						<option value="500" label="500"></option>
+					</datalist>
+				</div>
+			</div>
+			<div class="saControl">
+				<label for="slider-pp" id="label-pp">
+					<div class="saLabel">Building height</div>
+					<div class="saDescription">Height is measured in meters.</div>
+				</label>
+				<div class="saSliderWrapper saError saSingle">
+					<div class="saSlider">
+						<input class="saSliderValue" type="number" min="0" max="500" value="200" step="50"
+							aria-invalid="true" aria-labelledby="label-pp" tabindex="-1" aria-errormessage="error-pp">
+						<input id="slider-pp" type="range" min="0" max="500" value="200" step="50"
+							class="saInputSlider saError" list="mark-piq" aria-invalid="true"
+							aria-errormessage="error-pp">
+					</div>
+					<datalist class="saDatalist" id="mark-piq" class="saDatalist">
+						<option value="0" label="0"></option>
+						<option value="200" label="200"></option>
+						<option value="250" label="250"></option>
+						<option value="300" label="300"></option>
+						<option value="400" label="400"></option>
+						<option value="500" label="500"></option>
+					</datalist>
+				</div>
+				<div class="saValidationMessage saError" role="alert" id="error-pp">
+					<i class="saIcon fas fa-octagon-xmark"></i>
+					<div class="saValidationMessageText">
+						Error: Wrong height!
+					</div>
+				</div>
+			</div>
+			<div class="saControl">
+				<label for="slider-1" id="label-1">
+					<div class="saLabel">Group activities cost</div>
+					<div class="saDescription">Cost in Swedish Krona (kr)</div>
+				</label>
+				<div class="saSliderWrapper saSingle">
+					<div class="saSlider">
+						<input class="saSliderValue" type="number" min="0" max="500" value="200" step="50"
+							aria-invalid="true" aria-labelledby="label-1" tabindex="-1">
+						<input id="slider-1" type="range" min="0" max="500" value="200" class="saInputSlider" step="50"
+							list="marky">
+					</div>
+					<datalist class="saDatalist" id="marky">
+						<option value="0" label="0"></option>
+						<option value="200" label="200"></option>
+						<option value="250" label="250"></option>
+						<option value="300" label="300"></option>
+						<option value="400" label="400"></option>
+						<option value="500" label="500"></option>
+					</datalist>
+				</div>
+			</div>
+
+			<div class="saControl">
+				<label for="slider-k">
+					<div class="saLabel">Sudden death difficulty</div>
+					<div class="saDescription">Calculated and then measured in quarters of seconds.</div>
+				</label>
+				<div class="saSliderWrapper saTemp saSingle">
+					<div class="saSlider">
+						<input id="slider-k" type="range" min="1" max="4" value="2" class="saInputSlider" list="mark-k">
+					</div>
+					<datalist class="saDatalist" id="mark-k">
+						<option value="1" label="Low"></option>
+						<option value="2" label="Medium"></option>
+						<option value="3" label="High"></option>
+						<option value="4" label="Extreme"></option>
+					</datalist>
+				</div>
+			</div>
+			<div class="saControl">
+				<label for="slider-4" id="label-4">
+					<div class="saLabel">Left</div>
+					<div class="saDescription">Commonly known or any given name.</div>
+				</label>
+				<div class="saRow">
+					<div class="saInputTextWrapper">
+						<input type="number" class="saInputText" id="input_2" min="0" max="100" value="50" step="10"
+							tabindex="-1" aria-describedby="label-4" style="width: 64px;">
+					</div>
+					<div class="saSliderWrapper saTemp saSingle">
+						<div class="saSlider">
+							<input id="slider-4" type="range" min="0" max="100" value="50" class="saInputSlider"
+								step="10">
+						</div>
+					</div>
+				</div>
+			</div>
+			-->
+		</form>
+	</main>
+	<script>
+		$(document).ready(function () {
+			$(function () {
+				const startDate = new Date("2025-01-01");
+				const endDate = new Date("2025-12-31");
+				const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+
+				function mapRangeToDate(value) {
+					const targetDate = new Date(startDate.getTime() + (value / 100) * totalDays * 86400000);
+					return targetDate.toISOString().split("T")[0];
+				}
+
+				function mapDateToRange(dateStr) {
+					const date = new Date(dateStr);
+					return Math.round(((date - startDate) / (totalDays * 86400000)) * 100);
+				}
+
+				function updateSliders($slider, value, isMin) {
+					const newDate = mapRangeToDate(value);
+					const $valueDisplay = isMin ? $(".saMin .saSliderValue") : $(".saMax .saSliderValue");
+
+					$valueDisplay.val(newDate);
+					$slider.val(value);
+
+					// Prevent Min > Max
+					const minValue = parseInt($(".saMin .saInputSlider").val());
+					const maxValue = parseInt($(".saMax .saInputSlider").val());
+
+					if (minValue >= maxValue) $(".saMin .saInputSlider").val(maxValue - 1);
+					if (maxValue <= minValue) $(".saMax .saInputSlider").val(minValue + 1);
+				}
+
+				$(".saInputSlider").on("input", function () {
+					const $this = $(this);
+					updateSliders($this, parseInt($this.val()), $this.closest(".saSlider").hasClass("saMin"));
+				});
+
+				$(".saSliderValue").on("change", function () {
+					const $this = $(this);
+					const newValue = mapDateToRange($this.val());
+
+					if ($this.hasClass("saMin")) {
+						$(".saMin .saInputSlider").val(newValue).trigger("input");
+					} else {
+						$(".saMax .saInputSlider").val(newValue).trigger("input");
+					}
+				});
+
+				// Initialize sliders
+				$(".saMin .saInputSlider").val(mapDateToRange($(".saMin .saSliderValue").val())).trigger("input");
+				$(".saMax .saInputSlider").val(mapDateToRange($(".saMax .saSliderValue").val())).trigger("input");
+			});
+
+
+			var labels = {
+				1: 'Low',
+				2: 'Medium',
+				3: 'High',
+				4: 'Extreme'
+			};
+
+			function updateSlider(value, $slider) {
+				const min = $slider.attr('min');
+				const max = $slider.attr('max');
+				const percentage = ((value - min) * 100) / (max - min);
+				const $valueDisplay = $slider.parent().find('.saSliderValue');
+				const valueDisplayWidth = $valueDisplay.width();
+				$valueDisplay.text(value);
+				var thumbWidth = 24;
+				if ($('body').hasClass('saSmallScreen')) {
+					thumbWidth = 44;
+				}
+				else {
+					thumbWidth = 24;
+				}
+				const sliderWidth = $slider.outerWidth();
+				const leftPosition = (percentage * (sliderWidth - thumbWidth) + thumbWidth / 2 - valueDisplayWidth / 2) / 100;
+
+				$valueDisplay.css({
+					'left': leftPosition - 12
+				});
+
+				if ($slider.is(':disabled')) {
+					$slider.css('background', `linear-gradient(to right, #adbdd1 ${percentage}%, #dde3eC ${percentage}%)`);
+				}
+				else if ($slider.hasClass('saError')) {
+					$slider.css('background', `linear-gradient(to right, #e0163e ${percentage}%, #ffc7c4 ${percentage}%)`);
+				}
+
+				else if ($slider.hasClass('saWarning')) {
+					$slider.css('background', `linear-gradient(to right, #ffcd71 ${percentage}%, #f6ae02 ${percentage}%)`);
+				}
+
+				else {
+					$slider.css('background', `linear-gradient(to right, #2d6ce1 ${percentage}%, #dde3eC ${percentage}%)`);
+				}
+
+			}
+
+			function positionMarkers($slider) {
+				const min = $slider.attr('min');
+				const max = $slider.attr('max');
+				const $datalist = $slider.parent().parent().parent().find('datalist');
+				const $options = $datalist.find('option');
+				const sliderWidth = $slider.width();
+				const thumbWidth = 24;
+
+				$options.each(function () {
+					const $option = $(this);
+					const value = $option.val();
+					const percentage = ((value - min) * 100) / (max - min);
+					const leftPosition = percentage * (sliderWidth - thumbWidth) / 100 + thumbWidth / 2;
+
+					$option.css({
+						'left': leftPosition
+					});
+				});
+			}
+
+			$('input.saInputSlider').on('input', function () {
+				const $this = $(this);
+				const value = $this.val();
+
+				if ($this.hasClass('saSpecial')) {
+					const $number = $this.parent().parent().parent().find('input[type="number"]');
+					$number.val(value);
+					updateSlider(value, $this);
+				}
+
+				else {
+					const $number = $this.parent().find('input[type="number"]');
+					$number.val(value);
+					updateSlider(value, $this);
+				}
+
+			});
+
+			$('input[type="number"]').on('blur keyup', function (e) {
+				const $this = $(this);
+				const value = $this.val();
+
+				if ($this.hasClass('saSpecial')) {
+					const $slider = $this.parent().parent().parent().find('input.saInputSlider');
+					$slider.val(value).trigger('input');
+				}
+
+				else if (e.type === 'blur' || (e.type === 'keyup' && e.key === 'Enter') || e.type === 'click') {
+					const $slider = $this.parent().find('input.saInputSlider');
+					$slider.val(value).trigger('input');
+				}
+			});
+
+			$('.saRangeStep').on('click', '.saButton', function () {
+				let $parent = $(this).closest('.saRangeStep');
+				let $input = $parent.find('.saInputText');
+				let $slider = $parent.closest('.saRangeStepWrapper').find('.saSlider input');
+
+				let step = parseInt($input.attr('step'));
+				let min = parseInt($input.attr('min'));
+				let max = parseInt($input.attr('max'));
+				let currentValue = parseInt($input.val());
+
+				if ($(this).is('#goMinus') && currentValue > min) {
+					// Decrease
+					$input.val(currentValue - step);
+					$slider.val(currentValue - step);
+				}
+				else if ($(this).is('#goPlus') && currentValue < max) {
+					// Increase
+					$input.val(currentValue + step);
+					$slider.val(currentValue + step);
+				}
+
+				$('input.saInputSlider.saSpecial').trigger('input');
+			});
+
+			$('input.saInputSlider').each(function () {
+				const $this = $(this);
+				updateSlider($this.val(), $this);
+				positionMarkers($this);
+			});
+
+			$('input.saInputSlider').trigger('input');
+
+			$('.saRangeDual').each(function () {
+				var $minSlider = $(this).find('.saMin input.saInputSlider');
+				var $maxSlider = $(this).find('.saMax input.saInputSlider');
+				var $minValueDisplay = $(this).find('.saSliderValue.saMin');
+				var $maxValueDisplay = $(this).find('.saSliderValue.saMax');
+
+				function updateRangeSlider($slider, value, isMin) {
+					const min = $slider.attr('min');
+					const max = $slider.attr('max');
+					const percentage = ((value - min) * 100) / (max - min);
+					const $valueDisplay = isMin ? $minValueDisplay : $maxValueDisplay;
+					const valueDisplayWidth = $valueDisplay.width();
+					$valueDisplay.text(value);
+
+					var thumbWidth = 24;
+
+					if ($('body').hasClass('saSmallScreen')) {
+						thumbWidth = 32;
+					}
+					else {
+						thumbWidth = 24;
+					}
+					const sliderWidth = $slider.width();
+					const leftPosition = (percentage * (sliderWidth - thumbWidth) + thumbWidth / 2 - valueDisplayWidth / 2) / 100;
+
+					$valueDisplay.css({
+						'left': leftPosition - 12
+					});
+				}
+
+				function synchronizeSliders() {
+					const minValue = parseInt($minSlider.val());
+					const maxValue = parseInt($maxSlider.val());
+					const min = parseInt($minSlider.attr('min'));
+					const max = parseInt($minSlider.attr('max'));
+
+					if (minValue > maxValue - 1) {
+						$minSlider.val(maxValue - 1);
+						updateRangeSlider($minSlider, maxValue - 1, true);
+					} else if (maxValue < minValue + 1) {
+						$maxSlider.val(minValue + 1);
+						updateRangeSlider($maxSlider, minValue + 1, false);
+					}
+
+					const minPercentage = ((minValue - min) * 100) / (max - min);
+					const maxPercentage = ((maxValue - min) * 100) / (max - min);
+
+					const gradient = `linear-gradient(to right, #dde3eC ${minPercentage}%, #2d6ce1 ${minPercentage}%, #2d6ce1 ${maxPercentage}%, #dde3eC ${maxPercentage}%)`;
+					const gradientDisabled = `linear-gradient(to right, #dde3eC ${minPercentage}%, #adbdd1 ${minPercentage}%, #adbdd1 ${maxPercentage}%, #dde3eC ${maxPercentage}%)`;
+					const gradientError = `linear-gradient(to right, #ffc7c4 ${minPercentage}%, #e0163e ${minPercentage}%, #e0163e ${maxPercentage}%, #ffc7c4 ${maxPercentage}%)`;
+					const gradientWarning = `linear-gradient(to right, #ffefd3 ${minPercentage}%, #f6ae02 ${minPercentage}%, #f6ae02 ${maxPercentage}%, #ffefd3 ${maxPercentage}%)`;
+
+
+					$minSlider.css('background', 'transparent');
+
+					if ($maxSlider.is(':disabled')) {
+						$maxSlider.css('background', gradientDisabled);
+					}
+
+					else if ($maxSlider.hasClass('saError')) {
+						$maxSlider.css('background', gradientError);
+					}
+
+					else if ($maxSlider.hasClass('saWarning')) {
+						$maxSlider.css('background', gradientWarning);
+					}
+
+					else {
+						$maxSlider.css('background', gradient);
+					}
+
+					updateRangeSlider($minSlider, $minSlider.val(), true);
+					updateRangeSlider($maxSlider, $maxSlider.val(), false);
+				}
+
+				$minSlider.on('input', function () {
+					synchronizeSliders();
+				});
+
+				$maxSlider.on('input', function () {
+					synchronizeSliders();
+				});
+
+				synchronizeSliders();
+			});
+
+			$('.saRangeQuad').each(function () {
+				const $quadWrapper = $(this); // The quad slider wrapper
+				const sliders = $quadWrapper.find('.saSlider input[type="range"]'); // All sliders in the quad
+				const values = $quadWrapper.find('.saSliderValue'); // Associated number values
+
+				// Function to update slider value and its display
+				function updateSlider($slider, value, index) {
+					const min = parseInt($slider.attr('min'));
+					const max = parseInt($slider.attr('max'));
+					const percentage = ((value - min) * 100) / (max - min);
+
+					// Update the slider's number input display
+					$(values[index]).val(value).text(value);
+
+					// Adjust the gradient background for one specific slider (e.g., the second slider)
+					if (index === 1) { // Target the second slider
+						const gradient = `linear-gradient(to right, #ff0000 ${percentage}%, #dde3eC ${percentage}%)`; // Red gradient
+						$slider.css('background', gradient);
+					} else {
+						const gradient = `linear-gradient(to right, #2d6ce1 ${percentage}%, #dde3eC ${percentage}%)`; // Default gradient
+						$slider.css('background', gradient);
+					}
+				}
+
+				// Prevent sliders from overlapping (keep values ordered)
+				function enforceOrder() {
+					const sliderValues = sliders.map(function () {
+						return parseInt($(this).val());
+					}).get();
+
+					// Ensure each slider stays within bounds
+					for (let i = 0; i < sliderValues.length; i++) {
+						if (i > 0 && sliderValues[i] <= sliderValues[i - 1]) {
+							sliderValues[i] = sliderValues[i - 1] + 1;
+						}
+						if (i < sliderValues.length - 1 && sliderValues[i] >= sliderValues[i + 1]) {
+							sliderValues[i] = sliderValues[i + 1] - 1;
+						}
+					}
+
+					// Update sliders with adjusted values
+					sliders.each(function (index) {
+						$(this).val(sliderValues[index]);
+						updateSlider($(this), sliderValues[index], index);
+					});
+				}
+
+				// Event: Slider input change
+				sliders.on('input', function () {
+					const $this = $(this);
+					const index = sliders.index(this); // Get the slider's index
+					const value = parseInt($this.val());
+
+					// Update this slider
+					updateSlider($this, value, index);
+
+					// Enforce no overlap between sliders
+					enforceOrder();
+				});
+
+				// Initialize all sliders
+				sliders.each(function (index) {
+					const value = parseInt($(this).val());
+					updateSlider($(this), value, index);
+				});
+			});
+
+
+
+			$(window).resize(function () {
+				synchronizeSliders();
+			});
+		});
+
+	</script>
+</body>
+
+</html>
