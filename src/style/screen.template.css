@@ -1,4 +1,1276 @@
 @charset "utf-8";
+#colorContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 72px;
+}
+#colorContainer ul,
+#colorContainer li {
+  display: flex;
+  flex-direction: row;
+  font-size: 12px;
+  gap: 4px;
+  flex-wrap: wrap;
+  position: relative;
+}
+#colorContainer ul {
+  display: grid;
+  position: relative;
+  grid-template-columns: repeat(10, 72px);
+  gap: 8px;
+}
+#colorContainer li:first-child {
+  grid-column: 1 / 11;
+}
+#colorContainer li:has(:checked) {
+  outline: 2px solid #313a44;
+  outline-offset: 1px;
+}
+#colorContainer li.saBird {
+  box-shadow: 0 0 0 4px green;
+}
+#colorContainer li.saDisabled {
+  pointer-events: none;
+  outline-color: #eef1f5;
+  background-color: #f8f9fb;
+}
+#colorContainer li.saDisabled .saIcon {
+  background-color: transparent;
+  outline: 1px solid #eef1f5;
+  color: #eef1f5;
+}
+#colorContainer li.saDisabled .saTitle,
+#colorContainer li.saDisabled .saDesc {
+  color: #eef1f5;
+}
+#colorContainer li.saDisabled input {
+  display: none;
+}
+#colorContainer li input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 8px;
+}
+#output {
+  display: flex;
+  font-size: 10px;
+  line-height: 1;
+  width: 400px;
+  overflow-wrap: anywhere;
+  overflow: auto;
+  height: 400px;
+}
+.saColor {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 4px;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: 8px;
+  transition: ease color 0.2s, ease background-color 0.2s, ease border-radius 0.2s, ease outline 0.2s;
+  cursor: pointer;
+  box-sizing: border-box;
+  outline-offset: -1px;
+  outline-style: solid;
+  outline-width: 1px;
+  outline: 1px solid #ccd5e2;
+}
+.saColor:active {
+  border-radius: 12px;
+}
+.saColor:active .saIcon {
+  border-radius: 8px;
+}
+.saColor .saIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  height: 32px;
+  width: 32px;
+  border-radius: 4px;
+  transition: ease color 0.2s, ease background-color 0.2s, ease outline-color 0.2s, ease border-radius 0.2s;
+}
+.saColor i.saIcon {
+  outline: none;
+}
+.saColor .saTitle {
+  font-size: 14px;
+  color: #313a44;
+}
+.saColor .saDesc {
+  font-size: 12px;
+  color: #60748b;
+}
+.saGray:hover {
+  outline-color: #60748b;
+  background-color: #eef1f5;
+}
+.saGray:hover .saTitle,
+.saGray:hover .saDesc {
+  color: #506072;
+}
+.saGray:hover .saIcon {
+  background-color: #60748b;
+  color: #fff;
+}
+.saGray:active {
+  outline-color: #60748b;
+  background-color: #ccd5e2;
+}
+.saGray:active .saTitle,
+.saGray:active .saDesc {
+  color: #506072;
+}
+.saGray:active .saIcon {
+  background-color: #60748b;
+  color: #fff;
+}
+.saGray0 {
+  outline-color: #ccd5e2;
+  background-color: #fff;
+}
+.saGray50 {
+  outline-color: #ccd5e2;
+  background-color: #f8f9fb;
+  color: #60748b;
+}
+.saGray100 {
+  outline-color: #ccd5e2;
+  background-color: #eef1f5;
+  color: #60748b;
+}
+.saGray100 .saDesc {
+  color: #506072;
+}
+.saGray200 {
+  outline-color: #adbdd1;
+  background-color: #ccd5e2;
+  color: #506072;
+}
+.saGray200 .saTitle {
+  color: #313a44;
+}
+.saGray200 .saDesc {
+  color: #404c5b;
+}
+.saGray300 {
+  outline-color: #8fa5c0;
+  background-color: #adbdd1;
+  color: #404c5b;
+}
+.saGray300 .saTitle {
+  color: #313a44;
+}
+.saGray300 .saDesc {
+  color: #404c5b;
+}
+.saGray400 {
+  outline-color: #7088a4;
+  background-color: #8fa5c0;
+  color: #313a44;
+}
+.saGray400 .saTitle {
+  color: #313a44;
+}
+.saGray400 .saDesc {
+  color: #313a44;
+}
+.saGray500 {
+  outline-color: #60748b;
+  background-color: #7088a4;
+  color: #fff;
+}
+.saGray500 .saTitle {
+  color: #1a1e23;
+}
+.saGray500 .saDesc {
+  color: #1a1e23;
+}
+.saGray600 {
+  outline-color: #506072;
+  background-color: #60748b;
+  color: #eef1f5;
+}
+.saGray600 .saTitle {
+  color: #fff;
+}
+.saGray600 .saDesc {
+  color: #f8f9fb;
+}
+.saGray700 {
+  outline-color: #404c5b;
+  background-color: #506072;
+  color: #ccd5e2;
+}
+.saGray700 .saTitle {
+  color: #f8f9fb;
+}
+.saGray700 .saDesc {
+  color: #eef1f5;
+}
+.saGray800 {
+  outline-color: #313a44;
+  background-color: #404c5b;
+  color: #adbdd1;
+}
+.saGray800 .saTitle {
+  color: #f8f9fb;
+}
+.saGray800 .saDesc {
+  color: #ccd5e2;
+}
+.saGray900 {
+  outline-color: #506072;
+  background-color: #313a44;
+  color: #adbdd1;
+}
+.saGray900 .saTitle {
+  color: #f8f9fb;
+}
+.saGray900 .saDesc {
+  color: #ccd5e2;
+}
+.saRed:hover {
+  outline-color: #e0163e;
+  background-color: #ffedeb;
+}
+.saRed:hover .saTitle,
+.saRed:hover .saDesc {
+  color: #b81c34;
+}
+.saRed:hover .saIcon {
+  background-color: #e0163e;
+  color: #fff;
+}
+.saRed:active {
+  outline-color: #e0163e;
+  background-color: #ffc7c4;
+}
+.saRed:active .saTitle,
+.saRed:active .saDesc {
+  color: #b81c34;
+}
+.saRed:active .saIcon {
+  background-color: #e0163e;
+  color: #fff;
+}
+.saRed0 {
+  outline-color: #ccd5e2;
+  background-color: #fff;
+}
+.saRed50 {
+  outline-color: #ffc7c4;
+  background-color: #fff8f7;
+  color: #e0163e;
+}
+.saRed100 {
+  outline-color: #ffc7c4;
+  background-color: #ffedeb;
+  color: #e0163e;
+}
+.saRed100 .saDesc {
+  color: #506072;
+}
+.saRed200 {
+  outline-color: #fea3a0;
+  background-color: #ffc7c4;
+  color: #b81c34;
+}
+.saRed200 .saTitle {
+  color: #6c1b22;
+}
+.saRed200 .saDesc {
+  color: #911d2b;
+}
+.saRed300 {
+  outline-color: #f7807f;
+  background-color: #fea3a0;
+  color: #911d2b;
+}
+.saRed300 .saTitle {
+  color: #6c1b22;
+}
+.saRed300 .saDesc {
+  color: #911d2b;
+}
+.saRed400 {
+  outline-color: #eb4f58;
+  background-color: #f7807f;
+  color: #6c1b22;
+}
+.saRed400 .saTitle {
+  color: #6c1b22;
+}
+.saRed400 .saDesc {
+  color: #6c1b22;
+}
+.saRed500 {
+  outline-color: #e0163e;
+  background-color: #eb4f58;
+  color: #fff;
+}
+.saRed500 .saTitle {
+  color: #3f1014;
+}
+.saRed500 .saDesc {
+  color: #3f1014;
+}
+.saRed600 {
+  outline-color: #b81c34;
+  background-color: #e0163e;
+  color: #ffedeb;
+}
+.saRed600 .saTitle {
+  color: #fff;
+}
+.saRed600 .saDesc {
+  color: #fff8f7;
+}
+.saRed700 {
+  outline-color: #911d2b;
+  background-color: #b81c34;
+  color: #ffc7c4;
+}
+.saRed700 .saTitle {
+  color: #fff8f7;
+}
+.saRed700 .saDesc {
+  color: #ffedeb;
+}
+.saRed800 {
+  outline-color: #6c1b22;
+  background-color: #911d2b;
+  color: #fea3a0;
+}
+.saRed800 .saTitle {
+  color: #fff8f7;
+}
+.saRed800 .saDesc {
+  color: #ffc7c4;
+}
+.saRed900 {
+  outline-color: #b81c34;
+  background-color: #6c1b22;
+  color: #fea3a0;
+}
+.saRed900 .saTitle {
+  color: #fff8f7;
+}
+.saRed900 .saDesc {
+  color: #ffc7c4;
+}
+.saOrange:hover {
+  outline-color: #ee894d;
+  background-color: #ffede4;
+}
+.saOrange:hover .saTitle,
+.saOrange:hover .saDesc {
+  color: #974816;
+}
+.saOrange:hover .saIcon {
+  background-color: #ee894d;
+  color: #fff;
+}
+.saOrange:active {
+  outline-color: #ee894d;
+  background-color: #ffc9ac;
+}
+.saOrange:active .saTitle,
+.saOrange:active .saDesc {
+  color: #974816;
+}
+.saOrange:active .saIcon {
+  background-color: #ee894d;
+  color: #fff;
+}
+.saOrange0 {
+  outline-color: #ccd5e2;
+  background-color: #fff;
+}
+.saOrange50 {
+  outline-color: #ffc9ac;
+  background-color: #fff8f4;
+  color: #b75617;
+}
+.saOrange100 {
+  outline-color: #ffc9ac;
+  background-color: #ffede4;
+  color: #b75617;
+}
+.saOrange100 .saDesc {
+  color: #506072;
+}
+.saOrange200 {
+  outline-color: #f9a97c;
+  background-color: #ffc9ac;
+  color: #974816;
+}
+.saOrange200 .saTitle {
+  color: #5a2d13;
+}
+.saOrange200 .saDesc {
+  color: #783a15;
+}
+.saOrange300 {
+  outline-color: #ee894d;
+  background-color: #f9a97c;
+  color: #783a15;
+}
+.saOrange300 .saTitle {
+  color: #5a2d13;
+}
+.saOrange300 .saDesc {
+  color: #783a15;
+}
+.saOrange400 {
+  outline-color: #d96416;
+  background-color: #ee894d;
+  color: #5a2d13;
+}
+.saOrange400 .saTitle {
+  color: #5a2d13;
+}
+.saOrange400 .saDesc {
+  color: #5a2d13;
+}
+.saOrange500 {
+  outline-color: #b75617;
+  background-color: #d96416;
+  color: #fff;
+}
+.saOrange500 .saTitle {
+  color: #2c1609;
+}
+.saOrange500 .saDesc {
+  color: #2c1609;
+}
+.saOrange600 {
+  outline-color: #974816;
+  background-color: #b75617;
+  color: #ffede4;
+}
+.saOrange600 .saTitle {
+  color: #fff;
+}
+.saOrange600 .saDesc {
+  color: #fff8f4;
+}
+.saOrange700 {
+  outline-color: #783a15;
+  background-color: #974816;
+  color: #ffc9ac;
+}
+.saOrange700 .saTitle {
+  color: #fff8f4;
+}
+.saOrange700 .saDesc {
+  color: #ffede4;
+}
+.saOrange800 {
+  outline-color: #5a2d13;
+  background-color: #783a15;
+  color: #f9a97c;
+}
+.saOrange800 .saTitle {
+  color: #fff8f4;
+}
+.saOrange800 .saDesc {
+  color: #ffc9ac;
+}
+.saOrange900 {
+  outline-color: #974816;
+  background-color: #5a2d13;
+  color: #f9a97c;
+}
+.saOrange900 .saTitle {
+  color: #fff8f4;
+}
+.saOrange900 .saDesc {
+  color: #ffc9ac;
+}
+.saYellow:hover {
+  outline-color: #f6ae02;
+  background-color: #ffefd3;
+}
+.saYellow:hover .saTitle,
+.saYellow:hover .saDesc {
+  color: #7b5815;
+}
+.saYellow:hover .saIcon {
+  background-color: #f6ae02;
+  color: #fff;
+}
+.saYellow:active {
+  outline-color: #f6ae02;
+  background-color: #ffcd71;
+}
+.saYellow:active .saTitle,
+.saYellow:active .saDesc {
+  color: #7b5815;
+}
+.saYellow:active .saIcon {
+  background-color: #f6ae02;
+  color: #fff;
+}
+.saYellow0 {
+  outline-color: #ccd5e2;
+  background-color: #fff;
+}
+.saYellow50 {
+  outline-color: #ffcd71;
+  background-color: #fff9ed;
+  color: #956a15;
+}
+.saYellow100 {
+  outline-color: #ffcd71;
+  background-color: #ffefd3;
+  color: #956a15;
+}
+.saYellow100 .saDesc {
+  color: #506072;
+}
+.saYellow200 {
+  outline-color: #f6ae02;
+  background-color: #ffcd71;
+  color: #7b5815;
+}
+.saYellow200 .saTitle {
+  color: #4a3612;
+}
+.saYellow200 .saDesc {
+  color: #624714;
+}
+.saYellow300 {
+  outline-color: #d6980d;
+  background-color: #f6ae02;
+  color: #624714;
+}
+.saYellow300 .saTitle {
+  color: #4a3612;
+}
+.saYellow300 .saDesc {
+  color: #624714;
+}
+.saYellow400 {
+  outline-color: #b07d13;
+  background-color: #d6980d;
+  color: #4a3612;
+}
+.saYellow400 .saTitle {
+  color: #4a3612;
+}
+.saYellow400 .saDesc {
+  color: #4a3612;
+}
+.saYellow500 {
+  outline-color: #956a15;
+  background-color: #b07d13;
+  color: #fff;
+}
+.saYellow500 .saTitle {
+  color: #1d1507;
+}
+.saYellow500 .saDesc {
+  color: #1d1507;
+}
+.saYellow600 {
+  outline-color: #7b5815;
+  background-color: #956a15;
+  color: #ffefd3;
+}
+.saYellow600 .saTitle {
+  color: #fff;
+}
+.saYellow600 .saDesc {
+  color: #fff9ed;
+}
+.saYellow700 {
+  outline-color: #624714;
+  background-color: #7b5815;
+  color: #ffcd71;
+}
+.saYellow700 .saTitle {
+  color: #fff9ed;
+}
+.saYellow700 .saDesc {
+  color: #ffefd3;
+}
+.saYellow800 {
+  outline-color: #4a3612;
+  background-color: #624714;
+  color: #f6ae02;
+}
+.saYellow800 .saTitle {
+  color: #fff9ed;
+}
+.saYellow800 .saDesc {
+  color: #ffcd71;
+}
+.saYellow900 {
+  outline-color: #7b5815;
+  background-color: #4a3612;
+  color: #f6ae02;
+}
+.saYellow900 .saTitle {
+  color: #fff9ed;
+}
+.saYellow900 .saDesc {
+  color: #ffcd71;
+}
+.saGreen:hover {
+  outline-color: #289a42;
+  background-color: #e1f6e1;
+}
+.saGreen:hover .saTitle,
+.saGreen:hover .saDesc {
+  color: #246c31;
+}
+.saGreen:hover .saIcon {
+  background-color: #289a42;
+  color: #fff;
+}
+.saGreen:active {
+  outline-color: #289a42;
+  background-color: #a3e4a6;
+}
+.saGreen:active .saTitle,
+.saGreen:active .saDesc {
+  color: #246c31;
+}
+.saGreen:active .saIcon {
+  background-color: #289a42;
+  color: #fff;
+}
+.saGreen0 {
+  outline-color: #ccd5e2;
+  background-color: #fff;
+}
+.saGreen50 {
+  outline-color: #a3e4a6;
+  background-color: #f3fcf3;
+  color: #278239;
+}
+.saGreen100 {
+  outline-color: #a3e4a6;
+  background-color: #e1f6e1;
+  color: #278239;
+}
+.saGreen100 .saDesc {
+  color: #506072;
+}
+.saGreen200 {
+  outline-color: #62d271;
+  background-color: #a3e4a6;
+  color: #246c31;
+}
+.saGreen200 .saTitle {
+  color: #1c4120;
+}
+.saGreen200 .saDesc {
+  color: #205628;
+}
+.saGreen300 {
+  outline-color: #29bb4e;
+  background-color: #62d271;
+  color: #205628;
+}
+.saGreen300 .saTitle {
+  color: #1c4120;
+}
+.saGreen300 .saDesc {
+  color: #205628;
+}
+.saGreen400 {
+  outline-color: #289a42;
+  background-color: #29bb4e;
+  color: #1c4120;
+}
+.saGreen400 .saTitle {
+  color: #1c4120;
+}
+.saGreen400 .saDesc {
+  color: #1c4120;
+}
+.saGreen500 {
+  outline-color: #278239;
+  background-color: #289a42;
+  color: #fff;
+}
+.saGreen500 .saTitle {
+  color: #0b1a0d;
+}
+.saGreen500 .saDesc {
+  color: #0b1a0d;
+}
+.saGreen600 {
+  outline-color: #246c31;
+  background-color: #278239;
+  color: #e1f6e1;
+}
+.saGreen600 .saTitle {
+  color: #fff;
+}
+.saGreen600 .saDesc {
+  color: #f3fcf3;
+}
+.saGreen700 {
+  outline-color: #205628;
+  background-color: #246c31;
+  color: #a3e4a6;
+}
+.saGreen700 .saTitle {
+  color: #f3fcf3;
+}
+.saGreen700 .saDesc {
+  color: #e1f6e1;
+}
+.saGreen800 {
+  outline-color: #1c4120;
+  background-color: #205628;
+  color: #62d271;
+}
+.saGreen800 .saTitle {
+  color: #f3fcf3;
+}
+.saGreen800 .saDesc {
+  color: #a3e4a6;
+}
+.saGreen900 {
+  outline-color: #246c31;
+  background-color: #1c4120;
+  color: #62d271;
+}
+.saGreen900 .saTitle {
+  color: #f3fcf3;
+}
+.saGreen900 .saDesc {
+  color: #a3e4a6;
+}
+.saSkyBlue:hover {
+  outline-color: #2292ac;
+  background-color: #e2f4fa;
+}
+.saSkyBlue:hover .saTitle,
+.saSkyBlue:hover .saDesc {
+  color: #226677;
+}
+.saSkyBlue:hover .saIcon {
+  background-color: #5fc9e5;
+  color: #fff;
+}
+.saSkyBlue:active {
+  outline-color: #2292ac;
+  background-color: #a4ddef;
+}
+.saSkyBlue:active .saTitle,
+.saSkyBlue:active .saDesc {
+  color: #226677;
+}
+.saSkyBlue:active .saIcon {
+  background-color: #5fc9e5;
+  color: #fff;
+}
+.saSkyBlue0 {
+  outline-color: #ccd5e2;
+  background-color: #fff;
+}
+.saSkyBlue50 {
+  outline-color: #a4ddef;
+  background-color: #f4fbfd;
+  color: #237c91;
+}
+.saSkyBlue100 {
+  outline-color: #a4ddef;
+  background-color: #e2f4fa;
+  color: #237c91;
+}
+.saSkyBlue100 .saDesc {
+  color: #506072;
+}
+.saSkyBlue200 {
+  outline-color: #5fc9e5;
+  background-color: #a4ddef;
+  color: #226677;
+}
+.saSkyBlue200 .saTitle {
+  color: #1c3e47;
+}
+.saSkyBlue200 .saDesc {
+  color: #20525f;
+}
+.saSkyBlue300 {
+  outline-color: #1bb2d1;
+  background-color: #5fc9e5;
+  color: #20525f;
+}
+.saSkyBlue300 .saTitle {
+  color: #1c3e47;
+}
+.saSkyBlue300 .saDesc {
+  color: #20525f;
+}
+.saSkyBlue400 {
+  outline-color: #2292ac;
+  background-color: #1bb2d1;
+  color: #1c3e47;
+}
+.saSkyBlue400 .saTitle {
+  color: #1c3e47;
+}
+.saSkyBlue400 .saDesc {
+  color: #1c3e47;
+}
+.saSkyBlue500 {
+  outline-color: #237c91;
+  background-color: #2292ac;
+  color: #fff;
+}
+.saSkyBlue500 .saTitle {
+  color: #0c1b1f;
+}
+.saSkyBlue500 .saDesc {
+  color: #0c1b1f;
+}
+.saSkyBlue600 {
+  outline-color: #226677;
+  background-color: #237c91;
+  color: #e2f4fa;
+}
+.saSkyBlue600 .saTitle {
+  color: #fff;
+}
+.saSkyBlue600 .saDesc {
+  color: #f4fbfd;
+}
+.saSkyBlue700 {
+  outline-color: #20525f;
+  background-color: #226677;
+  color: #a4ddef;
+}
+.saSkyBlue700 .saTitle {
+  color: #f4fbfd;
+}
+.saSkyBlue700 .saDesc {
+  color: #e2f4fa;
+}
+.saSkyBlue800 {
+  outline-color: #1c3e47;
+  background-color: #20525f;
+  color: #5fc9e5;
+}
+.saSkyBlue800 .saTitle {
+  color: #f4fbfd;
+}
+.saSkyBlue800 .saDesc {
+  color: #a4ddef;
+}
+.saSkyBlue900 {
+  outline-color: #226677;
+  background-color: #1c3e47;
+  color: #5fc9e5;
+}
+.saSkyBlue900 .saTitle {
+  color: #f4fbfd;
+}
+.saSkyBlue900 .saDesc {
+  color: #a4ddef;
+}
+.saBlue:hover {
+  outline-color: #2d6ce1;
+  background-color: #eff0fd;
+}
+.saBlue:hover .saTitle,
+.saBlue:hover .saDesc {
+  color: #1f59bf;
+}
+.saBlue:hover .saIcon {
+  background-color: #2d6ce1;
+  color: #fff;
+}
+.saBlue:active {
+  outline-color: #2d6ce1;
+  background-color: #cfd2f8;
+}
+.saBlue:active .saTitle,
+.saBlue:active .saDesc {
+  color: #1f59bf;
+}
+.saBlue:active .saIcon {
+  background-color: #2d6ce1;
+  color: #fff;
+}
+.saBlue0 {
+  outline-color: #ccd5e2;
+  background-color: #fff;
+}
+.saBlue50 {
+  outline-color: #cfd2f8;
+  background-color: #f9f9fe;
+  color: #2d6ce1;
+}
+.saBlue100 {
+  outline-color: #cfd2f8;
+  background-color: #eff0fd;
+  color: #2d6ce1;
+}
+.saBlue100 .saDesc {
+  color: #506072;
+}
+.saBlue200 {
+  outline-color: #b0b8f3;
+  background-color: #cfd2f8;
+  color: #1f59bf;
+}
+.saBlue200 .saTitle {
+  color: #20366e;
+}
+.saBlue200 .saDesc {
+  color: #224795;
+}
+.saBlue300 {
+  outline-color: #8f9eed;
+  background-color: #b0b8f3;
+  color: #224795;
+}
+.saBlue300 .saTitle {
+  color: #20366e;
+}
+.saBlue300 .saDesc {
+  color: #224795;
+}
+.saBlue400 {
+  outline-color: #6181e6;
+  background-color: #8f9eed;
+  color: #20366e;
+}
+.saBlue400 .saTitle {
+  color: #20366e;
+}
+.saBlue400 .saDesc {
+  color: #20366e;
+}
+.saBlue500 {
+  outline-color: #2d6ce1;
+  background-color: #6181e6;
+  color: #fff;
+}
+.saBlue500 .saTitle {
+  color: #132143;
+}
+.saBlue500 .saDesc {
+  color: #132143;
+}
+.saBlue600 {
+  outline-color: #1f59bf;
+  background-color: #2d6ce1;
+  color: #eff0fd;
+}
+.saBlue600 .saTitle {
+  color: #fff;
+}
+.saBlue600 .saDesc {
+  color: #f9f9fe;
+}
+.saBlue700 {
+  outline-color: #224795;
+  background-color: #1f59bf;
+  color: #cfd2f8;
+}
+.saBlue700 .saTitle {
+  color: #f9f9fe;
+}
+.saBlue700 .saDesc {
+  color: #eff0fd;
+}
+.saBlue800 {
+  outline-color: #20366e;
+  background-color: #224795;
+  color: #b0b8f3;
+}
+.saBlue800 .saTitle {
+  color: #f9f9fe;
+}
+.saBlue800 .saDesc {
+  color: #cfd2f8;
+}
+.saBlue900 {
+  outline-color: #1f59bf;
+  background-color: #20366e;
+  color: #b0b8f3;
+}
+.saBlue900 .saTitle {
+  color: #f9f9fe;
+}
+.saBlue900 .saDesc {
+  color: #cfd2f8;
+}
+.saPurple:hover {
+  outline-color: #8b4af1;
+  background-color: #f8edfd;
+}
+.saPurple:hover .saTitle,
+.saPurple:hover .saDesc {
+  color: #6d35e1;
+}
+.saPurple:hover .saIcon {
+  background-color: #8b4af1;
+  color: #fff;
+}
+.saPurple:active {
+  outline-color: #8b4af1;
+  background-color: #e7cafa;
+}
+.saPurple:active .saTitle,
+.saPurple:active .saDesc {
+  color: #6d35e1;
+}
+.saPurple:active .saIcon {
+  background-color: #8b4af1;
+  color: #fff;
+}
+.saPurple0 {
+  outline-color: #ccd5e2;
+  background-color: #fff;
+}
+.saPurple50 {
+  outline-color: #e7cafa;
+  background-color: #fcf8fe;
+  color: #8b4af1;
+}
+.saPurple100 {
+  outline-color: #e7cafa;
+  background-color: #f8edfd;
+  color: #8b4af1;
+}
+.saPurple100 .saDesc {
+  color: #506072;
+}
+.saPurple200 {
+  outline-color: #d5aaf8;
+  background-color: #e7cafa;
+  color: #6d35e1;
+}
+.saPurple200 .saTitle {
+  color: #3f2683;
+}
+.saPurple200 .saDesc {
+  color: #552eb1;
+}
+.saPurple300 {
+  outline-color: #c18cf6;
+  background-color: #d5aaf8;
+  color: #552eb1;
+}
+.saPurple300 .saTitle {
+  color: #3f2683;
+}
+.saPurple300 .saDesc {
+  color: #552eb1;
+}
+.saPurple400 {
+  outline-color: #a566f3;
+  background-color: #c18cf6;
+  color: #3f2683;
+}
+.saPurple400 .saTitle {
+  color: #3f2683;
+}
+.saPurple400 .saDesc {
+  color: #3f2683;
+}
+.saPurple500 {
+  outline-color: #8b4af1;
+  background-color: #a566f3;
+  color: #fff;
+}
+.saPurple500 .saTitle {
+  color: #2a1958;
+}
+.saPurple500 .saDesc {
+  color: #2a1958;
+}
+.saPurple600 {
+  outline-color: #6d35e1;
+  background-color: #8b4af1;
+  color: #f8edfd;
+}
+.saPurple600 .saTitle {
+  color: #fff;
+}
+.saPurple600 .saDesc {
+  color: #fcf8fe;
+}
+.saPurple700 {
+  outline-color: #552eb1;
+  background-color: #6d35e1;
+  color: #e7cafa;
+}
+.saPurple700 .saTitle {
+  color: #fcf8fe;
+}
+.saPurple700 .saDesc {
+  color: #f8edfd;
+}
+.saPurple800 {
+  outline-color: #3f2683;
+  background-color: #552eb1;
+  color: #d5aaf8;
+}
+.saPurple800 .saTitle {
+  color: #fcf8fe;
+}
+.saPurple800 .saDesc {
+  color: #e7cafa;
+}
+.saPurple900 {
+  outline-color: #6d35e1;
+  background-color: #3f2683;
+  color: #d5aaf8;
+}
+.saPurple900 .saTitle {
+  color: #fcf8fe;
+}
+.saPurple900 .saDesc {
+  color: #e7cafa;
+}
+.saPink:hover {
+  outline-color: #e642b2;
+  background-color: #ffecf6;
+}
+.saPink:hover .saTitle,
+.saPink:hover .saDesc {
+  color: #ab1e82;
+}
+.saPink:hover .saIcon {
+  background-color: #e642b2;
+  color: #fff;
+}
+.saPink:active {
+  outline-color: #e642b2;
+  background-color: #fcc5e5;
+}
+.saPink:active .saTitle,
+.saPink:active .saDesc {
+  color: #ab1e82;
+}
+.saPink:active .saIcon {
+  background-color: #e642b2;
+  color: #fff;
+}
+.saPink0 {
+  outline-color: #ccd5e2;
+  background-color: #fff;
+}
+.saPink50 {
+  outline-color: #fcc5e5;
+  background-color: #fff7fb;
+  color: #d1199f;
+}
+.saPink100 {
+  outline-color: #fcc5e5;
+  background-color: #ffecf6;
+  color: #d1199f;
+}
+.saPink100 .saDesc {
+  color: #506072;
+}
+.saPink200 {
+  outline-color: #f7a1d5;
+  background-color: #fcc5e5;
+  color: #ab1e82;
+}
+.saPink200 .saTitle {
+  color: #641c4d;
+}
+.saPink200 .saDesc {
+  color: #871e67;
+}
+.saPink300 {
+  outline-color: #f07ac5;
+  background-color: #f7a1d5;
+  color: #871e67;
+}
+.saPink300 .saTitle {
+  color: #641c4d;
+}
+.saPink300 .saDesc {
+  color: #871e67;
+}
+.saPink400 {
+  outline-color: #e642b2;
+  background-color: #f07ac5;
+  color: #641c4d;
+}
+.saPink400 .saTitle {
+  color: #641c4d;
+}
+.saPink400 .saDesc {
+  color: #641c4d;
+}
+.saPink500 {
+  outline-color: #d1199f;
+  background-color: #e642b2;
+  color: #fff;
+}
+.saPink500 .saTitle {
+  color: #38102b;
+}
+.saPink500 .saDesc {
+  color: #38102b;
+}
+.saPink600 {
+  outline-color: #ab1e82;
+  background-color: #d1199f;
+  color: #ffecf6;
+}
+.saPink600 .saTitle {
+  color: #fff;
+}
+.saPink600 .saDesc {
+  color: #fff7fb;
+}
+.saPink700 {
+  outline-color: #871e67;
+  background-color: #ab1e82;
+  color: #fcc5e5;
+}
+.saPink700 .saTitle {
+  color: #fff7fb;
+}
+.saPink700 .saDesc {
+  color: #ffecf6;
+}
+.saPink800 {
+  outline-color: #641c4d;
+  background-color: #871e67;
+  color: #f7a1d5;
+}
+.saPink800 .saTitle {
+  color: #fff7fb;
+}
+.saPink800 .saDesc {
+  color: #fcc5e5;
+}
+.saPink900 {
+  outline-color: #ab1e82;
+  background-color: #641c4d;
+  color: #f7a1d5;
+}
+.saPink900 .saTitle {
+  color: #fff7fb;
+}
+.saPink900 .saDesc {
+  color: #fcc5e5;
+}
 :root {
   --Sa-Color-ActiveTab: #2d6ce1;
   --Sa-Color-Badge: #1b54bd;
@@ -7,10 +1279,10 @@
   --Sa-Color-DestructiveButtonBackground: #e0163e;
   --Sa-Color-DestructiveButtonBackground-Brightness85: #b81c34;
   --Sa-Color-GeneralBorder: #2d6ce1;
-  --Sa-Color-GridFoot: #f8f9fB;
-  --Sa-Color-GridHead: #f8f9fB;
+  --Sa-Color-GridFoot: #f8f9fb;
+  --Sa-Color-GridHead: #f8f9fb;
   --Sa-Color-GridHeadingText: #313a44;
-  --Sa-Color-GridRowHighlight: #f8f9fB;
+  --Sa-Color-GridRowHighlight: #f8f9fb;
   --Sa-Color-HeadingText: #313a44;
   --Sa-Color-HelpBadge: #2d6ce1;
   --Sa-Color-Icon: #7088a4;
@@ -25,7 +1297,7 @@
   --Sa-Color-InputFieldIcon: #2d6ce1;
   --Sa-Color-InputFieldIconInverted: #fff;
   --Sa-Color-InputPageHeadingBackground: #eef1f5;
-  --Sa-Color-InputPageHeadingBackgroundHover: #f8f9fB;
+  --Sa-Color-InputPageHeadingBackgroundHover: #f8f9fb;
   --Sa-Color-InputPageHeadingText: #313a44;
   --Sa-Color-Label: #313a44;
   --Sa-Color-LabelHover: #2d6ce1;
@@ -37,7 +1309,7 @@
   --Sa-Color-MenuGroupFeatureColor4: #2292ac;
   --Sa-Color-MenuGroupFeatureColor5: #29bb4e;
   --Sa-Color-MenuLinkActive: #eef1f5;
-  --Sa-Color-MenuLinkHover: #f8f9fB;
+  --Sa-Color-MenuLinkHover: #f8f9fb;
   --Sa-Color-MobileTitleBar: #2d6ce1;
   --Sa-Color-NegativeTrend: #e0163e;
   --Sa-Color-NeutralTrend: #667387;
@@ -328,7 +1600,7 @@ pre:has(code) {
   border-collapse: collapse;
 }
 .saHtmlViewWrapper thead {
-  background: #f8f9fB;
+  background: #f8f9fb;
   font-weight: 700;
 }
 .saHtmlViewWrapper td,
@@ -354,18 +1626,18 @@ pre:has(code) {
   max-width: none;
 }
 .saHtmlViewWrapper table {
-  border: 1px solid #dde3eC;
+  border: 1px solid #dde3ec;
   border-right: none;
   margin-left: 0 !important;
 }
 .saHtmlViewWrapper th,
 .saHtmlViewWrapper td {
-  border-right: 1px solid #dde3eC;
+  border-right: 1px solid #dde3ec;
   padding-right: 5px;
   padding-left: 5px;
 }
 .saHtmlViewWrapper tr:nth-child(2n) {
-  background: #f8f9fB;
+  background: #f8f9fb;
 }
 .saHtmlViewWrapper a:hover {
   text-decoration: underline;
@@ -806,7 +2078,7 @@ body.saPopup {
   padding: 1px 2px 3px;
 }
 .maincolbody.search .stndrdfld:focus {
-  border: 1px solid #dde3eC;
+  border: 1px solid #dde3ec;
 }
 .stndrdfld:focus {
   outline: 0;
@@ -963,20 +2235,20 @@ ul.multirowbuttons.left {
   width: 100%;
 }
 .inputlayoutfieldgrouprow.border {
-  border: 1px solid #dde3eC;
+  border: 1px solid #dde3ec;
   background: #fff;
   border-bottom: none;
   border-top: none;
 }
 .inputlayoutfieldgrouphead {
-  border: 1px solid #dde3eC;
+  border: 1px solid #dde3ec;
   border-bottom: none;
   background: #fff;
 }
 .inputlayoutfieldgroupfoot {
-  border-bottom: 1px solid #dde3eC;
-  border-left: 1px solid #dde3eC;
-  border-right: 1px solid #dde3eC;
+  border-bottom: 1px solid #dde3ec;
+  border-left: 1px solid #dde3ec;
+  border-right: 1px solid #dde3ec;
 }
 .btnfield.borders {
   padding-left: 0;
@@ -1032,7 +2304,7 @@ table.inputlayoutgroup.border.inputlayoutgroup .inputlayouttable .inputlayoutcol
 .inputlayoutcolumn > table {
   padding: 0.6em 0em 0.8em 0em;
   background: #fff;
-  border: 1px solid #dde3eC;
+  border: 1px solid #dde3ec;
   border-radius: 2px;
 }
 .inputlayoutgroup.headless .inputlayoutcolumn > table {
@@ -1335,7 +2607,7 @@ body.right {
 }
 .externalframe {
   width: 100%;
-  border: 1px solid #dde3eC;
+  border: 1px solid #dde3ec;
 }
 .externalframe.autoheight {
   min-height: 250px;
@@ -2053,7 +3325,7 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 @media (pointer: fine) {
   .saContextMenuWrapper .saContextMenu li > *:hover .saContextMenuItem {
-    background-color: #f8f9fB;
+    background-color: #f8f9fb;
     color: var(--Sa-Color-LabelHover);
   }
   .saContextMenuWrapper .saContextMenu li > *:hover .saIcon {
@@ -2129,7 +3401,7 @@ body.saPc *::-webkit-scrollbar-corner {
   border-color: #ccd5e2;
 }
 .saContextMenuWrapper .saContextMenu li.saSelected .saContextMenuItem {
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
   color: var(--Sa-Color-LabelHover);
 }
 .saContextMenuWrapper .saContextMenu li.saSelected .saIcon {
@@ -2310,7 +3582,7 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saBottomSheet .saSheetButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saBottomSheet .saSheetButton:hover .saIcon {
@@ -2318,7 +3590,7 @@ div.saPopupOverlay {
   }
 }
 .saBottomSheet .saSheetButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saBottomSheet .saSheetButton:disabled {
   background: #ccd5e2;
@@ -2404,7 +3676,7 @@ div.saPopupOverlay {
   height: 48px;
   width: 48px;
   border-radius: 8px;
-  background-color: #dde3eC;
+  background-color: #dde3ec;
 }
 .saEmptyState .saEmptyStateIcon .saIcon {
   color: #60748b;
@@ -2554,7 +3826,7 @@ div.saPopupOverlay {
   bottom: -16px;
 }
 .saInfoBoxArea .saInfoBox .infosqlexternalframe {
-  border: 1px solid #dde3eC;
+  border: 1px solid #dde3ec;
   width: 100%;
   box-sizing: border-box;
 }
@@ -2579,7 +3851,7 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saInfoBoxArea .saInfoBoxHeading.saInfoBoxHeadingButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
   }
   .saInfoBoxArea .saInfoBoxHeading.saInfoBoxHeadingButton:hover h3 {
     color: var(--Sa-Color-LabelHover);
@@ -2893,7 +4165,7 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saInfoBoxArea .saExpandButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saInfoBoxArea .saExpandButton:hover .saIcon {
@@ -2901,7 +4173,7 @@ div.saPopupOverlay {
   }
 }
 .saInfoBoxArea .saExpandButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saInfoBoxArea .saExpandButton:disabled {
   background: #ccd5e2;
@@ -2951,7 +4223,7 @@ div.saPopupOverlay {
   border-collapse: collapse;
 }
 .saInfoBoxArea .saUserHtmlContent thead {
-  background: #f8f9fB;
+  background: #f8f9fb;
   font-weight: 700;
 }
 .saInfoBoxArea .saUserHtmlContent td,
@@ -3241,12 +4513,12 @@ div.saPopupOverlay {
 @media (pointer: fine) {
   .saLargeScreen .saInfoBoxArea .saExpandButton:hover {
     color: #2d6ce1;
-    background-color: #f8f9fB;
+    background-color: #f8f9fb;
   }
 }
 .saLargeScreen .saInfoBoxArea .saExpandButton:focus-visible {
   color: #2d6ce1;
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
 }
 .saLargeScreen .saInfoBoxArea .saExpandButton:active {
   background-color: #eef1f5;
@@ -3378,7 +4650,7 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saPagination button:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saPagination button:hover .saIcon {
@@ -3386,7 +4658,7 @@ div.saPopupOverlay {
   }
 }
 .saPagination button:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saPagination button:disabled {
   background: #ccd5e2;
@@ -3675,7 +4947,7 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saGridTop .saGridButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saGridTop .saGridButton:hover .saIcon {
@@ -3683,7 +4955,7 @@ div.saPopupOverlay {
   }
 }
 .saGridTop .saGridButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saGridTop .saGridButton:disabled {
   background: #ccd5e2;
@@ -4085,7 +5357,7 @@ div.saPopupOverlay {
   border-collapse: collapse;
 }
 .saGrid .saGridCell thead {
-  background: #f8f9fB;
+  background: #f8f9fb;
   font-weight: 700;
 }
 .saGrid .saGridCell td,
@@ -4131,7 +5403,7 @@ div.saPopupOverlay {
   border-left: none;
   border-right: none;
   border-bottom: none;
-  border-top: 1px solid #dde3eC;
+  border-top: 1px solid #dde3ec;
   vertical-align: middle;
   height: 32px;
 }
@@ -4152,7 +5424,7 @@ div.saPopupOverlay {
 }
 .saGrid .saGridGroupedRowsHeader > th {
   background: #fff;
-  box-shadow: 0 1px 0 0 #dde3eC;
+  box-shadow: 0 1px 0 0 #dde3ec;
   text-align: left;
   border-top: 1px solid #eef1f5;
   border-collapse: collapse;
@@ -4294,7 +5566,7 @@ div.saPopupOverlay {
   .saGrid .saGridRowButton:hover:not(.inactive),
   .saGrid .saGridExpandAllButton:hover:not(.inactive) {
     color: var(--Sa-Color-IconHover);
-    background: #dde3eC;
+    background: #dde3ec;
   }
 }
 .saGrid .saGridRowButton:active:not(.inactive),
@@ -4398,7 +5670,7 @@ div.saPopupOverlay {
   border-collapse: collapse;
 }
 .saGrid .saGridExtraText > td thead {
-  background: #f8f9fB;
+  background: #f8f9fb;
   font-weight: 700;
 }
 .saGrid .saGridExtraText > td td,
@@ -4463,9 +5735,9 @@ div.saPopupOverlay {
   background: var(--Sa-Color-GridHead);
   font-weight: 600;
   box-sizing: border-box;
-  border-right: 1px solid #dde3eC;
-  border-top: 1px solid #dde3eC;
-  border-bottom: 1px solid #dde3eC;
+  border-right: 1px solid #dde3ec;
+  border-top: 1px solid #dde3ec;
+  border-bottom: 1px solid #dde3ec;
   border-left: none;
   text-align: left;
   padding: 0;
@@ -4690,7 +5962,7 @@ div.saPopupOverlay {
   flex-direction: column;
   flex-basis: 100%;
   width: 100%;
-  border-bottom: 1px solid #dde3eC;
+  border-bottom: 1px solid #dde3ec;
   overflow-wrap: anywhere;
 }
 .saListGrid .saRow:last-child {
@@ -4715,7 +5987,7 @@ div.saPopupOverlay {
   -webkit-tap-highlight-color: transparent;
 }
 .saListGrid .saRowHeading:active {
-  background: #f8f9fB;
+  background: #f8f9fb;
 }
 .saListGrid .saRowHeading:active .saRowHeadingTextWrapper,
 .saListGrid .saRowHeading:active .saExpandButton i {
@@ -4769,7 +6041,7 @@ div.saPopupOverlay {
   border-collapse: collapse;
 }
 .saListGrid .saRowHeading .saRowHeadingTextWrapper thead {
-  background: #f8f9fB;
+  background: #f8f9fb;
   font-weight: 700;
 }
 .saListGrid .saRowHeading .saRowHeadingTextWrapper td,
@@ -4841,7 +6113,7 @@ div.saPopupOverlay {
   border-collapse: collapse;
 }
 .saListGrid .saRowBody .saCellText thead {
-  background: #f8f9fB;
+  background: #f8f9fb;
   font-weight: 700;
 }
 .saListGrid .saRowBody .saCellText td,
@@ -5150,7 +6422,7 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saNotificationsWrapper .saCloseModal:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saNotificationsWrapper .saCloseModal:hover .saIcon {
@@ -5158,7 +6430,7 @@ div.saPopupOverlay {
   }
 }
 .saNotificationsWrapper .saCloseModal:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saNotificationsWrapper .saCloseModal:disabled {
   background: #ccd5e2;
@@ -5240,7 +6512,7 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saNotificationsWrapper .saClearAll:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saNotificationsWrapper .saClearAll:hover .saIcon {
@@ -5248,7 +6520,7 @@ div.saPopupOverlay {
   }
 }
 .saNotificationsWrapper .saClearAll:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saNotificationsWrapper .saClearAll:disabled {
   background: #ccd5e2;
@@ -5267,7 +6539,7 @@ div.saPopupOverlay {
   flex-direction: column;
   transition: all 0.2s ease;
   background: #fff;
-  border: 1px solid #dde3eC;
+  border: 1px solid #dde3ec;
 }
 .saNotificationsWrapper .saNotification.saActive {
   cursor: pointer;
@@ -6014,7 +7286,7 @@ div.saPopupOverlay {
   top: 6px;
 }
 .saSmallscreensidebar .saSidenav .saHandle {
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
   color: #60748b;
   flex-direction: row;
   align-items: center;
@@ -6245,7 +7517,7 @@ div.saPopupOverlay {
   background: #fff;
   width: 20px;
   height: 20px;
-  border: solid #f8f9fB 1px;
+  border: solid #f8f9fb 1px;
   position: absolute;
   top: 2px;
   left: 0;
@@ -6323,7 +7595,7 @@ div.saPopupOverlay {
   display: flex;
 }
 .saLargeScreen .saSideBar.saExpanded .saHandle {
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
   color: #60748b;
   display: flex;
   flex-direction: row;
@@ -6556,7 +7828,7 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saLargeScreen .saSideBar.saMinimized .saToggleIconText:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
   }
 }
 .saLargeScreen .saSideBar.saMinimized .saToggleIconText:active {
@@ -6779,7 +8051,7 @@ div.saPopupOverlay {
   .saPageHeader .saSpecialLinksWrapper button:hover,
   .saPartHeader .saSpecialLinksWrapper button:hover,
   .saPartButtons .saSpecialLinksWrapper button:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saPageHeader .saSpecialLinksWrapper button:hover .saIcon,
@@ -6791,7 +8063,7 @@ div.saPopupOverlay {
 .saPageHeader .saSpecialLinksWrapper button:active,
 .saPartHeader .saSpecialLinksWrapper button:active,
 .saPartButtons .saSpecialLinksWrapper button:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saPageHeader .saSpecialLinksWrapper button:disabled,
 .saPartHeader .saSpecialLinksWrapper button:disabled,
@@ -6850,7 +8122,7 @@ div.saPopupOverlay {
   box-sizing: border-box;
   min-width: 16px;
   color: #506072;
-  background-color: #dde3eC;
+  background-color: #dde3ec;
   border-radius: 12px;
   font-size: 12px;
   line-height: 12px;
@@ -7299,7 +8571,7 @@ div.saPopupOverlay {
 @media (pointer: fine) {
   .saPageHeader .saNavigationLinks .saMoreButton:hover,
   .saPartButtons .saNavigationLinks .saMoreButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saPageHeader .saNavigationLinks .saMoreButton:hover .saIcon,
@@ -7309,7 +8581,7 @@ div.saPopupOverlay {
 }
 .saPageHeader .saNavigationLinks .saMoreButton:active,
 .saPartButtons .saNavigationLinks .saMoreButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saPageHeader .saNavigationLinks .saMoreButton:disabled,
 .saPartButtons .saNavigationLinks .saMoreButton:disabled {
@@ -7323,7 +8595,7 @@ div.saPopupOverlay {
 }
 .saPageHeader .saNavigationLinks .saMoreButton.saOpen,
 .saPartButtons .saNavigationLinks .saMoreButton.saOpen {
-  background: #f8f9fB;
+  background: #f8f9fb;
   color: #2d6ce1;
 }
 .saPageHeader .saNavigationLinks .saMoreButton.saOpen .saIcon,
@@ -7914,7 +9186,7 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saLargeScreen .saPageHeader .saBackButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saLargeScreen .saPageHeader .saBackButton:hover .saIcon {
@@ -7922,7 +9194,7 @@ div.saPopupOverlay {
   }
 }
 .saLargeScreen .saPageHeader .saBackButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saLargeScreen .saPageHeader .saBackButton:disabled {
   background: #ccd5e2;
@@ -8417,7 +9689,7 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saSmallScreen .saExpandWrapper .saExpand:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saSmallScreen .saExpandWrapper .saExpand:hover .saIcon {
@@ -8425,7 +9697,7 @@ div.saPopupOverlay {
   }
 }
 .saSmallScreen .saExpandWrapper .saExpand:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saSmallScreen .saExpandWrapper .saExpand:disabled {
   background: #ccd5e2;
@@ -8903,7 +10175,7 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saButtonGhost:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saButtonGhost:hover .saIcon {
@@ -8911,7 +10183,7 @@ div.saPopupOverlay {
   }
 }
 .saButtonGhost:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saButtonGhost:disabled {
   background: #ccd5e2;
@@ -9816,7 +11088,7 @@ div.saPopupOverlay {
   justify-content: center;
   text-decoration: none;
   color: var(--Sa-Color-Label);
-  background: #f8f9fB;
+  background: #f8f9fb;
   border-color: #eef1f5;
   z-index: 0;
   border: 1px solid #ccd5e2;
@@ -9876,7 +11148,7 @@ div.saPopupOverlay {
   box-sizing: border-box;
   min-width: 16px;
   color: #506072;
-  background-color: #dde3eC;
+  background-color: #dde3ec;
   border-radius: 12px;
   font-size: 12px;
   line-height: 12px;
@@ -9997,7 +11269,7 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saColumnManager .saCloseColumnManager:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saColumnManager .saCloseColumnManager:hover .saIcon {
@@ -10005,7 +11277,7 @@ div.saPopupOverlay {
   }
 }
 .saColumnManager .saCloseColumnManager:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saColumnManager .saCloseColumnManager:disabled {
   background: #ccd5e2;
@@ -10122,7 +11394,7 @@ div.saPopupOverlay {
 }
 .saColumnManager li.saPlaceholder div {
   height: 40px;
-  background-color: #dde3eC;
+  background-color: #dde3ec;
   border-radius: 8px;
 }
 .saColumnManager .saColumnItem {
@@ -10484,7 +11756,7 @@ div.saPopupOverlay {
 .saGalleryWrapper .saEmptyStateGallery {
   border: 1px solid #ccd5e2;
   border-radius: 16px;
-  background: #f8f9fB;
+  background: #f8f9fb;
   padding: 32px;
   min-height: 144px;
   max-width: 640px;
@@ -10669,7 +11941,7 @@ div.saPopupOverlay {
   box-sizing: border-box;
   min-width: 16px;
   color: #506072;
-  background-color: #dde3eC;
+  background-color: #dde3ec;
   border-radius: 12px;
   font-size: 12px;
   line-height: 12px;
@@ -11273,7 +12545,7 @@ div.saPopupOverlay {
   box-sizing: border-box;
   min-width: 16px;
   color: #506072;
-  background-color: #dde3eC;
+  background-color: #dde3ec;
   border-radius: 12px;
   font-size: 12px;
   line-height: 12px;
@@ -11649,7 +12921,7 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton:hover .saIcon {
@@ -11657,7 +12929,7 @@ div.saPopupOverlay {
   }
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton:disabled {
   background: #ccd5e2;
@@ -11668,7 +12940,7 @@ div.saPopupOverlay {
   color: #7088a4;
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton.saOpen {
-  background: #f8f9fB;
+  background: #f8f9fb;
   color: #2d6ce1;
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton.saOpen .saIcon {
@@ -12706,9 +13978,9 @@ div.saPopupOverlay {
 }
 .saInlineDocumentWrapper .saInlineButtonGroup button:disabled {
   pointer-events: none;
-  box-shadow: inset 0 0 0 1px #dde3eC;
+  box-shadow: inset 0 0 0 1px #dde3ec;
   color: #ccd5e2;
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
   z-index: 0;
 }
 .saInlineDocumentWrapper img {
@@ -12731,7 +14003,7 @@ div.saPopupOverlay {
   overflow: hidden;
 }
 .saInlineDocumentWrapper .saInlineFrame.saEmpty {
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13179,7 +14451,7 @@ select.saInputText {
   }
 }
 .saInputTextWrapper .saInputText:focus-within {
-  background: #f8f9fB;
+  background: #f8f9fb;
   box-shadow: inset 0 0 0 2px #2d6ce1;
 }
 .saInputTextWrapper .saInputText::placeholder {
@@ -13359,7 +14631,7 @@ select.saInputText {
   border-radius: 12px;
   overflow-y: auto;
   overflow-x: hidden;
-  border: 1px solid #f8f9fB;
+  border: 1px solid #f8f9fb;
   min-height: 32px;
   max-height: 448px;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -13410,14 +14682,14 @@ select.saInputText {
 }
 @media (pointer: fine) {
   .saOptionListWrapper li:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
   }
   .saSmallScreen .saOptionListWrapper li:hover {
     background: inherit;
   }
 }
 .saOptionListWrapper li.saFocus {
-  background: #f8f9fB;
+  background: #f8f9fb;
   color: var(--Sa-Color-LabelHover);
 }
 .saSmallScreen .saOptionListWrapper li.saFocus {
@@ -13486,7 +14758,7 @@ select.saInputText {
   border: solid 1px #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
   line-height: 14px;
   border-radius: 8px;
   padding: 0 8px;
@@ -13616,7 +14888,7 @@ select.saInputText {
   border: solid 1px #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
   line-height: 14px;
   gap: 8px;
   padding: 8px;
@@ -13969,7 +15241,7 @@ select.saInputText {
   border-collapse: collapse;
 }
 .saInputPage .saLabel thead {
-  background: #f8f9fB;
+  background: #f8f9fb;
   font-weight: 700;
 }
 .saInputPage .saLabel td,
@@ -14045,7 +15317,7 @@ select.saInputText {
 .saInputPage .saDescription thead,
 .saInputPage .saExtendedDescription thead,
 .saInputPage .saFieldInfoText thead {
-  background: #f8f9fB;
+  background: #f8f9fb;
   font-weight: 700;
 }
 .saInputPage .saDescription td,
@@ -14157,7 +15429,7 @@ select.saInputText {
 .saInputPage .saFieldInfoText code {
   font-family: 'Lucida Console', monospace;
   color: #313a44;
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
   outline: 1px solid #ccd5e2;
   border-radius: 4px;
   padding: 2px 4px;
@@ -14664,7 +15936,7 @@ legend + .saInputCardsWrapper {
   border-bottom-color: #ccd5e2;
 }
 .saInputCardWrapper.saDisabled.saLarge .saInputCardHeading {
-  background-color: #dde3eC;
+  background-color: #dde3ec;
 }
 .saInputCardWrapper.saDisabled img,
 .saInputCardWrapper.saDisabled .saIcon {
@@ -15534,7 +16806,7 @@ legend + .saInputCardsWrapper {
   }
 }
 .saInputDateRange:focus-within {
-  background: #f8f9fB;
+  background: #f8f9fb;
   box-shadow: inset 0 0 0 2px #2d6ce1;
 }
 .saInputDateRange::placeholder {
@@ -15808,7 +17080,7 @@ legend + .saInputCardsWrapper {
 }
 @media (pointer: fine) {
   .saDatePickerRoot .saMonthBrowser .saIcon:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
 }
@@ -16094,7 +17366,7 @@ legend + .saInputCardsWrapper {
 }
 @media (pointer: fine) {
   .saDatePickerRoot .saTodayLink:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saDatePickerRoot .saTodayLink:hover .saIcon {
@@ -16102,7 +17374,7 @@ legend + .saInputCardsWrapper {
   }
 }
 .saDatePickerRoot .saTodayLink:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saDatePickerRoot .saTodayLink:disabled {
   background: #ccd5e2;
@@ -16232,7 +17504,7 @@ legend + .saInputCardsWrapper {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  border-left: 1px solid #dde3eC;
+  border-left: 1px solid #dde3ec;
   padding: 0 0 0 16px;
   margin-top: 8px;
   height: 272px;
@@ -16277,7 +17549,7 @@ legend + .saInputCardsWrapper {
   border-radius: 4px;
   cursor: pointer;
   transition: background 0.2s ease, border-radius 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: inset 0 0 0 1px #dde3eC;
+  box-shadow: inset 0 0 0 1px #dde3ec;
   font-size: 16px;
   color: var(--Sa-Color-Label);
   background: transparent;
@@ -16285,7 +17557,7 @@ legend + .saInputCardsWrapper {
 @media (pointer: fine) {
   .saDatePickerRoot .saDatePickerSlot:hover {
     color: var(--Sa-Color-LabelHover);
-    background: #f8f9fB;
+    background: #f8f9fb;
     box-shadow: inset 0 0 0 1px var(--Sa-Color-LabelHover);
   }
 }
@@ -17003,7 +18275,7 @@ legend + .saInputCardsWrapper {
 }
 .saFileUploadAreaWrapper.saHasFiles .saFileUploadArea:active {
   border-radius: 16px;
-  background: #f8f9fB;
+  background: #f8f9fb;
   border-color: #adbdd1;
 }
 .saHighlightFieldError .saFileUploadAreaWrapper.saHasFiles .saFileUploadArea {
@@ -17123,17 +18395,17 @@ legend + .saInputCardsWrapper {
 }
 .saDisabled .saFileUploadAreaWrapper .saFileUploadArea {
   cursor: not-allowed;
-  background-color: #dde3eC;
+  background-color: #dde3ec;
   border-color: #adbdd1;
 }
 @media (pointer: fine) {
   .saDisabled .saFileUploadAreaWrapper .saFileUploadArea:hover {
-    background-color: #dde3eC;
+    background-color: #dde3ec;
     border-color: #adbdd1;
   }
 }
 .saDisabled .saFileUploadAreaWrapper .saFileUploadArea:active {
-  background-color: #dde3eC;
+  background-color: #dde3ec;
   border-color: #adbdd1;
   border-radius: 16px;
 }
@@ -17197,7 +18469,7 @@ legend + .saInputCardsWrapper {
   border-radius: 16px;
   padding: 24px;
   cursor: pointer;
-  background: #f8f9fB;
+  background: #f8f9fb;
   transition: ease border-color 0.2s, ease border-radius 0.2s, ease background 0.2s;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -17334,7 +18606,7 @@ legend + .saInputCardsWrapper {
   transition: ease opacity 0.2s, ease width 0.2s;
 }
 .saFileUploadAreaWrapper .saFileUploadProgress::-webkit-progress-bar {
-  background: #dde3eC;
+  background: #dde3ec;
   border-radius: 2px;
 }
 .saFileUploadAreaWrapper .saFileUploadProgress::-webkit-progress-value {
@@ -17614,7 +18886,7 @@ legend + .saInputCardsWrapper {
   font-family: "Lexend", sans-serif !important;
 }
 .tox.tox-tinymce-inline .tox-editor-header {
-  border: 1px solid #f8f9fB !important;
+  border: 1px solid #f8f9fb !important;
   border-radius: 8px !important;
 }
 .tox-tinymce-aux {
@@ -17739,7 +19011,7 @@ legend + .saInputCardsWrapper {
   box-sizing: border-box;
   width: fit-content;
   max-width: 100%;
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
   border-radius: 4px;
   height: 24px;
   padding: 0 8px 0 8px;
@@ -17876,7 +19148,7 @@ legend + .saInputCardsWrapper {
   border: 1px solid transparent;
 }
 .saMultiPickerWrapper .saMultiPickerTreeWrapper.saDropOn {
-  background: #f8f9fB;
+  background: #f8f9fb;
   border: 1px dashed #2d6ce1;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
@@ -17905,7 +19177,7 @@ legend + .saInputCardsWrapper {
   top: 0;
 }
 .saMultiPickerWrapper .saMultiPickerTreeWrapper .saCheckboxTree .saExpandButton .saExpandingIcon {
-  background: #dde3eC;
+  background: #dde3ec;
   cursor: default;
 }
 .saMultiPickerWrapper .saMultiPickerTreeWrapper .saCheckboxTree .saExpandButton .saSpinner {
@@ -18001,7 +19273,7 @@ legend + .saInputCardsWrapper {
 }
 .saMultiPickerButtons .saMultiPickerButton:disabled {
   pointer-events: none;
-  box-shadow: inset 0 0 0 1px #dde3eC;
+  box-shadow: inset 0 0 0 1px #dde3ec;
   color: #ccd5e2;
   z-index: 0;
 }
@@ -18637,7 +19909,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   height: 4px;
   position: relative;
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 78% 100%, 78% 0%, 74% 0%, 74% 100%, 52% 100%, 52% 0%, 48% 0%, 48% 100%, 26% 100%, 26% 0%, 22% 0%, 22% 100%, 0% 100%, 0% 0%);
-  background: #dde3eC;
+  background: #dde3ec;
   border-radius: 2px;
 }
 .saPasswordStrength div::after {
@@ -18647,7 +19919,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   position: absolute;
   left: 0;
   top: 0;
-  background: #dde3eC;
+  background: #dde3ec;
   transition: ease background 0.2s, ease width 0.2s;
 }
 .saBad.saPasswordStrength div::after {
@@ -18909,7 +20181,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 @media (pointer: fine) {
   .saSignatureCanvasRoot.saSignatureLargeScreen .saCanvasButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saSignatureCanvasRoot.saSignatureLargeScreen .saCanvasButton:hover .saIcon {
@@ -18917,7 +20189,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   }
 }
 .saSignatureCanvasRoot.saSignatureLargeScreen .saCanvasButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saSignatureCanvasRoot.saSignatureLargeScreen .saCanvasButton:disabled {
   background: #ccd5e2;
@@ -19107,7 +20379,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 @media (pointer: fine) {
   .saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saClosePopup:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saClosePopup:hover .saIcon {
@@ -19115,7 +20387,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   }
 }
 .saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saClosePopup:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saClosePopup:disabled {
   background: #ccd5e2;
@@ -19207,7 +20479,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   }
 }
 .saTextboxWithPopupWrapper select {
-  border: 1px solid #dde3eC;
+  border: 1px solid #dde3ec;
   color: #313a44;
   padding: 1px 1px 1px 0;
   background: #fff;
@@ -19228,7 +20500,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   cursor: pointer;
 }
 .saTextboxWithPopupWrapper option:nth-child(odd):not(:checked) {
-  background: #f8f9fB;
+  background: #f8f9fb;
   color: #313a44;
 }
 .saTextboxWithPopupWrapper option:nth-child(even):not(:checked) {
@@ -19283,7 +20555,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   border-collapse: collapse;
 }
 .saUneditableText thead {
-  background: #f8f9fB;
+  background: #f8f9fb;
   font-weight: 700;
 }
 .saUneditableText td,
@@ -19651,7 +20923,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   box-sizing: border-box;
   min-width: 16px;
   color: #506072;
-  background-color: #dde3eC;
+  background-color: #dde3ec;
   border-radius: 12px;
   font-size: 12px;
   line-height: 12px;
@@ -19742,7 +21014,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
     color: var(--Sa-Color-IconHover);
   }
   .saMenuBoxWrapper .saMenuItemTools .saIconWrapper.saHelpLink:hover:active {
-    background: #dde3eC;
+    background: #dde3ec;
     transform: scale(0.96);
   }
 }
@@ -20009,7 +21281,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   box-sizing: border-box;
   min-width: 16px;
   color: #506072;
-  background-color: #dde3eC;
+  background-color: #dde3ec;
   border-radius: 12px;
   font-size: 12px;
   line-height: 12px;
@@ -20413,7 +21685,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   position: absolute;
   top: 17px;
   z-index: 2;
-  background: #f8f9fB;
+  background: #f8f9fb;
   left: 50%;
 }
 .saTimelineWrapper .saTimelineStep:only-child::before,
@@ -20758,7 +22030,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 @media (pointer: fine) {
   .saMagicBox .saBoxLink:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saMagicBox .saBoxLink:hover .saIcon {
@@ -20766,7 +22038,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   }
 }
 .saMagicBox .saBoxLink:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saMagicBox .saBoxLink:disabled {
   background: #ccd5e2;
@@ -20992,7 +22264,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   box-sizing: border-box;
   min-width: 16px;
   color: #506072;
-  background-color: #dde3eC;
+  background-color: #dde3ec;
   border-radius: 12px;
   font-size: 12px;
   line-height: 12px;
@@ -21014,14 +22286,14 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 softadmin-nodegraph {
   position: relative;
   display: block;
-  background: #f8f9fB;
+  background: #f8f9fb;
   background-image: radial-gradient(circle at 8px 8px, #ccd5e2 1px, transparent 0);
   background-size: 16px 16px;
   background-position: 8px 8px;
   overflow: hidden;
   min-width: 100%;
   min-height: calc(100vh - 112px - 48px);
-  box-shadow: inset #f8f9fB 0 0 0 1px;
+  box-shadow: inset #f8f9fb 0 0 0 1px;
   border-radius: 8px;
 }
 softadmin-nodegraph * {
@@ -21250,7 +22522,7 @@ softadmin-nodegraph .saNode.saEnd .saNodeTools {
   right: 16px;
 }
 softadmin-nodegraph .saNode.saComment {
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
   border-style: hidden;
   border-radius: 2px;
   width: fit-content;
@@ -21833,7 +23105,7 @@ softadmin-nodegraph .saDragged {
   justify-content: center;
   text-decoration: none;
   color: var(--Sa-Color-Label);
-  background: #f8f9fB;
+  background: #f8f9fb;
   border-color: #eef1f5;
   z-index: 0;
   border: 1px solid #ccd5e2;
@@ -21893,7 +23165,7 @@ softadmin-nodegraph .saDragged {
   box-sizing: border-box;
   min-width: 16px;
   color: #506072;
-  background-color: #dde3eC;
+  background-color: #dde3ec;
   border-radius: 12px;
   font-size: 12px;
   line-height: 12px;
@@ -21936,7 +23208,7 @@ softadmin-nodegraph .saDragged {
   }
 }
 .saIFrameTabs .saMoreTab:active .saMoreTabInner {
-  background-color: #dde3eC;
+  background-color: #dde3ec;
 }
 .saIFrameTabs .saMoreTab:active .saMoreTabInner .saIconHolder {
   transform: scale(0.96);
@@ -22046,7 +23318,7 @@ softadmin-nodegraph .saDragged {
   box-sizing: border-box;
   min-width: 16px;
   color: #506072;
-  background-color: #dde3eC;
+  background-color: #dde3ec;
   border-radius: 12px;
   font-size: 12px;
   line-height: 12px;
@@ -22096,7 +23368,7 @@ body.saMiniView {
   user-select: none;
 }
 .saDisabled .saCheckboxTree {
-  background: #f8f9fB;
+  background: #f8f9fb;
 }
 .saCheckboxTree fieldset {
   display: flex;
@@ -22138,7 +23410,7 @@ body.saMiniView {
 @media (pointer: fine) {
   .saCheckboxTree .saCheckboxOuter .saIcon:hover:not(.saSpinner):not(.saExpandingIcon) {
     color: #2d6ce1;
-    background: #f8f9fB;
+    background: #f8f9fb;
   }
 }
 .saCheckboxTree .saCheckboxOuter .saIcon:active {
@@ -22160,7 +23432,7 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saCheckboxTree label.saCheckboxWrapper:not(:has(.saCheckbox:disabled)):hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
   }
 }
 .saCheckboxTree label.saCheckboxWrapper:not(:has(.saCheckbox:disabled)):active {
@@ -22388,7 +23660,7 @@ body.saMiniView {
   .saNumberStepper button:hover {
     border-color: #2d6ce1;
     color: #2d6ce1;
-    background: #f8f9fB;
+    background: #f8f9fb;
     box-shadow: inset 0 0 0 2px #2d6ce1;
     z-index: 1;
   }
@@ -22990,9 +24262,9 @@ body.saMiniView {
   background: var(--Sa-Color-GridHead);
   font-weight: 600;
   box-sizing: border-box;
-  border-right: 1px solid #dde3eC;
-  border-top: 1px solid #dde3eC;
-  border-bottom: 1px solid #dde3eC;
+  border-right: 1px solid #dde3ec;
+  border-top: 1px solid #dde3ec;
+  border-bottom: 1px solid #dde3ec;
   border-left: none;
   text-align: left;
   height: 32px;
@@ -23029,7 +24301,7 @@ body.saMiniView {
   height: 32px;
 }
 .saGroupView .saGroupViewTable tr:hover {
-  background: #f8f9fB;
+  background: #f8f9fb;
 }
 .saGroupView .saGroupViewTable tr:first-child td {
   border-top: none;
@@ -23052,7 +24324,7 @@ body.saMiniView {
   border-left: none;
   border-right: none;
   border-bottom: none;
-  border-top: 1px solid #dde3eC;
+  border-top: 1px solid #dde3ec;
   vertical-align: middle;
   height: 32px;
   padding: 8px 8px;
@@ -23548,7 +24820,7 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saPdfTemplateEditor .saToolbarButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saPdfTemplateEditor .saToolbarButton:hover .saIcon {
@@ -23556,7 +24828,7 @@ body.saMiniView {
   }
 }
 .saPdfTemplateEditor .saToolbarButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saPdfTemplateEditor .saToolbarButton:disabled {
   background: #ccd5e2;
@@ -23693,7 +24965,7 @@ body.saMiniView {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #dde3eC;
+  background: #dde3ec;
   padding: 0;
   height: 100%;
   width: 100%;
@@ -23919,7 +25191,7 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton:hover .saIcon {
@@ -23927,7 +25199,7 @@ body.saMiniView {
   }
 }
 .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton:disabled {
   background: #ccd5e2;
@@ -24019,9 +25291,9 @@ body.saMiniView {
   background: var(--Sa-Color-GridHead);
   font-weight: 600;
   box-sizing: border-box;
-  border-right: 1px solid #dde3eC;
-  border-top: 1px solid #dde3eC;
-  border-bottom: 1px solid #dde3eC;
+  border-right: 1px solid #dde3ec;
+  border-top: 1px solid #dde3ec;
+  border-bottom: 1px solid #dde3ec;
   border-left: none;
   text-align: left;
   min-height: 48px;
@@ -24049,10 +25321,10 @@ body.saMiniView {
   border: none;
 }
 .saPivotGridWrapper .saPivotGridGroupRow .saPivotGridFiller:has(.saTopLeftCell) {
-  border-bottom: 1px solid #dde3eC;
+  border-bottom: 1px solid #dde3ec;
 }
 .saPivotGridWrapper .saPivotGridGroupRow + tr th:first-child:not(.saFirstInColumnGroup) {
-  border-left: 1px solid #dde3eC;
+  border-left: 1px solid #dde3ec;
 }
 .saPivotGridWrapper .saPivotGridHeadingInner {
   color: #313a44;
@@ -24079,10 +25351,10 @@ body.saMiniView {
   border-left: none;
   border-right: none;
   border-bottom: none;
-  border-top: 1px solid #dde3eC;
+  border-top: 1px solid #dde3ec;
   vertical-align: middle;
   height: 32px;
-  border-right: 1px solid #dde3eC;
+  border-right: 1px solid #dde3ec;
   text-align: left;
 }
 .saStandard .saPivotGridWrapper td {
@@ -24125,7 +25397,7 @@ body.saMiniView {
   border-top: none;
 }
 .saPivotGridWrapper .saPivotGridGroupRow + tr th:first-child {
-  border-top: 1px solid #dde3eC;
+  border-top: 1px solid #dde3ec;
 }
 .saPivotGridWrapper .saPivotGrid tr :last-child {
   border-right: none;
@@ -24206,7 +25478,7 @@ body.saMiniView {
 @media (pointer: fine) {
   .saPivotGridWrapper .saLinkButton:hover:not(.inactive) {
     color: var(--Sa-Color-IconHover);
-    background: #dde3eC;
+    background: #dde3ec;
   }
 }
 .saPivotGridWrapper .saLinkButton:active:not(.inactive),
@@ -24454,7 +25726,7 @@ body.saMiniView {
   position: relative;
 }
 .saProgressOuter .saProgressWrapper .saProgress .saProgressBar::-webkit-progress-bar {
-  background: #dde3eC;
+  background: #dde3ec;
   border-radius: 4px;
 }
 .saProgressOuter .saProgressWrapper .saProgress .saProgressBar::-webkit-progress-value {
@@ -24873,7 +26145,7 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saCalendarSection .saPeriodButtons button:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saCalendarSection .saPeriodButtons button:hover .saIcon {
@@ -24881,7 +26153,7 @@ body.saMiniView {
   }
 }
 .saCalendarSection .saPeriodButtons button:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saCalendarSection .saPeriodButtons button:disabled {
   background: #ccd5e2;
@@ -24988,7 +26260,7 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saCalendarSection .saTodayButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saCalendarSection .saTodayButton:hover .saIcon {
@@ -24996,7 +26268,7 @@ body.saMiniView {
   }
 }
 .saCalendarSection .saTodayButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saCalendarSection .saTodayButton:disabled {
   background: #ccd5e2;
@@ -25157,7 +26429,7 @@ body.saMiniView {
   align-items: center;
   justify-content: center;
   min-width: 24px;
-  background: #f8f9fB;
+  background: #f8f9fb;
   color: #313a44;
   font-size: 14px;
   border-right: 1px solid #ccd5e2;
@@ -25625,7 +26897,7 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saDesktopCalendar.saWeekdaysCalendar .saShowMoreButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saDesktopCalendar.saWeekdaysCalendar .saShowMoreButton:hover .saIcon {
@@ -25633,7 +26905,7 @@ body.saMiniView {
   }
 }
 .saDesktopCalendar.saWeekdaysCalendar .saShowMoreButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saDesktopCalendar.saWeekdaysCalendar .saShowMoreButton:disabled {
   background: #ccd5e2;
@@ -25881,7 +27153,7 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saDesktopCalendar.saResourceCalendar .saCalendarResourceFilter .saResourceFilterExpandButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saDesktopCalendar.saResourceCalendar .saCalendarResourceFilter .saResourceFilterExpandButton:hover .saIcon {
@@ -25889,7 +27161,7 @@ body.saMiniView {
   }
 }
 .saDesktopCalendar.saResourceCalendar .saCalendarResourceFilter .saResourceFilterExpandButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saDesktopCalendar.saResourceCalendar .saCalendarResourceFilter .saResourceFilterExpandButton:disabled {
   background: #ccd5e2;
@@ -25930,7 +27202,7 @@ body.saMiniView {
 .saTimeScheduleCalendar .saCalendarItemList.saHasLinks .saCalendarStripe:hover,
 .saTimeScheduleCalendar .saCalendarItemList .saHasLinks .saCalendarStripe:hover,
 .saTimeScheduleCalendar .saCalendarItemList .saCalendarStripe.saLastClicked {
-  background: #f8f9fB;
+  background: #f8f9fb;
   cursor: pointer;
   outline: 1px solid #2d6ce1;
   outline-offset: -1px;
@@ -26183,7 +27455,7 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saSmallScreenCalendar.saCalendarSection .saCalendarHeadingButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saSmallScreenCalendar.saCalendarSection .saCalendarHeadingButton:hover .saIcon {
@@ -26191,7 +27463,7 @@ body.saMiniView {
   }
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarHeadingButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarHeadingButton:disabled {
   background: #ccd5e2;
@@ -26439,7 +27711,7 @@ body.saMiniView {
   overflow: hidden;
   border-bottom: 1px solid #ccd5e2;
   min-height: 56px;
-  background: #f8f9fB;
+  background: #f8f9fb;
   z-index: 2;
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarHeaderInnerRow .saWeekDays {
@@ -26489,7 +27761,7 @@ body.saMiniView {
   min-width: unset;
   max-width: unset;
   overflow: hidden;
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarHeaderInnerRow .saWeek:not(.saWeekDays) .saDateNumber.saHasItems::after {
   content: '';
@@ -26613,7 +27885,7 @@ body.saMiniView {
   background: transparent;
 }
 .saSmallScreenCalendar.saCalendarSection .saDateListHeadingWrapper:active .saIcon {
-  background: #f8f9fB;
+  background: #f8f9fb;
   color: #2d6ce1;
 }
 .saSmallScreenCalendar.saCalendarSection .saDateListHeading {
@@ -26651,7 +27923,7 @@ body.saMiniView {
 }
 .saSmallScreenCalendar.saCalendarSection .saListActivity button.saIcon:active,
 .saSmallScreenCalendar.saCalendarSection .saScheduleActivity button.saIcon:active {
-  background: #f8f9fB;
+  background: #f8f9fb;
   color: #2d6ce1;
 }
 .saSmallScreenCalendar.saCalendarSection .saListActivity button.saIcon::after,
@@ -26704,7 +27976,7 @@ body.saMiniView {
   transition: height 0.2s ease;
 }
 .saSmallScreenCalendar.saCalendarSection .saListActivityInner.saHasCheckbox:active {
-  background: #f8f9fB;
+  background: #f8f9fb;
   border-radius: 12px;
 }
 .saSmallScreenCalendar.saCalendarSection .saListActivityInner .saCheckbox {
@@ -26924,7 +28196,7 @@ body.saMiniView {
   width: 20px;
   border-radius: 10px;
   background: #fff;
-  box-shadow: inset 0 0 0 0.5px #f8f9fB, 0 1px 2px 0 rgba(49, 58, 68, 0.6);
+  box-shadow: inset 0 0 0 0.5px #f8f9fb, 0 1px 2px 0 rgba(49, 58, 68, 0.6);
   right: 18px;
   top: 2px;
   position: absolute;
@@ -26986,7 +28258,7 @@ body.saMiniView {
   background: #ccd5e2;
 }
 .saDisabled.saToggleWrapper .saToggle::after {
-  background: #f8f9fB;
+  background: #f8f9fb;
   box-shadow: inset 0 0 0 0.5px rgba(49, 58, 68, 0.1), 0 1px 2px 0 rgba(49, 58, 68, 0.2);
 }
 @media (pointer: fine) {
@@ -27046,7 +28318,7 @@ body.saMiniView {
   border-radius: 16px;
   gap: 8px;
   width: fit-content;
-  background: #f8f9fB;
+  background: #f8f9fb;
   border: 1px solid #ccd5e2;
   margin-bottom: 16px;
 }
@@ -27154,7 +28426,7 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saVisibleParametersWrapper .saVisibleParametersButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saVisibleParametersWrapper .saVisibleParametersButton:hover .saIcon {
@@ -27162,7 +28434,7 @@ body.saMiniView {
   }
 }
 .saVisibleParametersWrapper .saVisibleParametersButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saVisibleParametersWrapper .saVisibleParametersButton:disabled {
   background: #ccd5e2;
@@ -27199,7 +28471,7 @@ body.saMiniView {
   }
 }
 .saVisibleParametersWrapper .saVisibleParametersButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saSmallScreen .saVisibleParametersRoot {
   display: flex;
@@ -27624,8 +28896,8 @@ a.saKpiOuter:active {
   margin: 0.8em 0;
 }
 .saBankgiroLink .saDebugBox {
-  background: #f8f9fB;
-  border: 1px solid #dde3eC;
+  background: #f8f9fb;
+  border: 1px solid #dde3ec;
   border-radius: 8px;
   padding: 0.6em 1em;
   margin-top: 1.5em;
@@ -27641,7 +28913,7 @@ a.saKpiOuter:active {
   display: flex;
   flex-direction: column;
   max-width: 640px;
-  box-shadow: inset 0 0 0 1px #dde3eC;
+  box-shadow: inset 0 0 0 1px #dde3ec;
   border-radius: 16px;
   width: fit-content;
 }
@@ -27690,7 +28962,7 @@ a.saKpiOuter:active {
   justify-content: center;
   min-height: 214px;
   width: 214px;
-  border-left: 1px solid #dde3eC;
+  border-left: 1px solid #dde3ec;
   border-radius: 0px 24px 0 0;
   overflow: hidden;
 }
@@ -27710,9 +28982,9 @@ a.saKpiOuter:active {
   display: flex;
   align-items: center;
   gap: 16px;
-  border: 1px solid #dde3eC;
+  border: 1px solid #dde3ec;
   padding: 16px;
-  background: #f8f9fB;
+  background: #f8f9fb;
   margin-top: -1px;
   border-radius: 0 0 16px 16px;
   flex-wrap: wrap;
@@ -27810,7 +29082,7 @@ a.saKpiOuter:active {
 }
 @media (pointer: fine) {
   .saBankIdWrapper .saButtonGhost:hover {
-    background: #dde3eC;
+    background: #dde3ec;
   }
 }
 .saBankIdWrapper .saButtonGhost:active {
@@ -27824,7 +29096,7 @@ a.saKpiOuter:active {
   background-color: #fff;
   margin-bottom: 8px;
   border-radius: 16px;
-  border: 1px #dde3eC solid;
+  border: 1px #dde3ec solid;
   position: relative;
 }
 .saSmallScreen .saErrorSummaryWrapper {
@@ -27894,7 +29166,7 @@ a.saKpiOuter:active {
 }
 @media (pointer: fine) {
   .saErrorSummaryWrapper .saErrorSummaryCloseButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saErrorSummaryWrapper .saErrorSummaryCloseButton:hover .saIcon {
@@ -27902,7 +29174,7 @@ a.saKpiOuter:active {
   }
 }
 .saErrorSummaryWrapper .saErrorSummaryCloseButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saErrorSummaryWrapper .saErrorSummaryCloseButton:disabled {
   background: #ccd5e2;
@@ -28962,7 +30234,7 @@ a.saKpiOuter:active {
 }
 @media (pointer: fine) {
   .saToolbox .saToolboxButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saToolbox .saToolboxButton:hover .saIcon {
@@ -28970,7 +30242,7 @@ a.saKpiOuter:active {
   }
 }
 .saToolbox .saToolboxButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saToolbox .saToolboxButton:disabled {
   background: #ccd5e2;
@@ -29018,7 +30290,7 @@ a.saKpiOuter:active {
 }
 @media (pointer: fine) {
   .saToolbox .saToolboxButton.saExpandButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     box-shadow: inset 0 0 0 1px #2d6ce1;
   }
   .saToolbox .saToolboxButton.saExpandButton:hover span {
@@ -29127,7 +30399,7 @@ a.saKpiOuter:active {
   border-bottom: 1px solid #ccd5e2;
 }
 .saPlanner .saStickyTop .saWeek:not(.saUnbooked) .saRowSticky > div:not(.saAggregateTitle) {
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
 }
 .saPlanner .saStickyTop .saWeek:last-child .saRowSticky > div {
   border-bottom: 1px solid #ccd5e2;
@@ -29258,7 +30530,7 @@ a.saKpiOuter:active {
 }
 .saPlanner .saPlannerCell.saHasLinks .saPlannerHoverTarget:hover,
 .saPlanner .saPlannerCell.saLastClicked .saPlannerHoverTarget {
-  background: #f8f9fB;
+  background: #f8f9fb;
   outline: 1px solid #2d6ce1;
   outline-offset: -1px;
 }
@@ -29313,7 +30585,7 @@ a.saKpiOuter:active {
   background-color: #eff0fd;
 }
 .saPlanner .saPlannerCell.saResourceHeadingCell {
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
   border-right-color: #ccd5e2;
 }
 .saPlanner .saPlannerCell.saDateRowHeading {
@@ -29526,7 +30798,7 @@ a.saKpiOuter:active {
 }
 @media (pointer: fine) {
   .saPlanner .saUnbooked .saExpandButton:hover {
-    background: #f8f9fB;
+    background: #f8f9fb;
     color: #2d6ce1;
   }
   .saPlanner .saUnbooked .saExpandButton:hover .saIcon {
@@ -29534,7 +30806,7 @@ a.saKpiOuter:active {
   }
 }
 .saPlanner .saUnbooked .saExpandButton:active {
-  background: #dde3eC;
+  background: #dde3ec;
 }
 .saPlanner .saUnbooked .saExpandButton:disabled {
   background: #ccd5e2;
@@ -29780,12 +31052,12 @@ a.saKpiOuter:active {
 }
 .saInfoSqlChartWrapper .saEmptyState.saXYChart {
   border-radius: 16px;
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
   border: 1px solid #ccd5e2;
 }
 .saInfoSqlChartWrapper .saEmptyState.saPieChart {
   border-radius: 200px;
-  background-color: #f8f9fB;
+  background-color: #f8f9fb;
   border: 1px solid #ccd5e2;
   width: 200px;
   height: 200px;
