@@ -12,325 +12,547 @@
 	<script src="./script.js"></script>
 </head>
 
-<body style="display: flex; flex-direction: row; gap: 24px; min-height: 100vh; padding: 16px;">
-	<div class="tuxt">?</div>
-
-	<div style="max-width: 640px; display: flex; gap: 16px; flex-direction: column; color: #313a44; font-size: 14px; line-height: 1.5;">
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam velit ad eligendi non facilis harum pariatur,
-			mollitia rem itaque vero laboriosam eos. Nesciunt beatae repellendus fugiat, debitis rem placeat
-			consequatur.</p>
-		<button type="button" class="saCanLightBox" img="https://images.unsplash.com/photo-1697764712219-15f8b6f6c74e"
-			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
-			<img src="https://images.unsplash.com/photo-1697764712219-15f8b6f6c74e" style="border-radius: 8px;"
-				alt="Rabid bloodhound ferociously biting a mailman" width="80">
-		</button>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam velit ad eligendi non facilis harum pariatur,
-			mollitia rem itaque vero laboriosam eos. Nesciunt beatae repellendus fugiat, debitis rem placeat
-			consequatur.</p>
-		<button type="button" class="saCanLightBox" img="./src/img/romb.png"
-			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
-			<img src="./src/img/romb.png" style="border-radius: 8px;"
-				alt="Rabid bloodhound ferociously biting a mailman" width="80">
-		</button>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam velit ad eligendi non facilis harum pariatur,
-			mollitia rem itaque vero laboriosam eos. Nesciunt beatae repellendus fugiat, debitis rem placeat
-			consequatur.</p>
-
-		<!--
-				<button type="button" class="saCanLightBox" img="./src/img/super-wide.png"
-			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
-			<img src="./src/img/super-wide.png" style="border-radius: 8px;"
-				alt="Rabid bloodhound ferociously biting a mailman" width="80">
-		</button>
-		<button type="button" class="saCanLightBox" img="./src/img/wide.png"
-			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
-			<img src="./src/img/wide.png" style="border-radius: 8px;"
-				alt="Rabid bloodhound ferociously biting a mailman" width="80">
-		</button>
-		<button type="button" class="saCanLightBox" img="./src/img/chat-1.jpg"
-			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
-			<img src="./src/img/chat-1.jpg" style="border-radius: 8px;"
-				alt="Rabid bloodhound ferociously biting a mailman" width="80">
-		</button>
-		<button type="button" class="saCanLightBox" img="./src/img/panorama.jpg"
-			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
-			<img src="./src/img/panorama.jpg" style="border-radius: 8px;"
-				alt="Rabid bloodhound ferociously biting a mailman" width="80">
-		</button>
-		<button type="button" class="saCanLightBox" img="./src/img/vertorama.jpg"
-			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
-			<img src="./src/img/vertorama.jpg" style="border-radius: 8px;"
-				alt="Rabid bloodhound ferociously biting a mailman" width="80">
-		</button>
-		<button type="button" class="saCanLightBox" img="./src/img/favicon.png"
-			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
-			<img src="./src/img/favicon.png" style="border-radius: 8px;"
-				alt="Rabid bloodhound ferociously biting a mailman" width="80">
-		</button>
-
-		<button type="button" class="saCanLightBox" img="./src/img/tall.png"
-			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
-			<img src="./src/img/tall.png" style="border-radius: 8px;"
-				alt="Rabid bloodhound ferociously biting a mailman" width="80">
-		</button>
-	-->
-	</div>
-
-	<dialog id="lightbox" class="saPopupOverlay saLightBoxOverlay">
-		<div class="saLightBox">
-			<div class="saLightBoxButton" role="button" aria-label="Zoom in on this image ">
-				<img src="" alt="Lightbox Image">
-
-			</div>
-			<button class="saDialogButtonClose" type="button" data-tooltip="Close" aria-label="Close">
-				<i class="saIcon far fa-xmark"></i>
-			</button>
+<body>
+	<div class="saRootContentWrapper">
+		<div class="saSideBar saSideBarJs saExpanded">
+			<nav id="SideBar">
+				<div class="saSidenav">
+					<div class="saSidenavSection">
+						<div class="saCustomerLogo">
+							<div>
+								<img src="./src/img/logo.svg" style="height: 80px;">
+							</div>
+						</div>
+						<div class="saSidenavContainer">
+							<div>
+								<a class="saSidenavItemWrapper saSearch saHideWhenExpanded" tabindex="0">
+									<div class="saSidenavItem">
+										<i class="far fa-magnifying-glass saIcon"></i>
+									</div>
+								</a>
+								<div class="saSidenavItemWrapper saSearch saHideWhenMinimized">
+									<div class="saSidenavItem saInputTextWrapper">
+										<input id="MenuEnterpriseSearchBox" class="saSearchInput saInputText"
+											type="search" placeholder="Sök...">
+										<i class="far fa-magnifying-glass saIcon"></i>
+									</div>
+								</div>
+							</div>
+							<div class="saSidenavItem saMenuDropdownsOuter">
+								<div class="saSidenavItemWrapper">
+									<label class="saInputTextWrapper saLabeled">
+										<span class="saLabeledLabel">User</span>
+										<span class="saFirstLetter">J</span>
+										<select class="saInputText saDropdown">
+											<option value="1" selected="true">Jonathan</option>
+											<option value="2">Ellioth</option>
+											<option value="2">Pontus</option>
+										</select>
+										<div class="saTrailingIconsWrapper">
+											<i class="saIcon far fa-angle-down"></i>
+										</div>
+									</label>
+								</div>
+							</div>
+							<div class="saToggleWrapper">
+								<div class="saHandle">
+									<div class="saTrack">
+										<a class="saToggleIconText saDynamicTooltipJs saActive" tabindex="0"
+											data-sa-menutabid="1">
+											<i class="far fa-bars icon saIcon"></i>
+											<span class="saToggleText">Meny</span>
+										</a>
+										<a class="saToggleIconText saDynamicTooltipJs" tabindex="0">
+											<i class="far fa-star icon saIcon"></i>
+											<span class="saToggleText">Favoriter</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="saSidenavLists">
+							<ul class="saSidenavItemList">
+								<li>
+									<a class="saSidenavItemWrapper" tabindex="0">
+										<div class="saSidenavItem">
+											<i class="far fa-house-window icon saIcon"></i>
+											<span class="saSidenavItemText">Home</span>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="saSidenavSection saSidenavSectionLast">
+						<div class="saSidenavContainer">
+							<div class="saListItem">
+								<button class="saSidenavItemWrapper" aria-expanded="false">
+									<div class="saSidenavItem saAvatarWrapperOuter">
+										<img src="./src/img/avatar2.png" class="saAvatarWrapper">
+										<span class="saSidenavItemText">Jonathan Kevin</span>
+										<i class="far fa-angle-down saIcon"></i>
+									</div>
+								</button>
+							</div>
+							<div class="saSidenavItem saSidenavItemRow">
+								<button class="saSidenavItemWrapper">
+									<div class="saSidenavItem">
+										<i class="fa-window-restore far icon saIcon"></i>
+									</div>
+								</button>
+								<button class="saSidenavItemWrapper">
+									<div class="saSidenavItem">
+										<i class="fa-cog far icon saIcon"></i>
+									</div>
+								</button>
+								<button class="saSidenavItemWrapper">
+									<div class="saSidenavItem">
+										<i class="fa-sun-alt far icon saIcon"></i>
+									</div>
+								</button>
+								<button class="saSidenavItemWrapper saNotificationLinkLargeScreen"
+									aria-label="2 Notifieringar" aria-live="polite" data-tooltip="Notifieringar">
+									<div class="saSidenavItem">
+										<div>
+											<i class="far fa-bell saIcon"></i>
+										</div>
+										<span class="saSidenavItemText">Notifieringar</span>
+									</div>
+									<div class="saNotificationBadge">
+										<div class="saNotificationBadgeCount">2</div>
+									</div>
+								</button>
+							</div>
+						</div>
+						<div class="saSidenavFooter">
+							<a class="saSoftadminLogo" target="_blank" rel="noopener noreferrer" tabindex="-1"
+								href="https://www.multisoft.se/softadmin/">
+								<span class="saLogo"></span>
+								<span class="saWordmark">
+									<div class="saSweep">
+										<div class="saSweepText">
+											<span>SOFTADMIN</span> <span class="saSweepR">®</span>
+											<span class="saSweep8">8</span>
+										</div>
+										<div class="saSweepEffect">
+											<div> <span>SOFTADMIN</span> <span class="saSweepR">®</span> <span
+													class="saSweep8">8</span> </div>
+											<div> <span>SOFTADMIN</span> <span class="saSweepR">®</span> <span
+													class="saSweep8">8</span> </div>
+											<div> <span>SOFTADMIN</span> <span class="saSweepR">®</span> <span
+													class="saSweep8">8</span> </div>
+										</div>
+									</div>
+								</span>
+							</a>
+							<button class="saExpander saDynamicTooltipJs">
+								<i class="fa-angles-left far saIcon"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+			</nav>
 		</div>
-	</dialog>
+		<div class="saRightFrameRoot">
+			<div class="right standardview saLargeScreen saPc saCompact saHasTopButtons">
+				<form class="interface">
+					<header id="pageheader" class="saPageHeaderHolder">
+						<div class="saDesktopHeader saPageHeader">
+							<div class="saHeader">
+								<div class="saRowWrapper">
+									<div class="saTopRow">
+										<nav class="saBreadcrumbs" aria-label="Brödsmulor">
+											<div class="saBackButtonWrapper">
+												<button class="saBackButton"><i
+														class="fa-arrow-left far saBack saIcon"></i></button>
+											</div>
+											<span class="saBreadcrumb">
+												<a tabindex="0">
+													First link
+												</a>
+											</span>
+											<span class="saBreadcrumbSeparator">&gt;</span>
+											<span class="saBreadcrumb">
+												<a tabindex="0">
+													Second link
+												</a>
+											</span>
+										</nav>
+									</div>
+									<div class="saBottomRow">
+										<div class="saTitle">
+											<h1 class="saHeaderText">
+												Title
+											</h1>
+										</div>
+									</div>
+									<nav class="saNavigationBar">
+										<div class="saTopButtons">
+											<div class="saActionLinks">
+												<button class="saTopLink saActionLink saButtonPrimary">
+													<div class="saIconHolder">
+														<i class="far fa-crow saIcon"></i>
+													</div>
+													<span class="saButtonText">Crow button</span>
+												</button>
+												<button class="saTopLink saActionLink saButtonSecondary">
+													<div class="saIconHolder">
+														<i class="far fa-egg saIcon"></i>
+													</div>
+													<span class="saButtonText">Egg button</span>
+												</button>
+												<div class="saCollectorWrapper">
+													<button class="saMoreButton">
+														<i class="far fa-ellipsis-vertical icon saIcon"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+									</nav>
+								</div>
+							</div>
+						</div>
+						<div class="saPageHeader saSmallScreenHeader">
+							<div class="saHeader">
+								<div class="saHeaderInner">
+									<div class="saTopRow">
+										<button class="saBackButton" data-tooltip="Stäng: Visa underhållspunkt"
+											aria-label="Stäng: Visa underhållspunkt"><i
+												class="fa-arrow-left far saBack saIcon"></i>
+										</button>
+										<div class="saHeaderWrapper">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Title</h1>
+											</div>
+										</div>
+										<button class="saNavigator">
+											<div class="saNavBar">
+												<span class="saNavBarStripe"></span>
+												<span class="saNavBarStripe"></span>
+												<span class="saNavBarStripe"></span>
+											</div>
+										</button>
+										<button class="saNotificationWrapper">
+											<div><i class="far fa-bell saIcon"></i></div>
+											<div class="saNotificationBadge">
+												<div class="saNotificationBadgeCount">2</div>
+											</div>
+										</button>
+									</div>
+								</div>
+								<nav class="saBottomRow saActionLinkBar">
+									<div class="saTopButtons saActionLinks">
+										<button class="saTopLink saActionLink saButtonPrimary">
+											<div class="saIconHolder">
+												<i class="far fa-crow saIcon"></i>
+											</div>
+											<span class="saButtonText">Crow button</span>
+										</button>
+										<button class="saTopLink saActionLink saButtonSecondary">
+											<div class="saIconHolder">
+												<i class="far fa-egg saIcon"></i>
+											</div>
+											<span class="saButtonText">Egg button</span>
+										</button>
+										<div class="saCollectorWrapper">
+											<button class="saMoreButton">
+												<i class="far fa-ellipsis-vertical icon saIcon"></i>
+											</button>
+										</div>
+									</div>
+								</nav>
+							</div>
+						</div>
+					</header>
 
+					<div class="maincolinner gradients">
+						<main class="menuitem pagecontentframe">
+							<div class="scrollindicator" style="display: none;" hidden></div>
+							<div class="scrollcontent saScrollable">
+								<div class="scrollcontent-inner">
+									<div class="saLightboxGroup">
+										<lightbox-image data-dialog-id="lightbox">
+											<img crossorigin="anonymous" loading="lazy"
+												src='https://images.unsplash.com/photo-1444464666168-49d633b86797?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+												alt='Bird'>
+										</lightbox-image>
+
+										<lightbox-image data-dialog-id="lightbox">
+											<img crossorigin="anonymous" loading="lazy"
+												src='https://images.unsplash.com/photo-1491485880348-85d48a9e5312?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+												alt='Cat'>
+										</lightbox-image>
+
+										<lightbox-image data-dialog-id="lightbox">
+											<img crossorigin="anonymous" loading="lazy" src='./src/img/pretty.png'
+												alt='A very pretty dog'>
+										</lightbox-image>
+
+										<lightbox-image data-dialog-id="lightbox">
+											<img crossorigin="anonymous" loading="lazy" src='./src/img/the-cat.png'
+												alt='A very pretty cat'>
+										</lightbox-image>
+									</div>
+
+									<dialog id="lightbox" class="saLightboxOverlay">
+										<form method="dialog">
+											<button autofocus class="saDialogButtonClose saDestructive" aria-label="Close lightbox" data-tooltip="Close">
+												<i class="saIcon far fa-xmark"></i>
+											</button>
+											<div class="saLightbox">
+
+											</div>
+										</form>
+									</dialog>
+								</div>
+							</div>
+						</main>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	<script>
+
 		$(document).ready(function () {
+			class LightboxImage extends HTMLElement {
+				get dialog() {
+					const attr = this.getAttribute("data-dialog-id");
+					return document.getElementById(attr);
+				}
 
-			const $lightboxOverlay = $('#lightbox');
-			const $lightboxImg = $lightboxOverlay.find('img');
-			const $dialogCloseButton = $('.saDialogButtonClose');
-			const $lightbox = $('.saLightBox');
-			const $lightboxButton = $('.saLightBoxButton');
-			const $canLightBoxTrigger = $('.saCanLightBox');
-			const body = $('body');
-			const initialOpacity = 0.8;
-			const minOpacity = 0;
-			let startY = 0, currentY = 0, translateY = 0, currentX = 0, translateX = 0, isMultiTouch = false, lastTapTime = 0, userZoomed = 0;
-			let lastWidth = window.innerWidth;
-			let initialDistance = 0;
-			let isPinching = false;
+				constructor() {
+					super();
+					this.attachShadow({ mode: "open" });
+				}
 
+				connectedCallback() {
+					this.image = this.querySelector("img");
+					this.imageWrapper = this.querySelector(".saLightbox");
+					this.shadowRoot.innerHTML = this.addButton();
+					this.toggle = this.shadowRoot.querySelector("button");
+					this.toggle.addEventListener("click", this);
+					this.dialog.addEventListener("click", this);
+					this.dialog.addEventListener("cancel", this);
 
-			function initializeLightbox() {
-				$canLightBoxTrigger.on('click', openDialog);
-				$dialogCloseButton.on('click', closeDialog);
-				$lightboxOverlay.on('click', handleOverlayClick);
-				$lightboxImg.on('load', setDynamicBackgroundColor);
-				$lightboxOverlay.on('touchstart', handleTouchStart);
-				$lightboxOverlay.on('touchmove', handleTouchMove);
-				$lightboxButton.on('click', zoomFull);
-				$lightboxOverlay.on('touchend', handleTouchEnd);
-				$(document).on('keydown', handleKeyEvents);
-			}
+					this.dialog.querySelector(".saLightbox").addEventListener('touchstart', this);
+					this.dialog.querySelector(".saLightbox").addEventListener('touchmove', this);
+					this.dialog.querySelector(".saLightbox").addEventListener('touchend', this);
 
-			function openDialog(event) {
-				event.preventDefault();
-				resetTransforms();
-				const imgSrc = $(this).attr('img');
-				$lightboxImg.attr('src', imgSrc);
-				$lightboxOverlay[0].showModal();
-				body.addClass('saDialogOpen');
-				$dialogCloseButton.focus();
-				$(this).attr('aria-expanded', 'true');
-				zoomEnabled();
-			}
-
-			function resetTransforms() {
-				startY = currentY = translateY = 0;
-				startX = currentX = translateX = 0;
-				$lightboxImg.css('transform', 'translate(0, 0) scale(1)');
-				$lightboxOverlay.css('--backdrop', initialOpacity);
-			}
-
-			function setDynamicBackgroundColor() {
-				const img = $lightboxImg[0];
-				if (!img.complete) return;
-				const avgColor = getAverageColor(img);
-				const luminance = calculateLuminance(avgColor);
-				const backgroundColor = luminance < 128 ? '#fff' : '#000';
-				$lightboxImg.css('background-color', backgroundColor);
-			}
-
-			function getAverageColor(imgElement) {
-				const canvas = document.createElement('canvas');
-				const context = canvas.getContext('2d');
-				canvas.width = imgElement.naturalWidth;
-				canvas.height = imgElement.naturalHeight;
-				context.drawImage(imgElement, 0, 0, canvas.width, canvas.height);
-				const data = context.getImageData(0, 0, canvas.width, canvas.height).data;
-
-				let r = 0, g = 0, b = 0, count = 0;
-				for (let i = 0; i < data.length; i += 4) {
-					if (data[i + 3] > 0) {
-						r += data[i];
-						g += data[i + 1];
-						b += data[i + 2];
-						count++;
+					// Add event listener for close button
+					const closeButton = this.dialog.querySelector('.saDialogButtonClose');
+					if (closeButton) {
+						closeButton.addEventListener("click", this);
 					}
 				}
-				return { r: Math.floor(r / count), g: Math.floor(g / count), b: Math.floor(b / count) };
-			}
 
-			function calculateLuminance(color) {
-				return 0.299 * color.r + 0.587 * color.g + 0.114 * color.b;
-			}
-
-			function handleOverlayClick(event) {
-				if (!$(event.target).is($lightboxImg)) {
-					closeDialog();
-				}
-			}
-
-			function handleTouchStart(event) {
-				isMultiTouch = event.originalEvent.touches.length > 1;
-				if (!isMultiTouch) {
-					startY = event.originalEvent.touches[0].clientY;
-					startX = event.originalEvent.touches[0].clientX;
-				}
-			}
-
-			function checkUserZoom() {
-				let currentInnerWidth = window.innerWidth;
-				let outerWidth = window.outerWidth;
-
-				if (currentInnerWidth !== lastWidth) {
-					userZoomed = 1;
+				ontouchstart(e) {
+					this.startY = e.touches[0].clientY;
+					this.startX = e.touches[0].clientX;
 				}
 
-				else {
-					userZoomed = 0;
-				}
-				$('.tuxt').text(userZoomed, currentInnerWidth, lastWidth);
-			}
+				ontouchmove(e) {
+					if (e.touches.length > 1) return; // Skip multi-touch
 
-			function handleTouchMove(event) {
-				if (isMultiTouch || $lightbox.hasClass('saZoomFull') || event.originalEvent.touches.length > 1 || userZoomed == 1) return;
+					this.currentY = e.touches[0].clientY;
+					this.currentX = e.touches[0].clientX;
+					this.translateY = this.currentY - this.startY;
+					this.translateX = this.currentX - this.startX;
 
-				if (body.hasClass('saSmallScreen')) {
-					currentY = event.originalEvent.touches[0].clientY;
-					currentX = event.originalEvent.touches[0].clientX;
-					translateY = currentY - startY;
-					translateX = currentX - startX;
-
-					console.log(`Dragging: translateX=${translateX}, translateY=${translateY}`); // Debugging
-
-					const newOpacity = Math.max(minOpacity, initialOpacity - Math.abs(translateY) / 400);
-					const newScale = Math.max(0.5, 1 - Math.abs(translateY) / 800);
-
-					$lightboxImg.css({
-						transform: `translate(${translateX}px, ${translateY}px) scale(${newScale})`,
-						transition: 'none',
-					});
-					$lightboxOverlay.css('--backdrop', newOpacity);
-
-					event.preventDefault(); // Stop default scroll behavior
-					event.stopPropagation(); // Prevent interference from other listeners
-				}
-			}
-
-
-			function zoomFull(event) {
-				if (body.hasClass('saSmallScreen')) return;
-				event.preventDefault();
-
-				if ($lightbox.hasClass('saZoomEnabled saZoomFull')) {
-					$lightbox.removeClass('saZoomFull');
-				}
-
-				else if ($lightbox.hasClass('saZoomEnabled') && !$lightbox.hasClass('saZoomFull')) {
-					$lightbox.addClass('saZoomFull');
-				}
-			}
-
-			function zoomEnabled() {
-				if ($lightboxImg[0].naturalWidth >= $(window).width() || $lightboxImg[0].naturalHeight >= $(window).height()) {
-					$lightbox.addClass('saZoomEnabled');
-				}
-
-				else {
-					$lightbox.removeClass('saZoomEnabled');
-				}
-			}
-
-			function handleTouchEnd(event) {
-				if (isMultiTouch) return;
-
-				const threshold = 80;
-				const screenHeight = window.innerHeight;
-				const screenWidth = window.innerHeight;
-
-				if (Math.abs(translateY) > threshold) {
-					const directionY = translateY > 0 ? 1 : -1;
-					const directionX = translateX > 0 ? 1 : -1;
-
-					$lightboxImg.css({
-						transform: `translate(${directionX}px, ${directionY * screenHeight}px) scale(0.1)`,
-						transition: 'transform 0.2s ease'
-					});
-
-					$lightboxOverlay.css('--backdrop', 0);
-					$dialogCloseButton.css('transform', 'translateY(-64px)');
-
-					closeDialogWithDelay(200);
-				} else {
-					resetTransforms();
-				}
-			}
-
-			function closeDialogWithDelay(delay) {
-				setTimeout(closeDialog, delay);
-			}
-
-			function closeDialog() {
-				body.removeClass('saDialogOpen');
-				$lightboxOverlay[0].close();
-				resetTransforms();
-				$lightbox.removeClass('saZoomFull saZoomEnabled');
-				$lightboxImg.css('transition', 'none').removeAttr('background-color');
-				$canLightBoxTrigger.attr('aria-expanded', 'false');
-				$lightboxButton.attr('aria-expanded', 'false');
-				$lightboxImg.removeAttr('src');
-				$dialogCloseButton.removeAttr('style');
-			}
-
-			function handleKeyEvents(event) {
-				if (event.key === 'Escape') closeDialog();
-			}
-
-			$(window).resize(function () {
-				zoomEnabled();
-				checkUserZoom();
-			});
-
-			$(window).on('touchstart', function (e) {
-				if (e.touches.length === 2) {
-					const dx = e.touches[0].clientX - e.touches[1].clientX;
-					const dy = e.touches[0].clientY - e.touches[1].clientY;
-					initialDistance = Math.sqrt(dx * dx + dy * dy);
-					isPinching = true;
-					checkUserZoom();
-				}
-			});
-
-			$(window).on('touchmove', function (e) {
-				if (isPinching && e.touches.length === 2) {
-					const dx = e.touches[0].clientX - e.touches[1].clientX;
-					const dy = e.touches[0].clientY - e.touches[1].clientY;
-					const currentDistance = Math.sqrt(dx * dx + dy * dy);
-
-					if (currentDistance !== initialDistance) {
-						checkUserZoom();
+					if (!this.rafPending) {
+						this.rafPending = true;
+						requestAnimationFrame(() => {
+							this.dialog.querySelector(".saLightbox").style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
+							this.dialog.style.setProperty('--backdrop', Math.max(0, 0.8 - Math.abs(this.translateY) / 400));
+							this.rafPending = false;
+						});
 					}
 				}
-			});
 
-			$(window).on('touchend', function (e) {
-				if (e.touches.length < 2) {
-					isPinching = false;
-					initialDistance = 0;
-					checkUserZoom();
+				ontouchend(e) {
+					const threshold = 80;
+
+					if (Math.abs(this.translateY) > threshold) {
+						document.startViewTransition(() => this.moveImageBack());
+						this.dialog.querySelector(".saLightbox").style.transform = "";
+
+					} else {
+						this.dialog.querySelector(".saLightbox").style.transform = "translate(0, 0)";
+					}
 				}
-			});
 
-			// Initialize lightbox functionality
-			initializeLightbox();
 
+				addButton() {
+					return `
+                <style>
+                    button {
+                        all: unset;
+                        outline: revert;
+                        display: grid;
+                        grid-template-areas: "box";
+                    }
+
+                    button > * {
+                        grid-area: box;
+                    }
+
+                    img {
+                        max-width: 100%;
+                        height: auto;
+                        visibility: hidden;
+                    }
+                </style>
+
+                <button aria-label="Open image in lightbox" type="button" aria-expanded="false">
+                    ${this.image.outerHTML}
+                    <div>
+                        <slot></slot>
+                    </div>
+                </button>
+            	`;
+				}
+
+				handleEvent(e) {
+					this[`on${e.type}`](e);
+				}
+
+				onclick(e) {
+					if (e.currentTarget === this.toggle) {
+						this.moveImage(() => this.moveImageToTarget());
+						this.setDynamicBackgroundColor(this.image);
+						this.zoomEnabled(this.image);
+					}
+
+					if (e.currentTarget === this.dialog) {
+						this.dialogCallback(e);
+					}
+				}
+
+				// Handle "escape" key dialog event
+				oncancel(e) {
+					this.dialogCallback(e);
+				}
+
+				dialogCallback(e) {
+					// If the image is in the dialog and click was outside the image or on close button
+					if (this.dialog.contains(this.image)) {
+						// Check if click was on the background (dialog itself) or close button
+						if (e.target === this.dialog || e.target.closest('.saDialogButtonClose')) {
+							e.preventDefault();
+							this.moveImage(() => this.moveImageBack());
+						}
+					}
+				}
+
+				moveImage(fn) {
+					if (!document.startViewTransition) {
+						fn();
+					} else {
+						this.handleViewTransition(fn);
+					}
+				}
+
+				async handleViewTransition(fn) {
+					this.image.style.viewTransitionName = "lightbox-image-active";
+
+					const transition = document.startViewTransition(() => fn());
+
+					try {
+						await transition.finished;
+					} finally {
+						this.image.style.removeProperty("view-transition-name");
+					}
+				}
+
+				moveImageToTarget() {
+					if (document.body.classList.contains('saPc')) {
+						// Create a button and wrap the image inside it
+						const zoomButton = document.createElement("button");
+						zoomButton.type = "button";
+						zoomButton.ariaLabel = "Zoom in on this image";
+						zoomButton.classList.add("saZoomButton");
+						zoomButton.append(this.image);
+						this.dialog.querySelector(".saLightbox").append(zoomButton);
+
+						// Add event listener for toggling zoom
+						zoomButton.addEventListener("click", () => this.toggleZoom());
+					} else {
+						this.dialog.querySelector(".saLightbox").append(this.image);
+					}
+					this.dialog.showModal();
+				}
+
+				moveImageBack() {
+					this.append(this.image);
+					this.dialog.close();
+					this.dialog.classList.remove('saZoomFull');
+					this.dialog.classList.remove('saLarger');
+					this.image.style.backgroundColor = '';
+					this.dialog.style.transform = '';
+				}
+
+
+				setDynamicBackgroundColor(img) {
+					if (!img.complete) return;
+
+					try {
+						const avgColor = this.getAverageColor(img); // Add 'this.'
+						const luminance = this.calculateLuminance(avgColor); // Add 'this.'
+						const backgroundColor = luminance < 128 ? 'white' : 'black';
+						img.style.backgroundColor = backgroundColor;
+					} catch (error) {
+						// Fallback if getImageData fails due to CORS
+						console.warn("Could not analyze image colors - CORS issue:", error);
+						img.style.backgroundColor = 'black'; // Fallback to black
+					}
+				}
+
+
+				getAverageColor(imgElement) {
+					const canvas = document.createElement('canvas');
+					const context = canvas.getContext('2d');
+					canvas.width = imgElement.naturalWidth;
+					canvas.height = imgElement.naturalHeight;
+					context.drawImage(imgElement, 0, 0, canvas.width, canvas.height);
+					const data = context.getImageData(0, 0, canvas.width, canvas.height).data;
+
+					let r = 0, g = 0, b = 0, count = 0;
+					for (let i = 0; i < data.length; i += 4) {
+						if (data[i + 3] > 0) {
+							r += data[i];
+							g += data[i + 1];
+							b += data[i + 2];
+							count++;
+						}
+					}
+					return { r: Math.floor(r / count), g: Math.floor(g / count), b: Math.floor(b / count) };
+				}
+
+				calculateLuminance(color) {
+					return 0.299 * color.r + 0.587 * color.g + 0.114 * color.b;
+				}
+
+				zoomEnabled(img) {
+					if (img.naturalWidth >= window.innerWidth ||
+						img.naturalHeight >= window.innerHeight) {
+						this.dialog.classList.add('saLarger');
+					} else {
+						this.dialog.classList.remove('saLarger');
+					}
+				}
+
+				toggleZoom() {
+					if (this.dialog.classList.contains('saZoomFull')) {
+						this.dialog.classList.remove('saZoomFull');
+					} else {
+						this.dialog.classList.add('saZoomFull');
+					}
+				}
+			}
+
+			customElements.define("lightbox-image", LightboxImage);
 		});
+
 	</script>
 </body>
 

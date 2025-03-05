@@ -208,70 +208,13 @@
 		<div class="saRightFrameRoot">
 			<div class="right standardview saSmallScreen saHasTopButtons">
 				<form class="interface">
-					<header id="pageheader2" class="saDesktopHeader saPageHeaderHolder">
-						<div class="saDesktopHeader saPageHeader">
-							<div class="saHeader">
-								<div class="saRowWrapper">
-									<div class="saTopRow">
-										<nav class="saBreadcrumbs" aria-label="Brödsmulor">
-											<div class="saBackButtonWrapper">
-												<button class="saBackButton"><i
-														class="fa-arrow-left far saBack saIcon"></i></button>
-											</div>
-											<span class="saBreadcrumb">
-												<a tabindex="0">
-													First link
-												</a>
-											</span>
-											<span class="saBreadcrumbSeparator">&gt;</span>
-											<span class="saBreadcrumb">
-												<a tabindex="0">
-													Second link
-												</a>
-											</span>
-										</nav>
-									</div>
-									<div class="saBottomRow">
-										<div class="saTitle">
-											<h1 class="saHeaderText">
-												Title
-											</h1>
-										</div>
-									</div>
-									<nav class="saNavigationBar">
-										<div class="saTopButtons">
-											<div class="saActionLinks">
-												<button class="saTopLink saActionLink saButtonPrimary">
-													<div class="saIconHolder">
-														<i class="far fa-crow saIcon"></i>
-													</div>
-													<span class="saButtonText">Crow button</span>
-												</button>
-												<button class="saTopLink saActionLink saButtonSecondary">
-													<div class="saIconHolder">
-														<i class="far fa-egg saIcon"></i>
-													</div>
-													<span class="saButtonText">Egg button</span>
-												</button>
-												<div class="saCollectorWrapper">
-													<button class="saMoreButton">
-														<i class="far fa-ellipsis-vertical icon saIcon"></i>
-													</button>
-												</div>
-											</div>
-										</div>
-									</nav>
-								</div>
-							</div>
-						</div>
-					</header>
 					<div class="maincolinner gradients">
 						<main class="menuitem pagecontentframe">
 							<div class="scrollindicator" style="display: none;"></div>
 							<div class="scrollcontent saScrollable">
 								<div class="scrollcontent-inner">
 									<div class="tall"
-										style="min-height: 2000vh; flex-direction: column; display: flex; gap: 48px; padding: 16px; background-image: linear-gradient(to top, hsl(218, 81%, 0%) 0%, hsl(218, 81%, 70%) 100%);">
+										style="min-height: 2000vh; flex-direction: column; display: flex; gap: 48px; padding: 16px; background-image: linear-gradient(to top, #4481eb 0%, #04befe 100%);">
 										<p>Crows live here</p>
 										<p>Crows live here</p>
 										<p>Crows live here</p>
@@ -553,58 +496,39 @@
 		</div>
 	</div>
 
-	<style>
-		#theToggler {
-			top: unset;
-			bottom: 8px;
-		}
-	</style>
 	<script>
 
 		$(document).ready(function () {
-			$('.saNavigator').click(function (e) {
-				e.preventDefault();
-				if ($('.saNavBar').hasClass('saActive')) {
-					$('.saNavBar').removeClass('saActive').addClass('saInactive');
-				} else {
-					$('.saNavBar').removeClass('saInactive').addClass('saActive');
-				}
-			});
 
 			let lastScrollTop = 0;
-			let header = $('#pageheader');
-			let headerHeight = 88;
-			//let headerHeight = header.outerHeight();
-			let isScrolling = false;
+			let header = $('header');
+		  //let headerHeight = header.outerHeight();
+			let headerHeight = 120;
 
 			$(window).on('scroll', function () {
-				if (!isScrolling) {
-					isScrolling = true;
-					requestAnimationFrame(handleScroll);
-				}
-			});
-
-			function handleScroll() {
-				let scrollTop = $(window).scrollTop();
+				let scrollTop = $(this).scrollTop();
 				let delta = scrollTop - lastScrollTop; // Scroll direction (+ = down, - = up)
-
 				let currentTop = parseInt(header.css('top'), 10);
-				let newTop;
 
 				if (scrollTop <= headerHeight) {
-					newTop = 0;
+					header.css('top', '0');
 				} else {
-					if (delta > 0) {
-						newTop = Math.max(-headerHeight, currentTop - delta);
-					} else {
-						newTop = Math.min(0, currentTop - delta);
-					}
-				}
+					let newTop;
 
-				header.css('top', newTop + 'px');
+					if (delta > 0) {
+						// Scrolling down: keep decreasing top until fully hidden
+						newTop = Math.max(-headerHeight, currentTop - delta);
+						console.log('newTop: ' + newTop);
+					} else {
+						// Scrolling up: keep increasing top until fully visible
+						newTop = Math.min(0, currentTop - delta);
+						console.log('newTop: ' + newTop);
+					}
+
+					header.css('top', newTop + 'px');
+				}
 				lastScrollTop = scrollTop;
-				isScrolling = false;
-			}
+			});
 		});
 	</script>
 </body>

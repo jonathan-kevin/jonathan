@@ -31,30 +31,33 @@ $(document).ready(function () {
 		title: "Toggle between saStandard, saCompact and saSmallScreen"
 	});
 
-	$("body").addClass("saPc saLargeScreen saCompact").append(theToggler);
+	const $body = $(".right.standardview, body");
+
+	$($body).addClass("saPc saLargeScreen saCompact");
+	$('body').append(theToggler);
 
 	setTimeout(() => {
 		if (path.includes("smallscreen")) {
-			$("body").removeClass().addClass("saSmallScreen");
+			$($body).removeClass().addClass("saSmallScreen");
 			$("#theToggler").text("SmallScreen");
 		} else if (path.includes("standard")) {
-			$("body").removeClass().addClass("saStandard saPc saLargeScreen");
+			$($body).removeClass().addClass("saStandard saPc saLargeScreen");
 			$("#theToggler").text("Standard");
 		} else if (path.includes("compact")) {
-			$("body").removeClass().addClass("saCompact saPc saLargeScreen");
+			$($body).removeClass().addClass("saCompact saPc saLargeScreen");
 			$("#theToggler").text("Compact");
 		}
 	}, 200);
 
 	function toggleClasses() {
-		if ($("body").hasClass("saStandard")) {
-			$("body").removeClass("saStandard").addClass("saCompact saPc saLargeScreen");
+		if ($($body).hasClass("saStandard")) {
+			$($body).removeClass("saStandard").addClass("saCompact saPc saLargeScreen");
 			$("#theToggler").text("Compact");
-		} else if ($("body").hasClass("saCompact")) {
-			$("body").removeClass("saCompact saPc saLargeScreen").addClass("saSmallScreen");
+		} else if ($($body).hasClass("saCompact")) {
+			$($body).removeClass("saCompact saPc saLargeScreen").addClass("saSmallScreen");
 			$("#theToggler").text("SmallScreen");
 		} else {
-			$("body").removeClass("saSmallScreen").addClass("saStandard saPc saLargeScreen");
+			$($body).removeClass("saSmallScreen").addClass("saStandard saPc saLargeScreen");
 			$("#theToggler").text("Standard");
 		}
 	}

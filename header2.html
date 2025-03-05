@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Jonathan</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+</head>
+
+<body>
+	<style>
+		body {
+			height: 3000px;
+			margin: 0;
+			font-family: Arial, sans-serif;
+		}
+
+		.header {
+			position: sticky;
+			top: 0;
+			height: 56px;
+			background: black;
+			color: white;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: top 0s linear;
+			/* No easing for smooth effect */
+		}
+
+		.content {
+			padding: 20px;
+			margin-top: 60px;
+		}
+	</style>
+
+
+	<div class="header">Sticky Header</div>
+	<div class="content">
+		<p>Scroll down to see the effect.</p>
+	</div>
+
+	<script>
+		let lastScrollTop = 0;
+		let header = $('.header');
+		let headerHeight = 56;
+		let hideStart = 100;
+
+		$(window).on('scroll', function () {
+			let scrollTop = $(this).scrollTop();
+			let delta = scrollTop - lastScrollTop; // Scroll direction
+			let currentTop = parseInt(header.css('top'), 10);
+
+			if (scrollTop <= hideStart) {
+				header.css('top', '0');
+			} else {
+				let newTop = Math.max(-headerHeight, Math.min(0, currentTop - delta));
+				header.css('top', newTop + 'px');
+			}
+
+			lastScrollTop = scrollTop;
+		});
+	</script>
+
+
+
+</body>
+
+</html>
