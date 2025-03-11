@@ -296,12 +296,10 @@
 
 									<dialog id="lightbox" class="saLightboxOverlay">
 										<form method="dialog">
-											<button autofocus class="saDialogButtonClose saDestructive" aria-label="Close lightbox" data-tooltip="Close">
+											<button autofocus class="saDialogButtonClose saDestructive"
+												aria-label="Close lightbox" data-tooltip="Close">
 												<i class="saIcon far fa-xmark"></i>
 											</button>
-											<div class="saLightbox">
-
-											</div>
 										</form>
 									</dialog>
 								</div>
@@ -327,93 +325,50 @@
 				}
 
 				connectedCallback() {
-					this.image = this.querySelector("img");
-					this.imageWrapper = this.querySelector(".saLightbox");
+					this.image = $(this).find("img")[0];
 					this.shadowRoot.innerHTML = this.addButton();
-					this.toggle = this.shadowRoot.querySelector("button");
-					this.toggle.addEventListener("click", this);
-					this.dialog.addEventListener("click", this);
-					this.dialog.addEventListener("cancel", this);
+					this.toggle = $(this.shadowRoot).find("button")[0];
 
-					this.dialog.querySelector(".saLightbox").addEventListener('touchstart', this);
-					this.dialog.querySelector(".saLightbox").addEventListener('touchmove', this);
-					this.dialog.querySelector(".saLightbox").addEventListener('touchend', this);
+					// Use jQuery event handlers
+					$(this.toggle).on("click", (e) => this.onclick(e));
+					$(this.dialog).on("click", (e) => this.onclick(e));
+					$(this.dialog).on("cancel", (e) => this.oncancel(e));
 
-					// Add event listener for close button
-					const closeButton = this.dialog.querySelector('.saDialogButtonClose');
-					if (closeButton) {
-						closeButton.addEventListener("click", this);
+					// Close button event
+					const $closeButton = $(this.dialog).find('.saDialogButtonClose');
+					if ($closeButton.length) {
+						$closeButton.on("click", (e) => this.onclick(e));
 					}
 				}
-
-				ontouchstart(e) {
-					this.startY = e.touches[0].clientY;
-					this.startX = e.touches[0].clientX;
-				}
-
-				ontouchmove(e) {
-					if (e.touches.length > 1) return; // Skip multi-touch
-
-					this.currentY = e.touches[0].clientY;
-					this.currentX = e.touches[0].clientX;
-					this.translateY = this.currentY - this.startY;
-					this.translateX = this.currentX - this.startX;
-
-					if (!this.rafPending) {
-						this.rafPending = true;
-						requestAnimationFrame(() => {
-							this.dialog.querySelector(".saLightbox").style.transform = `translate(${this.translateX}px, ${this.translateY}px)`;
-							this.dialog.style.setProperty('--backdrop', Math.max(0, 0.8 - Math.abs(this.translateY) / 400));
-							this.rafPending = false;
-						});
-					}
-				}
-
-				ontouchend(e) {
-					const threshold = 80;
-
-					if (Math.abs(this.translateY) > threshold) {
-						document.startViewTransition(() => this.moveImageBack());
-						this.dialog.querySelector(".saLightbox").style.transform = "";
-
-					} else {
-						this.dialog.querySelector(".saLightbox").style.transform = "translate(0, 0)";
-					}
-				}
-
 
 				addButton() {
 					return `
-                <style>
-                    button {
-                        all: unset;
-                        outline: revert;
-                        display: grid;
-                        grid-template-areas: "box";
-                    }
+            <style>
+                button {
+                    all: unset;
+                    outline: revert;
+                    display: grid;
+                    grid-template-areas: "box";
+                }
 
-                    button > * {
-                        grid-area: box;
-                    }
+                button > * {
+                    grid-area: box;
+                }
 
-                    img {
-                        max-width: 100%;
-                        height: auto;
-                        visibility: hidden;
-                    }
-                </style>
+                img {
+                    max-width: 100%;
+                    height: auto;
+                    visibility: hidden;
+                }
+            </style>
 
-                <button aria-label="Open image in lightbox" type="button" aria-expanded="false">
-                    ${this.image.outerHTML}
-                    <div>
-                        <slot></slot>
-                    </div>
-                </button>
-            	`;
-				}
-
-				handleEvent(e) {
-					this[`on${e.type}`](e);
+            <button aria-label="Open image in lightbox" type="button" aria-expanded="false">
+                ${this.image.outerHTML}
+                <div>
+                    <slot></slot>
+                </div>
+            </button>
+			`;
 				}
 
 				onclick(e) {
@@ -428,23 +383,24 @@
 					}
 				}
 
-				// Handle "escape" key dialog event
 				oncancel(e) {
 					this.dialogCallback(e);
 				}
 
 				dialogCallback(e) {
 					// If the image is in the dialog and click was outside the image or on close button
-					if (this.dialog.contains(this.image)) {
+					if ($.contains(this.dialog, this.image)) {
 						// Check if click was on the background (dialog itself) or close button
-						if (e.target === this.dialog || e.target.closest('.saDialogButtonClose')) {
+						if (e.target === this.dialog || $(e.target).closest('.saDialogButtonClose').length) {
 							e.preventDefault();
 							this.moveImage(() => this.moveImageBack());
 						}
+
 					}
 				}
 
 				moveImage(fn) {
+					// Preserve native startViewTransition
 					if (!document.startViewTransition) {
 						fn();
 					} else {
@@ -453,60 +409,58 @@
 				}
 
 				async handleViewTransition(fn) {
-					this.image.style.viewTransitionName = "lightbox-image-active";
+					$(this.image).css('viewTransitionName', 'lightbox-image-active');
 
+					// Keep the native startViewTransition
 					const transition = document.startViewTransition(() => fn());
 
 					try {
 						await transition.finished;
+						console.log("Transition finished");
 					} finally {
-						this.image.style.removeProperty("view-transition-name");
+						$(this.image).css('viewTransitionName', '');
 					}
 				}
 
 				moveImageToTarget() {
-					if (document.body.classList.contains('saPc')) {
-						// Create a button and wrap the image inside it
-						const zoomButton = document.createElement("button");
-						zoomButton.type = "button";
-						zoomButton.ariaLabel = "Zoom in on this image";
-						zoomButton.classList.add("saZoomButton");
-						zoomButton.append(this.image);
-						this.dialog.querySelector(".saLightbox").append(zoomButton);
+					if ($('body').hasClass('saPc')) {
+						// Create a button and wrap the image
+						const $zoomButton = $('<button>', {
+							type: 'button',
+							'aria-label': 'Zoom in on this image',
+							class: 'saZoomButton'
+						});
+						$zoomButton.append(this.image);
+						$(this.dialog).append($zoomButton);
 
 						// Add event listener for toggling zoom
-						zoomButton.addEventListener("click", () => this.toggleZoom());
+						$zoomButton.on('click', () => this.toggleZoom());
 					} else {
-						this.dialog.querySelector(".saLightbox").append(this.image);
+						$(this.dialog).append(this.image);
 					}
 					this.dialog.showModal();
 				}
 
 				moveImageBack() {
-					this.append(this.image);
+					$(this).append(this.image);
 					this.dialog.close();
-					this.dialog.classList.remove('saZoomFull');
-					this.dialog.classList.remove('saLarger');
-					this.image.style.backgroundColor = '';
-					this.dialog.style.transform = '';
+					$(this.dialog).removeClass('saZoomFull saLarger');
+					$(this.image).css('backgroundColor', '');
 				}
-
 
 				setDynamicBackgroundColor(img) {
 					if (!img.complete) return;
 
 					try {
-						const avgColor = this.getAverageColor(img); // Add 'this.'
-						const luminance = this.calculateLuminance(avgColor); // Add 'this.'
+						const avgColor = this.getAverageColor(img);
+						const luminance = this.calculateLuminance(avgColor);
 						const backgroundColor = luminance < 128 ? 'white' : 'black';
-						img.style.backgroundColor = backgroundColor;
+						$(img).css('backgroundColor', backgroundColor);
 					} catch (error) {
-						// Fallback if getImageData fails due to CORS
 						console.warn("Could not analyze image colors - CORS issue:", error);
-						img.style.backgroundColor = 'black'; // Fallback to black
+						$(img).css('backgroundColor', 'black'); // Fallback to black
 					}
 				}
-
 
 				getAverageColor(imgElement) {
 					const canvas = document.createElement('canvas');
@@ -535,24 +489,27 @@
 				zoomEnabled(img) {
 					if (img.naturalWidth >= window.innerWidth ||
 						img.naturalHeight >= window.innerHeight) {
-						this.dialog.classList.add('saLarger');
+						$(this.dialog).addClass('saLarger');
 					} else {
-						this.dialog.classList.remove('saLarger');
+						$(this.dialog).removeClass('saLarger');
 					}
 				}
 
 				toggleZoom() {
-					if (this.dialog.classList.contains('saZoomFull')) {
-						this.dialog.classList.remove('saZoomFull');
+					if ($(this.dialog).hasClass('saZoomFull')) {
+						$(this.dialog).removeClass('saZoomFull');
+						$(this.dialog).find('.saZoomButton').attr('aria-expanded', 'false');
+						$(this.dialog).find('.saZoomButton').attr('aria-label', 'Click to increase image size');
 					} else {
-						this.dialog.classList.add('saZoomFull');
+						$(this.dialog).addClass('saZoomFull');
+						$(this.dialog).find('.saZoomButton').attr('aria-expanded', 'true');
+						$(this.dialog).find('.saZoomButton').attr('aria-label', 'Click to decrease image size');
 					}
 				}
 			}
 
 			customElements.define("lightbox-image", LightboxImage);
 		});
-
 	</script>
 </body>
 
