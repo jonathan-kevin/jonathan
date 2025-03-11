@@ -984,7 +984,7 @@
   color: #7088a4;
   box-sizing: border-box;
   border-collapse: collapse;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saColorGroup td,
 .saColorGroup th {
@@ -992,18 +992,18 @@
   width: 1.5rem;
   font-weight: 300;
   box-sizing: border-box;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saColorGroup td:hover:not(.empty),
 .saColorGroup th:hover:not(.empty) {
-  box-shadow: inset 0 0 0 1px black, inset 0 0 0 0.25rem white;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) black, inset 0 0 0 0.25rem white;
 }
 .saColorGroup td.empty {
   cursor: not-allowed;
   border: none;
 }
 .saColorGroup tr:has(td:hover:not(.empty)) td:not(.empty, .disabled) {
-  box-shadow: inset 0 0 0 1px black, inset 0 0 0 0.25rem white;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) black, inset 0 0 0 0.25rem white;
 }
 .saColorGroup tr:has(td:hover:not(.empty)) td.disabled:not(:hover) {
   opacity: 0.2;
@@ -1318,7 +1318,7 @@
 }
 #colorContainer li:has(:checked) {
   outline: 0.125rem solid #313a44;
-  outline-offset: 1px;
+  outline-offset: min(1px, 0.0625rem);
 }
 #colorContainer li.saBird {
   box-shadow: 0 0 0 0.25rem green;
@@ -1330,7 +1330,7 @@
 }
 #colorContainer li.saDisabled .saIcon {
   background-color: transparent;
-  outline: 1px solid #eef1f5;
+  outline: min(1px, 0.0625rem) solid #eef1f5;
   color: #eef1f5;
 }
 #colorContainer li.saDisabled .saTitle,
@@ -1355,10 +1355,10 @@
   display: flex;
   font-size: 0.625rem;
   line-height: 1;
-  width: 400px;
+  width: 25rem;
   overflow-wrap: anywhere;
   overflow: auto;
-  height: 400px;
+  height: 25rem;
 }
 .saColor {
   display: flex;
@@ -1371,10 +1371,10 @@
   transition: ease color 0.2s, ease background-color 0.2s, ease border-radius 0.2s, ease outline 0.2s;
   cursor: pointer;
   box-sizing: border-box;
-  outline-offset: -1px;
+  outline-offset: max(-1px, -0.0625rem);
   outline-style: solid;
-  outline-width: 1px;
-  outline: 1px solid #ccd5e2;
+  outline-width: min(1px, 0.0625rem);
+  outline: min(1px, 0.0625rem) solid #ccd5e2;
   line-height: 1;
 }
 .saColor:active {
@@ -2899,7 +2899,7 @@ pre:has(code) {
 }
 .saHtmlViewWrapper td,
 .saHtmlViewWrapper th {
-  border: 1px solid #eef1f5;
+  border: min(1px, 0.0625rem) solid #eef1f5;
   padding: 0.5rem;
   text-align: left;
 }
@@ -2920,13 +2920,13 @@ pre:has(code) {
   max-width: none;
 }
 .saHtmlViewWrapper table {
-  border: 1px solid #dde3ec;
+  border: min(1px, 0.0625rem) solid #dde3ec;
   border-right: none;
   margin-left: 0 !important;
 }
 .saHtmlViewWrapper th,
 .saHtmlViewWrapper td {
-  border-right: 1px solid #dde3ec;
+  border-right: min(1px, 0.0625rem) solid #dde3ec;
   padding-right: 5px;
   padding-left: 5px;
 }
@@ -3030,7 +3030,7 @@ a {
 body,
 html {
   height: 100%;
-  font-size: 1rem;
+  font-size: 16px;
   line-height: 1.5;
 }
 .maincol,
@@ -3077,9 +3077,9 @@ html {
 }
 .scrollindicator {
   right: 0;
-  height: 1px;
+  height: min(1px, 0.0625rem);
   margin-top: 0.125rem;
-  margin-left: -24px;
+  margin-left: -1.5rem;
   background: linear-gradient(to right, rgba(204, 213, 226, 0.04), #ccd5e2, #ccd5e2, #ccd5e2, rgba(204, 213, 226, 0.04));
   transition: ease opacity 0.2s;
   opacity: 0;
@@ -3108,7 +3108,7 @@ a.sort {
   line-height: 1rem;
   color: #313a44;
   font-size: 0.875rem;
-  min-width: 1px;
+  min-width: min(1px, 0.0625rem);
   cursor: pointer;
 }
 a.notSortable:hover {
@@ -3247,11 +3247,11 @@ body.saPopup {
   display: table-cell;
 }
 .labelcell {
-  width: 1px;
+  width: min(1px, 0.0625rem);
   display: table-cell;
   padding-top: 0;
   padding-left: 0.125rem;
-  height: 1px;
+  height: min(1px, 0.0625rem);
 }
 .labelcell .labelcontainer {
   height: 100%;
@@ -3303,7 +3303,7 @@ body.saPopup {
   padding: 0rem 0.125rem 0rem 5px;
 }
 .saLargeScreen .listpage .editableindicator {
-  margin: 0 1px 0 0.3em;
+  margin: 0 min(1px, 0.0625rem) 0 0.3em;
 }
 .smallscreen .labelcell {
   padding: 3px 0 0 0;
@@ -3358,7 +3358,7 @@ body.saPopup {
   flex-direction: column;
 }
 .stndrdfld {
-  border: 1px solid #bbbbbb;
+  border: min(1px, 0.0625rem) solid #bbbbbb;
   padding: 0 0.25rem 0;
   overflow: hidden;
   color: #313a44;
@@ -3367,10 +3367,10 @@ body.saPopup {
   background: #f5faff;
 }
 .smallscreen .stndrdfld {
-  padding: 1px 0.125rem 3px;
+  padding: min(1px, 0.0625rem) 0.125rem 3px;
 }
 .maincolbody.search .stndrdfld:focus {
-  border: 1px solid #dde3ec;
+  border: min(1px, 0.0625rem) solid #dde3ec;
 }
 .stndrdfld:focus {
   outline: 0;
@@ -3527,20 +3527,20 @@ ul.multirowbuttons.left {
   width: 100%;
 }
 .inputlayoutfieldgrouprow.border {
-  border: 1px solid #dde3ec;
+  border: min(1px, 0.0625rem) solid #dde3ec;
   background: #fff;
   border-bottom: none;
   border-top: none;
 }
 .inputlayoutfieldgrouphead {
-  border: 1px solid #dde3ec;
+  border: min(1px, 0.0625rem) solid #dde3ec;
   border-bottom: none;
   background: #fff;
 }
 .inputlayoutfieldgroupfoot {
-  border-bottom: 1px solid #dde3ec;
-  border-left: 1px solid #dde3ec;
-  border-right: 1px solid #dde3ec;
+  border-bottom: min(1px, 0.0625rem) solid #dde3ec;
+  border-left: min(1px, 0.0625rem) solid #dde3ec;
+  border-right: min(1px, 0.0625rem) solid #dde3ec;
 }
 .btnfield.borders {
   padding-left: 0;
@@ -3553,7 +3553,7 @@ ul.multirowbuttons.left {
 }
 .inputlayoutgroup.border {
   border-style: solid;
-  border-width: 1px;
+  border-width: min(1px, 0.0625rem);
   border-collapse: separate;
   background: #fff;
 }
@@ -3596,7 +3596,7 @@ table.inputlayoutgroup.border.inputlayoutgroup .inputlayouttable .inputlayoutcol
 .inputlayoutcolumn > table {
   padding: 0.6em 0em 0.8em 0em;
   background: #fff;
-  border: 1px solid #dde3ec;
+  border: min(1px, 0.0625rem) solid #dde3ec;
   border-radius: 0.125rem;
 }
 .inputlayoutgroup.headless .inputlayoutcolumn > table {
@@ -3808,7 +3808,7 @@ table.inputlayoutgroup.border.inputlayoutgroup .inputlayouttable .inputlayoutcol
   box-shadow: none;
   padding: 0;
   min-width: 100%;
-  width: 1px;
+  width: min(1px, 0.0625rem);
   -webkit-overflow-scrolling: touch;
   position: relative;
   margin-top: 0;
@@ -3895,11 +3895,11 @@ body.right {
 .indicatedragdrop .saDropOn {
   border-radius: 0.5rem;
   background: #eff0fd;
-  border: 1px dotted #2d6ce1;
+  border: min(1px, 0.0625rem) dotted #2d6ce1;
 }
 .externalframe {
   width: 100%;
-  border: 1px solid #dde3ec;
+  border: min(1px, 0.0625rem) solid #dde3ec;
 }
 .externalframe.autoheight {
   min-height: 250px;
@@ -4055,14 +4055,14 @@ span.marked {
   padding: 5px;
   position: relative;
   z-index: 1;
-  margin-top: -5px;
+  margin-top: -0.3125rem;
 }
 .iconpreview .saBadge {
   border: 0.125rem solid #fff;
   border-radius: 50%;
   color: #fff;
   font-size: 1rem;
-  margin-left: -28px;
+  margin-left: -1.75rem;
   padding: 3px;
   background: var(--Sa-Color-Icon);
   z-index: 20;
@@ -4104,7 +4104,7 @@ span.marked {
   font-size: 5em;
 }
 .saInfoBoxContent .systemicon {
-  top: 1px;
+  top: min(1px, 0.0625rem);
   position: relative;
   padding-right: 3px;
 }
@@ -4224,7 +4224,7 @@ span.marked {
 .grid .dropdown {
   width: calc(100% + 0.125rem);
   padding-left: 3px;
-  border: 1px solid #fffeee !important;
+  border: min(1px, 0.0625rem) solid #fffeee !important;
 }
 .grid .editButtonsWrapper {
   position: relative;
@@ -4235,11 +4235,11 @@ span.marked {
 }
 .grid .editButtons {
   position: absolute;
-  right: -15px;
-  top: -28px;
+  right: -0.9375rem;
+  top: -1.75rem;
   display: flex;
   border-radius: 0.5rem;
-  box-shadow: 0.125rem 0.125rem 0.125rem #eef1f5, -2px -2px 0.125rem #eef1f5;
+  box-shadow: 0.125rem 0.125rem 0.125rem #eef1f5, -0.125rem -0.125rem 0.125rem #eef1f5;
   background: #313a44;
   align-items: center;
   z-index: 2;
@@ -4426,7 +4426,7 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saDropIndicator.saHorizontal {
   border-top: 0.125rem solid #1f59bf;
-  border-radius: 1px;
+  border-radius: min(1px, 0.0625rem);
 }
 .saMarkFavorite button {
   background: none;
@@ -4499,7 +4499,7 @@ body.saPc *::-webkit-scrollbar-corner {
   height: calc(100% - 4rem);
 }
 .saHasTopButtons.saSmallScreen .scrollcontent .saPicker {
-  margin-top: -64px;
+  margin-top: -4rem;
 }
 .saStandard .maincolinner {
   height: calc(100% - 4.5rem - 0.5rem - 1rem);
@@ -4550,7 +4550,7 @@ body.saPc *::-webkit-scrollbar-corner {
   line-height: 0;
 }
 .saContextMenuWrapper .saContextMenu {
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   box-shadow: 0 0 2rem rgba(49, 58, 68, 0.07);
   display: flex;
   flex-direction: column;
@@ -4712,7 +4712,7 @@ body.saPc *::-webkit-scrollbar-corner {
   width: 100%;
 }
 .saContextMenuWrapper .saContextMenu .saDivider {
-  height: 1px;
+  height: min(1px, 0.0625rem);
   border-radius: 0.5px;
   background: #eef1f5;
 }
@@ -4770,7 +4770,7 @@ div.saPopupOverlay {
   height: 100%;
 }
 .saLargeScreen .saRightFrameRoot {
-  border-left: 1px solid #ccd5e2;
+  border-left: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saBottomSheet {
   border-radius: 1rem 1rem 0 0;
@@ -4947,7 +4947,7 @@ div.saPopupOverlay {
 .saPackageButton {
   gap: 0.5rem;
   padding: 0.5rem;
-  height: 36px;
+  height: 2.25rem;
   border-radius: 0.5rem;
   font-size: 0.875rem;
 }
@@ -5028,13 +5028,13 @@ div.saPopupOverlay {
   font-size: 0.875rem;
   line-height: 1.25rem;
   padding: 1rem 1.125rem;
-  width: calc(100% - 36px);
+  width: calc(100% - 2.25rem);
   text-align: center;
   color: #fff;
   position: absolute;
   text-decoration: none;
   z-index: 9999;
-  top: -200px;
+  top: -12.5rem;
   transition: none;
   background: #313a44;
 }
@@ -5085,7 +5085,7 @@ div.saPopupOverlay {
   background: #fff;
   border-radius: 1rem;
   padding: 1rem;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   /* Use simple style for user content while we have CSS resets. */
 }
 .saInfoBoxArea .saInfoBox {
@@ -5111,14 +5111,14 @@ div.saPopupOverlay {
   content: "";
   position: absolute;
   left: 0;
-  height: 1px;
+  height: min(1px, 0.0625rem);
   border-radius: 0.5px;
   width: 100%;
   background: #ccd5e2;
   bottom: -1rem;
 }
 .saInfoBoxArea .saInfoBox .infosqlexternalframe {
-  border: 1px solid #dde3ec;
+  border: min(1px, 0.0625rem) solid #dde3ec;
   width: 100%;
   box-sizing: border-box;
 }
@@ -5227,7 +5227,7 @@ div.saPopupOverlay {
   flex-grow: 1;
 }
 .saInfoBoxArea .saInfoBoxHeading .saInfoBoxHeaderIcon .saBadgedIcon {
-  width: 30px;
+  width: 1.875rem;
   display: block;
 }
 .saInfoBoxArea .saInfoBoxHeading .saInfoBoxHeaderIcon .saIcon {
@@ -5235,12 +5235,12 @@ div.saPopupOverlay {
   color: var(--Sa-Color-Icon);
 }
 .saInfoBoxArea .saInfoBoxHeading .saInfoBoxHeaderIcon .saBadge {
-  font-size: 9px;
+  font-size: 0.5625rem;
   color: #fff;
-  margin-left: -9px;
+  margin-left: -0.5625rem;
   background: var(--Sa-Color-Icon);
   border-radius: 50%;
-  padding: 1px;
+  padding: min(1px, 0.0625rem);
   border: 0.125rem solid #fff;
   width: 0.875rem;
   box-sizing: border-box;
@@ -5313,8 +5313,8 @@ div.saPopupOverlay {
   grid-row-gap: 0.75rem;
 }
 .saInfoBoxArea .saInfoBoxGrid .saInfoBoxLabel {
-  margin-top: 1px;
-  margin-bottom: 1px;
+  margin-top: min(1px, 0.0625rem);
+  margin-bottom: min(1px, 0.0625rem);
 }
 .saInfoBoxArea .saInfoBoxContent {
   color: #313a44;
@@ -5354,7 +5354,7 @@ div.saPopupOverlay {
   content: '';
   position: relative;
   top: 0;
-  height: 1px;
+  height: min(1px, 0.0625rem);
   width: 100%;
   border-radius: 0.5px;
   background: #ccd5e2;
@@ -5374,7 +5374,7 @@ div.saPopupOverlay {
   gap: 2rem;
 }
 .saInfoBoxArea .saCol .systemicon {
-  top: 1px;
+  top: min(1px, 0.0625rem);
   position: relative;
   padding-right: 3px;
 }
@@ -5383,7 +5383,7 @@ div.saPopupOverlay {
   position: absolute;
   top: 0;
   height: 100%;
-  width: 1px;
+  width: min(1px, 0.0625rem);
   border-radius: 0.5px;
   background: #ccd5e2;
   right: -1rem;
@@ -5520,7 +5520,7 @@ div.saPopupOverlay {
 }
 .saInfoBoxArea .saUserHtmlContent td,
 .saInfoBoxArea .saUserHtmlContent th {
-  border: 1px solid #eef1f5;
+  border: min(1px, 0.0625rem) solid #eef1f5;
   padding: 0.5rem;
   text-align: left;
 }
@@ -5552,7 +5552,7 @@ div.saPopupOverlay {
   max-width: 100%;
 }
 .saInfoArea .saWarningArea {
-  padding-bottom: 1px;
+  padding-bottom: min(1px, 0.0625rem);
 }
 .saInfoArea .saWarningBox {
   display: flex;
@@ -5684,7 +5684,7 @@ div.saPopupOverlay {
 }
 .saInfoArea .saWarningBox.saError {
   background: #fff8f7;
-  border: 1px solid #e0163e;
+  border: min(1px, 0.0625rem) solid #e0163e;
 }
 .saInfoArea .saWarningBox.saError .saIcon {
   color: #e0163e;
@@ -5699,7 +5699,7 @@ div.saPopupOverlay {
 }
 .saInfoArea .saWarningBox.saWarning {
   background: #fff9ed;
-  border: 1px solid #f6ae02;
+  border: min(1px, 0.0625rem) solid #f6ae02;
 }
 .saInfoArea .saWarningBox.saWarning .saIcon {
   color: #f6ae02;
@@ -5714,7 +5714,7 @@ div.saPopupOverlay {
 }
 .saInfoArea .saWarningBox.saInfo {
   background: #f9f9fe;
-  border: 1px solid #2d6ce1;
+  border: min(1px, 0.0625rem) solid #2d6ce1;
 }
 .saInfoArea .saWarningBox.saInfo .saIcon {
   color: #2d6ce1;
@@ -5729,7 +5729,7 @@ div.saPopupOverlay {
 }
 .saInfoArea .saWarningBox.saSuccess {
   background: #f3fcf3;
-  border: 1px solid #29bb4e;
+  border: min(1px, 0.0625rem) solid #29bb4e;
 }
 .saInfoArea .saWarningBox.saSuccess .saIcon {
   color: #29bb4e;
@@ -5979,7 +5979,7 @@ div.saPopupOverlay {
   background: #fff;
   font: inherit;
   color: inherit;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   transition: all 0.2s ease;
   width: 100%;
 }
@@ -6001,7 +6001,7 @@ div.saPopupOverlay {
   background: #fff;
   z-index: 2;
   height: 3rem;
-  border-top: 1px solid #ccd5e2;
+  border-top: min(1px, 0.0625rem) solid #ccd5e2;
   margin-top: 1rem;
 }
 .saSmallScreen .saPagination button {
@@ -6012,7 +6012,7 @@ div.saPopupOverlay {
   margin-top: 0;
 }
 .saSmallScreen .saGridWrapper .saPagination {
-  margin-left: -16px;
+  margin-left: -1rem;
 }
 .saSmallScreen .saMultiPartContent .saGridWrapper .saPagination {
   max-width: calc(100vw - 4rem);
@@ -6021,7 +6021,7 @@ div.saPopupOverlay {
   position: absolute;
   width: 5px;
   top: 0;
-  right: -3px;
+  right: -0.1875rem;
   cursor: e-resize;
   z-index: 500;
   opacity: 0;
@@ -6128,7 +6128,7 @@ div.saPopupOverlay {
   padding: 1rem 0.5rem 0 1rem;
 }
 .saListGrid .saGridTop .saButtons {
-  margin-left: -10px;
+  margin-left: -0.625rem;
 }
 .stickyheader .saGridTop {
   position: sticky;
@@ -6335,7 +6335,7 @@ div.saPopupOverlay {
 .saGridTop .saGridGroupingDropdownWrapper .saGridGroupingDropdown {
   color: transparent;
   background-color: #fff;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   border-radius: 0.5rem;
   padding: 0.75rem 0.375rem 0rem 0.375rem;
   max-width: 12.5rem;
@@ -6352,7 +6352,7 @@ div.saPopupOverlay {
 }
 .saGridTop .saGridTopInner {
   box-sizing: border-box;
-  border: 1px #ccd5e2 solid;
+  border: min(1px, 0.0625rem) #ccd5e2 solid;
   border-bottom: none;
   border-radius: 1rem 1rem 0rem 0rem;
   align-items: center;
@@ -6464,7 +6464,7 @@ div.saPopupOverlay {
 .saGrid {
   border-radius: 1rem;
   box-sizing: border-box;
-  border: 1px #ccd5e2 solid;
+  border: min(1px, 0.0625rem) #ccd5e2 solid;
   color: #313a44;
   min-width: 100%;
 }
@@ -6473,7 +6473,7 @@ div.saPopupOverlay {
 }
 .saGrid .saEditable.saEdited {
   background: #fff;
-  border: 1px solid var(--Sa-Color-GridEditableIconAndBorder) !important;
+  border: min(1px, 0.0625rem) solid var(--Sa-Color-GridEditableIconAndBorder) !important;
 }
 .saGrid .saEditable.saEdited .inputControl {
   height: 100%;
@@ -6654,7 +6654,7 @@ div.saPopupOverlay {
 }
 .saGrid .saGridCell td,
 .saGrid .saGridCell th {
-  border: 1px solid #eef1f5;
+  border: min(1px, 0.0625rem) solid #eef1f5;
   padding: 0.5rem;
   text-align: left;
 }
@@ -6695,7 +6695,7 @@ div.saPopupOverlay {
   border-left: none;
   border-right: none;
   border-bottom: none;
-  border-top: 1px solid #dde3ec;
+  border-top: min(1px, 0.0625rem) solid #dde3ec;
   vertical-align: middle;
   height: 2rem;
 }
@@ -6706,7 +6706,7 @@ div.saPopupOverlay {
   padding: 0 0.25rem;
 }
 .saGrid .saGridRow.saGridRowEvery5th > td {
-  border-top: 1px solid #ccd5e2;
+  border-top: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saGrid .saGridRow.saSelected {
   background: var(--Sa-Color-GridRowHighlight);
@@ -6716,9 +6716,9 @@ div.saPopupOverlay {
 }
 .saGrid .saGridGroupedRowsHeader > th {
   background: #fff;
-  box-shadow: 0 1px 0 0 #dde3ec;
+  box-shadow: 0 min(1px, 0.0625rem) 0 0 #dde3ec;
   text-align: left;
-  border-top: 1px solid #eef1f5;
+  border-top: min(1px, 0.0625rem) solid #eef1f5;
   border-collapse: collapse;
   color: #313a44;
 }
@@ -6967,7 +6967,7 @@ div.saPopupOverlay {
 }
 .saGrid .saGridExtraText > td td,
 .saGrid .saGridExtraText > td th {
-  border: 1px solid #eef1f5;
+  border: min(1px, 0.0625rem) solid #eef1f5;
   padding: 0.5rem;
   text-align: left;
 }
@@ -6995,7 +6995,7 @@ div.saPopupOverlay {
 }
 .saGrid caption {
   position: absolute;
-  left: -10000px;
+  left: -625rem;
 }
 .saEditable {
   transition: background ease 0.2s, box-shadow ease 0.2s;
@@ -7005,7 +7005,7 @@ div.saPopupOverlay {
 @media (pointer: fine) {
   .saEditable:hover:not(.saEdited) {
     background: var(--Sa-Color-GridEditableBackgroundHover);
-    box-shadow: inset 0 0 0 1px var(--Sa-Color-GridEditableIconAndBorder);
+    box-shadow: inset 0 0 0 min(1px, 0.0625rem) var(--Sa-Color-GridEditableIconAndBorder);
   }
   .saEditable:hover.saCellUserStyle {
     filter: brightness(0.85);
@@ -7027,21 +7027,21 @@ div.saPopupOverlay {
   background: var(--Sa-Color-GridHead);
   font-weight: 600;
   box-sizing: border-box;
-  border-right: 1px solid #dde3ec;
-  border-top: 1px solid #dde3ec;
-  border-bottom: 1px solid #dde3ec;
+  border-right: min(1px, 0.0625rem) solid #dde3ec;
+  border-top: min(1px, 0.0625rem) solid #dde3ec;
+  border-bottom: min(1px, 0.0625rem) solid #dde3ec;
   border-left: none;
   text-align: left;
   padding: 0;
 }
 .saGridHead th.saFirstInColumnGroup {
-  border-left: 1px solid #ccd5e2;
+  border-left: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saGridHead th.saFirstInColumnGroup:first-child {
   border-left: none;
 }
 .saGridHead th.saLastInColumnGroup {
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saGridHead th.saLastInColumnGroup + .saFirstInColumnGroup {
   border-left: none;
@@ -7098,9 +7098,9 @@ div.saPopupOverlay {
   padding: 0 1.5rem;
 }
 .saGridHead .saGridColumnGroup {
-  border-right: 1px solid #ccd5e2;
-  border-left: 1px solid #ccd5e2;
-  border-top: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
+  border-left: min(1px, 0.0625rem) solid #ccd5e2;
+  border-top: min(1px, 0.0625rem) solid #ccd5e2;
   border-bottom: none;
   border-collapse: collapse;
   vertical-align: middle;
@@ -7166,7 +7166,7 @@ div.saPopupOverlay {
   background: var(--Sa-Color-GridFoot);
   font-weight: 500;
   border-collapse: collapse;
-  border-top: 1px solid #eef1f5;
+  border-top: min(1px, 0.0625rem) solid #eef1f5;
   height: 2rem;
 }
 .saStandard .saGridFoot td {
@@ -7225,7 +7225,7 @@ div.saPopupOverlay {
   width: 0.625rem;
   height: 0.625rem;
   padding: 0.125rem;
-  left: -12px;
+  left: -0.75rem;
   position: relative;
 }
 /* List grid */
@@ -7254,7 +7254,7 @@ div.saPopupOverlay {
   flex-direction: column;
   flex-basis: 100%;
   width: 100%;
-  border-bottom: 1px solid #dde3ec;
+  border-bottom: min(1px, 0.0625rem) solid #dde3ec;
   overflow-wrap: anywhere;
 }
 .saListGrid .saRow:last-child {
@@ -7338,7 +7338,7 @@ div.saPopupOverlay {
 }
 .saListGrid .saRowHeading .saRowHeadingTextWrapper td,
 .saListGrid .saRowHeading .saRowHeadingTextWrapper th {
-  border: 1px solid #eef1f5;
+  border: min(1px, 0.0625rem) solid #eef1f5;
   padding: 0.5rem;
   text-align: left;
 }
@@ -7410,7 +7410,7 @@ div.saPopupOverlay {
 }
 .saListGrid .saRowBody .saCellText td,
 .saListGrid .saRowBody .saCellText th {
-  border: 1px solid #eef1f5;
+  border: min(1px, 0.0625rem) solid #eef1f5;
   padding: 0.5rem;
   text-align: left;
 }
@@ -7453,7 +7453,7 @@ div.saPopupOverlay {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
 }
@@ -7622,7 +7622,7 @@ div.saPopupOverlay {
   top: 0;
   z-index: 2;
   font-weight: 500;
-  margin-bottom: -4px;
+  margin-bottom: -0.25rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -7632,8 +7632,8 @@ div.saPopupOverlay {
   content: '';
   position: absolute;
   width: calc(100% + 4rem);
-  top: -24px;
-  left: -24px;
+  top: -1.5rem;
+  left: -1.5rem;
   height: 4.5rem;
   flex-basis: 100%;
   background: #fff;
@@ -7737,8 +7737,8 @@ div.saPopupOverlay {
   height: 3.5rem;
   width: 3.5rem;
   position: absolute;
-  top: -16px;
-  right: -16px;
+  top: -1rem;
+  right: -1rem;
 }
 .saNotificationsWrapper .saClearAll {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -7831,14 +7831,14 @@ div.saPopupOverlay {
   flex-direction: column;
   transition: all 0.2s ease;
   background: #fff;
-  border: 1px solid #dde3ec;
+  border: min(1px, 0.0625rem) solid #dde3ec;
 }
 .saNotificationsWrapper .saNotification.saActive {
   cursor: pointer;
 }
 @media (pointer: fine) {
   .saNotificationsWrapper .saNotification.saActive:hover {
-    border: 1px solid #2d6ce1;
+    border: min(1px, 0.0625rem) solid #2d6ce1;
     background: #f9f9fe;
   }
   .saNotificationsWrapper .saNotification.saActive:hover .saNotificationText {
@@ -7889,7 +7889,7 @@ div.saPopupOverlay {
   font-weight: 400;
   font-size: 0.75rem;
   color: #60748b;
-  margin-bottom: -8px;
+  margin-bottom: -0.5rem;
 }
 .saNotificationsWrapper .saNotificationTime {
   font-weight: 400;
@@ -7990,20 +7990,20 @@ div.saPopupOverlay {
 .saSmallScreen .saNotificationsWrapper .saClearAll::after,
 .saSmallscreensidebar .saNotificationsWrapper .saClearAll::after {
   content: '';
-  height: 44px;
+  height: 2.75rem;
   width: 100%;
   position: absolute;
   left: 0;
-  top: -8px;
+  top: -0.5rem;
 }
 .saSmallScreen .saNotificationsWrapper .saDismissButton::after,
 .saSmallscreensidebar .saNotificationsWrapper .saDismissButton::after {
   content: '';
-  height: 44px;
+  height: 2.75rem;
   width: 100%;
   position: absolute;
   left: 0;
-  top: -12px;
+  top: -0.75rem;
 }
 .saSmallScreen .saNotificationsWrapper .saNotification,
 .saSmallscreensidebar .saNotificationsWrapper .saNotification {
@@ -8152,7 +8152,7 @@ div.saPopupOverlay {
   max-width: 2.5rem;
   min-width: 2.5rem;
   font-size: 1rem;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   position: relative;
@@ -8265,7 +8265,7 @@ div.saPopupOverlay {
   left: 1rem;
 }
 .saSidenav ul.saContextMenu li:not(:last-child) {
-  border-bottom: 1px solid #eef1f5;
+  border-bottom: min(1px, 0.0625rem) solid #eef1f5;
 }
 .saSidenav .saSidenavItemWrapper {
   width: 100%;
@@ -8511,7 +8511,7 @@ div.saPopupOverlay {
 }
 .saLargeScreen .saSidenav .saWordmark {
   opacity: 0;
-  transform: translateX(-8px);
+  transform: translateX(-0.5rem);
   width: 0;
   height: 0;
   position: relative;
@@ -8546,7 +8546,7 @@ div.saPopupOverlay {
   line-height: 19px;
 }
 .saSmallscreensidebar .saSidenav .saDivider {
-  height: 1px;
+  height: min(1px, 0.0625rem);
   background: #eef1f5;
 }
 .saSmallscreensidebar .saSidenav .saSidenavSection {
@@ -8585,7 +8585,7 @@ div.saPopupOverlay {
   justify-content: center;
   padding: 0.25rem;
   border-radius: 0.5rem;
-  border: 1px solid var(--Sa-Color-InputFieldBorder);
+  border: min(1px, 0.0625rem) solid var(--Sa-Color-InputFieldBorder);
   overflow: hidden;
   width: 100%;
   box-sizing: border-box;
@@ -8651,7 +8651,7 @@ div.saPopupOverlay {
 }
 .saSmallscreensidebar .saSidenav .saSidenavSectionLast::before {
   content: '';
-  height: 1px;
+  height: min(1px, 0.0625rem);
   width: 100%;
   border-radius: 0.5px;
   position: relative;
@@ -8809,7 +8809,7 @@ div.saPopupOverlay {
   background: #fff;
   width: 1.25rem;
   height: 1.25rem;
-  border: solid #f8f9fb 1px;
+  border: solid #f8f9fb min(1px, 0.0625rem);
   position: absolute;
   top: 0.125rem;
   left: 0;
@@ -8822,7 +8822,7 @@ div.saPopupOverlay {
 }
 .saProfileMenu input.saToggle:checked:active::before {
   width: 1.5rem;
-  margin-left: -2px;
+  margin-left: -0.125rem;
 }
 .saSideBar {
   box-sizing: border-box;
@@ -8852,7 +8852,7 @@ div.saPopupOverlay {
 }
 .saLargeScreen .saSideBar.saExpanded .saSidenavLists {
   width: 100%;
-  margin-top: -12px;
+  margin-top: -0.75rem;
 }
 .saLargeScreen .saSideBar.saExpanded .saSidenavItemWrapper {
   box-sizing: border-box;
@@ -8894,7 +8894,7 @@ div.saPopupOverlay {
   align-items: center;
   padding: 0.125rem;
   border-radius: 0.5rem;
-  border: 1px solid var(--Sa-Color-InputFieldBorder);
+  border: min(1px, 0.0625rem) solid var(--Sa-Color-InputFieldBorder);
   overflow: hidden;
   height: 2.5rem;
   box-sizing: border-box;
@@ -8907,8 +8907,8 @@ div.saPopupOverlay {
   justify-content: center;
   align-items: center;
   border-radius: 0.375rem;
-  height: 34px;
-  width: 111px;
+  height: 2.125rem;
+  width: 6.9375rem;
   cursor: pointer;
   text-decoration: none;
 }
@@ -9054,7 +9054,7 @@ div.saPopupOverlay {
 .saLargeScreen .saSideBar.saMinimized .saSelectLabel {
   width: 0;
   height: 0;
-  margin-bottom: -8px;
+  margin-bottom: -0.5rem;
   display: none;
 }
 .saLargeScreen .saSideBar.saMinimized select {
@@ -9196,7 +9196,7 @@ div.saPopupOverlay {
 .saPageHeader .saContextMenuWrapper .saContextMenuItem,
 .saPartHeader .saContextMenuWrapper .saContextMenuItem,
 .saPartButtons .saContextMenuWrapper .saContextMenuItem {
-  max-width: 400px;
+  max-width: 25rem;
 }
 .saSmallScreen .saPageHeader .saContextMenuWrapper .saContextMenuItem,
 .saSmallScreen .saPartHeader .saContextMenuWrapper .saContextMenuItem,
@@ -9392,7 +9392,7 @@ div.saPopupOverlay {
 }
 .saPageHeader .saContextMenuWrapper .saContextMenuItem,
 .saPartButtons .saContextMenuWrapper .saContextMenuItem {
-  max-width: 400px;
+  max-width: 25rem;
 }
 .saSmallScreen .saPageHeader .saContextMenuWrapper .saContextMenuItem,
 .saSmallScreen .saPartButtons .saContextMenuWrapper .saContextMenuItem {
@@ -9431,8 +9431,8 @@ div.saPopupOverlay {
   height: 0.875rem;
   min-width: 0.875rem;
   font-size: 0.625rem;
-  right: -4px;
-  bottom: -4px;
+  right: -0.25rem;
+  bottom: -0.25rem;
   z-index: 2;
 }
 .saPageHeader .saNavigationBar,
@@ -9472,7 +9472,7 @@ div.saPopupOverlay {
   flex-shrink: 0;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   position: relative;
   border-radius: 0.5rem;
 }
@@ -9624,8 +9624,8 @@ div.saPopupOverlay {
 .saSmallScreen .saPageHeader .saActionLinks .saMoreButton::after,
 .saSmallScreen .saPartButtons .saActionLinks .saMoreButton::after {
   content: '';
-  height: 44px;
-  width: 44px;
+  height: 2.75rem;
+  width: 2.75rem;
   position: absolute;
   opacity: 0;
 }
@@ -9641,8 +9641,8 @@ div.saPopupOverlay {
 .saPageHeader .saActionLinks .saMoreButton .saBadgeCount,
 .saPartButtons .saActionLinks .saMoreButton .saBadgeCount {
   position: absolute;
-  top: -4px;
-  right: -4px;
+  top: -0.25rem;
+  right: -0.25rem;
 }
 .saPageHeader .saActionLinks .saActionLink,
 .saPartButtons .saActionLinks .saActionLink {
@@ -9738,7 +9738,7 @@ div.saPopupOverlay {
 .saSmallScreen .saPageHeader .saActionLinks .saActionLink::after,
 .saSmallScreen .saPartButtons .saActionLinks .saActionLink::after {
   content: '';
-  height: 44px;
+  height: 2.75rem;
   width: 100%;
   position: absolute;
   opacity: 0;
@@ -9897,8 +9897,8 @@ div.saPopupOverlay {
 .saPageHeader .saNavigationLinks .saMoreButton .saBadgeCount,
 .saPartButtons .saNavigationLinks .saMoreButton .saBadgeCount {
   position: absolute;
-  top: -4px;
-  right: -4px;
+  top: -0.25rem;
+  right: -0.25rem;
 }
 .saPageHeader .saNavigationLinks .saNavigationLink,
 .saPartButtons .saNavigationLinks .saNavigationLink {
@@ -9966,9 +9966,9 @@ div.saPopupOverlay {
 }
 .saPageHeader .saNavigationLinks .saNavigationLink .saBadge,
 .saPartButtons .saNavigationLinks .saNavigationLink .saBadge {
-  right: -6px;
-  bottom: -4px;
-  border: 1px solid;
+  right: -0.375rem;
+  bottom: -0.25rem;
+  border: min(1px, 0.0625rem) solid;
   height: 0.75rem;
   min-width: 0.75rem;
   font-size: 0.5rem;
@@ -10019,7 +10019,7 @@ div.saPopupOverlay {
 }
 .saPageHeader .saNavigationLinks .saNavigationLink.saButtonPrimary + .saNavigationLink,
 .saPartButtons .saNavigationLinks .saNavigationLink.saButtonPrimary + .saNavigationLink {
-  border-left: 1px solid #ccd5e2;
+  border-left: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saPageHeader .saNavigationLinks .saNavigationLink.saInactive,
 .saPartButtons .saNavigationLinks .saNavigationLink.saInactive,
@@ -10067,7 +10067,7 @@ div.saPopupOverlay {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   position: relative;
@@ -10226,7 +10226,7 @@ div.saPopupOverlay {
 .saPageHeader .saBrowseButtons .saBrowseButton.saPrevious,
 .saPartButtons .saBrowseButtons .saBrowseButton.saPrevious {
   border-radius: 0.5rem 0 0 0.5rem;
-  margin-right: -1px;
+  margin-right: max(-1px, -0.0625rem);
 }
 .saPageHeader .saBrowseButtons .saBrowseButton.saPrevious:active,
 .saPartButtons .saBrowseButtons .saBrowseButton.saPrevious:active {
@@ -10255,7 +10255,7 @@ div.saPopupOverlay {
 }
 .saStandard .saPageHeader .saNavigationLinks .saContextMenu,
 .saStandard .saPartButtons .saNavigationLinks .saContextMenu {
-  top: 44px;
+  top: 2.75rem;
 }
 .saCompact .saPageHeader .saContextMenu .saContextMenuItem,
 .saCompact .saPartButtons .saContextMenu .saContextMenuItem {
@@ -10263,17 +10263,17 @@ div.saPopupOverlay {
 }
 .saCompact .saPageHeader .saActionLinks .saContextMenu,
 .saCompact .saPartButtons .saActionLinks .saContextMenu {
-  top: 44px;
+  top: 2.75rem;
 }
 .saCompact .saPageHeader .saNavigationLinks .saContextMenu,
 .saCompact .saPartButtons .saNavigationLinks .saContextMenu {
-  top: 44px;
+  top: 2.75rem;
 }
 .saCompact .saPageHeader .saBadge,
 .saCompact .saPartButtons .saBadge {
-  right: -6px;
-  bottom: -4px;
-  border: 1px solid;
+  right: -0.375rem;
+  bottom: -0.25rem;
+  border: min(1px, 0.0625rem) solid;
   height: 0.75rem;
   min-width: 0.75rem;
   font-size: 0.5rem;
@@ -10317,7 +10317,7 @@ div.saPopupOverlay {
   height: 2rem;
 }
 .saLargeScreen .saPageHeader .saBottomRow {
-  margin-top: -4px;
+  margin-top: -0.25rem;
   margin-bottom: 0.25rem;
 }
 .saLargeScreen .saPageHeader .saHeader {
@@ -10360,8 +10360,8 @@ div.saPopupOverlay {
 }
 .saPageHeader .saMarkFavorite i::after {
   content: '';
-  height: 44px;
-  width: 44px;
+  height: 2.75rem;
+  width: 2.75rem;
   position: absolute;
 }
 .saPageHeader .saHeader {
@@ -10417,7 +10417,7 @@ div.saPopupOverlay {
   max-width: 100%;
   flex-shrink: 0;
   border-radius: 0.25rem;
-  margin-left: -8px;
+  margin-left: -0.5rem;
   padding: 0;
   position: relative;
 }
@@ -10501,7 +10501,7 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saLargeScreen .saPageHeader .saBackButton:hover .saBack {
-    transform: translateX(-2px);
+    transform: translateX(-0.125rem);
   }
 }
 .saLargeScreen .saPageHeader .saBackButton:disabled {
@@ -10516,8 +10516,8 @@ div.saPopupOverlay {
   width: 3.5rem;
   opacity: 0;
   position: absolute;
-  right: -8px;
-  top: -16px;
+  right: -0.5rem;
+  top: -1rem;
 }
 .saPageHeader .saBackButton .saIcon {
   transition: all 0.2s ease;
@@ -10693,8 +10693,8 @@ div.saPopupOverlay {
 .saSmallscreensidebar .saPageHeader .saNotificationWrapper {
   position: relative;
   order: 3;
-  min-width: 44px;
-  height: 44px;
+  min-width: 2.75rem;
+  height: 2.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10717,7 +10717,7 @@ div.saPopupOverlay {
   min-width: 2rem;
   height: 2rem;
   position: relative;
-  margin: 0 0.5rem 0 -8px;
+  margin: 0 0.5rem 0 -0.5rem;
   background-color: transparent;
 }
 .saSmallScreen .saPageHeader .saBackButton i,
@@ -10739,10 +10739,10 @@ div.saPopupOverlay {
 .saSmallscreensidebar .saPageHeader .saBackButton::after {
   content: '';
   position: absolute;
-  height: 44px;
-  width: 44px;
-  left: -8px;
-  top: -6px;
+  height: 2.75rem;
+  width: 2.75rem;
+  left: -0.5rem;
+  top: -0.375rem;
   background-color: red;
 }
 .saSmallScreen .saPageHeader .saTopRow,
@@ -10760,9 +10760,9 @@ div.saPopupOverlay {
   z-index: 1006;
   padding: 0 0.75rem;
   gap: 0;
-  height: 44px;
+  height: 2.75rem;
   box-sizing: border-box;
-  box-shadow: 0 1px 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07);
+  box-shadow: 0 min(1px, 0.0625rem) 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07);
 }
 .saSmallScreen .saPageHeader .saHeaderWrapper,
 .saSmallscreensidebar .saPageHeader .saHeaderWrapper {
@@ -10807,8 +10807,8 @@ div.saPopupOverlay {
 .saSmallScreen .saPageHeader .saNavigator,
 .saSmallscreensidebar .saPageHeader .saNavigator {
   display: flex;
-  height: 44px;
-  min-width: 44px;
+  height: 2.75rem;
+  min-width: 2.75rem;
   align-items: center;
   justify-content: space-evenly;
   cursor: pointer;
@@ -11007,7 +11007,7 @@ div.saPopupOverlay {
   height: 3rem;
   width: 3rem;
   position: absolute;
-  margin-right: -8px;
+  margin-right: -0.5rem;
 }
 .saLargeScreen .saHasBorder .saPartHeader {
   padding: 1rem 1rem 0 1rem;
@@ -11134,7 +11134,7 @@ div.saPopupOverlay {
 }
 .saLargeScreen .saAlert {
   min-width: 12.5rem;
-  max-width: 400px;
+  max-width: 25rem;
 }
 .saAlert {
   animation: ScaleIn 70ms ease-in;
@@ -11142,7 +11142,7 @@ div.saPopupOverlay {
   flex-direction: column;
   position: relative;
   border-radius: 1rem;
-  box-shadow: 0 1px 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07), 0 1rem 2rem rgba(49, 58, 68, 0.07), 0 2rem 4rem rgba(49, 58, 68, 0.07);
+  box-shadow: 0 min(1px, 0.0625rem) 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07), 0 1rem 2rem rgba(49, 58, 68, 0.07), 0 2rem 4rem rgba(49, 58, 68, 0.07);
   justify-content: space-between;
   background: #fff;
 }
@@ -11210,7 +11210,7 @@ div.saPopupOverlay {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  min-width: 108px;
+  min-width: 6.75rem;
 }
 .saAlert .saAlertButton .saButtonText {
   white-space: nowrap;
@@ -11278,7 +11278,7 @@ div.saPopupOverlay {
   min-width: 6rem;
 }
 .saSmallScreen .saAlert .saAlertButton {
-  min-width: 108px;
+  min-width: 6.75rem;
 }
 .saError.saAlert .saAlertHeader {
   background: #ffedeb;
@@ -11305,7 +11305,7 @@ div.saPopupOverlay {
 }
 .saSuccess.saAlert .saAlertHeader {
   background: radial-gradient(50% 50% at 100% 0, #62d271 0% 5%, #52cd63 6% 15%, #62d271 16% 25%, #52cd63 26% 35%, #62d271 36% 45%, #52cd63 46% 55%, #62d271 56% 65%, #52cd63 66% 75%, #62d271 76% 85%, #52cd63 86% 95%, #0000 96%), radial-gradient(50% 50% at 0 100%, #62d271 0% 5%, #52cd63 6% 15%, #62d271 16% 25%, #52cd63 26% 35%, #62d271 36% 45%, #52cd63 46% 55%, #62d271 56% 65%, #52cd63 66% 75%, #62d271 76% 85%, #52cd63 86% 95%, #0000 96%), radial-gradient(50% 50%, #62d271 0% 5%, #52cd63 6% 15%, #62d271 16% 25%, #52cd63 26% 35%, #62d271 36% 45%, #52cd63 46% 55%, #62d271 56% 65%, #52cd63 66% 75%, #62d271 76% 85%, #52cd63 86% 95%, #0000 96%), radial-gradient(50% 50%, #62d271 0% 5%, #52cd63 6% 15%, #62d271 16% 25%, #52cd63 26% 35%, #62d271 36% 45%, #52cd63 46% 55%, #62d271 56% 65%, #52cd63 66% 75%, #62d271 76% 85%, #52cd63 86% 95%, #0000 96%) 12.5rem 12.5rem;
-  background-size: 400px 400px;
+  background-size: 25rem 25rem;
   background-color: #62d271;
 }
 .saSmallScreen .saAlert {
@@ -11367,7 +11367,7 @@ div.saPopupOverlay {
   }
 }
 .saButtonSecondary {
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
 }
@@ -11612,7 +11612,7 @@ div.saPopupOverlay {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
 }
@@ -11873,10 +11873,10 @@ div.saPopupOverlay {
   background: #506072;
 }
 .saStandard .saClosePopupButton {
-  top: -48px;
+  top: -3rem;
 }
 .saCompact .saClosePopupButton {
-  top: -44px;
+  top: -2.75rem;
 }
 .saLabelButton {
   display: flex;
@@ -12233,7 +12233,7 @@ div.saPopupOverlay {
   opacity: 0;
   position: absolute;
   right: 0;
-  top: -8px;
+  top: -0.5rem;
 }
 .saLogin .saLoginDivider {
   display: inline-flex;
@@ -12245,7 +12245,7 @@ div.saPopupOverlay {
 .saLogin .saLoginDivider::before,
 .saLogin .saLoginDivider::after {
   content: '';
-  height: 1px;
+  height: min(1px, 0.0625rem);
   width: 100%;
   border-radius: 0.5px;
   position: relative;
@@ -12325,10 +12325,10 @@ div.saPopupOverlay {
   padding: 1rem;
   gap: 1rem;
   border-radius: 1rem;
-  width: 400px;
-  min-height: 400px;
+  width: 25rem;
+  min-height: 25rem;
   box-shadow: 0 0 2rem rgba(49, 58, 68, 0.07);
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
 }
 .saColumnManager .saTabGroup {
   display: flex;
@@ -12352,7 +12352,7 @@ div.saPopupOverlay {
 }
 .saColumnManager .saTabGroup::after {
   content: '';
-  height: 1px;
+  height: min(1px, 0.0625rem);
   width: 100%;
   background: #ccd5e2;
   position: absolute;
@@ -12364,7 +12364,7 @@ div.saPopupOverlay {
   display: flex;
 }
 .saColumnManager .saTabGroup div:first-child .saTab {
-  border-left: 1px solid #ccd5e2;
+  border-left: min(1px, 0.0625rem) solid #ccd5e2;
   border-radius: 0.25rem 0 0 0;
 }
 .saColumnManager .saTabGroup div:last-child .saTab {
@@ -12383,7 +12383,7 @@ div.saPopupOverlay {
   background: #f8f9fb;
   border-color: #eef1f5;
   z-index: 0;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   border-left: none;
   font-size: 0.875rem;
   padding: 0 1rem;
@@ -12415,7 +12415,7 @@ div.saPopupOverlay {
 .saColumnManager .saTab.saSelected {
   color: var(--Sa-Color-LabelHover);
   background: #fff;
-  border-bottom: 1px solid #fff;
+  border-bottom: min(1px, 0.0625rem) solid #fff;
 }
 .saColumnManager .saTab.saSelected .saIcon {
   color: var(--Sa-Color-IconHover);
@@ -12457,8 +12457,8 @@ div.saPopupOverlay {
 }
 .saColumnManager .saTabGroup .saTab.saMoreTab .saBadgeCount {
   position: absolute;
-  top: -4px;
-  right: -4px;
+  top: -0.25rem;
+  right: -0.25rem;
 }
 .saColumnManager * {
   box-sizing: border-box;
@@ -12585,8 +12585,8 @@ div.saPopupOverlay {
   width: 3rem;
   opacity: 0;
   position: absolute;
-  top: -8px;
-  right: -8px;
+  top: -0.5rem;
+  right: -0.5rem;
 }
 .saColumnManager .saColumnManagerTopRow {
   display: flex;
@@ -12640,7 +12640,7 @@ div.saPopupOverlay {
   gap: 0.5rem;
   padding-left: 0.625rem;
   cursor: pointer;
-  margin-bottom: -4px;
+  margin-bottom: -0.25rem;
   width: fit-content;
 }
 .saColumnManager .saColumnManagerHeader {
@@ -12697,7 +12697,7 @@ div.saPopupOverlay {
   background-color: #fff;
   box-sizing: border-box;
   min-width: 0;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   cursor: grab;
   padding: 0.5rem 0.75rem 0.5rem 9px;
   border-radius: 0.5rem;
@@ -12781,7 +12781,7 @@ div.saPopupOverlay {
   width: 100%;
 }
 .saColumnManager .saRemoveColumnButton {
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -12914,7 +12914,7 @@ div.saPopupOverlay {
   content: "";
   width: 100%;
   display: flex;
-  height: 1px;
+  height: min(1px, 0.0625rem);
   background-color: #ccd5e2;
 }
 .saColumnManager .saSortDivider span {
@@ -12957,7 +12957,7 @@ div.saPopupOverlay {
   text-align: center;
   transition: ease background 0.2s, ease color 0.2s, ease border-color 0.2s, ease border-radius 0.2s, ease box-shadow 0.2s;
   background-color: #fff;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   position: relative;
   min-width: 2.5rem;
   font-size: 1rem;
@@ -12965,14 +12965,14 @@ div.saPopupOverlay {
 }
 .saColumnManager .saToggleGrid label:first-child {
   border-radius: 0.5rem 0 0 0.5rem;
-  margin-right: -1px;
+  margin-right: max(-1px, -0.0625rem);
 }
 .saColumnManager .saToggleGrid label:first-child input {
   border-radius: 0.5rem 0 0 0.5rem;
 }
 .saColumnManager .saToggleGrid label:last-child {
   border-right-style: solid;
-  border-width: 1px;
+  border-width: min(1px, 0.0625rem);
   border-radius: 0 0.5rem 0.5rem 0;
 }
 .saColumnManager .saToggleGrid label:last-child input {
@@ -13046,7 +13046,7 @@ div.saPopupOverlay {
   padding: unset;
 }
 .saGalleryWrapper .saEmptyStateGallery {
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   border-radius: 1rem;
   background: #f8f9fb;
   padding: 2rem;
@@ -13086,7 +13086,7 @@ div.saPopupOverlay {
   justify-content: center;
   min-height: 2.5rem;
   border-radius: 0.5rem;
-  margin-top: 1px;
+  margin-top: min(1px, 0.0625rem);
 }
 .saCompact .saGalleryWrapper .saGalleryToolbarWrapper .saToggleGrid {
   min-height: 2rem;
@@ -13116,7 +13116,7 @@ div.saPopupOverlay {
   text-align: center;
   transition: ease background 0.2s, ease color 0.2s, ease border-color 0.2s, ease border-radius 0.2s, ease box-shadow 0.2s;
   background-color: #fff;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   position: relative;
   min-width: 2.5rem;
   font-size: 1rem;
@@ -13124,14 +13124,14 @@ div.saPopupOverlay {
 }
 .saGalleryWrapper .saGalleryToolbarWrapper .saToggleGrid label:nth-child(2) {
   border-radius: 0.5rem 0 0 0.5rem;
-  margin-right: -1px;
+  margin-right: max(-1px, -0.0625rem);
 }
 .saGalleryWrapper .saGalleryToolbarWrapper .saToggleGrid label:nth-child(2) input {
   border-radius: 0.5rem 0 0 0.5rem;
 }
 .saGalleryWrapper .saGalleryToolbarWrapper .saToggleGrid label:nth-child(3) {
   border-right-style: solid;
-  border-width: 1px;
+  border-width: min(1px, 0.0625rem);
   border-radius: 0 0.5rem 0.5rem 0;
 }
 .saGalleryWrapper .saGalleryToolbarWrapper .saToggleGrid label:nth-child(3) input {
@@ -13195,13 +13195,13 @@ div.saPopupOverlay {
 }
 .saGalleryWrapper .saGallerySelectAllTitle {
   font-size: 0.875rem;
-  margin-bottom: -1px;
+  margin-bottom: max(-1px, -0.0625rem);
 }
 .saGalleryWrapper .saGallerySelectAllDescription {
   display: flex;
   gap: 0.25rem;
   font-size: 0.75rem;
-  margin-top: -1px;
+  margin-top: max(-1px, -0.0625rem);
   color: #60748b;
 }
 .saGalleryWrapper .saGallery {
@@ -13314,7 +13314,7 @@ div.saPopupOverlay {
 }
 .saLargeScreen .saGalleryWrapper .saGalleryItem:focus-within .saGalleryItemImg {
   outline: 0.125rem solid #2d6ce1;
-  outline-offset: -2px;
+  outline-offset: -0.125rem;
 }
 .saLargeScreen .saGalleryWrapper .saGalleryItem:focus-within .saCheckbox,
 .saLargeScreen .saGalleryWrapper .saGalleryItem:focus-within .saMoreButton {
@@ -13330,7 +13330,7 @@ div.saPopupOverlay {
   }
   .saGalleryWrapper .saGalleryItem:hover .saGalleryItemImg {
     outline: 0.125rem solid #2d6ce1;
-    outline-offset: -2px;
+    outline-offset: -0.125rem;
   }
   .saLargeScreen .saGalleryWrapper .saGalleryItem:hover .saCheckbox {
     visibility: visible;
@@ -13345,7 +13345,7 @@ div.saPopupOverlay {
 }
 .saGalleryWrapper .saGalleryItem.saSelected .saGalleryItemImg {
   outline: 0.125rem solid #2d6ce1;
-  outline-offset: -2px;
+  outline-offset: -0.125rem;
 }
 .saGalleryWrapper .saGalleryItem.saSelected .saGalleryItemImg::after {
   opacity: 0.5;
@@ -13357,7 +13357,7 @@ div.saPopupOverlay {
 @media (pointer: fine) {
   .saGalleryWrapper .saGalleryItem.saSelected:hover .saGalleryItemImg {
     outline: 0.125rem solid #2d6ce1;
-    outline-offset: -2px;
+    outline-offset: -0.125rem;
   }
 }
 .saGalleryWrapper .saGalleryItem .saCheckbox {
@@ -13392,7 +13392,7 @@ div.saPopupOverlay {
   max-width: 2rem;
   min-width: 2rem;
   font-size: 1rem;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   position: absolute;
@@ -13554,7 +13554,7 @@ div.saPopupOverlay {
   padding: 0;
   border-radius: 1rem;
   transition: ease border-radius 0.2s, ease box-shadow 0.1s, ease background 0.2s, ease opacity 0.2s;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   position: relative;
   overflow: hidden;
   background: #eef1f5;
@@ -13632,7 +13632,7 @@ div.saPopupOverlay {
   display: flex;
   flex-direction: row;
   width: calc(100% - 0.125rem);
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   border-radius: 1rem 1rem 1rem 1.5rem;
   overflow: hidden;
   outline: none;
@@ -13676,7 +13676,7 @@ div.saPopupOverlay {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   margin-left: auto;
@@ -13818,7 +13818,7 @@ div.saPopupOverlay {
   overflow-x: hidden;
 }
 .saImageCarouselWrapper .saCarousel .saContextMenuWrapper .saContextMenuItem {
-  max-width: 400px;
+  max-width: 25rem;
 }
 .saSmallScreen .saImageCarouselWrapper .saCarousel .saContextMenuWrapper .saContextMenuItem {
   max-width: 90vw;
@@ -13852,8 +13852,8 @@ div.saPopupOverlay {
   height: 0.875rem;
   min-width: 0.875rem;
   font-size: 0.625rem;
-  right: -4px;
-  bottom: -4px;
+  right: -0.25rem;
+  bottom: -0.25rem;
   z-index: 2;
 }
 .saImageCarouselWrapper .saCarousel .saNavigationBar {
@@ -13888,7 +13888,7 @@ div.saPopupOverlay {
   flex-shrink: 0;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   position: relative;
   border-radius: 0.5rem;
 }
@@ -14014,8 +14014,8 @@ div.saPopupOverlay {
 }
 .saSmallScreen .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton::after {
   content: '';
-  height: 44px;
-  width: 44px;
+  height: 2.75rem;
+  width: 2.75rem;
   position: absolute;
   opacity: 0;
 }
@@ -14028,8 +14028,8 @@ div.saPopupOverlay {
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton .saBadgeCount {
   position: absolute;
-  top: -4px;
-  right: -4px;
+  top: -0.25rem;
+  right: -0.25rem;
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saActionLink {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -14111,7 +14111,7 @@ div.saPopupOverlay {
 }
 .saSmallScreen .saImageCarouselWrapper .saCarousel .saActionLinks .saActionLink::after {
   content: '';
-  height: 44px;
+  height: 2.75rem;
   width: 100%;
   position: absolute;
   opacity: 0;
@@ -14240,8 +14240,8 @@ div.saPopupOverlay {
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton .saBadgeCount {
   position: absolute;
-  top: -4px;
-  right: -4px;
+  top: -0.25rem;
+  right: -0.25rem;
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saNavigationLink {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -14301,9 +14301,9 @@ div.saPopupOverlay {
   color: var(--Sa-Color-Icon);
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saNavigationLink .saBadge {
-  right: -6px;
-  bottom: -4px;
-  border: 1px solid;
+  right: -0.375rem;
+  bottom: -0.25rem;
+  border: min(1px, 0.0625rem) solid;
   height: 0.75rem;
   min-width: 0.75rem;
   font-size: 0.5rem;
@@ -14344,7 +14344,7 @@ div.saPopupOverlay {
   background-color: var(--Sa-Color-Link-Brightness80);
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saNavigationLink.saButtonPrimary + .saNavigationLink {
-  border-left: 1px solid #ccd5e2;
+  border-left: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saNavigationLink.saInactive,
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saNavigationLink.saInactive:hover,
@@ -14381,7 +14381,7 @@ div.saPopupOverlay {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   position: relative;
@@ -14513,7 +14513,7 @@ div.saPopupOverlay {
 }
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton.saPrevious {
   border-radius: 0.5rem 0 0 0.5rem;
-  margin-right: -1px;
+  margin-right: max(-1px, -0.0625rem);
 }
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton.saPrevious:active {
   border-radius: 0.75rem 0 0 0.75rem;
@@ -14535,21 +14535,21 @@ div.saPopupOverlay {
   top: 3.5rem;
 }
 .saStandard .saImageCarouselWrapper .saCarousel .saNavigationLinks .saContextMenu {
-  top: 44px;
+  top: 2.75rem;
 }
 .saCompact .saImageCarouselWrapper .saCarousel .saContextMenu .saContextMenuItem {
   font-size: 0.875rem;
 }
 .saCompact .saImageCarouselWrapper .saCarousel .saActionLinks .saContextMenu {
-  top: 44px;
+  top: 2.75rem;
 }
 .saCompact .saImageCarouselWrapper .saCarousel .saNavigationLinks .saContextMenu {
-  top: 44px;
+  top: 2.75rem;
 }
 .saCompact .saImageCarouselWrapper .saCarousel .saBadge {
-  right: -6px;
-  bottom: -4px;
-  border: 1px solid;
+  right: -0.375rem;
+  bottom: -0.25rem;
+  border: min(1px, 0.0625rem) solid;
   height: 0.75rem;
   min-width: 0.75rem;
   font-size: 0.5rem;
@@ -14626,7 +14626,7 @@ div.saPopupOverlay {
   flex-shrink: 0;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -14762,13 +14762,13 @@ div.saPopupOverlay {
   right: 0;
 }
 .saImageCarouselWrapper .saCarouselButton.saNext::before {
-  right: -17px;
+  right: -1.0625rem;
 }
 .saImageCarouselWrapper .saCarouselButton.saPrev {
   left: 0;
 }
 .saImageCarouselWrapper .saCarouselButton.saPrev::before {
-  left: -17px;
+  left: -1.0625rem;
 }
 .saImageCarouselWrapper .saCarouselButton::before {
   content: '';
@@ -14791,7 +14791,7 @@ div.saPopupOverlay {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   position: absolute;
   top: 0.25rem;
   right: 0.25rem;
@@ -14996,7 +14996,7 @@ div.saPopupOverlay {
   min-width: 0rem;
   padding: 0.5rem;
   border-radius: 1rem;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   background: #fff;
   display: flex;
   flex-direction: row;
@@ -15029,8 +15029,8 @@ div.saPopupOverlay {
   height: 40.5rem;
   min-width: 40.5rem;
   max-width: 40.5rem;
-  outline: 1px solid #ccd5e2;
-  outline-offset: -1px;
+  outline: min(1px, 0.0625rem) solid #ccd5e2;
+  outline-offset: max(-1px, -0.0625rem);
   position: relative;
   cursor: pointer;
   transition: ease 0.2s box-shadow, ease 0.2s border, ease border-radius 0.2s, ease outline 0.2s;
@@ -15047,7 +15047,7 @@ div.saPopupOverlay {
 }
 .saImageCarouselWrapper .saThumbnail.saActive {
   outline-color: #2d6ce1;
-  outline-offset: -2px;
+  outline-offset: -0.125rem;
   outline-width: 0.125rem;
   box-shadow: inset 0 0 0 3px #fff;
 }
@@ -15091,7 +15091,7 @@ div.saPopupOverlay {
 .saCarouselInfo {
   padding: 1.5rem 1rem;
   width: 340.25rem;
-  border-left: 1px solid #ccd5e2;
+  border-left: min(1px, 0.0625rem) solid #ccd5e2;
   overflow: hidden;
   overflow-y: auto;
   background: #fff;
@@ -15185,7 +15185,7 @@ div.saPopupOverlay {
   justify-content: center;
   align-items: center;
   border: none;
-  box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) var(--Sa-Color-InputFieldBorder);
   background-color: #fff;
   padding: 0;
   margin: 0;
@@ -15233,11 +15233,11 @@ div.saPopupOverlay {
 }
 .saInlineDocumentWrapper .saInlineButtonGroup button:not(:first-child):not(:last-child) {
   border-radius: 0;
-  margin-right: -1px;
+  margin-right: max(-1px, -0.0625rem);
 }
 .saInlineDocumentWrapper .saInlineButtonGroup button:first-child {
   border-radius: 0.5rem 0 0 0.5rem;
-  margin-right: -1px;
+  margin-right: max(-1px, -0.0625rem);
 }
 .saInlineDocumentWrapper .saInlineButtonGroup button:first-child:active {
   border-radius: 0.75rem 0 0 0.75rem;
@@ -15252,25 +15252,25 @@ div.saPopupOverlay {
   .saInlineDocumentWrapper .saInlineButtonGroup button:hover {
     background-color: #eff0fd;
     color: #2d6ce1;
-    box-shadow: inset 0 0 0 1px #2d6ce1;
+    box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
     z-index: 2;
   }
 }
 .saInlineDocumentWrapper .saInlineButtonGroup button:focus-visible {
   background-color: #eff0fd;
   color: #2d6ce1;
-  box-shadow: inset 0 0 0 1px #2d6ce1;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
   z-index: 2;
 }
 .saInlineDocumentWrapper .saInlineButtonGroup button:active {
   background-color: #cfd2f8;
   color: #1f59bf;
-  box-shadow: inset 0 0 0 1px #1f59bf;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #1f59bf;
   z-index: 2;
 }
 .saInlineDocumentWrapper .saInlineButtonGroup button:disabled {
   pointer-events: none;
-  box-shadow: inset 0 0 0 1px #dde3ec;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #dde3ec;
   color: #ccd5e2;
   background-color: #f8f9fb;
   z-index: 0;
@@ -15278,19 +15278,19 @@ div.saPopupOverlay {
 .saInlineDocumentWrapper img {
   max-width: 100%;
   max-height: 100%;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   border-radius: 0.5rem;
 }
 .saInlineDocumentWrapper video {
   max-width: 100%;
   max-height: 100%;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   border-radius: 0.5rem;
 }
 .saInlineDocumentWrapper .saInlineFrame {
   width: 100%;
   height: 100%;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   border-radius: 0.5rem;
   overflow: hidden;
 }
@@ -15448,7 +15448,7 @@ input.saCheckbox:indeterminate::before {
   content: "";
   width: 0.625rem;
   height: 3px;
-  border-radius: 1px;
+  border-radius: min(1px, 0.0625rem);
   transition: transform 0.1s;
   background-color: #fff;
   clip-path: none;
@@ -15605,11 +15605,11 @@ select.saInputText {
   position: relative;
   margin-right: 1em;
   /*&.saHasLeadingIcon .saInputText {
-		padding-left: 44px;
+		padding-left: 2.75rem;
 	}*/
   /*.saCompact */
   /*&.saHasTrailingIcons .saInputText {
-		padding-right: 44px;
+		padding-right: 2.75rem;
 	}
 
 	.saCompact */
@@ -15704,7 +15704,7 @@ select.saInputText {
   background: #fff;
   font: inherit;
   color: inherit;
-  box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) var(--Sa-Color-InputFieldBorder);
   border: none;
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
   width: 100%;
@@ -15776,7 +15776,7 @@ select.saInputText {
 			&.saActionIcon:not(:disabled) {
 				padding-left: 0.5rem;
 				padding-right: 0.5rem;
-				margin-right: -8px;
+				margin-right: -0.5rem;
 				width: 2rem;
 				height: 2rem;
 			}
@@ -15799,7 +15799,7 @@ select.saInputText {
 .saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled) {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
-  margin-right: -4px;
+  margin-right: -0.25rem;
   pointer-events: auto;
   width: 1.5rem;
   height: 1.5rem;
@@ -15820,8 +15820,8 @@ select.saInputText {
 }
 .saInputTextWrapper .saInputText.saListBox {
   box-shadow: none;
-  outline: 1px solid var(--Sa-Color-InputFieldBorder);
-  outline-offset: -1px;
+  outline: min(1px, 0.0625rem) solid var(--Sa-Color-InputFieldBorder);
+  outline-offset: max(-1px, -0.0625rem);
   border: 0.125rem solid transparent;
 }
 .saPc .saLabeled.saInputTextWrapper .saInputText.saListBox {
@@ -15847,16 +15847,16 @@ select.saInputText {
 @media (pointer: fine) {
   .saInputTextWrapper .saInputText.saListBox:hover {
     outline: 0.125rem solid #2d6ce1;
-    outline-offset: -2px;
+    outline-offset: -0.125rem;
   }
 }
 .saInputTextWrapper .saInputText.saListBox:focus-within {
   outline: 0.125rem solid #2d6ce1;
-  outline-offset: -2px;
+  outline-offset: -0.125rem;
 }
 .saHighlightFieldError.saInputTextWrapper .saInputText.saListBox {
   outline: 0.125rem solid #e0163e;
-  outline-offset: -2px;
+  outline-offset: -0.125rem;
   box-shadow: none !important;
 }
 .saInputTextWrapper .saInputText.saListBox option {
@@ -15923,12 +15923,12 @@ select.saInputText {
   border-radius: 0.75rem;
   overflow-y: auto;
   overflow-x: hidden;
-  border: 1px solid #f8f9fb;
+  border: min(1px, 0.0625rem) solid #f8f9fb;
   min-height: 2rem;
   max-height: 448px;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  box-shadow: 0 1px 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07), 0 1rem 2rem rgba(49, 58, 68, 0.07), 0 2rem 4rem rgba(49, 58, 68, 0.07);
+  box-shadow: 0 min(1px, 0.0625rem) 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07), 0 1rem 2rem rgba(49, 58, 68, 0.07), 0 2rem 4rem rgba(49, 58, 68, 0.07);
 }
 .saOptionListWrapper .saSearchSpinnerWrapper {
   display: flex;
@@ -16047,7 +16047,7 @@ select.saInputText {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   background-color: #f8f9fb;
@@ -16177,7 +16177,7 @@ select.saInputText {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   background-color: #f8f9fb;
@@ -16406,7 +16406,7 @@ select.saInputText {
 }
 .saInputPage .saSectionWrapper {
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
   margin-bottom: 1.5rem;
   min-width: min-content;
 }
@@ -16467,7 +16467,7 @@ select.saInputText {
 .saLargeScreen .saInputPage .saFieldsColumn {
   width: fit-content;
   padding-right: 2.5rem;
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
   margin-right: 2.5rem;
 }
 .saInputPage .saFieldsColumn.saLastVisible,
@@ -16538,7 +16538,7 @@ select.saInputText {
 }
 .saInputPage .saLabel td,
 .saInputPage .saLabel th {
-  border: 1px solid #eef1f5;
+  border: min(1px, 0.0625rem) solid #eef1f5;
   padding: 0.5rem;
   text-align: left;
 }
@@ -16618,7 +16618,7 @@ select.saInputText {
 .saInputPage .saDescription th,
 .saInputPage .saExtendedDescription th,
 .saInputPage .saFieldInfoText th {
-  border: 1px solid #eef1f5;
+  border: min(1px, 0.0625rem) solid #eef1f5;
   padding: 0.5rem;
   text-align: left;
 }
@@ -16722,7 +16722,7 @@ select.saInputText {
   font-family: 'Lucida Console', monospace;
   color: #313a44;
   background-color: #f8f9fb;
-  outline: 1px solid #ccd5e2;
+  outline: min(1px, 0.0625rem) solid #ccd5e2;
   border-radius: 0.25rem;
   padding: 0.125rem 0.25rem;
   font-size: smaller;
@@ -16830,8 +16830,8 @@ select.saInputText {
   margin-left: 0.5rem;
 }
 .saLargeScreen .saLabelsBefore .saFieldCollection .saLabelCell .saLabel:has(+ .saDescription) {
-  padding-top: 1px;
-  padding-bottom: 1px;
+  padding-top: min(1px, 0.0625rem);
+  padding-bottom: min(1px, 0.0625rem);
 }
 .saLargeScreen .saLabelsBefore .saFieldCollection .saFieldCell {
   padding-left: 0.5rem;
@@ -16973,7 +16973,7 @@ select.saInputText {
 }
 .saLargeScreen .saLabelsAbove .saCheckboxFieldAndLabelWrapper .saExtendedDescription {
   position: relative;
-  left: -28px;
+  left: -1.75rem;
 }
 .saLargeScreen .saLabelsAbove .saSectionWrapper:not(.saLastVisible) {
   padding-bottom: 0.5rem;
@@ -16994,7 +16994,7 @@ select.saInputText {
 }
 .saSmallScreen div.saSectionWrapper .saFieldsColumn:not(.saLastVisible) {
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
   margin-bottom: 1.5rem;
 }
 .saSmallScreen .saCheckboxFieldAndLabelWrapper {
@@ -17085,7 +17085,7 @@ select.saInputText {
   min-width: 1.25rem;
   height: 1.25rem;
   border-radius: 50%;
-  box-shadow: inset 0 0 0 0.125rem #7088a4, 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 0.125rem #7088a4, 0 0 0 min(1px, 0.0625rem) #fff;
   cursor: pointer;
   transition: ease background-color 0.2s, ease box-shadow 0.2s;
   position: relative;
@@ -17093,14 +17093,14 @@ select.saInputText {
 @media (pointer: fine) {
   .saInputCardsWrapper input.saRadio:enabled:not(:checked):hover {
     background-color: #cfd2f8;
-    box-shadow: inset 0 0 0 0.125rem #2d6ce1, inset 0 0 0 99px #cfd2f8, 0 0 0 1px #fff;
+    box-shadow: inset 0 0 0 0.125rem #2d6ce1, inset 0 0 0 99px #cfd2f8, 0 0 0 min(1px, 0.0625rem) #fff;
   }
 }
 .saInputCardsWrapper input.saRadio:enabled:not(:checked):active {
-  box-shadow: inset 0 0 0 0.125rem #1f59bf, inset 0 0 0 99px #b0b8f3, 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 0.125rem #1f59bf, inset 0 0 0 99px #b0b8f3, 0 0 0 min(1px, 0.0625rem) #fff;
 }
 .saInputCardsWrapper input.saRadio:disabled:not(:checked) {
-  box-shadow: inset 0 0 0 0.125rem #ccd5e2, inset 0 0 0 99px #eef1f5, 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 0.125rem #ccd5e2, inset 0 0 0 99px #eef1f5, 0 0 0 min(1px, 0.0625rem) #fff;
 }
 .saInputCardsWrapper input.saRadio:disabled {
   pointer-events: none;
@@ -17109,12 +17109,12 @@ select.saInputText {
   color: #60748b;
 }
 .saInputCardsWrapper input.saRadio:checked {
-  box-shadow: inset 0 0 0 0.125rem #1f59bf, inset 0 0 0 0.375rem #2d6ce1, 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 0.125rem #1f59bf, inset 0 0 0 0.375rem #2d6ce1, 0 0 0 min(1px, 0.0625rem) #fff;
 }
 .saInputCardsWrapper input.saRadio:checked:disabled {
   background-color: #adbdd1;
   pointer-events: none;
-  box-shadow: inset 0 0 0 0.125rem #ccd5e2, inset 0 0 0 0.375rem #eef1f5, 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 0.125rem #ccd5e2, inset 0 0 0 0.375rem #eef1f5, 0 0 0 min(1px, 0.0625rem) #fff;
 }
 .saInputCardsWrapper * {
   box-sizing: border-box;
@@ -17159,7 +17159,7 @@ legend + .saInputCardsWrapper {
 .saInputCardWrapper.saLarge {
   overflow: hidden;
   width: 304px;
-  box-shadow: 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+  box-shadow: 0 0 0 min(1px, 0.0625rem) var(--Sa-Color-InputFieldBorder);
 }
 .saSmallScreen .saInputCardWrapper.saLarge {
   width: 100%;
@@ -17168,7 +17168,7 @@ legend + .saInputCardsWrapper {
   padding: 1rem;
   gap: 0.5rem;
   overflow: unset;
-  box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) var(--Sa-Color-InputFieldBorder);
   justify-content: start;
 }
 .saInputCardWrapper.saNoHeading input {
@@ -17190,7 +17190,7 @@ legend + .saInputCardsWrapper {
 }
 @media (pointer: fine) {
   .saInputCardWrapper.saActive:hover {
-    box-shadow: 0 0 0 1px #2d6ce1;
+    box-shadow: 0 0 0 min(1px, 0.0625rem) #2d6ce1;
   }
   .saInputCardWrapper.saActive:hover.saLarge .saInputCardHeading {
     background-color: #eff0fd;
@@ -17199,7 +17199,7 @@ legend + .saInputCardsWrapper {
   }
   .saInputCardWrapper.saActive:hover.saMedium,
   .saInputCardWrapper.saActive:hover.saSmall {
-    box-shadow: inset 0 0 0 1px #2d6ce1;
+    box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
     background-color: #f9f9fe;
     color: #2d6ce1;
   }
@@ -17211,7 +17211,7 @@ legend + .saInputCardsWrapper {
   }
 }
 .saInputCardWrapper.saActive:active {
-  box-shadow: 0 0 0 1px #2d6ce1;
+  box-shadow: 0 0 0 min(1px, 0.0625rem) #2d6ce1;
   border-radius: 1rem;
 }
 .saInputCardWrapper.saActive:active.saLarge .saInputCardHeading {
@@ -17235,7 +17235,7 @@ legend + .saInputCardsWrapper {
   opacity: 0.5;
 }
 .saInputCardWrapper:has(:checked) {
-  box-shadow: 0 0 0 1px #2d6ce1;
+  box-shadow: 0 0 0 min(1px, 0.0625rem) #2d6ce1;
 }
 .saInputCardWrapper:has(:checked).saLarge .saInputCardHeading {
   background-color: #eff0fd;
@@ -17304,7 +17304,7 @@ legend + .saInputCardsWrapper {
   min-height: 2.5rem;
   overflow: hidden;
   background-color: #eef1f5;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
   padding: 0.5rem 2.5rem 0.5rem 1rem;
 }
 .saMedium.saInputCardWrapper .saInputCardHeading,
@@ -17349,7 +17349,7 @@ legend + .saInputCardsWrapper {
     color: #1f59bf;
   }
   .saInputCardWrapper .saPill:has(:enabled):hover.saOutline {
-    box-shadow: inset 0 0 0 1px #2d6ce1;
+    box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
   }
 }
 .saInputCardWrapper .saPill:has(:enabled):active {
@@ -17401,7 +17401,7 @@ legend + .saInputCardsWrapper {
 }
 .saInputCardWrapper .saPill::before {
   content: "";
-  height: 44px;
+  height: 2.75rem;
   width: 100%;
   background-color: transparent;
   opacity: 0;
@@ -17435,7 +17435,7 @@ legend + .saInputCardsWrapper {
   line-height: 0.875rem;
 }
 .saInputCardWrapper .saPill.saOutline {
-  box-shadow: inset 0 0 0 1px #ccd5e2;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #ccd5e2;
 }
 .saInputCardWrapper .saPill:has(:checked) {
   background-color: #2d6ce1;
@@ -17444,7 +17444,7 @@ legend + .saInputCardsWrapper {
 .saInputCardWrapper .saPill:has(:checked).saOutline {
   background-color: #eff0fd;
   color: #1f59bf;
-  box-shadow: inset 0 0 0 1px #2d6ce1;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
 }
 .saInputCardWrapper .saPill input {
   appearance: none;
@@ -17519,12 +17519,12 @@ legend + .saInputCardsWrapper {
 }
 .saHighlightFieldError.saInputCardsWrapper label.saInputCardWrapper:has(:checked).saLarge,
 .saHighlightFieldError.saInputCardsWrapper .saEmpty label.saInputCardWrapper.saLarge {
-  box-shadow: 0 0 0 1px #e0163e;
+  box-shadow: 0 0 0 min(1px, 0.0625rem) #e0163e;
 }
 .saHighlightFieldError.saInputCardsWrapper label.saInputCardWrapper:has(:checked).saLarge .saInputCardHeading,
 .saHighlightFieldError.saInputCardsWrapper .saEmpty label.saInputCardWrapper.saLarge .saInputCardHeading {
   background-color: #ffc7c4;
-  border-bottom: 1px solid #e0163e;
+  border-bottom: min(1px, 0.0625rem) solid #e0163e;
 }
 .saHighlightFieldError.saInputCardsWrapper label.saInputCardWrapper:has(:checked).saNoHeading,
 .saHighlightFieldError.saInputCardsWrapper .saEmpty label.saInputCardWrapper.saNoHeading {
@@ -17555,7 +17555,7 @@ legend + .saInputCardsWrapper {
 @media (pointer: fine) {
   .saHighlightFieldError.saInputCardsWrapper label.saInputCardWrapper:has(:checked):hover,
   .saHighlightFieldError.saInputCardsWrapper .saEmpty label.saInputCardWrapper:hover {
-    box-shadow: 0 0 0 1px #e0163e, 0 0 0 0.375rem #ffc7c4;
+    box-shadow: 0 0 0 min(1px, 0.0625rem) #e0163e, 0 0 0 0.375rem #ffc7c4;
   }
   .saHighlightFieldError.saInputCardsWrapper label.saInputCardWrapper:has(:checked):hover .saInputCardHeading,
   .saHighlightFieldError.saInputCardsWrapper .saEmpty label.saInputCardWrapper:hover .saInputCardHeading {
@@ -17564,14 +17564,14 @@ legend + .saInputCardsWrapper {
   }
 }
 .saHighlightFieldError.saInputCardsWrapper input.saRadio:checked {
-  box-shadow: inset 0 0 0 0.125rem #b81c34, inset 0 0 0 0.375rem #e0163e, 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 0.125rem #b81c34, inset 0 0 0 0.375rem #e0163e, 0 0 0 min(1px, 0.0625rem) #fff;
 }
 .saHighlightFieldWarning.saInputCardsWrapper label.saInputCardWrapper:has(:checked).saLarge {
-  box-shadow: 0 0 0 1px #f6ae02;
+  box-shadow: 0 0 0 min(1px, 0.0625rem) #f6ae02;
 }
 .saHighlightFieldWarning.saInputCardsWrapper label.saInputCardWrapper:has(:checked).saLarge .saInputCardHeading {
   background-color: #ffefd3;
-  border-bottom: 1px solid #f6ae02;
+  border-bottom: min(1px, 0.0625rem) solid #f6ae02;
 }
 .saHighlightFieldWarning.saInputCardsWrapper label.saInputCardWrapper:has(:checked).saNoHeading {
   background-color: #ffefd3;
@@ -17595,7 +17595,7 @@ legend + .saInputCardsWrapper {
 }
 @media (pointer: fine) {
   .saHighlightFieldWarning.saInputCardsWrapper label.saInputCardWrapper:has(:checked):hover {
-    box-shadow: 0 0 0 1px #f6ae02, 0 0 0 0.375rem #ffefd3;
+    box-shadow: 0 0 0 min(1px, 0.0625rem) #f6ae02, 0 0 0 0.375rem #ffefd3;
   }
   .saHighlightFieldWarning.saInputCardsWrapper label.saInputCardWrapper:has(:checked):hover .saInputCardHeading {
     background-color: #fff9ed;
@@ -17603,7 +17603,7 @@ legend + .saInputCardsWrapper {
   }
 }
 .saHighlightFieldWarning.saInputCardsWrapper label.saInputCardWrapper:has(:checked) input.saRadio:checked {
-  box-shadow: inset 0 0 0 0.125rem #b07d13, inset 0 0 0 0.375rem #f6ae02, 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 0.125rem #b07d13, inset 0 0 0 0.375rem #f6ae02, 0 0 0 min(1px, 0.0625rem) #fff;
 }
 .saCheckboxTreeWrapper {
   display: flex;
@@ -17615,15 +17615,15 @@ legend + .saInputCardsWrapper {
 }
 .saCheckboxTreeWrapper .saCheckboxTree {
   overflow-y: auto;
-  box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) var(--Sa-Color-InputFieldBorder);
   border-radius: 0 0 0.5rem 0.5rem;
   padding: 0.5rem;
 }
 .saHighlightFieldError .saCheckboxTreeWrapper .saCheckboxTree {
-  box-shadow: inset 0 0 0 1px #e0163e;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #e0163e;
 }
 .saHighlightFieldWarning .saCheckboxTreeWrapper .saCheckboxTree {
-  box-shadow: inset 0 0 0 1px #ffcd71;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #ffcd71;
 }
 .saDisabled .saCheckboxTreeWrapper {
   pointer-events: none;
@@ -17648,7 +17648,7 @@ legend + .saInputCardsWrapper {
   gap: 0.375rem;
   pointer-events: none;
   align-items: center;
-  margin-top: -1px;
+  margin-top: max(-1px, -0.0625rem);
 }
 .saCheckboxTreeWrapper .saInputValidation .saInputValidationIcon {
   display: flex;
@@ -17662,21 +17662,21 @@ legend + .saInputCardsWrapper {
   word-break: break-word;
 }
 .saCheckboxTreeWrapper .saInputValidation.saError {
-  box-shadow: inset 0 0 0 1px #e0163e;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #e0163e;
   background-color: #fff8f7;
 }
 .saCheckboxTreeWrapper .saInputValidation.saError .saInputValidationIcon {
   color: #e0163e;
 }
 .saCheckboxTreeWrapper .saInputValidation.saInfo {
-  box-shadow: inset 0 0 0 1px #2d6ce1;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
   background-color: #eff0fd;
 }
 .saCheckboxTreeWrapper .saInputValidation.saInfo .saInputValidationIcon {
   color: #2d6ce1;
 }
 .saCheckboxTreeWrapper .saInputValidation.saWarning {
-  box-shadow: inset 0 0 0 1px #ffcd71;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #ffcd71;
   background-color: #fff9ed;
 }
 .saCheckboxTreeWrapper .saInputValidation.saWarning .saInputValidationIcon {
@@ -17690,22 +17690,22 @@ legend + .saInputCardsWrapper {
   background-color: #eef1f5;
   border-radius: 0.5rem 0.5rem 0 0;
   padding: 0.75rem 0.875rem;
-  box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
-  margin-bottom: -1px;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) var(--Sa-Color-InputFieldBorder);
+  margin-bottom: max(-1px, -0.0625rem);
 }
 .saHighlightFieldError .saCheckboxTreeWrapper .saCheckboxTreeHeader {
-  box-shadow: inset 0 0 0 1px #e0163e;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #e0163e;
   background-color: #fff8f7;
 }
 .saHighlightFieldWarning .saCheckboxTreeWrapper .saCheckboxTreeHeader {
-  box-shadow: inset 0 0 0 1px #ffcd71;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #ffcd71;
   background-color: #fff9ed;
 }
 .saCheckboxTreeWrapper .saCheckboxTreeSticky {
   width: 100%;
   z-index: 2;
   background-color: #fff;
-  margin-bottom: -1px;
+  margin-bottom: max(-1px, -0.0625rem);
 }
 .saCheckboxTreeWrapper .saCheckboxTreeSticky .saInputTextWrapper .saLeadingIcon {
   position: absolute;
@@ -17726,13 +17726,13 @@ legend + .saInputCardsWrapper {
 .saCheckboxTreeWrapper .saCheckboxTreeSticky .saInputText {
   border-radius: 0;
   background-color: transparent;
-  padding: 0 0.75rem 0 44px;
+  padding: 0 0.75rem 0 2.75rem;
 }
 .saHighlightFieldError .saCheckboxTreeWrapper .saCheckboxTreeSticky .saInputText {
-  box-shadow: inset 0 0 0 1px #e0163e;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #e0163e;
 }
 .saHighlightFieldWarning .saCheckboxTreeWrapper .saCheckboxTreeSticky .saInputText {
-  box-shadow: inset 0 0 0 1px #ffcd71;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #ffcd71;
 }
 .saCheckboxTreeWrapper .saCheckboxTreeSticky .saInputTextWrapper {
   margin-right: 0;
@@ -17761,7 +17761,7 @@ legend + .saInputCardsWrapper {
 }
 .saColorPreview {
   padding: 0;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   transition: background-color ease 0.2s, opacity ease 0.2s, border-radius ease 0.2s;
   overflow: hidden;
   background-color: #ccd5e2;
@@ -17810,8 +17810,8 @@ legend + .saInputCardsWrapper {
   gap: 1rem;
   padding: 0.5rem;
   background: #fff;
-  border: solid 1px #ccd5e2;
-  box-shadow: 0 1px 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);
+  border: solid min(1px, 0.0625rem) #ccd5e2;
+  box-shadow: 0 min(1px, 0.0625rem) 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);
   z-index: 1;
   transition: ease height 0.2s, ease opacity 0.2s;
   height: fit-content;
@@ -17821,7 +17821,7 @@ legend + .saInputCardsWrapper {
 .saColorPicker .saCustomColorPickerWrapper {
   display: flex;
   gap: 0.5rem;
-  border: 1px solid #eef1f5;
+  border: min(1px, 0.0625rem) solid #eef1f5;
   padding: 0 0.5rem;
   align-items: center;
   border-radius: 0.75rem;
@@ -17831,7 +17831,7 @@ legend + .saInputCardsWrapper {
 }
 @media (pointer: fine) {
   .saColorPicker .saCustomColorPickerWrapper:hover {
-    box-shadow: 0 1px 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);
+    box-shadow: 0 min(1px, 0.0625rem) 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);
     color: #2d6ce1;
   }
 }
@@ -17847,7 +17847,7 @@ legend + .saInputCardsWrapper {
   left: 0.5rem;
   box-shadow: 0 0.125rem 0.125rem rgba(49, 58, 68, 0.6);
   transition: ease all 0.2s;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
 }
 .saColorPicker .saCustomColorPicker {
   display: flex;
@@ -17865,11 +17865,11 @@ legend + .saInputCardsWrapper {
   background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
   border-radius: 0.5rem;
   transition: ease border-radius 0.2s;
-  box-shadow: 0 0 0 1px #eef1f5;
+  box-shadow: 0 0 0 min(1px, 0.0625rem) #eef1f5;
 }
 .saColorPicker .saCustomColorPicker:active,
 .saColorPicker .saCustomColorPicker:focus-within {
-  box-shadow: 0 1px 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);
+  box-shadow: 0 min(1px, 0.0625rem) 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);
   border-radius: 1rem;
   transform: scale(0.96);
 }
@@ -17935,7 +17935,7 @@ legend + .saInputCardsWrapper {
   margin: 0;
   border-radius: 0.5rem;
   background: #eef1f5;
-  box-shadow: 0 0 0 1px #ccd5e2;
+  box-shadow: 0 0 0 min(1px, 0.0625rem) #ccd5e2;
   cursor: pointer;
   transition: ease transform 0.2s, ease border-radius 0.2s, ease box-shadow 0.2s;
   position: relative;
@@ -17943,20 +17943,20 @@ legend + .saInputCardsWrapper {
 @media (pointer: fine) {
   .saColorPicker input.saColor:hover {
     transform: scale(1.1);
-    box-shadow: 0 1px 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);
+    box-shadow: 0 min(1px, 0.0625rem) 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);
   }
 }
 .saColorPicker input.saColor:active {
   border-radius: 0.75rem;
-  box-shadow: 0 0 0 1px #ccd5e2;
+  box-shadow: 0 0 0 min(1px, 0.0625rem) #ccd5e2;
   transform: scale(0.96);
 }
 .saColorPicker input.saColor::before {
   content: '';
   height: 2.5rem;
   width: 2.5rem;
-  left: -4px;
-  top: -4px;
+  left: -0.25rem;
+  top: -0.25rem;
   position: absolute;
   background: none;
   opacity: 0;
@@ -17995,8 +17995,8 @@ legend + .saInputCardsWrapper {
 .saCompact .saColorPicker input.saColor::before {
   height: 2rem;
   width: 2rem;
-  left: -4px;
-  top: -4px;
+  left: -0.25rem;
+  top: -0.25rem;
 }
 .saCompact .saColorPicker input.saColor::after {
   height: 0.625rem;
@@ -18031,7 +18031,7 @@ legend + .saInputCardsWrapper {
   max-width: 100%;
   height: 2rem;
   background-color: #fff;
-  box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) var(--Sa-Color-InputFieldBorder);
   border: none;
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
   box-sizing: border-box;
@@ -18076,7 +18076,7 @@ legend + .saInputCardsWrapper {
 }
 .saInputDateRange input::placeholder {
   color: #60748b;
-  letter-spacing: -1px;
+  letter-spacing: max(-1px, -0.0625rem);
 }
 .saInputDateRange input::-webkit-calendar-picker-indicator {
   display: none;
@@ -18087,7 +18087,7 @@ legend + .saInputCardsWrapper {
 .saInputDateRange input.saActive {
   color: #2d6ce1;
   font-weight: 500;
-  letter-spacing: -0.15px;
+  letter-spacing: -0.01rem;
 }
 .saInputDateRange:focus-visible {
   outline: none;
@@ -18182,8 +18182,8 @@ legend + .saInputCardsWrapper {
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 1px 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07), 0 1rem 2rem rgba(49, 58, 68, 0.07), 0 2rem 4rem rgba(49, 58, 68, 0.07);
-  border: solid 1px #ccd5e2;
+  box-shadow: 0 min(1px, 0.0625rem) 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07), 0 1rem 2rem rgba(49, 58, 68, 0.07), 0 2rem 4rem rgba(49, 58, 68, 0.07);
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background: #fff;
   font-size: 0.875rem;
   height: fit-content;
@@ -18506,7 +18506,7 @@ legend + .saInputCardsWrapper {
   content: "";
   height: 100%;
   width: calc(100% + 0.25rem);
-  left: -4px;
+  left: -0.25rem;
   position: absolute;
   z-index: -1;
   background: var(--Sa-Color-IconMarked);
@@ -18796,7 +18796,7 @@ legend + .saInputCardsWrapper {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  border-left: 1px solid #dde3ec;
+  border-left: min(1px, 0.0625rem) solid #dde3ec;
   padding: 0 0 0 1rem;
   margin-top: 0.5rem;
   height: 272px;
@@ -18841,7 +18841,7 @@ legend + .saInputCardsWrapper {
   border-radius: 0.25rem;
   cursor: pointer;
   transition: background 0.2s ease, border-radius 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: inset 0 0 0 1px #dde3ec;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #dde3ec;
   font-size: 1rem;
   color: var(--Sa-Color-Label);
   background: transparent;
@@ -18850,19 +18850,19 @@ legend + .saInputCardsWrapper {
   .saDatePickerRoot .saDatePickerSlot:hover {
     color: var(--Sa-Color-LabelHover);
     background: #f8f9fb;
-    box-shadow: inset 0 0 0 1px var(--Sa-Color-LabelHover);
+    box-shadow: inset 0 0 0 min(1px, 0.0625rem) var(--Sa-Color-LabelHover);
   }
 }
 .saDatePickerRoot .saDatePickerSlot:active {
   color: var(--Sa-Color-LabelHover);
   background: #eef1f5;
   border-radius: 0.75rem;
-  box-shadow: inset 0 0 0 1px var(--Sa-Color-LabelHover);
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) var(--Sa-Color-LabelHover);
 }
 .saDatePickerRoot .saDatePickerSlot.saSelected {
   background: var(--Sa-Color-IconMarked);
   color: var(--Sa-Color-LabelHover);
-  box-shadow: inset 0 0 0 1px var(--Sa-Color-LabelHover);
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) var(--Sa-Color-LabelHover);
 }
 .saDatePickerRoot .saDatePickerSlot.saSelected.saYearCurrent {
   font-weight: inherit;
@@ -18898,7 +18898,7 @@ legend + .saInputCardsWrapper {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   gap: 0.5rem;
@@ -19066,7 +19066,7 @@ legend + .saInputCardsWrapper {
     color: #1f59bf;
   }
   .saDatePickerRoot .saPill:has(:enabled):hover.saOutline {
-    box-shadow: inset 0 0 0 1px #2d6ce1;
+    box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
   }
 }
 .saDatePickerRoot .saPill:has(:enabled):active {
@@ -19118,7 +19118,7 @@ legend + .saInputCardsWrapper {
 }
 .saDatePickerRoot .saPill::before {
   content: "";
-  height: 44px;
+  height: 2.75rem;
   width: 100%;
   background-color: transparent;
   opacity: 0;
@@ -19152,7 +19152,7 @@ legend + .saInputCardsWrapper {
   line-height: 0.875rem;
 }
 .saDatePickerRoot .saPill.saOutline {
-  box-shadow: inset 0 0 0 1px #ccd5e2;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #ccd5e2;
 }
 .saDatePickerRoot .saPill:has(:checked) {
   background-color: #2d6ce1;
@@ -19161,7 +19161,7 @@ legend + .saInputCardsWrapper {
 .saDatePickerRoot .saPill:has(:checked).saOutline {
   background-color: #eff0fd;
   color: #1f59bf;
-  box-shadow: inset 0 0 0 1px #2d6ce1;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
 }
 .saDatePickerRoot .saPill input {
   appearance: none;
@@ -19215,9 +19215,9 @@ legend + .saInputCardsWrapper {
 .saSmallScreen .saDateRangePickerRoot .saPillGroup {
   flex-wrap: nowrap;
   overflow-x: auto;
-  min-height: 44px;
+  min-height: 2.75rem;
   align-items: center;
-  margin: 0 -8px;
+  margin: 0 -0.5rem;
   padding: 0.5rem;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -19308,7 +19308,7 @@ legend + .saInputCardsWrapper {
   height: 0.5rem;
   background: #1d59c9;
   position: absolute;
-  top: -6px;
+  top: -0.375rem;
   left: 0;
   border-radius: 0.25rem 0.25rem 0 0;
 }
@@ -19356,7 +19356,7 @@ legend + .saInputCardsWrapper {
   z-index: 1;
 }
 .saFileUploadAreaWrapper.saMultipleFilesArea .saFileWrapper {
-  border: 1px solid var(--Sa-Color-InputFieldBorder);
+  border: min(1px, 0.0625rem) solid var(--Sa-Color-InputFieldBorder);
   border-bottom: none;
   padding: 0.5rem;
 }
@@ -19365,11 +19365,11 @@ legend + .saInputCardsWrapper {
 }
 .saFileUploadAreaWrapper.saMultipleFilesArea .saFileWrapper:last-child {
   border-radius: 0 0 0.5rem 0.5rem;
-  border-bottom: 1px solid var(--Sa-Color-InputFieldBorder);
+  border-bottom: min(1px, 0.0625rem) solid var(--Sa-Color-InputFieldBorder);
 }
 .saFileUploadAreaWrapper.saMultipleFilesArea .saFileWrapper:only-child {
   border-radius: 0.5rem 0.5rem;
-  border-bottom: 1px solid var(--Sa-Color-InputFieldBorder);
+  border-bottom: min(1px, 0.0625rem) solid var(--Sa-Color-InputFieldBorder);
 }
 .saFileUploadAreaWrapper.saFullSizeArea .saFileIcon {
   display: none;
@@ -19449,32 +19449,32 @@ legend + .saInputCardsWrapper {
   align-items: center;
   background: #f8edfd;
   color: #8b4af1;
-  border: 1px solid #8b4af1;
+  border: min(1px, 0.0625rem) solid #8b4af1;
 }
 .saFileUploadAreaWrapper.saFullSizeArea.saHasFiles .saFileIcon .saIcon.fa-file-word {
   background: #eff0fd;
   color: #2d6ce1;
-  border: 1px solid #2d6ce1;
+  border: min(1px, 0.0625rem) solid #2d6ce1;
 }
 .saFileUploadAreaWrapper.saFullSizeArea.saHasFiles .saFileIcon .saIcon.fa-video {
   background: #ffede4;
   color: #b75617;
-  border: 1px solid #b75617;
+  border: min(1px, 0.0625rem) solid #b75617;
 }
 .saFileUploadAreaWrapper.saFullSizeArea.saHasFiles .saFileIcon .saIcon.fa-file-excel {
   background: #e1f6e1;
   color: #278239;
-  border: 1px solid #278239;
+  border: min(1px, 0.0625rem) solid #278239;
 }
 .saFileUploadAreaWrapper.saFullSizeArea.saHasFiles .saFileIcon .saIcon.fa-file-pdf {
   background: #ffedeb;
   color: #e0163e;
-  border: 1px solid #e0163e;
+  border: min(1px, 0.0625rem) solid #e0163e;
 }
 .saFileUploadAreaWrapper.saFullSizeArea.saHasFiles .saFileIcon .saIcon.fa-image {
   background: #ffecf6;
   color: #d1199f;
-  border: 1px solid #d1199f;
+  border: min(1px, 0.0625rem) solid #d1199f;
 }
 .saFileUploadAreaWrapper.saFullSizeArea.saHasFiles .saFileIcon .saIcon.fa-exclamation {
   background: #e0163e;
@@ -19539,7 +19539,7 @@ legend + .saInputCardsWrapper {
 .saFileUploadAreaWrapper.saCompactFileArea .saFileUploadArea .saFileSizeRow {
   width: unset;
   gap: 1rem;
-  margin-top: 1px;
+  margin-top: min(1px, 0.0625rem);
 }
 .saFileUploadAreaWrapper.saCompactFileArea .saFileUploadArea .saFileSizeWrapper {
   justify-content: center;
@@ -19804,16 +19804,16 @@ legend + .saInputCardsWrapper {
 }
 .saFileUploadAreaWrapper .saFileUploadArea.saDragOver .saFolderWrapper .saFolder,
 .saSmallScreen .saFileUploadAreaWrapper .saFileUploadArea:focus-within .saFolderWrapper .saFolder {
-  transform: translateY(-8px);
+  transform: translateY(-0.5rem);
 }
 .saFileUploadAreaWrapper .saFileUploadArea.saDragOver .saFolderWrapper .saPaper,
 .saSmallScreen .saFileUploadAreaWrapper .saFileUploadArea:focus-within .saFolderWrapper .saPaper {
-  transform: translateY(-4px);
+  transform: translateY(-0.25rem);
   opacity: 1;
 }
 .saFileUploadAreaWrapper .saFileUploadArea.saDragOver .saFolderWrapper .saFolderBack,
 .saSmallScreen .saFileUploadAreaWrapper .saFileUploadArea:focus-within .saFolderWrapper .saFolderBack {
-  box-shadow: 0 1px 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);
+  box-shadow: 0 min(1px, 0.0625rem) 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);
 }
 .saFileUploadAreaWrapper .saFileUploadArea.saDragOver .saFolderWrapper .saFolderFront,
 .saSmallScreen .saFileUploadAreaWrapper .saFileUploadArea:focus-within .saFolderWrapper .saFolderFront {
@@ -19821,8 +19821,8 @@ legend + .saInputCardsWrapper {
 }
 .saFileUploadAreaWrapper .saFileUploadArea.saDragOver .saDossierWrapper,
 .saSmallScreen .saFileUploadAreaWrapper .saFileUploadArea:focus-within .saDossierWrapper {
-  transform: translateY(-8px);
-  box-shadow: 0 1px 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);
+  transform: translateY(-0.5rem);
+  box-shadow: 0 min(1px, 0.0625rem) 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);
 }
 .saFileUploadAreaWrapper .saFileUploadArea.saDragOver .saDossierWrapper .saDossierDogear,
 .saSmallScreen .saFileUploadAreaWrapper .saFileUploadArea:focus-within .saDossierWrapper .saDossierDogear {
@@ -19989,7 +19989,7 @@ legend + .saInputCardsWrapper {
   align-items: center;
   background: #f8edfd;
   color: #8b4af1;
-  border: 1px solid #8b4af1;
+  border: min(1px, 0.0625rem) solid #8b4af1;
   font-size: 1.25rem;
   border-radius: 0.25rem;
   height: 2rem;
@@ -19998,27 +19998,27 @@ legend + .saInputCardsWrapper {
 .saFileUploadAreaWrapper .saFile .saIcon.fa-file-word {
   background: #eff0fd;
   color: #2d6ce1;
-  border: 1px solid #2d6ce1;
+  border: min(1px, 0.0625rem) solid #2d6ce1;
 }
 .saFileUploadAreaWrapper .saFile .saIcon.fa-video {
   background: #ffede4;
   color: #b75617;
-  border: 1px solid #b75617;
+  border: min(1px, 0.0625rem) solid #b75617;
 }
 .saFileUploadAreaWrapper .saFile .saIcon.fa-file-excel {
   background: #e1f6e1;
   color: #278239;
-  border: 1px solid #278239;
+  border: min(1px, 0.0625rem) solid #278239;
 }
 .saFileUploadAreaWrapper .saFile .saIcon.fa-file-pdf {
   background: #ffedeb;
   color: #e0163e;
-  border: 1px solid #e0163e;
+  border: min(1px, 0.0625rem) solid #e0163e;
 }
 .saFileUploadAreaWrapper .saFile .saIcon.fa-image {
   background: #ffecf6;
   color: #d1199f;
-  border: 1px solid #d1199f;
+  border: min(1px, 0.0625rem) solid #d1199f;
 }
 .saFileUploadAreaWrapper .saFile .saIcon.fa-exclamation {
   background: #e0163e;
@@ -20173,12 +20173,12 @@ legend + .saInputCardsWrapper {
   font-family: "Lexend", sans-serif !important;
 }
 .tox-tinymce {
-  border: 1px solid var(--Sa-Color-InputFieldBorder) !important;
+  border: min(1px, 0.0625rem) solid var(--Sa-Color-InputFieldBorder) !important;
   border-radius: 0.5rem !important;
   font-family: "Lexend", sans-serif !important;
 }
 .tox.tox-tinymce-inline .tox-editor-header {
-  border: 1px solid #f8f9fb !important;
+  border: min(1px, 0.0625rem) solid #f8f9fb !important;
   border-radius: 0.5rem !important;
 }
 .tox-tinymce-aux {
@@ -20206,7 +20206,7 @@ legend + .saInputCardsWrapper {
 }
 .saMultiAutoSearchWrapper.saHighlightFieldError .saSelectedValueWrapper {
   outline: 0.125rem solid #e0163e;
-  outline-offset: -2px;
+  outline-offset: -0.125rem;
   box-shadow: none !important;
   border-color: transparent;
 }
@@ -20241,7 +20241,7 @@ legend + .saInputCardsWrapper {
 .saMultiAutoSearchWrapper:not(.saDisabled, .saHighlightFieldError):hover .saSelectedValueWrapper,
 .saMultiAutoSearchWrapper:focus-within .saSelectedValueWrapper {
   outline: 0.125rem solid #2d6ce1;
-  outline-offset: -2px;
+  outline-offset: -0.125rem;
 }
 .saMultiAutoSearchWrapper input[type="search"]::-webkit-search-decoration,
 .saMultiAutoSearchWrapper input[type="search"]::-webkit-search-cancel-button,
@@ -20284,8 +20284,8 @@ legend + .saInputCardsWrapper {
   overflow-x: hidden;
   overflow-y: auto;
   border-radius: 0.5rem;
-  outline: 1px solid var(--Sa-Color-InputFieldBorder);
-  outline-offset: -1px;
+  outline: min(1px, 0.0625rem) solid var(--Sa-Color-InputFieldBorder);
+  outline-offset: max(-1px, -0.0625rem);
   border: 0.125rem solid transparent;
   overscroll-behavior: none;
   position: relative;
@@ -20296,7 +20296,7 @@ legend + .saInputCardsWrapper {
 }
 .saMultiAutoSearchWrapper .saSelectedValueWrapper:has(:hover) {
   outline: 0.125rem solid #2d6ce1;
-  outline-offset: -2px;
+  outline-offset: -0.125rem;
 }
 .saMultiAutoSearchWrapper .saSelectedValueWrapper .saTag {
   gap: 0.375rem;
@@ -20312,7 +20312,7 @@ legend + .saInputCardsWrapper {
   line-height: 1.125rem;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  box-shadow: inset 0 0 0 1px #ccd5e2;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #ccd5e2;
   position: relative;
   /* Uncomment once compact mode design is finished for all controls.
 			.saCompact & {
@@ -20337,7 +20337,7 @@ legend + .saInputCardsWrapper {
 .saMultiAutoSearchWrapper .saSelectedValueWrapper .saTag.saFocus {
   background-color: #fff8f7;
   color: #e0163e;
-  box-shadow: inset 0 0 0 1px #e0163e;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #e0163e;
 }
 .saMultiAutoSearchWrapper .saSelectedValueWrapper .saTag.saFocus .saIcon {
   color: #e0163e;
@@ -20363,7 +20363,7 @@ legend + .saInputCardsWrapper {
   .saLargeScreen .saMultiAutoSearchWrapper .saSelectedValueWrapper .saTag:hover {
     background: #fff8f7;
     color: #e0163e;
-    box-shadow: inset 0 0 0 1px #e0163e;
+    box-shadow: inset 0 0 0 min(1px, 0.0625rem) #e0163e;
   }
   .saLargeScreen .saMultiAutoSearchWrapper .saSelectedValueWrapper .saTag:hover .saIcon {
     color: #e0163e;
@@ -20377,7 +20377,7 @@ legend + .saInputCardsWrapper {
   color: #fff;
 }
 .saLargeScreen .saMultiPickerWrapper {
-  border: 1px solid var(--Sa-Color-InputFieldBorder);
+  border: min(1px, 0.0625rem) solid var(--Sa-Color-InputFieldBorder);
   border-radius: 0.5rem;
   margin-right: 0.5rem;
 }
@@ -20437,11 +20437,11 @@ legend + .saInputCardsWrapper {
 }
 .saMultiPickerWrapper .saMultiPickerTreeWrapper {
   flex: 1;
-  border: 1px solid transparent;
+  border: min(1px, 0.0625rem) solid transparent;
 }
 .saMultiPickerWrapper .saMultiPickerTreeWrapper.saDropOn {
   background: #f8f9fb;
-  border: 1px dashed #2d6ce1;
+  border: min(1px, 0.0625rem) dashed #2d6ce1;
   border-top-left-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
 }
@@ -20506,7 +20506,7 @@ legend + .saInputCardsWrapper {
   height: 2rem;
   width: 2rem;
   border: none;
-  box-shadow: inset 0 0 0 1px #ccd5e2;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #ccd5e2;
   background: #fff;
   padding: 0;
   margin: 0;
@@ -20524,11 +20524,11 @@ legend + .saInputCardsWrapper {
 }
 .saMultiPickerButtons .saMultiPickerButton.saUp {
   border-radius: 0.5rem 0 0 0.5rem;
-  margin-right: -1px;
+  margin-right: max(-1px, -0.0625rem);
 }
 .saMultiPickerButtons .saMultiPickerButton.saUp::after {
-  right: 1px;
-  bottom: -8px;
+  right: min(1px, 0.0625rem);
+  bottom: -0.5rem;
 }
 .saMultiPickerButtons .saMultiPickerButton.saUp:active {
   border-radius: 0.75rem 0 0 0.75rem;
@@ -20537,8 +20537,8 @@ legend + .saInputCardsWrapper {
   border-radius: 0 0.5rem 0.5rem 0;
 }
 .saMultiPickerButtons .saMultiPickerButton.saDown::after {
-  left: 1px;
-  bottom: -8px;
+  left: min(1px, 0.0625rem);
+  bottom: -0.5rem;
   width: 2.5rem;
 }
 .saMultiPickerButtons .saMultiPickerButton.saDown:active {
@@ -20548,24 +20548,24 @@ legend + .saInputCardsWrapper {
   .saMultiPickerButtons .saMultiPickerButton:hover {
     background: #eff0fd;
     color: #2d6ce1;
-    box-shadow: inset 0 0 0 1px #2d6ce1;
+    box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
     z-index: 1;
   }
 }
 .saMultiPickerButtons .saMultiPickerButton:focus-visible {
   background: #eff0fd;
   color: #2d6ce1;
-  box-shadow: inset 0 0 0 1px #2d6ce1;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
   z-index: 1;
 }
 .saMultiPickerButtons .saMultiPickerButton:active {
   background: #eff0fd;
   color: #2d6ce1;
-  box-shadow: inset 0 0 0 1px #2d6ce1;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
 }
 .saMultiPickerButtons .saMultiPickerButton:disabled {
   pointer-events: none;
-  box-shadow: inset 0 0 0 1px #dde3ec;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #dde3ec;
   color: #ccd5e2;
   z-index: 0;
 }
@@ -20582,13 +20582,13 @@ legend + .saInputCardsWrapper {
   padding: 0.5rem;
   flex: 1;
   position: relative;
-  border-left: 1px solid var(--Sa-Color-InputFieldBorder);
+  border-left: min(1px, 0.0625rem) solid var(--Sa-Color-InputFieldBorder);
   overflow-y: auto;
   overflow-x: hidden;
   border-radius: 0 0 0.5rem 0;
 }
 .saMultiPickerSelected:focus-visible {
-  outline: 1px solid black;
+  outline: min(1px, 0.0625rem) solid black;
 }
 .saMultiPickerSelected * {
   box-sizing: border-box;
@@ -20665,7 +20665,7 @@ legend + .saInputCardsWrapper {
   -webkit-appearance: none;
   -moz-appearance: none;
   position: absolute;
-  top: 1px;
+  top: min(1px, 0.0625rem);
   left: 0;
   width: calc(100% - 0.5rem);
   height: 1.5rem;
@@ -20748,10 +20748,10 @@ legend + .saInputCardsWrapper {
   content: '';
   height: 2rem;
   position: absolute;
-  left: -8px;
+  left: -0.5rem;
   top: 0;
   width: 2.5rem;
-  right: -12px;
+  right: -0.75rem;
 }
 .saMultiPickerItem .saIcon {
   color: #60748b;
@@ -20813,19 +20813,19 @@ legend + .saInputCardsWrapper {
   overflow-x: auto;
 }
 .saSmallScreen .saMultiPickerSmallScreen .saMultiPickerTreeWrapper .saCheckboxTree .saCheckboxOuter {
-  height: 44px;
+  height: 2.75rem;
 }
 .saSmallScreen .saMultiPickerSmallScreen .saMultiPickerTreeWrapper .saCheckboxTree .saCheckboxOuter:has(.saExpandButton) .saCheckboxWrapper {
   padding-right: 36px;
 }
 .saSmallScreen .saMultiPickerSmallScreen .saMultiPickerTreeWrapper .saCheckboxTree .saCheckboxWrapper {
-  height: 44px;
+  height: 2.75rem;
   border-radius: 0.5rem;
   align-items: center;
   display: flex;
 }
 .saSmallScreen .saMultiPickerSmallScreen .saMultiPickerTreeWrapper .saCheckboxTree .saCheckboxWrapper .saIcon::after {
-  height: 44px;
+  height: 2.75rem;
   top: 0;
 }
 .saSmallScreen .saMultiPickerSmallScreen .saMultiPickerTreeWrapper .saCheckboxTree fieldset {
@@ -20836,14 +20836,14 @@ legend + .saInputCardsWrapper {
   overflow: auto;
 }
 .saSmallScreen .saMultiPickerSmallScreen .saMultiPickerTreeWrapper .saCheckboxTree .saCheckbox::after {
-  height: 44px;
-  width: 44px;
+  height: 2.75rem;
+  width: 2.75rem;
 }
 .saSmallScreen .saMultiPickerDragHandle {
   width: 50%;
   position: absolute;
   height: 100%;
-  left: -8px;
+  left: -0.5rem;
 }
 .saSmallScreen .saMultiPickerOptions,
 .saSmallScreen .saMultiPickerSelected {
@@ -20856,7 +20856,7 @@ legend + .saInputCardsWrapper {
 .saSmallScreen .saMultiPickerOptions .saMultiPickerInner {
   overflow-y: auto;
   transform: scale(1);
-  box-shadow: rgba(49, 58, 68, 0.1) 0rem 1px 0.125rem, rgba(49, 58, 68, 0.1) 0rem 0.125rem 0.25rem, rgba(49, 58, 68, 0.1) 0rem 0.25rem 0.5rem, rgba(49, 58, 68, 0.1) 0rem 0.5rem 1rem;
+  box-shadow: rgba(49, 58, 68, 0.1) 0rem min(1px, 0.0625rem) 0.125rem, rgba(49, 58, 68, 0.1) 0rem 0.125rem 0.25rem, rgba(49, 58, 68, 0.1) 0rem 0.25rem 0.5rem, rgba(49, 58, 68, 0.1) 0rem 0.5rem 1rem;
 }
 .saSmallScreen .saMultiPickerInner {
   display: flex;
@@ -20865,7 +20865,7 @@ legend + .saInputCardsWrapper {
   height: 100%;
   transition: ease all 0.1s;
   border-radius: 1rem;
-  border: 1px solid var(--Sa-Color-InputFieldBorder);
+  border: min(1px, 0.0625rem) solid var(--Sa-Color-InputFieldBorder);
   position: relative;
   background-color: #fff;
 }
@@ -20898,7 +20898,7 @@ legend + .saInputCardsWrapper {
   border-radius: unset;
 }
 .saSmallScreen .saMultiPickerSmallScreen fieldset .saMultiPickerItem {
-  height: 44px;
+  height: 2.75rem;
 }
 .saSmallScreen .saMultiPickerFooter {
   display: flex;
@@ -20957,7 +20957,7 @@ legend + .saInputCardsWrapper {
   max-width: 1.125rem;
 }
 .saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton.saSecondary {
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
 }
@@ -21118,8 +21118,8 @@ legend + .saInputCardsWrapper {
 }
 .saSmallScreen .saMultiRowDragHandle > div::after {
   content: '';
-  height: 44px;
-  width: 44px;
+  height: 2.75rem;
+  width: 2.75rem;
   position: absolute;
 }
 .saMultiRowDragHandle .saIcon {
@@ -21246,7 +21246,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   min-width: 1.25rem;
   height: 1.25rem;
   border-radius: 50%;
-  box-shadow: inset 0 0 0 0.125rem #7088a4, 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 0.125rem #7088a4, 0 0 0 min(1px, 0.0625rem) #fff;
   cursor: pointer;
   transition: ease background-color 0.2s, ease box-shadow 0.2s;
   position: relative;
@@ -21254,14 +21254,14 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 @media (pointer: fine) {
   .saRadioWrapper input.saRadio:enabled:not(:checked):hover {
     background-color: #cfd2f8;
-    box-shadow: inset 0 0 0 0.125rem #2d6ce1, inset 0 0 0 99px #cfd2f8, 0 0 0 1px #fff;
+    box-shadow: inset 0 0 0 0.125rem #2d6ce1, inset 0 0 0 99px #cfd2f8, 0 0 0 min(1px, 0.0625rem) #fff;
   }
 }
 .saRadioWrapper input.saRadio:enabled:not(:checked):active {
-  box-shadow: inset 0 0 0 0.125rem #1f59bf, inset 0 0 0 99px #b0b8f3, 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 0.125rem #1f59bf, inset 0 0 0 99px #b0b8f3, 0 0 0 min(1px, 0.0625rem) #fff;
 }
 .saRadioWrapper input.saRadio:disabled:not(:checked) {
-  box-shadow: inset 0 0 0 0.125rem #ccd5e2, inset 0 0 0 99px #eef1f5, 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 0.125rem #ccd5e2, inset 0 0 0 99px #eef1f5, 0 0 0 min(1px, 0.0625rem) #fff;
 }
 .saRadioWrapper input.saRadio:disabled {
   pointer-events: none;
@@ -21270,12 +21270,12 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   color: #60748b;
 }
 .saRadioWrapper input.saRadio:checked {
-  box-shadow: inset 0 0 0 0.125rem #1f59bf, inset 0 0 0 0.375rem #2d6ce1, 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 0.125rem #1f59bf, inset 0 0 0 0.375rem #2d6ce1, 0 0 0 min(1px, 0.0625rem) #fff;
 }
 .saRadioWrapper input.saRadio:checked:disabled {
   background-color: #adbdd1;
   pointer-events: none;
-  box-shadow: inset 0 0 0 0.125rem #ccd5e2, inset 0 0 0 0.375rem #eef1f5, 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 0.125rem #ccd5e2, inset 0 0 0 0.375rem #eef1f5, 0 0 0 min(1px, 0.0625rem) #fff;
 }
 .saRadioWrapper .saRadioLabel {
   font-weight: 400;
@@ -21312,7 +21312,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   flex-direction: column;
 }
 .saRadioWrapper.saHighlightFieldError input.saRadio:checked {
-  box-shadow: inset 0 0 0 0.125rem #b81c34, inset 0 0 0 0.375rem #e0163e, 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 0.125rem #b81c34, inset 0 0 0 0.375rem #e0163e, 0 0 0 min(1px, 0.0625rem) #fff;
 }
 .saRadioWrapper.saHighlightFieldError input.saRadio:checked + span {
   color: #e0163e;
@@ -21326,7 +21326,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   color: #e0163e;
 }
 .saRadioWrapper.saHighlightFieldWarning input.saRadio:checked {
-  box-shadow: inset 0 0 0 0.125rem #b07d13, inset 0 0 0 0.375rem #f6ae02, 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 0.125rem #b07d13, inset 0 0 0 0.375rem #f6ae02, 0 0 0 min(1px, 0.0625rem) #fff;
 }
 .saRadioWrapper.saHighlightFieldWarning input.saRadio:checked + span {
   color: #956a15;
@@ -21341,7 +21341,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saSmallScreen .saRadioWrapper .saRadioLabel {
   width: fit-content;
   padding: 0.5rem 0.5rem 0.5rem 0;
-  min-height: 44px;
+  min-height: 2.75rem;
   border-radius: 0.5rem;
   transition-property: border-radius, color, background, box-shadow;
   height: 100%;
@@ -21368,7 +21368,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   position: relative;
   background: #fff;
   border-radius: 0.5rem;
-  box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) var(--Sa-Color-InputFieldBorder);
   transition: ease box-shadow 0.2s;
 }
 @media (pointer: fine) {
@@ -21379,7 +21379,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saSignatureCanvasRoot .saSignatureOuter::after {
   content: '';
   height: 0.25rem;
-  background-image: radial-gradient(circle at 0.125rem 0.125rem, #ccd5e2 1px, transparent 0);
+  background-image: radial-gradient(circle at 0.125rem 0.125rem, #ccd5e2 min(1px, 0.0625rem), transparent 0);
   background-size: 0.375rem 0.25rem;
   background-position: 0rem 0rem;
   position: absolute;
@@ -21521,7 +21521,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   height: 9rem;
   width: 100%;
   margin-top: 0.625rem;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saDisabled .saSignatureCanvasRoot.saSignatureSmallScreen .saSignatureField {
   pointer-events: none;
@@ -21540,7 +21540,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   gap: 0.5rem;
   display: flex;
   align-items: center;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   justify-content: center;
   text-align: center;
 }
@@ -21587,7 +21587,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-top: -1px;
+  margin-top: max(-1px, -0.0625rem);
 }
 .saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saPopupHeading {
   display: flex;
@@ -21618,9 +21618,9 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   color: #2d6ce1;
   background: transparent;
   font-size: 1.25rem;
-  width: 44px;
-  height: 44px;
-  max-width: 44px;
+  width: 2.75rem;
+  height: 2.75rem;
+  max-width: 2.75rem;
 }
 .saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saClosePopup .saButtonText {
   white-space: nowrap;
@@ -21710,7 +21710,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saInputTextWrapper.saHighlightFieldError .saTextArea:hover,
 .saInputTextWrapper.saHighlightFieldError .saTextArea:focus-within {
   outline: 0.125rem solid #e0163e;
-  outline-offset: -2px;
+  outline-offset: -0.125rem;
   box-shadow: none !important;
 }
 .saInputTextWrapper .saTextArea {
@@ -21718,15 +21718,15 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   z-index: 2;
   max-width: none;
   cursor: auto;
-  outline: 1px solid var(--Sa-Color-InputFieldBorder);
-  outline-offset: -1px;
+  outline: min(1px, 0.0625rem) solid var(--Sa-Color-InputFieldBorder);
+  outline-offset: max(-1px, -0.0625rem);
   border: 0.125rem solid transparent;
   box-shadow: none;
 }
 .saInputTextWrapper .saTextArea:hover,
 .saInputTextWrapper .saTextArea:focus-within {
   outline: 0.125rem solid #2d6ce1;
-  outline-offset: -2px;
+  outline-offset: -0.125rem;
   box-shadow: none;
 }
 .saInputTextWrapper .saTextArea:disabled {
@@ -21754,7 +21754,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 @keyframes saShake {
   10%,
   90% {
-    transform: translate3d(-1px, 0, 0);
+    transform: translate3d(max(-1px, -0.0625rem), 0, 0);
   }
   20%,
   80% {
@@ -21763,7 +21763,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   30%,
   50%,
   70% {
-    transform: translate3d(-4px, 0, 0);
+    transform: translate3d(-0.25rem, 0, 0);
   }
   40%,
   60% {
@@ -21771,9 +21771,9 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   }
 }
 .saTextboxWithPopupWrapper select {
-  border: 1px solid #dde3ec;
+  border: min(1px, 0.0625rem) solid #dde3ec;
   color: #313a44;
-  padding: 1px 1px 1px 0;
+  padding: min(1px, 0.0625rem) min(1px, 0.0625rem) min(1px, 0.0625rem) 0;
   background: #fff;
   position: absolute;
   z-index: 1005;
@@ -21852,7 +21852,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saUneditableText td,
 .saUneditableText th {
-  border: 1px solid #eef1f5;
+  border: min(1px, 0.0625rem) solid #eef1f5;
   padding: 0.5rem;
   text-align: left;
 }
@@ -21910,12 +21910,12 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   align-items: center;
   justify-content: center;
   color: #2d6ce1;
-  left: -32px;
+  left: -2rem;
   top: 0;
 }
 .saLinearProcess .saStepAfter {
   position: absolute;
-  right: -32px;
+  right: -2rem;
   top: 0;
   width: 1.5rem;
   background: url(../img/ellipsis-four.svg) no-repeat center;
@@ -21940,8 +21940,8 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   height: calc(100% + 0.125rem);
   min-width: calc(100% + 0.125rem);
   position: absolute;
-  left: -1px;
-  top: -1px;
+  left: max(-1px, -0.0625rem);
+  top: max(-1px, -0.0625rem);
   background: #fff;
   transition: ease-out background-color 0.1s;
   border-radius: 7px;
@@ -21981,7 +21981,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   font-size: 1rem;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   flex: 1;
 }
 .saLinearProcess .saStep .saIcon {
@@ -22144,13 +22144,13 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   min-width: 0rem;
   height: fit-content;
   gap: 0.5rem;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
 }
 .saMultiPartContent .saMenuBoxWrapper .saMenuBox {
   border-radius: 0.5rem;
 }
 .saMenuBoxWrapper .saMenuBox .saDivider {
-  height: 1px;
+  height: min(1px, 0.0625rem);
   border-radius: 0.5px;
   width: calc(100% - 0.5rem);
   background: #eef1f5;
@@ -22239,8 +22239,8 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   height: 0.75rem;
   width: 0.75rem;
   min-width: 0.75rem;
-  bottom: -4px;
-  right: -6px;
+  bottom: -0.25rem;
+  right: -0.375rem;
   transition: ease 0.2s;
   transition-property: color, background-color, border;
 }
@@ -22267,7 +22267,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   content: '';
   position: absolute;
   width: calc(100% + 1.125rem);
-  left: -9px;
+  left: -0.5625rem;
   height: 100%;
 }
 .saMenuBoxWrapper .saMenuItemText {
@@ -22358,8 +22358,8 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   height: 0.75rem;
   width: 0.75rem;
   min-width: 0.75rem;
-  bottom: -4px;
-  right: -6px;
+  bottom: -0.25rem;
+  right: -0.375rem;
 }
 .saSmallScreen .saMenuBoxWrapper {
   margin: 1rem;
@@ -22397,7 +22397,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saLinkList.saMenuBoxWrapper .saMenuItemWrapper:not(:first-child)::after {
   content: '';
-  height: 1px;
+  height: min(1px, 0.0625rem);
   width: calc(100% - 1rem);
   position: absolute;
   top: 0rem;
@@ -22485,7 +22485,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saSmallScreen .saMultiPartContent:has(.saMenuGroup) .saMenuItem::after {
   width: calc(100% + 1rem);
-  left: -8px;
+  left: -0.5rem;
 }
 .saLinkCardsOuter {
   justify-content: center;
@@ -22529,7 +22529,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   display: flex;
   flex-direction: column;
   background: #fff;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   border-radius: 0.5rem;
   position: relative;
   width: 100%;
@@ -23191,7 +23191,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   display: grid;
 }
 .saMagicBox .saBoxRow {
-  border: 1px transparent;
+  border: min(1px, 0.0625rem) transparent;
   border-top-style: solid;
   border-bottom-style: solid;
   max-width: 100px;
@@ -23204,7 +23204,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   writing-mode: tb-rl;
 }
 .saMagicBox .saBoxColumn {
-  border: 1px transparent;
+  border: min(1px, 0.0625rem) transparent;
   border-left-style: solid;
   border-right-style: solid;
 }
@@ -23223,7 +23223,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   /* prevent stripes from escaping the container if it is too small */
   overflow: clip;
 }
@@ -23250,7 +23250,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   flex-direction: column;
 }
 .saMagicBox .saBox {
-  border: 1px solid;
+  border: min(1px, 0.0625rem) solid;
   box-sizing: border-box;
   padding: 0.125rem;
   overflow: clip;
@@ -23282,7 +23282,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   background: #fff;
 }
 .saMagicBox .saBoxContainer .saButtonRow {
-  border-bottom: 1px solid #60748b;
+  border-bottom: min(1px, 0.0625rem) solid #60748b;
 }
 .saMagicBox .saBoxLink {
   color: #2d6ce1;
@@ -23571,21 +23571,21 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   height: 0.875rem;
   min-width: 0.875rem;
   font-size: 0.625rem;
-  right: -4px;
-  bottom: -4px;
+  right: -0.25rem;
+  bottom: -0.25rem;
   z-index: 2;
 }
 softadmin-nodegraph {
   position: relative;
   display: block;
   background: #f8f9fb;
-  background-image: radial-gradient(circle at 0.5rem 0.5rem, #ccd5e2 1px, transparent 0);
+  background-image: radial-gradient(circle at 0.5rem 0.5rem, #ccd5e2 min(1px, 0.0625rem), transparent 0);
   background-size: 1rem 1rem;
   background-position: 0.5rem 0.5rem;
   overflow: hidden;
   min-width: 100%;
   min-height: calc(100vh - 7rem - 3rem);
-  box-shadow: inset #f8f9fb 0 0 0 1px;
+  box-shadow: inset #f8f9fb 0 0 0 min(1px, 0.0625rem);
   border-radius: 0.5rem;
 }
 softadmin-nodegraph * {
@@ -23605,7 +23605,7 @@ softadmin-nodegraph .saNode {
   max-width: 288px;
   background-color: #fff;
   z-index: 3;
-  border: 1px solid #adbdd1;
+  border: min(1px, 0.0625rem) solid #adbdd1;
   border-radius: 0.75rem;
   background: #fff;
   color: #313a44;
@@ -23616,7 +23616,7 @@ softadmin-nodegraph .saNode {
   justify-content: center;
 }
 softadmin-nodegraph .saNode:hover {
-  box-shadow: 0 0 0 1px #2d6ce1;
+  box-shadow: 0 0 0 min(1px, 0.0625rem) #2d6ce1;
   border-color: #2d6ce1 !important;
 }
 softadmin-nodegraph .saNode:hover .saCreateConnection {
@@ -23715,7 +23715,7 @@ softadmin-nodegraph .saNode.saDecision .saNodeHead {
   transform: skew(-10deg, -10deg) rotate(45deg);
 }
 softadmin-nodegraph .saNode.saDecision .saNodeTools {
-  top: -40px;
+  top: -2.5rem;
   right: 6rem;
 }
 softadmin-nodegraph .saNode.saDecision .saCreateConnection {
@@ -23731,20 +23731,20 @@ softadmin-nodegraph .saNode.saDecision .saCreateConnection .saCreateConnectionIn
   inset: 0;
 }
 softadmin-nodegraph .saNode.saDecision .saCreateConnectionTop {
-  top: -12px;
-  right: -12px;
+  top: -0.75rem;
+  right: -0.75rem;
 }
 softadmin-nodegraph .saNode.saDecision .saCreateConnectionRight {
-  bottom: -12px;
-  right: -12px;
+  bottom: -0.75rem;
+  right: -0.75rem;
 }
 softadmin-nodegraph .saNode.saDecision .saCreateConnectionBottom {
-  top: -12px;
-  left: -12px;
+  top: -0.75rem;
+  left: -0.75rem;
 }
 softadmin-nodegraph .saNode.saDecision .saCreateConnectionLeft {
-  bottom: -12px;
-  left: -12px;
+  bottom: -0.75rem;
+  left: -0.75rem;
 }
 softadmin-nodegraph .saNode.saSubroutine {
   border-color: #8b4af1;
@@ -23787,7 +23787,7 @@ softadmin-nodegraph .saNode.saOutput .saNodeContent {
 }
 softadmin-nodegraph .saNode.saInput .saNodeTools,
 softadmin-nodegraph .saNode.saOutput .saNodeTools {
-  top: -4px;
+  top: -0.25rem;
 }
 softadmin-nodegraph .saNode.saInput .saCreateConnection:hover .saCreateConnectionIndicator,
 softadmin-nodegraph .saNode.saOutput .saCreateConnection:hover .saCreateConnectionIndicator {
@@ -23845,7 +23845,7 @@ softadmin-nodegraph .saNode.saCanDrag {
 }
 softadmin-nodegraph .saNode.saSelected,
 softadmin-nodegraph .saNode.saTempSelected {
-  box-shadow: 0 0 0 1px #2d6ce1;
+  box-shadow: 0 0 0 min(1px, 0.0625rem) #2d6ce1;
   border-color: #2d6ce1 !important;
   z-index: 5;
 }
@@ -23971,7 +23971,7 @@ softadmin-nodegraph .saConnectionLabel {
   transform: translate(-50%, -50%);
   padding: 0.125rem 0.25rem 0.125rem 0.25rem;
   border-radius: 0.25rem;
-  border: 1px solid #7088a4;
+  border: min(1px, 0.0625rem) solid #7088a4;
   background: #eef1f5;
   color: #404c5b;
   max-width: 480px;
@@ -24065,12 +24065,12 @@ softadmin-nodegraph .saNodeTools button {
   padding: 0.5rem;
   font-size: 0.75rem;
   border-radius: 0.25rem;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   position: relative;
   width: 1.5rem;
-  left: -8px;
+  left: -0.5rem;
   color: #7088a4;
   /* Larger hitboxes for buttons */
 }
@@ -24181,7 +24181,7 @@ softadmin-nodegraph .saNode.saExpanded .saExpandButton i {
   transform: rotate(180deg);
 }
 softadmin-nodegraph .saNodeContent {
-  border-top-width: 1px;
+  border-top-width: min(1px, 0.0625rem);
   border-top-style: solid;
   border-top-color: inherit;
   padding: 7px;
@@ -24247,7 +24247,7 @@ softadmin-nodegraph .saCreateConnection .saCreateConnectionIndicator {
   height: 0.75rem;
   border-radius: 0.75rem;
   background-color: #eff0fd;
-  border: 1px solid #2d6ce1;
+  border: min(1px, 0.0625rem) solid #2d6ce1;
   position: relative;
   transition: ease 0.1s background-color, ease transform 0.1s;
 }
@@ -24306,12 +24306,12 @@ softadmin-nodegraph .saConnectionBeingCreated.saHasTarget line {
   stroke-width: 5px;
 }
 softadmin-nodegraph .saNode.saCreateConnectionFrom {
-  box-shadow: 0 0 0 1px #2d6ce1, 0 0 0 0.25rem #b0b8f3;
+  box-shadow: 0 0 0 min(1px, 0.0625rem) #2d6ce1, 0 0 0 0.25rem #b0b8f3;
   border-color: #2d6ce1 !important;
   cursor: copy;
 }
 softadmin-nodegraph .saNode.saCreateConnectionTo {
-  box-shadow: 0 0 0 1px #2d6ce1, 0 0 0 0.25rem #b0b8f3;
+  box-shadow: 0 0 0 min(1px, 0.0625rem) #2d6ce1, 0 0 0 0.25rem #b0b8f3;
   border-color: #2d6ce1 !important;
   cursor: copy;
 }
@@ -24321,7 +24321,7 @@ softadmin-nodegraph .saDragged {
 .saSelectionRect {
   position: absolute;
   background: rgba(45, 108, 225, 0.2);
-  box-shadow: inset 0 0 0 1px #2d6ce1;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
   pointer-events: none;
   z-index: 90;
 }
@@ -24336,7 +24336,7 @@ softadmin-nodegraph .saDragged {
   overflow-x: hidden;
 }
 .saIFrameTabs .saContextMenuWrapper .saContextMenuItem {
-  max-width: 400px;
+  max-width: 25rem;
 }
 .saSmallScreen .saIFrameTabs .saContextMenuWrapper .saContextMenuItem {
   max-width: 90vw;
@@ -24369,7 +24369,7 @@ softadmin-nodegraph .saDragged {
 }
 .saIFrameTabs .saTabGroup::after {
   content: '';
-  height: 1px;
+  height: min(1px, 0.0625rem);
   width: 100%;
   background: #ccd5e2;
   position: absolute;
@@ -24381,7 +24381,7 @@ softadmin-nodegraph .saDragged {
   display: flex;
 }
 .saIFrameTabs .saTabGroup div:first-child .saTab {
-  border-left: 1px solid #ccd5e2;
+  border-left: min(1px, 0.0625rem) solid #ccd5e2;
   border-radius: 0.25rem 0 0 0;
 }
 .saIFrameTabs .saTabGroup div:last-child .saTab {
@@ -24400,7 +24400,7 @@ softadmin-nodegraph .saDragged {
   background: #f8f9fb;
   border-color: #eef1f5;
   z-index: 0;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   border-left: none;
   font-size: 0.875rem;
   padding: 0 1rem;
@@ -24432,7 +24432,7 @@ softadmin-nodegraph .saDragged {
 .saIFrameTabs .saTab.saSelected {
   color: var(--Sa-Color-LabelHover);
   background: #fff;
-  border-bottom: 1px solid #fff;
+  border-bottom: min(1px, 0.0625rem) solid #fff;
 }
 .saIFrameTabs .saTab.saSelected .saIcon {
   color: var(--Sa-Color-IconHover);
@@ -24474,8 +24474,8 @@ softadmin-nodegraph .saDragged {
 }
 .saIFrameTabs .saTabGroup .saTab.saMoreTab .saBadgeCount {
   position: absolute;
-  top: -4px;
-  right: -4px;
+  top: -0.25rem;
+  right: -0.25rem;
 }
 .saIFrameTabs .saContextMenu button {
   width: 100%;
@@ -24515,7 +24515,7 @@ softadmin-nodegraph .saDragged {
   width: 100%;
 }
 .saCompact .saIFrameTabs .saContextMenu {
-  top: 44px;
+  top: 2.75rem;
 }
 .saLinkTabs {
   display: flex;
@@ -24527,7 +24527,7 @@ softadmin-nodegraph .saDragged {
   border-radius: 1rem;
   margin: 1rem;
   max-width: 100%;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
 }
 .saLinkTabs .saTabGroup {
   display: flex;
@@ -24696,8 +24696,8 @@ body.saMiniView {
   height: 3rem;
   width: 3rem;
   position: absolute;
-  top: -8px;
-  left: -8px;
+  top: -0.5rem;
+  left: -0.5rem;
 }
 @media (pointer: fine) {
   .saCheckboxTree .saCheckboxOuter .saIcon:hover:not(.saSpinner):not(.saExpandingIcon) {
@@ -24798,7 +24798,7 @@ body.saMiniView {
 }
 .saMultiPartPanel.saHasBorder,
 .saSmallScreen .saMultiPartPanel {
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   border-radius: 1rem;
 }
 .saMultiPartContainer {
@@ -24902,7 +24902,7 @@ body.saMiniView {
   height: 2.5em;
   width: 2.5em;
   border: none;
-  box-shadow: inset 0 0 0 1px #ccd5e2;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #ccd5e2;
   font-family: 'Lexend', sans-serif;
   color: #313a44;
   padding: 0;
@@ -24933,7 +24933,7 @@ body.saMiniView {
   align-items: center;
   justify-content: center;
   background: #fff;
-  box-shadow: inset 0 0 0 1px #ccd5e2;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #ccd5e2;
   color: #7088a4;
   transition: ease color 0.2s, ease background 0.2s, ease border-radius 0.2s;
   cursor: pointer;
@@ -24942,11 +24942,11 @@ body.saMiniView {
 }
 .saNumberStepper button.saDecreaseButton {
   border-radius: 0.5rem 0 0 0.5rem;
-  margin-right: -1px;
+  margin-right: max(-1px, -0.0625rem);
 }
 .saNumberStepper button.saIncreaseButton {
   border-radius: 0 0.5rem 0.5rem 0;
-  margin-left: -1px;
+  margin-left: max(-1px, -0.0625rem);
 }
 @media (pointer: fine) {
   .saNumberStepper button:hover {
@@ -25069,7 +25069,7 @@ body.saMiniView {
     color: #1f59bf;
   }
   .saGroupView .saPillGroup .saPill:has(:enabled):hover.saOutline {
-    box-shadow: inset 0 0 0 1px #2d6ce1;
+    box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
   }
 }
 .saGroupView .saPillGroup .saPill:has(:enabled):active {
@@ -25121,7 +25121,7 @@ body.saMiniView {
 }
 .saGroupView .saPillGroup .saPill::before {
   content: "";
-  height: 44px;
+  height: 2.75rem;
   width: 100%;
   background-color: transparent;
   opacity: 0;
@@ -25155,7 +25155,7 @@ body.saMiniView {
   line-height: 0.875rem;
 }
 .saGroupView .saPillGroup .saPill.saOutline {
-  box-shadow: inset 0 0 0 1px #ccd5e2;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #ccd5e2;
 }
 .saGroupView .saPillGroup .saPill:has(:checked) {
   background-color: #2d6ce1;
@@ -25164,7 +25164,7 @@ body.saMiniView {
 .saGroupView .saPillGroup .saPill:has(:checked).saOutline {
   background-color: #eff0fd;
   color: #1f59bf;
-  box-shadow: inset 0 0 0 1px #2d6ce1;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
 }
 .saGroupView .saPillGroup .saPill input {
   appearance: none;
@@ -25203,7 +25203,7 @@ body.saMiniView {
 }
 .saGroupView .saPillGroup .saPill::before {
   content: '';
-  height: 44px;
+  height: 2.75rem;
   width: 100%;
   background-color: transparent;
   opacity: 0;
@@ -25264,7 +25264,7 @@ body.saMiniView {
   padding: 0 0.125rem 0 3.5rem;
   border-radius: 0.75rem;
   border: none;
-  box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) var(--Sa-Color-InputFieldBorder);
   transition: ease color 0.2s, ease background 0.2s, ease box-shadow 0.2s;
 }
 .saGroupView .saGroupViewSearchBox input::-webkit-search-cancel-button {
@@ -25338,7 +25338,7 @@ body.saMiniView {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   width: fit-content;
@@ -25498,7 +25498,7 @@ body.saMiniView {
 }
 .saGroupView .saGroupViewGroup .saGroupViewTitle {
   box-sizing: border-box;
-  border: 1px #ccd5e2 solid;
+  border: min(1px, 0.0625rem) #ccd5e2 solid;
   border-bottom: none;
   border-radius: 1rem 1rem 0rem 0rem;
   align-items: center;
@@ -25537,7 +25537,7 @@ body.saMiniView {
 }
 .saGroupView .saGroupViewTable {
   box-sizing: border-box;
-  border: 1px #ccd5e2 solid;
+  border: min(1px, 0.0625rem) #ccd5e2 solid;
   border-top: none;
   color: #313a44;
   border-radius: 0 0 1rem 1rem;
@@ -25554,9 +25554,9 @@ body.saMiniView {
   background: var(--Sa-Color-GridHead);
   font-weight: 600;
   box-sizing: border-box;
-  border-right: 1px solid #dde3ec;
-  border-top: 1px solid #dde3ec;
-  border-bottom: 1px solid #dde3ec;
+  border-right: min(1px, 0.0625rem) solid #dde3ec;
+  border-top: min(1px, 0.0625rem) solid #dde3ec;
+  border-bottom: min(1px, 0.0625rem) solid #dde3ec;
   border-left: none;
   text-align: left;
   height: 2rem;
@@ -25564,13 +25564,13 @@ body.saMiniView {
   vertical-align: middle;
 }
 .saGroupView .saGroupViewTable th.saFirstInColumnGroup {
-  border-left: 1px solid #ccd5e2;
+  border-left: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saGroupView .saGroupViewTable th.saFirstInColumnGroup:first-child {
   border-left: none;
 }
 .saGroupView .saGroupViewTable th.saLastInColumnGroup {
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saGroupView .saGroupViewTable th.saLastInColumnGroup + .saFirstInColumnGroup {
   border-left: none;
@@ -25616,7 +25616,7 @@ body.saMiniView {
   border-left: none;
   border-right: none;
   border-bottom: none;
-  border-top: 1px solid #dde3ec;
+  border-top: min(1px, 0.0625rem) solid #dde3ec;
   vertical-align: middle;
   height: 2rem;
   padding: 0.5rem 0.5rem;
@@ -25676,7 +25676,7 @@ body.saMiniView {
 .saSelectionArea {
   position: absolute;
   background: rgba(45, 108, 225, 0.2);
-  box-shadow: inset 0 0 0 1px #2d6ce1;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
   pointer-events: none;
   z-index: 90;
 }
@@ -25685,7 +25685,7 @@ body.saMiniView {
   width: 100%;
   border-radius: 1rem 0.25rem 0.25rem 1rem;
   overflow: hidden;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   box-sizing: border-box;
   outline: none;
 }
@@ -25709,7 +25709,7 @@ body.saMiniView {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   position: relative;
@@ -25856,7 +25856,7 @@ body.saMiniView {
   width: 16.5rem;
   min-width: 16.5rem;
   padding: 0.75rem;
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saPdfTemplateEditor .saPdfTemplateEditorSidebar .saLastSavedText {
   height: 1.25rem;
@@ -25917,7 +25917,7 @@ body.saMiniView {
   justify-content: space-between;
   padding: 0.5rem;
   height: 2rem;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   border-radius: 0.5rem;
   background: #fff;
   position: relative;
@@ -26028,7 +26028,7 @@ body.saMiniView {
   padding: 0.5rem;
   justify-content: space-between;
   transition: ease transform 0.2s;
-  box-shadow: inset 0 -1px 0 0 #ccd5e2;
+  box-shadow: inset 0 max(-1px, -0.0625rem) 0 0 #ccd5e2;
 }
 .saPdfTemplateEditor .saPdfTemplateToolbar ul {
   display: flex;
@@ -26146,7 +26146,7 @@ body.saMiniView {
   color: #adbdd1;
 }
 .saPdfTemplateEditor .saInputPair {
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
   flex-wrap: wrap;
 }
 .saPdfTemplateEditor .saInputPair.saHideBorder {
@@ -26179,7 +26179,7 @@ body.saMiniView {
   height: 0.5rem;
   width: 0.5rem;
   background: #fff;
-  border: 1px solid #8b4af1;
+  border: min(1px, 0.0625rem) solid #8b4af1;
   opacity: 0;
 }
 @media (pointer: fine) {
@@ -26218,7 +26218,7 @@ body.saMiniView {
   display: flex;
 }
 .saPdfTemplateEditor .saPlaceholder.saSelected .saPlaceholderValue {
-  box-shadow: inset 0 0 0 1px #8b4af1;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #8b4af1;
 }
 .saPdfTemplateEditor .saPlaceholder .saIcon {
   font-size: 2.5rem;
@@ -26239,13 +26239,13 @@ body.saMiniView {
   border-radius: 0.25rem 0.25rem 0 0;
   display: none;
   position: absolute;
-  top: -15px;
+  top: -0.9375rem;
   left: 0;
   white-space: nowrap;
 }
 .saPdfTemplateEditor .saPlaceholderValue {
   display: flex;
-  box-shadow: inset 0 0 0 1px #c18cf6;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #c18cf6;
   font-size: 0.875rem;
   line-height: 1;
   transition: ease box-shadow 0.1s;
@@ -26277,13 +26277,13 @@ body.saMiniView {
 .saPdfTemplateEditor .saToolbarDistribute {
   flex-wrap: wrap;
   padding: 0 0.5rem;
-  border-left: 1px solid #ccd5e2;
-  border-right: 1px solid #ccd5e2;
+  border-left: min(1px, 0.0625rem) solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saLargeScreen .saPivotGridWrapper.stickyheader thead {
   position: sticky;
   z-index: 3;
-  top: -1px;
+  top: max(-1px, -0.0625rem);
 }
 .saLargeScreen .saPivotGridWrapper.stickyheader thead tr:first-child th:first-child::before {
   content: '';
@@ -26292,8 +26292,8 @@ body.saMiniView {
   display: flex;
   position: absolute;
   z-index: -1;
-  top: -1px;
-  left: -1px;
+  top: max(-1px, -0.0625rem);
+  left: max(-1px, -0.0625rem);
   background: #fff;
 }
 .saLargeScreen .saPivotGridWrapper.stickyheader thead tr:first-child th:first-child::after {
@@ -26303,12 +26303,12 @@ body.saMiniView {
   display: flex;
   position: absolute;
   z-index: -1;
-  top: -1px;
-  left: -1px;
+  top: max(-1px, -0.0625rem);
+  left: max(-1px, -0.0625rem);
   background: inherit;
   border-top-left-radius: 1rem;
-  border-top: 1px solid #ccd5e2;
-  border-left: 1px solid #ccd5e2;
+  border-top: min(1px, 0.0625rem) solid #ccd5e2;
+  border-left: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saLargeScreen .saPivotGridWrapper.stickyheader thead tr:first-child th:last-child::before {
   content: '';
@@ -26317,8 +26317,8 @@ body.saMiniView {
   display: flex;
   position: absolute;
   z-index: -1;
-  top: -1px;
-  right: -1px;
+  top: max(-1px, -0.0625rem);
+  right: max(-1px, -0.0625rem);
   background: #fff;
 }
 .saLargeScreen .saPivotGridWrapper.stickyheader thead tr:first-child th:last-child::after {
@@ -26328,19 +26328,19 @@ body.saMiniView {
   display: flex;
   position: absolute;
   z-index: -1;
-  top: -1px;
-  right: -1px;
+  top: max(-1px, -0.0625rem);
+  right: max(-1px, -0.0625rem);
   background: inherit;
   border-top-right-radius: 1rem;
-  border-top: 1px solid #ccd5e2;
-  border-right: 1px solid #ccd5e2;
+  border-top: min(1px, 0.0625rem) solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saLargeScreen .saPivotGridWrapper.stickyheader tbody .saPivotGridHeading,
 .saLargeScreen .saPivotGridWrapper.stickyheader thead .saPivotGridHeading.saPivotGridFiller:first-child {
   position: sticky;
   z-index: 2;
-  left: 1px;
-  box-shadow: -1px 0 0 #ccd5e2;
+  left: min(1px, 0.0625rem);
+  box-shadow: max(-1px, -0.0625rem) 0 0 #ccd5e2;
 }
 .saLargeScreen .saPivotGridWrapper.stickyheader tbody tr:last-child th:first-child::before {
   content: '';
@@ -26349,8 +26349,8 @@ body.saMiniView {
   display: flex;
   position: absolute;
   z-index: -1;
-  bottom: -1px;
-  left: -1px;
+  bottom: max(-1px, -0.0625rem);
+  left: max(-1px, -0.0625rem);
   background: #fff;
 }
 .saLargeScreen .saPivotGridWrapper.stickyheader tbody tr:last-child th:first-child::after {
@@ -26360,12 +26360,12 @@ body.saMiniView {
   display: flex;
   position: absolute;
   z-index: -1;
-  bottom: -1px;
-  left: -1px;
+  bottom: max(-1px, -0.0625rem);
+  left: max(-1px, -0.0625rem);
   background: inherit;
   border-bottom-left-radius: 1rem;
-  border-bottom: 1px solid #ccd5e2;
-  border-left: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
+  border-left: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saPivotGridWrapper {
   display: flex;
@@ -26544,7 +26544,7 @@ body.saMiniView {
 }
 .saPivotGridWrapper .saPivotGrid {
   box-sizing: border-box;
-  border: 1px #ccd5e2 solid;
+  border: min(1px, 0.0625rem) #ccd5e2 solid;
   color: #313a44;
   border-radius: 1rem;
 }
@@ -26583,22 +26583,22 @@ body.saMiniView {
   background: var(--Sa-Color-GridHead);
   font-weight: 600;
   box-sizing: border-box;
-  border-right: 1px solid #dde3ec;
-  border-top: 1px solid #dde3ec;
-  border-bottom: 1px solid #dde3ec;
+  border-right: min(1px, 0.0625rem) solid #dde3ec;
+  border-top: min(1px, 0.0625rem) solid #dde3ec;
+  border-bottom: min(1px, 0.0625rem) solid #dde3ec;
   border-left: none;
   text-align: left;
   min-height: 3rem;
   padding: 0rem;
 }
 .saPivotGridWrapper .saPivotGridHeading.saFirstInColumnGroup {
-  border-left: 1px solid #ccd5e2;
+  border-left: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saPivotGridWrapper .saPivotGridHeading.saFirstInColumnGroup:first-child {
   border-left: none;
 }
 .saPivotGridWrapper .saPivotGridHeading.saLastInColumnGroup {
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saPivotGridWrapper .saPivotGridHeading.saLastInColumnGroup + .saFirstInColumnGroup {
   border-left: none;
@@ -26613,10 +26613,10 @@ body.saMiniView {
   border: none;
 }
 .saPivotGridWrapper .saPivotGridGroupRow .saPivotGridFiller:has(.saTopLeftCell) {
-  border-bottom: 1px solid #dde3ec;
+  border-bottom: min(1px, 0.0625rem) solid #dde3ec;
 }
 .saPivotGridWrapper .saPivotGridGroupRow + tr th:first-child:not(.saFirstInColumnGroup) {
-  border-left: 1px solid #dde3ec;
+  border-left: min(1px, 0.0625rem) solid #dde3ec;
 }
 .saPivotGridWrapper .saPivotGridHeadingInner {
   color: #313a44;
@@ -26643,10 +26643,10 @@ body.saMiniView {
   border-left: none;
   border-right: none;
   border-bottom: none;
-  border-top: 1px solid #dde3ec;
+  border-top: min(1px, 0.0625rem) solid #dde3ec;
   vertical-align: middle;
   height: 2rem;
-  border-right: 1px solid #dde3ec;
+  border-right: min(1px, 0.0625rem) solid #dde3ec;
   text-align: left;
 }
 .saStandard .saPivotGridWrapper td {
@@ -26689,15 +26689,15 @@ body.saMiniView {
   border-top: none;
 }
 .saPivotGridWrapper .saPivotGridGroupRow + tr th:first-child {
-  border-top: 1px solid #dde3ec;
+  border-top: min(1px, 0.0625rem) solid #dde3ec;
 }
 .saPivotGridWrapper .saPivotGrid tr :last-child {
   border-right: none;
 }
 .saPivotGridWrapper .saPivotGridColumnGroup {
-  border-right: 1px solid #ccd5e2;
-  border-left: 1px solid #ccd5e2;
-  border-top: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
+  border-left: min(1px, 0.0625rem) solid #ccd5e2;
+  border-top: min(1px, 0.0625rem) solid #ccd5e2;
   border-bottom: none;
   border-collapse: collapse;
   vertical-align: middle;
@@ -26824,7 +26824,7 @@ body.saMiniView {
 }
 .saPivotGridWrapper caption {
   position: absolute;
-  left: -10000px;
+  left: -625rem;
 }
 .saCompact .saPivotGridWrapper .saPivotGridHeadingInner,
 .saCompact .saPivotGridWrapper td span {
@@ -26854,8 +26854,8 @@ body.saMiniView {
   max-width: 640px;
   width: 80%;
   border-radius: 1.5rem;
-  box-shadow: 0 1px 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);
-  border: solid 1px #ccd5e2;
+  box-shadow: 0 min(1px, 0.0625rem) 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background: #fff;
   position: relative;
   top: 12.5rem;
@@ -27058,7 +27058,7 @@ body.saMiniView {
 }
 .saProgressOuter .saProgressWrapper .saProgress .saDotCarousel {
   position: relative;
-  left: -9999px;
+  left: -9999rem;
   margin-left: 1rem;
   min-width: 0.5rem;
   height: 0.5rem;
@@ -27081,13 +27081,13 @@ body.saMiniView {
 }
 @keyframes saDotCarousel {
   0% {
-    box-shadow: 9984px 0 0 -1px #ccd5e2, 9999px 0 0 1px #ccd5e2, 10014px 0 0 -1px #ccd5e2;
+    box-shadow: 9984px 0 0 max(-1px, -0.0625rem) #ccd5e2, 9999px 0 0 min(1px, 0.0625rem) #ccd5e2, 10014px 0 0 max(-1px, -0.0625rem) #ccd5e2;
   }
   50% {
-    box-shadow: 10014px 0 0 -1px #ccd5e2, 9984px 0 0 -1px #ccd5e2, 9999px 0 0 1px #ccd5e2;
+    box-shadow: 10014px 0 0 max(-1px, -0.0625rem) #ccd5e2, 9984px 0 0 max(-1px, -0.0625rem) #ccd5e2, 9999px 0 0 min(1px, 0.0625rem) #ccd5e2;
   }
   100% {
-    box-shadow: 9999px 0 0 1px #ccd5e2, 10014px 0 0 -1px #ccd5e2, 9984px 0 0 -1px #ccd5e2;
+    box-shadow: 9999px 0 0 min(1px, 0.0625rem) #ccd5e2, 10014px 0 0 max(-1px, -0.0625rem) #ccd5e2, 9984px 0 0 max(-1px, -0.0625rem) #ccd5e2;
   }
 }
 @keyframes saProgressIndeterminate {
@@ -27137,7 +27137,7 @@ body.saMiniView {
 .saHelpPage hr {
   background-color: #eef1f5;
   border: 0;
-  height: 1px;
+  height: min(1px, 0.0625rem);
   margin-bottom: 0.75rem;
 }
 .saHelpPage ol,
@@ -27167,7 +27167,7 @@ body.saMiniView {
 .saDiffView tr,
 .saDiffView td,
 .saDiffView th {
-  border: 1px solid #fff;
+  border: min(1px, 0.0625rem) solid #fff;
   border-collapse: collapse;
 }
 .saDiffView del,
@@ -27251,7 +27251,7 @@ body.saMiniView {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   gap: 0.5rem;
@@ -27361,7 +27361,7 @@ body.saMiniView {
   flex-direction: column;
   min-width: 0rem;
   height: fit-content;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   border-radius: 1rem;
   position: relative;
   min-width: 872px;
@@ -27664,7 +27664,7 @@ body.saMiniView {
   display: flex;
   flex: 1 1 0;
   min-width: 4rem;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
   position: relative;
 }
 .saCalendarSection .saWeek:last-child {
@@ -27693,7 +27693,7 @@ body.saMiniView {
 .saCalendarSection .saWeekDay {
   color: #60748b;
   flex: 1 1 0;
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27705,7 +27705,7 @@ body.saMiniView {
   background: #fff;
 }
 .saCalendarSection .saWeekDay:last-child {
-  border-right: 1px solid transparent;
+  border-right: min(1px, 0.0625rem) solid transparent;
 }
 .saCalendarSection .saWeekDay.saRedDay {
   color: #e0163e;
@@ -27724,7 +27724,7 @@ body.saMiniView {
   background: #f8f9fb;
   color: #313a44;
   font-size: 0.875rem;
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saCalendarSection .saDateIsToday .saDateNumber {
   color: #2d6ce1;
@@ -27750,27 +27750,27 @@ body.saMiniView {
   align-items: center;
   flex-direction: column;
   position: relative;
-  border: 1px solid transparent;
-  border-right: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid transparent;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
   min-width: 0rem;
   overflow: hidden;
   min-height: 5.5rem;
 }
 .saCalendarSection .saDateX:last-child {
-  border-right: 1px solid transparent;
+  border-right: min(1px, 0.0625rem) solid transparent;
 }
 .saCalendarSection .saDateX.saDropOn {
-  border: 1px dashed #2d6ce1;
+  border: min(1px, 0.0625rem) dashed #2d6ce1;
   background-color: #eff0fd;
 }
 .saCalendarSection .saDateX.saClickable {
   cursor: pointer;
 }
 .saCalendarSection .saDateX.saClickable:hover {
-  border: 1px solid #2d6ce1;
+  border: min(1px, 0.0625rem) solid #2d6ce1;
 }
 .saCalendarSection .saDateX.saLastClicked {
-  border: 1px solid #2d6ce1;
+  border: min(1px, 0.0625rem) solid #2d6ce1;
 }
 .saCalendarSection .saDateInner {
   width: 100%;
@@ -27859,7 +27859,7 @@ body.saMiniView {
   font-weight: 300;
   color: #60748b;
   display: flex;
-  margin-top: 1px;
+  margin-top: min(1px, 0.0625rem);
 }
 .saCalendarSection .saActivity .saActivityDescription {
   font-size: 0.75rem;
@@ -27896,7 +27896,7 @@ body.saMiniView {
   color: inherit;
 }
 .saCalendarSection .saActivity.saAllDay {
-  border: 1px solid transparent;
+  border: min(1px, 0.0625rem) solid transparent;
   padding: 0.25rem 0.5rem;
 }
 .saCalendarSection .saActivityInner {
@@ -27926,11 +27926,11 @@ body.saMiniView {
   justify-content: space-between;
   gap: 1rem;
   padding: 1rem 1rem 1rem 1.25rem;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
   border-radius: 1rem 1rem 0 0;
   color: #313a44;
   position: sticky;
-  top: -1px;
+  top: max(-1px, -0.0625rem);
   z-index: 10;
   background-color: #fff;
 }
@@ -27995,7 +27995,7 @@ body.saMiniView {
 .saDesktopCalendar.saCalendarSection .saCalendarSidebar {
   position: relative;
   transition: ease all 0.2s;
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
   min-height: 0rem;
   transition: ease width 0.2s, ease opacity 0.2s;
   width: 15rem;
@@ -28054,8 +28054,8 @@ body.saMiniView {
   height: 28px;
   width: 28px;
   position: absolute;
-  left: -2px;
-  top: -2px;
+  left: -0.125rem;
+  top: -0.125rem;
   z-index: -1;
 }
 .saDesktopCalendar.saCalendarSection .saCalendarSidebarInner .saDatePickerRoot .saDate.saMarked::before {
@@ -28238,7 +28238,7 @@ body.saMiniView {
   border-bottom: none;
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saWeek:last-child {
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saWeek.saWeekDays {
   border-bottom: none;
@@ -28249,7 +28249,7 @@ body.saMiniView {
   margin-top: 0.125rem;
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saWeekDates {
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
   min-height: 2rem;
   position: sticky;
   left: 0;
@@ -28260,8 +28260,8 @@ body.saMiniView {
   top: 103px;
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saWeekDates .saWeekExtraInner {
-  border: 1px solid transparent;
-  border-right: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid transparent;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saNumberOfCheckedWrapper {
   font-size: 0.875rem;
@@ -28274,7 +28274,7 @@ body.saMiniView {
   gap: 0.125rem;
   min-width: 0rem;
   border: none;
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
   align-items: center;
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saWeekExtraInner:last-child {
@@ -28290,17 +28290,17 @@ body.saMiniView {
   width: fit-content;
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saCalendarStripe.saDropOn {
-  border: 1px dashed #2d6ce1;
+  border: min(1px, 0.0625rem) dashed #2d6ce1;
   background-color: #eff0fd;
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saClickable.saWeekExtraInner:hover,
 .saDesktopCalendar.saTimeScheduleCalendar .saWeekExtraInner.saLastClicked {
-  border: 1px solid #2d6ce1;
+  border: min(1px, 0.0625rem) solid #2d6ce1;
   cursor: pointer;
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saCalendarItemList {
   padding-right: 1rem;
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saCalendarItemList:last-child {
   border-right-color: transparent;
@@ -28323,7 +28323,7 @@ body.saMiniView {
   overflow: hidden;
   min-height: 10rem;
   height: 100%;
-  margin-left: -8px;
+  margin-left: -0.5rem;
   width: calc(100% + 1rem);
 }
 .saDesktopCalendar.saResourceCalendar .saCalendarResourceFilter {
@@ -28496,8 +28496,8 @@ body.saMiniView {
 .saTimeScheduleCalendar .saCalendarItemList .saCalendarStripe.saLastClicked {
   background: #f8f9fb;
   cursor: pointer;
-  outline: 1px solid #2d6ce1;
-  outline-offset: -1px;
+  outline: min(1px, 0.0625rem) solid #2d6ce1;
+  outline-offset: max(-1px, -0.0625rem);
 }
 .saTimeScheduleCalendar .saListWrapper {
   display: flex;
@@ -28514,7 +28514,7 @@ body.saMiniView {
   gap: 0;
   min-width: 3.5rem;
   flex: 0;
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
   position: relative;
 }
 .saTimeScheduleCalendar .saSlot {
@@ -28529,7 +28529,7 @@ body.saMiniView {
 }
 .saTimeScheduleCalendar .saSlot::after {
   content: '';
-  height: 1px;
+  height: min(1px, 0.0625rem);
   background-color: #eef1f5;
   width: 0.25rem;
   right: 0;
@@ -28538,7 +28538,7 @@ body.saMiniView {
 .saTimeScheduleCalendar .saSlotInner {
   max-height: 0.75rem;
   overflow: visible;
-  margin-top: -6px;
+  margin-top: -0.375rem;
   position: relative;
 }
 .saTimeScheduleCalendar .saCalendarItemList {
@@ -28551,7 +28551,7 @@ body.saMiniView {
 .saTimeScheduleCalendar .saCalendarStripe {
   position: absolute;
   width: 100%;
-  border-top: 1px solid #eef1f5;
+  border-top: min(1px, 0.0625rem) solid #eef1f5;
 }
 .saTimeScheduleCalendar .saCalendarBackground {
   display: flex;
@@ -28613,19 +28613,19 @@ body.saMiniView {
   position: absolute;
   width: 100%;
   background: #e0163e;
-  height: 1px;
+  height: min(1px, 0.0625rem);
   z-index: 4;
-  outline: 1px solid #fff;
+  outline: min(1px, 0.0625rem) solid #fff;
   pointer-events: none;
 }
 .saTimeScheduleCalendar .saCurrentTime::before {
   content: '';
   height: 0.5rem;
   min-width: 0.5rem;
-  outline: 1px solid #fff;
+  outline: min(1px, 0.0625rem) solid #fff;
   position: absolute;
   left: 0;
-  top: -3px;
+  top: -0.1875rem;
   border-radius: 0.5rem;
   background: #e0163e;
 }
@@ -28781,7 +28781,7 @@ body.saMiniView {
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendar .saActivityLine {
   min-width: 0.125rem;
-  border-radius: 1px;
+  border-radius: min(1px, 0.0625rem);
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarHeaderInnerSmallScreen {
   display: flex;
@@ -28822,7 +28822,7 @@ body.saMiniView {
   z-index: 10;
   background: #fff;
   top: 3.5rem;
-  box-shadow: 0 1px 0 #ccd5e2, -1px 0 0 #ccd5e2, 1px 0 0 #ccd5e2;
+  box-shadow: 0 min(1px, 0.0625rem) 0 #ccd5e2, max(-1px, -0.0625rem) 0 0 #ccd5e2, min(1px, 0.0625rem) 0 0 #ccd5e2;
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarFilter .saInputTextWrapper {
   width: 100%;
@@ -28875,7 +28875,7 @@ body.saMiniView {
   width: calc(100% + 1rem);
   background-color: #eef1f5;
   position: absolute;
-  left: -8px;
+  left: -0.5rem;
   border-radius: 0.125rem;
   z-index: -1;
   opacity: 0;
@@ -29001,7 +29001,7 @@ body.saMiniView {
   position: relative;
   min-width: 100%;
   overflow: hidden;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
   min-height: 3.5rem;
   background: #f8f9fb;
   z-index: 2;
@@ -29161,7 +29161,7 @@ body.saMiniView {
   z-index: 1;
   padding: 0.5rem 0.5rem 0.5rem 1rem;
   max-height: 3rem;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saSmallScreenCalendar.saCalendarSection .saDateListHeadingWrapper button.saIcon {
   display: flex;
@@ -29221,11 +29221,11 @@ body.saMiniView {
 .saSmallScreenCalendar.saCalendarSection .saListActivity button.saIcon::after,
 .saSmallScreenCalendar.saCalendarSection .saScheduleActivity button.saIcon::after {
   content: '';
-  height: 44px;
-  width: 44px;
+  height: 2.75rem;
+  width: 2.75rem;
   position: absolute;
-  right: -4px;
-  top: -4px;
+  right: -0.25rem;
+  top: -0.25rem;
 }
 .saSmallScreenCalendar.saCalendarSection .saListActivity {
   position: relative;
@@ -29263,7 +29263,7 @@ body.saMiniView {
   top: 0.5rem;
   left: 0.5rem;
   min-width: 0.125rem;
-  border-radius: 1px;
+  border-radius: min(1px, 0.0625rem);
   background: #2d6ce1;
   transition: height 0.2s ease;
 }
@@ -29321,7 +29321,7 @@ body.saMiniView {
 }
 .saSmallScreenCalendar.saCalendarSection.saTimeScheduleCalendar .saCalendarStripe::before {
   content: '';
-  left: -48px;
+  left: -3rem;
   position: absolute;
   height: 100%;
   width: 3rem;
@@ -29366,7 +29366,7 @@ body.saMiniView {
 }
 .saSmallScreenCalendar.saCalendarSection.saResourceCalendar .saCalendarItemList,
 .saSmallScreenCalendar.saCalendarSection.saResourceCalendar .saExtraInfoList {
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saSmallScreenCalendar.saCalendarSection.saResourceCalendar .saResourceLabelCell {
   flex: 1 1 0;
@@ -29374,13 +29374,13 @@ body.saMiniView {
   width: 100%;
   position: relative;
   padding: 0.5rem;
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
   height: 2.5rem;
   overflow: hidden;
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saSmallScreenCalendar.saCalendarSection.saResourceCalendar .saResourceLabelCell.saHasLinks .saResourceLabel {
   width: calc(100% - 1.5rem);
@@ -29478,7 +29478,7 @@ body.saMiniView {
   min-width: 2.5rem;
   border-radius: 0.75rem;
   background: #ccd5e2;
-  box-shadow: inset 0 0 0 0.5px rgba(49, 58, 68, 0.1);
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) rgba(49, 58, 68, 0.1);
   transition: ease background-color 0.2s, ease box-shadow 0.2s;
   position: absolute;
 }
@@ -29488,7 +29488,7 @@ body.saMiniView {
   width: 1.25rem;
   border-radius: 0.625rem;
   background: #fff;
-  box-shadow: inset 0 0 0 0.5px #f8f9fb, 0 1px 0.125rem 0 rgba(49, 58, 68, 0.6);
+  box-shadow: inset 0 0 0 0.5px #f8f9fb, 0 min(1px, 0.0625rem) 0.125rem 0 rgba(49, 58, 68, 0.6);
   right: 1.125rem;
   top: 0.125rem;
   position: absolute;
@@ -29529,7 +29529,7 @@ body.saMiniView {
 }
 .saDisabled.saToggleWrapper .saToggle:checked::after {
   background: #ccd5e2;
-  box-shadow: inset 0 0 0 0.5px rgba(49, 58, 68, 0.2), 0 1px 0.125rem 0 rgba(49, 58, 68, 0.6);
+  box-shadow: inset 0 0 0 0.5px rgba(49, 58, 68, 0.2), 0 min(1px, 0.0625rem) 0.125rem 0 rgba(49, 58, 68, 0.6);
 }
 @media (pointer: fine) {
   .saDisabled.saToggleWrapper .saToggle:checked:hover::before {
@@ -29551,7 +29551,7 @@ body.saMiniView {
 }
 .saDisabled.saToggleWrapper .saToggle::after {
   background: #f8f9fb;
-  box-shadow: inset 0 0 0 0.5px rgba(49, 58, 68, 0.1), 0 1px 0.125rem 0 rgba(49, 58, 68, 0.2);
+  box-shadow: inset 0 0 0 0.5px rgba(49, 58, 68, 0.1), 0 min(1px, 0.0625rem) 0.125rem 0 rgba(49, 58, 68, 0.2);
 }
 @media (pointer: fine) {
   .saDisabled.saToggleWrapper .saToggle:hover::before {
@@ -29611,7 +29611,7 @@ body.saMiniView {
   gap: 0.5rem;
   width: fit-content;
   background: #f8f9fb;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   margin-bottom: 1rem;
 }
 .saLargeScreen .saVisibleParametersWrapper {
@@ -29669,8 +29669,8 @@ body.saMiniView {
   border-radius: 0.5rem;
   font-size: 0.875rem;
   position: relative;
-  margin-top: -8px;
-  margin-right: -8px;
+  margin-top: -0.5rem;
+  margin-right: -0.5rem;
 }
 .saVisibleParametersWrapper .saVisibleParametersButton .saButtonText {
   white-space: nowrap;
@@ -29752,8 +29752,8 @@ body.saMiniView {
   content: '';
   height: 3rem;
   width: calc(100% + 0.5rem);
-  right: -8px;
-  top: -8px;
+  right: -0.5rem;
+  top: -0.5rem;
   opacity: 0;
   position: absolute;
 }
@@ -29779,7 +29779,7 @@ body.saMiniView {
 }
 .saSmallScreen .saVisibleParametersRoot .saVisibleParametersButton::after {
   left: unset;
-  right: -8px;
+  right: -0.5rem;
 }
 a.saKpiOuter {
   color: #313a44;
@@ -29818,8 +29818,8 @@ a.saKpiOuter:active {
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
-  margin-top: -8px;
-  margin-bottom: -8px;
+  margin-top: -0.5rem;
+  margin-bottom: -0.5rem;
 }
 .saKpiOuter .saKpiWrapper:has(.saTrendPeriod) {
   align-items: center;
@@ -30171,9 +30171,9 @@ a.saKpiOuter:active {
   font-weight: 300;
 }
 .saBankgiroLink .saInfoText i {
-  font-size: 19px;
+  font-size: 1.1875rem;
   color: var(--Sa-Color-InfoIndicator);
-  margin-right: 5px;
+  margin-right: 0.3125rem;
   top: 0.125rem;
   position: relative;
 }
@@ -30183,13 +30183,13 @@ a.saKpiOuter:active {
 .saBankgiroLink .saErrorBox {
   padding: 0.5em;
   background: #fff8f7;
-  border: 1px solid #e0163e;
+  border: min(1px, 0.0625rem) solid #e0163e;
   border-radius: 0.5rem;
   margin: 0.8em 0;
 }
 .saBankgiroLink .saDebugBox {
   background: #f8f9fb;
-  border: 1px solid #dde3ec;
+  border: min(1px, 0.0625rem) solid #dde3ec;
   border-radius: 0.5rem;
   padding: 0.6em 1em;
   margin-top: 1.5em;
@@ -30204,8 +30204,8 @@ a.saKpiOuter:active {
 .saBankIdWrapper .saBankId {
   display: flex;
   flex-direction: column;
-  max-width: 640px;
-  box-shadow: inset 0 0 0 1px #dde3ec;
+  max-width: 40rem;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #dde3ec;
   border-radius: 1rem;
   width: fit-content;
 }
@@ -30227,7 +30227,7 @@ a.saKpiOuter:active {
   justify-content: center;
   gap: 0.5rem;
   padding: 1rem;
-  max-width: 392px;
+  max-width: 24.5rem;
 }
 .saSmallScreen .saBankIdWrapper .saBankIdHeader {
   width: 100%;
@@ -30254,7 +30254,7 @@ a.saKpiOuter:active {
   justify-content: center;
   min-height: 214px;
   width: 214px;
-  border-left: 1px solid #dde3ec;
+  border-left: min(1px, 0.0625rem) solid #dde3ec;
   border-radius: 0rem 1.5rem 0 0;
   overflow: hidden;
 }
@@ -30267,17 +30267,17 @@ a.saKpiOuter:active {
 }
 .saBankIdWrapper .saBankIdAppInstructions {
   background: url(../img/desktop-phone.svg) top center no-repeat;
-  width: 184px;
-  height: 184px;
+  width: 11.5rem;
+  height: 11.5rem;
 }
 .saBankIdWrapper .saBankIdFooter {
   display: flex;
   align-items: center;
   gap: 1rem;
-  border: 1px solid #dde3ec;
+  border: min(1px, 0.0625rem) solid #dde3ec;
   padding: 1rem;
   background: #f8f9fb;
-  margin-top: -1px;
+  margin-top: max(-1px, -0.0625rem);
   border-radius: 0 0 1rem 1rem;
   flex-wrap: wrap;
 }
@@ -30388,7 +30388,7 @@ a.saKpiOuter:active {
   background-color: #fff;
   margin-bottom: 0.5rem;
   border-radius: 1rem;
-  border: 1px #dde3ec solid;
+  border: min(1px, 0.0625rem) #dde3ec solid;
   position: relative;
 }
 .saSmallScreen .saErrorSummaryWrapper {
@@ -30567,7 +30567,7 @@ a.saKpiOuter:active {
   z-index: 1;
 }
 .saTreeViewWrapper .saTreeView > li:has(ul) > label::after {
-  border-width: 0 0 1px 1px;
+  border-width: 0 0 min(1px, 0.0625rem) min(1px, 0.0625rem);
   border-color: rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) #ccd5e2 rgba(255, 255, 255, 0);
   z-index: 1;
 }
@@ -30579,7 +30579,7 @@ a.saKpiOuter:active {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border: 1px solid #2d6ce1;
+  border: min(1px, 0.0625rem) solid #2d6ce1;
   padding: 0.5rem 0.75rem;
   color: #313a44;
   box-sizing: border-box;
@@ -30722,9 +30722,9 @@ a.saKpiOuter:active {
   content: '';
   position: absolute;
   height: calc(100% + 1.25rem);
-  width: 1px;
+  width: min(1px, 0.0625rem);
   background: #ccd5e2;
-  top: -16px;
+  top: -1rem;
   left: 0.5rem;
   transition: ease all 0.2s;
 }
@@ -30734,8 +30734,8 @@ a.saKpiOuter:active {
 }
 .saTreeViewWrapper .saTreeView li.saDragged > label {
   background: #fff;
-  outline: 1px solid #2d6ce1;
-  outline-offset: -1px;
+  outline: min(1px, 0.0625rem) solid #2d6ce1;
+  outline-offset: max(-1px, -0.0625rem);
 }
 .saTreeViewWrapper .saTreeView li.saDropOn {
   border: none;
@@ -30852,7 +30852,7 @@ a.saKpiOuter:active {
   padding-right: 0.5rem;
   transition: ease border-radius 0.2s;
   outline: 0.125rem dashed transparent;
-  outline-offset: -2px;
+  outline-offset: -0.125rem;
 }
 .saTreeViewWrapper .saTreeView li label.saNodeExpand {
   cursor: pointer;
@@ -30870,7 +30870,7 @@ a.saKpiOuter:active {
   }
 }
 .saTreeViewWrapper .saTreeView li label a:focus-visible {
-  box-shadow: 0 0 0 1px black;
+  box-shadow: 0 0 0 min(1px, 0.0625rem) black;
 }
 .saTreeViewWrapper .saTreeView li label .saCustomColor a {
   color: unset;
@@ -30886,11 +30886,11 @@ a.saKpiOuter:active {
   position: absolute;
   height: 1rem;
   width: 23px;
-  margin-left: -1px;
-  border: 1px solid #ccd5e2;
+  margin-left: max(-1px, -0.0625rem);
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   z-index: 1;
-  border-width: 0 0 1px 1px;
-  transform: translate(-4px, -8px);
+  border-width: 0 0 min(1px, 0.0625rem) min(1px, 0.0625rem);
+  transform: translate(-0.25rem, -0.5rem);
   transition: ease all 0.2s;
 }
 @media (pointer: fine) {
@@ -31224,7 +31224,7 @@ a.saKpiOuter:active {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   border-radius: 0.25rem;
@@ -31328,7 +31328,7 @@ a.saKpiOuter:active {
 }
 .saSmallScreen .saTreeViewWrapper ul.saTreeView li label::after {
   height: 3rem;
-  transform: translate(-4px, -24px);
+  transform: translate(-0.25rem, -24px);
 }
 .saSmallScreen .saTreeViewWrapper ul.saTreeView li label {
   min-height: 3rem;
@@ -31403,13 +31403,13 @@ a.saKpiOuter:active {
   display: flex;
   flex-direction: row;
   padding: 0.25rem 5px 0.25rem 0.25rem;
-  margin-right: -1px;
+  margin-right: max(-1px, -0.0625rem);
   transition: ease all 0.2s;
   opacity: 0;
   transform: translateX(24px);
   visibility: hidden;
   pointer-events: none;
-  box-shadow: inset 0 0 0 1px #ccd5e2;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #ccd5e2;
   border-radius: 0.5rem 0 0 0.5rem;
 }
 .saOpen.saToolbox ul {
@@ -31420,12 +31420,12 @@ a.saKpiOuter:active {
 }
 .saToolbox li:first-child .saToolboxButton::after {
   width: calc(100% + 0.25rem);
-  left: -4px;
+  left: -0.25rem;
 }
 .saToolbox li:last-child .saToolboxButton::after {
   width: calc(100% + 0.25rem);
   left: unset;
-  right: -4px;
+  right: -0.25rem;
 }
 .saToolbox .saVirtualTopLink .saToolboxButton .saIcon {
   color: #8b4af1;
@@ -31562,7 +31562,7 @@ a.saKpiOuter:active {
   width: 100%;
   position: absolute;
   left: 0;
-  top: -4px;
+  top: -0.25rem;
 }
 .saToolbox .saToolboxButton.saExpandButton {
   padding: 0.5rem 0.75rem;
@@ -31573,7 +31573,7 @@ a.saKpiOuter:active {
   height: 2.5rem;
   transition: ease all 0.2s;
   position: relative;
-  box-shadow: inset 0 0 0 1px #ccd5e2;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #ccd5e2;
 }
 .saCompact .saToolbox .saToolboxButton.saExpandButton {
   min-width: 2rem;
@@ -31583,7 +31583,7 @@ a.saKpiOuter:active {
 @media (pointer: fine) {
   .saToolbox .saToolboxButton.saExpandButton:hover {
     background: #f8f9fb;
-    box-shadow: inset 0 0 0 1px #2d6ce1;
+    box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
   }
   .saToolbox .saToolboxButton.saExpandButton:hover span {
     background: var(--Sa-Color-IconHover);
@@ -31591,7 +31591,7 @@ a.saKpiOuter:active {
 }
 .saToolbox .saToolboxButton.saExpandButton:active {
   background: #eef1f5;
-  box-shadow: inset 0 0 0 1px #2d6ce1;
+  box-shadow: inset 0 0 0 min(1px, 0.0625rem) #2d6ce1;
 }
 .saToolbox .saToolboxButton.saExpandButton:active span {
   background: var(--Sa-Color-IconHover);
@@ -31617,21 +31617,21 @@ a.saKpiOuter:active {
 }
 .saOpen.saToolbox .saToolboxButton.saExpandButton span:nth-child(1) {
   top: 0.375rem;
-  left: -4px;
+  left: -0.25rem;
   transform: rotate(45deg);
 }
 .saOpen.saToolbox .saToolboxButton.saExpandButton span:nth-child(2) {
   top: 0.375rem;
-  left: -4px;
+  left: -0.25rem;
   transform: rotate(-45deg);
 }
 .saOpen.saToolbox .saToolboxButton.saExpandButton span:nth-child(3) {
-  top: -6px;
+  top: -0.375rem;
   left: 0.25rem;
   transform: rotate(45deg);
 }
 .saOpen.saToolbox .saToolboxButton.saExpandButton span:nth-child(4) {
-  top: -6px;
+  top: -0.375rem;
   left: 0.25rem;
   transform: rotate(-45deg);
 }
@@ -31679,28 +31679,28 @@ a.saKpiOuter:active {
   z-index: 6;
 }
 .saPlanner .saStickyTop .saRowSticky .saPlannerCell {
-  border-right: 1px solid transparent;
+  border-right: min(1px, 0.0625rem) solid transparent;
 }
 .saPlanner .saStickyTop .saRowSticky .saPlannerCell:only-child {
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saPlanner .saStickyTop .saWeek:not(.saUnbooked) .saRowSticky > div {
   border-bottom: none;
 }
 .saPlanner .saStickyTop .saWeek:not(.saUnbooked) .saRowSticky > div.saAggregateTitle {
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saPlanner .saStickyTop .saWeek:not(.saUnbooked) .saRowSticky > div:not(.saAggregateTitle) {
   background-color: #f8f9fb;
 }
 .saPlanner .saStickyTop .saWeek:last-child .saRowSticky > div {
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saPlanner .saWeekDay {
   flex-direction: column;
   height: 3rem;
   color: #60748b;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saPlanner .saWeekDay .saDateNumber {
   font-size: 0.875rem;
@@ -31731,9 +31731,9 @@ a.saKpiOuter:active {
   font-weight: 400;
 }
 .saPlanner .saPlannerAggregateCell {
-  border: 1px solid transparent;
-  border-right: 1px solid #ccd5e2;
-  border-bottom: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid transparent;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
   width: 3rem;
   min-width: 3rem;
   display: flex;
@@ -31748,8 +31748,8 @@ a.saKpiOuter:active {
   overflow: hidden;
 }
 .saPlanner .saPlannerAggregateCell.saAggregateTitle {
-  border-left: 1px solid #ccd5e2;
-  border-top: 1px solid #ccd5e2;
+  border-left: min(1px, 0.0625rem) solid #ccd5e2;
+  border-top: min(1px, 0.0625rem) solid #ccd5e2;
   background-color: #fff;
   display: flex;
   justify-content: center;
@@ -31776,8 +31776,8 @@ a.saKpiOuter:active {
 .saPlanner.saNarrow .saPlannerCell .saPlannerHoverTarget {
   min-height: calc(100% + 9px);
   width: calc(100% + 0.125rem);
-  top: -5px;
-  left: -1px;
+  top: -0.3125rem;
+  left: max(-1px, -0.0625rem);
 }
 .saPlanner.saNarrow .saTimeCell {
   font-size: 0.625rem;
@@ -31791,7 +31791,7 @@ a.saKpiOuter:active {
 }
 .saPlanner .saActivityInner {
   justify-content: flex-start;
-  margin-top: -2px;
+  margin-top: -0.125rem;
   overflow: hidden;
 }
 .saPlanner .saActivityHeadingWrapper {
@@ -31800,7 +31800,7 @@ a.saKpiOuter:active {
   overflow: unset;
 }
 .saPlanner .saActivityHeadingWrapper .saBoxIcons {
-  margin-top: -4px;
+  margin-top: -0.25rem;
   display: inline;
 }
 .saPlanner .saActivityHeadingWrapper .saBoxIcons > span {
@@ -31814,19 +31814,19 @@ a.saKpiOuter:active {
   display: flex;
   flex-direction: column;
   position: relative;
-  border: 1px solid transparent;
-  border-right: 1px solid #eef1f5;
+  border: min(1px, 0.0625rem) solid transparent;
+  border-right: min(1px, 0.0625rem) solid #eef1f5;
   overflow-x: visible;
   padding: 0.25rem;
   background-color: #fff;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saPlanner .saPlannerCell .saPlannerHoverTarget {
   min-height: calc(100% + 9px);
   width: calc(100% + 0.625rem);
-  top: -5px;
+  top: -0.3125rem;
   position: relative;
-  left: -5px;
+  left: -0.3125rem;
   cursor: pointer;
 }
 .saPlanner .saPlannerCell .saPlannerDropTarget {
@@ -31834,7 +31834,7 @@ a.saKpiOuter:active {
   top: 0rem;
 }
 .saPlanner .saPlannerCell .saPlannerDropTarget.saDropOn {
-  border: 1px dashed #2d6ce1;
+  border: min(1px, 0.0625rem) dashed #2d6ce1;
 }
 .saPlanner .saPlannerCell:last-child {
   border-right-color: transparent;
@@ -31842,8 +31842,8 @@ a.saKpiOuter:active {
 .saPlanner .saPlannerCell.saHasLinks .saPlannerHoverTarget:hover,
 .saPlanner .saPlannerCell.saLastClicked .saPlannerHoverTarget {
   background: #f8f9fb;
-  outline: 1px solid #2d6ce1;
-  outline-offset: -1px;
+  outline: min(1px, 0.0625rem) solid #2d6ce1;
+  outline-offset: max(-1px, -0.0625rem);
 }
 .saPlanner .saPlannerCell .saActivity {
   z-index: 2;
@@ -31888,11 +31888,11 @@ a.saKpiOuter:active {
 }
 .saPlanner .saPlannerCell.saLastCellInBlock.saTimeCell,
 .saPlanner .saPlannerCell.saLastCellInBlock .saPlannerHoverTarget {
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saPlanner .saPlannerCell.saDropOn,
 .saPlanner .saPlannerCell.saDropOn .saPlannerHoverTarget {
-  border: 1px dashed #2d6ce1;
+  border: min(1px, 0.0625rem) dashed #2d6ce1;
   background-color: #eff0fd;
 }
 .saPlanner .saPlannerCell.saResourceHeadingCell {
@@ -31907,7 +31907,7 @@ a.saKpiOuter:active {
   border-radius: 0 0.25rem 0.25rem 0;
   height: 2rem;
   width: 1.5rem;
-  margin-left: -1px;
+  margin-left: max(-1px, -0.0625rem);
   margin-top: 7px;
 }
 .saPlanner .saPlannerCell.saDateRowHeading .saCalendarSidebarExpander.saClose {
@@ -32034,7 +32034,7 @@ a.saKpiOuter:active {
 .saPlanner .saWeek.saWeekExtra .saWeekExtraInner {
   padding: 0.25rem;
   min-height: 2rem;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saPlanner .saWeek:last-child {
   border-bottom-color: transparent;
@@ -32207,7 +32207,7 @@ a.saKpiOuter:active {
   border-radius: 0.75rem;
 }
 .saPlanner .saWeekExtraInner {
-  border-right: 1px solid #ccd5e2;
+  border-right: min(1px, 0.0625rem) solid #ccd5e2;
   align-items: center;
 }
 .saPlanner .saWeekExtraInner:last-child {
@@ -32364,12 +32364,12 @@ a.saKpiOuter:active {
 .saInfoSqlChartWrapper .saEmptyState.saXYChart {
   border-radius: 1rem;
   background-color: #f8f9fb;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
 }
 .saInfoSqlChartWrapper .saEmptyState.saPieChart {
   border-radius: 12.5rem;
   background-color: #f8f9fb;
-  border: 1px solid #ccd5e2;
+  border: min(1px, 0.0625rem) solid #ccd5e2;
   width: 12.5rem;
   height: 12.5rem;
 }
@@ -32402,7 +32402,7 @@ a.saKpiOuter:active {
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 0.5rem;
-  box-shadow: 0 1px 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07), 0 1rem 2rem rgba(49, 58, 68, 0.07), 0 2rem 4rem rgba(49, 58, 68, 0.07);
+  box-shadow: 0 min(1px, 0.0625rem) 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07), 0 1rem 2rem rgba(49, 58, 68, 0.07), 0 2rem 4rem rgba(49, 58, 68, 0.07);
 }
 .saLargeScreen .saMenuItemPopup.saMedium {
   width: 800px;
@@ -32413,7 +32413,7 @@ a.saKpiOuter:active {
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 0.5rem;
-  box-shadow: 0 1px 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07), 0 1rem 2rem rgba(49, 58, 68, 0.07), 0 2rem 4rem rgba(49, 58, 68, 0.07);
+  box-shadow: 0 min(1px, 0.0625rem) 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07), 0 1rem 2rem rgba(49, 58, 68, 0.07), 0 2rem 4rem rgba(49, 58, 68, 0.07);
 }
 .saMenuItemPopup.saLarge {
   left: 0.25rem;
@@ -32421,7 +32421,7 @@ a.saKpiOuter:active {
   top: 55px;
   bottom: 0;
   transform: none;
-  box-shadow: -16px -14px 30px -10px rgba(49, 58, 68, 0.2);
+  box-shadow: -1rem -0.875rem 1.875rem -0.625rem rgba(49, 58, 68, 0.2);
   border-radius: 0.5rem 0.5rem 0rem 0rem;
 }
 .saSmallScreen .saMenuItemPopup {
@@ -32470,8 +32470,8 @@ body.saPopup::before {
   font-size: 1.0625rem;
   width: fit-content;
   line-height: 1;
-  left: -1px;
-  bottom: -7px;
+  left: max(-1px, -0.0625rem);
+  bottom: -0.4375rem;
   font-family: "Raleway", sans-serif;
   position: absolute;
 }
@@ -32499,7 +32499,7 @@ body.saPopup::before {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1px transparent;
+  -webkit-text-stroke: min(1px, 0.0625rem) transparent;
   mask-image: linear-gradient(to right, transparent, transparent 45%, white 50%, transparent 55%, transparent);
 }
 .saSweepEffect div:not(first-child) {
@@ -32513,7 +32513,7 @@ body.saPopup::before {
 .saSweepR {
   display: flex;
   font-size: 5px;
-  margin-top: -2px;
+  margin-top: -0.125rem;
 }
 .saSweep8 {
   padding-left: 0.25rem;
@@ -32567,7 +32567,7 @@ softadmin-nodegraph .saNode .saNodeContent .saNodeTable:has(td .saNodeColumnMand
   width: 0.75rem;
 }
 .saWebServiceLogPart {
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   padding: 1rem;
   border-radius: 1rem;
   margin-bottom: 1rem;
@@ -32593,7 +32593,7 @@ pre.saCode {
   border-radius: 0.5rem;
 }
 .saSmallScreen .saLightboxGroup {
-  padding: 80px 1rem 1rem 1rem;
+  padding: 5rem 1rem 1rem 1rem;
 }
 html:has(dialog[open]) :is(.scrollcontent, body) {
   overflow: hidden;
@@ -32622,7 +32622,7 @@ lightbox-image {
 @media (pointer: fine) {
   lightbox-image:hover {
     outline: 0.125rem solid #2d6ce1;
-    outline-offset: -2px;
+    outline-offset: -0.125rem;
   }
 }
 .saLightboxOverlay {
@@ -32692,7 +32692,7 @@ lightbox-image {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  border: solid 1px #ccd5e2;
+  border: solid min(1px, 0.0625rem) #ccd5e2;
   position: fixed;
   top: 0.5rem;
   right: 0.5rem;
