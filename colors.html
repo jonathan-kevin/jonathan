@@ -564,10 +564,12 @@
 										</tbody>
 									</table>
 									-->
-		<div id="color-groups"></div>
-		<div id="pillContainer"></div>
-		<div id="mixContainer"></div>
-		<div id="colorContainer"></div>
+		<div style="display: flex; flex-direction: column; gap: 40px;">
+			<div id="color-groups"></div>
+			<div id="pillContainer"></div>
+			<div id="mixContainer"></div>
+			<div id="colorContainer"></div>
+		</div>
 	</div>
 
 	<style>
@@ -810,23 +812,16 @@
 
 					$.each(group.colors, function (j, textColor) {
 						const textColorShade = textColor.shade;
+						if (checkWcagContrast(color.value, textColor.value)) {
+							if (colorShade !== "150" && textColorShade !== "150" && colorShade !== "0" && colorShade !== "50") {
+								const $li = $('<li></li>').addClass(`saPillX sa${colorName} saBackground${colorName}${colorShade} saText${colorName}${textColorShade}`).text(`${textColorShade} ${colorShade}`);;
 
-						if (colorShade !== "150" && textColorShade !== "150") {
-							const $li = $('<li></li>').addClass(`saPillX sa${colorName} saBackground${colorName}${colorShade}`);
+								if (colorKey) {
+									$li.addClass('saKey');
+								}
 
-							if (colorKey) {
-								$li.addClass('saKey');
+								$ul.append($li);
 							}
-
-							const $text = $('<div></div>').addClass(`sa${colorName} saText${colorName}${textColorShade}`).text(`${textColorShade} ${colorShade}`);
-
-							// Check contrast ratio
-							if (!checkWcagContrast(color.value, textColor.value)) {
-								$li.addClass('saDisabled');
-							}
-
-							$li.append($text);
-							$ul.append($li);
 						}
 					});
 				});
@@ -836,37 +831,31 @@
 
 
 			function generateAllColors() {
-				const $ul = $('<ul></ul>').addClass('AllColors');
-				const $liFirst = $('<li></li>').text('All Colors');
-				$ul.append($liFirst);
+				const $ul = $('<ul></ul>');
 
 				$.each(colors, function (index, group) {
 					const colorName = group.colorName;
 
 					$.each(group.colors, function (i, color) {
-						const colorShade = color.shade;
+						const bgColorShade = color.shade;
 						const colorKey = color.key;
 
 						$.each(colors, function (j, otherGroup) {
 							$.each(otherGroup.colors, function (k, textColor) {
 								const textColorShade = textColor.shade;
+								if (checkWcagContrast(color.value, textColor.value)) {
 
-								if (colorShade !== "150" && textColorShade !== "150") {
-									const $li = $('<li></li>').addClass(`saPillX sa${colorName} saBackground${colorName}${colorShade}`);
+									if (bgColorShade !== "150" && textColorShade !== "150" && bgColorShade !== "0" && bgColorShade !== "50") {
+										const $li = $('<li></li>')
+											.addClass(`saPillX sa${colorName} saBackground${colorName}${bgColorShade} saText${otherGroup.colorName}${textColorShade}`)
+											.attr('data-color', `Text${otherGroup.colorName}${textColorShade} Bg${colorName}${bgColorShade}`)
+											.text(`${textColorShade} ${bgColorShade}`);
 
-									if (colorKey) {
-										$li.addClass('saKey');
+										if (colorKey) {
+											$li.addClass('saKey');
+										}
+										$ul.append($li);
 									}
-
-									const $text = $('<div></div>').addClass(`sa${otherGroup.colorName} saText${otherGroup.colorName}${textColorShade}`).text(`${textColorShade} ${colorShade}`);
-
-									// Check contrast ratio
-									if (!checkWcagContrast(color.value, textColor.value)) {
-										$li.addClass('saDisabled');
-									}
-
-									$li.append($text);
-									$ul.append($li);
 								}
 							});
 						});
@@ -878,8 +867,26 @@
 
 			generateAllColors();
 
-			$('#mixContainer').append($ul);
+			const tooltip = $('<div id="tooltip" class="saTextWhite saBackgroundGray900"></div>').css({
+				position: 'absolute',
+				display: 'none',
+				padding: '0.5rem',
+				borderRadius: '0.25rem',
+				fontSize: '12px',
+				zIndex: 1000
+			}).appendTo('body');
 
+			$('ul').on('mouseenter', 'li[data-color]', function (e) {
+				const dataColor = $(this).attr('data-color');
+				tooltip.text(dataColor).show();
+			}).on('mousemove', 'li[data-color]', function (e) {
+				tooltip.css({
+					top: e.pageY + 10,
+					left: e.pageX + 10
+				});
+			}).on('mouseleave', 'li[data-color]', function () {
+				tooltip.hide();
+			});
 
 			// Helper function to check WCAG contrast ratio
 			function checkWcagContrast(bgColor, textColor) {
