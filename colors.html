@@ -198,19 +198,6 @@
 				</tr>
 			</tbody>
 		</table>
-
-		<!--
-		<div class="saDemoCard" data-color="Gray900">
-			<div class="saDemoCardIcon" data-color="Gray900">
-				<i class="far fa-crow" data-color="Gray900"></i>
-				<div class="saDemoCardIconColor" data-color="Gray900"></div>
-			</div>
-			<div class="saDemoCardBody">
-				<div class="saDemoCardTitle" data-color="Gray900">Title</div>
-				<div class="saDemoCardDesc" data-color="Gray900">Description</div>
-			</div>
-		</div>
-		-->
 		<!--<table class="saColorGroup" id="oklch">
 										<colgroup>
 											<col>
@@ -578,6 +565,8 @@
 									</table>
 									-->
 		<div id="color-groups"></div>
+		<div id="pillContainer"></div>
+		<div id="mixContainer"></div>
 		<div id="colorContainer"></div>
 	</div>
 
@@ -798,9 +787,8 @@
 							const $divBody = $('<div class="saBody"></div>');
 							const $divTitle = $(`<div class="saTitle" title="Card background color: ${colorShade}"></div>`).text(colorShade);
 							const $divDescription = $(`<div class="saDesc" title="Icon background color: ${iconColorShade}"></div>`).text(`${iconColorShade}`);
-							const $input = $('<input type="checkbox">');
 
-							$divBody.append($divTitle).append($divDescription).append($input);
+							$divBody.append($divTitle).append($divDescription);
 							$li.append($icon).append($divBody);
 							$ul.append($li);
 						}
@@ -810,52 +798,87 @@
 				$('#colorContainer').append($ul);
 			});
 
-			const extraContrastColors = [
-				{ shade: " ", value: "#ffffff", colorName: "White" },
-				{ shade: "900", value: "#313a44", colorName: "Gray" }
-			];
+			$.each(colors, function (index, group) {
+				const colorName = group.colorName;
+				const $ul = $('<ul></ul>').addClass(colorName);
+				const $liFirst = $('<li></li>').text(colorName);
+				$ul.append($liFirst);
 
-			colors.forEach(group => {
-				const $ul = $('<ul>').attr('id', group.colorName); // Create a <ul> for the group
-				$('#color-container').append($ul); // Append the <ul> to the desired container
+				$.each(group.colors, function (i, color) {
+					const colorShade = color.shade;
+					const colorKey = color.key;
 
-				const liArray = []; // Array to hold <li> elements for sorting
+					$.each(group.colors, function (j, textColor) {
+						const textColorShade = textColor.shade;
 
-				group.colors.forEach(color => {
-					// Check contrast within the same group
-					group.colors.forEach(otherColor => {
-						if (color.name !== otherColor.name && checkWcagContrast(color.value, otherColor.value)) {
-							const $li = $('<li>')
-								.append(`<i class="saIcon far fa-crow"></i>`) // Add icon
-								.append(`${group.colorName}${color.name} on ${group.colorName}${otherColor.name}`) // Set text for the <li>
-								.addClass(`saText${group.colorName}${color.name} saBg${group.colorName}${otherColor.name}`); // Add classes
-							liArray.push({ li: $li, brightness: getBrightness(otherColor.value) }); // Store <li> and brightness
-						}
-					});
+						if (colorShade !== "150" && textColorShade !== "150") {
+							const $li = $('<li></li>').addClass(`saPillX sa${colorName} saBackground${colorName}${colorShade}`);
 
-					extraContrastColors.forEach(contrastColor => {
-						// Skip Gray 900 as background for non-Gray groups
-						if (contrastColor.name === "900" && group.colorName !== "Gray") {
-							return;
-						}
-						if (checkWcagContrast(color.value, contrastColor.value)) {
-							const $li = $('<li>')
-								.append(`<i class="saIcon far fa-crow"></i>`) // Add icon
-								.append(`${group.colorName}${color.name} on ${contrastColor.colorName}${contrastColor.name}`) // Set text for the <li>
-								.addClass(`saText${group.colorName}${color.name} saBg${contrastColor.colorName}${contrastColor.name}`); // Add classes
-							liArray.push({ li: $li, brightness: getBrightness(contrastColor.value) }); // Store <li> and brightness
+							if (colorKey) {
+								$li.addClass('saKey');
+							}
+
+							const $text = $('<div></div>').addClass(`sa${colorName} saText${colorName}${textColorShade}`).text(`${textColorShade} ${colorShade}`);
+
+							// Check contrast ratio
+							if (!checkWcagContrast(color.value, textColor.value)) {
+								$li.addClass('saDisabled');
+							}
+
+							$li.append($text);
+							$ul.append($li);
 						}
 					});
 				});
 
-				// Sort liArray by brightness
-				liArray.sort((a, b) => a.brightness - b.brightness);
-
-				// Append sorted <li> elements to the <ul>
-				liArray.forEach(item => {
-					$ul.append(item.li);
-				});
+				$('#pillContainer').append($ul);
 			});
+
+
+			function generateAllColors() {
+				const $ul = $('<ul></ul>').addClass('AllColors');
+				const $liFirst = $('<li></li>').text('All Colors');
+				$ul.append($liFirst);
+
+				$.each(colors, function (index, group) {
+					const colorName = group.colorName;
+
+					$.each(group.colors, function (i, color) {
+						const colorShade = color.shade;
+						const colorKey = color.key;
+
+						$.each(colors, function (j, otherGroup) {
+							$.each(otherGroup.colors, function (k, textColor) {
+								const textColorShade = textColor.shade;
+
+								if (colorShade !== "150" && textColorShade !== "150") {
+									const $li = $('<li></li>').addClass(`saPillX sa${colorName} saBackground${colorName}${colorShade}`);
+
+									if (colorKey) {
+										$li.addClass('saKey');
+									}
+
+									const $text = $('<div></div>').addClass(`sa${otherGroup.colorName} saText${otherGroup.colorName}${textColorShade}`).text(`${textColorShade} ${colorShade}`);
+
+									// Check contrast ratio
+									if (!checkWcagContrast(color.value, textColor.value)) {
+										$li.addClass('saDisabled');
+									}
+
+									$li.append($text);
+									$ul.append($li);
+								}
+							});
+						});
+					});
+				});
+
+				$('#mixContainer').append($ul);
+			}
+
+			generateAllColors();
+
+			$('#mixContainer').append($ul);
 
 
 			// Helper function to check WCAG contrast ratio
