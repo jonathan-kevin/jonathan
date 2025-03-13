@@ -613,9 +613,6 @@
 				$('.saColorGroup td').removeClass('disabled');
 			});
 
-
-
-
 			const colors = [
 				{
 					colorName: "Gray",
@@ -812,9 +809,11 @@
 
 					$.each(group.colors, function (j, textColor) {
 						const textColorShade = textColor.shade;
-						if (checkWcagContrast(color.value, textColor.value)) {
+						if (checkWcagContrast(color.value, textColor.value, 4.5)) {
 							if (colorShade !== "150" && textColorShade !== "150" && colorShade !== "0" && colorShade !== "50") {
-								const $li = $('<li></li>').addClass(`saPillX sa${colorName} saBackground${colorName}${colorShade} saText${colorName}${textColorShade}`).text(`${textColorShade} ${colorShade}`);;
+								const $li = $('<li></li>')
+									.addClass(`saPillX sa${colorName} saText${colorName}${textColorShade} saBackground${colorName}${colorShade}`).text(`${textColorShade} ${colorShade}`)
+									.attr('data-color', `txt${colorName}${textColorShade} bg${colorName}${colorShade}`);
 
 								if (colorKey) {
 									$li.addClass('saKey');
@@ -843,12 +842,12 @@
 						$.each(colors, function (j, otherGroup) {
 							$.each(otherGroup.colors, function (k, textColor) {
 								const textColorShade = textColor.shade;
-								if (checkWcagContrast(color.value, textColor.value)) {
+								if (checkWcagContrast(color.value, textColor.value, 4.5)) {
 
 									if (bgColorShade !== "150" && textColorShade !== "150" && bgColorShade !== "0" && bgColorShade !== "50") {
 										const $li = $('<li></li>')
 											.addClass(`saPillX sa${colorName} saBackground${colorName}${bgColorShade} saText${otherGroup.colorName}${textColorShade}`)
-											.attr('data-color', `Text${otherGroup.colorName}${textColorShade} Bg${colorName}${bgColorShade}`)
+											.attr('data-color', `txt${otherGroup.colorName}${textColorShade} bg${colorName}${bgColorShade}`)
 											.text(`${textColorShade} ${bgColorShade}`);
 
 										if (colorKey) {
@@ -867,35 +866,14 @@
 
 			generateAllColors();
 
-			const tooltip = $('<div id="tooltip" class="saTextWhite saBackgroundGray900"></div>').css({
-				position: 'absolute',
-				display: 'none',
-				padding: '0.5rem',
-				borderRadius: '0.25rem',
-				fontSize: '12px',
-				zIndex: 1000
-			}).appendTo('body');
-
-			$('ul').on('mouseenter', 'li[data-color]', function (e) {
-				const dataColor = $(this).attr('data-color');
-				tooltip.text(dataColor).show();
-			}).on('mousemove', 'li[data-color]', function (e) {
-				tooltip.css({
-					top: e.pageY + 10,
-					left: e.pageX + 10
-				});
-			}).on('mouseleave', 'li[data-color]', function () {
-				tooltip.hide();
-			});
 
 			// Helper function to check WCAG contrast ratio
-			function checkWcagContrast(bgColor, textColor) {
+			function checkWcagContrast(bgColor, textColor, threshold) {
 				const bgLum = calculateLuminance(bgColor);
 				const textLum = calculateLuminance(textColor);
 				const contrastRatio = (Math.max(bgLum, textLum) + 0.05) / (Math.min(bgLum, textLum) + 0.05);
 
-				// WCAG contrast ratio must be at least 4.5:1 for normal text
-				return contrastRatio >= 4.5;
+				return contrastRatio >= threshold;
 			}
 
 			// Helper function to calculate luminance from hex color
@@ -906,22 +884,34 @@
 				const g = parseInt(hex.substring(2, 4), 16) / 255;
 				const b = parseInt(hex.substring(4, 6), 16) / 255;
 
-				const sRGB = [r, g, b].map(function (value) {
-					return value <= 0.03928 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
-				});
+				const sRGB = [r, g, b].map(value =>
+					value <= 0.03928 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4)
+				);
 
 				return 0.2126 * sRGB[0] + 0.7152 * sRGB[1] + 0.0722 * sRGB[2];
 			}
 
-			// Helper function to get brightness of a color
-			function getBrightness(hex) {
-				hex = hex.replace('#', '');
-				const r = parseInt(hex.substring(0, 2), 16);
-				const g = parseInt(hex.substring(2, 4), 16);
-				const b = parseInt(hex.substring(4, 6), 16);
-				return (r * 0.299 + g * 0.587 + b * 0.114); // Perceived brightness formula
-			}
+			const tooltip = $('<div id="tooltip" class="saTextWhite"></div>').css({
+				position: 'absolute',
+				display: 'none',
+				backgroundColor: 'black',
+				padding: '0.5rem',
+				borderRadius: '0.25rem',
+				fontSize: '0.75rem',
+				zIndex: 1000
+			}).appendTo('body');
 
+			$('ul').on('mouseenter', 'li[data-color]', function (e) {
+				const dataColor = $(this).attr('data-color');
+				tooltip.text(dataColor).show();
+			}).on('mousemove', 'li[data-color]', function (e) {
+				tooltip.css({
+					top: e.pageY + 8,
+					left: e.pageX + 8
+				});
+			}).on('mouseleave', 'li[data-color]', function () {
+				tooltip.hide();
+			});
 		});
 	</script>
 </body>
