@@ -698,14 +698,15 @@
   height: 2rem;
   width: 4rem;
   border-radius: 999rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
   font-size: 0.75rem;
   line-height: 0.75rem;
   font-weight: 500;
   transition: ease box-shadow 0.2s;
   cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .saPillX.saDisabled {
   background-color: #f8f9fb;
@@ -720,14 +721,21 @@
   flex-wrap: wrap;
   gap: 1.5rem;
 }
-#pillContainer ul {
-  display: grid;
-  position: relative;
-  grid-template-columns: repeat(11, 4rem);
-  gap: 0.25rem;
+#pillContainer table {
+  border-spacing: 0.5rem;
 }
-#pillContainer li:first-child {
-  grid-column: 1 / -1;
+#pillContainer .saPillX {
+  display: table-cell;
+  align-items: unset;
+  justify-content: unset;
+}
+#pillContainer th {
+  font-size: 0.625rem;
+  color: #7088a4;
+  font-weight: 400;
+}
+#pillContainer th:first-child {
+  text-align: right;
 }
 #pillContainerTw {
   display: flex;
@@ -3590,7 +3598,7 @@
   --Sa-Color-DestructiveButtonBackground: #e0163e;
   --Sa-Color-DestructiveButtonBackground-Brightness85: #b81c34;
   --Sa-Color-GeneralBorder: #2d6ce1;
-  --Sa-Color-GridFoot: #f8f9fb;
+  --Sa-Color-GridFoot: #eef1f5;
   --Sa-Color-GridHead: #f8f9fb;
   --Sa-Color-GridHeadingText: #313a44;
   --Sa-Color-GridRowHighlight: #f8f9fb;
@@ -7137,7 +7145,7 @@ div.saPopupOverlay {
   display: none;
 }
 .saStandard .saGridTop {
-  height: 4.5rem;
+  height: 4rem;
 }
 .saListGrid .saGridTop {
   display: flex;
@@ -7480,6 +7488,7 @@ div.saPopupOverlay {
   border-radius: 0 0 1rem 1rem;
 }
 .saGrid {
+  font-size: 14px;
   border-radius: 1rem;
   box-sizing: border-box;
   border: min(1px, 0.0625rem) #ccd5e2 solid;
@@ -7736,9 +7745,15 @@ div.saPopupOverlay {
   background: #fff;
   box-shadow: 0 min(1px, 0.0625rem) 0 0 #dde3ec;
   text-align: left;
-  border-top: min(1px, 0.0625rem) solid #eef1f5;
+  border-top: min(1px, 0.0625rem) solid #dde3ec;
   border-collapse: collapse;
   color: #313a44;
+}
+:has(.saGridCheckbox).saGrid .saGridGroupedRowsHeader > th .saGridGroupedRowsHeaderText {
+  padding: 0 0.75rem;
+}
+.saStandard :has(.saGridCheckbox).saGrid .saGridGroupedRowsHeader > th .saGridGroupedRowsHeaderText {
+  padding: 0 0.75rem;
 }
 .saGrid .saGridGroupedRowsHeader > th .saGridGroupedRowsHeaderText {
   display: flex;
@@ -7753,7 +7768,7 @@ div.saPopupOverlay {
 }
 .saStandard .saGrid .saGridGroupedRowsHeader > th .saGridGroupedRowsHeaderText {
   font-size: 1rem;
-  min-height: 40.5rem;
+  min-height: 3.5rem;
   padding: 0 1.5rem;
 }
 .saGrid .saGridGroupedRowsHeader > th a {
@@ -7804,6 +7819,10 @@ div.saPopupOverlay {
 }
 .saGrid .saGridGroupedRowsHeader:first-child > th {
   border-top: none;
+}
+.saGrid .saGridGroupedSum {
+  font-weight: 500;
+  background-color: #f8f9fb;
 }
 .saGrid .systemicon {
   width: 1.25rem;
@@ -8104,7 +8123,7 @@ div.saPopupOverlay {
   border-collapse: collapse;
 }
 .saStandard .saGridHead .saGridHeadingRow th {
-  height: 40.5rem;
+  height: 4rem;
 }
 .saGridHead .saGridHeadingRow th:last-child {
   border-right: none;
@@ -8184,11 +8203,11 @@ div.saPopupOverlay {
   background: var(--Sa-Color-GridFoot);
   font-weight: 500;
   border-collapse: collapse;
-  border-top: min(1px, 0.0625rem) solid #eef1f5;
+  border-top: min(1px, 0.0625rem) solid #dde3ec;
   height: 2rem;
 }
 .saStandard .saGridFoot td {
-  height: 40.5rem;
+  height: 4rem;
 }
 .saGridCell .saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -8314,7 +8333,7 @@ div.saPopupOverlay {
   gap: 0.25rem;
   padding: 0.9rem 1.375rem 0.9rem 1rem;
   width: 100%;
-  min-height: 40.5rem;
+  min-height: 4rem;
   text-align: left;
   border: none;
   background: none;

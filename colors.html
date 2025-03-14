@@ -799,33 +799,46 @@
 
 			$.each(colors, function (index, group) {
 				const colorName = group.colorName;
-				const $ul = $('<ul></ul>').addClass(colorName);
-				const $liFirst = $('<li></li>').text(colorName);
-				$ul.append($liFirst);
+				const $table = $('<table></table>').addClass(colorName);
+				const $thead = $('<thead></thead>');
+				const $tbody = $('<tbody></tbody>');
+
+				const $trHead = $('<tr></tr>');
+				$trHead.append($('<th></th>').text(colorName));
+				$.each(group.colors, function (i, color) {
+					$trHead.append($('<th></th>').text(color.shade));
+				});
+				$thead.append($trHead);
 
 				$.each(group.colors, function (i, color) {
 					const colorShade = color.shade;
 					const colorKey = color.key;
+					const $tr = $('<tr></tr>');
+					$tr.append($('<th></th>').text(colorShade));
 
 					$.each(group.colors, function (j, textColor) {
 						const textColorShade = textColor.shade;
-						if (checkWcagContrast(color.value, textColor.value, 4.5)) {
-							if (colorShade !== "150" && textColorShade !== "150" && colorShade !== "0" && colorShade !== "50") {
-								const $li = $('<li></li>')
-									.addClass(`saPillX sa${colorName} saText${colorName}${textColorShade} saBackground${colorName}${colorShade}`).text(`${textColorShade} ${colorShade}`)
-									.attr('data-color', `txt${colorName}${textColorShade} bg${colorName}${colorShade}`);
 
-								if (colorKey) {
-									$li.addClass('saKey');
-								}
+						const $td = $('<td></td>')
+							.addClass(`saPillX sa${colorName} saText${colorName}${textColorShade} saBackground${colorName}${colorShade}`)
+							.text(`${textColorShade} ${colorShade}`)
+							.attr('data-color', `txt${colorName}${textColorShade} bg${colorName}${colorShade}`);
 
-								$ul.append($li);
-							}
+						if (colorKey) {
+							$td.addClass('saKey');
 						}
+
+						if (!checkWcagContrast(color.value, textColor.value, 4.5)) {
+							$td.addClass('saDisabled');
+						}
+						$tr.append($td);
 					});
+
+					$tbody.append($tr);
 				});
 
-				$('#pillContainer').append($ul);
+				$table.append($thead).append($tbody);
+				$('#pillContainer').append($table);
 			});
 
 
@@ -901,15 +914,15 @@
 				zIndex: 1000
 			}).appendTo('body');
 
-			$('ul').on('mouseenter', 'li[data-color]', function (e) {
+			$('ul, table').on('mouseenter', '[data-color]', function (e) {
 				const dataColor = $(this).attr('data-color');
 				tooltip.text(dataColor).show();
-			}).on('mousemove', 'li[data-color]', function (e) {
+			}).on('mousemove', '[data-color]', function (e) {
 				tooltip.css({
 					top: e.pageY + 8,
 					left: e.pageX + 8
 				});
-			}).on('mouseleave', 'li[data-color]', function () {
+			}).on('mouseleave', '[data-color]', function () {
 				tooltip.hide();
 			});
 		});
