@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+	<meta property="og:title" content="Softadmin Demo - Login">
+	<meta property="og:description"
+		content="Explore the innovative new features in Softadmin, designed to improve user experience and enhance customer satisfaction. See it in action now!">
+	<meta property="og:url" content="https://jonathankevin.netlify.app/Login">
+	<meta property="og:image" content="https://jonathankevin.netlify.app/src/img/og-img.jpg">
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="Softadmin Demo">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:logo" content="https://jonathankevin.netlify.app/src/img/logo.svg">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+</head>
+
+<body class="saStandard saLargeScreen">
+	<div class="blob"></div>
+
+<style>
+  .blob {
+    width: 500px;
+    height: 500px;
+    background: linear-gradient(135deg, #00c9ff, #92fe9d);
+    clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%);
+    position: relative;
+  }
+</style>
+
+<script>
+const blob = document.querySelector('.blob');
+
+const basePoints = [
+  [74.1, 44.1], [100, 61.6], [97.5, 26.9], [85.5, 0.1], [80.7, 2],
+  [72.5, 32.5], [60.2, 62.4], [52.4, 68.1], [47.5, 58.3], [45.2, 34.5],
+  [27.5, 76.7], [0.1, 64.9], [17.9, 100], [27.6, 76.8], [76.1, 97.7], [74.1, 44.1]
+];
+
+let points = basePoints.map(p => [...p]); // Clone
+let mouse = { x: 0, y: 0 };
+
+document.addEventListener('mousemove', (e) => {
+  const rect = blob.getBoundingClientRect();
+  mouse.x = e.clientX - rect.left;
+  mouse.y = e.clientY - rect.top;
+});
+
+function update() {
+  const rect = blob.getBoundingClientRect();
+
+  // Find closest point
+  let nearestIndex = 0;
+  let minDist = Infinity;
+
+  points.forEach(([xPerc, yPerc], i) => {
+    let x = xPerc * rect.width / 100;
+    let y = yPerc * rect.height / 100;
+    let dx = x - mouse.x;
+    let dy = y - mouse.y;
+    let dist = dx * dx + dy * dy;
+    if (dist < minDist) {
+      minDist = dist;
+      nearestIndex = i;
+    }
+  });
+
+  // For each point, decide whether to follow or return
+  points = points.map((point, i) => {
+    let [currX, currY] = point;
+    let [baseX, baseY] = basePoints[i];
+
+    if (i === nearestIndex) {
+      let px = currX * rect.width / 100;
+      let py = currY * rect.height / 100;
+      let dx = px - mouse.x;
+      let dy = py - mouse.y;
+      let dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < 100) {
+        // Follow mouse
+        let targetX = (mouse.x / rect.width) * 100;
+        let targetY = (mouse.y / rect.height) * 100;
+        currX += (targetX - currX) * 0.15;
+        currY += (targetY - currY) * 0.15;
+      } else {
+        // Snap back
+        currX += (baseX - currX) * 0.1;
+        currY += (baseY - currY) * 0.1;
+      }
+    } else {
+      // All other points return to base
+      currX += (baseX - currX) * 0.1;
+      currY += (baseY - currY) * 0.1;
+    }
+
+    return [currX, currY];
+  });
+
+  // Apply new clip-path
+  const path = points.map(([x, y]) => `${x}% ${y}%`).join(', ');
+  blob.style.clipPath = `polygon(${path})`;
+
+  requestAnimationFrame(update);
+}
+
+update();
+</script>
+
+</body>
+</html>

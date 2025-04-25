@@ -19,11 +19,16 @@
 	<meta property="og:site_name" content="Softadmin Demo">
 	<meta property="og:locale" content="en_US">
 	<meta property="og:logo" content="https://jonathankevin.netlify.app/src/img/logo.svg">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.4.2/chroma.min.js"></script>
+
 </head>
 
 <body class="saDesktop saPc saLargeScreen saCompact">
 
 	<div class="scrollcontent-inner">
+		<input id="colorInput" type="text" placeholder="#f2f2f2" value="#266de1">
+		<button id="generate">Generate</button>
+		<div id="resultz"></div>
 		<table class="saColorGroup" id="rgb">
 			<caption>
 				Hover to see contrast
@@ -63,511 +68,160 @@
 			<tbody>
 				<tr>
 					<th>Gray</th>
-					<td class="saColorWhite"></td>
-					<td class="saColorGray50"></td>
-					<td class="saColorGray100"></td>
-					<td class="saColorGray150"></td>
-					<td class="saColorGray200"></td>
-					<td class="saColorGray300"></td>
-					<td class="saColorGray400"></td>
-					<td class="saColorGray500"></td>
-					<td class="saColorGray600"></td>
-					<td class="saColorGray700"></td>
-					<td class="saColorGray800"></td>
-					<td class="saColorGray900"></td>
+					<td data-color="White" class="saBackgroundWhite"></td>
+					<td data-color="Gray50" class="saBackgroundGray50"></td>
+					<td data-color="Gray100" class="saBackgroundGray100"></td>
+					<td data-color="Gray150" class="saBackgroundGray150"></td>
+					<td data-color="Gray200" class="saBackgroundGray200"></td>
+					<td data-color="Gray300" class="saBackgroundGray300"></td>
+					<td data-color="Gray400" class="saBackgroundGray400"></td>
+					<td data-color="Gray500" class="saBackgroundGray500"></td>
+					<td data-color="Gray600" class="saBackgroundGray600"></td>
+					<td data-color="Gray700" class="saBackgroundGray700"></td>
+					<td data-color="Gray800" class="saBackgroundGray800"></td>
+					<td data-color="Gray900" class="saBackgroundGray900"></td>
 				</tr>
 				<tr>
 					<th>Blue</th>
-					<td class="saColorWhite"></td>
-					<td class="saColorBlue50"></td>
-					<td class="saColorBlue100"></td>
+					<td data-color="White" class="saBackgroundWhite"></td>
+					<td data-color="Blue50" class="saBackgroundBlue50"></td>
+					<td data-color="Blue100" class="saBackgroundBlue100"></td>
 					<td class="empty"></td>
-					<td class="saColorBlue200"></td>
-					<td class="saColorBlue300"></td>
-					<td class="saColorBlue400"></td>
-					<td class="saColorBlue500"></td>
-					<td class="saColorBlue600"></td>
-					<td class="saColorBlue700"></td>
-					<td class="saColorBlue800"></td>
-					<td class="saColorBlue900"></td>
+					<td data-color="Blue200" class="saBackgroundBlue200"></td>
+					<td data-color="Blue300" class="saBackgroundBlue300"></td>
+					<td data-color="Blue400" class="saBackgroundBlue400"></td>
+					<td data-color="Blue500" class="saBackgroundBlue500"></td>
+					<td data-color="Blue600" class="saBackgroundBlue600"></td>
+					<td data-color="Blue700" class="saBackgroundBlue700"></td>
+					<td data-color="Blue800" class="saBackgroundBlue800"></td>
+					<td data-color="Blue900" class="saBackgroundBlue900"></td>
+				</tr>
+				<tr>
+					<th>Azul</th>
+					<td data-color="White" class="saBackgroundWhite"></td>
+					<td data-color="Azul50" class="saBackgroundAzul50"></td>
+					<td data-color="Azul100" class="saBackgroundAzul100"></td>
+					<td class="empty"></td>
+					<td data-color="Azul200" class="saBackgroundAzul200"></td>
+					<td data-color="Azul300" class="saBackgroundAzul300"></td>
+					<td data-color="Azul400" class="saBackgroundAzul400"></td>
+					<td data-color="Azul500" class="saBackgroundAzul500"></td>
+					<td data-color="Azul600" class="saBackgroundAzul600"></td>
+					<td data-color="Azul700" class="saBackgroundAzul700"></td>
+					<td data-color="Azul800" class="saBackgroundAzul800"></td>
+					<td data-color="Azul900" class="saBackgroundAzul900"></td>
 				</tr>
 				<tr>
 					<th>Red</th>
-					<td class="saColorWhite"></td>
-					<td class="saColorRed50"></td>
-					<td class="saColorRed100"></td>
+					<td data-color="White" class="saBackgroundWhite"></td>
+					<td data-color="Red50" class="saBackgroundRed50"></td>
+					<td data-color="Red100" class="saBackgroundRed100"></td>
 					<td class="empty"></td>
-					<td class="saColorRed200"></td>
-					<td class="saColorRed300"></td>
-					<td class="saColorRed400"></td>
-					<td class="saColorRed500"></td>
-					<td class="saColorRed600"></td>
-					<td class="saColorRed700"></td>
-					<td class="saColorRed800"></td>
-					<td class="saColorRed900"></td>
+					<td data-color="Red200" class="saBackgroundRed200"></td>
+					<td data-color="Red300" class="saBackgroundRed300"></td>
+					<td data-color="Red400" class="saBackgroundRed400"></td>
+					<td data-color="Red500" class="saBackgroundRed500"></td>
+					<td data-color="Red600" class="saBackgroundRed600"></td>
+					<td data-color="Red700" class="saBackgroundRed700"></td>
+					<td data-color="Red800" class="saBackgroundRed800"></td>
+					<td data-color="Red900" class="saBackgroundRed900"></td>
 				</tr>
 				<tr>
 					<th>Orange</th>
-					<td class="saColorWhite"></td>
-					<td class="saColorOrange50"></td>
-					<td class="saColorOrange100"></td>
+					<td data-color="White" class="saBackgroundWhite"></td>
+					<td data-color="Orange50" class="saBackgroundOrange50"></td>
+					<td data-color="Orange100" class="saBackgroundOrange100"></td>
 					<td class="empty"></td>
-					<td class="saColorOrange200"></td>
-					<td class="saColorOrange300"></td>
-					<td class="saColorOrange400"></td>
-					<td class="saColorOrange500"></td>
-					<td class="saColorOrange600"></td>
-					<td class="saColorOrange700"></td>
-					<td class="saColorOrange800"></td>
-					<td class="saColorOrange900"></td>
+					<td data-color="Orange200" class="saBackgroundOrange200"></td>
+					<td data-color="Orange300" class="saBackgroundOrange300"></td>
+					<td data-color="Orange400" class="saBackgroundOrange400"></td>
+					<td data-color="Orange500" class="saBackgroundOrange500"></td>
+					<td data-color="Orange600" class="saBackgroundOrange600"></td>
+					<td data-color="Orange700" class="saBackgroundOrange700"></td>
+					<td data-color="Orange800" class="saBackgroundOrange800"></td>
+					<td data-color="Orange900" class="saBackgroundOrange900"></td>
 				</tr>
 				<tr>
 					<th>Yellow</th>
-					<td class="saColorWhite"></td>
-					<td class="saColorYellow50"></td>
-					<td class="saColorYellow100"></td>
+					<td data-color="White" class="saBackgroundWhite"></td>
+					<td data-color="Yellow50" class="saBackgroundYellow50"></td>
+					<td data-color="Yellow100" class="saBackgroundYellow100"></td>
 					<td class="empty"></td>
-					<td class="saColorYellow200"></td>
-					<td class="saColorYellow300"></td>
-					<td class="saColorYellow400"></td>
-					<td class="saColorYellow500"></td>
-					<td class="saColorYellow600"></td>
-					<td class="saColorYellow700"></td>
-					<td class="saColorYellow800"></td>
-					<td class="saColorYellow900"></td>
+					<td data-color="Yellow200" class="saBackgroundYellow200"></td>
+					<td data-color="Yellow300" class="saBackgroundYellow300"></td>
+					<td data-color="Yellow400" class="saBackgroundYellow400"></td>
+					<td data-color="Yellow500" class="saBackgroundYellow500"></td>
+					<td data-color="Yellow600" class="saBackgroundYellow600"></td>
+					<td data-color="Yellow700" class="saBackgroundYellow700"></td>
+					<td data-color="Yellow800" class="saBackgroundYellow800"></td>
+					<td data-color="Yellow900" class="saBackgroundYellow900"></td>
 				</tr>
 				<tr>
 					<th>Green</th>
-					<td class="saColorWhite"></td>
-					<td class="saColorGreen50"></td>
-					<td class="saColorGreen100"></td>
+					<td data-color="White" class="saBackgroundWhite"></td>
+					<td data-color="Green50" class="saBackgroundGreen50"></td>
+					<td data-color="Green100" class="saBackgroundGreen100"></td>
 					<td class="empty"></td>
-					<td class="saColorGreen200"></td>
-					<td class="saColorGreen300"></td>
-					<td class="saColorGreen400"></td>
-					<td class="saColorGreen500"></td>
-					<td class="saColorGreen600"></td>
-					<td class="saColorGreen700"></td>
-					<td class="saColorGreen800"></td>
-					<td class="saColorGreen900"></td>
+					<td data-color="Green200" class="saBackgroundGreen200"></td>
+					<td data-color="Green300" class="saBackgroundGreen300"></td>
+					<td data-color="Green400" class="saBackgroundGreen400"></td>
+					<td data-color="Green500" class="saBackgroundGreen500"></td>
+					<td data-color="Green600" class="saBackgroundGreen600"></td>
+					<td data-color="Green700" class="saBackgroundGreen700"></td>
+					<td data-color="Green800" class="saBackgroundGreen800"></td>
+					<td data-color="Green900" class="saBackgroundGreen900"></td>
 				</tr>
 				<tr>
 					<th>SkyBlue</th>
-					<td class="saColorWhite"></td>
-					<td class="saColorSkyBlue50"></td>
-					<td class="saColorSkyBlue100"></td>
+					<td data-color="White" class="saBackgroundWhite"></td>
+					<td data-color="SkyBlue50" class="saBackgroundSkyBlue50"></td>
+					<td data-color="SkyBlue100" class="saBackgroundSkyBlue100"></td>
 					<td class="empty"></td>
-					<td class="saColorSkyBlue200"></td>
-					<td class="saColorSkyBlue300"></td>
-					<td class="saColorSkyBlue400"></td>
-					<td class="saColorSkyBlue500"></td>
-					<td class="saColorSkyBlue600"></td>
-					<td class="saColorSkyBlue700"></td>
-					<td class="saColorSkyBlue800"></td>
-					<td class="saColorSkyBlue900"></td>
+					<td data-color="SkyBlue200" class="saBackgroundSkyBlue200"></td>
+					<td data-color="SkyBlue300" class="saBackgroundSkyBlue300"></td>
+					<td data-color="SkyBlue400" class="saBackgroundSkyBlue400"></td>
+					<td data-color="SkyBlue500" class="saBackgroundSkyBlue500"></td>
+					<td data-color="SkyBlue600" class="saBackgroundSkyBlue600"></td>
+					<td data-color="SkyBlue700" class="saBackgroundSkyBlue700"></td>
+					<td data-color="SkyBlue800" class="saBackgroundSkyBlue800"></td>
+					<td data-color="SkyBlue900" class="saBackgroundSkyBlue900"></td>
 				</tr>
 				<tr>
 					<th>Purple</th>
-					<td class="saColorWhite"></td>
-					<td class="saColorPurple50"></td>
-					<td class="saColorPurple100"></td>
+					<td data-color="White" class="saBackgroundWhite"></td>
+					<td data-color="Purple50" class="saBackgroundPurple50"></td>
+					<td data-color="Purple100" class="saBackgroundPurple100"></td>
 					<td class="empty"></td>
-					<td class="saColorPurple200"></td>
-					<td class="saColorPurple300"></td>
-					<td class="saColorPurple400"></td>
-					<td class="saColorPurple500"></td>
-					<td class="saColorPurple600"></td>
-					<td class="saColorPurple700"></td>
-					<td class="saColorPurple800"></td>
-					<td class="saColorPurple900"></td>
+					<td data-color="Purple200" class="saBackgroundPurple200"></td>
+					<td data-color="Purple300" class="saBackgroundPurple300"></td>
+					<td data-color="Purple400" class="saBackgroundPurple400"></td>
+					<td data-color="Purple500" class="saBackgroundPurple500"></td>
+					<td data-color="Purple600" class="saBackgroundPurple600"></td>
+					<td data-color="Purple700" class="saBackgroundPurple700"></td>
+					<td data-color="Purple800" class="saBackgroundPurple800"></td>
+					<td data-color="Purple900" class="saBackgroundPurple900"></td>
 				</tr>
 				<tr>
 					<th>Pink</th>
-					<td class="saColorWhite"></td>
-					<td class="saColorPink50"></td>
-					<td class="saColorPink100"></td>
+					<td data-color="White" class="saBackgroundWhite"></td>
+					<td data-color="Pink50" class="saBackgroundPink50"></td>
+					<td data-color="Pink100" class="saBackgroundPink100"></td>
 					<td class="empty"></td>
-					<td class="saColorPink200"></td>
-					<td class="saColorPink300"></td>
-					<td class="saColorPink400"></td>
-					<td class="saColorPink500"></td>
-					<td class="saColorPink600"></td>
-					<td class="saColorPink700"></td>
-					<td class="saColorPink800"></td>
-					<td class="saColorPink900"> </td>
+					<td data-color="Pink200" class="saBackgroundPink200"></td>
+					<td data-color="Pink300" class="saBackgroundPink300"></td>
+					<td data-color="Pink400" class="saBackgroundPink400"></td>
+					<td data-color="Pink500" class="saBackgroundPink500"></td>
+					<td data-color="Pink600" class="saBackgroundPink600"></td>
+					<td data-color="Pink700" class="saBackgroundPink700"></td>
+					<td data-color="Pink800" class="saBackgroundPink800"></td>
+					<td data-color="Pink900" class="saBackgroundPink900"> </td>
 				</tr>
 			</tbody>
 		</table>
-		<!--<table class="saColorGroup" id="oklch">
-										<colgroup>
-											<col>
-											<col>
-											<col>
-											<col>
-											<col>
-											<col>
-											<col>
-											<col>
-											<col>
-											<col>
-											<col>
-											<col>
-										</colgroup>
-										<thead>
-											<tr>
-												<th>Color</th>
-												<th>0</th>
-												<th>50</th>
-												<th>100</th>
-												<th>200</th>
-												<th>300</th>
-												<th>400</th>
-												<th>500</th>
-												<th>600</th>
-												<th>700</th>
-												<th>800</th>
-												<th>900</th>
-												<th>950</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<th>Red</th>
-												<td class="color-white"></td>
-												<td class="color-red-50"></td>
-												<td class="color-red-100"></td>
-												<td class="color-red-200"></td>
-												<td class="color-red-300"></td>
-												<td class="color-red-400"></td>
-												<td class="color-red-500"></td>
-												<td class="color-red-600"></td>
-												<td class="color-red-700"></td>
-												<td class="color-red-800"></td>
-												<td class="color-red-900"></td>
-												<td class="color-red-950"></td>
-											</tr>
-											<tr>
-												<th>Orange</th>
-												<td class="color-white"></td>
-												<td class="color-orange-50"></td>
-												<td class="color-orange-100"></td>
-												<td class="color-orange-200"></td>
-												<td class="color-orange-300"></td>
-												<td class="color-orange-400"></td>
-												<td class="color-orange-500"></td>
-												<td class="color-orange-600"></td>
-												<td class="color-orange-700"></td>
-												<td class="color-orange-800"></td>
-												<td class="color-orange-900"></td>
-												<td class="color-orange-950"></td>
-											</tr>
-											<tr>
-												<th>Amber</th>
-												<td class="color-white"></td>
-												<td class="color-amber-50"></td>
-												<td class="color-amber-100"></td>
-												<td class="color-amber-200"></td>
-												<td class="color-amber-300"></td>
-												<td class="color-amber-400"></td>
-												<td class="color-amber-500"></td>
-												<td class="color-amber-600"></td>
-												<td class="color-amber-700"></td>
-												<td class="color-amber-800"></td>
-												<td class="color-amber-900"></td>
-												<td class="color-amber-950"></td>
-											</tr>
-											<tr>
-												<th>Yellow</th>
-												<td class="color-white"></td>
-												<td class="color-yellow-50"></td>
-												<td class="color-yellow-100"></td>
-												<td class="color-yellow-200"></td>
-												<td class="color-yellow-300"></td>
-												<td class="color-yellow-400"></td>
-												<td class="color-yellow-500"></td>
-												<td class="color-yellow-600"></td>
-												<td class="color-yellow-700"></td>
-												<td class="color-yellow-800"></td>
-												<td class="color-yellow-900"></td>
-												<td class="color-yellow-950"></td>
-											</tr>
-											<tr>
-												<th>Lime</th>
-												<td class="color-white"></td>
-												<td class="color-lime-50"></td>
-												<td class="color-lime-100"></td>
-												<td class="color-lime-200"></td>
-												<td class="color-lime-300"></td>
-												<td class="color-lime-400"></td>
-												<td class="color-lime-500"></td>
-												<td class="color-lime-600"></td>
-												<td class="color-lime-700"></td>
-												<td class="color-lime-800"></td>
-												<td class="color-lime-900"></td>
-												<td class="color-lime-950"></td>
-											</tr>
-											<tr>
-												<th>Green</th>
-												<td class="color-white"></td>
-												<td class="color-green-50"></td>
-												<td class="color-green-100"></td>
-												<td class="color-green-200"></td>
-												<td class="color-green-300"></td>
-												<td class="color-green-400"></td>
-												<td class="color-green-500"></td>
-												<td class="color-green-600"></td>
-												<td class="color-green-700"></td>
-												<td class="color-green-800"></td>
-												<td class="color-green-900"></td>
-												<td class="color-green-950"></td>
-											</tr>
-											<tr>
-												<th>Emerald</th>
-												<td class="color-white"></td>
-												<td class="color-emerald-50"></td>
-												<td class="color-emerald-100"></td>
-												<td class="color-emerald-200"></td>
-												<td class="color-emerald-300"></td>
-												<td class="color-emerald-400"></td>
-												<td class="color-emerald-500"></td>
-												<td class="color-emerald-600"></td>
-												<td class="color-emerald-700"></td>
-												<td class="color-emerald-800"></td>
-												<td class="color-emerald-900"></td>
-												<td class="color-emerald-950"></td>
-											</tr>
-											<tr>
-												<th>Teal</th>
-												<td class="color-white"></td>
-												<td class="color-teal-50"></td>
-												<td class="color-teal-100"></td>
-												<td class="color-teal-200"></td>
-												<td class="color-teal-300"></td>
-												<td class="color-teal-400"></td>
-												<td class="color-teal-500"></td>
-												<td class="color-teal-600"></td>
-												<td class="color-teal-700"></td>
-												<td class="color-teal-800"></td>
-												<td class="color-teal-900"></td>
-												<td class="color-teal-950"></td>
-											</tr>
-											<tr>
-												<th>Cyan</th>
-												<td class="color-white"></td>
-												<td class="color-cyan-50"></td>
-												<td class="color-cyan-100"></td>
-												<td class="color-cyan-200"></td>
-												<td class="color-cyan-300"></td>
-												<td class="color-cyan-400"></td>
-												<td class="color-cyan-500"></td>
-												<td class="color-cyan-600"></td>
-												<td class="color-cyan-700"></td>
-												<td class="color-cyan-800"></td>
-												<td class="color-cyan-900"></td>
-												<td class="color-cyan-950"></td>
-											</tr>
-											<tr>
-												<th>Sky</th>
-												<td class="color-white"></td>
-												<td class="color-sky-50"></td>
-												<td class="color-sky-100"></td>
-												<td class="color-sky-200"></td>
-												<td class="color-sky-300"></td>
-												<td class="color-sky-400"></td>
-												<td class="color-sky-500"></td>
-												<td class="color-sky-600"></td>
-												<td class="color-sky-700"></td>
-												<td class="color-sky-800"></td>
-												<td class="color-sky-900"></td>
-												<td class="color-sky-950"></td>
-											</tr>
-											<tr>
-												<th>Blue</th>
-												<td class="color-white"></td>
-												<td class="color-blue-50"></td>
-												<td class="color-blue-100"></td>
-												<td class="color-blue-200"></td>
-												<td class="color-blue-300"></td>
-												<td class="color-blue-400"></td>
-												<td class="color-blue-500"></td>
-												<td class="color-blue-600"></td>
-												<td class="color-blue-700"></td>
-												<td class="color-blue-800"></td>
-												<td class="color-blue-900"></td>
-												<td class="color-blue-950"></td>
-											</tr>
-											<tr>
-												<th>Indigo</th>
-												<td class="color-white"></td>
-												<td class="color-indigo-50"></td>
-												<td class="color-indigo-100"></td>
-												<td class="color-indigo-200"></td>
-												<td class="color-indigo-300"></td>
-												<td class="color-indigo-400"></td>
-												<td class="color-indigo-500"></td>
-												<td class="color-indigo-600"></td>
-												<td class="color-indigo-700"></td>
-												<td class="color-indigo-800"></td>
-												<td class="color-indigo-900"></td>
-												<td class="color-indigo-950"></td>
-											</tr>
-											<tr>
-												<th>Violet</th>
-												<td class="color-white"></td>
-												<td class="color-violet-50"></td>
-												<td class="color-violet-100"></td>
-												<td class="color-violet-200"></td>
-												<td class="color-violet-300"></td>
-												<td class="color-violet-400"></td>
-												<td class="color-violet-500"></td>
-												<td class="color-violet-600"></td>
-												<td class="color-violet-700"></td>
-												<td class="color-violet-800"></td>
-												<td class="color-violet-900"></td>
-												<td class="color-violet-950"></td>
-											</tr>
-											<tr>
-												<th>Purple</th>
-												<td class="color-white"></td>
-												<td class="color-purple-50"></td>
-												<td class="color-purple-100"></td>
-												<td class="color-purple-200"></td>
-												<td class="color-purple-300"></td>
-												<td class="color-purple-400"></td>
-												<td class="color-purple-500"></td>
-												<td class="color-purple-600"></td>
-												<td class="color-purple-700"></td>
-												<td class="color-purple-800"></td>
-												<td class="color-purple-900"></td>
-												<td class="color-purple-950"></td>
-											</tr>
-											<tr>
-												<th>Fuchsia</th>
-												<td class="color-white"></td>
-												<td class="color-fuchsia-50"></td>
-												<td class="color-fuchsia-100"></td>
-												<td class="color-fuchsia-200"></td>
-												<td class="color-fuchsia-300"></td>
-												<td class="color-fuchsia-400"></td>
-												<td class="color-fuchsia-500"></td>
-												<td class="color-fuchsia-600"></td>
-												<td class="color-fuchsia-700"></td>
-												<td class="color-fuchsia-800"></td>
-												<td class="color-fuchsia-900"></td>
-												<td class="color-fuchsia-950"></td>
-											</tr>
-											<tr>
-												<th>Pink</th>
-												<td class="color-white"></td>
-												<td class="color-pink-50"></td>
-												<td class="color-pink-100"></td>
-												<td class="color-pink-200"></td>
-												<td class="color-pink-300"></td>
-												<td class="color-pink-400"></td>
-												<td class="color-pink-500"></td>
-												<td class="color-pink-600"></td>
-												<td class="color-pink-700"></td>
-												<td class="color-pink-800"></td>
-												<td class="color-pink-900"></td>
-												<td class="color-pink-950"></td>
-											</tr>
-											<tr>
-												<th>Rose</th>
-												<td class="color-white"></td>
-												<td class="color-rose-50"></td>
-												<td class="color-rose-100"></td>
-												<td class="color-rose-200"></td>
-												<td class="color-rose-300"></td>
-												<td class="color-rose-400"></td>
-												<td class="color-rose-500"></td>
-												<td class="color-rose-600"></td>
-												<td class="color-rose-700"></td>
-												<td class="color-rose-800"></td>
-												<td class="color-rose-900"></td>
-												<td class="color-rose-950"></td>
-											</tr>
-											<tr>
-												<th>Slate</th>
-												<td class="color-white"></td>
-												<td class="color-slate-50"></td>
-												<td class="color-slate-100"></td>
-												<td class="color-slate-200"></td>
-												<td class="color-slate-300"></td>
-												<td class="color-slate-400"></td>
-												<td class="color-slate-500"></td>
-												<td class="color-slate-600"></td>
-												<td class="color-slate-700"></td>
-												<td class="color-slate-800"></td>
-												<td class="color-slate-900"></td>
-												<td class="color-slate-950"></td>
-											</tr>
-											<tr>
-												<th>Gray</th>
-												<td class="color-white"></td>
-												<td class="color-gray-50"></td>
-												<td class="color-gray-100"></td>
-												<td class="color-gray-200"></td>
-												<td class="color-gray-300"></td>
-												<td class="color-gray-400"></td>
-												<td class="color-gray-500"></td>
-												<td class="color-gray-600"></td>
-												<td class="color-gray-700"></td>
-												<td class="color-gray-800"></td>
-												<td class="color-gray-900"></td>
-												<td class="color-gray-950"></td>
-											</tr>
-											<tr>
-												<th>Zinc</th>
-												<td class="color-white"></td>
-												<td class="color-zinc-50"></td>
-												<td class="color-zinc-100"></td>
-												<td class="color-zinc-200"></td>
-												<td class="color-zinc-300"></td>
-												<td class="color-zinc-400"></td>
-												<td class="color-zinc-500"></td>
-												<td class="color-zinc-600"></td>
-												<td class="color-zinc-700"></td>
-												<td class="color-zinc-800"></td>
-												<td class="color-zinc-900"></td>
-												<td class="color-zinc-950"></td>
-											</tr>
-											<tr>
-												<th>Neutral</th>
-												<td class="color-white"></td>
-												<td class="color-neutral-50"></td>
-												<td class="color-neutral-100"></td>
-												<td class="color-neutral-200"></td>
-												<td class="color-neutral-300"></td>
-												<td class="color-neutral-400"></td>
-												<td class="color-neutral-500"></td>
-												<td class="color-neutral-600"></td>
-												<td class="color-neutral-700"></td>
-												<td class="color-neutral-800"></td>
-												<td class="color-neutral-900"></td>
-												<td class="color-neutral-950"></td>
-											</tr>
-											<tr>
-												<th>Stone</th>
-												<td class="color-white"></td>
-												<td class="color-stone-50"></td>
-												<td class="color-stone-100"></td>
-												<td class="color-stone-200"></td>
-												<td class="color-stone-300"></td>
-												<td class="color-stone-400"></td>
-												<td class="color-stone-500"></td>
-												<td class="color-stone-600"></td>
-												<td class="color-stone-700"></td>
-												<td class="color-stone-800"></td>
-												<td class="color-stone-900"></td>
-												<td class="color-stone-950"></td>
-											</tr>
-										</tbody>
-									</table>
-									-->
+		<div id="mixContainer"></div>
 		<div style="display: flex; flex-direction: column; gap: 40px;">
 			<div id="color-groups"></div>
 			<div id="pillContainer"></div>
-			<div id="mixContainer"></div>
 			<div id="colorContainer"></div>
 		</div>
 	</div>
@@ -581,6 +235,83 @@
 	<script>
 
 		$(document).ready(function () {
+
+			var $ContrastThreshold = 4.5; // Set the contrast ratio threshold
+
+			$("#generate").click(function () {
+				let hex = $("#colorInput").val().trim();
+				if (!/^#[0-9A-Fa-f]{6}$/.test(hex)) {
+					alert("Invalid hex color!");
+					return;
+				}
+
+				let oklchBase = chroma(hex).oklch();
+				let colors = generateColors(oklchBase);
+				let palette = generateShades(colors);
+				enforceContrast(palette);
+
+				displayResults(palette);
+			});
+
+			function generateColors(oklchBase) {
+				let hues = {
+					blue: 240, purple: 270, magenta: 300, pink: 330,
+					red: 0, orange: 30, yellow: 60, green: 120, skyblue: 200
+				};
+
+				let colors = {};
+				Object.keys(hues).forEach(name => {
+					colors[name] = [oklchBase[0], oklchBase[1], hues[name]];
+				});
+				return colors;
+			}
+
+			function generateShades(colors) {
+				let steps = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+				let palette = {};
+
+				for (let name in colors) {
+					palette[name] = steps.map(lightness => {
+						return [lightness / 100, colors[name][1], colors[name][2]];
+					});
+				}
+				return palette;
+			}
+
+			function enforceContrast(palette) {
+				for (let name in palette) {
+					let base600 = palette[name][6];
+					let contrast = getContrast(base600, [1, 0, 0]);
+
+					if (contrast < $ContrastThreshold) {
+						palette[name][6][0] = Math.max(palette[name][6][0] - 0.1, 0);
+					}
+				}
+			}
+
+			function getContrast(color1, color2) {
+				return chroma.oklch(color1).luminance() / chroma.oklch(color2).luminance();
+			}
+
+			function displayResults(palette) {
+				let steps = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+				let output = `<table border='1'><tr><th>Color</th>`;
+				steps.forEach(step => output += `<th>${step}</th>`);
+				output += `</tr>`;
+
+				for (let name in palette) {
+					output += `<tr><td><b>${name}</b></td>`;
+					palette[name].forEach(c => {
+						let colorStr = `oklch(${c.join(", ")})`;
+						output += `<td style='background-color:${colorStr}; color:#fff;'>${colorStr}</td>`;
+					});
+					output += `</tr>`;
+				}
+				output += `</table>`;
+
+				$("#resultz").html(output);
+			}
+
 
 			function getLuminance(color) {
 				let rgb = color.match(/\d+/g).map(Number).map(c => {
@@ -605,12 +336,24 @@
 					let otherColor = $(this).css('background-color');
 					let contrast = getContrastRatio(hoveredColor, otherColor);
 
-					$(this).toggleClass('disabled', contrast < 4.5); //3.0 for icons
+					$(this).toggleClass('disabled', contrast < $ContrastThreshold); //3.0 for icons
+
+				});
+
+				$('#mixContainer .saPillX').each(function () {
+					let pillBgColor = $(this).css('background-color');
+					let pillTxtColor = $(this).css('color');
+					if (hoveredColor !== pillBgColor && hoveredColor !== pillTxtColor) {
+						$(this).hide();
+					} else {
+						$(this).show();
+					}
 				});
 			});
 
 			td.on('mouseleave', function () {
 				$('.saColorGroup td').removeClass('disabled');
+				$('#mixContainer .saPillX').show();
 			});
 
 			const colors = [
@@ -725,6 +468,22 @@
 					]
 				},
 				{
+					colorName: "Azul",
+					colors: [
+						{ shade: "0", value: "#ffffff" },
+						{ shade: "50", value: "#f7fafe" },
+						{ shade: "100", value: "#eaf2fd" },
+						{ shade: "200", value: "#c2d7f9" },
+						{ shade: "300", value: "#9dbef3" },
+						{ shade: "400", value: "#79a5ed" },
+						{ shade: "500", value: "#4d86e5" },
+						{ shade: "600", value: "#266de1", key: 1 },
+						{ shade: "700", value: "#1b5abf" },
+						{ shade: "800", value: "#1a4895" },
+						{ shade: "900", value: "#17386e" }
+					]
+				},
+				{
 					colorName: "Purple",
 					colors: [
 						{ shade: "0", value: "#ffffff" },
@@ -760,41 +519,53 @@
 
 			$.each(colors, function (index, group) {
 				const colorName = group.colorName;
-				const $ul = $('<ul></ul>').addClass(colorName);
-				const $liFirst = $('<li></li>').text(colorName);
-				$ul.append($liFirst);
+				const $table = $('<table></table>').addClass(colorName);
+				const $thead = $('<thead></thead>');
+				const $tbody = $('<tbody></tbody>');
+				const $caption = $('<caption></caption>').text(colorName);
+
+				const $trHead = $('<tr></tr>');
+				$trHead.append($('<th></th>').text(colorName));
+				$.each(group.colors, function (i, color) {
+					$trHead.append($('<th></th>').text(color.shade));
+				});
+				$thead.append($trHead);
 
 				$.each(group.colors, function (i, color) {
 					const colorShade = color.shade;
 					const colorKey = color.key;
+					const $tr = $('<tr></tr>');
+					$tr.append($('<th></th>').text(colorShade));
 
 					$.each(group.colors, function (j, iconColor) {
 						const iconColorShade = iconColor.shade;
 
-						if (colorShade !== "150" && iconColorShade !== "150" && iconColorShade !== "0" && colorShade !== "500") {
-							const $li = $('<li></li>').addClass(`sa${colorName}${colorShade} sa${colorName} sa${colorShade} saColor`);
+						const $td = $('<td></td>');
+						const $card = $('<div></div>').addClass(`sa${colorName}${colorShade} sa${colorName} sa${colorShade} saColor`);
 
-							if (colorShade == iconColorShade || iconColorShade == "0" || colorShade == "500" || colorShade - iconColorShade == 100 || (colorShade == 800 && iconColorShade == 900) || colorShade - iconColorShade == -50) {
-								$li.addClass('saDisabled');
-							}
-
-							else if (colorKey) {
-								$li.addClass('saKey');
-							}
-
-							const $icon = $('<i></i>').addClass(`saIcon far fa-crow sa${colorName}${iconColorShade} sa${colorShade}`);
-							const $divBody = $('<div class="saBody"></div>');
-							const $divTitle = $(`<div class="saTitle" title="Card background color: ${colorShade}"></div>`).text(colorShade);
-							const $divDescription = $(`<div class="saDesc" title="Icon background color: ${iconColorShade}"></div>`).text(`${iconColorShade}`);
-
-							$divBody.append($divTitle).append($divDescription);
-							$li.append($icon).append($divBody);
-							$ul.append($li);
+						if (colorShade == iconColorShade || iconColorShade == "0" || colorShade == "500" || colorShade - iconColorShade == 100 || (colorShade == 800 && iconColorShade == 900) || colorShade - iconColorShade == -50) {
+							$card.removeClass().addClass('saColor saDisabled');
 						}
+
+						else if (colorKey) {
+							$card.addClass('saKey');
+						}
+
+						const $icon = $('<i></i>').addClass(`saIcon far fa-crow sa${colorName}${iconColorShade} sa${colorShade}`);
+						const $divBody = $('<div class="saBody"></div>');
+						const $divTitle = $(`<div class="saTitle" title="Card background color: ${colorShade}"></div>`).text(colorShade);
+						const $divDescription = $(`<div class="saDesc" title="Icon background color: ${iconColorShade}"></div>`).text(`${iconColorShade}`);
+
+						$divBody.append($divTitle).append($divDescription);
+						$card.append($icon).append($divBody);
+						$td.append($card);
+						$tr.append($td);
 					});
+					$tbody.append($tr);
 				});
 
-				$('#colorContainer').append($ul);
+				$table.append($thead).append($tbody).prepend($caption);
+				$('#colorContainer').append($table);
 			});
 
 			$.each(colors, function (index, group) {
@@ -802,6 +573,7 @@
 				const $table = $('<table></table>').addClass(colorName);
 				const $thead = $('<thead></thead>');
 				const $tbody = $('<tbody></tbody>');
+				const $caption = $('<caption></caption>').text(colorName);
 
 				const $trHead = $('<tr></tr>');
 				$trHead.append($('<th></th>').text(colorName));
@@ -828,7 +600,7 @@
 							$td.addClass('saKey');
 						}
 
-						if (!checkWcagContrast(color.value, textColor.value, 4.5)) {
+						if (!checkWcagContrast(color.value, textColor.value, $ContrastThreshold)) {
 							$td.addClass('saDisabled');
 						}
 						$tr.append($td);
@@ -837,10 +609,9 @@
 					$tbody.append($tr);
 				});
 
-				$table.append($thead).append($tbody);
+				$table.append($thead).append($tbody).prepend($caption);
 				$('#pillContainer').append($table);
 			});
-
 
 			function generateAllColors() {
 				const $ul = $('<ul></ul>');
@@ -855,9 +626,9 @@
 						$.each(colors, function (j, otherGroup) {
 							$.each(otherGroup.colors, function (k, textColor) {
 								const textColorShade = textColor.shade;
-								if (checkWcagContrast(color.value, textColor.value, 4.5)) {
+								if (checkWcagContrast(color.value, textColor.value, $ContrastThreshold)) {
 
-									if (bgColorShade !== "150" && textColorShade !== "150" && bgColorShade !== "0" && bgColorShade !== "50") {
+									if (bgColorShade !== "0" && bgColorShade !== "50") {
 										const $li = $('<li></li>')
 											.addClass(`saPillX sa${colorName} saBackground${colorName}${bgColorShade} saText${otherGroup.colorName}${textColorShade}`)
 											.attr('data-color', `txt${otherGroup.colorName}${textColorShade} bg${colorName}${bgColorShade}`)
@@ -866,6 +637,7 @@
 										if (colorKey) {
 											$li.addClass('saKey');
 										}
+
 										$ul.append($li);
 									}
 								}
@@ -876,6 +648,7 @@
 
 				$('#mixContainer').append($ul);
 			}
+
 
 			generateAllColors();
 
@@ -919,7 +692,7 @@
 				tooltip.text(dataColor).show();
 			}).on('mousemove', '[data-color]', function (e) {
 				tooltip.css({
-					top: e.pageY + 8,
+					top: e.pageY + 16,
 					left: e.pageX + 8
 				});
 			}).on('mouseleave', '[data-color]', function () {

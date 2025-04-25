@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+	<meta property="og:title" content="Softadmin Demo - Login">
+	<meta property="og:description"
+		content="Explore the innovative new features in Softadmin, designed to improve user experience and enhance customer satisfaction. See it in action now!">
+	<meta property="og:url" content="https://jonathankevin.netlify.app/Login">
+	<meta property="og:image" content="https://jonathankevin.netlify.app/src/img/og-img.jpg">
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="Softadmin Demo">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:logo" content="https://jonathankevin.netlify.app/src/img/logo.svg">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+</head>
+
+<body class="saStandard saLogin saLargeScreen">
+	<style>
+		.redder-wrapper {
+			filter: blur(64px);
+		}
+		.redder {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 400px;
+			height: 400px;
+			background: linear-gradient(to right, #00ffff, #ff00ff);
+			clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%);
+			opacity: 0.3;
+		}
+		</style>
+		<div class="redder-wrapper">
+			<div class="redder"></div>
+		</div>
+	<div class="saLoginOuter">
+		<img class="saCustomerLoginLogo" src="./src/img/logo.svg" alt="Softadmin® logotyp">
+		<div class="saLoginInner">
+			<div>
+				<h1>Softadmin®</h1>
+				<p class="saDescription">Welcome to our system 👋</p>
+			</div>
+			<div>
+				<div id="BankIdWrapper" class="saStatus">
+					<p>Start the BankID app and scan the QR code.</p>
+					<div>
+						<div class="saQrCodeWrapper">
+							<img alt="QR code" class="saQr saPixelated"
+								src="data:image/png;base64,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">
+
+							<div class="saQrCountdown">
+								<progress min="0" max="100" value="50" aria-hidden="true"></progress>
+								<div class="saQrCountdownText">
+									2 minutes left
+								</div>
+							</div>
+							<div class="saScreenReaderOnly" aria-live="polite">2 minutes left</div>
+						</div>
+						<div class="saButtonWrapper">
+							<div class="saLoginDivider">Or</div>
+							<button class="saButtonSecondary saLoginPageButton">
+								<span class="saBankIdLogo saButtonIcon"></span>
+								<span>Use BankID on this device</span>
+							</button>
+						</div>
+					</div>
+				</div>
+				<form>
+					<div class="saInnerForm">
+						<div class="saButtonWrapper">
+							<button id="CancelLink" type="button" class="saLoginPageButton saButtonGhost">
+								Cancel
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<a href="https://www.softadmin.com/" target="_blank" class="saSoftadminLogo" rel="noopener noreferrer">
+			<span class="saLogo"></span>
+			<span class="saWordMark">
+				<div class="saSweep">
+					<div class="saSweepText">
+						<span>SOFTADMIN</span>
+						<span class="saSweepR">®</span>
+						<span class="saSweep8">8</span>
+					</div>
+					<div class="saSweepEffect">
+						<div>
+							<span>SOFTADMIN</span>
+							<span class="saSweepR">®</span>
+							<span class="saSweep8">8</span>
+						</div>
+						<div>
+							<span>SOFTADMIN</span>
+							<span class="saSweepR">®</span>
+							<span class="saSweep8">8</span>
+						</div>
+						<div>
+							<span>SOFTADMIN</span>
+							<span class="saSweepR">®</span>
+							<span class="saSweep8">8</span>
+						</div>
+					</div>
+				</div>
+			</span>
+		</a>
+	</div>
+	<div class="saLoginCover"></div>
+
+</body>
+<script>
+	function startCountdown(duration) {
+		let wrapper = $(".saQrCountdown");
+		let progressBar = $(".saQrCountdown progress");
+		let countdownText = $(".saQrCountdownText");
+		let screenReaderText = $(".saScreenReaderOnly");
+
+		let startTime = Date.now();
+		let endTime = startTime + duration * 1000;
+		let lastScreenReaderUpdate = 0;
+		let progressReset = false;
+
+		function updateCountdown() {
+			let now = Date.now();
+			let timeLeft = Math.max(0, ((endTime - now) / 1000));
+			let newText = "";
+
+			// Determine displayed text
+			if (timeLeft >= 60) {
+				let minutes = Math.floor(timeLeft / 60);
+				newText = minutes + (minutes > 1 ? " minutes left" : " minute left");
+			} else if (timeLeft > 1) {
+				newText = Math.floor(timeLeft) + " seconds left";
+			} else {
+				newText = Math.floor(timeLeft) + " second left";
+			}
+
+			// Update countdown text if changed
+			if (countdownText.text() !== newText) {
+				countdownText.text(newText);
+			}
+
+			// Screen reader updates every 10 seconds from 60 down to 10
+			if (timeLeft <= 60 && timeLeft % 10 === 0 && now - lastScreenReaderUpdate >= 1000) {
+				screenReaderText.text(newText);
+				lastScreenReaderUpdate = now;
+			}
+
+			// Handle progress bar restart at 30 seconds
+			if (timeLeft <= 30 && !progressReset) {
+				progressReset = true;
+				startTime = now;
+				endTime = now + 30000; // Restart with 30 seconds left
+			}
+
+			// Calculate progress bar percentage
+			let percentage = ((timeLeft > 30 ? timeLeft - 30 : timeLeft) / (timeLeft > 30 ? duration - 30 : 30)) * 100;
+			progressBar.val(percentage);
+
+			// Add 'saUrgent' class if below 30 seconds
+			if (timeLeft < 30) {
+				progressBar.addClass("saUrgent");
+			}
+
+			// Continue countdown if time is left
+			if (timeLeft > 0) {
+				requestAnimationFrame(updateCountdown);
+			}
+		}
+
+		updateCountdown();
+	}
+
+	startCountdown(61);
+
+</script>
+
+</html>
