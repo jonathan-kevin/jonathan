@@ -13086,6 +13086,142 @@ div.saPopupOverlay {
   font-size: 20px;
   min-width: 26px;
 }
+.saDefaultIconButtonSecondary {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+}
+.saDefaultIconButtonSecondary .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saDefaultIconButtonSecondary .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultIconButtonSecondary .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultIconButtonSecondary .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saDefaultIconButtonSecondary .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .saDefaultIconButtonSecondary:hover {
+    border-color: var(--Sa-Color-SecondaryButtonBorderHover);
+    color: var(--Sa-Color-LabelHover);
+  }
+  .saDefaultIconButtonSecondary:hover .saIcon {
+    color: var(--Sa-Color-IconHover);
+  }
+  .saDefaultIconButtonSecondary:hover .saBadge {
+    background-color: var(--Sa-Color-IconHover);
+  }
+}
+.saDefaultIconButtonSecondary:active {
+  background: var(--Sa-Color-SecondaryButtonBackgroundActive);
+}
+.saDefaultIconButtonSecondary:active .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  border-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+}
+.saDefaultIconButtonSecondary.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.saDefaultIconButtonSecondary.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultIconButtonSecondary.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saDefaultIconButtonSecondary.saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saDefaultIconButtonSecondary.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .saDefaultIconButtonSecondary.saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saDefaultIconButtonSecondary.saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saDefaultIconButtonSecondary.saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saDefaultIconButtonSecondary.saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saStandard .saDefaultIconButtonSecondary {
+  border-radius: 8px;
+  padding: 0 8px;
+  width: 40px;
+  height: 40px;
+  max-width: 40px;
+  min-width: 40px;
+  font-size: 16px;
+}
+.saStandard .saDefaultIconButtonSecondary:active {
+  border-radius: 12px;
+}
+.saCompact .saDefaultIconButtonSecondary {
+  border-radius: 8px;
+  padding: 0 8px;
+  width: 32px;
+  height: 32px;
+  max-width: 32px;
+  min-width: 32px;
+  font-size: 16px;
+}
+.saCompact .saDefaultIconButtonSecondary:active {
+  border-radius: 12px;
+}
+.saSmallScreen .saDefaultIconButtonSecondary {
+  border-radius: 8px;
+  padding: 0 8px;
+  width: 40px;
+  height: 40px;
+  max-width: 40px;
+  min-width: 40px;
+  font-size: 16px;
+}
+.saSmallScreen .saDefaultIconButtonSecondary:active {
+  border-radius: 12px;
+}
 .ButtonPrimary {
   background-color: var(--Sa-Color-PrimaryButtonBackground);
   color: var(--Sa-Color-PrimaryButtonLabel);
@@ -22661,8 +22797,8 @@ ul.saMultiRowButtons li {
   background-color: #f8f9fb;
   color: #313a44;
   line-height: 1;
-  padding: 4px 16px;
-  height: 48px;
+  padding: 8px 16px;
+  min-height: 48px;
   text-align: left;
   overflow-wrap: break-word;
   transition: background-color ease 0.2s;
@@ -34773,8 +34909,8 @@ input.saCheckbox:indeterminate::before {
 }
 .saSmallScreen .saToggleGroup label,
 .saSmallScreen .saToggleGroup button {
-  min-width: 44px;
-  min-height: 44px;
+  min-width: 40px;
+  min-height: 40px;
 }
 @media (pointer: fine) {
   .saToggleGroup label:hover,
@@ -34899,8 +35035,8 @@ input.saCheckbox:indeterminate::before {
 }
 .saSmallScreen .saToggleGroup label,
 .saSmallScreen .saToggleGroup button {
-  min-width: 44px;
-  min-height: 44px;
+  min-width: 40px;
+  min-height: 40px;
 }
 @media (pointer: fine) {
   .saToggleGroup label:hover,
