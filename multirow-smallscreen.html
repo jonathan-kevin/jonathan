@@ -747,10 +747,24 @@
         <script>
 		$(document).ready(function () {
 
-			$( function() {
-    			$( ".sortable" ).sortable({
-    			  placeholder: "ui-state-highlight"
-    			});
+			function updateCardText() {
+				$('.saMultiRowCard').each(function () {
+					const $card = $(this);
+					const $headingInput = $card.find('.saMultiRowCardBody input[id$="Name"]');
+					const $descInput = $card.find('.saMultiRowCardBody input[id$="Type"]');
+
+					const headingText = $headingInput.val();
+					const descText = $descInput.val();
+
+					$card.find('.saMultiRowCardHeading').text(headingText);
+					$card.find('.saMultiRowCardDesc').text(descText);
+				});
+			}
+
+			$(function () {
+				$(".sortable").sortable({
+					placeholder: "ui-state-highlight"
+				});
 			});
 
 			$(document).on('click', '.saMultiRowCardHeader', function () {
@@ -761,6 +775,9 @@
 				$(this).attr('aria-expanded', !isExpanded);
 			});
 
+			$(document).on('keyup', '.saMultiRowCardBody input', updateCardText);
+
+			updateCardText();
 		});
 		</script>
     </body>
