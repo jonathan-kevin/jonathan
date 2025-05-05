@@ -22657,13 +22657,7 @@ legend + .saInputCardsWrapper {
   position: unset;
 }
 .saSmallScreen .saMultiRowWrapper {
-  display: flex;
-  flex-direction: column;
-  margin-right: 0;
-}
-.saSmallScreen .saMultiRowTableWrapper {
-  overflow-x: auto;
-  width: calc(100vw - 34px) !important;
+  display: none;
 }
 .saMultiRow {
   display: table;
@@ -22780,6 +22774,9 @@ ul.saMultiRowButtons li {
 .saMultiRowSmallScreenWrapper {
   display: block;
 }
+.saPc .saMultiRowSmallScreenWrapper {
+  display: none;
+}
 .saMultiRowSmallScreenWrapper * {
   box-sizing: border-box;
   user-select: none;
@@ -22801,6 +22798,9 @@ ul.saMultiRowButtons li {
   width: 100%;
   margin-top: -1px;
 }
+.saMultiRowCard:not(.saOpen) {
+  height: 48px;
+}
 .saMultiRowCard.saDragAndDropPlaceholder {
   position: relative;
 }
@@ -22816,7 +22816,6 @@ ul.saMultiRowButtons li {
 .saMultiRowCard:first-child .saMultiRowCardInner {
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
-  border-top: 1px solid #ccd5e2;
 }
 .saMultiRowCard:last-child .saMultiRowCardInner {
   border-bottom-left-radius: 12px;
