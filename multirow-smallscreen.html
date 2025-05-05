@@ -15,7 +15,8 @@
         <meta property="og:site_name" content="Softadmin Demo" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:logo" content="https://jonathankevin.netlify.app/src/img/logo.svg" />
-		<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
     </head>
     <body class="saSmallScreen smallscreen">
         <div class="saRootContentWrapper">
@@ -328,10 +329,17 @@
                                                                                                                         </label>
                                                                                                                     </div>
                                                                                                                 </div>
+																												<div class="saMultiRowCellWrapper" role="columnheader">
+                                                                                                                    <div class="saMultiRowCell">
+                                                                                                                        <label class="saLabelWrapper" id="birdDescLable">
+                                                                                                                            <div class="saLabel"><span class="saMandatory">Description</span></div>
+                                                                                                                        </label>
+                                                                                                                    </div>
+                                                                                                                </div>
                                                                                                                 <div class="saMultiRowCellWrapper"></div>
                                                                                                             </div>
                                                                                                         </div>
-                                                                                                        <div class="saMultiRowRowsGroup sortable" role="rowgroup">
+                                                                                                        <div class="saMultiRowRowsGroup sortable1" role="rowgroup">
                                                                                                             <div class="saMultiRowRow" role="row">
 																												<div class="saMultiRowDragHandle" draggable="true" aria-hidden="true">
 																													<div>
@@ -352,8 +360,17 @@
                                                                                                                     <div class="saMultiRowCell">
                                                                                                                         <div class="saMultiRowInputWrapper mediumLong">
                                                                                                                             <div class="saInputTextWrapper saMultiRowField mediumLong saHasTrailingIcons">
-                                                                                                                                <input class="saInputText" aria-labelledby="birdTypeLable" value="Crow" >
+                                                                                                                                <input class="saInputText" aria-labelledby="birdTypeLable" value="Advanced Crow" >
                                                                                                                                 <div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+																												<div class="saMultiRowCellWrapper" role="cell">
+                                                                                                                    <div class="saMultiRowCell">
+                                                                                                                        <div class="saMultiRowInputWrapper mediumLong">
+                                                                                                                            <div class="saInputTextWrapper saMultiRowField mediumLong">
+                                                                                                                                <textarea class="saInputText saTextArea" aria-labelledby="birdDescLable" rows="6"></textarea>
                                                                                                                             </div>
                                                                                                                         </div>
                                                                                                                     </div>
@@ -362,20 +379,18 @@
                                                                                                                     <div class="saMultiRowCell">
                                                                                                                         <ul class="saMultiRowButtons">
 																															<li>
-                                                                                                                                <button class="saIconOnlyFieldButton" type="button">
+                                                                                                                                <button class="saIconOnlyFieldButton" type="button" aria-label="Move up">
                                                                                                                                     <i class="saIcon far fa-clone"></i>
                                                                                                                                 </button>
                                                                                                                             </li>
+																															<li></li>
 																															<li>
-
-                                                                                                                            </li>
-																															<li>
-                                                                                                                                <button class="saIconOnlyFieldButton" type="button">
+                                                                                                                                <button class="saIconOnlyFieldButton" type="button" aria-label="Move down">
                                                                                                                                     <i class="fa-caret-down saIcon fas"></i>
                                                                                                                                 </button>
                                                                                                                             </li>
 																															<li>
-                                                                                                                                <button class="saIconOnlyFieldButton saDestructive saDeleteRowButtonJs" type="button">
+                                                                                                                                <button class="saIconOnlyFieldButton saDestructive saDeleteRowButtonJs" type="button" aria-label="Remove row">
                                                                                                                                     <i class="saIcon far fa-trash-alt"></i>
                                                                                                                                 </button>
                                                                                                                             </li>
@@ -403,8 +418,17 @@
                                                                                                                     <div class="saMultiRowCell">
                                                                                                                         <div class="saMultiRowInputWrapper mediumLong">
                                                                                                                             <div class="saInputTextWrapper saMultiRowField mediumLong saHasTrailingIcons">
-                                                                                                                                <input class="saInputText" aria-labelledby="birdTypeLable" value="Crow">
+                                                                                                                                <input class="saInputText" aria-labelledby="birdTypeLable" value="Regular Crow">
                                                                                                                                 <div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+																												<div class="saMultiRowCellWrapper" role="cell">
+                                                                                                                    <div class="saMultiRowCell">
+                                                                                                                        <div class="saMultiRowInputWrapper mediumLong">
+                                                                                                                            <div class="saInputTextWrapper saMultiRowField mediumLong">
+                                                                                                                                <textarea class="saInputText saTextArea" aria-labelledby="birdDescLable" rows="6"></textarea>
                                                                                                                             </div>
                                                                                                                         </div>
                                                                                                                     </div>
@@ -413,22 +437,22 @@
                                                                                                                     <div class="saMultiRowCell">
 																														<ul class="saMultiRowButtons">
 																															<li>
-																																<button class="saIconOnlyFieldButton" type="button">
+																																<button class="saIconOnlyFieldButton" type="button" aria-label="Clone row">
 																																	<i class="saIcon far fa-clone"></i>
 																																</button>
 																															</li>
 																															<li>
-																																<button class="saIconOnlyFieldButton" type="button">
+																																<button class="saIconOnlyFieldButton" type="button" aria-label="Move up">
 																																	<i class="fa-caret-up saIcon fas"></i>
 																																</button>
 																															</li>
 																															<li>
-																																<button class="saIconOnlyFieldButton" type="button">
+																																<button class="saIconOnlyFieldButton" type="button" aria-label="Move down">
 																																	<i class="fa-caret-down saIcon fas"></i>
 																																</button>
 																															</li>
 																															<li>
-																																<button class="saIconOnlyFieldButton saDestructive saDeleteRowButtonJs" type="button">
+																																<button class="saIconOnlyFieldButton saDestructive saDeleteRowButtonJs" type="button" aria-label="Remove row">
 																																	<i class="saIcon far fa-trash-alt"></i>
 																																</button>
 																															</li>
@@ -456,8 +480,17 @@
                                                                                                                     <div class="saMultiRowCell">
                                                                                                                         <div class="saMultiRowInputWrapper mediumLong">
                                                                                                                             <div class="saInputTextWrapper saMultiRowField mediumLong saHasTrailingIcons">
-                                                                                                                                <input class="saInputText" aria-labelledby="birdTypeLable" value="Crow"/>
+                                                                                                                                <input class="saInputText" aria-labelledby="birdTypeLable" value="Regular Crow"/>
                                                                                                                                 <div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+																												<div class="saMultiRowCellWrapper" role="cell">
+                                                                                                                    <div class="saMultiRowCell">
+                                                                                                                        <div class="saMultiRowInputWrapper mediumLong">
+                                                                                                                            <div class="saInputTextWrapper saMultiRowField mediumLong">
+                                                                                                                                <textarea class="saInputText saTextArea" aria-labelledby="birdDescLable" rows="6"></textarea>
                                                                                                                             </div>
                                                                                                                         </div>
                                                                                                                     </div>
@@ -466,20 +499,18 @@
                                                                                                                     <div class="saMultiRowCell">
                                                                                                                         <ul class="saMultiRowButtons">
 																															<li>
-                                                                                                                                <button class="saIconOnlyFieldButton" type="button">
+                                                                                                                                <button class="saIconOnlyFieldButton" type="button" aria-label="Clone row">
                                                                                                                                     <i class="saIcon far fa-clone"></i>
                                                                                                                                 </button>
                                                                                                                             </li>
 																															<li>
-                                                                                                                                <button class="saIconOnlyFieldButton" type="button">
+                                                                                                                                <button class="saIconOnlyFieldButton" type="button" aria-label="Move up">
                                                                                                                                     <i class="fa-caret-up saIcon fas"></i>
                                                                                                                                 </button>
                                                                                                                             </li>
+																															<li></li>
 																															<li>
-
-                                                                                                                            </li>
-																															<li>
-                                                                                                                                <button class="saIconOnlyFieldButton saDestructive saDeleteRowButtonJs" type="button">
+                                                                                                                                <button class="saIconOnlyFieldButton saDestructive saDeleteRowButtonJs" type="button" aria-label="Remove row">
                                                                                                                                     <i class="saIcon far fa-trash-alt"></i>
                                                                                                                                 </button>
                                                                                                                             </li>
@@ -490,7 +521,7 @@
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                                <button class="saMultiRowNewRowButton saLabeledFieldButton" type="button">
+                                                                                                <button class="saMultiRowNewRowButton saLabeledFieldButton saDisabled" type="button" disabled>
                                                                                                     <i class="saIcon far fa-plus"></i>
                                                                                                     New row
                                                                                                 </button>
@@ -503,221 +534,257 @@
 																		<div class="saFieldCell">
 																			<div class="saInputWrapper">
 																				<div class="saInput">
-																					<fieldset class="saMultiRowSmallScreenWrapper" aria-label="Birds">
+																					<div role="group" class="saMultiRowSmallScreenWrapper" aria-label="Birds">
 																						<label class="saLabelCell" aria-atomic="true">
                                                                        			        	<div class="saLabel">
                                                                        			        	    <span>Birds</span>
                                                                        			        	</div>
                                                                        			        	<div class="saDescription">Get down on it!</div>
                                                                        			    	</label>
-																						<ul class="saMultiRowSmallScreen" class="sortable">
-																							<li class="saMultiRowCard saOpen">
-																								<button type="button" aria-expanded="true" aria-controls="oneBody" class="saMultiRowCardHeader">
-																									<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
-																									<div class="saMultiRowCardText">
-																										<div class="saMultiRowCardHeading">
-																											Mr. Feathers
+																						<ul class="saMultiRowSmallScreen">
+																							<li class="saMultiRowCard">
+																								<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
+																								<div class="saMultiRowCardInner">
+																									<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="row1Body">
+																										<div class="saMultiRowCardText">
+																											<div class="saMultiRowCardHeading">Mr. Feathers Sr.</div>
+																											<div class="saMultiRowCardDesc">Advanced Crow</div>
 																										</div>
-																										<div class="saMultiRowCardDesc">
-																											Crow
-																										</div>
-																									</div>
-																									<i class="saIcon far fa-angle-down"></i>
-																								</button>
-																								<div class="saMultiRowCardBodyWrapper" id="oneBody">
-																									<div class="saMultiRowCardBody">
-																										<div class="saFieldAndLabelWrapper">
-	                                                                       								    <label class="saLabelCell" for="oneName">
-																												<div class="saLabel"><span class="saMandatory">Bird name</span></div>
-	                                                                       								    </label>
-	                                                                       								    <div class="saFieldCell">
-	                                                                       								        <div class="saInputWrapper long">
-	                                                                       								            <div class="saInput">
-																														<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
-																															<input class="saInputText" id="oneName" value="Mr. Feathers">
-																															<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+																										<i class="saIcon far fa-angle-down"></i>
+																									</button>
+																									<div class="saMultiRowCardBodyWrapper" id="row1Body">
+																										<div class="saMultiRowCardBody">
+																											<div class="saFieldAndLabelWrapper">
+																												<label class="saLabelCell" for="row1Name">
+																													<div class="saLabel"><span class="saMandatory">Bird name</span></div>
+																												</label>
+																												<div class="saFieldCell">
+																													<div class="saInputWrapper long">
+																														<div class="saInput">
+																															<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
+																																<input class="saInputText" id="row1Name" value="Mr. Feathers Sr.">
+																																<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+																															</div>
 																														</div>
-	                                                                       								            </div>
-	                                                                       								        </div>
-	                                                                       								    </div>
-	                                                                       								</div>
-	                                                                       								<div class="saFieldAndLabelWrapper">
-	                                                                       								    <label class="saLabelCell" for="oneType">
-																												<div class="saLabel"><span class="saMandatory">Bird type</span></div>
-	                                                                       								    </label>
-	                                                                       								    <div class="saFieldCell">
-	                                                                       								        <div class="saInputWrapper long">
-	                                                                       								            <div class="saInput">
-																														<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
-																															<input class="saInputText" id="oneType" value="Crow">
-																															<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
-																														</div>
-	                                                                       								            </div>
-	                                                                       								        </div>
-	                                                                       								    </div>
-	                                                                       								</div>
-																										<ul class="saMultiRowButtonsSmallScreen">
-																											<li>
-																												<button class="saDefaultIconButtonSecondary" type="button">
-																													<i class="saIcon far fa-clone"></i>
-																												</button>
-																											</li>
-																											<li>
-																												<div class="saToggleGroup" role="group" aria-label="Move position">
-																													<button disabled type="button" data-tooltip="Move up" tooltip-placement="top" aria-label="Move up">
-																														<i class="fa-caret-up fas saIcon"></i>
-																													</button>
-																													<button type="button" data-tooltip="Move down" tooltip-placement="top" aria-label="Move down">
-																														<i class="fa-caret-down fas saIcon"></i>
-																													</button>
+																													</div>
 																												</div>
-																											</li>
-																											<li>
-																												<button class="saDefaultIconButtonSecondary saDestructive" type="button">
-																													<i class="saIcon far fa-trash-alt"></i>
-																												</button>
-																											</li>
-																										</ul>
+																											</div>
+																											<div class="saFieldAndLabelWrapper">
+																												<label class="saLabelCell" for="row1Type">
+																													<div class="saLabel"><span class="saMandatory">Bird type</span></div>
+																												</label>
+																												<div class="saFieldCell">
+																													<div class="saInputWrapper long">
+																														<div class="saInput">
+																															<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
+																																<input class="saInputText" id="row1Type" value="Advanced Crow">
+																																<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+																															</div>
+																														</div>
+																													</div>
+																												</div>
+																											</div>
+																											<div class="saFieldAndLabelWrapper">
+																												<label class="saLabelCell" for="row1Desc">
+																													<div class="saLabel"><span class="saMandatory">Description</span></div>
+																												</label>
+																												<div class="saFieldCell">
+																													<div class="saInputWrapper long">
+																														<div class="saInput">
+																															<div class="saInputTextWrapper">
+																																<textarea class="saInputText saTextArea" id="row1Desc"></textarea>
+																															</div>
+																														</div>
+																													</div>
+																												</div>
+																											</div>
+																											<ul class="saMultiRowButtonsSmallScreen">
+																												<li>
+																													<button class="saDefaultIconButtonSecondary" type="button" aria-label="Clone row">
+																														<i class="saIcon far fa-clone"></i>
+																													</button>
+																												</li>
+																												<li>
+																													<div class="saToggleGroup" role="group" aria-label="Move position">
+																														<button type="button" data-tooltip="Move up" tooltip-placement="top" aria-label="Move up">
+																															<i class="fa-caret-up fas saIcon"></i>
+																														</button>
+																														<button type="button" data-tooltip="Move down" tooltip-placement="top" aria-label="Move down">
+																															<i class="fa-caret-down fas saIcon"></i>
+																														</button>
+																													</div>
+																												</li>
+																												<li>
+																													<button class="saDefaultIconButtonSecondary saDestructive" type="button" aria-label="Remove row">
+																														<i class="saIcon far fa-trash-alt"></i>
+																													</button>
+																												</li>
+																											</ul>
+																										</div>
 																									</div>
 																								</div>
 																							</li>
 																							<li class="saMultiRowCard">
-																								<button type="button" aria-expanded="false" aria-controls="twoBody" class="saMultiRowCardHeader">
-																									<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
-																									<div class="saMultiRowCardText">
-																										<div class="saMultiRowCardHeading">
-																											Mr. Feathers Jr.
+																								<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
+																								<div class="saMultiRowCardInner">
+																									<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="row2Body">
+																										<div class="saMultiRowCardText">
+																											<div class="saMultiRowCardHeading">Mr. Feathers Jr.</div>
+																											<div class="saMultiRowCardDesc">Regular Crow</div>
 																										</div>
-																										<div class="saMultiRowCardDesc">
-																											Crow
-																										</div>
-																									</div>
-																									<i class="saIcon far fa-angle-down"></i>
-																								</button>
-																								<div class="saMultiRowCardBodyWrapper"  id="twoBody">
-																									<div class="saMultiRowCardBody">
-																										<div class="saFieldAndLabelWrapper">
-	                                                                       								    <label class="saLabelCell" for="twoName">
-																												<div class="saLabel"><span class="saMandatory">Bird name</span></div>
-	                                                                       								    </label>
-	                                                                       								    <div class="saFieldCell">
-	                                                                       								        <div class="saInputWrapper long">
-	                                                                       								            <div class="saInput">
-																														<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
-																															<input class="saInputText" id="twoName" value="Mr. Feathers Jr." >
-																															<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+																										<i class="saIcon far fa-angle-down"></i>
+																									</button>
+																									<div class="saMultiRowCardBodyWrapper" id="row2Body">
+																										<div class="saMultiRowCardBody">
+																											<div class="saFieldAndLabelWrapper">
+																												<label class="saLabelCell" for="row2Name">
+																													<div class="saLabel"><span class="saMandatory">Bird name</span></div>
+																												</label>
+																												<div class="saFieldCell">
+																													<div class="saInputWrapper long">
+																														<div class="saInput">
+																															<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
+																																<input class="saInputText" id="row2Name" value="Mr. Feathers Jr.">
+																																<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+																															</div>
 																														</div>
-	                                                                       								            </div>
-	                                                                       								        </div>
-	                                                                       								    </div>
-	                                                                       								</div>
-	                                                                       								<div class="saFieldAndLabelWrapper">
-	                                                                       								    <label class="saLabelCell" for="twoType">
-																												<div class="saLabel"><span class="saMandatory">Bird type</span></div>
-	                                                                       								    </label>
-	                                                                       								    <div class="saFieldCell">
-	                                                                       								        <div class="saInputWrapper long">
-	                                                                       								            <div class="saInput">
-																														<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
-																															<input class="saInputText" id="twoType" value="Crow" >
-																															<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
-																														</div>
-	                                                                       								            </div>
-	                                                                       								        </div>
-	                                                                       								    </div>
-	                                                                       								</div>
-																										<ul class="saMultiRowButtonsSmallScreen">
-																											<li>
-																												<button class="saDefaultIconButtonSecondary" type="button">
-																													<i class="saIcon far fa-clone"></i>
-																												</button>
-																											</li>
-																											<li>
-																												<div class="saToggleGroup" role="group" aria-label="Move position">
-																													<button type="button" data-tooltip="Move up" tooltip-placement="top" aria-label="Move up">
-																														<i class="fa-caret-up fas saIcon"></i>
-																													</button>
-																													<button type="button" data-tooltip="Move down" tooltip-placement="top" aria-label="Move down">
-																														<i class="fa-caret-down fas saIcon"></i>
-																													</button>
+																													</div>
 																												</div>
-																											</li>
-																											<li>
-																												<button class="saDefaultIconButtonSecondary saDestructive" type="button">
-																													<i class="saIcon far fa-trash-alt"></i>
-																												</button>
-																											</li>
-																										</ul>
+																											</div>
+																											<div class="saFieldAndLabelWrapper">
+																												<label class="saLabelCell" for="row2Type">
+																													<div class="saLabel"><span class="saMandatory">Bird type</span></div>
+																												</label>
+																												<div class="saFieldCell">
+																													<div class="saInputWrapper long">
+																														<div class="saInput">
+																															<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
+																																<input class="saInputText" id="row2Type" value="Regular Crow">
+																																<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+																															</div>
+																														</div>
+																													</div>
+																												</div>
+																											</div>
+																											<div class="saFieldAndLabelWrapper">
+																												<label class="saLabelCell" for="row2Desc">
+																													<div class="saLabel"><span class="saMandatory">Description</span></div>
+																												</label>
+																												<div class="saFieldCell">
+																													<div class="saInputWrapper long">
+																														<div class="saInput">
+																															<div class="saInputTextWrapper">
+																																<textarea class="saInputText saTextArea" id="row2Desc"></textarea>
+																															</div>
+																														</div>
+																													</div>
+																												</div>
+																											</div>
+																											<ul class="saMultiRowButtonsSmallScreen">
+																												<li>
+																													<button class="saDefaultIconButtonSecondary" type="button" aria-label="Clone row">
+																														<i class="saIcon far fa-clone"></i>
+																													</button>
+																												</li>
+																												<li>
+																													<div class="saToggleGroup" role="group" aria-label="Move position">
+																														<button type="button" data-tooltip="Move up" tooltip-placement="top" aria-label="Move up">
+																															<i class="fa-caret-up fas saIcon"></i>
+																														</button>
+																														<button type="button" data-tooltip="Move down" tooltip-placement="top" aria-label="Move down">
+																															<i class="fa-caret-down fas saIcon"></i>
+																														</button>
+																													</div>
+																												</li>
+																												<li>
+																													<button class="saDefaultIconButtonSecondary saDestructive" type="button" aria-label="Remove row">
+																														<i class="saIcon far fa-trash-alt"></i>
+																													</button>
+																												</li>
+																											</ul>
+																										</div>
 																									</div>
 																								</div>
 																							</li>
 																							<li class="saMultiRowCard">
-																								<button type="button" aria-expanded="false" aria-controls="threeBody" class="saMultiRowCardHeader">
-																									<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
-																									<div class="saMultiRowCardText">
-																										<div class="saMultiRowCardHeading">
-																											Mr. Feathers III
+																								<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
+																								<div class="saMultiRowCardInner">
+																									<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="row3Body">
+																										<div class="saMultiRowCardText">
+																											<div class="saMultiRowCardHeading">Mr. Feathers III</div>
+																											<div class="saMultiRowCardDesc">Regular Crow</div>
 																										</div>
-																										<div class="saMultiRowCardDesc">
-																											Crow
-																										</div>
-																									</div>
-																									<i class="saIcon far fa-angle-down"></i>
-																								</button>
-																								<div class="saMultiRowCardBodyWrapper"  id="threeBody">
-																									<div class="saMultiRowCardBody">
-																										<div class="saFieldAndLabelWrapper">
-	                                                                       								    <label class="saLabelCell" for="threeName">
-																												<div class="saLabel"><span class="saMandatory">Bird name</span></div>
-	                                                                       								    </label>
-	                                                                       								    <div class="saFieldCell">
-	                                                                       								        <div class="saInputWrapper long">
-	                                                                       								            <div class="saInput">
-																														<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
-																															<input class="saInputText" id="threeName" value="Mr. Feathers III"/>
-																															<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+																										<i class="saIcon far fa-angle-down"></i>
+																									</button>
+																									<div class="saMultiRowCardBodyWrapper" id="row3Body">
+																										<div class="saMultiRowCardBody">
+																											<div class="saFieldAndLabelWrapper">
+																												<label class="saLabelCell" for="row3Name">
+																													<div class="saLabel"><span class="saMandatory">Bird name</span></div>
+																												</label>
+																												<div class="saFieldCell">
+																													<div class="saInputWrapper long">
+																														<div class="saInput">
+																															<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
+																																<input class="saInputText" id="row3Name" value="Mr. Feathers III">
+																																<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+																															</div>
 																														</div>
-	                                                                       								            </div>
-	                                                                       								        </div>
-	                                                                       								    </div>
-	                                                                       								</div>
-	                                                                       								<div class="saFieldAndLabelWrapper">
-	                                                                       								    <label class="saLabelCell" for="threeType">
-																												<div class="saLabel"><span class="saMandatory">Bird type</span></div>
-	                                                                       								    </label>
-	                                                                       								    <div class="saFieldCell">
-	                                                                       								        <div class="saInputWrapper long">
-	                                                                       								            <div class="saInput">
-																														<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
-																															<input class="saInputText" id="threeType" value="Crow" />
-																															<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
-																														</div>
-	                                                                       								            </div>
-	                                                                       								        </div>
-	                                                                       								    </div>
-	                                                                       								</div>
-																										<ul class="saMultiRowButtonsSmallScreen">
-																											<li>
-																												<button class="saDefaultIconButtonSecondary" type="button">
-																													<i class="saIcon far fa-clone"></i>
-																												</button>
-																											</li>
-																											<li>
-																												<div class="saToggleGroup" role="group" aria-label="Move position">
-																													<button type="button" data-tooltip="Move up" tooltip-placement="top" aria-label="Move up">
-																														<i class="fa-caret-up fas saIcon"></i>
-																													</button>
-																													<button disabled type="button" data-tooltip="Move down" tooltip-placement="top" aria-label="Move down">
-																														<i class="fa-caret-down fas saIcon"></i>
-																													</button>
+																													</div>
 																												</div>
-																											</li>
-																											<li>
-																												<button class="saDefaultIconButtonSecondary saDestructive" type="button">
-																													<i class="saIcon far fa-trash-alt"></i>
-																												</button>
-																											</li>
-																										</ul>
+																											</div>
+																											<div class="saFieldAndLabelWrapper">
+																												<label class="saLabelCell" for="row3Type">
+																													<div class="saLabel"><span class="saMandatory">Bird type</span></div>
+																												</label>
+																												<div class="saFieldCell">
+																													<div class="saInputWrapper long">
+																														<div class="saInput">
+																															<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
+																																<input class="saInputText" id="row3Type" value="Regular Crow">
+																																<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+																															</div>
+																														</div>
+																													</div>
+																												</div>
+																											</div>
+																											<div class="saFieldAndLabelWrapper">
+																												<label class="saLabelCell" for="row3Desc">
+																													<div class="saLabel"><span class="saMandatory">Description</span></div>
+																												</label>
+																												<div class="saFieldCell">
+																													<div class="saInputWrapper long">
+																														<div class="saInput">
+																															<div class="saInputTextWrapper">
+																																<textarea class="saInputText saTextArea" id="row3Desc"></textarea>
+																															</div>
+																														</div>
+																													</div>
+																												</div>
+																											</div>
+																											<ul class="saMultiRowButtonsSmallScreen">
+																												<li>
+																													<button class="saDefaultIconButtonSecondary" type="button" aria-label="Clone row">
+																														<i class="saIcon far fa-clone"></i>
+																													</button>
+																												</li>
+																												<li>
+																													<div class="saToggleGroup" role="group" aria-label="Move position">
+																														<button type="button" data-tooltip="Move up" tooltip-placement="top" aria-label="Move up">
+																															<i class="fa-caret-up fas saIcon"></i>
+																														</button>
+																														<button type="button" data-tooltip="Move down" tooltip-placement="top" aria-label="Move down">
+																															<i class="fa-caret-down fas saIcon"></i>
+																														</button>
+																													</div>
+																												</li>
+																												<li>
+																													<button class="saDefaultIconButtonSecondary saDestructive" type="button" aria-label="Remove row">
+																														<i class="saIcon far fa-trash-alt"></i>
+																													</button>
+																												</li>
+																											</ul>
+																										</div>
 																									</div>
 																								</div>
 																							</li>
@@ -726,7 +793,7 @@
 																							<i class="saIcon far fa-plus"></i>
 																							New row
 																						</button>
-																					</fieldset>
+																					</div>
 																				</div>
 																			</div>
 																		</div>
@@ -764,8 +831,106 @@
                 bottom: 8px;
             }
         </style>
-        <script>
+       <script>
 		$(document).ready(function () {
+			$(document).on('click', '.saMultiRowSmallScreenWrapper .saMultiRowNewRowButton', function () {
+				const uniqueId = `row${Date.now()}`;
+				const $newRow = $(`
+					<li class="saMultiRowCard saNew">
+						<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
+						<div class="saMultiRowCardInner">
+							<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="${uniqueId}Body">
+								<div class="saMultiRowCardText">
+									<div class="saMultiRowCardHeading">New row #</div>
+									<!--<div class="saMultiRowCardDesc"></div>-->
+								</div>
+								<i class="saIcon far fa-angle-down"></i>
+							</button>
+							<div class="saMultiRowCardBodyWrapper" id="${uniqueId}Body">
+								<div class="saMultiRowCardBody">
+									<div class="saFieldAndLabelWrapper">
+										<label class="saLabelCell" for="${uniqueId}Name">
+											<div class="saLabel"><span class="saMandatory">Bird name</span></div>
+										</label>
+										<div class="saFieldCell">
+											<div class="saInputWrapper long">
+												<div class="saInput">
+													<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
+														<input class="saInputText" id="${uniqueId}Name" value="">
+														<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="saFieldAndLabelWrapper">
+										<label class="saLabelCell" for="${uniqueId}Type">
+											<div class="saLabel"><span class="saMandatory">Bird type</span></div>
+										</label>
+										<div class="saFieldCell">
+											<div class="saInputWrapper long">
+												<div class="saInput">
+													<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
+														<input class="saInputText" id="${uniqueId}Type" value="">
+														<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="saFieldAndLabelWrapper">
+										<label class="saLabelCell" for="${uniqueId}Desc">
+											<div class="saLabel"><span class="saMandatory">Description</span></div>
+										</label>
+										<div class="saFieldCell">
+											<div class="saInputWrapper long">
+												<div class="saInput">
+													<div class="saInputTextWrapper">
+														<textarea class="saInputText saTextArea" id="${uniqueId}Desc"></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<ul class="saMultiRowButtonsSmallScreen">
+										<li>
+											<button class="saDefaultIconButtonSecondary" type="button" aria-label="Clone row">
+												<i class="saIcon far fa-clone"></i>
+											</button>
+										</li>
+										<li>
+											<div class="saToggleGroup" role="group" aria-label="Move position">
+												<button type="button" data-tooltip="Move up" tooltip-placement="top" aria-label="Move up">
+													<i class="fa-caret-up fas saIcon"></i>
+												</button>
+												<button type="button" data-tooltip="Move down" tooltip-placement="top" aria-label="Move down">
+													<i class="fa-caret-down fas saIcon"></i>
+												</button>
+											</div>
+										</li>
+										<li>
+											<button class="saDefaultIconButtonSecondary saDestructive" type="button" aria-label="Remove row">
+												<i class="saIcon far fa-trash-alt"></i>
+											</button>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</li>
+				`);
+
+				const $wrapper = $(this).closest('.saMultiRowSmallScreenWrapper').find('.saMultiRowSmallScreen');
+				$wrapper.append($newRow);
+				$newRow.slideDown(200, function () {
+					$newRow.addClass('saOpen');
+					$newRow.find('.saMultiRowCardHeader').attr('aria-controls', `${uniqueId}Body`);
+					$newRow.find('input').first().focus();
+				});
+
+				// Update card text for the new row
+				$newRow.find('.saMultiRowCardBody input').on('keyup', updateCardText);
+			});
 
 			function updateCardText() {
 				$('.saMultiRowCard').each(function () {
@@ -777,14 +942,49 @@
 					const descText = $descInput.val();
 
 					$card.find('.saMultiRowCardHeading').text(headingText);
-					$card.find('.saMultiRowCardDesc').text(descText);
+
+					let $descElement = $card.find('.saMultiRowCardDesc');
+
+					if ($descElement.length === 0) {
+						$descElement = $('<div class="saMultiRowCardDesc"></div>');
+						$card.find('.saMultiRowCardHeading').after($descElement);
+					}
+					$descElement.text(descText);
 				});
 			}
 
-			$(function () {
-				$(".sortable").sortable({
-					placeholder: "ui-state-highlight"
-				});
+
+			$('.saMultiRowSmallScreen').sortable({
+				items: '.saMultiRowCard',
+				cancel: 'input, button, .saInputTextWrapper, .saToggleGroup', // Prevent dragging when interacting with these
+				handle: '.saMultiRowCardDragHandle',
+				placeholder: "saMultiRowCard saDragAndDropPlaceholder",
+					  start: function(e, ui ){
+     				  ui.placeholder.height(ui.helper.outerHeight());
+				}
+			});
+
+			$('.saMultiRowSmallScreen').on('sortstart', function () {
+				if (navigator.vibrate) {
+					console.log('vibrating!!!');
+					navigator.vibrate(200);
+				}
+				$('.saMultiRowCard').removeClass('saOpen').find('.saMultiRowCardHeader').attr('aria-expanded', 'false');
+			});
+
+
+			$( function() {
+    			$( ".sortable1" ).sortable({
+      				placeholder: "saMultiRowRow saDragAndDropPlaceholder",
+					  start: function(e, ui ){
+     				  ui.placeholder.height(ui.helper.outerHeight());
+				},
+    			});
+    			$( ".sortable1" ).disableSelection();
+  			});
+
+			$(document).on('click', '.saMultiRowCard', function () {
+				console.log('click on card');
 			});
 
 			$(document).on('click', '.saMultiRowCardHeader', function () {
@@ -799,6 +999,6 @@
 
 			updateCardText();
 		});
-		</script>
+	</script>
     </body>
 </html>
