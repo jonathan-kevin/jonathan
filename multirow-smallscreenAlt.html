@@ -534,7 +534,6 @@
 																									<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
 																									<div class="saMultiRowCardInner">
 																										<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="row1Body">
-																											<div class="saMultiRowCardHeading">Row 1</div>
 																											<i class="saIcon far fa-angle-down"></i>
 																										</button>
 																										<div class="saMultiRowCardBodyWrapper" id="row1Body">
@@ -613,7 +612,6 @@
 																									<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
 																									<div class="saMultiRowCardInner">
 																										<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="row2Body">
-																											<div class="saMultiRowCardHeading">Row 2</div>
 																											<i class="saIcon far fa-angle-down"></i>
 																										</button>
 																										<div class="saMultiRowCardBodyWrapper" id="row2Body">
@@ -656,7 +654,7 @@
 																														<div class="saInputWrapper long">
 																															<div class="saInput">
 																																<div class="saInputTextWrapper">
-																																	<textarea class="saInputText saTextArea" id="row2Desc">A glossy black bird with iridescent feathers that shimmer purple and green. Highly social, often seen in massive flocks performing aerial murmurations.</textarea>
+																																	<textarea class="saInputText saTextArea" id="row2Desc">A bright red songbird with a sharp crest and a bold black mask. Known for its clear, whistling call and year-round presence in backyards.</textarea>
 																																</div>
 																															</div>
 																														</div>
@@ -692,7 +690,6 @@
 																									<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
 																									<div class="saMultiRowCardInner">
 																										<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="row3Body">
-																											<div class="saMultiRowCardHeading">Row 3</div>
 																											<i class="saIcon far fa-angle-down"></i>
 																										</button>
 																										<div class="saMultiRowCardBodyWrapper" id="row3Body">
@@ -735,7 +732,7 @@
 																														<div class="saInputWrapper long">
 																															<div class="saInput">
 																																<div class="saInputTextWrapper">
-																																	<textarea class="saInputText saTextArea" id="row3Desc">A small, vibrant yellow bird with black wings and a cheerful, bouncing flight. Common in summer meadows and backyard feeders.</textarea>
+																																	<textarea class="saInputText saTextArea" id="row3Desc">A bright red songbird with a sharp crest and a bold black mask. Known for its clear, whistling call and year-round presence in backyards.</textarea>
 																																</div>
 																															</div>
 																														</div>
@@ -769,10 +766,6 @@
 																								</li>
 																							</ul>
 																							<button class="saMultiRowNewRowButton saLabeledFieldButton" id="header" type="button">
-																								<i class="saIcon far fa-plus"></i>
-																								New row
-																							</button>
-																							<button class="saMultiRowNewRowButton saLabeledFieldButton" id="noHeader" type="button">
 																								<i class="saIcon far fa-plus"></i>
 																								New row
 																							</button>
@@ -819,106 +812,15 @@
 		$(document).ready(function () {
 			$(document).on('click', '#header', function () {
 				const uniqueId = `row${Date.now()}`;
-				const $wrapper = $(this).closest('.saMultiRowSmallScreenWrapper').find('.saMultiRowSmallScreen');
 				const $newRow = $(`
 					<li class="saMultiRowCard saNew">
 						<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
 						<div class="saMultiRowCardInner">
 							<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="${uniqueId}Body">
-								<div class="saMultiRowCardHeading">Row #${$wrapper.children().length + 1}</div>
 								<i class="saIcon far fa-angle-down"></i>
 							</button>
-							<div class="saMultiRowCardBodyWrapper" id="${uniqueId}Body">
-								<div class="saMultiRowCardBody">
-									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="${uniqueId}Name">
-											<div class="saLabel"><span class="saMandatory">Bird name</span></div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
-														<input required class="saInputText" id="${uniqueId}Name" value="">
-														<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="${uniqueId}Type">
-											<div class="saLabel"><span class="saMandatory">Bird type</span></div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
-														<input required class="saInputText" id="${uniqueId}Type" value="">
-														<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="${uniqueId}Desc">
-											<div class="saLabel"><span class="saMandatory">Description</span></div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper">
-														<textarea class="saInputText saTextArea" id="${uniqueId}Desc"></textarea>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<ul class="saMultiRowButtonsSmallScreen">
-										<li>
-											<button class="saDefaultIconButtonSecondary" type="button" aria-label="Clone row">
-												<i class="saIcon far fa-clone"></i>
-											</button>
-										</li>
-										<li>
-											<div class="saToggleGroup" role="group" aria-label="Move position">
-												<button type="button" data-tooltip="Move up" tooltip-placement="top" aria-label="Move up">
-													<i class="fa-caret-up fas saIcon"></i>
-												</button>
-												<button type="button" data-tooltip="Move down" tooltip-placement="top" aria-label="Move down">
-													<i class="fa-caret-down fas saIcon"></i>
-												</button>
-											</div>
-										</li>
-										<li>
-											<button class="saDefaultIconButtonSecondary saDestructive" type="button" aria-label="Remove row">
-												<i class="saIcon far fa-trash-alt"></i>
-											</button>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</li>
-				`);
-
-				const $wrapped = $(this).closest('.saMultiRowSmallScreenWrapper').find('.saMultiRowSmallScreen');
-				$wrapped.append($newRow);
-				$newRow.slideDown(200, function () {
-					$newRow.addClass('saOpen');
-					$newRow.find('.saMultiRowCardHeader').attr('aria-controls', `${uniqueId}Body`);
-					$newRow.find('input').first().focus();
-				});
-			});
-
-			$(document).on('click', '#noHeader', function () {
-				const uniqueId = `row${Date.now()}`;
-				const $newRow = $(`
-					<li class="saMultiRowCard saNew saNoHeader">
-						<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
-						<div class="saMultiRowCardInner">
-							<div class="saMultiRowCardBodyWrapper" id="${uniqueId}Body">
-								<div class="saMultiRowCardBody">
+							<div class="saMultiRowCardBodyWrapper" >
+								<div class="saMultiRowCardBody" id="${uniqueId}Body">
 									<div class="saFieldAndLabelWrapper">
 										<label class="saLabelCell" for="${uniqueId}Name">
 											<div class="saLabel"><span class="saMandatory">Bird name</span></div>
@@ -995,9 +897,35 @@
 				$wrapper.append($newRow);
 				$newRow.slideDown(200, function () {
 					$newRow.addClass('saOpen');
+					$newRow.find('.saMultiRowCardHeader').attr('aria-controls', `${uniqueId}Body`);
 					$newRow.find('input').first().focus();
 				});
+
+				// Update card text for the new row
+				$newRow.find('.saMultiRowCardBody input').on('keyup', updateCardText);
 			});
+
+			function updateCardText() {
+				$('.saMultiRowCard').each(function () {
+					const $card = $(this);
+					const $headingInput = $card.find('.saMultiRowCardBody input[id$="Name"], .saMultiRowField input[id$="Name"]');
+					const $descInput = $card.find('.saMultiRowCardBody input[id$="Type"], .saMultiRowField input[id$="Type"]');
+
+					const headingText = $headingInput.val();
+					const descText = $descInput.val();
+
+					$card.find('.saMultiRowCardHeading').text(headingText);
+
+					let $descElement = $card.find('.saMultiRowCardDesc');
+
+					if ($descElement.length === 0) {
+						$descElement = $('<div class="saMultiRowCardDesc"></div>');
+						$card.find('.saMultiRowCardHeading').after($descElement);
+					}
+					$descElement.text(descText);
+				});
+			}
+
 
 			$('.saMultiRowSmallScreen').sortable({
 				items: '.saMultiRowCard',
@@ -1011,11 +939,6 @@
 					}
 					ui.placeholder.height('48px');
 					$('.saMultiRowCard').removeClass('saOpen').find('.saMultiRowCardHeader').attr('aria-expanded', 'false');
-				},
-				stop: function(e, ui) {
-					if (ui.item.hasClass('saNoHeader')) {
-						ui.item.addClass('saOpen');
-					}
 				},
 				change: function() {
 					if (navigator.vibrate) navigator.vibrate(50);
@@ -1039,6 +962,9 @@
 				$(this).attr('aria-expanded', !isExpanded);
 			});
 
+			$(document).on('keyup', '.saMultiRowCardBody input, .saMultiRowField input', updateCardText);
+
+			updateCardText();
 
 			$(document).on('click', '.saDestructive', function () {
 				const $card = $(this).closest('.saMultiRowCard');
