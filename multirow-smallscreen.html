@@ -17,7 +17,8 @@
         <meta property="og:logo" content="https://jonathankevin.netlify.app/src/img/logo.svg" />
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-    </head>
+		<!--<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>-->
+	</head>
     <body class="saSmallScreen smallscreen">
         <div class="saRootContentWrapper">
             <div class="saSideBar saSideBarJs saExpanded">
@@ -339,7 +340,7 @@
                                                                                                                 <div class="saMultiRowCellWrapper"></div>
                                                                                                             </div>
                                                                                                         </div>
-                                                                                                        <div class="saMultiRowRowsGroup sortable1" role="rowgroup">
+                                                                                                        <div class="saMultiRowRowsGroup" id="sortable1" role="rowgroup">
                                                                                                             <div class="saMultiRowRow" role="row">
 																												<div class="saMultiRowDragHandle" draggable="true" aria-hidden="true">
 																													<div>
@@ -528,7 +529,7 @@
                                                                                             </fieldset>
                                                                                         </div>
 																						<div role="group" class="saMultiRowSmallScreenWrapper" aria-label="Birds. Get down on it!">
-																							<ul class="saMultiRowSmallScreen">
+																							<ul class="saMultiRowSmallScreen" id="sortable2">
 																								<li class="saMultiRowCard">
 																									<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
 																									<div class="saMultiRowCardInner">
@@ -776,7 +777,11 @@
 																									</div>
 																								</li>
 																							</ul>
-																							<button class="saMultiRowNewRowButton saLabeledFieldButton" type="button">
+																							<button class="saMultiRowNewRowButton saLabeledFieldButton" id="header" type="button">
+																								<i class="saIcon far fa-plus"></i>
+																								New row
+																							</button>
+																							<button class="saMultiRowNewRowButton saLabeledFieldButton" id="noHeader" type="button">
 																								<i class="saIcon far fa-plus"></i>
 																								New row
 																							</button>
@@ -821,7 +826,7 @@
         </style>
        <script>
 		$(document).ready(function () {
-			$(document).on('click', '.saMultiRowSmallScreenWrapper .saMultiRowNewRowButton', function () {
+			$(document).on('click', '#header', function () {
 				const uniqueId = `row${Date.now()}`;
 				const $newRow = $(`
 					<li class="saMultiRowCard saNew">
@@ -920,6 +925,94 @@
 				$newRow.find('.saMultiRowCardBody input').on('keyup', updateCardText);
 			});
 
+			$(document).on('click', '#noHeader', function () {
+				const uniqueId = `row${Date.now()}`;
+				const $newRow = $(`
+					<li class="saMultiRowCard saNew saNoHeader">
+						<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
+						<div class="saMultiRowCardInner">
+							<div class="saMultiRowCardBodyWrapper" id="${uniqueId}Body">
+								<div class="saMultiRowCardBody">
+									<div class="saFieldAndLabelWrapper">
+										<label class="saLabelCell" for="${uniqueId}Name">
+											<div class="saLabel"><span class="saMandatory">Bird name</span></div>
+										</label>
+										<div class="saFieldCell">
+											<div class="saInputWrapper long">
+												<div class="saInput">
+													<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
+														<input required class="saInputText" id="${uniqueId}Name" value="">
+														<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="saFieldAndLabelWrapper">
+										<label class="saLabelCell" for="${uniqueId}Type">
+											<div class="saLabel"><span class="saMandatory">Bird type</span></div>
+										</label>
+										<div class="saFieldCell">
+											<div class="saInputWrapper long">
+												<div class="saInput">
+													<div class="saInputTextWrapper mediumLong saHasTrailingIcons">
+														<input required class="saInputText" id="${uniqueId}Type" value="">
+														<div class="saTrailingIconsWrapper"><i class="fa-text-size saIcon far"></i></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="saFieldAndLabelWrapper">
+										<label class="saLabelCell" for="${uniqueId}Desc">
+											<div class="saLabel"><span class="saMandatory">Description</span></div>
+										</label>
+										<div class="saFieldCell">
+											<div class="saInputWrapper long">
+												<div class="saInput">
+													<div class="saInputTextWrapper">
+														<textarea class="saInputText saTextArea" id="${uniqueId}Desc"></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<ul class="saMultiRowButtonsSmallScreen">
+										<li>
+											<button class="saDefaultIconButtonSecondary" type="button" aria-label="Clone row">
+												<i class="saIcon far fa-clone"></i>
+											</button>
+										</li>
+										<li>
+											<div class="saToggleGroup" role="group" aria-label="Move position">
+												<button type="button" data-tooltip="Move up" tooltip-placement="top" aria-label="Move up">
+													<i class="fa-caret-up fas saIcon"></i>
+												</button>
+												<button type="button" data-tooltip="Move down" tooltip-placement="top" aria-label="Move down">
+													<i class="fa-caret-down fas saIcon"></i>
+												</button>
+											</div>
+										</li>
+										<li>
+											<button class="saDefaultIconButtonSecondary saDestructive" type="button" aria-label="Remove row">
+												<i class="saIcon far fa-trash-alt"></i>
+											</button>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</li>
+				`);
+
+				const $wrapper = $(this).closest('.saMultiRowSmallScreenWrapper').find('.saMultiRowSmallScreen');
+				$wrapper.append($newRow);
+				$newRow.slideDown(200, function () {
+					$newRow.addClass('saOpen');
+					$newRow.find('input').first().focus();
+				});
+			});
+
 			function updateCardText() {
 				$('.saMultiRowCard').each(function () {
 					const $card = $(this);
@@ -950,28 +1043,25 @@
 				start: function(e, ui) {
 					if (navigator.vibrate) {
 						console.log('vibrating!!!');
-						navigator.vibrate(200);
+						navigator.vibrate(50);
 					}
 					ui.placeholder.height('48px');
 					$('.saMultiRowCard').removeClass('saOpen').find('.saMultiRowCardHeader').attr('aria-expanded', 'false');
 				},
-				change: function() {
-					if (navigator.vibrate) {
-						navigator.vibrate(200);
+				stop: function(e, ui) {
+					if (ui.item.hasClass('saNoHeader')) {
+						ui.item.addClass('saOpen');
 					}
+				},
+				change: function() {
+					if (navigator.vibrate) navigator.vibrate(50);
 				}
 			});
 
 
-			$( function() {
-    			$( ".sortable1" ).sortable({
-      				placeholder: "saMultiRowRow saDragAndDropPlaceholder",
-					  start: function(e, ui ){
-     				  ui.placeholder.height(ui.helper.outerHeight());
-				},
-    			});
-    			$( ".sortable1" ).disableSelection();
-  			});
+			$('#sortable1').sortable({
+				handle: '.saMultiRowDragHandle',
+			});
 
 			$(document).on('click', '.saMultiRowCard', function () {
 				console.log('click on card');
@@ -988,6 +1078,13 @@
 			$(document).on('keyup', '.saMultiRowCardBody input, .saMultiRowField input', updateCardText);
 
 			updateCardText();
+
+			$(document).on('click', '.saDestructive', function () {
+				const $card = $(this).closest('.saMultiRowCard');
+				$card.slideUp(200, function () {
+					$card.remove();
+				});
+			});
 		});
 	</script>
     </body>

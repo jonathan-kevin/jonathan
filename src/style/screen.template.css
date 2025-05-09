@@ -12667,6 +12667,310 @@ div.saPopupOverlay {
     transform: scale(1);
   }
 }
+.saSplitButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.saSplitButton button:nth-child(1) {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+  border-radius: 8px 0 0 8px !important;
+}
+.saSplitButton button:nth-child(1) .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saSplitButton button:nth-child(1) .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saSplitButton button:nth-child(1) .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saStandard .saSplitButton button:nth-child(1) {
+  gap: 8px;
+  height: 40px;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+.saStandard .saSplitButton button:nth-child(1):active {
+  border-radius: 12px;
+}
+.saStandard .saSplitButton button:nth-child(1) .saIcon {
+  font-size: 20px;
+  min-width: 26px;
+}
+.saCompact .saSplitButton button:nth-child(1) {
+  gap: 8px;
+  padding: 8px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.saCompact .saSplitButton button:nth-child(1):active {
+  border-radius: 12px;
+}
+.saCompact .saSplitButton button:nth-child(1) .saIcon {
+  font-size: 16px;
+  min-width: 18px;
+  max-width: 18px;
+}
+.saSmallScreen .saSplitButton button:nth-child(1) {
+  gap: 8px;
+  border-radius: 8px;
+  height: 40px;
+  font-size: 14px;
+  padding: 8px 12px;
+}
+.saSmallScreen .saSplitButton button:nth-child(1):active {
+  border-radius: 12px;
+}
+.saSmallScreen .saSplitButton button:nth-child(1) .saIcon {
+  font-size: 20px;
+  min-width: 26px;
+}
+.saSplitButton button:nth-child(1) .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saSplitButton button:nth-child(1) .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .saSplitButton button:nth-child(1):hover {
+    border-color: var(--Sa-Color-SecondaryButtonBorderHover);
+    color: var(--Sa-Color-LabelHover);
+  }
+  .saSplitButton button:nth-child(1):hover .saIcon {
+    color: var(--Sa-Color-IconHover);
+  }
+  .saSplitButton button:nth-child(1):hover .saBadge {
+    background-color: var(--Sa-Color-IconHover);
+  }
+}
+.saSplitButton button:nth-child(1):active {
+  background: var(--Sa-Color-SecondaryButtonBackgroundActive);
+}
+.saSplitButton button:nth-child(1):active .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  border-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+}
+.saSplitButton button:nth-child(1).saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.saSplitButton button:nth-child(1).saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saSplitButton button:nth-child(1).saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saSplitButton button:nth-child(1).saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saSplitButton button:nth-child(1).saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .saSplitButton button:nth-child(1).saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saSplitButton button:nth-child(1).saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saSplitButton button:nth-child(1).saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saSplitButton button:nth-child(1).saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saSplitButton button:nth-child(2) {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+  border-radius: 0 8px 8px 0 !important;
+  margin-left: -1px;
+}
+.saSplitButton button:nth-child(2) .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saSplitButton button:nth-child(2) .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saSplitButton button:nth-child(2) .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saStandard .saSplitButton button:nth-child(2) {
+  border-radius: 8px;
+  padding: 0 8px;
+  width: 40px;
+  height: 40px;
+  max-width: 40px;
+  min-width: 40px;
+  font-size: 16px;
+}
+.saStandard .saSplitButton button:nth-child(2):active {
+  border-radius: 12px;
+}
+.saCompact .saSplitButton button:nth-child(2) {
+  border-radius: 8px;
+  padding: 0 8px;
+  width: 32px;
+  height: 32px;
+  max-width: 32px;
+  min-width: 32px;
+  font-size: 16px;
+}
+.saCompact .saSplitButton button:nth-child(2):active {
+  border-radius: 12px;
+}
+.saSmallScreen .saSplitButton button:nth-child(2) {
+  border-radius: 8px;
+  padding: 0 8px;
+  width: 40px;
+  height: 40px;
+  max-width: 40px;
+  min-width: 40px;
+  font-size: 16px;
+}
+.saSmallScreen .saSplitButton button:nth-child(2):active {
+  border-radius: 12px;
+}
+.saSplitButton button:nth-child(2) .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saSplitButton button:nth-child(2) .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .saSplitButton button:nth-child(2):hover {
+    border-color: var(--Sa-Color-SecondaryButtonBorderHover);
+    color: var(--Sa-Color-LabelHover);
+  }
+  .saSplitButton button:nth-child(2):hover .saIcon {
+    color: var(--Sa-Color-IconHover);
+  }
+  .saSplitButton button:nth-child(2):hover .saBadge {
+    background-color: var(--Sa-Color-IconHover);
+  }
+}
+.saSplitButton button:nth-child(2):active {
+  background: var(--Sa-Color-SecondaryButtonBackgroundActive);
+}
+.saSplitButton button:nth-child(2):active .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  border-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+}
+.saSplitButton button:nth-child(2).saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.saSplitButton button:nth-child(2).saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saSplitButton button:nth-child(2).saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saSplitButton button:nth-child(2).saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saSplitButton button:nth-child(2).saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .saSplitButton button:nth-child(2).saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saSplitButton button:nth-child(2).saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saSplitButton button:nth-child(2).saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saSplitButton button:nth-child(2).saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saSplitButton button:nth-child(2).saOpen {
+  background-color: #f9f9fe;
+  border-color: #2d6ce1;
+}
+.saSplitButton button:nth-child(2).saOpen .saIcon {
+  color: #2d6ce1;
+}
+@media (pointer: fine) {
+  .saSplitButton button:hover {
+    z-index: 1;
+  }
+}
+.saCollectorWrapper {
+  display: flex;
+  flex-direction: column;
+}
 .saButtonPrimary {
   background-color: var(--Sa-Color-PrimaryButtonBackground);
   color: var(--Sa-Color-PrimaryButtonLabel);
@@ -12778,6 +13082,14 @@ div.saPopupOverlay {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saButtonSecondary.saOpen {
+  background-color: #f9f9fe;
+  border-color: #2d6ce1;
+  color: #2d6ce1;
+}
+.saButtonSecondary.saOpen .saIcon {
+  color: #2d6ce1;
 }
 .saButtonGhost {
   color: #2d6ce1;
@@ -22797,6 +23109,7 @@ ul.saMultiRowButtons li {
   flex-direction: row;
   width: 100%;
   margin-top: -1px;
+  transition: height ease 2s;
 }
 .saMultiRowCard:not(.saOpen) {
   height: 48px;
@@ -22830,10 +23143,12 @@ ul.saMultiRowButtons li {
   background-color: #f8f9fb;
   transition: ease 0.2s background-color, ease 0.2s border-color, ease 0.2s border-radius, ease 0.2s box-shadow;
 }
+.saNew .saMultiRowCardInner {
+  background-color: #f3fcf3;
+}
 .ui-sortable-helper .saMultiRowCardInner {
-  background-color: white;
-  border-color: transparent;
-  border-radius: 0;
+  background-color: #fff;
+  border-radius: 8px !important;
   height: 48px;
   box-shadow: 0 1px 0.125rem rgba(49, 58, 68, 0.07), 0 0.125rem 0.25rem rgba(49, 58, 68, 0.07);
 }
@@ -22932,6 +23247,9 @@ ul.saMultiRowButtons li {
   visibility: visible;
 }
 .saMultiRowCardBody {
+  padding: 16px;
+}
+.saMultiRowCardHeader + .saMultiRowCardBodyWrapper .saMultiRowCardBody {
   padding: 8px 16px 16px 16px;
 }
 input[type=password].saInputText {
@@ -25291,6 +25609,9 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saContextMenu .saActionLinkList {
   display: flex;
   flex-direction: column;
+}
+.saContextMenu .saActionLinkList:not(:first-child) {
+  border-top: 1px solid #ccd5e2;
 }
 .saSmallScreen .saSmallScreenMenu {
   display: flex;
@@ -31985,6 +32306,98 @@ a.saKpiOuter:active {
 }
 .saBankgiroLink .saDebugBox h2 {
   font-size: 1.4em;
+}
+.isometric-radius {
+  width: 24px;
+  height: 24px;
+  background: lightblue;
+  border-radius: 50%;
+  transform: scaleX(0.866);
+  /* squish X for top face */
+}
+.saQrCode {
+  position: relative;
+  display: flex;
+  margin-top: 8px;
+}
+.saQrScreenWrapper {
+  position: relative;
+}
+.saQrScreen {
+  position: relative;
+}
+.saQrScreenShadow {
+  position: absolute;
+  bottom: -16px;
+  left: 0;
+}
+.saQrLine {
+  position: absolute;
+  left: 49px;
+  top: 50px;
+  animation: scanLine 6s ease infinite;
+}
+.saQrPhoneWrapper {
+  position: relative;
+  top: 40px;
+  left: 16px;
+}
+.saQrPhone {
+  animation: hovering 6s ease infinite;
+}
+.saQrPhoneShadow {
+  position: absolute;
+  bottom: -8px;
+  left: -8px;
+}
+.saQrScan {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  top: 40px;
+  left: 40px;
+  animation: scan 6s ease infinite;
+  clip-path: polygon(25% 5%, 5% 17%, 79% 16%);
+  background: linear-gradient(90deg, rgba(139, 74, 241, 0.4) 10%, #8b4af1 100%);
+}
+#theToggler {
+  top: unset;
+  bottom: 8px;
+}
+@keyframes scan {
+  0%,
+  100% {
+    clip-path: polygon(25% 5%, 5% 17%, 79% 16%);
+  }
+  25% {
+    clip-path: polygon(26% 28%, 5% 40%, 79% 12%);
+  }
+  50% {
+    clip-path: polygon(25% 5%, 5% 17%, 79% 12%);
+  }
+  75% {
+    clip-path: polygon(26% 28%, 5% 40%, 79% 16%);
+  }
+}
+@keyframes scanLine {
+  0%,
+  50%,
+  100% {
+    transform: translateY(0);
+  }
+  25%,
+  75% {
+    transform: translateY(46px);
+  }
+}
+@keyframes hovering {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
 }
 .saBankIdWrapper .saBankId {
   display: flex;
