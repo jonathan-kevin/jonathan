@@ -534,10 +534,7 @@
 																									<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
 																									<div class="saMultiRowCardInner">
 																										<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="row1Body">
-																											<div class="saMultiRowCardText">
-																												<div class="saMultiRowCardHeading">Mr. Feathers Sr.</div>
-																												<div class="saMultiRowCardDesc">Advanced Crow</div>
-																											</div>
+																											<div class="saMultiRowCardHeading">Row 1</div>
 																											<i class="saIcon far fa-angle-down"></i>
 																										</button>
 																										<div class="saMultiRowCardBodyWrapper" id="row1Body">
@@ -616,10 +613,7 @@
 																									<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
 																									<div class="saMultiRowCardInner">
 																										<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="row2Body">
-																											<div class="saMultiRowCardText">
-																												<div class="saMultiRowCardHeading">Mr. Feathers Jr.</div>
-																												<div class="saMultiRowCardDesc">Regular Crow</div>
-																											</div>
+																											<div class="saMultiRowCardHeading">Row 2</div>
 																											<i class="saIcon far fa-angle-down"></i>
 																										</button>
 																										<div class="saMultiRowCardBodyWrapper" id="row2Body">
@@ -698,10 +692,7 @@
 																									<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
 																									<div class="saMultiRowCardInner">
 																										<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="row3Body">
-																											<div class="saMultiRowCardText">
-																												<div class="saMultiRowCardHeading">Mr. Feathers III</div>
-																												<div class="saMultiRowCardDesc">Regular Crow</div>
-																											</div>
+																											<div class="saMultiRowCardHeading">Row 3</div>
 																											<i class="saIcon far fa-angle-down"></i>
 																										</button>
 																										<div class="saMultiRowCardBodyWrapper" id="row3Body">
@@ -828,15 +819,13 @@
 		$(document).ready(function () {
 			$(document).on('click', '#header', function () {
 				const uniqueId = `row${Date.now()}`;
+				const $wrapper = $(this).closest('.saMultiRowSmallScreenWrapper').find('.saMultiRowSmallScreen');
 				const $newRow = $(`
 					<li class="saMultiRowCard saNew">
 						<i class="saIcon far fa-grip-dots-vertical saMultiRowCardDragHandle"></i>
 						<div class="saMultiRowCardInner">
 							<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="${uniqueId}Body">
-								<div class="saMultiRowCardText">
-									<div class="saMultiRowCardHeading">New row #</div>
-									<div class="saMultiRowCardDesc">New row description</div>
-								</div>
+								<div class="saMultiRowCardHeading">Row #${$wrapper.children().length + 1}</div>
 								<i class="saIcon far fa-angle-down"></i>
 							</button>
 							<div class="saMultiRowCardBodyWrapper" id="${uniqueId}Body">
@@ -913,16 +902,13 @@
 					</li>
 				`);
 
-				const $wrapper = $(this).closest('.saMultiRowSmallScreenWrapper').find('.saMultiRowSmallScreen');
-				$wrapper.append($newRow);
+				const $wrapped = $(this).closest('.saMultiRowSmallScreenWrapper').find('.saMultiRowSmallScreen');
+				$wrapped.append($newRow);
 				$newRow.slideDown(200, function () {
 					$newRow.addClass('saOpen');
 					$newRow.find('.saMultiRowCardHeader').attr('aria-controls', `${uniqueId}Body`);
 					$newRow.find('input').first().focus();
 				});
-
-				// Update card text for the new row
-				$newRow.find('.saMultiRowCardBody input').on('keyup', updateCardText);
 			});
 
 			$(document).on('click', '#noHeader', function () {
@@ -1013,28 +999,6 @@
 				});
 			});
 
-			function updateCardText() {
-				$('.saMultiRowCard').each(function () {
-					const $card = $(this);
-					const $headingInput = $card.find('.saMultiRowCardBody input[id$="Name"], .saMultiRowField input[id$="Name"]');
-					const $descInput = $card.find('.saMultiRowCardBody input[id$="Type"], .saMultiRowField input[id$="Type"]');
-
-					const headingText = $headingInput.val();
-					const descText = $descInput.val();
-
-					$card.find('.saMultiRowCardHeading').text(headingText);
-
-					let $descElement = $card.find('.saMultiRowCardDesc');
-
-					if ($descElement.length === 0) {
-						$descElement = $('<div class="saMultiRowCardDesc"></div>');
-						$card.find('.saMultiRowCardHeading').after($descElement);
-					}
-					$descElement.text(descText);
-				});
-			}
-
-
 			$('.saMultiRowSmallScreen').sortable({
 				items: '.saMultiRowCard',
 				cancel: 'input, button, .saInputTextWrapper, .saToggleGroup', // Prevent dragging when interacting with these
@@ -1075,9 +1039,6 @@
 				$(this).attr('aria-expanded', !isExpanded);
 			});
 
-			$(document).on('keyup', '.saMultiRowCardBody input, .saMultiRowField input', updateCardText);
-
-			updateCardText();
 
 			$(document).on('click', '.saDestructive', function () {
 				const $card = $(this).closest('.saMultiRowCard');
