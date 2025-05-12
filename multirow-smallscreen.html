@@ -536,7 +536,6 @@
 																										<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="row1Body">
 																											<div class="saMultiRowCardText">
 																												<div class="saMultiRowCardHeading">Mr. Feathers Sr.</div>
-																												<div class="saMultiRowCardDesc">Advanced Crow</div>
 																											</div>
 																											<i class="saIcon far fa-angle-down"></i>
 																										</button>
@@ -618,7 +617,6 @@
 																										<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="row2Body">
 																											<div class="saMultiRowCardText">
 																												<div class="saMultiRowCardHeading">Mr. Feathers Jr.</div>
-																												<div class="saMultiRowCardDesc">Regular Crow</div>
 																											</div>
 																											<i class="saIcon far fa-angle-down"></i>
 																										</button>
@@ -700,7 +698,6 @@
 																										<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="row3Body">
 																											<div class="saMultiRowCardText">
 																												<div class="saMultiRowCardHeading">Mr. Feathers III</div>
-																												<div class="saMultiRowCardDesc">Regular Crow</div>
 																											</div>
 																											<i class="saIcon far fa-angle-down"></i>
 																										</button>
@@ -834,8 +831,7 @@
 						<div class="saMultiRowCardInner">
 							<button type="button" aria-expanded="false" class="saMultiRowCardHeader" aria-controls="${uniqueId}Body">
 								<div class="saMultiRowCardText">
-									<div class="saMultiRowCardHeading">New row #</div>
-									<div class="saMultiRowCardDesc">New row description</div>
+									<div class="saMultiRowCardHeading">New row</div>
 								</div>
 								<i class="saIcon far fa-angle-down"></i>
 							</button>
@@ -1017,20 +1013,10 @@
 				$('.saMultiRowCard').each(function () {
 					const $card = $(this);
 					const $headingInput = $card.find('.saMultiRowCardBody input[id$="Name"], .saMultiRowField input[id$="Name"]');
-					const $descInput = $card.find('.saMultiRowCardBody input[id$="Type"], .saMultiRowField input[id$="Type"]');
-
 					const headingText = $headingInput.val();
-					const descText = $descInput.val();
 
 					$card.find('.saMultiRowCardHeading').text(headingText);
 
-					let $descElement = $card.find('.saMultiRowCardDesc');
-
-					if ($descElement.length === 0) {
-						$descElement = $('<div class="saMultiRowCardDesc"></div>');
-						$card.find('.saMultiRowCardHeading').after($descElement);
-					}
-					$descElement.text(descText);
 				});
 			}
 
