@@ -356,7 +356,54 @@
 																		</div>
 																	</div>
 
-																	<div class="wrapper" style="padding-top: 200px;">
+																	<div class="wrapper">
+																		<div class="saInputWrapper" id="editTextarea"
+																			style="max-width: 320px; margin-bottom: 80px;">
+																			<div class="saInput">
+																				<div class="saInputTextWrapper">
+																					<textarea
+																						class="saInputText saTextArea"
+																						rows="5"
+																						readonly>You can find the serial number on the back of the bird’s beak, typically engraved or printed in small text.</textarea>
+																					<button class="saButtonEdit"
+																						type="button"
+																						aria-label="Edit text"
+																						id="edit">
+																						<i
+																							class="saIcon far fa-pen"></i>
+																					</button>
+																				</div>
+																				<div class="saButtonEditGroup">
+																					<button
+																						class="saDefaultButtonPrimary"
+																						type="button" disabled>
+																						Save
+																					</button>
+																					<button
+																						class="saDefaultButtonSecondary"
+																						type="button">
+																						Cancel
+																					</button>
+																				</div>
+																				<label
+																					class="saValidationMessage saAutomated">
+																					<svg xmlns="http://www.w3.org/2000/svg"
+																						viewBox="0 0 512 512">
+																						<path class="fa-secondary"
+																							opacity=".2"
+																							d="M92.3 254.6l51.2 23.6c10.4 4.8 18.7 13.1 23.5 23.5l23.6 51.2 23.6-51.2c4.8-10.4 13.1-18.7 23.5-23.5l51.2-23.6-51.2-23.6c-10.4-4.8-18.7-13.1-23.5-23.5l-23.6-51.2-23.6 51.2c-4.8 10.4-13.1 18.7-23.5 23.5L92.3 254.6z" />
+																						<path class="fa-primary"
+																							d="M327.5 85.2c-4.5 1.7-7.5 6-7.5 10.8s3 9.1 7.5 10.8L384 128l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L448 128l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L448 64 426.8 7.5C425.1 3 420.8 0 416 0s-9.1 3-10.8 7.5L384 64 327.5 85.2zM166.9 207.5l23.6-51.2 23.6 51.2c4.8 10.4 13.1 18.7 23.5 23.5l51.2 23.6-51.2 23.6c-10.4 4.8-18.7 13.1-23.5 23.5l-23.6 51.2-23.6-51.2c-4.8-10.4-13.1-18.7-23.5-23.5L92.3 254.6l51.2-23.6c10.4-4.8 18.7-13.1 23.5-23.5zM164.1 99.1l-40.8 88.3L35.1 228.1l-.6 .3-8.1 3.7L9.3 240C3.6 242.6 0 248.3 0 254.6s3.6 11.9 9.3 14.5L26.3 277l8.1 3.7 .6 .3 88.3 40.8L164.1 410l.3 .6 3.7 8.1 7.9 17.1c2.6 5.7 8.3 9.3 14.5 9.3s11.9-3.6 14.5-9.3l7.9-17.1 3.7-8.1 .3-.6 40.8-88.3L346 281l.6-.3 8.1-3.7 17.1-7.9c5.7-2.6 9.3-8.3 9.3-14.5s-3.6-11.9-9.3-14.5l-17.1-7.9-8.1-3.7-.6-.3-88.3-40.8L217 99.1l-.3-.6L213 90.3l-7.9-17.1c-2.6-5.7-8.3-9.3-14.5-9.3s-11.9 3.6-14.5 9.3l-7.9 17.1-3.7 8.1-.3 .6zM384 384l-56.5 21.2c-4.5 1.7-7.5 6-7.5 10.8s3 9.1 7.5 10.8L384 448l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L448 448l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L448 384l-21.2-56.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1 3-10.8 7.5L384 384z" />
+																					</svg>
+																					<div
+																						class="saValidationMessageText">
+																						This is AI
+																						generated
+																						content.
+																					</div>
+																				</label>
+																			</div>
+																		</div>
 																		<div class="saInputWrapper"
 																			style="max-width: 320px; margin-bottom: 80px;">
 																			<div class="saInput">
@@ -799,12 +846,11 @@
 
 			$('.saBadgeAutomated').hover(function () {
 				const $textEl = $('.saAutomatedText');
-				const words = $textEl.text().split(''); // Split into individual characters
-				const spannedWords = words.map((char, i) => {
-					const delay = Math.min(i * 0.02, 2); // Cap the delay at 2s
-					return `<span class="saWavy" style="animation-delay: ${delay}s">${char}</span>`;
+				const words = $textEl.text().split(' ');
+				const spannedWords = words.map((word, i) => {
+					return `<span class="saWavy" style="animation-delay: ${i * 0.02}s">${word}</span>`;
 				});
-				$textEl.html(spannedWords.join(''));
+				$textEl.html(spannedWords.join(' '));
 			},
 				function () {
 					const $textEl = $('.saAutomatedText');
@@ -815,11 +861,11 @@
 
 			$('.saBadgeAutomated').on('focus', function () {
 				const $textEl = $('.saAutomatedText');
-				const words = $textEl.text().split(''); // Split into individual characters
-				const spannedWords = words.map((char, i) => {
-					return `<span class="saWavy" style="animation-delay: ${i * 0.02}s">${char}</span>`;
+				const words = $textEl.text().split(' ');
+				const spannedWords = words.map((word, i) => {
+					return `<span class="saWavy" style="animation-delay: ${i * 0.02}s">${word}</span>`;
 				});
-				$textEl.html(spannedWords.join(''));
+				$textEl.html(spannedWords.join(' '));
 			});
 
 			$('.saBadgeAutomated').on('blur', function () {
@@ -827,6 +873,85 @@
 				$textEl.find('span').removeClass('saWavy').removeAttr('style');
 				$textEl.text($textEl.text()); // resets the content to plain text
 			});
+
+
+			//	$('.saBadgeAutomated').hover(
+			//		function () {
+			//			const $textEl = $('.saAutomatedText');
+			//			const letters = $textEl.text().split('');
+			//			const spannedLetters = letters.map((letter, i) => {
+			//				return `<span class="saWavy" style="animation-delay: ${i * 0.01}s">${letter}</span>`;
+			//			});
+			//			$textEl.html(spannedLetters.join(''));
+			//		},
+			//		function () {
+			//			const $textEl = $('.saAutomatedText');
+			//			$textEl.find('span').removeClass('saWavy').removeAttr('style');
+			//			$textEl.text($textEl.text()); // resets the content to plain text
+			//		}
+			//	);
+
+			var originalText = '';
+
+			$('#edit').click(function () {
+				var wrapper = $('#editTextarea');
+				var textarea = wrapper.find('textarea');
+				var buttonGroup = wrapper.find('.saButtonEditGroup');
+				var doneButton = wrapper.find('.saDefaultButtonPrimary');
+
+				originalText = textarea.val(); // Save original
+				wrapper.addClass('saEdit');
+				textarea.removeAttr('readonly').focus();
+				textarea[0].setSelectionRange(textarea.val().length, textarea.val().length);
+				doneButton.prop('disabled', true); // Initially disabled
+			});
+
+			$('#editTextarea textarea').on('keydown', function (e) {
+				if (e.key === 'Escape') {
+					exitEditMode(true);
+				}
+			});
+
+			$('#editTextarea textarea').on('input', function () {
+				var wrapper = $('#editTextarea');
+				var textarea = $(this);
+				var doneButton = wrapper.find('.saDefaultButtonPrimary');
+				doneButton.prop('disabled', textarea.val() === originalText);
+			});
+
+			$('#editTextarea .saDefaultButtonSecondary').click(function () {
+				exitEditMode(true); // Cancel
+			});
+
+			$('#editTextarea .saDefaultButtonPrimary').click(function () {
+				var wrapper = $('#editTextarea');
+				var textarea = wrapper.find('textarea');
+
+				// Clean up
+				textarea.prop('readonly', false);
+				$('#edit').remove(); // Remove edit button
+				wrapper.find('.saValidationMessage').css({
+					'transition': 'transform 0.2s ease',
+					'transform': 'translateY(-1rem)'
+				});
+
+				setTimeout(() => {
+					wrapper.removeClass('saEdit');
+					wrapper.find('.saValidationMessage').remove();
+				}, 200);
+			});
+
+			function exitEditMode(restore) {
+				var wrapper = $('#editTextarea');
+				var textarea = wrapper.find('textarea');
+				var doneButton = wrapper.find('.saDefaultButtonPrimary');
+				if (restore) {
+					textarea.val(originalText);
+				}
+				wrapper.removeClass('saEdit');
+				textarea.prop('readonly', true);
+				doneButton.prop('disabled', true);
+			}
 
 			$('#ellipsis').text('...');
 			setInterval(function () {
