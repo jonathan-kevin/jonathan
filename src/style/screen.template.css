@@ -35553,17 +35553,31 @@ input.saCheckbox:indeterminate::before {
   animation: wavy 0.5s ease forwards;
   transition: ease all 0.2s;
 }
-@keyframes wavy {
-  0%,
-  100% {
-    background-color: transparent;
-  }
-  50% {
-    background-color: #f8edfd;
+/*@keyframes wavy {
+	0%,	100% {
+		background-color: transparent;
+	}
+
+	50% {
+		background-color: @ColorPurple100;
+	}
+}*/
+@keyframes clip {
+  to {
+    background-position: -200% center;
   }
 }
 .saFieldAndLabelWrapper:has(.saBadgeAutomated:hover, .saBadgeAutomated:focus) .saAutomatedText {
-  color: #8b4af1;
+  background-image: linear-gradient(to right, #8b4af1 0%, #8b4af1 50%, #e0163e 75%, #8b4af1 100%);
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  background-clip: text;
+  color: black;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: clip 4s ease 3;
 }
 .saFieldAndLabelWrapper:has(.saBadgeAutomated:hover, .saBadgeAutomated:focus) .saTooltipRoot {
   opacity: 1;
