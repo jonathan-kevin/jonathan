@@ -17364,6 +17364,9 @@ select.saInputText {
   color: #60748b;
   background-color: transparent;
 }
+.saPlaceholder .saInputTextWrapper .saTrailingIconsWrapper .saIcon {
+  color: #ccd5e2;
+}
 .saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled) {
   cursor: pointer;
   pointer-events: auto;
@@ -17375,6 +17378,9 @@ select.saInputText {
 }
 .saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled) .saIcon {
   color: var(--Sa-Color-InputFieldIcon);
+}
+.saPlaceholder .saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled) .saIcon {
+  color: #ccd5e2;
 }
 @media (pointer: fine) {
   .saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled):hover {
@@ -17464,6 +17470,12 @@ select.saInputText {
   box-shadow: none;
   background: #eef1f5;
   color: #8fa5c0;
+}
+.saPlaceholder .saInputTextWrapper .saInputText:not(:disabled, :hover, :focus-within) {
+  outline: dashed 2px #ccd5e2;
+  outline-offset: -2px;
+  box-shadow: none;
+  background-color: #f8f9fb;
 }
 /* Style in standard mode for future use
 .saStandard .saInputTextWrapper,
@@ -17738,11 +17750,8 @@ select.saInputText {
   font-weight: bold;
   margin-left: 0.25rem;
 }
-.saMultiRowWrapper .saMandatory::after {
-  content: '*';
-  content: '*' / '';
-  color: #e0163e;
-  font-weight: bold;
+.saPlaceholder .saMandatory::after {
+  color: #ccd5e2;
 }
 .saIconOnlyFieldButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -17873,6 +17882,14 @@ select.saInputText {
 }
 .saIconOnlyFieldButton:active {
   border-radius: 12px;
+}
+.saPlaceholder .saIconOnlyFieldButton {
+  border: none;
+  outline: 2px dashed #ccd5e2;
+  outline-offset: -2px;
+}
+.saPlaceholder .saIconOnlyFieldButton .saIcon {
+  color: #ccd5e2;
 }
 .saLabeledFieldButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -23075,10 +23092,12 @@ legend + .saInputCardsWrapper {
   max-width: 2rem;
   cursor: grab;
 }
-.saMultiRowDragHandle.saDisabled {
+.saMultiRowDragHandle.saDisabled,
+.saPlaceholder .saMultiRowDragHandle {
   pointer-events: none;
 }
-.saMultiRowDragHandle.saDisabled .saIcon {
+.saMultiRowDragHandle.saDisabled .saIcon,
+.saPlaceholder .saMultiRowDragHandle .saIcon {
   color: #ccd5e2;
 }
 .saMultiRowDragHandle > div {
@@ -23105,21 +23124,6 @@ legend + .saInputCardsWrapper {
 .saMultiRowHead,
 .saMultiRowRow {
   display: table-row;
-}
-.saMultiRowRow.saDragAndDropPlaceholder {
-  width: 100%;
-  position: relative;
-}
-.saMultiRowRow.saDragAndDropPlaceholder::after {
-  content: '';
-  position: absolute;
-  display: block;
-  height: calc(100% - 1rem);
-  top: 0rem;
-  left: 2rem;
-  width: calc(100% - 2rem);
-  background-color: #eef1f5;
-  border-radius: 0.5rem;
 }
 .saMultiRowHeadGroup,
 .saMultiRowRowsGroup {
@@ -23157,6 +23161,9 @@ legend + .saInputCardsWrapper {
   font-weight: 400;
   word-break: keep-all;
   text-wrap: nowrap;
+}
+.saPlaceholder.saMultiRow .saLabel {
+  color: #7088a4;
 }
 ul.saMultiRowButtons {
   display: flex;
@@ -23197,18 +23204,6 @@ ul.saMultiRowButtons li {
 }
 .saMultiRowCard:not(.saOpen) {
   height: 3rem;
-}
-.saMultiRowCard.saDragAndDropPlaceholder {
-  position: relative;
-}
-.saMultiRowCard.saDragAndDropPlaceholder::after {
-  content: '';
-  position: absolute;
-  height: 100%;
-  top: 0rem;
-  left: 1rem;
-  width: calc(100% - 1rem);
-  background-color: #eef1f5;
 }
 .saMultiRowCard:first-child .saMultiRowCardInner {
   border-top-left-radius: 0.75rem;
@@ -23875,6 +23870,11 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saInputTextWrapper .saTextArea:disabled {
   outline: none;
+}
+.saInputTextWrapper .saTextArea.saPlaceholder:not(:disabled, :hover, :focus-within) {
+  outline: dashed 2px #ccd5e2;
+  outline-offset: -2px;
+  background-color: #f8f9fb;
 }
 .saInputTextWrapper .saTextArea::-webkit-resizer {
   background-image: url(../img/resizer.svg);
