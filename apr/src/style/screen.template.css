@@ -17365,7 +17365,7 @@ select.saInputText {
   background-color: transparent;
 }
 .saPlaceholder .saInputTextWrapper .saTrailingIconsWrapper .saIcon {
-  color: #ccd5e2;
+  opacity: 0;
 }
 .saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled) {
   cursor: pointer;
@@ -17380,7 +17380,7 @@ select.saInputText {
   color: var(--Sa-Color-InputFieldIcon);
 }
 .saPlaceholder .saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled) .saIcon {
-  color: #ccd5e2;
+  opacity: 0;
 }
 @media (pointer: fine) {
   .saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled):hover {
@@ -17472,10 +17472,12 @@ select.saInputText {
   color: #8fa5c0;
 }
 .saPlaceholder .saInputTextWrapper .saInputText:not(:disabled, :hover, :focus-within) {
-  outline: dashed 2px #ccd5e2;
-  outline-offset: -2px;
+  outline: none;
   box-shadow: none;
-  background-color: #f8f9fb;
+  background-color: #dde3ec;
+}
+.saPlaceholder .saInputTextWrapper .saInputText:not(:disabled, :hover, :focus-within)::-webkit-resizer {
+  background-image: none;
 }
 /* Style in standard mode for future use
 .saStandard .saInputTextWrapper,
@@ -17751,7 +17753,7 @@ select.saInputText {
   margin-left: 0.25rem;
 }
 .saPlaceholder .saMandatory::after {
-  color: #ccd5e2;
+  opacity: 0;
 }
 .saIconOnlyFieldButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -17885,12 +17887,12 @@ select.saInputText {
 }
 .saPlaceholder .saIconOnlyFieldButton {
   border: none;
-  outline: 2px dashed #ccd5e2;
-  outline-offset: -2px;
+  outline: none;
   pointer-events: none;
+  background-color: #dde3ec;
 }
 .saPlaceholder .saIconOnlyFieldButton .saIcon {
-  color: #ccd5e2;
+  opacity: 0;
 }
 .saLabeledFieldButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -23086,6 +23088,22 @@ legend + .saInputCardsWrapper {
   padding-top: 0.5rem;
   /* align column titles with field label */
 }
+.saInputWrapper {
+  position: relative;
+}
+.saInputWrapper .saEmptyState {
+  text-align: left;
+  align-items: start;
+  padding-left: 0;
+}
+.saInputWrapper .saEmptyStateIconAndBody {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+.saInputWrapper .saEmptyStateBody {
+  align-items: start;
+}
 .saMultiRowDragHandle {
   display: table-cell;
   height: 100%;
@@ -23099,7 +23117,8 @@ legend + .saInputCardsWrapper {
 }
 .saMultiRowDragHandle.saDisabled .saIcon,
 .saPlaceholder .saMultiRowDragHandle .saIcon {
-  color: #ccd5e2;
+  color: transparent;
+  background-color: #dde3ec;
 }
 .saMultiRowDragHandle > div {
   display: flex;
@@ -23164,7 +23183,8 @@ legend + .saInputCardsWrapper {
   text-wrap: nowrap;
 }
 .saPlaceholder.saMultiRow .saLabel {
-  color: #7088a4;
+  color: transparent;
+  background-color: #dde3ec;
 }
 ul.saMultiRowButtons {
   display: flex;

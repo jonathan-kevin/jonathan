@@ -296,9 +296,56 @@
 																		</label>
 																		<div class="saFieldCell">
 																			<div class="saInputWrapper longest">
-																				<div class="saInput">
+																				<div class="saEmptyState">
 																					<div
-																						class="multirowwrapper saMultiRowWrapper saInputPageField">
+																						class="saEmptyStateIconAndBody">
+																						<div class="saEmptyStateIcon">
+																							<i
+																								class="saIcon far fa-bird"></i>
+																						</div>
+																						<div class="saEmptyStateBody">
+																							<div
+																								class="saEmptyStateHeading">
+																								No birds added yet</div>
+																							<div
+																								class="saEmptyStateDescription">
+																								Add your first bird to
+																								get things flying.</div>
+																						</div>
+																					</div>
+																					<button
+																						class="saButton saLabeledFieldButton"
+																						type="button">
+																						<i
+																							class="saIcon far fa-plus"></i>Add
+																						bird
+																					</button>
+																				</div>
+																				<div class="saInput">
+																					<div class="saEmptyState">
+																						<div class="saEmptyStateIcon">
+																							<i
+																								class="saIcon far fa-bird"></i>
+																						</div>
+																						<div class="saEmptyStateBody">
+																							<div
+																								class="saEmptyStateHeading">
+																								No birds added yet</div>
+																							<div
+																								class="saEmptyStateDescription">
+																								Add your first bird to
+																								get things flying.</div>
+																						</div>
+																						<button
+																							class="saButton saLabeledFieldButton"
+																							type="button">
+																							<i
+																								class="saIcon far fa-plus"></i>Add
+																							bird
+																						</button>
+																					</div>
+																					<div class="multirowwrapper saMultiRowWrapper saInputPageField"
+																						style="display: none;">
 																						<fieldset
 																							aria-label="Birds. Get down on it!">
 																							<div
@@ -442,27 +489,36 @@
 																															<button
 																																class="saIconOnlyFieldButton"
 																																type="button"
-																																aria-label="Clone row" tabindex="-1"></button>
+																																aria-label="Clone row"
+																																tabindex="-1"><i
+																																	class="saIcon far fa-clone"></i>
 																															</button>
 																														</li>
 																														<li>
 																															<button
 																																class="saIconOnlyFieldButton"
 																																type="button"
-																																aria-label="Move up" tabindex="-1"></button>
+																																aria-label="Move up"
+																																tabindex="-1"><i
+																																	class="fa-caret-up saIcon fas"></i>
 																															</button>
 																														</li>
 																														<li>
 																															<button
 																																class="saIconOnlyFieldButton"
 																																type="button"
-																																aria-label="Move down" tabindex="-1"></button>
+																																aria-label="Move down"
+																																tabindex="-1"><i
+																																	class="fa-caret-down saIcon fas"></i>
 																															</button>
 																														</li>
 																														<li>
 																															<button
 																																class="saIconOnlyFieldButton"
-																																type="button" tabindex="-1"></button>
+																																type="button"
+																																tabindex="-1"><i
+																																	class="saIcon far fa-trash-alt"></i>
+																															</button>
 																														</li>
 																													</ul>
 																												</div>
@@ -518,7 +574,9 @@
 			bottom: 8px;
 		}
 	</style>
+
 	<script>
+
 		$(document).ready(function () {
 			var $multiRow = $('.saMultiRow');
 			var row = '<div class="saMultiRowRow" role="row"> <div class="saMultiRowDragHandle" draggable="true" aria-hidden="true"> <div><i class="saIcon far fa-grip-dots-vertical"></i></div> </div> <div class="saMultiRowCellWrapper" role="cell"> <div class="saMultiRowCell"> <div class="saMultiRowInputWrapper mediumLong"> <div class="saInputTextWrapper saMultiRowField mediumLong saHasTrailingIcons"> <input class="saInputText" aria-labelledby="birdNameLable"> <div class="saTrailingIconsWrapper"> <i class="fa-text-size saIcon far"></i> </div> </div> </div> </div> </div> <div class="saMultiRowCellWrapper" role="cell"> <div class="saMultiRowCell"> <div class="saMultiRowInputWrapper mediumLong"> <div class="saInputTextWrapper saMultiRowField mediumLong saHasTrailingIcons"> <input class="saInputText" aria-labelledby="birdTypeLable"> <div class="saTrailingIconsWrapper"> <i class="fa-text-size saIcon far"></i> </div> </div> </div> </div> </div> <div class="saMultiRowCellWrapper" role="cell"> <div class="saMultiRowCell"> <div class="saMultiRowInputWrapper mediumLong"> <div class="saInputTextWrapper saMultiRowField mediumLong"> <textarea class="saInputText saTextArea" aria-labelledby="birdDescLable" rows="6"></textarea> </div> </div> </div> </div> <div class="saMultiRowCellWrapper" role="cell"> <div class="saMultiRowCell"> <ul class="saMultiRowButtons"> <li> <button class="saIconOnlyFieldButton" type="button" aria-label="Clone row"> <i class="saIcon far fa-clone"></i> </button> </li> <li> <button class="saIconOnlyFieldButton" type="button" aria-label="Move up"> <i class="fa-caret-up saIcon fas"></i> </button> </li> <li> <button class="saIconOnlyFieldButton" type="button" aria-label="Move down"> <i class="fa-caret-down saIcon fas"></i> </button> </li> <li> <button class="saIconOnlyFieldButton" type="button"> <i class="saIcon far fa-trash-alt"></i></button> </li> </ul> </div> </div> </div>';
@@ -535,7 +593,7 @@
 				// Optionally, add back the class if all fields are empty
 				var allEmpty = true;
 				$('.saMultiRow input, .saMultiRow textarea').each(function () {
-					if ($(this).val().trim() !== '' || $('.saMultiRowRow').length > 1 ) {
+					if ($(this).val().trim() !== '' || $('.saMultiRowRow').length > 1) {
 						allEmpty = false;
 						return false;
 					}
