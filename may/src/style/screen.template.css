@@ -2373,719 +2373,6 @@ div.saPopupOverlay {
   font-size: 0.875rem;
   color: #60748b;
 }
-.saBentoWrapper {
-  display: grid;
-  grid-auto-flow: dense;
-  gap: 1rem;
-  max-width: 1600px;
-}
-@media (width < 768px) {
-  .saBentoWrapper {
-    display: flex;
-    flex-direction: column;
-  }
-}
-@media (width >= 768px) {
-  .saBentoWrapper {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-@media (width >= 1024px) {
-  .saBentoWrapper {
-    grid-template-columns: repeat(6, 1fr);
-  }
-}
-@media (width >= 1280px) {
-  .saBentoWrapper {
-    grid-template-columns: repeat(8, 1fr);
-  }
-}
-@media (width >= 1536px) {
-  .saBentoWrapper {
-    grid-template-columns: repeat(8, 1fr);
-  }
-}
-.saSmallScreen .saBentoWrapper {
-  padding: 1rem;
-}
-.saBentoWrapper .saBentoWrapper {
-  padding: 1rem;
-  background-color: #f8f9fB;
-  border: 1px solid #ccd5e2;
-  border-radius: 2rem;
-}
-.saBento:empty {
-  min-height: 12rem;
-}
-.saBento.saRowFull {
-  grid-column: 1 / -1;
-}
-.saGridCol1 {
-  grid-column: span 1;
-}
-.saGridCol2 {
-  grid-column: span 2;
-}
-.saGridCol3 {
-  grid-column: span 3;
-}
-.saGridCol4 {
-  grid-column: span 4;
-}
-.saGridCol5 {
-  grid-column: span 5;
-}
-.saGridCol6 {
-  grid-column: span 6;
-}
-.saGridCol7 {
-  grid-column: span 7;
-}
-.saGridCol8 {
-  grid-column: span 8;
-}
-.saGridCol9 {
-  grid-column: span 9;
-}
-.saGridCol10 {
-  grid-column: span 10;
-}
-.saGridCol11 {
-  grid-column: span 11;
-}
-.saGridCol12 {
-  grid-column: span 12;
-}
-.saGridCol13 {
-  grid-column: span 13;
-}
-.saGridCol14 {
-  grid-column: span 14;
-}
-.saGridCol15 {
-  grid-column: span 15;
-}
-.saGridCol16 {
-  grid-column: span 16;
-}
-.saGridRow1 {
-  grid-row: span 1;
-}
-.saGridRow2 {
-  grid-row: span 2;
-}
-.saGridRow3 {
-  grid-row: span 3;
-}
-.saGridRow4 {
-  grid-row: span 4;
-}
-.saGridRow5 {
-  grid-row: span 5;
-}
-.saGridRow6 {
-  grid-row: span 6;
-}
-.saGridRow7 {
-  grid-row: span 7;
-}
-.saGridRow8 {
-  grid-row: span 8;
-}
-.saGridRow9 {
-  grid-row: span 9;
-}
-.saGridRow10 {
-  grid-row: span 10;
-}
-.saGridRow11 {
-  grid-row: span 11;
-}
-.saGridRow12 {
-  grid-row: span 12;
-}
-.saGridRow13 {
-  grid-row: span 13;
-}
-.saGridRow14 {
-  grid-row: span 14;
-}
-.saGridRow15 {
-  grid-row: span 15;
-}
-.saGridRow16 {
-  grid-row: span 16;
-}
-.saBento article {
-  height: 100%;
-}
-.saBentoInner {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #ccd5e2;
-  border-radius: 1rem;
-  height: 100%;
-  color: #313a44;
-  background-color: #fff;
-  transition: ease all 0.2s;
-  position: relative;
-  overflow: hidden;
-}
-.saBentoInner::after {
-  content: '';
-  width: 100%;
-  height: 100%;
-  transform: translateY(95%);
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  filter: blur(1.5rem);
-  transition: transform 0.2s ease;
-  background-image: radial-gradient(at bottom, #cfd2f8 0%, rgba(207, 210, 248, 0) 80%);
-}
-.saBentoInner:hover {
-  background-color: #f9f9fe;
-  border-color: #cfd2f8;
-  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 0.25rem rgba(49, 58, 68, 0.07);
-}
-.saBentoInner:hover::after {
-  transform: translateY(60%);
-}
-.saBentoInner:hover .saBentoImage img {
-  transform: scale(1.125);
-}
-.saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: #2d6ce1;
-  color: #fff;
-}
-.saBentoInner:hover .saBentoHeading,
-.saBentoInner:hover .saBentoDescription,
-.saBentoInner:hover .saBentoHeading .saIcon {
-  color: #2d6ce1;
-}
-.saBentoInner:active {
-  border-radius: 1.5rem;
-  background-color: #eff0fd;
-}
-.saBentoInner:active .saBentoIcon {
-  background-image: none;
-  background-color: #1f59bf;
-  color: #fff;
-}
-.saTiny .saBentoInner:active .saBentoIcon {
-  border-radius: 1rem;
-}
-.saBentoInner:active .saBentoHeading,
-.saBentoInner:active .saBentoDescription,
-.saBentoInner:active .saBentoHeading .saIcon {
-  color: #1f59bf;
-}
-.saGreen .saBentoInner::after {
-  background-image: radial-gradient(at bottom, #a3e4a6 0%, rgba(163, 228, 166, 0) 80%);
-}
-.saGreen .saBentoInner .saBentoIcon {
-  color: #289a42;
-  background-image: linear-gradient(#f3fcf3, #e1f6e1 80%);
-}
-.saGreen .saBentoInner:hover {
-  background-color: #f3fcf3;
-  border-color: #a3e4a6;
-}
-.saGreen .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: #289a42;
-  color: #fff;
-}
-.saGreen .saBentoInner:hover .saBentoHeading,
-.saGreen .saBentoInner:hover .saBentoDescription,
-.saGreen .saBentoInner:hover .saBentoHeading .saIcon {
-  color: #278239;
-}
-.saGreen .saBentoInner:active {
-  background-color: #e1f6e1;
-}
-.saGreen .saBentoInner:active .saBentoIcon {
-  background-image: none;
-  background-color: #278239;
-  color: #fff;
-}
-.saGreen .saBentoInner:active .saBentoHeading,
-.saGreen .saBentoInner:active .saBentoDescription,
-.saGreen .saBentoInner:active .saBentoHeading .saIcon {
-  color: #246c31;
-}
-.saGray .saBentoInner::after {
-  background-image: radial-gradient(at bottom, #ccd5e2 0%, rgba(204, 213, 226, 0) 80%);
-}
-.saGray .saBentoInner .saBentoIcon {
-  color: #60748b;
-  background-image: linear-gradient(#f8f9fB, #eef1f5 80%);
-}
-.saGray .saBentoInner:hover {
-  background-color: #f8f9fB;
-  border-color: #ccd5e2;
-}
-.saGray .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: #60748b;
-  color: #fff;
-}
-.saGray .saBentoInner:hover .saBentoHeading,
-.saGray .saBentoInner:hover .saBentoDescription,
-.saGray .saBentoInner:hover .saBentoHeading .saIcon {
-  color: #60748b;
-}
-.saGray .saBentoInner:active {
-  background-color: #eef1f5;
-}
-.saGray .saBentoInner:active .saBentoIcon {
-  background-image: none;
-  background-color: #506072;
-  color: #fff;
-}
-.saGray .saBentoInner:active .saBentoHeading,
-.saGray .saBentoInner:active .saBentoDescription,
-.saGray .saBentoInner:active .saBentoHeading .saIcon {
-  color: #506072;
-}
-.saRed .saBentoInner::after {
-  background-image: radial-gradient(at bottom, #ffc7c4 0%, rgba(255, 199, 196, 0) 80%);
-}
-.saRed .saBentoInner .saBentoIcon {
-  color: #e0163e;
-  background-image: linear-gradient(#fff8f7, #ffedeb 80%);
-}
-.saRed .saBentoInner:hover {
-  background-color: #fff8f7;
-  border-color: #ffc7c4;
-}
-.saRed .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: #e0163e;
-  color: #fff;
-}
-.saRed .saBentoInner:hover .saBentoHeading,
-.saRed .saBentoInner:hover .saBentoDescription,
-.saRed .saBentoInner:hover .saBentoHeading .saIcon {
-  color: #e0163e;
-}
-.saRed .saBentoInner:active {
-  background-color: #ffedeb;
-}
-.saRed .saBentoInner:active .saBentoIcon {
-  background-image: none;
-  background-color: #b81c34;
-  color: #fff;
-}
-.saRed .saBentoInner:active .saBentoHeading,
-.saRed .saBentoInner:active .saBentoDescription,
-.saRed .saBentoInner:active .saBentoHeading .saIcon {
-  color: #b81c34;
-}
-.saOrange .saBentoInner::after {
-  background-image: radial-gradient(at bottom, #ffc9ac 0%, rgba(255, 201, 172, 0) 80%);
-}
-.saOrange .saBentoInner .saBentoIcon {
-  color: #d96416;
-  background-image: linear-gradient(#fff8f4, #ffede4 80%);
-}
-.saOrange .saBentoInner:hover {
-  background-color: #fff8f4;
-  border-color: #ffc9ac;
-}
-.saOrange .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: #d96416;
-  color: #fff;
-}
-.saOrange .saBentoInner:hover .saBentoHeading,
-.saOrange .saBentoInner:hover .saBentoDescription,
-.saOrange .saBentoInner:hover .saBentoHeading .saIcon {
-  color: #b75617;
-}
-.saOrange .saBentoInner:active {
-  background-color: #ffede4;
-}
-.saOrange .saBentoInner:active .saBentoIcon {
-  background-image: none;
-  background-color: #b75617;
-  color: #fff;
-}
-.saOrange .saBentoInner:active .saBentoHeading,
-.saOrange .saBentoInner:active .saBentoDescription,
-.saOrange .saBentoInner:active .saBentoHeading .saIcon {
-  color: #974816;
-}
-.saYellow .saBentoInner::after {
-  background-image: radial-gradient(at bottom, #ffcd71 0%, rgba(255, 205, 113, 0) 80%);
-}
-.saYellow .saBentoInner .saBentoIcon {
-  color: #b07d13;
-  background-image: linear-gradient(#fff9ed, #ffefd3 80%);
-}
-.saYellow .saBentoInner:hover {
-  background-color: #fff9ed;
-  border-color: #ffcd71;
-}
-.saYellow .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: #b07d13;
-  color: #fff;
-}
-.saYellow .saBentoInner:hover .saBentoHeading,
-.saYellow .saBentoInner:hover .saBentoDescription,
-.saYellow .saBentoInner:hover .saBentoHeading .saIcon {
-  color: #956a15;
-}
-.saYellow .saBentoInner:active {
-  background-color: #ffefd3;
-}
-.saYellow .saBentoInner:active .saBentoIcon {
-  background-image: none;
-  background-color: #956a15;
-  color: #fff;
-}
-.saYellow .saBentoInner:active .saBentoHeading,
-.saYellow .saBentoInner:active .saBentoDescription,
-.saYellow .saBentoInner:active .saBentoHeading .saIcon {
-  color: #7b5815;
-}
-.saSkyBlue .saBentoInner::after {
-  background-image: radial-gradient(at bottom, #a4ddef 0%, rgba(164, 221, 239, 0) 80%);
-}
-.saSkyBlue .saBentoInner .saBentoIcon {
-  color: #2292ac;
-  background-image: linear-gradient(#f4fbfd, #e2f4fa 80%);
-}
-.saSkyBlue .saBentoInner:hover {
-  background-color: #f4fbfd;
-  border-color: #a4ddef;
-}
-.saSkyBlue .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: #2292ac;
-  color: #fff;
-}
-.saSkyBlue .saBentoInner:hover .saBentoHeading,
-.saSkyBlue .saBentoInner:hover .saBentoDescription,
-.saSkyBlue .saBentoInner:hover .saBentoHeading .saIcon {
-  color: #237c91;
-}
-.saSkyBlue .saBentoInner:active {
-  background-color: #e2f4fa;
-}
-.saSkyBlue .saBentoInner:active .saBentoIcon {
-  background-image: none;
-  background-color: #237c91;
-  color: #fff;
-}
-.saSkyBlue .saBentoInner:active .saBentoHeading,
-.saSkyBlue .saBentoInner:active .saBentoDescription,
-.saSkyBlue .saBentoInner:active .saBentoHeading .saIcon {
-  color: #226677;
-}
-.saPurple .saBentoInner::after {
-  background-image: radial-gradient(at bottom, #e7cafa 0%, rgba(231, 202, 250, 0) 80%);
-}
-.saPurple .saBentoInner .saBentoIcon {
-  color: #8b4af1;
-  background-image: linear-gradient(#fcf8fe, #f8edfd 80%);
-}
-.saPurple .saBentoInner:hover {
-  background-color: #fcf8fe;
-  border-color: #e7cafa;
-}
-.saPurple .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: #8b4af1;
-  color: #fff;
-}
-.saPurple .saBentoInner:hover .saBentoHeading,
-.saPurple .saBentoInner:hover .saBentoDescription,
-.saPurple .saBentoInner:hover .saBentoHeading .saIcon {
-  color: #8b4af1;
-}
-.saPurple .saBentoInner:active {
-  background-color: #f8edfd;
-}
-.saPurple .saBentoInner:active .saBentoIcon {
-  background-image: none;
-  background-color: #6d35e1;
-  color: #fff;
-}
-.saPurple .saBentoInner:active .saBentoHeading,
-.saPurple .saBentoInner:active .saBentoDescription,
-.saPurple .saBentoInner:active .saBentoHeading .saIcon {
-  color: #6d35e1;
-}
-.saPink .saBentoInner::after {
-  background-image: radial-gradient(at bottom, #fcc5e5 0%, rgba(252, 197, 229, 0) 80%);
-}
-.saPink .saBentoInner .saBentoIcon {
-  color: #e642b2;
-  background-image: linear-gradient(#fff7fb, #ffecf6 80%);
-}
-.saPink .saBentoInner:hover {
-  background-color: #fff7fb;
-  border-color: #fcc5e5;
-}
-.saPink .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: #e642b2;
-  color: #fff;
-}
-.saPink .saBentoInner:hover .saBentoHeading,
-.saPink .saBentoInner:hover .saBentoDescription,
-.saPink .saBentoInner:hover .saBentoHeading .saIcon {
-  color: #d1199f;
-}
-.saPink .saBentoInner:active {
-  background-color: #ffecf6;
-}
-.saPink .saBentoInner:active .saBentoIcon {
-  background-image: none;
-  background-color: #d1199f;
-  color: #fff;
-}
-.saPink .saBentoInner:active .saBentoHeading,
-.saPink .saBentoInner:active .saBentoDescription,
-.saPink .saBentoInner:active .saBentoHeading .saIcon {
-  color: #ab1e82;
-}
-.saBentoBody {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem;
-  overflow-wrap: break-word;
-  text-wrap: balance;
-  margin: auto 0;
-}
-.saTiny .saBentoBody {
-  margin: unset;
-}
-@media (width >= 768px) {
-  .saFeatured .saBentoBody {
-    padding: 1.5rem;
-  }
-}
-.saBentoIcon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 12rem;
-  position: relative;
-  overflow: hidden;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: inherit;
-  background-image: linear-gradient(#f9f9fe, #eff0fd 80%);
-  background-color: transparent;
-  color: #2d6ce1;
-  font-size: 6rem;
-  transition: ease background-color 0.2s, ease color 0.2s, ease border-radius 0.2s;
-}
-.saTiny .saBentoIcon {
-  height: 3rem;
-  min-height: 3rem;
-  width: 3rem;
-  border-bottom: none;
-  font-size: 1.25rem;
-  border-radius: 0.5rem;
-  margin-top: 1rem;
-  margin-left: 1rem;
-}
-.saBentoIcon .saIcon {
-  z-index: 1;
-}
-.saBentoImage {
-  width: 100%;
-  height: 12rem;
-  overflow: hidden;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: inherit;
-}
-.saBentoImage img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.2s ease;
-}
-.saPillGroup {
-  display: flex;
-  gap: 0.5rem;
-}
-.saTiny .saPillGroup {
-  display: none;
-}
-.saPill {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  gap: 0.25rem;
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-  font-weight: 500;
-  background-color: #eef1f5;
-  padding: 0.25rem 0.5rem;
-  width: fit-content;
-  height: 1.5rem;
-  transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
-  box-shadow: inset 0 0 0 0 transparent;
-  border-radius: 1rem;
-  padding: 0.25rem 0.75rem;
-}
-.saPill.saDisabled {
-  background: #eef1f5;
-  color: #adbdd1;
-  cursor: not-allowed;
-}
-.saPill:has(:enabled) {
-  cursor: pointer;
-}
-@media (pointer: fine) {
-  .saPill:has(:enabled):hover {
-    background-color: #eff0fd;
-    color: #1f59bf;
-  }
-  .saPill:has(:enabled):hover.saOutline {
-    box-shadow: inset 0 0 0 1px #2d6ce1;
-  }
-}
-.saPill:has(:enabled):active {
-  background-color: #cfd2f8;
-  color: #224795;
-}
-.saPill::before {
-  content: "";
-  height: 2.75rem;
-  width: 100%;
-  background-color: transparent;
-  opacity: 0;
-  position: absolute;
-}
-.saPill.saSmall {
-  height: 1.5rem;
-  min-width: 2.5rem;
-  border-radius: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  gap: 0.25rem;
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-}
-.saPill.saMedium {
-  min-width: 4rem;
-  height: 2rem;
-  border-radius: 1rem;
-  padding: 0 0.75rem;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 0.875rem;
-}
-.saPill.saLarge {
-  min-width: 4rem;
-  height: 2.5rem;
-  border-radius: 1.25rem;
-  padding: 0 0.75rem;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 0.875rem;
-}
-.saPill.saOutline {
-  box-shadow: inset 0 0 0 1px #ccd5e2;
-}
-.saPill:has(:checked) {
-  background-color: #2d6ce1;
-  color: #fff;
-}
-.saPill:has(:checked).saOutline {
-  background-color: #eff0fd;
-  color: #1f59bf;
-  box-shadow: inset 0 0 0 1px #2d6ce1;
-}
-.saPill input {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  border: none;
-  margin: 0;
-  padding: 0;
-  padding-block: 0;
-  padding-inline: 0;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  left: 0;
-  top: 0;
-  background: none;
-  border-radius: 1rem;
-  cursor: inherit;
-}
-.saPill.saGray900 {
-  background-color: #313a44;
-  color: #fff;
-}
-h2.saBentoHeading {
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1.25;
-  z-index: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-}
-h2.saBentoHeading .saIcon {
-  font-size: 0.875rem;
-  color: #7088a4;
-  margin-left: 0.5rem;
-}
-p.saBentoDescription {
-  font-size: 0.875rem;
-  line-height: 1.25;
-  z-index: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-}
-.saBentoFooter {
-  display: flex;
-  align-items: center;
-  margin-top: 0.5rem;
-  gap: 0.5rem;
-  z-index: 1;
-}
-.saTiny .saBentoFooter {
-  display: none;
-}
-.saBentoAuthor {
-  display: flex;
-  align-items: center;
-}
-.saBentoAvatar {
-  height: 1.5rem;
-  aspect-ratio: 1;
-  border-radius: 999rem;
-}
-.saBentoName {
-  font-size: 0.875rem;
-  line-height: 1rem;
-  font-weight: 500;
-  margin-left: 0.5rem;
-}
-.saBentoDate {
-  font-size: 0.75rem;
-  line-height: 1.25;
-  color: #60748b;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 .saAccessibilityBanner {
   display: flex;
   justify-content: center;
@@ -31191,7 +30478,6 @@ body.saPopup::before {
 .apiAlertText {
   color: #e0163e;
 }
-/* Let this be the last import */
 .saGridCell .saIconTable .saIcon {
   cursor: pointer;
 }
@@ -31234,4 +30520,763 @@ softadmin-nodegraph .saNodeContent .saNodeTable:has(td .saNodeColumnMandatory) t
 }
 pre.saCode {
   tab-size: 4;
+}
+/* Let this be the last import */
+.saBentoWrapper {
+  display: grid;
+  grid-auto-flow: dense;
+  gap: 1rem;
+  max-width: 1600px;
+}
+@media (width < 768px) {
+  .saBentoWrapper {
+    display: flex;
+    flex-direction: column;
+  }
+}
+@media (width >= 768px) {
+  .saBentoWrapper {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (width >= 1024px) {
+  .saBentoWrapper {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+@media (width >= 1280px) {
+  .saBentoWrapper {
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+@media (width >= 1536px) {
+  .saBentoWrapper {
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+.saSmallScreen .saBentoWrapper {
+  padding: 1rem;
+}
+.saBentoWrapper .saBentoWrapper {
+  padding: 1rem;
+  background-color: #f8f9fB;
+  border: 1px solid #ccd5e2;
+  border-radius: 2rem;
+}
+.saBento:empty {
+  min-height: 12rem;
+}
+.saBento.saRowFull {
+  grid-column: 1 / -1;
+}
+.saGridCol1 {
+  grid-column: span 1;
+}
+.saGridCol2 {
+  grid-column: span 2;
+}
+.saGridCol3 {
+  grid-column: span 3;
+}
+.saGridCol4 {
+  grid-column: span 4;
+}
+.saGridCol5 {
+  grid-column: span 5;
+}
+.saGridCol6 {
+  grid-column: span 6;
+}
+.saGridCol7 {
+  grid-column: span 7;
+}
+.saGridCol8 {
+  grid-column: span 8;
+}
+.saGridCol9 {
+  grid-column: span 9;
+}
+.saGridCol10 {
+  grid-column: span 10;
+}
+.saGridCol11 {
+  grid-column: span 11;
+}
+.saGridCol12 {
+  grid-column: span 12;
+}
+.saGridCol13 {
+  grid-column: span 13;
+}
+.saGridCol14 {
+  grid-column: span 14;
+}
+.saGridCol15 {
+  grid-column: span 15;
+}
+.saGridCol16 {
+  grid-column: span 16;
+}
+.saGridRow1 {
+  grid-row: span 1;
+}
+.saGridRow2 {
+  grid-row: span 2;
+}
+.saGridRow3 {
+  grid-row: span 3;
+}
+.saGridRow4 {
+  grid-row: span 4;
+}
+.saGridRow5 {
+  grid-row: span 5;
+}
+.saGridRow6 {
+  grid-row: span 6;
+}
+.saGridRow7 {
+  grid-row: span 7;
+}
+.saGridRow8 {
+  grid-row: span 8;
+}
+.saGridRow9 {
+  grid-row: span 9;
+}
+.saGridRow10 {
+  grid-row: span 10;
+}
+.saGridRow11 {
+  grid-row: span 11;
+}
+.saGridRow12 {
+  grid-row: span 12;
+}
+.saGridRow13 {
+  grid-row: span 13;
+}
+.saGridRow14 {
+  grid-row: span 14;
+}
+.saGridRow15 {
+  grid-row: span 15;
+}
+.saGridRow16 {
+  grid-row: span 16;
+}
+.saBento article {
+  height: 100%;
+}
+.saBentoInner {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccd5e2;
+  border-radius: 1rem;
+  height: 100%;
+  color: #313a44;
+  background-color: #fff;
+  transition: ease all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.saBentoInner::after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  transform: translateY(95%);
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  filter: blur(1.5rem);
+  transition: transform 0.2s ease;
+  background-image: radial-gradient(at bottom, #b0b8f3 0%, rgba(176, 184, 243, 0) 80%);
+}
+.saBentoInner:hover {
+  background-color: #f9f9fe;
+  border-color: #cfd2f8;
+}
+.saBentoInner:hover::after {
+  transform: translateY(60%);
+}
+.saBentoInner:hover .saBentoImage img {
+  transform: scale(1.125);
+}
+.saBentoInner:hover .saBentoIcon {
+  background-image: none;
+  background-color: #2d6ce1;
+  color: #fff;
+  box-shadow: none;
+}
+.saBentoInner:hover .saBentoHeading,
+.saBentoInner:hover .saBentoDescription,
+.saBentoInner:hover .saBentoHeading .saIcon {
+  color: #2d6ce1;
+}
+.saBentoInner:active {
+  border-radius: 1.5rem;
+  background-color: #eff0fd;
+}
+.saBentoInner:active .saBentoIcon {
+  background-image: none;
+  background-color: #1f59bf;
+  color: #fff;
+  box-shadow: none;
+}
+.saTiny .saBentoInner:active .saBentoIcon {
+  border-radius: 1rem;
+}
+.saBentoInner:active .saBentoHeading,
+.saBentoInner:active .saBentoDescription,
+.saBentoInner:active .saBentoHeading .saIcon {
+  color: #1f59bf;
+}
+.saGreen .saBentoInner::after {
+  background-image: radial-gradient(at bottom, #a3e4a6 0%, rgba(163, 228, 166, 0) 80%);
+}
+.saGreen .saBentoInner .saBentoIcon {
+  color: #289a42;
+  background-image: linear-gradient(#f3fcf3, #e1f6e1 80%);
+}
+.saTiny.saGreen .saBentoInner .saBentoIcon {
+  box-shadow: inset 0 0 0 1px #a3e4a6;
+}
+.saGreen .saBentoInner:hover {
+  background-color: #f3fcf3;
+  border-color: #a3e4a6;
+}
+.saGreen .saBentoInner:hover .saBentoIcon {
+  background-image: none;
+  background-color: #289a42;
+  color: #fff;
+  box-shadow: none;
+}
+.saGreen .saBentoInner:hover .saBentoHeading,
+.saGreen .saBentoInner:hover .saBentoDescription,
+.saGreen .saBentoInner:hover .saBentoHeading .saIcon {
+  color: #278239;
+}
+.saGreen .saBentoInner:active {
+  background-color: #e1f6e1;
+}
+.saGreen .saBentoInner:active .saBentoIcon {
+  background-image: none;
+  background-color: #278239;
+  color: #fff;
+  box-shadow: none;
+}
+.saGreen .saBentoInner:active .saBentoHeading,
+.saGreen .saBentoInner:active .saBentoDescription,
+.saGreen .saBentoInner:active .saBentoHeading .saIcon {
+  color: #246c31;
+}
+.saGray .saBentoInner::after {
+  background-image: radial-gradient(at bottom, #adbdd1 0%, rgba(173, 189, 209, 0) 80%);
+}
+.saGray .saBentoInner .saBentoIcon {
+  color: #60748b;
+  background-image: linear-gradient(#f8f9fB, #eef1f5 80%);
+}
+.saTiny.saGray .saBentoInner .saBentoIcon {
+  box-shadow: inset 0 0 0 1px #ccd5e2;
+}
+.saGray .saBentoInner:hover {
+  background-color: #f8f9fB;
+  border-color: #ccd5e2;
+}
+.saGray .saBentoInner:hover .saBentoIcon {
+  background-image: none;
+  background-color: #60748b;
+  color: #fff;
+  box-shadow: none;
+}
+.saGray .saBentoInner:hover .saBentoHeading,
+.saGray .saBentoInner:hover .saBentoDescription,
+.saGray .saBentoInner:hover .saBentoHeading .saIcon {
+  color: #60748b;
+}
+.saGray .saBentoInner:active {
+  background-color: #eef1f5;
+}
+.saGray .saBentoInner:active .saBentoIcon {
+  background-image: none;
+  background-color: #506072;
+  color: #fff;
+  box-shadow: none;
+}
+.saGray .saBentoInner:active .saBentoHeading,
+.saGray .saBentoInner:active .saBentoDescription,
+.saGray .saBentoInner:active .saBentoHeading .saIcon {
+  color: #506072;
+}
+.saRed .saBentoInner::after {
+  background-image: radial-gradient(at bottom, #ffc7c4 0%, rgba(255, 199, 196, 0) 80%);
+}
+.saRed .saBentoInner .saBentoIcon {
+  color: #e0163e;
+  background-image: linear-gradient(#fff8f7, #ffedeb 80%);
+}
+.saTiny.saRed .saBentoInner .saBentoIcon {
+  box-shadow: inset 0 0 0 1px #ffc7c4;
+}
+.saRed .saBentoInner:hover {
+  background-color: #fff8f7;
+  border-color: #ffc7c4;
+}
+.saRed .saBentoInner:hover .saBentoIcon {
+  background-image: none;
+  background-color: #e0163e;
+  color: #fff;
+  box-shadow: none;
+}
+.saRed .saBentoInner:hover .saBentoHeading,
+.saRed .saBentoInner:hover .saBentoDescription,
+.saRed .saBentoInner:hover .saBentoHeading .saIcon {
+  color: #e0163e;
+}
+.saRed .saBentoInner:active {
+  background-color: #ffedeb;
+}
+.saRed .saBentoInner:active .saBentoIcon {
+  background-image: none;
+  background-color: #b81c34;
+  color: #fff;
+  box-shadow: none;
+}
+.saRed .saBentoInner:active .saBentoHeading,
+.saRed .saBentoInner:active .saBentoDescription,
+.saRed .saBentoInner:active .saBentoHeading .saIcon {
+  color: #b81c34;
+}
+.saOrange .saBentoInner::after {
+  background-image: radial-gradient(at bottom, #ffc9ac 0%, rgba(255, 201, 172, 0) 80%);
+}
+.saOrange .saBentoInner .saBentoIcon {
+  color: #d96416;
+  background-image: linear-gradient(#fff8f4, #ffede4 80%);
+}
+.saTiny.saOrange .saBentoInner .saBentoIcon {
+  box-shadow: inset 0 0 0 1px #ffc9ac;
+}
+.saOrange .saBentoInner:hover {
+  background-color: #fff8f4;
+  border-color: #ffc9ac;
+}
+.saOrange .saBentoInner:hover .saBentoIcon {
+  background-image: none;
+  background-color: #d96416;
+  color: #fff;
+  box-shadow: none;
+}
+.saOrange .saBentoInner:hover .saBentoHeading,
+.saOrange .saBentoInner:hover .saBentoDescription,
+.saOrange .saBentoInner:hover .saBentoHeading .saIcon {
+  color: #b75617;
+}
+.saOrange .saBentoInner:active {
+  background-color: #ffede4;
+}
+.saOrange .saBentoInner:active .saBentoIcon {
+  background-image: none;
+  background-color: #b75617;
+  color: #fff;
+  box-shadow: none;
+}
+.saOrange .saBentoInner:active .saBentoHeading,
+.saOrange .saBentoInner:active .saBentoDescription,
+.saOrange .saBentoInner:active .saBentoHeading .saIcon {
+  color: #974816;
+}
+.saYellow .saBentoInner::after {
+  background-image: radial-gradient(at bottom, #ffcd71 0%, rgba(255, 205, 113, 0) 80%);
+}
+.saYellow .saBentoInner .saBentoIcon {
+  color: #b07d13;
+  background-image: linear-gradient(#fff9ed, #ffefd3 80%);
+}
+.saTiny.saYellow .saBentoInner .saBentoIcon {
+  box-shadow: inset 0 0 0 1px #ffcd71;
+}
+.saYellow .saBentoInner:hover {
+  background-color: #fff9ed;
+  border-color: #ffcd71;
+}
+.saYellow .saBentoInner:hover .saBentoIcon {
+  background-image: none;
+  background-color: #b07d13;
+  color: #fff;
+  box-shadow: none;
+}
+.saYellow .saBentoInner:hover .saBentoHeading,
+.saYellow .saBentoInner:hover .saBentoDescription,
+.saYellow .saBentoInner:hover .saBentoHeading .saIcon {
+  color: #956a15;
+}
+.saYellow .saBentoInner:active {
+  background-color: #ffefd3;
+}
+.saYellow .saBentoInner:active .saBentoIcon {
+  background-image: none;
+  background-color: #956a15;
+  color: #fff;
+  box-shadow: none;
+}
+.saYellow .saBentoInner:active .saBentoHeading,
+.saYellow .saBentoInner:active .saBentoDescription,
+.saYellow .saBentoInner:active .saBentoHeading .saIcon {
+  color: #7b5815;
+}
+.saSkyBlue .saBentoInner::after {
+  background-image: radial-gradient(at bottom, #a4ddef 0%, rgba(164, 221, 239, 0) 80%);
+}
+.saSkyBlue .saBentoInner .saBentoIcon {
+  color: #2292ac;
+  background-image: linear-gradient(#f4fbfd, #e2f4fa 80%);
+}
+.saTiny.saSkyBlue .saBentoInner .saBentoIcon {
+  box-shadow: inset 0 0 0 1px #a4ddef;
+}
+.saSkyBlue .saBentoInner:hover {
+  background-color: #f4fbfd;
+  border-color: #a4ddef;
+}
+.saSkyBlue .saBentoInner:hover .saBentoIcon {
+  background-image: none;
+  background-color: #2292ac;
+  color: #fff;
+  box-shadow: none;
+}
+.saSkyBlue .saBentoInner:hover .saBentoHeading,
+.saSkyBlue .saBentoInner:hover .saBentoDescription,
+.saSkyBlue .saBentoInner:hover .saBentoHeading .saIcon {
+  color: #237c91;
+}
+.saSkyBlue .saBentoInner:active {
+  background-color: #e2f4fa;
+}
+.saSkyBlue .saBentoInner:active .saBentoIcon {
+  background-image: none;
+  background-color: #237c91;
+  color: #fff;
+  box-shadow: none;
+}
+.saSkyBlue .saBentoInner:active .saBentoHeading,
+.saSkyBlue .saBentoInner:active .saBentoDescription,
+.saSkyBlue .saBentoInner:active .saBentoHeading .saIcon {
+  color: #226677;
+}
+.saPurple .saBentoInner::after {
+  background-image: radial-gradient(at bottom, #d5aaf8 0%, rgba(213, 170, 248, 0) 80%);
+}
+.saPurple .saBentoInner .saBentoIcon {
+  color: #8b4af1;
+  background-image: linear-gradient(#fcf8fe, #f8edfd 80%);
+}
+.saTiny.saPurple .saBentoInner .saBentoIcon {
+  box-shadow: inset 0 0 0 1px #e7cafa;
+}
+.saPurple .saBentoInner:hover {
+  background-color: #fcf8fe;
+  border-color: #e7cafa;
+}
+.saPurple .saBentoInner:hover .saBentoIcon {
+  background-image: none;
+  background-color: #8b4af1;
+  color: #fff;
+  box-shadow: none;
+}
+.saPurple .saBentoInner:hover .saBentoHeading,
+.saPurple .saBentoInner:hover .saBentoDescription,
+.saPurple .saBentoInner:hover .saBentoHeading .saIcon {
+  color: #8b4af1;
+}
+.saPurple .saBentoInner:active {
+  background-color: #f8edfd;
+}
+.saPurple .saBentoInner:active .saBentoIcon {
+  background-image: none;
+  background-color: #6d35e1;
+  color: #fff;
+  box-shadow: none;
+}
+.saPurple .saBentoInner:active .saBentoHeading,
+.saPurple .saBentoInner:active .saBentoDescription,
+.saPurple .saBentoInner:active .saBentoHeading .saIcon {
+  color: #6d35e1;
+}
+.saPink .saBentoInner::after {
+  background-image: radial-gradient(at bottom, #fcc5e5 0%, rgba(252, 197, 229, 0) 80%);
+}
+.saPink .saBentoInner .saBentoIcon {
+  color: #e642b2;
+  background-image: linear-gradient(#fff7fb, #ffecf6 80%);
+}
+.saTiny.saPink .saBentoInner .saBentoIcon {
+  box-shadow: inset 0 0 0 1px #fcc5e5;
+}
+.saPink .saBentoInner:hover {
+  background-color: #fff7fb;
+  border-color: #fcc5e5;
+}
+.saPink .saBentoInner:hover .saBentoIcon {
+  background-image: none;
+  background-color: #e642b2;
+  color: #fff;
+  box-shadow: none;
+}
+.saPink .saBentoInner:hover .saBentoHeading,
+.saPink .saBentoInner:hover .saBentoDescription,
+.saPink .saBentoInner:hover .saBentoHeading .saIcon {
+  color: #d1199f;
+}
+.saPink .saBentoInner:active {
+  background-color: #ffecf6;
+}
+.saPink .saBentoInner:active .saBentoIcon {
+  background-image: none;
+  background-color: #d1199f;
+  color: #fff;
+  box-shadow: none;
+}
+.saPink .saBentoInner:active .saBentoHeading,
+.saPink .saBentoInner:active .saBentoDescription,
+.saPink .saBentoInner:active .saBentoHeading .saIcon {
+  color: #ab1e82;
+}
+.saBentoBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  overflow-wrap: break-word;
+  text-wrap: balance;
+  margin: auto 0;
+}
+.saTiny .saBentoBody {
+  margin: unset;
+  padding-top: 0.5rem;
+  gap: 0.25rem;
+}
+@media (width >= 768px) {
+  .saFeatured .saBentoBody {
+    padding: 1.5rem;
+  }
+}
+.saBentoIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 12rem;
+  position: relative;
+  overflow: hidden;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: inherit;
+  background-image: linear-gradient(#f9f9fe, #eff0fd 80%);
+  background-color: transparent;
+  color: #2d6ce1;
+  font-size: 6rem;
+  transition: ease background-color 0.2s, ease color 0.2s, ease border-radius 0.2s, ease box-shadow 0.2s;
+}
+.saTiny .saBentoIcon {
+  height: 3rem;
+  min-height: 3rem;
+  width: 3rem;
+  border-bottom: none;
+  font-size: 1.25rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  box-shadow: inset 0 0 0 1px #cfd2f8;
+}
+.saBentoIcon .saIcon {
+  z-index: 1;
+}
+.saBentoImage {
+  width: 100%;
+  height: 12rem;
+  overflow: hidden;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: inherit;
+}
+.saBentoImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+  background-color: #eef1f5;
+}
+.saPillGroup {
+  display: flex;
+  gap: 0.5rem;
+}
+.saTiny .saPillGroup {
+  display: none;
+}
+.saPill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 500;
+  background-color: #eef1f5;
+  padding: 0.25rem 0.5rem;
+  width: fit-content;
+  height: 1.5rem;
+  transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
+  box-shadow: inset 0 0 0 0 transparent;
+  border-radius: 1rem;
+  padding: 0.25rem 0.75rem;
+}
+.saPill.saDisabled {
+  background: #eef1f5;
+  color: #adbdd1;
+  cursor: not-allowed;
+}
+.saPill:has(:enabled) {
+  cursor: pointer;
+}
+@media (pointer: fine) {
+  .saPill:has(:enabled):hover {
+    background-color: #eff0fd;
+    color: #1f59bf;
+  }
+  .saPill:has(:enabled):hover.saOutline {
+    box-shadow: inset 0 0 0 1px #2d6ce1;
+  }
+}
+.saPill:has(:enabled):active {
+  background-color: #cfd2f8;
+  color: #224795;
+}
+.saPill::before {
+  content: "";
+  height: 2.75rem;
+  width: 100%;
+  background-color: transparent;
+  opacity: 0;
+  position: absolute;
+}
+.saPill.saSmall {
+  height: 1.5rem;
+  min-width: 2.5rem;
+  border-radius: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+}
+.saPill.saMedium {
+  min-width: 4rem;
+  height: 2rem;
+  border-radius: 1rem;
+  padding: 0 0.75rem;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 0.875rem;
+}
+.saPill.saLarge {
+  min-width: 4rem;
+  height: 2.5rem;
+  border-radius: 1.25rem;
+  padding: 0 0.75rem;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 0.875rem;
+}
+.saPill.saOutline {
+  box-shadow: inset 0 0 0 1px #ccd5e2;
+}
+.saPill:has(:checked) {
+  background-color: #2d6ce1;
+  color: #fff;
+}
+.saPill:has(:checked).saOutline {
+  background-color: #eff0fd;
+  color: #1f59bf;
+  box-shadow: inset 0 0 0 1px #2d6ce1;
+}
+.saPill input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  background: none;
+  border-radius: 1rem;
+  cursor: inherit;
+}
+.saPill.saGray900 {
+  background-color: #313a44;
+  color: #fff;
+}
+h2.saBentoHeading {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.25;
+  z-index: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+h2.saBentoHeading .saIcon {
+  font-size: 0.875rem;
+  color: #7088a4;
+  margin-left: 0.5rem;
+}
+p.saBentoDescription {
+  font-size: 0.875rem;
+  line-height: 1.25;
+  z-index: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.saBentoFooter {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  gap: 0.5rem;
+  z-index: 1;
+}
+.saTiny .saBentoFooter {
+  display: none;
+}
+.saBentoAuthor {
+  display: flex;
+  align-items: center;
+}
+.saBentoAvatar {
+  height: 1.5rem;
+  aspect-ratio: 1;
+  border-radius: 999rem;
+}
+.saBentoName {
+  font-size: 0.875rem;
+  line-height: 1rem;
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+.saBentoDate {
+  font-size: 0.75rem;
+  line-height: 1.25;
+  color: #60748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

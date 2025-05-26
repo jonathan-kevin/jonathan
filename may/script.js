@@ -1,10 +1,5 @@
 var title = $("<title>Jonathan</title>");
 
-var style = $("<link>", {
-	rel: "stylesheet",
-	href: "./src/style/screen.template.css",
-});
-
 var fontawesome = $("<link>", {
 	rel: "stylesheet",
 	href: "./src/fontawesome/css/all.css",
