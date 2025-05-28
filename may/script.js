@@ -1,20 +1,3 @@
-var title = $("<title>Jonathan</title>");
-
-var fontawesome = $("<link>", {
-	rel: "stylesheet",
-	href: "./src/fontawesome/css/all.css",
-});
-
-var favicon = $("<link>", {
-	rel: "icon",
-	type: "image/png",
-	size: "16x16",
-	href: "./src/img/favicon.png",
-});
-
-$("head").append(style, fontawesome, favicon, title);
-
-
 $(document).ready(function () {
 	var slug = window.location.pathname + window.location.search + window.location.hash;
 	var path = slug.toLowerCase()
@@ -23,7 +6,7 @@ $(document).ready(function () {
 	var theToggler = $("<button>", {
 		id: "theToggler",
 		class: "saButton saDefaultButtonSecondary",
-		style: "position: fixed; bottom: 1rem; right: 1rem; z-index: 9999;",
+		style: "position: fixed; bottom: 1rem; right: 1rem; z-index: 9999; color: white; background-color: black; border: none;",
 		text: "Compact",
 		title: "Toggle between saStandard, saCompact and saSmallScreen"
 	});

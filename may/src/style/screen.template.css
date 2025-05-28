@@ -9461,6 +9461,128 @@ div.saPopupOverlay {
   font-size: 1.25rem;
   min-width: 1.625rem;
 }
+.saDefaultButtonGhost {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  color: #2d6ce1;
+  background: transparent;
+}
+.saDefaultButtonGhost .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saDefaultButtonGhost .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultButtonGhost .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultButtonGhost .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saDefaultButtonGhost.saDestructive {
+  color: #e0163e;
+}
+.saDefaultButtonGhost.saDestructive .saIcon {
+  color: #e0163e;
+}
+@media (pointer: fine) {
+  .saDefaultButtonGhost.saDestructive:hover {
+    color: #e0163e;
+    background: #ffedeb;
+  }
+  .saDefaultButtonGhost.saDestructive:hover .saIcon {
+    color: #e0163e;
+  }
+}
+.saDefaultButtonGhost.saDestructive:active {
+  color: #fff;
+  background: #e0163e;
+}
+.saDefaultButtonGhost.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saDefaultButtonGhost:hover {
+    background: #f8f9fB;
+    color: #2d6ce1;
+  }
+  .saDefaultButtonGhost:hover .saIcon {
+    color: var(--Sa-Color-IconHover);
+  }
+}
+.saDefaultButtonGhost:active {
+  background: #dde3eC;
+}
+.saDefaultButtonGhost:disabled {
+  background: #ccd5e2;
+  pointer-events: none;
+  color: #7088a4;
+}
+.saDefaultButtonGhost:disabled .saIcon {
+  color: #7088a4;
+}
+.saStandard .saDefaultButtonGhost {
+  gap: 0.5rem;
+  height: 2.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+}
+.saStandard .saDefaultButtonGhost:active {
+  border-radius: 0.75rem;
+}
+.saStandard .saDefaultButtonGhost .saIcon {
+  font-size: 1.25rem;
+  min-width: 1.625rem;
+}
+.saCompact .saDefaultButtonGhost {
+  gap: 0.5rem;
+  padding: 0.5rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}
+.saCompact .saDefaultButtonGhost:active {
+  border-radius: 0.75rem;
+}
+.saCompact .saDefaultButtonGhost .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
+}
+.saSmallScreen .saDefaultButtonGhost {
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  height: 2.5rem;
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+}
+.saSmallScreen .saDefaultButtonGhost:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saDefaultButtonGhost .saIcon {
+  font-size: 1.25rem;
+  min-width: 1.625rem;
+}
 .ButtonPrimary {
   background-color: var(--Sa-Color-PrimaryButtonBackground);
   color: var(--Sa-Color-PrimaryButtonLabel);
@@ -14122,9 +14244,22 @@ select.saInputText {
 .saInputPage .saFormPlaceholder {
   display: none;
 }
+.saInputPage .saFormRootWrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  align-items: flex-end;
+}
+.saSmallScreen .saInputPage .saFormRootWrapper {
+  flex-direction: column;
+}
 .saInputPage .saFormRoot {
   display: flex;
   flex-direction: column;
+  width: min-content;
+}
+.saSmallScreen .saInputPage .saFormRoot {
+  order: 2;
 }
 .saInputPage .saSectionWrapper {
   padding-bottom: 1.5rem;
@@ -30527,6 +30662,11 @@ pre.saCode {
   grid-auto-flow: dense;
   gap: 1rem;
   max-width: 1600px;
+  position: relative;
+  border-radius: 1rem;
+}
+.saBentoWrapper .saBentoWrapper {
+  display: contents;
 }
 @media (width < 768px) {
   .saBentoWrapper {
@@ -30557,18 +30697,54 @@ pre.saCode {
 .saSmallScreen .saBentoWrapper {
   padding: 1rem;
 }
-.saBentoWrapper .saBentoWrapper {
-  padding: 1rem;
-  background-color: #f8f9fB;
-  border: 1px solid #ccd5e2;
-  border-radius: 2rem;
+/*
+.saGridOverview {
+	display: flex;
+	visibility: hidden;
+	opacity: 0;
+	pointer-events: none;
+	gap: 16px;
+	position: absolute;
+	inset: 0;
+	border-top: dashed 1px @ColorPurple200;
+	border-bottom: dashed 1px @ColorPurple200;
+	overflow: hidden;
+	height: 100%;
+	border-radius: 1rem;
+	transition: ease opacity 0.2s, ease visibility 0.2s;
+
+	@media (width < @md) {
+		display: none;
+	}
 }
-.saBento:empty {
-  min-height: 12rem;
+
+.saGridOverviewBox {
+	display: flex;
+	flex: 1;
+	border-right: dashed 1px @ColorPurple200;
+	border-left: dashed 1px @ColorPurple200;
+	background-color: @ColorPurple50;
+
+	@media (width >=@md) and (width < @lg) {
+
+		&:nth-child(n + 3) {
+			display: none;
+		}
+	}
+
+	@media (width >=@lg) and (width < @xl) {
+		&:nth-child(n + 4) {
+			display: none;
+		}
+	}
+
+	@media (width >=@xl) {
+		&:nth-child(n + 1) {
+			display: flex;
+		}
+	}
 }
-.saBento.saRowFull {
-  grid-column: 1 / -1;
-}
+	*/
 .saGridCol1 {
   grid-column: span 1;
 }
@@ -30680,6 +30856,9 @@ pre.saCode {
   position: relative;
   overflow: hidden;
 }
+.saTiny .saBentoInner {
+  justify-content: space-between;
+}
 .saBentoInner::after {
   content: '';
   width: 100%;
@@ -30691,6 +30870,8 @@ pre.saCode {
   filter: blur(1.5rem);
   transition: transform 0.2s ease;
   background-image: radial-gradient(at bottom, #b0b8f3 0%, rgba(176, 184, 243, 0) 80%);
+  pointer-events: none;
+  user-select: none;
 }
 .saBentoInner:hover {
   background-color: #f9f9fe;
@@ -31048,7 +31229,7 @@ pre.saCode {
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
   text-wrap: balance;
   margin: auto 0;
 }
@@ -31057,8 +31238,14 @@ pre.saCode {
   padding-top: 0.5rem;
   gap: 0.25rem;
 }
+.saBentoBody:first-child {
+  height: 100%;
+}
+.saBentoBody:first-child .saBentoFooter {
+  margin-top: auto;
+}
 @media (width >= 768px) {
-  .saFeatured .saBentoBody {
+  .saFeatured:not(.saTiny) .saBentoBody {
     padding: 1.5rem;
   }
 }
@@ -31100,6 +31287,17 @@ pre.saCode {
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: inherit;
+}
+.saTiny .saBentoImage {
+  height: 3rem;
+  min-height: 3rem;
+  width: 3rem;
+  border-bottom: none;
+  font-size: 1.25rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  box-shadow: inset 0 0 0 1px #cfd2f8;
 }
 .saBentoImage img {
   width: 100%;
@@ -31219,7 +31417,43 @@ pre.saCode {
   border-radius: 1rem;
   cursor: inherit;
 }
-.saPill.saGray900 {
+.saPill.saGreen {
+  background-color: #e1f6e1;
+  color: #246c31;
+}
+.saPill.saRed {
+  background-color: #ffedeb;
+  color: #b81c34;
+}
+.saPill.saPurple {
+  background-color: #f8edfd;
+  color: #6d35e1;
+}
+.saPill.saOrange {
+  background-color: #ffede4;
+  color: #974816;
+}
+.saPill.saYellow {
+  background-color: #ffefd3;
+  color: #7b5815;
+}
+.saPill.saSkyBlue {
+  background-color: #e2f4fa;
+  color: #226677;
+}
+.saPill.saPink {
+  background-color: #ffecf6;
+  color: #ab1e82;
+}
+.saPill.saGray {
+  background-color: #eef1f5;
+  color: #506072;
+}
+.saPill.saBlue {
+  background-color: #eff0fd;
+  color: #1f59bf;
+}
+.saPill.saBlack {
   background-color: #313a44;
   color: #fff;
 }
@@ -31232,6 +31466,9 @@ h2.saBentoHeading {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
+}
+.saTiny h2.saBentoHeading {
+  font-size: 0.875rem;
 }
 h2.saBentoHeading .saIcon {
   font-size: 0.875rem;
@@ -31279,4 +31516,265 @@ p.saBentoDescription {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.scrollcontent {
+  scroll-padding-top: 1rem;
+  scroll-behavior: smooth;
+}
+.saToCButton {
+  justify-content: flex-start;
+  display: none;
+}
+.saMinimized .saToCButton .saIcon {
+  transform: rotate(180deg);
+}
+.saSmallScreen .saToCButton {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  color: #2d6ce1;
+  background: transparent;
+  height: 3rem;
+  display: flex;
+  padding: 16px !important;
+  justify-content: space-between;
+}
+.saSmallScreen .saToCButton .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saSmallScreen .saToCButton .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saSmallScreen .saToCButton .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saSmallScreen .saToCButton .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saSmallScreen .saToCButton.saDestructive {
+  color: #e0163e;
+}
+.saSmallScreen .saToCButton.saDestructive .saIcon {
+  color: #e0163e;
+}
+@media (pointer: fine) {
+  .saSmallScreen .saToCButton.saDestructive:hover {
+    color: #e0163e;
+    background: #ffedeb;
+  }
+  .saSmallScreen .saToCButton.saDestructive:hover .saIcon {
+    color: #e0163e;
+  }
+}
+.saSmallScreen .saToCButton.saDestructive:active {
+  color: #fff;
+  background: #e0163e;
+}
+.saSmallScreen .saToCButton.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saSmallScreen .saToCButton:hover {
+    background: #f8f9fB;
+    color: #2d6ce1;
+  }
+  .saSmallScreen .saToCButton:hover .saIcon {
+    color: var(--Sa-Color-IconHover);
+  }
+}
+.saSmallScreen .saToCButton:active {
+  background: #dde3eC;
+}
+.saSmallScreen .saToCButton:disabled {
+  background: #ccd5e2;
+  pointer-events: none;
+  color: #7088a4;
+}
+.saSmallScreen .saToCButton:disabled .saIcon {
+  color: #7088a4;
+}
+.saStandard .saSmallScreen .saToCButton {
+  gap: 0.5rem;
+  height: 2.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+}
+.saStandard .saSmallScreen .saToCButton:active {
+  border-radius: 0.75rem;
+}
+.saStandard .saSmallScreen .saToCButton .saIcon {
+  font-size: 1.25rem;
+  min-width: 1.625rem;
+}
+.saCompact .saSmallScreen .saToCButton {
+  gap: 0.5rem;
+  padding: 0.5rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}
+.saCompact .saSmallScreen .saToCButton:active {
+  border-radius: 0.75rem;
+}
+.saCompact .saSmallScreen .saToCButton .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
+}
+.saSmallScreen .saSmallScreen .saToCButton {
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  height: 2.5rem;
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+}
+.saSmallScreen .saSmallScreen .saToCButton:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saSmallScreen .saToCButton .saIcon {
+  font-size: 1.25rem;
+  min-width: 1.625rem;
+}
+@media (pointer: fine) {
+  .saSmallScreen .saToCButton:hover {
+    color: #2d6ce1;
+  }
+  .saSmallScreen .saToCButton:hover .saIcon {
+    color: #1f59bf;
+  }
+}
+.saSmallScreen .saToCButton:active {
+  color: #1f59bf;
+}
+.saSmallScreen .saToCButton:active .saIcon {
+  color: #1f59bf;
+}
+.saToCHeading {
+  padding-bottom: 16px;
+}
+.saSmallScreen .saToCHeading {
+  display: none;
+}
+.saToC {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.875rem;
+  line-height: 1;
+  max-width: 20rem;
+  min-width: 200px;
+  top: 0;
+  position: sticky;
+  height: fit-content;
+  box-sizing: border-box;
+  padding-left: 2rem;
+  flex: 1;
+}
+.saToC * {
+  box-sizing: border-box;
+}
+.saSmallScreen .saToC,
+.saWrapped .saToC {
+  position: static;
+  max-width: 100%;
+  height: auto;
+  order: 1;
+  width: 100%;
+}
+.saWrapped .saToC {
+  padding-left: 0;
+}
+.saToC ul {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  overflow: auto;
+  transition: ease 0.2s transform, ease 0.2s visibility, ease 0.2s height;
+  interpolate-size: allow-keywords;
+}
+.saSmallScreen .saToC ul {
+  padding: 0 1rem 1rem 2rem;
+}
+.saMinimized.saToC ul {
+  transform: translateY(-1rem);
+  opacity: 0;
+  height: 0;
+  visibility: hidden;
+}
+.saToC li {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-wrap: break-word;
+}
+.saLargeScreen .saToC li[aria-current="true"] a {
+  color: #2d6ce1;
+  font-weight: 500;
+  letter-spacing: 0;
+  border-color: #2d6ce1;
+}
+.saToC a {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+  padding: 0.25rem 0.25rem 0.25rem 1rem;
+  min-height: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  flex-wrap: wrap;
+  position: relative;
+  border-left: 1px solid #ccd5e2;
+  color: #60748b;
+  letter-spacing: 0.125px;
+}
+.saSmallScreen .saToC a {
+  min-height: 2.75rem;
+}
+@media (pointer: fine) {
+  .saToC a:hover {
+    color: #313a44;
+    border-color: #313a44;
+  }
+}
+.saToC a:active {
+  color: #20366e;
+  border-color: #20366e;
+}
+.saToC a .saIcon {
+  font-size: 1rem;
+  line-height: 1;
+  cursor: default;
+}
+.saToC a .saIcon.saWarning {
+  color: #f6ae02;
+}
+.saToC a .saIcon.saError {
+  color: #e0163e;
+}
+.saToC a .saIcon.saDisabled {
+  color: #ccd5e2;
+}
+.saToC a .saIcon.saSuccess {
+  color: #289a42;
 }

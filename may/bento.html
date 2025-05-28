@@ -4,12 +4,15 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Jonathan</title>
+	<title>Bento</title>
 	<link rel="stylesheet" href="./src/style/screen.template.css">
 	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<link rel="icon" type="image/svg" href="./src/img/favicon.svg">
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
 		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="./script.js"></script>
+	<!--<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js" integrity="sha256-AlTido85uXPlSyyaZNsjJXeCs07eSv3r43kyCVc8ChI=" crossorigin="anonymous"></script>-->
+	<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 </head>
 
 <body class="saRootBody saLargeScreen saPc saCompact">
@@ -43,7 +46,8 @@
 						<div class="saSidenavSection">
 							<div class="saCustomerLogo">
 								<div>
-									<img loading="lazy" src="./src/img/logo.svg" alt="Softadmin® logo" style="min-height: 5rem;">
+									<img loading="lazy" src="./src/img/logo.svg" alt="Softadmin® logo"
+										style="min-height: 5rem;">
 								</div>
 							</div>
 							<div class="saSidenavContainer">
@@ -79,8 +83,8 @@
 							</div>
 							<div class="saSidenavLists">
 								<ul class="saSidenavItemList">
-									<li id="shuffle">
-										<a class="saSidenavItemWrapper" tabindex="0">
+									<li>
+										<a id="shuffle" class="saSidenavItemWrapper" tabindex="0">
 											<div class="saSidenavItem">
 												<i class="fa-shuffle far saIcon"></i>
 												<span class="saSidenavItemText">Shuffle order of list items</span>
@@ -88,18 +92,18 @@
 										</a>
 									</li>
 									<li>
-										<a class="saSidenavItemWrapper" tabindex="0">
+										<a id="tiny" class="saSidenavItemWrapper" tabindex="0">
 											<div class="saSidenavItem">
 												<i class="far fa-egg saIcon"></i>
-												<span class="saSidenavItemText">Egg</span>
+												<span class="saSidenavItemText">Make all list items tiny</span>
 											</div>
 										</a>
 									</li>
 									<li>
-										<a class="saSidenavItemWrapper" tabindex="0">
+										<a id="random" class="saSidenavItemWrapper" tabindex="0">
 											<div class="saSidenavItem">
 												<i class="far fa-feather saIcon"></i>
-												<span class="saSidenavItemText">Flying lessons</span>
+												<span class="saSidenavItemText">Randomize size</span>
 											</div>
 										</a>
 									</li>
@@ -226,10 +230,23 @@
 						<div class="maincolinner gradients">
 							<main id="MI_M" class="menuitem pagecontentframe">
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
-								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable"
+									style="height: calc(100vh - 89px );">
 									<div class="scrollcontent-inner">
 										<div class="maincolbody">
-											<ul class="saBentoWrapper">
+											<ul class="saBentoWrapper" id="sortable">
+												<!--
+												<div class="saGridOverview">
+													<div class="saGridOverviewBox"></div>
+													<div class="saGridOverviewBox"></div>
+													<div class="saGridOverviewBox"></div>
+													<div class="saGridOverviewBox"></div>
+													<div class="saGridOverviewBox"></div>
+													<div class="saGridOverviewBox"></div>
+													<div class="saGridOverviewBox"></div>
+													<div class="saGridOverviewBox"></div>
+												</div>
+												-->
 												<li class="saBento saFeatured saGridCol4 saGridRow2">
 													<article>
 														<a href="#" class="saBentoInner">
@@ -350,8 +367,8 @@
 														<a href="#" class="saBentoInner">
 															<div class="saBentoBody">
 																<ul class="saPillGroup">
-																	<li class="saPill">
-																		Aviation
+																	<li class="saPill saBlue">
+																		Beaks
 																	</li>
 																</ul>
 																<h2 class="saBentoHeading"><span>Woodpeckers: Nature’s
@@ -386,8 +403,11 @@
 														<a href="#" class="saBentoInner">
 															<div class="saBentoBody">
 																<ul class="saPillGroup">
-																	<li class="saPill">
-																		Aviation
+																	<li class="saPill saOrange">
+																		Silence
+																	</li>
+																	<li class="saPill saRed">
+																		Migration
 																	</li>
 																</ul>
 																<h2 class="saBentoHeading"><span>Owls: Silent Hunters of
@@ -685,7 +705,7 @@
 																	<li class="saPill">
 																		Aviation
 																	</li>
-																	<li class="saPill">
+																	<li class="saPill saRed">
 																		Migration
 																	</li>
 																</ul>
@@ -1044,7 +1064,7 @@
 															</div>
 															<div class="saBentoBody">
 																<ul class="saPillGroup">
-																	<li class="saPill">
+																	<li class="saPill saGreen">
 																		Ecology
 																	</li>
 																</ul>
@@ -1091,7 +1111,7 @@
 															</div>
 															<div class="saBentoBody">
 																<ul class="saPillGroup">
-																	<li class="saPill">
+																	<li class="saPill saPurple">
 																		Seabirds
 																	</li>
 																</ul>
@@ -1123,6 +1143,56 @@
 														</a>
 													</article>
 												</li>
+												<li class="saBento saGridCol2 saGridRow2 saGreen">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoImage">
+																<img src="https://rwi.lu.se/wp-content/uploads/2022/02/justice-scaled.jpg"
+																	alt="Lady justice" loading="lazy">
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">
+																		Legal
+																	</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>Why Bird Law Is
+																		Important</span><i
+																		class="fa-arrow-up-right saIcon far"></i>
+																</h2>
+																<p class="saBentoDescription">
+																	Bird Law is a niche yet crucial branch of
+																	avian governance that outlines the legal
+																	frameworks surrounding territorial disputes,
+																	nesting rights, and migratory trespassing
+																	within and between species. While often
+																	overlooked by mainstream ornithologists,
+																	bird law scholars argue that complex
+																	patterns of behavioral precedent—such as
+																	pecking order resolutions and song-based
+																	land claims—form a coherent system of
+																	unwritten statutes. Recent disputes between
+																	corvids and gulls over coastal airspace have
+																	reignited calls for a codified Aviary
+																	Accord, though enforcement remains a
+																	challenge due to jurisdictional overlaps
+																	with squirrel tribunals and seasonal moose
+																	councils.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar"
+																			src="https://untitledui.com/images/avatars/noah-pierre">
+																		<div class="saBentoName">Emil Jansson
+																		</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2025-08-01">2
+																		aug 2025</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
 											</ul>
 										</div>
 									</div>
@@ -1141,6 +1211,34 @@
 		$('#shuffle').on('click', function (e) {
 			e.preventDefault();
 			shuffleBentoItems();
+		});
+		$('#tiny').on('click', function (e) {
+			e.preventDefault();
+			$('.saBento').removeClass(function (i, c) {
+				return (c.match(/saGridCol\d+/g) || []).join(' ') + ' ' + (c.match(/saGridRow\d+/g) || []).join(' ');
+			}).addClass('saBento saTiny');
+		});
+
+		$('#random').on('click', function (e) {
+			e.preventDefault();
+			$('#sortable > li.saBento').each(function () {
+				$(this).removeClass('saTiny');
+				const col = Math.floor(Math.random() * 4) + 1;
+				const row = Math.floor(Math.random() * 2) + 1;
+				$(this)
+					.removeClass(function (i, c) {
+						return (c.match(/saGridCol\d+/g) || []).join(' ') + ' ' + (c.match(/saGridRow\d+/g) || []).join(' ');
+					})
+					.addClass('saGridCol' + col)
+					.addClass('saGridRow' + row);
+			});
+		});
+
+
+		new Sortable(document.getElementById('sortable'), {
+			handle: '.saBentoInner',
+			animation: 150,
+			ghostClass: 'saBentoDragging'
 		});
 
 		function shuffleBentoItems() {
