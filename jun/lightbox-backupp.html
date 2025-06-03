@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Lightbox</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+</head>
+
+<body style="display: flex;flex-direction: row; gap: 24px; min-height: 100vh; padding: 16px;">
+	<main style="display: flex;flex-direction: row; gap: 24px;">
+		<a class="saCanLightBox" href="./src/img/wide.png" aria-label="Hello for now" aria-expanded="false">
+			<img src="./src/img/wide.png" style="border-radius: 8px;"
+				alt="Abstract image of a rabid bloodhound ferociously biting a mailman" width="80">
+		</a>
+		<a class="saCanLightBox" href="./src/img/chat-1.jpg" aria-label="Hello for now" aria-expanded="false">
+			<img src="./src/img/chat-1.jpg" style="border-radius: 8px;"
+				alt="Abstract image of a rabid bloodhound ferociously biting a mailman" width="80">
+		</a>
+		<a class="saCanLightBox" href="./src/img/panorama.jpg" aria-label="Hello for now" aria-expanded="false">
+			<img src="./src/img/panorama.jpg" style="border-radius: 8px;"
+				alt="Abstract image of a rabid bloodhound ferociously biting a mailman" width="80">
+		</a>
+		<a class="saCanLightBox" href="./src/img/vertorama.jpg" aria-label="Hello for now" aria-expanded="false">
+			<img src="./src/img/vertorama.jpg" style="border-radius: 8px;"
+				alt="Abstract image of a rabid bloodhound ferociously biting a mailman" width="80">
+		</a>
+	</main>
+
+	<dialog id="lightbox" class="saPopupOverlay saLightBoxOverlay">
+		<div class="saLightBox">
+			<div class="saLightBoxImg" role="button" aria-label="Zoom in on this image ">
+				<img src="" alt="Lightbox Image">
+			</div>
+			<button class="saDialogButtonClose" type="button" data-tooltip="Close" aria-label="Close">
+				<i class="saIcon far fa-xmark"></i>
+			</button>
+		</div>
+	</dialog>
+
+	<script>
+		$(document).ready(function () {
+			const $lightboxOverlay = $('#lightbox');
+			const $lightboxImg = $lightboxOverlay.find('img');
+			const initialAlpha = 0.8;
+			const minAlpha = 0.05;
+			let startY = 0, currentY = 0, translateY = 0;
+
+			$('a').on('click', function (e) {
+				e.preventDefault();
+				const imgSrc = $(this).attr('href');
+				$lightboxImg.attr('src', imgSrc);
+				$lightboxOverlay[0].showModal();
+				$('body').addClass('saDialogOpen');
+				checkSize();
+				$lightboxImg.css('transform', 'translate(0, 0)');
+				$lightboxOverlay.css('--backdrop', initialAlpha);
+			});
+
+			$('.saDialogButtonClose').on('click', function () {
+				closeDialog();
+			});
+
+			$lightboxOverlay.on('click', function (e) {
+				if (!$(e.target).is($lightboxImg)) {
+					closeDialog();
+				}
+			});
+
+			$('.saLightBox').click(function () {
+				if ($(this).hasClass('saZoomable')) {
+					$(this).toggleClass('saZoomed');
+				}
+			});
+
+			let touchInProgress = false;
+
+			$lightboxOverlay.on('touchstart', function (e) {
+				touchInProgress = true;
+				startY = e.originalEvent.touches[0].clientY;
+			});
+
+
+			$lightboxOverlay.on('touchmove', function (e) {
+				if ($lightboxImg.hasClass('saZoomWidth') || $lightboxImg.hasClass('saZoomHeight')) {
+					return; // Prevent dismissal if the image is zoomed
+				}
+
+				currentY = e.originalEvent.touches[0].clientY;
+				const deltaY = currentY - startY;
+
+				if (deltaY > 0) {
+					translateY = deltaY;
+					$lightboxImg.css({
+						transform: `translate(0, ${translateY}px)`,
+						transition: 'none'
+					});
+					const newAlpha = Math.max(minAlpha, initialAlpha - deltaY / 300);
+					$lightboxOverlay.css('--backdrop', newAlpha);
+				}
+			});
+
+			$lightboxOverlay.on('touchend', function () {
+				touchInProgress = false;
+				const threshold = 80;
+				if (translateY > threshold) {
+					closeDialog();
+				} else {
+					$lightboxImg.css({
+						transform: 'translate(0, 0)',
+						transition: 'transform 0.1s ease'
+					});
+					$lightboxOverlay.css('--backdrop', initialAlpha);
+					setTimeout(() => {
+						$lightboxImg.css('transition', 'none');
+					}, 200);
+				}
+			});
+
+			$(document).on('keydown', function (event) {
+				if (event.key === 'Enter') {
+					checkSize();
+				}
+
+				else if (event.key === 'Escape') {
+					checkSize();
+					closeDialog();
+				}
+			});
+
+			$(window).resize(function () {
+				checkSize();
+			});
+
+
+			$('.saLightBoxImg').on('dblclick', function () {
+				if (!$('body').hasClass('saSmallScreen')) return;
+				if (touchInProgress) return; // Ignore double-clicks during touch interactions
+
+				const img = $lightboxImg[0];
+				const screenRatio = window.innerWidth / window.innerHeight;
+				const imgRatio = img.naturalWidth / img.naturalHeight;
+
+				if ($lightboxImg.hasClass('saZoomWidth') || $lightboxImg.hasClass('saZoomHeight')) {
+					$lightboxImg.removeClass('saZoomWidth saZoomHeight');
+				}
+
+				else if (imgRatio > screenRatio) {
+					// Image is wider than the screen
+					if (img.naturalWidth > window.innerWidth) {
+						$lightboxImg.addClass('saZoomWidth');
+					} else {
+						$lightboxImg.addClass('saZoomHeight');
+					}
+				}
+
+				else {
+					// Image is taller than the screen
+					if (img.naturalHeight > window.innerHeight) {
+						$lightboxImg.addClass('saZoomHeight');
+					} else {
+						$lightboxImg.addClass('saZoomWidth');
+					}
+				}
+			});
+
+			function closeDialog() {
+				$('body').removeClass('saDialogOpen');
+				$lightboxOverlay[0].close();
+				$('.saLightBox').removeClass('saZoomable saZoomed');
+				$('.saLightBox img').removeClass();
+				$lightboxImg.css('transform', 'translate(0, 0)').css('transition', 'none');
+				$lightboxOverlay.css('--backdrop', initialAlpha);
+			}
+
+			function checkSize() {
+				const img = $lightboxImg[0];
+				if (img.naturalWidth > window.innerWidth && !$('body').hasClass('saSmallScreen') || img.naturalHeight > window.innerHeight && !$('body').hasClass('saSmallScreen')) {
+					$('.saLightBox').addClass('saZoomable');
+				}
+				else {
+					$('.saLightBox').removeClass('saZoomable saZoomed');
+				}
+			}
+		});
+
+
+	</script>
+</body>
+
+</html>

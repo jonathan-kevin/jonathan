@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Lightbox</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+</head>
+
+<body style="display: flex; flex-direction: row; gap: 24px; min-height: 100vh; padding: 16px;">
+	<div>
+		<button type="button" class="saCanLightBox" img="./src/img/romb.png"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/romb.png" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+		<button type="button" class="saCanLightBox" img="./src/img/wide.png"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/wide.png" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+		<button type="button" class="saCanLightBox" img="./src/img/chat-1.jpg"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/chat-1.jpg" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+		<button type="button" class="saCanLightBox" img="./src/img/panorama.jpg"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/panorama.jpg" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+		<button type="button" class="saCanLightBox" img="./src/img/vertorama.jpg"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/vertorama.jpg" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+		<button type="button" class="saCanLightBox" img="./src/img/favicon.png"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/favicon.png" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+		<button type="button" class="saCanLightBox" img="./src/img/hippo.svg"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/hippo.svg" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+		<button type="button" class="saCanLightBox" img="./src/img/tall.png"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/tall.png" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+	</div>
+
+	<dialog id="lightbox" class="saPopupOverlay saLightBoxOverlay">
+		<div class="saLightBox">
+			<div class="saLightBoxImg" role="button" aria-label="Zoom in on this image ">
+				<img src="" alt="Lightbox Image">
+			</div>
+			<button class="saDialogButtonClose" type="button" data-tooltip="Close" aria-label="Close">
+				<i class="saIcon far fa-xmark"></i>
+			</button>
+		</div>
+	</dialog>
+
+	<script>
+		$(document).ready(function () {
+			const $lightboxOverlay = $('#lightbox');
+			const $lightboxImg = $lightboxOverlay.find('img');
+			const initialAlpha = 0.8;
+			const minAlpha = 0;
+			let startY = 0, currentY = 0, translateY = 0;
+
+			$('.saCanLightBox').on('click', function (e) {
+				e.preventDefault();
+				startY = 0;
+				currentY = 0;
+				translateY = 0;
+				const imgSrc = $(this).attr('img');
+				$lightboxImg.attr('src', imgSrc);
+				$lightboxOverlay[0].showModal();
+				$('body').addClass('saDialogOpen');
+				checkSize();
+				$('.saDialogButtonClose').focus();
+
+				$lightboxImg.css('transform', 'translate(0, 0)');
+				$lightboxOverlay.css('--backdrop', initialAlpha);
+				$(this).attr('aria-expanded', 'true');
+
+				// Set dynamic background color after the image has loaded
+				$lightboxImg.on('load', function () {
+					setDynamicBackgroundColor();
+				});
+			});
+
+			function setDynamicBackgroundColor() {
+				const img = $lightboxImg[0]; // Get raw image element
+				if (!img.complete) return; // Ensure the image is loaded
+
+				const avgColor = getAverageColor(img);
+				const luminance = calculateLuminance(avgColor);
+
+				// Decide background color based on luminance
+				const backgroundColor = luminance < 128 ? '#fff' : '#000';
+
+				// Apply background color to lightbox overlay
+				$lightboxImg.css('background-color', backgroundColor);
+			}
+
+			function getAverageColor(imgElement) {
+				const canvas = document.createElement('canvas');
+				const context = canvas.getContext('2d');
+
+				canvas.width = imgElement.naturalWidth;
+				canvas.height = imgElement.naturalHeight;
+
+				context.drawImage(imgElement, 0, 0, canvas.width, canvas.height);
+
+				const imageData = context.getImageData(0, 0, canvas.width, canvas.height).data;
+
+				let r = 0, g = 0, b = 0, count = 0;
+
+				for (let i = 0; i < imageData.length; i += 4) {
+					if (imageData[i + 3] > 0) { // Ignore transparent pixels
+						r += imageData[i];
+						g += imageData[i + 1];
+						b += imageData[i + 2];
+						count++;
+					}
+				}
+
+				return { r: Math.floor(r / count), g: Math.floor(g / count), b: Math.floor(b / count) };
+			}
+
+			function calculateLuminance(color) {
+				return 0.299 * color.r + 0.587 * color.g + 0.114 * color.b; // Relative luminance formula
+			}
+
+			$('.saDialogButtonClose').on('click', function () {
+				closeDialog();
+			});
+
+			$lightboxOverlay.on('click', function (e) {
+				if (!$(e.target).is($lightboxImg)) {
+					closeDialog();
+				}
+			});
+
+			$('.saLightBox').click(function () {
+				if ($(this).hasClass('saZoomEnabled') && !$(this).hasClass('saZoomFull') && $('body').hasClass('saPc')) {
+					$(this).addClass('saZoomFull');
+					$('.saLightBoxImg').attr('aria-expanded', 'true');
+				}
+
+				else if ($(this).hasClass('saZoomEnabled saZoomFull') && $('body').hasClass('saPc')) {
+					$(this).removeClass('saZoomFull');
+					$('.saLightBoxImg').attr('aria-expanded', 'false');
+				}
+			});
+
+			let isMultiTouch = false;
+
+
+			$lightboxOverlay.on('touchstart', function (e) {
+				if (e.originalEvent.touches.length > 1) {
+					isMultiTouch = true; // Multi-touch gesture detected
+				} else {
+					isMultiTouch = false; // Single touch
+				}
+
+				startY = e.originalEvent.touches[0].clientY;
+			});
+
+			$lightboxOverlay.on('touchmove', function (e) {
+				if (isMultiTouch) {
+					return;
+				}
+
+				if ($('.saLightBox').hasClass('saZoomies')) {
+					return;
+				}
+
+				if (e.originalEvent.touches.length > 1) {
+					return;
+				}
+
+				currentY = e.originalEvent.touches[0].clientY;
+				const deltaY = currentY - startY;
+
+				translateY = deltaY;
+
+				$lightboxImg.css({
+					transform: `translate(0, ${translateY}px)`,
+					transition: 'none'
+				});
+
+				const newAlpha = Math.max(minAlpha, initialAlpha - Math.abs(deltaY) / 800);
+				$lightboxOverlay.css('--backdrop', newAlpha);
+
+				e.preventDefault();
+			});
+
+			let lastTapTime = 0;
+
+			$('.saLightBoxImg').on('touchend', function (e) {
+				if (isMultiTouch) {
+					return;
+				}
+				else if (!$('body').hasClass('saPc')) {
+
+					e.preventDefault();
+					let currentTime = new Date().getTime();
+					let tapInterval = currentTime - lastTapTime;
+					const $lighty = $('.saLightBox');
+
+					if (tapInterval < 300 && tapInterval > 0 && !$('.saLightBox').hasClass('saZoomies')) {
+						console.log('Double tap detected');
+						$('.saLightBox').addClass('saZoomies');
+
+						const img = $lightboxImg[0];
+
+						const imgAspectRatio = img.naturalWidth / img.naturalHeight;
+						const screenAspectRatio = $(window).width() / $(window).height();
+
+						$lighty.removeClass('saWider saTaller');
+
+						if (imgAspectRatio > screenAspectRatio) {
+							$lighty.addClass('saWider');
+						} else {
+							$lighty.addClass('saTaller');
+						}
+					}
+
+					else if (tapInterval < 300 && tapInterval > 0 && $('.saLightBox').hasClass('saZoomies')) {
+						console.log('Double tap detected');
+						$('.saLightBox').removeClass('saZoomies');
+						$lighty.removeClass('saWider saTaller');
+					}
+
+					lastTapTime = currentTime;
+				}
+			});
+
+			$(window).resize(function () {
+				const imgAspectRatio = img.naturalWidth / img.naturalHeight;
+				const screenAspectRatio = $(window).width() / $(window).height();
+			});
+
+
+			$lightboxOverlay.on('touchend', function (e) {
+				if (e.originalEvent.touches.length > 1) {
+					return;
+				}
+				if (isMultiTouch) {
+					return;
+				}
+
+				const threshold = 80; // Minimum distance to trigger dismissal
+				const screenHeight = window.innerHeight;
+
+				if (Math.abs(translateY) > threshold && !$('.saLightBox').hasClass('saZoomies')) {
+					const direction = translateY > 0 ? 1 : -1; // 1 for downward, -1 for upward
+
+					$lightboxImg.css({
+						transform: `translate(0, ${direction * screenHeight}px)`,
+						transition: 'transform 0.3s ease'
+					});
+
+					$('.saDialogButtonClose').css('transform', 'translateY(-80px)');
+
+					$lightboxOverlay.css('--backdrop', minAlpha);
+
+					setTimeout(() => {
+						closeDialog();
+					}, 300);
+				}
+				else {
+					// Reset the image and backdrop if the drag distance is too small
+					$lightboxImg.css({
+						transform: 'translate(0, 0)',
+						transition: 'transform 0.1s ease'
+					});
+					$lightboxOverlay.css('--backdrop', initialAlpha);
+
+					setTimeout(() => {
+						$lightboxImg.css('transition', 'none');
+					}, 200);
+				}
+			});
+
+			$(document).on('keydown', function (event) {
+				if (event.key === 'Enter') {
+					checkSize();
+				}
+
+				else if (event.key === 'Escape') {
+					checkSize();
+					closeDialog();
+				}
+			});
+
+			$(window).resize(function () {
+				checkSize();
+			});
+
+			function closeDialog() {
+				$('body').removeClass('saDialogOpen');
+				$lightboxOverlay[0].close();
+				startY = 0;
+				currentY = 0;
+				translateY = 0;
+				const imgSrc = 0;
+				$('.saLightBox').removeClass('saZoomEnabled saZoomFull saZoomies saWider saTaller');
+				$('.saLightBox img').removeClass();
+				$lightboxImg.css('transform', 'translate(0, 0)').css('transition', 'none');
+				$lightboxOverlay.css('--backdrop', initialAlpha);
+				$('.saDialogButtonClose').css('transform', 'translateY(0)');
+				$('.saCanLightBox').attr('aria-expanded', 'false')
+				$('.saLightBoxImg').attr('aria-expanded', 'false');
+			}
+
+			function checkSize() {
+				const img = $lightboxImg[0];
+				if (img.naturalWidth > window.innerWidth && !$('body').hasClass('saSmallScreen') || img.naturalHeight > window.innerHeight && !$('body').hasClass('saSmallScreen')) {
+					$('.saLightBox').addClass('saZoomEnabled');
+					$('.saLightBoxImg').attr('aria-expanded', 'false').attr('role', 'button').attr('tabindex', '0');
+				}
+
+				else {
+					$('.saLightBox').removeClass('saZoomEnabled saZoomFull');
+					$('.saLightBoxImg').removeAttr('aria-expanded').removeAttr('role').attr('tabindex', '-1');
+				}
+			}
+		});
+
+
+	</script>
+</body>
+
+</html>

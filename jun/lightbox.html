@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Lightbox</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+</head>
+
+<body style="display: flex; flex-direction: row; gap: 24px; min-height: 100vh; padding: 16px;">
+	<div>
+		<button type="button" class="saCanLightBox" img="https://images.unsplash.com/photo-1697764712219-15f8b6f6c74e"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="https://images.unsplash.com/photo-1697764712219-15f8b6f6c74e" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+		<button type="button" class="saCanLightBox" img="./src/img/super-wide.png"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/super-wide.png" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+		<button type="button" class="saCanLightBox" img="./src/img/romb.png"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/romb.png" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+		<button type="button" class="saCanLightBox" img="./src/img/wide.png"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/wide.png" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+		<button type="button" class="saCanLightBox" img="./src/img/chat-1.jpg"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/chat-1.jpg" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+		<button type="button" class="saCanLightBox" img="./src/img/panorama.jpg"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/panorama.jpg" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+		<button type="button" class="saCanLightBox" img="./src/img/vertorama.jpg"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/vertorama.jpg" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+		<button type="button" class="saCanLightBox" img="./src/img/favicon.png"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/favicon.png" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+
+		<button type="button" class="saCanLightBox" img="./src/img/tall.png"
+			aria-label="Enlarge image: Rabid bloodhound ferociously biting a mailman" aria-expanded="false">
+			<img src="./src/img/tall.png" style="border-radius: 8px;"
+				alt="Rabid bloodhound ferociously biting a mailman" width="80">
+		</button>
+	</div>
+
+	<dialog id="lightbox" class="saPopupOverlay saLightBoxOverlay">
+		<div class="saLightBox">
+			<div class="saLightBoxButton" role="button" aria-label="Zoom in on this image ">
+				<img src="" alt="Lightbox Image">
+			</div>
+			<button class="saDialogButtonClose" type="button" data-tooltip="Close" aria-label="Close">
+				<i class="saIcon far fa-xmark"></i>
+			</button>
+		</div>
+	</dialog>
+
+	<script>
+		const $lightboxOverlay = $('#lightbox');
+		const $lightboxImg = $lightboxOverlay.find('img');
+		const $dialogCloseButton = $('.saDialogButtonClose');
+		const $lightbox = $('.saLightBox');
+		const $lightboxButton = $('.saLightBoxButton');
+		const $canLightBoxTrigger = $('.saCanLightBox');
+		const body = $('body');
+
+		const initialOpacity = 0.8;
+		const minOpacity = 0;
+		let startY = 0, currentY = 0, translateY = 0, currentX = 0, translateX = 0, isMultiTouch = false, lastTapTime = 0;
+
+		function initializeLightbox() {
+			$canLightBoxTrigger.on('click', openDialog);
+			$dialogCloseButton.on('click', closeDialog);
+			$lightboxOverlay.on('click', handleOverlayClick);
+			$lightboxImg.on('load', setDynamicBackgroundColor);
+			$lightboxOverlay.on('touchstart', handleTouchStart);
+			$lightboxOverlay.on('touchmove', handleTouchMove);
+			$lightboxButton.on('click', zoomFull);
+			$lightboxOverlay.on('touchend', handleTouchEnd);
+			$(document).on('keydown', handleKeyEvents);
+		}
+
+		function openDialog(event) {
+			event.preventDefault();
+			resetTransforms();
+			const imgSrc = $(this).attr('img');
+			$lightboxImg.attr('src', imgSrc);
+			$lightboxOverlay[0].showModal();
+			body.addClass('saDialogOpen');
+			$dialogCloseButton.focus();
+			$(this).attr('aria-expanded', 'true');
+			zoomEnabled();
+		}
+
+		function resetTransforms() {
+			startY = currentY = translateY = 0;
+			startX = currentX = translateX = 0;
+			$lightboxImg.css('transform', 'translate(0, 0) scale(1)');
+			$lightboxOverlay.css('--backdrop', initialOpacity);
+		}
+
+		function setDynamicBackgroundColor() {
+			const img = $lightboxImg[0];
+			if (!img.complete) return;
+
+			const avgColor = getAverageColor(img);
+			const luminance = calculateLuminance(avgColor);
+			const backgroundColor = luminance < 128 ? '#fff' : '#000';
+			$lightboxImg.css('background-color', backgroundColor);
+		}
+
+		function getAverageColor(imgElement) {
+			const canvas = document.createElement('canvas');
+			const context = canvas.getContext('2d');
+			canvas.width = imgElement.naturalWidth;
+			canvas.height = imgElement.naturalHeight;
+			context.drawImage(imgElement, 0, 0, canvas.width, canvas.height);
+			const data = context.getImageData(0, 0, canvas.width, canvas.height).data;
+
+			let r = 0, g = 0, b = 0, count = 0;
+			for (let i = 0; i < data.length; i += 4) {
+				if (data[i + 3] > 0) {
+					r += data[i];
+					g += data[i + 1];
+					b += data[i + 2];
+					count++;
+				}
+			}
+			return { r: Math.floor(r / count), g: Math.floor(g / count), b: Math.floor(b / count) };
+		}
+
+		function calculateLuminance(color) {
+			return 0.299 * color.r + 0.587 * color.g + 0.114 * color.b;
+		}
+
+		function handleOverlayClick(event) {
+			if (!$(event.target).is($lightboxImg)) {
+				closeDialog();
+			}
+		}
+
+		function handleTouchStart(event) {
+			isMultiTouch = event.originalEvent.touches.length > 1;
+			if (!isMultiTouch) {
+				startY = event.originalEvent.touches[0].clientY;
+				startX = event.originalEvent.touches[0].clientX;
+			}
+		}
+
+		function handleTouchMove(event) {
+			if (isMultiTouch || $lightbox.hasClass('saZoomFull') || event.originalEvent.touches.length > 1) return;
+
+			if (body.hasClass('saSmallScreen')) {
+				currentY = event.originalEvent.touches[0].clientY;
+				currentX = event.originalEvent.touches[0].clientX;
+				translateY = currentY - startY;
+				translateX = currentX - startX;
+
+				console.log(`Dragging: translateX=${translateX}, translateY=${translateY}`); // Debug
+
+				const newOpacity = Math.max(minOpacity, initialOpacity - Math.abs(translateY) / 400);
+				const newScale = Math.max(0.5, 1 - Math.abs(translateY) / 800);
+
+				$lightboxImg.css({
+					transform: `translate(${translateX}px, ${translateY}px) scale(${newScale})`,
+					transition: 'none',
+				});
+				$lightboxOverlay.css('--backdrop', newOpacity);
+
+				event.preventDefault(); // Stop default scroll behavior
+				event.stopPropagation(); // Prevent interference from other listeners
+			}
+		}
+
+
+		function zoomFull(event) {
+			if (body.hasClass('saSmallScreen')) return;
+			event.preventDefault();
+
+			if ($lightbox.hasClass('saZoomEnabled saZoomFull')) {
+				$lightbox.removeClass('saZoomFull');
+			}
+
+			else if ($lightbox.hasClass('saZoomEnabled') && !$lightbox.hasClass('saZoomFull')) {
+				$lightbox.addClass('saZoomFull');
+			}
+		}
+
+		function zoomEnabled() {
+			if ($lightboxImg[0].naturalWidth >= $(window).width() || $lightboxImg[0].naturalHeight >= $(window).height()) {
+				$lightbox.addClass('saZoomEnabled');
+			}
+
+			else {
+				$lightbox.removeClass('saZoomEnabled');
+			}
+		}
+
+		function handleTouchEnd(event) {
+			if (isMultiTouch) return;
+
+			const threshold = 80;
+			const screenHeight = window.innerHeight;
+			const screenWidth = window.innerHeight;
+
+			if (Math.abs(translateY) > threshold) {
+				const directionY = translateY > 0 ? 1 : -1;
+				const directionX = translateX > 0 ? 1 : -1;
+
+				$lightboxImg.css({
+					transform: `translate(${directionX}px, ${directionY * screenHeight}px) scale(0.1)`,
+					transition: 'transform 0.2s ease'
+				});
+
+				$lightboxOverlay.css('--backdrop', 0);
+				$dialogCloseButton.css('transform','translateY(-64px)');
+
+				closeDialogWithDelay(200);
+			} else {
+				resetTransforms();
+			}
+		}
+
+		function closeDialogWithDelay(delay) {
+			setTimeout(closeDialog, delay);
+		}
+
+		function closeDialog() {
+			body.removeClass('saDialogOpen');
+			$lightboxOverlay[0].close();
+			resetTransforms();
+			$lightbox.removeClass('saZoomFull saZoomEnabled');
+			$lightboxImg.css('transition', 'none').removeAttr('background-color');
+			$canLightBoxTrigger.attr('aria-expanded', 'false');
+			$lightboxButton.attr('aria-expanded', 'false');
+			$lightboxImg.removeAttr('src');
+			$dialogCloseButton.removeAttr('style');
+		}
+
+		function handleKeyEvents(event) {
+			if (event.key === 'Escape') closeDialog();
+		}
+
+		$(window).resize(function () {
+			zoomEnabled();
+		});
+
+
+		// Initialize lightbox functionality
+		initializeLightbox();
+
+
+	</script>
+</body>
+
+</html>
