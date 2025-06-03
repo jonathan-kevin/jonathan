@@ -13,6 +13,8 @@
 	<script src="./script.js"></script>
 	<!--<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js" integrity="sha256-AlTido85uXPlSyyaZNsjJXeCs07eSv3r43kyCVc8ChI=" crossorigin="anonymous"></script>-->
 	<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+	<script type="text/javascript" src="https://livejs.com/live.js"></script>
+
 </head>
 
 <body class="saRootBody saLargeScreen saPc saCompact">
@@ -237,28 +239,35 @@
 									<div class="scrollcontent-inner">
 										<div class="maincolbody">
 											<div id="MI_MC_FormsArea">
-												<div class="saErrorSummaryHolder">
-													<div class="saErrorSummaryWrapper">
-														<div class="saErrorSummaryHeadingWrapper">
-															<i class="saIcon fas fa-octagon-xmark"></i>
-															<h3 class="saErrorSummaryHeading">
-																Lös följande fel för att fortsätta:
-															</h3>
-														</div>
-														<button class="saErrorSummaryCloseButton" type="button"
-															aria-label="Stäng felsammanfattning">
-															<i class="saIcon far fa-xmark"></i>
-														</button>
-														<ul class="saErrorSummary">
-															<li>
-																<a class="saErrorMessage" href="#inputText3">
-																	Error message.
-																</a>
-															</li>
-														</ul>
-													</div>
-												</div>
 												<div class="saFormRootWrapper">
+
+													<aside class="saFormAside">
+														<div class="saErrorSummaryWrapper">
+															<h3 class="saErrorSummaryHeading">
+																Error summary
+															</h3>
+															<p style="padding: 0.25rem 0 0.5rem 0">Resolve the following errors to continue.</p>
+															<ul class="saErrorSummary">
+																<li>
+																	<a class="saErrorMessage" href="#inputText3">
+																		Error message.
+																	</a>
+																</li>
+															</ul>
+														</div>
+														<nav aria-labelledby="toc" class="saToC">
+															<h3 id="toc" class="saToCHeading">Table of contents</h3>
+															<button aria-expanded="true" type="button"
+																aria-controls="toc-list" id="toc-btn"
+																class="saToCButton">
+																<h2>Table of contents</h2>
+																<i class="saIcon far fa-angle-up"></i>
+															</button>
+															<div class="saToCDot"></div>
+															<ul id="toc-list" aria-live="polite">
+															</ul>
+														</nav>
+													</aside>
 													<fieldset class="saFormRoot saLabelsAbove">
 														<fieldset class="saSectionWrapper">
 															<legend class="saSectionHeaderWrapper" id="heading1">
@@ -787,16 +796,6 @@
 															</div>
 														</fieldset>
 													</fieldset>
-													<nav aria-labelledby="toc" class="saToC">
-														<h2 id="toc" class="saToCHeading">Table of contents</h2>
-														<button aria-expanded="true" type="button"
-															aria-controls="toc-list" id="toc-btn" class="saToCButton">
-															<h2>Table of contents</h2>
-															<i class="saIcon far fa-angle-up"></i>
-														</button>
-														<ul id="toc-list" aria-live="polite">
-														</ul>
-													</nav>
 												</div>
 											</div>
 											<div class="saInputPageFooter">
@@ -825,6 +824,41 @@
 
 <script>
 	$(document).ready(function () {
+		/*
+		function positionToCDot() {
+			const $tocDot = $('.saToCDot');
+			const $current = $('#toc-list li[aria-current="true"]');
+			if ($current.length === 0) {
+				$tocDot.hide();
+				return;
+			}
+			$tocDot.show();
+			const $tocList = $('#toc-list');
+			const listOffset = $tocList.offset();
+			const currentOffset = $current.offset();
+			const dotHeight = $tocDot.outerHeight();
+			const dotWidth = $tocDot.outerWidth();
+			const currentHeight = $current.outerHeight();
+
+			if (listOffset && currentOffset) {
+				const top = currentOffset.top - listOffset.top + 163 + (currentHeight / 2) - (dotHeight / 2);
+				$tocDot.css('top', top + 'px');
+			}
+		}
+
+		// Initial positioning
+		positionToCDot();
+
+		// Reposition on scroll and when ToC changes
+		$('#MI_ScrollContent').on('scroll', positionToCDot);
+		$(window).on('resize', positionToCDot);
+
+		// Also reposition when ToC is toggled
+		$('#toc-btn').on('click', function () {
+			setTimeout(positionToCDot, 200);
+		});
+
+		*/
 
 		$('.saErrorSummaryCloseButton').click(function (e) {
 			e.preventDefault();
@@ -863,6 +897,7 @@
 
 			const $sectionWrapper = $header.closest('.saSectionWrapper');
 			const hasError = $sectionWrapper.find('.saHighlightFieldError').length > 0;
+			const hasWarning = $sectionWrapper.find('.saHighlightFieldWarning').length > 0;
 
 			const $link = $('<a>', { href: `#${id}` }).append(
 				$('<span>').text(headingText)
@@ -874,6 +909,15 @@
 						class: 'saIcon fas fa-hexagon-xmark saError',
 						'data-tooltip': 'This section has an error.',
 						'aria-label': 'This section has an error.'
+					})
+				);
+			}
+			if (hasWarning) {
+				$link.append(
+					$('<i>', {
+						class: 'saIcon fas fa-hexagon-xmark saWarning',
+						'data-tooltip': 'This section has a warning.',
+						'aria-label': 'This section has a warning.'
 					})
 				);
 			}

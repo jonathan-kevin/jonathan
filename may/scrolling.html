@@ -4,12 +4,15 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Jonathan</title>
+	<title>Scrolling</title>
 	<link rel="stylesheet" href="./src/style/screen.template.css">
 	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<link rel="icon" type="image/svg" href="./src/img/favicon.svg">
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
 		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="./script.js"></script>
+	<!--<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js" integrity="sha256-AlTido85uXPlSyyaZNsjJXeCs07eSv3r43kyCVc8ChI=" crossorigin="anonymous"></script>-->
+	<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 	<script type="text/javascript" src="https://livejs.com/live.js"></script>
 </head>
 
@@ -28,7 +31,7 @@
 								</button>
 								<div class="saHeaderWrapper">
 									<div class="saTitle">
-										<h1>Softadmin® Utvecklingssystem</h1>
+										<h1>Scrolling</h1>
 									</div>
 								</div>
 								<button class="saNotificationWrapper" type="button">
@@ -44,7 +47,8 @@
 						<div class="saSidenavSection">
 							<div class="saCustomerLogo">
 								<div>
-									<img src="./src/img/logo.svg" alt="Softadmin® logo" style="min-height: 5rem;">
+									<img loading="lazy" src="./src/img/logo.svg" alt="Softadmin® logo"
+										style="min-height: 5rem;">
 								</div>
 							</div>
 							<div class="saSidenavContainer">
@@ -81,26 +85,26 @@
 							<div class="saSidenavLists">
 								<ul class="saSidenavItemList">
 									<li>
-										<a class="saSidenavItemWrapper" tabindex="0">
+										<a id="shuffle" class="saSidenavItemWrapper" tabindex="0">
 											<div class="saSidenavItem">
-												<i class="far fa-crow saIcon"></i>
-												<span class="saSidenavItemText">Crow</span>
+												<i class="fa-grid-2 far saIcon"></i>
+												<span class="saSidenavItemText">Switch Row-Col</span>
 											</div>
 										</a>
 									</li>
 									<li>
-										<a class="saSidenavItemWrapper" tabindex="0">
+										<a id="tiny" class="saSidenavItemWrapper" tabindex="0">
 											<div class="saSidenavItem">
 												<i class="far fa-egg saIcon"></i>
-												<span class="saSidenavItemText">Egg</span>
+												<span class="saSidenavItemText">Make all list items tiny</span>
 											</div>
 										</a>
 									</li>
 									<li>
-										<a class="saSidenavItemWrapper" tabindex="0">
+										<a id="random" class="saSidenavItemWrapper" tabindex="0">
 											<div class="saSidenavItem">
 												<i class="far fa-feather saIcon"></i>
-												<span class="saSidenavItemText">Flying lessons</span>
+												<span class="saSidenavItemText">Randomize size</span>
 											</div>
 										</a>
 									</li>
@@ -157,8 +161,8 @@
 							</div>
 							<div class="saSidenavFooter">
 								<a class="saSoftadminLogo" rel="noopener noreferrer" tabindex="-1" href="#">
-									<img class="saLogo" src="./src/img/softadmin-logo-minimized.svg">
-									<img class="saWordmark" src="./src/img/softadmin-logo-expanded.svg">
+									<img loading="lazy" class="saLogo" src="./src/img/softadmin-logo-minimized.svg">
+									<img loading="lazy" class="saWordmark" src="./src/img/softadmin-logo-expanded.svg">
 								</a>
 								<button class="saExpander saDynamicTooltipJs" type="button">
 									<i class="fa-angles-left far saIcon"></i>
@@ -169,7 +173,7 @@
 				</nav>
 			</form>
 		</div>
-		<div class="saRightFrameRoot">
+		<div class="saRightFrameRoot" style="overflow: auto;">
 			<div class="right standardview">
 				<div class="pagecontentframe">
 					<form class="interface">
@@ -188,11 +192,13 @@
 										</div>
 										<div class="saBottomRow">
 											<div class="saTitle">
-												<h1 class="saHeaderText">Test</h1>
-												<div class="saMarkFavorite saNoSpinner"><button type="button"><i
-															class="fas fa-star saFavoriteIcon saFavoriteAdded icon saIcon"></i></button>
+												<h1 class="saHeaderText">Scrolling</h1>
+												<div class="saMarkFavorite saNoSpinner">
+													<button type="button">
+														<i
+															class="fas fa-star saFavoriteIcon saFavoriteAdded icon saIcon"></i>
+													</button>
 												</div>
-												<ul class="saSpecialLinksWrapper"></ul>
 											</div>
 										</div>
 									</div>
@@ -204,7 +210,7 @@
 										<div class="saTopRow">
 											<div class="saHeaderWrapper">
 												<div class="saTitle">
-													<h1 class="saHeaderText">Test</h1>
+													<h1 class="saHeaderText">Scrolling</h1>
 												</div>
 											</div><button class="saNavigator" type="button">
 												<div class="saNavBar"><span class="saNavBarStripe"></span><span
@@ -224,51 +230,27 @@
 								</div>
 							</div>
 						</header>
-						<div class="maincolinner gradients">
+						<div class="maincolinner gradients saInputPage">
 							<main id="MI_M" class="menuitem pagecontentframe">
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
-								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable"
+									style="height: calc(100vh - 89px );">
 									<div class="scrollcontent-inner">
-										<softadmin-menuitems class="maincolbody saMenuGroup">
-											<div class="saMenuBoxWrapper" tabindex="-1">
-												<div class="saColumn">
-													<div class="saMenuBox">
-														<span class="saMenuBoxHeading">Real &amp; Cool Tests</span>
-														<span class="saMenuBoxDescription">For real this time.</span>
-														<ul>
-															<li class="saMenuItemWrapper saSelectable">
-																<a class="saMenuItem" tabindex="0">
-																	<div class="saIconHolder" aria-hidden="true">
-																		<i
-																			class="fa-arrow-right-from-bracket far icon saIcon"></i>
-																	</div>
-																	<span class="saMenuItemText">Clock out</span>
-																</a>
-																<div class="saMenuItemTools">
-																	<button
-																		class="saIconWrapper fa-star far saFavoriteIcon saFavoriteNotAdded"
-																		type="button" tabindex="-1"></button>
-																</div>
-															</li>
-															<li class="saMenuItemWrapper saSelectable">
-																<a class="saMenuItem" tabindex="0">
-																	<div class="saIconHolder" aria-hidden="true">
-																		<i
-																			class="fa-arrow-right-from-bracket far icon saIcon"></i>
-																	</div>
-																	<span class="saMenuItemText">Clock out</span>
-																</a>
-																<div class="saMenuItemTools">
-																	<button
-																		class="saIconWrapper fa-star far saFavoriteIcon saFavoriteNotAdded"
-																		type="button" tabindex="-1"></button>
-																</div>
-															</li>
-														</ul>
-													</div>
+										<div class="maincolbody">
+											<div class="scroll-wrapper"
+												style="height: 50vh; background-color: lightgreen; overflow-x: auto; padding: 24px; margin-bottom: 24px;  border: dashed 2px green;">
+												<div class="item"
+													style="width: 100%; height: 100%; background-color: lightgray;">
+													Växer <b>inte</b> bredare än sin container</div>
+											</div>
+											<div class="scroll-wrapper"
+												style="height: 50vh; background-color: lightblue; overflow-x: auto; padding: 24px 24px 8px 24px; border: dashed 2px salmon;">
+												<div class="item"
+													style="width: 101vw; height: 100%; background-color: lightsalmon;">
+													Växer bredare än sin container
 												</div>
 											</div>
-										</softadmin-menuitems>
+										</div>
 									</div>
 								</div>
 							</main>
@@ -279,5 +261,10 @@
 		</div>
 	</div>
 </body>
+<script>
+	$(document).ready(function () {
+
+	});
+</script>
 
 </html>

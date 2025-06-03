@@ -33,21 +33,6 @@
 			<caption>
 				Hover to see contrast
 			</caption>
-			<colgroup>
-				<col>
-				<col>
-				<col>
-				<col>
-				<col>
-				<col>
-				<col>
-				<col>
-				<col>
-				<col>
-				<col>
-				<col>
-				<col>
-			</colgroup>
 			<thead>
 				<tr>
 					<th>Color</th>
@@ -63,6 +48,7 @@
 					<th>700</th>
 					<th>800</th>
 					<th>900</th>
+					<th>950</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -80,6 +66,7 @@
 					<td data-color="Gray700" class="saBackgroundGray700"></td>
 					<td data-color="Gray800" class="saBackgroundGray800"></td>
 					<td data-color="Gray900" class="saBackgroundGray900"></td>
+					<td data-color="Gray950" class="saBackgroundGray950"></td>
 				</tr>
 				<tr>
 					<th>Blue</th>
@@ -95,6 +82,7 @@
 					<td data-color="Blue700" class="saBackgroundBlue700"></td>
 					<td data-color="Blue800" class="saBackgroundBlue800"></td>
 					<td data-color="Blue900" class="saBackgroundBlue900"></td>
+					<td class="empty"></td>
 				</tr>
 				<tr>
 					<th>Azul</th>
@@ -110,6 +98,7 @@
 					<td data-color="Azul700" class="saBackgroundAzul700"></td>
 					<td data-color="Azul800" class="saBackgroundAzul800"></td>
 					<td data-color="Azul900" class="saBackgroundAzul900"></td>
+					<td class="empty"></td>
 				</tr>
 				<tr>
 					<th>Red</th>
@@ -125,6 +114,7 @@
 					<td data-color="Red700" class="saBackgroundRed700"></td>
 					<td data-color="Red800" class="saBackgroundRed800"></td>
 					<td data-color="Red900" class="saBackgroundRed900"></td>
+					<td class="empty"></td>
 				</tr>
 				<tr>
 					<th>Orange</th>
@@ -140,6 +130,7 @@
 					<td data-color="Orange700" class="saBackgroundOrange700"></td>
 					<td data-color="Orange800" class="saBackgroundOrange800"></td>
 					<td data-color="Orange900" class="saBackgroundOrange900"></td>
+					<td class="empty"></td>
 				</tr>
 				<tr>
 					<th>Yellow</th>
@@ -155,6 +146,7 @@
 					<td data-color="Yellow700" class="saBackgroundYellow700"></td>
 					<td data-color="Yellow800" class="saBackgroundYellow800"></td>
 					<td data-color="Yellow900" class="saBackgroundYellow900"></td>
+					<td class="empty"></td>
 				</tr>
 				<tr>
 					<th>Green</th>
@@ -170,6 +162,7 @@
 					<td data-color="Green700" class="saBackgroundGreen700"></td>
 					<td data-color="Green800" class="saBackgroundGreen800"></td>
 					<td data-color="Green900" class="saBackgroundGreen900"></td>
+					<td class="empty"></td>
 				</tr>
 				<tr>
 					<th>SkyBlue</th>
@@ -185,6 +178,7 @@
 					<td data-color="SkyBlue700" class="saBackgroundSkyBlue700"></td>
 					<td data-color="SkyBlue800" class="saBackgroundSkyBlue800"></td>
 					<td data-color="SkyBlue900" class="saBackgroundSkyBlue900"></td>
+					<td class="empty"></td>
 				</tr>
 				<tr>
 					<th>Purple</th>
@@ -200,6 +194,7 @@
 					<td data-color="Purple700" class="saBackgroundPurple700"></td>
 					<td data-color="Purple800" class="saBackgroundPurple800"></td>
 					<td data-color="Purple900" class="saBackgroundPurple900"></td>
+					<td class="empty"></td>
 				</tr>
 				<tr>
 					<th>Pink</th>
@@ -215,6 +210,7 @@
 					<td data-color="Pink700" class="saBackgroundPink700"></td>
 					<td data-color="Pink800" class="saBackgroundPink800"></td>
 					<td data-color="Pink900" class="saBackgroundPink900"> </td>
+					<td class="empty"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -237,81 +233,6 @@
 		$(document).ready(function () {
 
 			var $ContrastThreshold = 4.5; // Set the contrast ratio threshold
-
-			$("#generate").click(function () {
-				let hex = $("#colorInput").val().trim();
-				if (!/^#[0-9A-Fa-f]{6}$/.test(hex)) {
-					alert("Invalid hex color!");
-					return;
-				}
-
-				let oklchBase = chroma(hex).oklch();
-				let colors = generateColors(oklchBase);
-				let palette = generateShades(colors);
-				enforceContrast(palette);
-
-				displayResults(palette);
-			});
-
-			function generateColors(oklchBase) {
-				let hues = {
-					blue: 240, purple: 270, magenta: 300, pink: 330,
-					red: 0, orange: 30, yellow: 60, green: 120, skyblue: 200
-				};
-
-				let colors = {};
-				Object.keys(hues).forEach(name => {
-					colors[name] = [oklchBase[0], oklchBase[1], hues[name]];
-				});
-				return colors;
-			}
-
-			function generateShades(colors) {
-				let steps = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
-				let palette = {};
-
-				for (let name in colors) {
-					palette[name] = steps.map(lightness => {
-						return [lightness / 100, colors[name][1], colors[name][2]];
-					});
-				}
-				return palette;
-			}
-
-			function enforceContrast(palette) {
-				for (let name in palette) {
-					let base600 = palette[name][6];
-					let contrast = getContrast(base600, [1, 0, 0]);
-
-					if (contrast < $ContrastThreshold) {
-						palette[name][6][0] = Math.max(palette[name][6][0] - 0.1, 0);
-					}
-				}
-			}
-
-			function getContrast(color1, color2) {
-				return chroma.oklch(color1).luminance() / chroma.oklch(color2).luminance();
-			}
-
-			function displayResults(palette) {
-				let steps = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
-				let output = `<table border='1'><tr><th>Color</th>`;
-				steps.forEach(step => output += `<th>${step}</th>`);
-				output += `</tr>`;
-
-				for (let name in palette) {
-					output += `<tr><td><b>${name}</b></td>`;
-					palette[name].forEach(c => {
-						let colorStr = `oklch(${c.join(", ")})`;
-						output += `<td style='background-color:${colorStr}; color:#fff;'>${colorStr}</td>`;
-					});
-					output += `</tr>`;
-				}
-				output += `</table>`;
-
-				$("#resultz").html(output);
-			}
-
 
 			function getLuminance(color) {
 				let rgb = color.match(/\d+/g).map(Number).map(c => {
@@ -371,7 +292,8 @@
 						{ shade: "600", value: "#60748b", key: 1 },
 						{ shade: "700", value: "#506072" },
 						{ shade: "800", value: "#404c5b" },
-						{ shade: "900", value: "#313a44" }
+						{ shade: "900", value: "#313a44" },
+						{ shade: "950", value: "#1C2025" }
 					]
 				}, {
 					colorName: "Red",
