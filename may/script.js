@@ -19,7 +19,7 @@ $(document).ready(function () {
 
 	setTimeout(() => {
 		if (path.includes("smallscreen")) {
-			$($body).removeClass().addClass("saSmallScreen smallscreen");
+			$($body).removeClass().addClass("saSmallScreen smallscreen saSmallscreensidebar saMobile");
 			$("#theToggler").text("SmallScreen");
 		} else if (path.includes("standard")) {
 			$($body).removeClass().addClass("saStandard saPc saLargeScreen");
@@ -35,10 +35,10 @@ $(document).ready(function () {
 			$($body).removeClass("saStandard").addClass("saCompact saPc saLargeScreen");
 			$("#theToggler").text("Compact");
 		} else if ($($body).hasClass("saCompact")) {
-			$($body).removeClass("saCompact saPc saLargeScreen").addClass("saSmallScreen smallscreen");
+			$($body).removeClass("saCompact saPc saLargeScreen").addClass("saSmallScreen smallscreen saSmallscreensidebar saMobile");
 			$("#theToggler").text("SmallScreen");
 		} else {
-			$($body).removeClass("saSmallScreen smallscreen").addClass("saStandard saPc saLargeScreen");
+			$($body).removeClass("saSmallScreen saSmallscreensidebar saMobile smallscreen").addClass("saStandard saPc saLargeScreen");
 			$("#theToggler").text("Standard");
 		}
 		updateResponsiveClasses();

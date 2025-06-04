@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Colors</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<link rel="icon" type="image/svg" href="./src/img/favicon.svg">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+	<!--<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js" integrity="sha256-AlTido85uXPlSyyaZNsjJXeCs07eSv3r43kyCVc8ChI=" crossorigin="anonymous"></script>-->
+	<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+	<script type="text/javascript" src="https://livejs.com/live.js"></script>
+</head>
+
+<body class="saRootBody saLargeScreen saPc saCompact">
+	<div class="saRootContentWrapper">
+		<div class="saSideBar saSideBarJs saExpanded">
+			<form id="aspnetForm">
+				<nav id="SideBar">
+					<div class="saPageHeader saSmallScreenHeader">
+						<div class="saHeader">
+							<div class="saTopRow"><button class="saNavigator" type="button">
+									<div class="saNavBar saActive"><span class="saNavBarStripe"></span>
+										<span class="saNavBarStripe"></span>
+										<span class="saNavBarStripe"></span>
+									</div>
+								</button>
+								<div class="saHeaderWrapper">
+									<div class="saTitle">
+										<h1>Colors</h1>
+									</div>
+								</div>
+								<button class="saNotificationWrapper" type="button">
+									<div><i class="far fa-bell saIcon"></i></div>
+									<div class="saNotificationBadge saEmpty" aria-hidden="true">
+										<div class="saNotificationBadgeCount">0</div>
+									</div>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="saSidenav" id="sidenav">
+						<div class="saSidenavSection">
+							<div class="saCustomerLogo">
+								<div>
+									<img loading="lazy" src="./src/img/logo.svg" alt="Softadmin® logo"
+										style="min-height: 5rem;">
+								</div>
+							</div>
+							<div class="saSidenavContainer">
+								<div class="saSidenavItem saMenuDropdownsOuter">
+									<div class="saSidenavItemWrapper">
+										<label class="saInputTextWrapper saLabeled">
+											<span class="saLabeledLabel">User</span>
+											<span class="saFirstLetter">J</span>
+											<select class="saInputText saDropdown">
+												<option value="0" selected="true">Jonathan</option>
+												<option value="1">Kevin</option>
+											</select>
+											<div class="saTrailingIconsWrapper">
+												<i class="saIcon far fa-angle-down"></i>
+											</div>
+										</label>
+									</div>
+								</div>
+								<div class="saToggleWrapper">
+									<div class="saHandle">
+										<div class="saTrack">
+											<a class="saToggleIconText saDynamicTooltipJs saActive" tabindex="0">
+												<i class="far fa-bars icon saIcon" aria-hidden="true"></i>
+												<span class="saToggleText">Meny</span>
+											</a>
+											<a class="saToggleIconText saDynamicTooltipJs" tabindex="0">
+												<i class="far fa-star icon saIcon" aria-hidden="true"></i>
+												<span class="saToggleText">Favoriter</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="saSidenavLists">
+								<ul class="saSidenavItemList">
+									<li>
+										<a id="shuffle" class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="fa-grid-2 far saIcon"></i>
+												<span class="saSidenavItemText">Switch Row-Col</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a id="tiny" class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="far fa-egg saIcon"></i>
+												<span class="saSidenavItemText">Make all list items tiny</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a id="random" class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="far fa-feather saIcon"></i>
+												<span class="saSidenavItemText">Randomize size</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="far fa-ticket-alt saIcon"></i>
+												<span class="saSidenavItemText">Aviary tickets</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="saSidenavSection saSidenavSectionLast">
+							<div class="saSidenavContainer">
+								<div class="saListItem"><button class="saSidenavItemWrapper" type="button"
+										aria-expanded="false">
+										<div class="saSidenavItem saAvatarWrapperOuter">
+											<div class="saAvatarWrapper saUserInitials" aria-hidden="true">JK</div><span
+												class="saSidenavItemText">Jonathan Kevin</span><i
+												class="far fa-angle-down saIcon"></i>
+										</div>
+									</button></div>
+								<div class="saSidenavItem saSidenavItemRow">
+									<button class="saSidenavItemWrapper" type="button">
+										<div class="saSidenavItem">
+											<i class="far fa-gear icon saIcon"></i>
+											<span class="saSidenavItemText">Admin</span>
+										</div>
+									</button>
+									<button class="saSidenavItemWrapper" type="button">
+										<div class="saSidenavItem">
+											<i class="far fa-window-restore icon saIcon"></i>
+											<span class="saSidenavItemText">Ny flik</span>
+										</div>
+									</button>
+									<button class="saSidenavItemWrapper" type="button">
+										<div class="saSidenavItem">
+											<i class="far fa-circle-question icon saIcon"></i>
+											<span class="saSidenavItemText">Visa hjälpsida - Allmän hjälpsida</span>
+										</div>
+									</button>
+									<button class="saSidenavItemWrapper saNotificationLinkLargeScreen" type="button">
+										<div class="saSidenavItem">
+											<div><i class="far fa-bell saIcon"></i></div>
+											<span class="saSidenavItemText">Notifieringar</span>
+										</div>
+										<div class="saNotificationBadge saEmpty" aria-hidden="true">
+											<div class="saNotificationBadgeCount">0</div>
+										</div>
+									</button>
+								</div>
+							</div>
+							<div class="saSidenavFooter">
+								<a class="saSoftadminLogo" rel="noopener noreferrer" tabindex="-1" href="#">
+									<img loading="lazy" class="saLogo" src="./src/img/softadmin-logo-minimized.svg">
+									<img loading="lazy" class="saWordmark" src="./src/img/softadmin-logo-expanded.svg">
+								</a>
+								<button class="saExpander saDynamicTooltipJs" type="button">
+									<i class="fa-angles-left far saIcon"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</form>
+		</div>
+		<div class="saRightFrameRoot" style="overflow: auto;">
+			<div class="right standardview">
+				<div class="pagecontentframe">
+					<form class="interface">
+						<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs">
+												<div class="saBackButtonWrapper">
+													<button class="saBackButton" type="button" disabled>
+														<i class="fa-arrow-left far saBack saIcon"></i>
+													</button>
+												</div>
+											</nav>
+										</div>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Colors</h1>
+												<div class="saMarkFavorite saNoSpinner">
+													<button type="button">
+														<i
+															class="fas fa-star saFavoriteIcon saFavoriteAdded icon saIcon"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+													<h1 class="saHeaderText">Colors</h1>
+												</div>
+											</div><button class="saNavigator" type="button">
+												<div class="saNavBar"><span class="saNavBarStripe"></span><span
+														class="saNavBarStripe"></span><span
+														class="saNavBarStripe"></span>
+												</div>
+											</button><button class="saNotificationWrapper" type="button"
+												aria-live="polite">
+												<div><i class="far fa-bell saIcon"></i></div>
+												<div class="saNotificationBadge saEmpty" aria-hidden="true">
+													<div class="saNotificationBadgeCount">0</div>
+												</div>
+											</button>
+										</div>
+									</div>
+									<nav class="saBottomRow saActionLinkBar" style="display: none;"></nav>
+								</div>
+							</div>
+						</header>
+						<div class="maincolinner gradients saInputPage">
+							<main id="MI_M" class="menuitem pagecontentframe">
+								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable"
+									style="height: calc(100vh - 89px );">
+									<div class="scrollcontent-inner">
+										<div class="maincolbody">
+
+										</div>
+									</div>
+								</div>
+							</main>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+
+	$(document).ready(function () {
+		// Colors and shades
+		const colors = [
+			"Red", "Orange", "Yellow", "Green", "Sky", "Gray", "Blue", "Purple", "Pink"
+		];
+		const colorsX = colors.map(c => "x" + c);
+		const shades = [0, 50, 100, 150, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+
+		// Helper to get computed color value
+		function getCssVarValue(varName) {
+			return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+		}
+
+		// Helper to parse rgb/hex color to [r,g,b]
+		function parseColor(color) {
+			if (!color) return [255,255,255];
+			color = color.trim();
+			if (color.startsWith('#')) {
+				let hex = color.slice(1);
+				if (hex.length === 3) hex = hex.split('').map(x=>x+x).join('');
+				let num = parseInt(hex, 16);
+				return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
+			}
+			if (color.startsWith('rgb')) {
+				return color.match(/\d+/g).map(Number).slice(0,3);
+			}
+			return [255,255,255];
+		}
+
+		// Helper to calculate contrast ratio (WCAG)
+		function luminance([r,g,b]) {
+			let a = [r,g,b].map(function(v) {
+				v /= 255;
+				return v <= 0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055, 2.4);
+			});
+			return 0.2126*a[0] + 0.7152*a[1] + 0.0722*a[2];
+		}
+		function contrastRatio(rgb1, rgb2) {
+			let l1 = luminance(rgb1);
+			let l2 = luminance(rgb2);
+			let hi = Math.max(l1, l2), lo = Math.min(l1, l2);
+			return ((hi + 0.05) / (lo + 0.05));
+		}
+
+		function createColorTable(label, colorList) {
+			let table = $('<table>').addClass('saColorGroup');
+			let thead = $('<thead>');
+			let headRow = $('<tr>');
+			headRow.append($('<th>').text(label));
+			shades.forEach(s => headRow.append($('<th>').text(s)));
+			thead.append(headRow);
+			table.append(thead);
+
+			let tbody = $('<tbody>');
+			colorList.forEach(color => {
+				let row = $('<tr>');
+				row.append($('<th>').text(color));
+				shades.forEach(shade => {
+					let varName = shade === 0 ? '--White' : `--${color}${shade}`;
+					let style = `background: var(${varName})`;
+					let cssColor = getCssVarValue(varName) || (shade === 0 ? '#fff' : '');
+					let rgb = parseColor(cssColor);
+					let contrast = contrastRatio(rgb, [255,255,255]).toFixed(2);
+					let cell = $('<td>').attr('style', style).attr('data-bg', cssColor);
+					cell.append($('<p>').css({
+						margin: 0,
+						fontSize: '0.8em',
+						color: '#000'
+					}).text(contrast));
+					row.append(cell);
+				});
+				tbody.append(row);
+			});
+			table.append(tbody);
+			return table;
+		}
+
+		function createInterleavedTable(label, listA, listB) {
+			let table = $('<table>').addClass('saColorGroup');
+			let thead = $('<thead>');
+			let headRow = $('<tr>');
+			headRow.append($('<th>').text(label));
+			shades.forEach(s => headRow.append($('<th>').text(s)));
+			thead.append(headRow);
+			table.append(thead);
+
+			let tbody = $('<tbody>');
+			for (let i = 0; i < listA.length; i++) {
+				[listA[i], listB[i]].forEach(color => {
+					let row = $('<tr>');
+					row.append($('<th>').text(color));
+					shades.forEach(shade => {
+						let varName = shade === 0 ? '--White' : `--${color}${shade}`;
+						let style = `background: var(${varName})`;
+						let cssColor = getCssVarValue(varName) || (shade === 0 ? '#fff' : '');
+						let rgb = parseColor(cssColor);
+						let contrast = contrastRatio(rgb, [255,255,255]).toFixed(2);
+						let cell = $('<td>').attr('style', style).attr('data-bg', cssColor);
+						cell.append($('<p>').css({
+							margin: 0,
+							fontSize: '0.8em',
+							color: '#000'
+						}).text(contrast));
+						row.append(cell);
+					});
+					tbody.append(row);
+				});
+			}
+			table.append(tbody);
+			return table;
+		}
+
+		$('.maincolbody').append(
+			createColorTable('Color', colors),
+			createColorTable('xColor', colorsX),
+			createInterleavedTable('Color/xColor', colors, colorsX)
+		);
+
+		// --- Contrast check on <td> click ---
+		const CONTRAST_THRESHOLD = 4.5; // WCAG AA for normal text
+
+		$(document).on('click', 'td', function (e) {
+			e.stopPropagation();
+			// Remove previous disables
+			$('td').removeClass('saTdDisabled');
+			// Remove previous selected
+			$('td').removeClass('saTdSelected');
+			$(this).addClass('saTdSelected');
+
+			let $row = $(this).closest('tr');
+			let clickedBg = $(this).attr('data-bg');
+			let clickedRgb = parseColor(clickedBg);
+
+			$row.find('td').each(function () {
+				let otherBg = $(this).attr('data-bg');
+				let otherRgb = parseColor(otherBg);
+				let ratio = contrastRatio(clickedRgb, otherRgb);
+				if (ratio < CONTRAST_THRESHOLD && this !== e.currentTarget) {
+					$(this).addClass('saTdDisabled');
+				}
+			});
+		});
+
+		// Remove disables on click elsewhere or another <td>
+		$(document).on('click', function () {
+			$('td').removeClass('saTdDisabled saTdSelected');
+		});
+	});
+</script>
+
+</html>
