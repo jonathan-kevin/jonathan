@@ -57,6 +57,18 @@
 								</div>
 							</div>
 							<div class="saSidenavContainer">
+								<div>
+									<a class="saSidenavItemWrapper saSearch saHideWhenExpanded" tabindex="0" data-tooltip="Search..." aria-label="Search...">
+										<div class="saSidenavItem">
+											<i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i>
+										</div>
+									</a>
+									<div class="saSidenavItemWrapper saSearch saHideWhenMinimized">
+										<div class="saSidenavItem saInputTextWrapper"><input id="MenuEnterpriseSearchBox" class="saSearchInput saInputText" type="search" placeholder="Search..." aria-label="Search...">
+											<i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i>
+										</div>
+									</div>
+								</div>
 								<div class="saSidenavItem saMenuDropdownsOuter">
 									<div class="saSidenavItemWrapper">
 										<label class="saInputTextWrapper saLabeled">
@@ -75,27 +87,23 @@
 									</div>
 								</div>
 								<div class="saToggleGroup" role="tablist" aria-label="Toggle menu/favorites">
-									<button role="tab" aria-selected="true" aria-controls="tabpanel-1" type="button"
-										data-tooltip="Menu" data-tooltip-placement="top"
-										aria-describedby="TooltipScreenReader">
-										<i class="fa-bars saIcon far"></i>
+									<button role="tab" id="tabbutton-1" aria-selected="true" aria-controls="tabpanel-1" type="button" data-tooltip="Menu" aria-describedby="TooltipScreenReader" data-tooltip-placement="top" > <!--data-tooltip-placement="right" if minimized or wrapped -->
+										<i class="fa-bars saIcon far" aria-hidden="true"></i>
 										<span>Menu</span>
 									</button>
-									<button role="tab" aria-selected="false" aria-controls="tabpanel-2" type="button"
-										data-tooltip="Favorites" data-tooltip-placement="top"
-										aria-describedby="TooltipScreenReader">
-										<i class="fa-star saIcon far"></i>
+									<button role="tab" id="tabbutton-2" aria-selected="false" aria-controls="tabpanel-2" type="button" data-tooltip="Favorites" aria-describedby="TooltipScreenReader" data-tooltip-placement="top" > <!--data-tooltip-placement="right" if minimized or wrapped -->
+										<i class="fa-star saIcon far" aria-hidden="true"></i>
 										<span>Favorites</span>
 									</button>
 								</div>
 							</div>
 							<div class="saSidenavLists">
-								<ul class="saSidenavItemList" id="tabpanel-1">
+								<ul class="saSidenavItemList" role="tabpanel" id="tabpanel-1" aria-labelledby="tabbutton-1">
 									<li>
 										<a class="saSidenavItemWrapper" tabindex="0">
 											<div class="saSidenavItem">
 												<i class="fa-grid-2 far saIcon"></i>
-												<span class="saSidenavItemText">Switch Row-Col</span>
+												<span class="saSidenavItemText">Menu item 1</span>
 
 											</div>
 										</a>
@@ -104,12 +112,12 @@
 										<a class="saSidenavItemWrapper" tabindex="0">
 											<div class="saSidenavItem">
 												<i class="far fa-egg saIcon"></i>
-												<span class="saSidenavItemText">Make all list items tiny</span>
+												<span class="saSidenavItemText">The Second Menu item</span>
 											</div>
 										</a>
 									</li>
 								</ul>
-								<ul class="saSidenavItemList" id="tabpanel-2" style="display: none;">
+								<ul class="saSidenavItemList" role="tabpanel" id="tabpanel-2" aria-labelledby="tabbutton-2" style="display: none;">
 									<li>
 										<a class="saSidenavItemWrapper" tabindex="0">
 											<div class="saSidenavItem">
@@ -298,12 +306,11 @@
 			});
 		}
 
-		// Listen for font size changes using ResizeObserver on the body
 		if (window.ResizeObserver) {
 			const ro = new ResizeObserver(checkToggleGroupWrap);
 			ro.observe(document.body);
 		}
-		// Listen for button text changes using MutationObserver
+
 		$('.saToggleGroup button').each(function () {
 			const button = this;
 			const observer = new MutationObserver(checkToggleGroupWrap);
@@ -314,11 +321,12 @@
 		$(window).on('resize', checkToggleGroupWrap);
 
 		$('<input type="text" id="favoriteInput" placeholder="Enter favorite text" style="margin:10px 0;width:90%;">')
-			.insertBefore('.saSidenavLists');
+			.appendTo('.scrollcontent-inner');
 
 		$('#favoriteInput').on('input', function() {
 			var val = $(this).val();
 			$('.saToggleGroup button:last-child span').text(val);
+			$('.saToggleGroup button:last-child').attr('data-tooltip', val || 'Favorites');
 		});
 	});
 </script>
