@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Calendar</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="./src/fontawesome/css/all.css">
+	<link rel="icon" type="image/svg" href="./src/img/favicon.svg">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+	<!--<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js" integrity="sha256-AlTido85uXPlSyyaZNsjJXeCs07eSv3r43kyCVc8ChI=" crossorigin="anonymous"></script>-->
+	<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+	<script type="text/javascript" src="https://livejs.com/live.js"></script>
+
+</head>
+
+<body class="saRootBody saLargeScreen saPc saCompact">
+	<div class="saRootContentWrapper">
+		<div class="saSideBar saSideBarJs saExpanded">
+			<form id="aspnetForm">
+				<nav id="SideBar">
+					<div class="saPageHeader saSmallScreenHeader">
+						<div class="saHeader">
+							<div class="saTopRow"><button class="saNavigator" type="button">
+									<div class="saNavBar saActive">
+										<span class="saNavBarStripe"></span>
+
+										<span class="saNavBarStripe"></span>
+
+										<span class="saNavBarStripe"></span>
+
+									</div>
+								</button>
+								<div class="saHeaderWrapper">
+									<div class="saTitle">
+										<h1>Calendar</h1>
+									</div>
+								</div>
+								<button class="saNotificationWrapper" type="button">
+									<div><i class="far fa-bell saIcon"></i></div>
+									<div class="saNotificationBadge saEmpty" aria-hidden="true" aria-hidden="true">
+										<div class="saNotificationBadgeCount">0</div>
+									</div>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="saSidenav" id="sidenav">
+						<div class="saSidenavSection">
+							<div class="saCustomerLogo">
+								<div>
+									<img loading="lazy" src="./src/img/logo.svg" alt="Softadmin® logo"
+										style="min-height: 5rem;">
+								</div>
+							</div>
+							<div class="saSidenavContainer">
+								<div>
+									<a class="saSidenavItemWrapper saSearch saHideWhenExpanded" tabindex="0"
+										data-tooltip="Search..." aria-label="Search...">
+										<div class="saSidenavItem">
+											<i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i>
+										</div>
+									</a>
+									<div class="saSidenavItemWrapper saSearch saHideWhenMinimized">
+										<div class="saSidenavItem saInputTextWrapper"><input
+												id="MenuEnterpriseSearchBox" class="saSearchInput saInputText"
+												type="search" placeholder="Search..." aria-label="Search...">
+											<i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i>
+										</div>
+									</div>
+								</div>
+								<div class="saSidenavItem saMenuDropdownsOuter">
+									<div class="saSidenavItemWrapper">
+										<label class="saInputTextWrapper saLabeled">
+											<span class="saLabeledLabel">User</span>
+
+											<span class="saFirstLetter">J</span>
+
+											<select class="saInputText saDropdown">
+												<option value="0" selected="true">Jonathan</option>
+												<option value="1">Kevin</option>
+											</select>
+											<div class="saTrailingIconsWrapper">
+												<i class="saIcon far fa-angle-down"></i>
+											</div>
+										</label>
+									</div>
+								</div>
+								<div class="saToggleGroup" role="tablist" aria-label="Toggle menu/favorites">
+									<button role="tab" id="tabbutton-1" aria-selected="true" aria-controls="tabpanel-1"
+										type="button" data-tooltip="Menu" aria-describedby="TooltipScreenReader"
+										data-tooltip-placement="top">
+										<!--data-tooltip-placement="right" if minimized or wrapped -->
+										<i class="fa-bars saIcon far" aria-hidden="true"></i>
+										<span>Menu</span>
+									</button>
+									<button role="tab" id="tabbutton-2" aria-selected="false" aria-controls="tabpanel-2"
+										type="button" data-tooltip="Favorites" aria-describedby="TooltipScreenReader"
+										data-tooltip-placement="top">
+										<!--data-tooltip-placement="right" if minimized or wrapped -->
+										<i class="fa-star saIcon far" aria-hidden="true"></i>
+										<span>Favorites</span>
+									</button>
+								</div>
+							</div>
+							<div class="saSidenavLists">
+								<ul class="saSidenavItemList" role="tabpanel" id="tabpanel-1"
+									aria-labelledby="tabbutton-1">
+									<li>
+										<a class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="fa-grid-2 far saIcon"></i>
+												<span class="saSidenavItemText">Menu item 1</span>
+
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="far fa-egg saIcon"></i>
+												<span class="saSidenavItemText">The Second Menu item</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+								<ul class="saSidenavItemList" role="tabpanel" id="tabpanel-2"
+									aria-labelledby="tabbutton-2" style="display: none;">
+									<li>
+										<a class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="fa-brush far saIcon"></i>
+												<span class="saSidenavItemText">Favorite 1</span>
+
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="far fa-money-bill-wave saIcon"></i>
+												<span class="saSidenavItemText">Favorite 2</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="far fa-money-bill-wave saIcon"></i>
+												<span class="saSidenavItemText">Favorite 3</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="saSidenavSection saSidenavSectionLast">
+							<div class="saSidenavContainer">
+								<div class="saListItem"><button class="saSidenavItemWrapper" type="button"
+										aria-expanded="false">
+										<div class="saSidenavItem saAvatarWrapperOuter">
+											<div class="saAvatarWrapper saUserInitials" aria-hidden="true">JK</div>
+											<span class="saSidenavItemText">Jonathan Kevin</span>
+											<i class="far fa-angle-down saIcon"></i>
+										</div>
+									</button></div>
+								<div class="saSidenavItem saSidenavItemRow">
+									<button class="saSidenavItemWrapper" type="button">
+										<div class="saSidenavItem">
+											<i class="far fa-gear icon saIcon"></i>
+											<span class="saSidenavItemText">Admin</span>
+
+										</div>
+									</button>
+									<button class="saSidenavItemWrapper" type="button">
+										<div class="saSidenavItem">
+											<i class="far fa-window-restore icon saIcon"></i>
+											<span class="saSidenavItemText">Ny flik</span>
+
+										</div>
+									</button>
+									<button class="saSidenavItemWrapper" type="button">
+										<div class="saSidenavItem">
+											<i class="far fa-circle-question icon saIcon"></i>
+											<span class="saSidenavItemText">Visa hjälpsida - Allmän hjälpsida</span>
+
+										</div>
+									</button>
+									<button class="saSidenavItemWrapper saNotificationLinkLargeScreen" type="button">
+										<div class="saSidenavItem">
+											<div><i class="far fa-bell saIcon"></i></div>
+											<span class="saSidenavItemText">Notifieringar</span>
+
+										</div>
+										<div class="saNotificationBadge saEmpty" aria-hidden="true" aria-hidden="true">
+											<div class="saNotificationBadgeCount">0</div>
+										</div>
+									</button>
+								</div>
+							</div>
+							<div class="saSidenavFooter">
+								<a class="saSoftadminLogo" rel="noopener noreferrer"  href="#">
+									<img loading="lazy" class="saLogo" src="./src/img/softadmin-logo-minimized.svg">
+									<img loading="lazy" class="saWordmark" src="./src/img/softadmin-logo-expanded.svg">
+								</a>
+								<button class="saExpander saDynamicTooltipJs" type="button">
+									<i class="fa-angles-left far saIcon"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</form>
+		</div>
+		<div class="saRightFrameRoot" style="overflow: auto;">
+			<div class="right standardview">
+				<div class="pagecontentframe">
+					<form class="interface">
+						<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs">
+												<div class="saBackButtonWrapper">
+													<button class="saBackButton" type="button" disabled>
+														<i class="fa-arrow-left far saBack saIcon"></i>
+													</button>
+												</div>
+											</nav>
+										</div>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Calendar</h1>
+												<div class="saMarkFavorite saNoSpinner">
+													<button type="button">
+														<i
+															class="fas fa-star saFavoriteIcon saFavoriteAdded icon saIcon"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+													<h1 class="saHeaderText">Calendar</h1>
+												</div>
+											</div><button class="saNavigator" type="button">
+												<div class="saNavBar">
+													<span class="saNavBarStripe"></span>
+													<span class="saNavBarStripe"></span>
+													<span class="saNavBarStripe"></span>
+
+												</div>
+											</button><button class="saNotificationWrapper" type="button"
+												aria-live="polite">
+												<div><i class="far fa-bell saIcon"></i></div>
+												<div class="saNotificationBadge saEmpty" aria-hidden="true" aria-hidden="true">
+													<div class="saNotificationBadgeCount">0</div>
+												</div>
+											</button>
+										</div>
+									</div>
+									<nav class="saBottomRow saActionLinkBar" style="display: none;"></nav>
+								</div>
+							</div>
+						</header>
+						<div class="maincolinner gradients saInputPage">
+							<main id="MI_M" class="menuitem pagecontentframe">
+									<div id="MI_ScrollContent" class="scrollcontent saScrollable"
+										style="height: calc(100vh - 89px );">
+										<div class="scrollcontent-inner">
+											<wrapper style="display: flex; flex-direction: row; gap: 40px; flex-wrap: wrap;">
+												<div class="saDateTimePickerWrapper saPicker saDatePickerRoot saManyWeeks saPopupItemJs" tabindex="0" style="position: static;">
+													<div class="saDateTimePicker">
+														<div class="saDatePickerMonth saSelectedMonthJs" role="table" aria-label="June 2025">
+															<div class="saDatePickerMonthHeading">
+																<div class="saMonthWrapper">
+																	<button type="button" class="saMonth" aria-expanded="false">
+																		<span>June 2025</span>
+																		<i class="saIcon far fa-angle-down"></i>
+																	</button>
+																</div>
+															</div>
+															<div class="saDayRow" role="row">
+																<div class="saWeekNr saEmpty" role="columnheader"></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Mon</span><span class="saScreenReaderOnly">Monday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Tue</span><span class="saScreenReaderOnly">Tuesday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Wed</span><span class="saScreenReaderOnly">Wednesday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Thu</span><span class="saScreenReaderOnly">Thursday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Fri</span><span class="saScreenReaderOnly">Friday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Sat</span><span class="saScreenReaderOnly">Saturday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Sun</span><span class="saScreenReaderOnly">Sunday</span></div>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W22"><span aria-hidden="true">22</span><span class="saScreenReaderOnly">Week 22</span></time>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="May 26"><time datetime="2025-05-26">26</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="May 27"><time datetime="2025-05-27">27</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="May 28"><time datetime="2025-05-28">28</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="May 29"><time datetime="2025-05-29">29</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="May 30"><time datetime="2025-05-30">30</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="May 31"><time datetime="2025-05-31">31</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 01"><time datetime="2025-06-04">1</time></button>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W23"><span aria-hidden="true">23</span><span class="saScreenReaderOnly">Week 23</span></time>
+																<button role="gridcell" type="button" class="saDate saDateElement saToday" aria-current="date" aria-label="June 02"><time datetime="2025-06-02">2</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 03"><time datetime="2025-06-03">3</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 04"><time datetime="2025-06-04">4</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 05"><time datetime="2025-06-05">5</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 06"><time datetime="2025-06-06">6</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 07"><time datetime="2025-06-07">7</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 08"><time datetime="2025-06-08">8</time></button>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W24"><span aria-hidden="true">24</span><span class="saScreenReaderOnly">Week 24</span></time>
+																<button role="gridcell" type="button" class="saDate saDateElement saDateActive" aria-selected="true" aria-label="June 09"><time datetime="2025-06-09">9</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 10"><time datetime="2025-06-10">10</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 11"><time datetime="2025-06-11">11</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 12"><time datetime="2025-06-12">12</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 13"><time datetime="2025-06-13">13</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 14"><time datetime="2025-06-14">14</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 15"><time datetime="2025-06-15">15</time></button>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W25"><span aria-hidden="true">25</span><span class="saScreenReaderOnly">Week 25</span></time>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 16"><time datetime="2025-06-16">16</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 17"><time datetime="2025-06-17">17</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 18"><time datetime="2025-06-18">18</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 19"><time datetime="2025-06-19">19</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 20"><time datetime="2025-06-20">20</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 21"><time datetime="2025-06-21">21</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 22"><time datetime="2025-06-22">22</time></button>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W26"><span aria-hidden="true">26</span><span class="saScreenReaderOnly">Week 26</span></time>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 23"><time datetime="2025-06-23">23</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 24"><time datetime="2025-06-24">24</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 25"><time datetime="2025-06-25">25</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 26"><time datetime="2025-06-26">26</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 27"><time datetime="2025-06-27">27</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 28"><time datetime="2025-06-28">28</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 29"><time datetime="2025-06-29">29</time></button>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W27"><span aria-hidden="true">27</span><span class="saScreenReaderOnly">Week 27</span></time>
+																<button role="gridcell" type="button" class="saDate saDateElement"><time datetime="2025-06-30" aria-label="June 30">30</time></button>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+															</div>
+														</div>
+														<div class="saTimeSlotPickerWrapper">
+															<h3 id="timeLabel">Time</h3>
+															<ul class="saTimeSlotPicker" role="listbox" aria-labelledby="timeLabel">
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="00:00">00:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="01:00">01:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="02:00">02:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement saSelected"><time datetime="03:00" aria-selected="true">03:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="04:00">04:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="05:00">05:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="06:00">06:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="07:00">07:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="08:00">08:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="09:00">09:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="10:00">10:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement saTimeCurrent"><time datetime="11:00" aria-current="time" >11:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="12:00">12:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="13:00">13:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="14:00">14:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="15:00">15:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="16:00">16:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="17:00">17:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="18:00">18:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="19:00">19:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="20:00">20:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="21:00">21:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="22:00">22:00</time></li>
+																<li role="option" class="saDatePickerSlot saDateElement"><time datetime="23:00">23:00</time></li>
+															</ul>
+														</div>
+													</div>
+													<div class="saButtonRow">
+														<button class="saDatePickerButton saButtonPrimary" type="button" >Save</button>
+														<button class="saDatePickerButton saButtonSecondary" type="button" >Cancel</button>
+														<button class="saTodayLink saDateElement" type="button">Today</button>
+													</div>
+												</div>
+												<div class="saPicker saDateRangePickerRoot saDatePickerRoot saPopupItemJs" style="position: static;">
+													<div class="saDateRangePicker">
+														<div class="saDatePickerMonth saSelectedMonthJs" role="table" aria-label="June 2025">
+															<div class="saDatePickerMonthHeading">
+																<div class="saMonthWrapper">
+																	<button type="button" class="saMonth" aria-expanded="false">
+																		<span>June 2025</span>
+																		<i class="saIcon far fa-angle-down"></i>
+																	</button>
+																</div>
+															</div>
+															<div class="saDayRow" role="row">
+																<div class="saWeekNr saEmpty" role="columnheader"></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Mon</span><span class="saScreenReaderOnly">Monday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Tue</span><span class="saScreenReaderOnly">Tuesday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Wed</span><span class="saScreenReaderOnly">Wednesday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Thu</span><span class="saScreenReaderOnly">Thursday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Fri</span><span class="saScreenReaderOnly">Friday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Sat</span><span class="saScreenReaderOnly">Saturday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Sun</span><span class="saScreenReaderOnly">Sunday</span></div>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W22"><span aria-hidden="true">22</span><span class="saScreenReaderOnly">Week 22</span></time>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="May 26"><time datetime="2025-05-26">26</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="May 27"><time datetime="2025-05-27">27</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="May 28"><time datetime="2025-05-28">28</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="May 29"><time datetime="2025-05-29">29</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="May 30"><time datetime="2025-05-30">30</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="May 31"><time datetime="2025-05-31">31</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 01"><time datetime="2025-06-04">1</time></button>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W23"><span aria-hidden="true">23</span><span class="saScreenReaderOnly">Week 23</span></time>
+																<button role="gridcell" type="button" class="saDate saDateElement saToday" aria-current="date"  aria-label="June 02"><time datetime="2025-06-02" >2</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 03"><time datetime="2025-06-03">3</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 04"><time datetime="2025-06-04">4</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 05"><time datetime="2025-06-05">5</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 06"><time datetime="2025-06-06">6</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 07"><time datetime="2025-06-07">7</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 08"><time datetime="2025-06-08">8</time></button>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W24"><span aria-hidden="true">24</span><span class="saScreenReaderOnly">Week 24</span></time>
+																<button role="gridcell" type="button" class="saDate saDateElement saDateActive saDateStart" aria-selected="true" aria-label="June 09, start of selected range"><time datetime="2025-06-09">9</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement saDateInRange" aria-label="June 10, in selected range"><time datetime="2025-06-10">10</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement saDateInRange" aria-label="June 11, in selected range" ><time datetime="2025-06-11">11</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement saDateInRange" aria-label="June 12, in selected range"><time datetime="2025-06-12">12</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement saDateInRange" aria-label="June 13, in selected range"><time datetime="2025-06-13">13</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement saDateActive saDateEnd" aria-selected="true" aria-label="June 14, end of selected range"><time datetime="2025-06-14">14</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 15"><time datetime="2025-06-15">15</time></button>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W25" aria-label="Week 25">25</time>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 16"><time datetime="2025-06-16">16</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 17"><time datetime="2025-06-17">17</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 18"><time datetime="2025-06-18">18</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 19"><time datetime="2025-06-19">19</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 20"><time datetime="2025-06-20">20</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 21"><time datetime="2025-06-21">21</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 22"><time datetime="2025-06-22">22</time></button>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W26"><span aria-hidden="true">26</span><span class="saScreenReaderOnly">Week 26</span></time>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 23"><time datetime="2025-06-23">23</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 24"><time datetime="2025-06-24">24</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 25"><time datetime="2025-06-25">25</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 26"><time datetime="2025-06-26">26</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 27"><time datetime="2025-06-27">27</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 28"><time datetime="2025-06-28">28</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 29"><time datetime="2025-06-29">29</time></button>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W27"><span aria-hidden="true">27</span><span class="saScreenReaderOnly">Week 27</span></time>
+																<button role="gridcell" type="button" class="saDate saDateElement" aria-label="June 30"><time datetime="2025-06-30">30</time></button>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+															</div>
+														</div>
+														<div class="saDatePickerMonth" role="table" aria-label="July 2025">
+															<div class="saDatePickerMonthHeading">
+																<div class="saMonthWrapper">
+																	<button type="button" class="saMonth" aria-expanded="false">
+																		<span>July 2025</span>
+																		<i class="saIcon far fa-angle-down"></i>
+																	</button>
+																</div>
+																<div class="saMonthBrowser">
+																	<button type="button" aria-label="Previous month">
+																		<i class="fa-angle-left saIcon far"></i>
+																	</button>
+																	<button type="button" aria-label="Next month">
+																		<i class="fa-angle-right saIcon far"></i>
+																	</button>
+																</div>
+															</div>
+															<div class="saDayRow" role="row">
+																<div class="saWeekNr saEmpty" role="columnheader"></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Mon</span><span class="saScreenReaderOnly">Monday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Tue</span><span class="saScreenReaderOnly">Tuesday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Wed</span><span class="saScreenReaderOnly">Wednesday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Thu</span><span class="saScreenReaderOnly">Thursday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Fri</span><span class="saScreenReaderOnly">Friday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Sat</span><span class="saScreenReaderOnly">Saturday</span></div>
+																<div class="saDay" role="columnheader"><span aria-hidden="true">Sun</span><span class="saScreenReaderOnly">Sunday</span></div>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W27"><span aria-hidden="true">27</span><span class="saScreenReaderOnly">Week 27</span></time>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 01"><time datetime="2025-07-01">1</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 02"><time datetime="2025-07-02">2</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 03"><time datetime="2025-07-03">3</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 04"><time datetime="2025-07-04">4</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 05"><time datetime="2025-07-05">5</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 06"><time datetime="2025-07-06">6</time></button>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W28"><span aria-hidden="true">28</span><span class="saScreenReaderOnly">Week 28</span></time>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 07"><time datetime="2025-07-07">7</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 08"><time datetime="2025-07-08">8</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 09"><time datetime="2025-07-09">9</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 10"><time datetime="2025-07-10">10</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 11"><time datetime="2025-07-11">11</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 12"><time datetime="2025-07-12">12</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 13"><time datetime="2025-07-13">13</time></button>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W29"><span aria-hidden="true">29</span><span class="saScreenReaderOnly">Week 29</span></time>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 14"><time datetime="2025-07-14">14</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 15"><time datetime="2025-07-15">15</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 16"><time datetime="2025-07-16">16</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 17"><time datetime="2025-07-17">17</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 18"><time datetime="2025-07-18">18</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 19"><time datetime="2025-07-19">19</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 20"><time datetime="2025-07-20">20</time></button>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W30"><span aria-hidden="true">30</span><span class="saScreenReaderOnly">Week 30</span></time>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 21"><time datetime="2025-07-21">21</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 22"><time datetime="2025-07-22">22</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 23"><time datetime="2025-07-23">23</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 24"><time datetime="2025-07-24">24</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 25"><time datetime="2025-07-25">25</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 26"><time datetime="2025-07-26">26</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 27"><time datetime="2025-07-27">27</time></button>
+															</div>
+															<div class="saDateRow" role="row">
+																<time class="saWeekNr" role="rowheader" datetime="2025-W31"><span aria-hidden="true">31</span><span class="saScreenReaderOnly">Week 31</span></time>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 28"><time datetime="2025-07-28">28</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 29"><time datetime="2025-07-29">29</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 30"><time datetime="2025-07-30">30</time></button>
+																<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 31"><time datetime="2025-07-31">31</time></button>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+																<div class="saDate saDateElement saEmpty" aria-hidden="true"></div>
+															</div>
+														</div>
+													</div>
+													<div class="saDateRangeFooter">
+														<button class="saDestructive saResetButton saDefaultButtonSecondary" type="reset">Reset</button>
+													</div>
+												</div>
+												<div class="saDatePicker saPicker saDatePickerRoot saManyWeeks saPopupItemJs" role="table" aria-label="July 2025" style="position: relative;">
+													<div class="saDatePickerMonthHeading">
+														<div class="saMonthWrapper">
+															<button type="button" class="saMonth" aria-expanded="false">
+																<span>June 2025</span>
+																<i class="saIcon far fa-angle-down"></i>
+															</button>
+														</div>
+														<div class="saMonthBrowser">
+															<button type="button" aria-label="Previous month">
+																<i class="fa-angle-left saIcon far"></i>
+															</button>
+															<button type="button" aria-label="Next month">
+																<i class="fa-angle-right saIcon far"></i>
+															</button>
+														</div>
+													</div>
+													<div class="saDayRow" role="row">
+														<div class="saWeekNr saEmpty" role="columnheader"></div>
+														<div class="saDay" role="columnheader"><span aria-hidden="true">Mon</span><span class="saScreenReaderOnly">Monday</span></div>
+														<div class="saDay" role="columnheader"><span aria-hidden="true">Tue</span><span class="saScreenReaderOnly">Tuesday</span></div>
+														<div class="saDay" role="columnheader"><span aria-hidden="true">Wed</span><span class="saScreenReaderOnly">Wednesday</span></div>
+														<div class="saDay" role="columnheader"><span aria-hidden="true">Thu</span><span class="saScreenReaderOnly">Thursday</span></div>
+														<div class="saDay" role="columnheader"><span aria-hidden="true">Fri</span><span class="saScreenReaderOnly">Friday</span></div>
+														<div class="saDay" role="columnheader"><span aria-hidden="true">Sat</span><span class="saScreenReaderOnly">Saturday</span></div>
+														<div class="saDay" role="columnheader"><span aria-hidden="true">Sun</span><span class="saScreenReaderOnly">Sunday</span></div>
+													</div>
+													<div class="saDateRow" role="row">
+														<time class="saWeekNr" role="rowheader" datetime="2025-W22" 			 aria-label="Week 22">22</time>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="May 26"><time datetime="2025-05-26">26</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="May 27"><time datetime="2025-05-27">27</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="May 28"><time datetime="2025-05-28">28</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="May 29"><time datetime="2025-05-29">29</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="May 30"><time datetime="2025-05-30">30</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="May 31"><time datetime="2025-05-31">31</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 01"><time datetime="2025-06-04">1</time></button>
+													</div>
+													<div class="saDateRow" role="row">
+														<time class="saWeekNr" role="rowheader" datetime="2025-W23"><span aria-hidden="true">23</span><span class="saScreenReaderOnly">Week 23</span></time>
+														<button role="gridcell" type="button" class="saDate saDateElement saToday" aria-current="date" aria-label="June 02"><time datetime="2025-06-02">2</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 03"><time datetime="2025-06-03">3</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 04"><time datetime="2025-06-04">4</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 05"><time datetime="2025-06-05">5</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 06"><time datetime="2025-06-06">6</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 07"><time datetime="2025-06-07">7</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 08"><time datetime="2025-06-08">8</time></button>
+													</div>
+													<div class="saDateRow" role="row">
+														<time class="saWeekNr" role="rowheader" datetime="2025-W24"><span aria-hidden="true">24</span><span class="saScreenReaderOnly">Week 24</span></time>
+														<button role="gridcell" type="button" class="saDate saDateElement saDateActive" aria-selected="true" aria-label="June 09"><time datetime="2025-06-09">9</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 10"><time datetime="2025-06-10">10</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 11"><time datetime="2025-06-11">11</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 12"><time datetime="2025-06-12">12</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 13"><time datetime="2025-06-13">13</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 14"><time datetime="2025-06-14">14</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 15"><time datetime="2025-06-15">15</time></button>
+													</div>
+													<div class="saDateRow" role="row">
+														<time class="saWeekNr" role="rowheader" datetime="2025-W25"><span aria-hidden="true">25</span><span class="saScreenReaderOnly">Week 25</span></time>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 16"><time datetime="2025-06-16">16</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 17"><time datetime="2025-06-17">17</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 18"><time datetime="2025-06-18">18</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 19"><time datetime="2025-06-19">19</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 20"><time datetime="2025-06-20">20</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 21"><time datetime="2025-06-21">21</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 22"><time datetime="2025-06-22">22</time></button>
+													</div>
+													<div class="saDateRow" role="row">
+														<time class="saWeekNr" role="rowheader" datetime="2025-W26"><span aria-hidden="true">26</span><span class="saScreenReaderOnly">Week 26</span></time>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 23"><time datetime="2025-06-23">23</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 24"><time datetime="2025-06-24">24</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 25"><time datetime="2025-06-25">25</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 26"><time datetime="2025-06-26">26</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 27"><time datetime="2025-06-27">27</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 28"><time datetime="2025-06-28">28</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 29"><time datetime="2025-06-29">29</time></button>
+													</div>
+													<div class="saDateRow" role="row">
+														<time class="saWeekNr" role="rowheader" datetime="2025-W27"><span aria-hidden="true">27</span><span class="saScreenReaderOnly">Week 27</span></time>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 30"><time datetime="2025-06-30">30</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 01"><time datetime="2025-07-01">1</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 02"><time datetime="2025-07-02">2</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 03"><time datetime="2025-07-03">3</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 04"><time datetime="2025-07-04">4</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 05"><time datetime="2025-07-05">5</time></button>
+														<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 06"><time datetime="2025-07-06">6</time></button>
+													</div>
+													<button type="button" class="saTodayLink saDateElement">Today</button>
+												</div>
+												<div class="saDatePicker saPicker saDatePickerRoot saManyWeeks saPopupItemJs" role="table" aria-label="July 2025" style="position: relative;">
+													<div class="saDatePickerMonthHeading">
+														<div class="saMonthWrapper">
+															<button type="button" class="saMonth" aria-expanded="false">
+																<span>June 2025</span>
+																<i class="saIcon far fa-angle-down"></i>
+															</button>
+														</div>
+														<div class="saMonthBrowser">
+															<button type="button" aria-label="Previous month">
+																<i class="fa-angle-left saIcon far"></i>
+															</button>
+															<button type="button" aria-label="Next month">
+																<i class="fa-angle-right saIcon far"></i>
+															</button>
+														</div>
+													</div>
+													<div class="saDatePickerInner" role="table" aria-colcount="8" aria-rowcount="7" style=" display: grid; grid-template-columns: 1.5rem repeat(7, 32px); grid-template-rows: 1fr;">
+														<div 	role="columnheader"	aria-rowindex="1" aria-colindex="1" class="saWeekNr saEmpty"></div>
+														<div 	role="columnheader"	aria-rowindex="1" aria-colindex="2" class="saDay"><span aria-hidden="true">Mon</span><span class="saScreenReaderOnly">Monday</span></div>
+														<div 	role="columnheader"	aria-rowindex="1" aria-colindex="3" class="saDay"><span aria-hidden="true">Tue</span><span class="saScreenReaderOnly">Tuesday</span></div>
+														<div 	role="columnheader"	aria-rowindex="1" aria-colindex="4" class="saDay"><span aria-hidden="true">Wed</span><span class="saScreenReaderOnly">Wednesday</span></div>
+														<div 	role="columnheader"	aria-rowindex="1" aria-colindex="5" class="saDay"><span aria-hidden="true">Thu</span><span class="saScreenReaderOnly">Thursday</span></div>
+														<div 	role="columnheader"	aria-rowindex="1" aria-colindex="6" class="saDay"><span aria-hidden="true">Fri</span><span class="saScreenReaderOnly">Friday</span></div>
+														<div 	role="columnheader"	aria-rowindex="1" aria-colindex="7" class="saDay"><span aria-hidden="true">Sat</span><span class="saScreenReaderOnly">Saturday</span></div>
+														<div 	role="columnheader"	aria-rowindex="1" aria-colindex="8" class="saDay"><span aria-hidden="true">Sun</span><span class="saScreenReaderOnly">Sunday</span></div>
+														<time 	role="rowheader"	aria-rowindex="2" aria-colindex="1" class="saWeekNr" datetime="2025-W22" aria-label="Week 22">22</time>
+														<button	role="cell"			aria-rowindex="2" aria-colindex="2" type="button" class="saDate saDateElement"  aria-label="May 26"><time datetime="2025-05-26">26</time></button>
+														<button	role="cell"			aria-rowindex="2" aria-colindex="3" type="button" class="saDate saDateElement"  aria-label="May 27"><time datetime="2025-05-27">27</time></button>
+														<button	role="cell"			aria-rowindex="2" aria-colindex="4" type="button" class="saDate saDateElement"  aria-label="May 28"><time datetime="2025-05-28">28</time></button>
+														<button	role="cell"			aria-rowindex="2" aria-colindex="5" type="button" class="saDate saDateElement"  aria-label="May 29"><time datetime="2025-05-29">29</time></button>
+														<button	role="cell"			aria-rowindex="2" aria-colindex="6" type="button" class="saDate saDateElement"  aria-label="May 30"><time datetime="2025-05-30">30</time></button>
+														<button	role="cell"			aria-rowindex="2" aria-colindex="7" type="button" class="saDate saDateElement"  aria-label="May 31"><time datetime="2025-05-31">31</time></button>
+														<button	role="cell"			aria-rowindex="2" aria-colindex="8" type="button" class="saDate saDateElement"  aria-label="June 01"><time datetime="2025-06-04">1</time></button>
+														<time 	role="rowheader"	aria-rowindex="3" aria-colindex="1" class="saWeekNr" datetime="2025-W23"><span aria-hidden="true">23</span><span class="saScreenReaderOnly">Week 23</span></time>
+														<button	role="cell"			aria-rowindex="3" aria-colindex="2" type="button" class="saDate saDateElement saToday" aria-current="date" aria-label="June 02"><time datetime="2025-06-02">2</time></button>
+														<button	role="cell"			aria-rowindex="3" aria-colindex="3" type="button" class="saDate saDateElement"  aria-label="June 03"><time datetime="2025-06-03">3</time></button>
+														<button	role="cell"			aria-rowindex="3" aria-colindex="4" type="button" class="saDate saDateElement"  aria-label="June 04"><time datetime="2025-06-04">4</time></button>
+														<button	role="cell"			aria-rowindex="3" aria-colindex="5" type="button" class="saDate saDateElement"  aria-label="June 05"><time datetime="2025-06-05">5</time></button>
+														<button	role="cell"			aria-rowindex="3" aria-colindex="6" type="button" class="saDate saDateElement"  aria-label="June 06"><time datetime="2025-06-06">6</time></button>
+														<button	role="cell"			aria-rowindex="3" aria-colindex="7" type="button" class="saDate saDateElement"  aria-label="June 07"><time datetime="2025-06-07">7</time></button>
+														<button	role="cell"			aria-rowindex="3" aria-colindex="8" type="button" class="saDate saDateElement"  aria-label="June 08"><time datetime="2025-06-08">8</time></button>
+														<time 	role="rowheader"	aria-rowindex="4" aria-colindex="1" class="saWeekNr" datetime="2025-W24"><span aria-hidden="true">24</span><span class="saScreenReaderOnly">Week 24</span></time>
+														<button	role="cell"			aria-rowindex="4" aria-colindex="2" type="button" class="saDate saDateElement saDateActive" aria-selected="true" aria-label="June 09"><time datetime="2025-06-09">9</time></button>
+														<button	role="cell"			aria-rowindex="4" aria-colindex="3" type="button" class="saDate saDateElement"  aria-label="June 10"><time datetime="2025-06-10">10</time></button>
+														<button	role="cell"			aria-rowindex="4" aria-colindex="4" type="button" class="saDate saDateElement"  aria-label="June 11"><time datetime="2025-06-11">11</time></button>
+														<button	role="cell"			aria-rowindex="4" aria-colindex="5" type="button" class="saDate saDateElement"  aria-label="June 12"><time datetime="2025-06-12">12</time></button>
+														<button	role="cell"			aria-rowindex="4" aria-colindex="6" type="button" class="saDate saDateElement"  aria-label="June 13"><time datetime="2025-06-13">13</time></button>
+														<button	role="cell"			aria-rowindex="4" aria-colindex="7" type="button" class="saDate saDateElement"  aria-label="June 14"><time datetime="2025-06-14">14</time></button>
+														<button	role="cell"			aria-rowindex="4" aria-colindex="8" type="button" class="saDate saDateElement"  aria-label="June 15"><time datetime="2025-06-15">15</time></button>
+														<time 	role="rowheader"	aria-rowindex="5" aria-colindex="1" class="saWeekNr" datetime="2025-W25"><span aria-hidden="true">25</span><span class="saScreenReaderOnly">Week 25</span></time>
+														<button	role="cell"			aria-rowindex="5" aria-colindex="2" type="button" class="saDate saDateElement"  aria-label="June 16"><time datetime="2025-06-16">16</time></button>
+														<button	role="cell"			aria-rowindex="5" aria-colindex="3" type="button" class="saDate saDateElement"  aria-label="June 17"><time datetime="2025-06-17">17</time></button>
+														<button	role="cell"			aria-rowindex="5" aria-colindex="4" type="button" class="saDate saDateElement"  aria-label="June 18"><time datetime="2025-06-18">18</time></button>
+														<button	role="cell"			aria-rowindex="5" aria-colindex="5" type="button" class="saDate saDateElement"  aria-label="June 19"><time datetime="2025-06-19">19</time></button>
+														<button	role="cell"			aria-rowindex="5" aria-colindex="6" type="button" class="saDate saDateElement"  aria-label="June 20"><time datetime="2025-06-20">20</time></button>
+														<button	role="cell"			aria-rowindex="5" aria-colindex="7" type="button" class="saDate saDateElement"  aria-label="June 21"><time datetime="2025-06-21">21</time></button>
+														<button	role="cell"			aria-rowindex="5" aria-colindex="8" type="button" class="saDate saDateElement"  aria-label="June 22"><time datetime="2025-06-22">22</time></button>
+														<time	role="rowheader"	aria-rowindex="6" aria-colindex="1" class="saWeekNr" datetime="2025-W26"><span aria-hidden="true">26</span><span class="saScreenReaderOnly">Week 26</span></time>
+														<button	role="cell"			aria-rowindex="6" aria-colindex="2" type="button" class="saDate saDateElement"  aria-label="June 23"><time datetime="2025-06-23">23</time></button>
+														<button	role="cell"			aria-rowindex="6" aria-colindex="3" type="button" class="saDate saDateElement"  aria-label="June 24"><time datetime="2025-06-24">24</time></button>
+														<button	role="cell"			aria-rowindex="6" aria-colindex="4" type="button" class="saDate saDateElement"  aria-label="June 25"><time datetime="2025-06-25">25</time></button>
+														<button	role="cell"			aria-rowindex="6" aria-colindex="5" type="button" class="saDate saDateElement"  aria-label="June 26"><time datetime="2025-06-26">26</time></button>
+														<button	role="cell"			aria-rowindex="6" aria-colindex="6" type="button" class="saDate saDateElement"  aria-label="June 27"><time datetime="2025-06-27">27</time></button>
+														<button	role="cell"			aria-rowindex="6" aria-colindex="7" type="button" class="saDate saDateElement"  aria-label="June 28"><time datetime="2025-06-28">28</time></button>
+														<button	role="cell"			aria-rowindex="6" aria-colindex="8" type="button" class="saDate saDateElement"  aria-label="June 29"><time datetime="2025-06-29">29</time></button>
+														<time 	role="rowheader"	aria-rowindex="7" aria-colindex="1" class="saWeekNr" datetime="2025-W27"><span aria-hidden="true">27</span><span class="saScreenReaderOnly">Week 27</span></time>
+														<button	role="cell"			aria-rowindex="7" aria-colindex="2" type="button" class="saDate saDateElement"  aria-label="June 30"><time datetime="2025-06-30">30</time></button>
+														<button	role="cell"			aria-rowindex="7" aria-colindex="3" type="button" class="saDate saDateElement"  aria-label="July 01"><time datetime="2025-07-01">1</time></button>
+														<button	role="cell"			aria-rowindex="7" aria-colindex="4" type="button" class="saDate saDateElement"  aria-label="July 02"><time datetime="2025-07-02">2</time></button>
+														<button	role="cell"			aria-rowindex="7" aria-colindex="5" type="button" class="saDate saDateElement"  aria-label="July 03"><time datetime="2025-07-03">3</time></button>
+														<button	role="cell"			aria-rowindex="7" aria-colindex="6" type="button" class="saDate saDateElement"  aria-label="July 04"><time datetime="2025-07-04">4</time></button>
+														<button	role="cell"			aria-rowindex="7" aria-colindex="7" type="button" class="saDate saDateElement"  aria-label="July 05"><time datetime="2025-07-05">5</time></button>
+														<button	role="cell"			aria-rowindex="7" aria-colindex="8" type="button" class="saDate saDateElement"  aria-label="July 06"><time datetime="2025-07-06">6</time></button>
+													</div>
+													<button type="button" class="saTodayLink saDateElement">Today</button>
+												</div>
+												<div class="saCalendarSection saDesktopCalendar saWeekdaysCalendar">
+													<div class="saCalendarSectionInner">
+														<div class="saCalendarSidebar">
+															<div class="saCalendarSidebarInner">
+																<div class="saCalendarSidebarSection saSidebarCalendar">
+																	<div class="saDatePicker saDatePickerRoot saManyWeeks" role="table" aria-label="June 2025">
+																		<div class="saDatePickerMonthHeading">
+																			<h2 class="saCalendarSidebarHeading">June 2025</h2>
+																			<div class="saMonthBrowser">
+																				<button type="button" aria-label="Previous month">
+																					<i class="fa-angle-left saIcon far"></i>
+																				</button>
+																				<button type="button" aria-label="Next month">
+																					<i class="fa-angle-right saIcon far"></i>
+																				</button>
+																			</div>
+																		</div>
+																		<div class="saDayRow" role="row">
+																			<div class="saWeekNr saEmpty" role="columnheader"></div>
+																			<div class="saDay" role="columnheader"><span aria-hidden="true">Mon</span><span class="saScreenReaderOnly">Monday</span></div>
+																			<div class="saDay" role="columnheader"><span aria-hidden="true">Tue</span><span class="saScreenReaderOnly">Tuesday</span></div>
+																			<div class="saDay" role="columnheader"><span aria-hidden="true">Wed</span><span class="saScreenReaderOnly">Wednesday</span></div>
+																			<div class="saDay" role="columnheader"><span aria-hidden="true">Thu</span><span class="saScreenReaderOnly">Thursday</span></div>
+																			<div class="saDay" role="columnheader"><span aria-hidden="true">Fri</span><span class="saScreenReaderOnly">Friday</span></div>
+																			<div class="saDay" role="columnheader"><span aria-hidden="true">Sat</span><span class="saScreenReaderOnly">Saturday</span></div>
+																			<div class="saDay" role="columnheader"><span aria-hidden="true">Sun</span><span class="saScreenReaderOnly">Sunday</span></div>
+																		</div>
+																		<div class="saDateRow" role="row">
+																			<time class="saWeekNr" role="rowheader" datetime="2025-W22"><span aria-hidden="true">22</span><span class="saScreenReaderOnly">Week 22</span></time>
+																			<button role="gridcell" type="button" class="saDate saDateElement saMarked"  aria-label="May 26"><time datetime="2025-05-26">26</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement saMarked"  aria-label="May 27"><time datetime="2025-05-27">27</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement saMarked"  aria-label="May 28"><time datetime="2025-05-28">28</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement saMarked"  aria-label="May 29"><time datetime="2025-05-29">29</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement saMarked"  aria-label="May 30"><time datetime="2025-05-30">30</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement saMarked"  aria-label="May 31"><time datetime="2025-05-31">31</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement saMarked"  aria-label="June 01"><time datetime="2025-06-04">1</time></button>
+																		</div>
+																		<div class="saDateRow" role="row">
+																			<time class="saWeekNr" role="rowheader" datetime="2025-W23"><span aria-hidden="true">23</span><span class="saScreenReaderOnly">Week 23</span></time>
+																			<button role="gridcell" type="button" class="saDate saDateElement saToday" aria-current="date" aria-label="June 02"><time datetime="2025-06-02">2</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 03"><time datetime="2025-06-03">3</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 04"><time datetime="2025-06-04">4</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 05"><time datetime="2025-06-05">5</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 06"><time datetime="2025-06-06">6</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 07"><time datetime="2025-06-07">7</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 08"><time datetime="2025-06-08">8</time></button>
+																		</div>
+																		<div class="saDateRow" role="row">
+																			<time class="saWeekNr" role="rowheader" datetime="2025-W24"><span aria-hidden="true">24</span><span class="saScreenReaderOnly">Week 24</span></time>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 09"><time datetime="2025-06-09">9</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 10"><time datetime="2025-06-10">10</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 11"><time datetime="2025-06-11">11</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 12"><time datetime="2025-06-12">12</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 13"><time datetime="2025-06-13">13</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 14"><time datetime="2025-06-14">14</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 15"><time datetime="2025-06-15">15</time></button>
+																		</div>
+																		<div class="saDateRow" role="row">
+																			<time class="saWeekNr" role="rowheader" datetime="2025-W25"><span aria-hidden="true">25</span><span class="saScreenReaderOnly">Week 25</span></time>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 16"><time datetime="2025-06-16">16</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 17"><time datetime="2025-06-17">17</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 18"><time datetime="2025-06-18">18</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 19"><time datetime="2025-06-19">19</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 20"><time datetime="2025-06-20">20</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 21"><time datetime="2025-06-21">21</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 22"><time datetime="2025-06-22">22</time></button>
+																		</div>
+																		<div class="saDateRow" role="row">
+																			<time class="saWeekNr" role="rowheader" datetime="2025-W26"><span aria-hidden="true">26</span><span class="saScreenReaderOnly">Week 26</span></time>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 23"><time datetime="2025-06-23">23</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 24"><time datetime="2025-06-24">24</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 25"><time datetime="2025-06-25">25</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 26"><time datetime="2025-06-26">26</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 27"><time datetime="2025-06-27">27</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 28"><time datetime="2025-06-28">28</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 29"><time datetime="2025-06-29">29</time></button>
+																		</div>
+																		<div class="saDateRow" role="row">
+																			<time class="saWeekNr" role="rowheader" datetime="2025-W27"><span aria-hidden="true">27</span><span class="saScreenReaderOnly">Week 27</span></time>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="June 30"><time datetime="2025-06-30">30</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 01"><time datetime="2025-07-01">1</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 02"><time datetime="2025-07-02">2</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 03"><time datetime="2025-07-03">3</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 04"><time datetime="2025-07-04">4</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 05"><time datetime="2025-07-05">5</time></button>
+																			<button role="gridcell" type="button" class="saDate saDateElement"  aria-label="July 06"><time datetime="2025-07-06">6</time></button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+										</wrapper>
+									</div>
+								</div>
+							</main>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script>
+	$(document).ready(function () {
+		$('.saToggleGroup button').on('click', function () {
+			$('.saToggleGroup button').attr('aria-selected', 'false');
+			$(this).attr('aria-selected', 'true');
+
+			$('.saSidenavItemList').hide();
+
+			var tabpanelId = $(this).attr('aria-controls');
+			$('#' + tabpanelId).show();
+			checkToggleGroupWrap();
+		});
+		function checkToggleGroupWrap() {
+			$('.saToggleGroup').each(function () {
+				const $group = $(this);
+				const $buttons = $group.find('button');
+				const firstButton = $buttons.first();
+				const groupWidth = $group.width();
+				const firstButtonWidth = firstButton.outerWidth(true);
+
+				const wrapped = firstButtonWidth >= groupWidth;
+
+				$group.toggleClass('saWrapped', wrapped);
+				console.log('Wrapped')
+			});
+		}
+
+		if (window.ResizeObserver) {
+			const ro = new ResizeObserver(checkToggleGroupWrap);
+			ro.observe(document.body);
+		}
+
+		$('.saToggleGroup button').each(function () {
+			const button = this;
+			const observer = new MutationObserver(checkToggleGroupWrap);
+			observer.observe(button, { characterData: true, subtree: true, childList: true });
+		});
+		checkToggleGroupWrap();
+
+		$(window).on('resize', checkToggleGroupWrap);
+
+	});
+</script>
+
+</html>
