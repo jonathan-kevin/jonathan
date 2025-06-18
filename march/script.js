@@ -7,7 +7,7 @@ var style = $("<link>", {
 
 var fontawesome = $("<link>", {
 	rel: "stylesheet",
-	href: "./src/fontawesome/css/all.css",
+	href: "../src/fontawesome/css/all.css",
 });
 
 var favicon = $("<link>", {
