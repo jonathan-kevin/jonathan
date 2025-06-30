@@ -48,7 +48,7 @@
 						<div class="saSidenavSection">
 							<div class="saCustomerLogo">
 								<div>
-									<img loading="lazy" src="./src/img/logo.svg" alt="Softadmin® logo"
+									<img loading="lazy" src="../src/img/logo.svg" alt="Softadmin® logo"
 										style="min-height: 5rem;">
 								</div>
 							</div>
@@ -68,19 +68,16 @@
 										</label>
 									</div>
 								</div>
-								<div class="saToggleWrapper">
-									<div class="saHandle">
-										<div class="saTrack">
-											<a class="saToggleIconText saDynamicTooltipJs saActive" tabindex="0">
-												<i class="far fa-bars icon saIcon" aria-hidden="true"></i>
-												<span class="saToggleText">Meny</span>
-											</a>
-											<a class="saToggleIconText saDynamicTooltipJs" tabindex="0">
-												<i class="far fa-star icon saIcon" aria-hidden="true"></i>
-												<span class="saToggleText">Favoriter</span>
-											</a>
-										</div>
-									</div>
+								<div class="saToggleGroup" role="tablist" aria-label="Toggle menu/favorites">
+									<button class="saDynamicTooltipJs" type="button" id="tabbutton1" role="tab"
+										aria-selected="true">
+										<i class="saIcon far fa-bars" aria-hidden="true"></i>
+										<span class="saToggleText">Menu</span>
+									</button>
+									<button class="saDynamicTooltipJs" type="button" id="tabbutton2" role="tab">
+										<i class="saIcon far fa-star" aria-hidden="true"></i>
+										<span class="saToggleText">Favorites</span>
+									</button>
 								</div>
 							</div>
 							<div class="saSidenavLists">
@@ -162,8 +159,8 @@
 							</div>
 							<div class="saSidenavFooter">
 								<a class="saSoftadminLogo" rel="noopener noreferrer" tabindex="-1" href="#">
-									<img loading="lazy" class="saLogo" src="./src/img/softadmin-logo-minimized.svg">
-									<img loading="lazy" class="saWordmark" src="./src/img/softadmin-logo-expanded.svg">
+									<img loading="lazy" class="saLogo" src="../src/img/softadmin-logo-minimized.svg">
+									<img loading="lazy" class="saWordmark" src="../src/img/softadmin-logo-expanded.svg">
 								</a>
 								<button class="saExpander saDynamicTooltipJs" type="button">
 									<i class="fa-angles-left far saIcon"></i>
@@ -246,11 +243,18 @@
 															<h3 class="saErrorSummaryHeading">
 																Error summary
 															</h3>
-															<p style="padding: 0.25rem 0 0.5rem 0">Resolve the following errors to continue.</p>
+															<button class="saErrorSummaryCloseButton" type="button" aria-label="Close error summary"><i class="saIcon far fa-xmark"></i></button>
+															<p>Resolve the following
+																errors to continue.</p>
 															<ul class="saErrorSummary">
 																<li>
 																	<a class="saErrorMessage" href="#inputText3">
 																		Error message.
+																	</a>
+																</li>
+																<li>
+																	<a class="saErrorMessage" href="#inputText3-1">
+																		Error message 2.
 																	</a>
 																</li>
 															</ul>
@@ -700,6 +704,29 @@
 																				</div>
 																			</label>
 																		</div>
+																		<div class="saInputWrapper long">
+																			<div class="saInput">
+																				<div
+																					class="saInputTextWrapper saHighlightFieldError saInputPageField long">
+																					<input class="saInputText"
+																						id="inputText3-1" type="text"
+																						required aria-invalid="true"
+																						aria-required="true"
+																						aria-errormessage="inputText3-1Error">
+																				</div>
+																			</div>
+																			<label
+																				class="saValidationMessage saError saErrorJs"
+																				for="inputText3-1"
+																				id="inputText3-1Error">
+																				<i class="saIcon fas fa-octagon-xmark"
+																					aria-hidden="true"></i>
+																				<div class="saValidationMessageText"
+																					role="alert">
+																					Error message
+																				</div>
+																			</label>
+																		</div>
 																	</div>
 																</div>
 															</div>
@@ -874,10 +901,11 @@
 
 			// Fallback using horizontal position
 			if (!wrapped) {
-				wrapped = $children.eq(1).offset().left < $children.eq(0).offset().left;
+				$('.saFormRootWrapper').removeClass('saWrapped');
 			}
-
-			$('.saFormRootWrapper').toggleClass('saWrapped', wrapped);
+			else {
+				$('.saFormRootWrapper').addClass('saWrapped');
+			}
 		}
 
 		wrapped();

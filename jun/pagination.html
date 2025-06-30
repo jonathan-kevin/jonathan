@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pagination</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+	<script type="text/javascript" src="https://livejs.com/live.js"></script>
+	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+</head>
+
+<body class="saRootBody saLargeScreen saPc saCompact">
+	<div class="saRootContentWrapper">
+		<div class="saSideBar saSideBarJs saExpanded">
+			<form id="aspnetForm">
+				<nav id="SideBar">
+					<div class="saPageHeader saSmallScreenHeader">
+						<div class="saHeader">
+							<div class="saTopRow">
+								<button class="saNavigator" type="button">
+									<div class="saNavBar saActive"><span class="saNavBarStripe"></span>
+										<span class="saNavBarStripe"></span>
+										<span class="saNavBarStripe"></span>
+									</div>
+								</button>
+								<div class="saHeaderWrapper">
+									<div class="saTitle">
+										<h1>Softadmin® Utvecklingssystem</h1>
+									</div>
+								</div>
+								<button class="saNotificationWrapper" type="button">
+									<div><i class="far fa-bell saIcon"></i></div>
+									<div class="saNotificationBadge saEmpty" aria-hidden="true">
+										<div class="saNotificationBadgeCount">0</div>
+									</div>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="saSidenav" id="sidenav">
+						<div class="saSidenavSection">
+							<div class="saCustomerLogo">
+								<div>
+									<img src="../src/img/logo.svg" alt="Softadmin® logo" style="min-height: 5rem;">
+								</div>
+							</div>
+							<div class="saSidenavContainer">
+								<div class="saSidenavItem saMenuDropdownsOuter">
+									<div class="saSidenavItemWrapper">
+										<label class="saInputTextWrapper saLabeled">
+											<span class="saLabeledLabel">User</span>
+											<span class="saFirstLetter">J</span>
+											<select class="saInputText saDropdown">
+												<option value="0" selected="true">Jonathan</option>
+												<option value="1">Kevin</option>
+											</select>
+											<div class="saTrailingIconsWrapper">
+												<i class="saIcon far fa-angle-down"></i>
+											</div>
+										</label>
+									</div>
+								</div>
+								<div class="saToggleGroup" role="tablist" aria-label="Toggle menu/favorites">
+									<button class="saDynamicTooltipJs" type="button" id="tabbutton1" role="tab"
+										aria-selected="true">
+										<i class="saIcon far fa-bars" aria-hidden="true"></i>
+										<span class="saToggleText">Menu</span>
+									</button>
+									<button class="saDynamicTooltipJs" type="button" id="tabbutton2" role="tab">
+										<i class="saIcon far fa-star" aria-hidden="true"></i>
+										<span class="saToggleText">Favorites</span>
+									</button>
+								</div>
+							</div>
+							<div class="saSidenavLists">
+								<ul class="saSidenavItemList">
+									<li>
+										<a class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="far fa-crow saIcon"></i>
+												<span class="saSidenavItemText">Crow</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="far fa-egg saIcon"></i>
+												<span class="saSidenavItemText">Egg</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="far fa-feather saIcon"></i>
+												<span class="saSidenavItemText">Flying lessons</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="far fa-ticket-alt saIcon"></i>
+												<span class="saSidenavItemText">Aviary tickets</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="saSidenavSection saSidenavSectionLast">
+							<div class="saSidenavContainer">
+								<div class="saListItem">
+									<button class="saSidenavItemWrapper" type="button" aria-expanded="false">
+										<div class="saSidenavItem saAvatarWrapperOuter">
+											<div class="saAvatarWrapper saUserInitials" aria-hidden="true">JK</div>
+											<span class="saSidenavItemText">Jonathan Kevin</span><i
+												class="far fa-angle-down saIcon"></i>
+										</div>
+									</button>
+								</div>
+								<div class="saSidenavItem saSidenavItemRow">
+									<button class="saSidenavItemWrapper" type="button">
+										<div class="saSidenavItem">
+											<i class="far fa-gear icon saIcon"></i>
+											<span class="saSidenavItemText">Admin</span>
+										</div>
+									</button>
+									<button class="saSidenavItemWrapper" type="button">
+										<div class="saSidenavItem">
+											<i class="far fa-window-restore icon saIcon"></i>
+											<span class="saSidenavItemText">Ny flik</span>
+										</div>
+									</button>
+									<button class="saSidenavItemWrapper" type="button">
+										<div class="saSidenavItem">
+											<i class="far fa-circle-question icon saIcon"></i>
+											<span class="saSidenavItemText">Visa hjälpsida - Allmän hjälpsida</span>
+										</div>
+									</button>
+									<button class="saSidenavItemWrapper saNotificationLinkLargeScreen" type="button">
+										<div class="saSidenavItem">
+											<div><i class="far fa-bell saIcon"></i></div>
+											<span class="saSidenavItemText">Notifieringar</span>
+										</div>
+										<div class="saNotificationBadge saEmpty" aria-hidden="true">
+											<div class="saNotificationBadgeCount">0</div>
+										</div>
+									</button>
+								</div>
+							</div>
+							<div class="saSidenavFooter">
+								<a class="saSoftadminLogo" rel="noopener noreferrer" tabindex="-1" href="#">
+									<img class="saLogo" src="../src/img/softadmin-logo-minimized.svg">
+									<img class="saWordmark" src="../src/img/softadmin-logo-expanded.svg">
+								</a>
+								<button class="saExpander saDynamicTooltipJs" type="button">
+									<i class="fa-angles-left far saIcon"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</form>
+		</div>
+		<div class="saRightFrameRoot">
+			<div class="right standardview">
+				<div class="pagecontentframe">
+					<form class="interface">
+						<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs">
+												<div class="saBackButtonWrapper">
+													<button class="saBackButton" type="button" disabled>
+														<i class="fa-arrow-left far saBack saIcon"></i>
+													</button>
+												</div>
+											</nav>
+										</div>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Pagination</h1>
+												<div class="saMarkFavorite saNoSpinner"><button type="button"><i
+															class="fas fa-star saFavoriteIcon saFavoriteAdded icon saIcon"></i></button>
+												</div>
+												<ul class="saSpecialLinksWrapper"></ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+													<h1 class="saHeaderText">Pagination</h1>
+												</div>
+											</div>
+											<button class="saNavigator" type="button">
+												<div class="saNavBar">
+													<span class="saNavBarStripe"></span>
+													<span class="saNavBarStripe"></span>
+													<span class="saNavBarStripe"></span>
+												</div>
+											</button>
+											<button class="saNotificationWrapper" type="button" aria-live="polite">
+												<div><i class="far fa-bell saIcon"></i></div>
+												<div class="saNotificationBadge saEmpty" aria-hidden="true">
+													<div class="saNotificationBadgeCount">0</div>
+												</div>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</header>
+						<div class="maincolinner gradients">
+							<main id="MI_M" class="menuitem pagecontentframe">
+								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable"
+									style="height: calc(100vh - 56px);">
+									<div class="scrollcontent-inner">
+										<softadmin-grid class="grid saMenuItemRoot">
+											<div class="stickyheader maincolbody listpage saNotUsingAccessibilityMode">
+												<div class="saGridWrapper">
+													<div class="saGridTop" aria-label="Page navigation">
+														<div class="saGridTopInner">
+															<div class="saGridHitCounter">25 of 250 hits</div>
+															<nav class="saPaginationWrapper" aria-label="Pagination">
+																<ul class="saPagination">
+																	<li>
+																		<button type="button" class="saPaginationButton"
+																			aria-label="First page" disabled>
+																			<i class="fa-angles-left far saIcon"></i>
+																		</button>
+																	</li>
+																	<li>
+																		<button type="button" class="saPaginationButton"
+																			aria-label="Previous page" disabled>
+																			<i class="fa-angle-left far saIcon"></i>
+																		</button>
+																	</li>
+																	<li class="saPaginationCurrentWrapper">
+																		<input class="saPaginationCurrent" id="current"
+																			type="number" value="1" min="1" max="25"
+																			step="1">
+																		<div class="saPaginationTotal">
+																			&nbsp;of <span id="total">25</span></div>
+																	</li>
+																	<li>
+																		<button type="button" class="saPaginationButton"
+																			aria-label="Next page">
+																			<i class="fa-angle-right far saIcon"></i>
+																		</button>
+																	</li>
+																	<li>
+																		<button type="button" class="saPaginationButton"
+																			aria-label="Last page">
+																			<i class="fa-angles-right far saIcon"></i>
+																		</button>
+																	</li>
+																</ul>
+															</nav>
+															<div class="saButtons">
+																<label
+																	class="saInputTextWrapper saLabeled saGroupingGrid">
+																	<span
+																		class="saLabeledLabel saGroupingGridLabel">Group
+																		by</span>
+																	<div class="saTrailingIconsWrapper"><i
+																			class="saIcon far fa-angle-down"></i></div>
+																	<select
+																		class="saInputText saDropdown saGridGroupingDropdown">
+																		<option value="0">(Nothing)</option>
+																		<option value="1">Bird</option>
+																	</select>
+																</label>
+																<button class="saGridButton" type="button"
+																	aria-label="Display, order and sort">
+																	<span class="saIcon far fa-sliders"
+																		aria-hidden="true"></span>
+																</button>
+																<button class="saGridButton saExcel" type="button"
+																	aria-label="View in Excel"><span
+																		class="saIcon far fa-file-excel"
+																		aria-hidden="true"
+																		style="color: limegreen;"></span></button><button
+																	class="saGridButton saChangeScreenModeButton"
+																	type="button" aria-label="List"><span
+																		class="saIcon far fa-list"
+																		aria-hidden="true"></span></button>
+															</div>
+														</div>
+														<div class="saGridComponentContentLinksWrapper">
+															<ul class="saGridComponentContentLinks" role="toolbar">
+																<li class="saActionLink">
+																	<button
+																		class="saGridComponentContentLinkButton saButtonSecondary"
+																		type="button">
+																		<div class="saIconHolder" aria-hidden="true">
+																			<i
+																				class="far fa-magnifying-glass icon saIcon"></i>
+																		</div>
+																		<span class="saButtonText">Search birds</span>
+																	</button>
+																</li>
+																<li class="saActionLink">
+																	<button
+																		class="saGridComponentContentLinkButton saButtonSecondary saInactive"
+																		type="button"
+																		aria-label="Delete selected log groups: You need to check at least one item."
+																		aria-disabled="true">
+																		<div class="saIconHolder" aria-hidden="true"><i
+																				class="far fa-trash icon saIcon"></i>
+																		</div>
+																		<span class="saButtonText">Delete
+																			selected</span>
+																	</button>
+																</li>
+															</ul>
+														</div>
+													</div>
+													<table class="saGrid" cellpadding="0" cellspacing="0">
+														<caption>Birds</caption>
+														<thead class="stickyheader saGridHead">
+															<tr class="saGridHeadingRow">
+																<th colspan="2"
+																	class="saGridRowControls saGridCheckbox saGridSpecialHeader">
+																	<input type="checkbox" class="saCheckbox"
+																		aria-label="Toggle checkboxes on this page">
+																</th>
+																<th><a class="saGridHeadingInner sort">
+																		Bird</span></a><img src="img/transparent.png"
+																		class="draghandle" draggable="true"
+																		aria-hidden="true" data-col-index="0"
+																		style="height: 30px;">
+																</th>
+																<th><a class="saGridHeadingInner sort"><span
+																			class="saGridHeadingLabel">Name</span></a><img
+																		src="img/transparent.png" class="draghandle"
+																		draggable="true" aria-hidden="true"
+																		data-col-index="1" style="height: 30px;"></th>
+																<th aria-sort="descending"><a
+																		class="saGridHeadingInner sort saSorted"><span
+																			class="saGridHeadingLabel">Type</span><i
+																			class="fa-caret-down saIcon fas"
+																			aria-hidden="true"></i></a><img
+																		src="img/transparent.png" class="draghandle"
+																		draggable="true" aria-hidden="true"
+																		data-col-index="2" style="height: 30px;"></th>
+																<th><a class="saGridHeadingInner sort"><span
+																			class="saGridHeadingLabel">Registration
+																			Number</span></a><img
+																		src="img/transparent.png" class="draghandle"
+																		draggable="true" aria-hidden="true"
+																		data-col-index="3" style="height: 30px;"></th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr class="saGridRow hascontextmenu">
+																<td class="saGridRowControls saGridCheckbox"><input
+																		class="saCheckbox" type="checkbox" value="0">
+																</td>
+																<td class="saGridRowControls">
+																	<button type="button" class="saGridRowButton">
+																		<i class="fas fa-eye icon saIcon"></i>
+																	</button>
+																</td>
+																<td>
+																	<div class="saGridCell">
+																		<span class="gridtext">Crow</span>
+																	</div>
+																</td>
+																<td>
+																	<div class="saGridCell">
+																		<span class="gridtext">Django</span>
+																	</div>
+																</td>
+																<td>
+																	<div class="saGridCell">
+																		<span class="gridtext">South Sudanese</span>
+																	</div>
+																</td>
+																<td>
+																	<div class="saGridCell">
+																		<nobr>SU-2421KQY</nobr>
+																	</div>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+											<div class="saListGrid">
+												<div class="saGridTop">
+													<div class="saGridHitCounter">25 of 250 hits</div>
+													<div class="saButtons">
+														<button class="saGridButton" type="button">
+															<span class="saIcon far fa-sliders"
+																aria-hidden="true"></span>
+														</button>
+														<button class="saGridButton saChangeScreenModeButton"
+															type="button">
+															<span class="fa-table saIcon far" aria-hidden="true"></span>
+														</button>
+													</div>
+												</div>
+												<div class="saListGridInner">
+													<div>
+														<div class="saRow" data-sa-row="0">
+															<div class="saRowHeading"><input type="checkbox"
+																	class="saCheckbox" value="0">
+																<button type="button"
+																	class="saRowHeadingInner saExpandClickEventsJs"
+																	aria-expanded="false">
+																	<div class="saRowHeadingTextWrapper saUserContent">
+																		<div>The Crow-Man III: The Hunt for Time</div>
+																	</div><span class="saExpandButton">
+																		<i class="far fa-angle-down"></i></span>
+																</button>
+															</div>
+														</div>
+													</div>
+												</div>
+												<nav class="saPaginationWrapper" aria-label="Pagination">
+													<ul class="saPagination">
+														<li>
+															<button type="button" class="saPaginationButton"
+																aria-label="First page" disabled>
+																<i class="fa-angles-left far saIcon"></i>
+															</button>
+														</li>
+														<li>
+															<button type="button" class="saPaginationButton"
+																aria-label="Previous page" disabled>
+																<i class="fa-angle-left far saIcon"></i>
+															</button>
+														</li>
+														<li>
+															<select class="saPaginationSelect"
+																aria-label="Select page. Current page 1 of 25"
+																id="paginationSelect">1
+																<optgroup label="Page" id="optionGroup">
+																</optgroup>
+															</select>
+														</li>
+														<li>
+															<button type="button" class="saPaginationButton"
+																aria-label="Next page">
+																<i class="fa-angle-right far saIcon"></i>
+															</button>
+														</li>
+														<li>
+															<button type="button" class="saPaginationButton"
+																aria-label="Last page">
+																<i class="fa-angles-right far saIcon"></i>
+															</button>
+														</li>
+													</ul>
+												</nav>
+											</div>
+										</softadmin-grid>
+									</div>
+								</div>
+							</main>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	$(document).ready(function () {
+
+
+
+		const totalPages = 25; // Set your total page count here
+
+		// Large screen pagination (input)
+		const $currentInput = $('.saPaginationCurrent');
+		const $totalDiv = $('.saPaginationTotal');
+		const $firstBtn = $('.saPaginationButton[aria-label="First page"]').first();
+		const $prevBtn = $('.saPaginationButton[aria-label="Previous page"]').first();
+		const $nextBtn = $('.saPaginationButton[aria-label="Next page"]').first();
+		const $lastBtn = $('.saPaginationButton[aria-label="Last page"]').first();
+
+		// Small screen pagination (select)
+		const $paginationSelect = $('.saPaginationSelect');
+		const $optionGroup = $('#optionGroup');
+		const $firstBtnSm = $('.saPaginationButton[aria-label="First page"]').last();
+		const $prevBtnSm = $('.saPaginationButton[aria-label="Previous page"]').last();
+		const $nextBtnSm = $('.saPaginationButton[aria-label="Next page"]').last();
+		const $lastBtnSm = $('.saPaginationButton[aria-label="Last page"]').last();
+
+		let currentPage = 1;
+
+		// Populate select options for small screen
+		for (let i = 1; i <= totalPages; i++) {
+			$optionGroup.append(`<option value="${i}">${i}</option>`);
+		}
+
+		// Resize input for large screen
+		function resizeInput() {
+			const totalWidth = $totalDiv[0].offsetWidth;
+			this.style.width = `calc(${this.value.length}ch + ${totalWidth + 24}px)`;
+		}
+		$currentInput.on('input', resizeInput).each(function () { resizeInput.call(this); });
+
+		// Clone rows for demo
+		const $firstRow = $('.saRow').first();
+		for (let i = 1; i < totalPages; i++) {
+			const $clone = $firstRow.clone();
+			$clone.attr('data-sa-row', i);
+			$clone.find('.saRowHeadingTextWrapper div').text(`The Crow-Man III: The Hunt for Time (${i + 1})`);
+			$firstRow.after($clone);
+		}
+
+		function updateLargeScreen() {
+			$currentInput.val(currentPage);
+			$currentInput.attr('max', totalPages);
+			$currentInput.attr('aria-label', `Select page. Current page ${currentPage} of ${totalPages}`);
+			$totalDiv.html(`&nbsp;of ${totalPages}`);
+			$firstBtn.prop('disabled', currentPage <= 1);
+			$prevBtn.prop('disabled', currentPage <= 1);
+			$nextBtn.prop('disabled', currentPage >= totalPages);
+			$lastBtn.prop('disabled', currentPage >= totalPages);
+			resizeInput.call($currentInput[0]);
+		}
+
+		function updateSmallScreen() {
+			$paginationSelect.val(currentPage);
+			$paginationSelect.find('option').each(function () {
+				const val = $(this).val();
+				$(this).text(val === String(currentPage) ? `${val} of ${totalPages}` : val);
+			});
+			$paginationSelect.attr('aria-label', `Select page. Current page ${currentPage} of ${totalPages}`);
+			$firstBtnSm.prop('disabled', currentPage <= 1);
+			$prevBtnSm.prop('disabled', currentPage <= 1);
+			$nextBtnSm.prop('disabled', currentPage >= totalPages);
+			$lastBtnSm.prop('disabled', currentPage >= totalPages);
+		}
+
+		function setPage(page) {
+			currentPage = Math.max(1, Math.min(page, totalPages));
+			updateLargeScreen();
+			updateSmallScreen();
+		}
+
+		// Large screen events
+		$firstBtn.on('click', () => setPage(1));
+		$prevBtn.on('click', () => setPage(currentPage - 1));
+		$nextBtn.on('click', () => setPage(currentPage + 1));
+		$lastBtn.on('click', () => setPage(totalPages));
+		$currentInput.on('change', function () {
+			setPage(Number(this.value));
+		});
+
+		// Small screen events
+		$firstBtnSm.on('click', () => setPage(1));
+		$prevBtnSm.on('click', () => setPage(currentPage - 1));
+		$nextBtnSm.on('click', () => setPage(currentPage + 1));
+		$lastBtnSm.on('click', () => setPage(totalPages));
+		$paginationSelect.on('change', function () {
+			setPage(Number($(this).val()));
+		});
+
+		// Initialize
+		setPage(1);
+
+		// Set min-width of $paginationSelect based on widest option (including " of totalPages")
+		function setPaginationSelectMinWidth() {
+			let maxWidth = 0;
+			const $Pagination = $('<span>').css({
+				'position': 'absolute',
+				'visibility': 'hidden',
+				'white-space': 'pre',
+				'font': $paginationSelect.css('font')
+			}).appendTo('body');
+			$optionGroup.find('option').each(function () {
+				const text = `${$(this).val()} of ${totalPages}`;
+				$Pagination.text(text);
+				const width = $Pagination[0].offsetWidth;
+				if (width > maxWidth) maxWidth = width;
+			});
+			$Pagination.remove();
+			$paginationSelect.css('min-width', (maxWidth + 24) + 'px');
+		}
+		setPaginationSelectMinWidth();
+	});
+</script>
+
+</html>

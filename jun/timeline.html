@@ -4,17 +4,15 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Sidebar</title>
+	<title>Jonathan</title>
 	<link rel="stylesheet" href="./src/style/screen.template.css">
 	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
-	<link rel="icon" type="image/svg" href="../src/img/favicon.svg">
+
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
 		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="./script.js"></script>
-	<!--<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js" integrity="sha256-AlTido85uXPlSyyaZNsjJXeCs07eSv3r43kyCVc8ChI=" crossorigin="anonymous"></script>-->
-	<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 	<script type="text/javascript" src="https://livejs.com/live.js"></script>
-
+	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
 
 <body class="saRootBody saLargeScreen saPc saCompact">
@@ -25,18 +23,14 @@
 					<div class="saPageHeader saSmallScreenHeader">
 						<div class="saHeader">
 							<div class="saTopRow"><button class="saNavigator" type="button">
-									<div class="saNavBar saActive">
+									<div class="saNavBar saActive"><span class="saNavBarStripe"></span>
 										<span class="saNavBarStripe"></span>
-
 										<span class="saNavBarStripe"></span>
-
-										<span class="saNavBarStripe"></span>
-
 									</div>
 								</button>
 								<div class="saHeaderWrapper">
 									<div class="saTitle">
-										<h1>Sidebar</h1>
+										<h1>Softadmin® Utvecklingssystem</h1>
 									</div>
 								</div>
 								<button class="saNotificationWrapper" type="button">
@@ -52,30 +46,15 @@
 						<div class="saSidenavSection">
 							<div class="saCustomerLogo">
 								<div>
-									<img loading="lazy" src="./src/img/logo.svg" alt="Softadmin® logo"
-										style="min-height: 5rem;">
+									<img src="../src/img/logo.svg" alt="Softadmin® logo" style="min-height: 5rem;">
 								</div>
 							</div>
 							<div class="saSidenavContainer">
-								<div>
-									<a class="saSidenavItemWrapper saSearch saHideWhenExpanded" tabindex="0" data-tooltip="Search..." aria-label="Search...">
-										<div class="saSidenavItem">
-											<i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i>
-										</div>
-									</a>
-									<div class="saSidenavItemWrapper saSearch saHideWhenMinimized">
-										<div class="saSidenavItem saInputTextWrapper"><input id="MenuEnterpriseSearchBox" class="saSearchInput saInputText" type="search" placeholder="Search..." aria-label="Search...">
-											<i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i>
-										</div>
-									</div>
-								</div>
 								<div class="saSidenavItem saMenuDropdownsOuter">
 									<div class="saSidenavItemWrapper">
 										<label class="saInputTextWrapper saLabeled">
 											<span class="saLabeledLabel">User</span>
-
 											<span class="saFirstLetter">J</span>
-
 											<select class="saInputText saDropdown">
 												<option value="0" selected="true">Jonathan</option>
 												<option value="1">Kevin</option>
@@ -87,24 +66,23 @@
 									</div>
 								</div>
 								<div class="saToggleGroup" role="tablist" aria-label="Toggle menu/favorites">
-									<button role="tab" id="tabbutton-1" aria-selected="true" aria-controls="tabpanel-1" type="button" data-tooltip="Menu" aria-describedby="TooltipScreenReader" data-tooltip-placement="top" > <!--data-tooltip-placement="right" if minimized or wrapped -->
-										<i class="fa-bars saIcon far" aria-hidden="true"></i>
-										<span>Menu</span>
+									<button class="saDynamicTooltipJs" type="button" id="tabbutton1" role="tab" aria-selected="true">
+										<i class="saIcon far fa-bars" aria-hidden="true"></i>
+										<span class="saToggleText">Menu</span>
 									</button>
-									<button role="tab" id="tabbutton-2" aria-selected="false" aria-controls="tabpanel-2" type="button" data-tooltip="Favorites" aria-describedby="TooltipScreenReader" data-tooltip-placement="top" > <!--data-tooltip-placement="right" if minimized or wrapped -->
-										<i class="fa-star saIcon far" aria-hidden="true"></i>
-										<span>Favorites</span>
+									<button class="saDynamicTooltipJs" type="button" id="tabbutton2" role="tab">
+										<i class="saIcon far fa-star" aria-hidden="true"></i>
+										<span class="saToggleText">Favorites</span>
 									</button>
 								</div>
 							</div>
 							<div class="saSidenavLists">
-								<ul class="saSidenavItemList" role="tabpanel" id="tabpanel-1" aria-labelledby="tabbutton-1">
+								<ul class="saSidenavItemList">
 									<li>
 										<a class="saSidenavItemWrapper" tabindex="0">
 											<div class="saSidenavItem">
-												<i class="fa-grid-2 far saIcon"></i>
-												<span class="saSidenavItemText">Menu item 1</span>
-
+												<i class="far fa-crow saIcon"></i>
+												<span class="saSidenavItemText">Crow</span>
 											</div>
 										</a>
 									</li>
@@ -112,34 +90,23 @@
 										<a class="saSidenavItemWrapper" tabindex="0">
 											<div class="saSidenavItem">
 												<i class="far fa-egg saIcon"></i>
-												<span class="saSidenavItemText">The Second Menu item</span>
-											</div>
-										</a>
-									</li>
-								</ul>
-								<ul class="saSidenavItemList" role="tabpanel" id="tabpanel-2" aria-labelledby="tabbutton-2" style="display: none;">
-									<li>
-										<a class="saSidenavItemWrapper" tabindex="0">
-											<div class="saSidenavItem">
-												<i class="fa-brush far saIcon"></i>
-												<span class="saSidenavItemText">Favorite 1</span>
-
+												<span class="saSidenavItemText">Egg</span>
 											</div>
 										</a>
 									</li>
 									<li>
 										<a class="saSidenavItemWrapper" tabindex="0">
 											<div class="saSidenavItem">
-												<i class="far fa-money-bill-wave saIcon"></i>
-												<span class="saSidenavItemText">Favorite 2</span>
+												<i class="far fa-feather saIcon"></i>
+												<span class="saSidenavItemText">Flying lessons</span>
 											</div>
 										</a>
 									</li>
 									<li>
 										<a class="saSidenavItemWrapper" tabindex="0">
 											<div class="saSidenavItem">
-												<i class="far fa-money-bill-wave saIcon"></i>
-												<span class="saSidenavItemText">Favorite 3</span>
+												<i class="far fa-ticket-alt saIcon"></i>
+												<span class="saSidenavItemText">Aviary tickets</span>
 											</div>
 										</a>
 									</li>
@@ -151,9 +118,9 @@
 								<div class="saListItem"><button class="saSidenavItemWrapper" type="button"
 										aria-expanded="false">
 										<div class="saSidenavItem saAvatarWrapperOuter">
-											<div class="saAvatarWrapper saUserInitials" aria-hidden="true">JK</div>
-											<span class="saSidenavItemText">Jonathan Kevin</span>
-											<i class="far fa-angle-down saIcon"></i>
+											<div class="saAvatarWrapper saUserInitials" aria-hidden="true">JK</div><span
+												class="saSidenavItemText">Jonathan Kevin</span><i
+												class="far fa-angle-down saIcon"></i>
 										</div>
 									</button></div>
 								<div class="saSidenavItem saSidenavItemRow">
@@ -161,28 +128,24 @@
 										<div class="saSidenavItem">
 											<i class="far fa-gear icon saIcon"></i>
 											<span class="saSidenavItemText">Admin</span>
-
 										</div>
 									</button>
 									<button class="saSidenavItemWrapper" type="button">
 										<div class="saSidenavItem">
 											<i class="far fa-window-restore icon saIcon"></i>
 											<span class="saSidenavItemText">Ny flik</span>
-
 										</div>
 									</button>
 									<button class="saSidenavItemWrapper" type="button">
 										<div class="saSidenavItem">
 											<i class="far fa-circle-question icon saIcon"></i>
 											<span class="saSidenavItemText">Visa hjälpsida - Allmän hjälpsida</span>
-
 										</div>
 									</button>
 									<button class="saSidenavItemWrapper saNotificationLinkLargeScreen" type="button">
 										<div class="saSidenavItem">
 											<div><i class="far fa-bell saIcon"></i></div>
 											<span class="saSidenavItemText">Notifieringar</span>
-
 										</div>
 										<div class="saNotificationBadge saEmpty" aria-hidden="true">
 											<div class="saNotificationBadgeCount">0</div>
@@ -192,8 +155,8 @@
 							</div>
 							<div class="saSidenavFooter">
 								<a class="saSoftadminLogo" rel="noopener noreferrer" tabindex="-1" href="#">
-									<img loading="lazy" class="saLogo" src="./src/img/softadmin-logo-minimized.svg">
-									<img loading="lazy" class="saWordmark" src="./src/img/softadmin-logo-expanded.svg">
+									<img class="saLogo" src="../src/img/softadmin-logo-minimized.svg">
+									<img class="saWordmark" src="../src/img/softadmin-logo-expanded.svg">
 								</a>
 								<button class="saExpander saDynamicTooltipJs" type="button">
 									<i class="fa-angles-left far saIcon"></i>
@@ -204,7 +167,7 @@
 				</nav>
 			</form>
 		</div>
-		<div class="saRightFrameRoot" style="overflow: auto;">
+		<div class="saRightFrameRoot">
 			<div class="right standardview">
 				<div class="pagecontentframe">
 					<form class="interface">
@@ -223,13 +186,11 @@
 										</div>
 										<div class="saBottomRow">
 											<div class="saTitle">
-												<h1 class="saHeaderText">Sidebar</h1>
-												<div class="saMarkFavorite saNoSpinner">
-													<button type="button">
-														<i
-															class="fas fa-star saFavoriteIcon saFavoriteAdded icon saIcon"></i>
-													</button>
+												<h1 class="saHeaderText">Test</h1>
+												<div class="saMarkFavorite saNoSpinner"><button type="button"><i
+															class="fas fa-star saFavoriteIcon saFavoriteAdded icon saIcon"></i></button>
 												</div>
+												<ul class="saSpecialLinksWrapper"></ul>
 											</div>
 										</div>
 									</div>
@@ -241,14 +202,12 @@
 										<div class="saTopRow">
 											<div class="saHeaderWrapper">
 												<div class="saTitle">
-													<h1 class="saHeaderText">Sidebar</h1>
+													<h1 class="saHeaderText">Test</h1>
 												</div>
 											</div><button class="saNavigator" type="button">
-												<div class="saNavBar">
-													<span class="saNavBarStripe"></span>
-													<span class="saNavBarStripe"></span>
-													<span class="saNavBarStripe"></span>
-
+												<div class="saNavBar"><span class="saNavBarStripe"></span><span
+														class="saNavBarStripe"></span><span
+														class="saNavBarStripe"></span>
 												</div>
 											</button><button class="saNotificationWrapper" type="button"
 												aria-live="polite">
@@ -263,12 +222,102 @@
 								</div>
 							</div>
 						</header>
-						<div class="maincolinner gradients saInputPage">
+						<div class="maincolinner gradients">
 							<main id="MI_M" class="menuitem pagecontentframe">
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
-								<div id="MI_ScrollContent" class="scrollcontent saScrollable"
-									style="height: calc(100vh - 89px );">
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner">
+										<softadmin-infosql class="infoarea saInfoArea">
+											<nav class="saTimelineWrapper" aria-label="Timeline steps">
+												<ul class="saTimeline">
+													<li class="saStep saComplete">
+														<div class="saStepInner">
+															<i class="saStepIcon saIcon far fa-check"></i>
+															<div class="saStepText">
+																<div class="saStepHeading">Materials</div>
+																<div class="saStepDescription">
+																	Select body parts carefully.
+																</div>
+															</div>
+														</div>
+													</li>
+													<li class="saStep saComplete">
+														<a href="#" class="saStepInner">
+															<div class="saStepIcon">
+																<i class="saIcon far fa-check" aria-label="Step 2, completed."></i>
+																<i class="fa-arrow-up-right saIcon far"></i>
+															</div>
+															<div class="saStepText">
+																<div class="saStepHeading">Laboratory<i class="fa-arrow-up-right saIcon far"></i></div>
+																<div class="saStepDescription">
+																	Set up the lab with tools and power sources.
+																</div>
+															</div>
+														</a>
+													</li>
+													<li class="saStep saError">
+														<div class="saStepInner">
+															<i class="saStepIcon far fa-xmark saIcon"></i>
+															<div class="saStepText">
+																<div class="saStepHeading">Assembly</div>
+																<div class="saStepDescription">
+																	Attach each part.
+																</div>
+															</div>
+														</div>
+													</li>
+													<li class="saStep" aria-current="true">
+														<a href="#" class="saStepInner">
+															<div class="saStepIcon">
+																<div class="saIcon" aria-label="Step 4.">4</div>
+																<i class="fa-arrow-up-right saIcon far"></i>
+															</div>
+															<div class="saStepText">
+																<div class="saStepHeading">Power<i class="fa-arrow-up-right saIcon far"></i></div>
+																<div class="saStepDescription">
+																	Prepare to channel life-giving energy.
+																</div>
+															</div>
+														</a>
+													</li>
+													<li class="saStep saWarning">
+														<div class="saStepInner">
+															<i class="saStepIcon saIcon far fas fa-exclamation"></i>
+															<div class="saStepText">
+																<div class="saStepHeading">Unleash creation</div>
+																<div class="saStepDescription">
+																	Unleash the spark of life.
+																</div>
+															</div>
+														</div>
+													</li>
+
+													<li class="saStep">
+														<div class="saStepInner">
+															<span class="saStepIcon" aria-label="Step 6.">6</span>
+															<div class="saStepText">
+																<div class="saStepHeading">Chase monster and go to
+																	Arctic</div>
+																<div class="saStepDescription">
+																	Turn the tables on your creation.
+																</div>
+															</div>
+														</div>
+													</li>
+													<li class="saStep">
+														<div href="#" class="saStepInner">
+															<span class="saStepIcon" aria-label="Step 7.">7</span>
+															<div class="saStepText">
+																<div class="saStepHeading">Face consequences</div>
+																<div class="saStepDescription">
+																	Die by the hands of your creation.
+																</div>
+															</div>
+														</div>
+													</li>
+												</ul>
+											</nav>
+										</softadmin-infosql>
 									</div>
 								</div>
 							</main>
@@ -279,57 +328,5 @@
 		</div>
 	</div>
 </body>
-
-<script>
-	$(document).ready(function () {
-		$('.saToggleGroup button').on('click', function () {
-			$('.saToggleGroup button').attr('aria-selected', 'false');
-			$(this).attr('aria-selected', 'true');
-
-			$('.saSidenavItemList').hide();
-
-			var tabpanelId = $(this).attr('aria-controls');
-			$('#' + tabpanelId).show();
-			checkToggleGroupWrap();
-		});
-		function checkToggleGroupWrap() {
-			$('.saToggleGroup').each(function () {
-				const $group = $(this);
-				const $buttons = $group.find('button');
-				const firstButton = $buttons.first();
-				const groupWidth = $group.width();
-				const firstButtonWidth = firstButton.outerWidth(true);
-
-				const wrapped = firstButtonWidth >= groupWidth;
-
-				$group.toggleClass('saWrapped', wrapped);
-				console.log('Wrapped')
-			});
-		}
-
-		if (window.ResizeObserver) {
-			const ro = new ResizeObserver(checkToggleGroupWrap);
-			ro.observe(document.body);
-		}
-
-		$('.saToggleGroup button').each(function () {
-			const button = this;
-			const observer = new MutationObserver(checkToggleGroupWrap);
-			observer.observe(button, { characterData: true, subtree: true, childList: true });
-		});
-		checkToggleGroupWrap();
-
-		$(window).on('resize', checkToggleGroupWrap);
-
-		$('<input type="text" id="favoriteInput" placeholder="Enter favorite text" style="margin:10px 0;width:90%;">')
-			.appendTo('.scrollcontent-inner');
-
-		$('#favoriteInput').on('input', function() {
-			var val = $(this).val();
-			$('.saToggleGroup button:last-child span').text(val);
-			$('.saToggleGroup button:last-child').attr('data-tooltip', val || 'Favorites');
-		});
-	});
-</script>
 
 </html>

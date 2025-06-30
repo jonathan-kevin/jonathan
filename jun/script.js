@@ -6,7 +6,7 @@ $(document).ready(function () {
 	var theToggler = $("<button>", {
 		id: "theToggler",
 		class: "saButton saDefaultButtonSecondary",
-		style: "position: fixed; bottom: 1rem; right: 1rem; z-index: 9999; color: white; background-color: black; border: none;",
+		style: "position: fixed; top: 1rem; right: 1rem; z-index: 9999; color: white; background-color: black; border: none;",
 		text: "Compact",
 		title: "Toggle between saStandard, saCompact and saSmallScreen"
 	});
