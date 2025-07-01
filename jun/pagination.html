@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,9 +11,17 @@
 	<script src="./script.js"></script>
 	<script type="text/javascript" src="https://livejs.com/live.js"></script>
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+	<style type="text/css">
+		.livejs-loading * {
+			transition: all .3s ease-out;
+			-webkit-transition: all .3s ease-out;
+			-moz-transition: all .3s ease-out;
+			-o-transition: all .3s ease-out;
+		}
+	</style>
 </head>
 
-<body class="saRootBody saLargeScreen saPc saCompact">
+<body class="saRootBody saLargeScreen saPc saCompact saXl">
 	<div class="saRootContentWrapper">
 		<div class="saSideBar saSideBarJs saExpanded">
 			<form id="aspnetForm">
@@ -170,7 +177,7 @@
 			</form>
 		</div>
 		<div class="saRightFrameRoot">
-			<div class="right standardview">
+			<div class="right standardview saPc saLargeScreen saCompact">
 				<div class="pagecontentframe">
 					<form class="interface">
 						<header id="pageheader" class="saPageHeaderHolder">
@@ -251,12 +258,12 @@
 																			<i class="fa-angle-left far saIcon"></i>
 																		</button>
 																	</li>
-																	<li class="saPaginationCurrentWrapper">
+																	<li class="saPaginationCurrentWrapper"
+																		data-content="/25">
 																		<input class="saPaginationCurrent" id="current"
 																			type="number" value="1" min="1" max="25"
-																			step="1">
-																		<div class="saPaginationTotal">
-																			&nbsp;of <span id="total">25</span></div>
+																			step="1"
+																			aria-label="Select page. Current page 1 of 25">
 																	</li>
 																	<li>
 																		<button type="button" class="saPaginationButton"
@@ -340,31 +347,33 @@
 																	<input type="checkbox" class="saCheckbox"
 																		aria-label="Toggle checkboxes on this page">
 																</th>
-																<th><a class="saGridHeadingInner sort">
-																		Bird</span></a><img src="img/transparent.png"
-																		class="draghandle" draggable="true"
-																		aria-hidden="true" data-col-index="0"
-																		style="height: 30px;">
+																<th>
+																	<a class="saGridHeadingInner sort">
+																		<span class="saGridHeadingLabel">
+																			Bird
+																		</span>
+																	</a>
 																</th>
-																<th><a class="saGridHeadingInner sort"><span
-																			class="saGridHeadingLabel">Name</span></a><img
-																		src="img/transparent.png" class="draghandle"
-																		draggable="true" aria-hidden="true"
-																		data-col-index="1" style="height: 30px;"></th>
-																<th aria-sort="descending"><a
-																		class="saGridHeadingInner sort saSorted"><span
-																			class="saGridHeadingLabel">Type</span><i
-																			class="fa-caret-down saIcon fas"
-																			aria-hidden="true"></i></a><img
-																		src="img/transparent.png" class="draghandle"
-																		draggable="true" aria-hidden="true"
-																		data-col-index="2" style="height: 30px;"></th>
-																<th><a class="saGridHeadingInner sort"><span
-																			class="saGridHeadingLabel">Registration
-																			Number</span></a><img
-																		src="img/transparent.png" class="draghandle"
-																		draggable="true" aria-hidden="true"
-																		data-col-index="3" style="height: 30px;"></th>
+																<th>
+																	<a class="saGridHeadingInner sort">
+																		<span class="saGridHeadingLabel">
+																			Name
+																		</span>
+																	</a>
+																</th>
+																<th aria-sort="descending">
+																	<a class="saGridHeadingInner sort saSorted">
+																		<span class="saGridHeadingLabel">Type</span>
+																		<i class="fa-caret-down saIcon fas"></i>
+																	</a>
+																</th>
+																<th>
+																	<a class="saGridHeadingInner sort">
+																		<span class="saGridHeadingLabel">
+																			Registration Number
+																		</span>
+																	</a>
+																</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -452,6 +461,31 @@
 																aria-label="Select page. Current page 1 of 25"
 																id="paginationSelect">1
 																<optgroup label="Page" id="optionGroup">
+																	<option value="1">1/25</option>
+																	<option value="2">2</option>
+																	<option value="3">3</option>
+																	<option value="4">4</option>
+																	<option value="5">5</option>
+																	<option value="6">6</option>
+																	<option value="7">7</option>
+																	<option value="8">8</option>
+																	<option value="9">9</option>
+																	<option value="10">10</option>
+																	<option value="11">11</option>
+																	<option value="12">12</option>
+																	<option value="13">13</option>
+																	<option value="14">14</option>
+																	<option value="15">15</option>
+																	<option value="16">16</option>
+																	<option value="17">17</option>
+																	<option value="18">18</option>
+																	<option value="19">19</option>
+																	<option value="20">20</option>
+																	<option value="21">21</option>
+																	<option value="22">22</option>
+																	<option value="23">23</option>
+																	<option value="24">24</option>
+																	<option value="25">25</option>
 																</optgroup>
 															</select>
 														</li>
@@ -480,125 +514,132 @@
 			</div>
 		</div>
 	</div>
-</body>
-<script>
-	$(document).ready(function () {
 
+	<script>
+		$(document).ready(function () {
 
+			const totalPages = 25; // Set your total page count here
 
-		const totalPages = 25; // Set your total page count here
+			// Large screen pagination (input)
+			const $currentInput = $('.saPaginationCurrent');
+			const $firstBtn = $('.saPaginationButton[aria-label="First page"]').first();
+			const $prevBtn = $('.saPaginationButton[aria-label="Previous page"]').first();
+			const $nextBtn = $('.saPaginationButton[aria-label="Next page"]').first();
+			const $lastBtn = $('.saPaginationButton[aria-label="Last page"]').first();
 
-		// Large screen pagination (input)
-		const $currentInput = $('.saPaginationCurrent');
-		const $totalDiv = $('.saPaginationTotal');
-		const $firstBtn = $('.saPaginationButton[aria-label="First page"]').first();
-		const $prevBtn = $('.saPaginationButton[aria-label="Previous page"]').first();
-		const $nextBtn = $('.saPaginationButton[aria-label="Next page"]').first();
-		const $lastBtn = $('.saPaginationButton[aria-label="Last page"]').first();
+			// Small screen pagination (select)
+			const $paginationSelect = $('.saPaginationSelect');
+			const $optionGroup = $('#optionGroup');
+			const $firstBtnSm = $('.saPaginationButton[aria-label="First page"]').last();
+			const $prevBtnSm = $('.saPaginationButton[aria-label="Previous page"]').last();
+			const $nextBtnSm = $('.saPaginationButton[aria-label="Next page"]').last();
+			const $lastBtnSm = $('.saPaginationButton[aria-label="Last page"]').last();
 
-		// Small screen pagination (select)
-		const $paginationSelect = $('.saPaginationSelect');
-		const $optionGroup = $('#optionGroup');
-		const $firstBtnSm = $('.saPaginationButton[aria-label="First page"]').last();
-		const $prevBtnSm = $('.saPaginationButton[aria-label="Previous page"]').last();
-		const $nextBtnSm = $('.saPaginationButton[aria-label="Next page"]').last();
-		const $lastBtnSm = $('.saPaginationButton[aria-label="Last page"]').last();
+			let currentPage = 1;
 
-		let currentPage = 1;
+			// Clone rows for demo
+			const $firstRow = $('.saRow').first();
+			for (let i = 1; i < totalPages; i++) {
+				const $clone = $firstRow.clone();
+				$clone.attr('data-sa-row', i);
+				$clone.find('.saRowHeadingTextWrapper div').text(`The Crow-Man III: The Hunt for Time (${i + 1})`);
+				$firstRow.after($clone);
+			}
 
-		// Populate select options for small screen
-		for (let i = 1; i <= totalPages; i++) {
-			$optionGroup.append(`<option value="${i}">${i}</option>`);
-		}
+			function updateLargeScreen() {
+				$currentInput.val(currentPage);
+				$currentInput.attr('max', totalPages);
+				$currentInput.attr('aria-label', `Select page. Current page ${currentPage} of ${totalPages}`);
+				$firstBtn.prop('disabled', currentPage <= 1);
+				$prevBtn.prop('disabled', currentPage <= 1);
+				$nextBtn.prop('disabled', currentPage >= totalPages);
+				$lastBtn.prop('disabled', currentPage >= totalPages);
 
-		// Resize input for large screen
-		function resizeInput() {
-			const totalWidth = $totalDiv[0].offsetWidth;
-			this.style.width = `calc(${this.value.length}ch + ${totalWidth + 24}px)`;
-		}
-		$currentInput.on('input', resizeInput).each(function () { resizeInput.call(this); });
+			}
 
-		// Clone rows for demo
-		const $firstRow = $('.saRow').first();
-		for (let i = 1; i < totalPages; i++) {
-			const $clone = $firstRow.clone();
-			$clone.attr('data-sa-row', i);
-			$clone.find('.saRowHeadingTextWrapper div').text(`The Crow-Man III: The Hunt for Time (${i + 1})`);
-			$firstRow.after($clone);
-		}
+			function updateSmallScreen() {
+				$paginationSelect.val(currentPage);
+				$paginationSelect.find('option').each(function () {
+					const val = $(this).val();
+					if (val === String(currentPage)) {
+						$(this).text(`${val}/${totalPages}`);
+					} else {
+						$(this).text(val);
+					}
+				});
+				$paginationSelect.attr('aria-label', `Select page. Current page ${currentPage} of ${totalPages}`);
+				$firstBtnSm.prop('disabled', currentPage <= 1);
+				$prevBtnSm.prop('disabled', currentPage <= 1);
+				$nextBtnSm.prop('disabled', currentPage >= totalPages);
+				$lastBtnSm.prop('disabled', currentPage >= totalPages);
+			}
 
-		function updateLargeScreen() {
-			$currentInput.val(currentPage);
-			$currentInput.attr('max', totalPages);
-			$currentInput.attr('aria-label', `Select page. Current page ${currentPage} of ${totalPages}`);
-			$totalDiv.html(`&nbsp;of ${totalPages}`);
-			$firstBtn.prop('disabled', currentPage <= 1);
-			$prevBtn.prop('disabled', currentPage <= 1);
-			$nextBtn.prop('disabled', currentPage >= totalPages);
-			$lastBtn.prop('disabled', currentPage >= totalPages);
-			resizeInput.call($currentInput[0]);
-		}
+			function setPage(page) {
+				currentPage = Math.max(1, Math.min(page, totalPages));
+				updateLargeScreen();
+				updateSmallScreen();
+			}
 
-		function updateSmallScreen() {
-			$paginationSelect.val(currentPage);
-			$paginationSelect.find('option').each(function () {
-				const val = $(this).val();
-				$(this).text(val === String(currentPage) ? `${val} of ${totalPages}` : val);
+			// Large screen events
+			$firstBtn.on('click', () => setPage(1));
+			$prevBtn.on('click', () => setPage(currentPage - 1));
+			$nextBtn.on('click', () => setPage(currentPage + 1));
+			$lastBtn.on('click', () => setPage(totalPages));
+			$currentInput.on('change', function () {
+				setPage(Number(this.value));
 			});
-			$paginationSelect.attr('aria-label', `Select page. Current page ${currentPage} of ${totalPages}`);
-			$firstBtnSm.prop('disabled', currentPage <= 1);
-			$prevBtnSm.prop('disabled', currentPage <= 1);
-			$nextBtnSm.prop('disabled', currentPage >= totalPages);
-			$lastBtnSm.prop('disabled', currentPage >= totalPages);
-		}
 
-		function setPage(page) {
-			currentPage = Math.max(1, Math.min(page, totalPages));
-			updateLargeScreen();
-			updateSmallScreen();
-		}
-
-		// Large screen events
-		$firstBtn.on('click', () => setPage(1));
-		$prevBtn.on('click', () => setPage(currentPage - 1));
-		$nextBtn.on('click', () => setPage(currentPage + 1));
-		$lastBtn.on('click', () => setPage(totalPages));
-		$currentInput.on('change', function () {
-			setPage(Number(this.value));
-		});
-
-		// Small screen events
-		$firstBtnSm.on('click', () => setPage(1));
-		$prevBtnSm.on('click', () => setPage(currentPage - 1));
-		$nextBtnSm.on('click', () => setPage(currentPage + 1));
-		$lastBtnSm.on('click', () => setPage(totalPages));
-		$paginationSelect.on('change', function () {
-			setPage(Number($(this).val()));
-		});
-
-		// Initialize
-		setPage(1);
-
-		// Set min-width of $paginationSelect based on widest option (including " of totalPages")
-		function setPaginationSelectMinWidth() {
-			let maxWidth = 0;
-			const $Pagination = $('<span>').css({
-				'position': 'absolute',
-				'visibility': 'hidden',
-				'white-space': 'pre',
-				'font': $paginationSelect.css('font')
-			}).appendTo('body');
-			$optionGroup.find('option').each(function () {
-				const text = `${$(this).val()} of ${totalPages}`;
-				$Pagination.text(text);
-				const width = $Pagination[0].offsetWidth;
-				if (width > maxWidth) maxWidth = width;
+			// Select all text in the input when clicked
+			$currentInput.on('click', function () {
+				this.select();
 			});
-			$Pagination.remove();
-			$paginationSelect.css('min-width', (maxWidth + 24) + 'px');
-		}
-		setPaginationSelectMinWidth();
-	});
-</script>
 
-</html>
+			// Small screen events
+			$firstBtnSm.on('click', () => setPage(1));
+			$prevBtnSm.on('click', () => setPage(currentPage - 1));
+			$nextBtnSm.on('click', () => setPage(currentPage + 1));
+			$lastBtnSm.on('click', () => setPage(totalPages));
+			$paginationSelect.on('change', function () {
+				setPage(Number($(this).val()));
+			});
+
+			// Initialize
+			setPage(1);
+
+			// Set min-width of $paginationSelect based on widest option (including " of totalPages")
+			function setPaginationSelectMinWidth() {
+				let maxWidth = 0;
+				const $Pagination = $('<span>').css({
+					'position': 'absolute',
+					'visibility': 'hidden',
+					'white-space': 'pre',
+					'font': $paginationSelect.css('font')
+				}).appendTo('body');
+				$optionGroup.find('option').each(function () {
+					const text = `${$(this).val()}/${totalPages}`;
+					$Pagination.text(text);
+					const width = $Pagination[0].offsetWidth;
+					if (width > maxWidth) maxWidth = width;
+				});
+				$Pagination.remove();
+				$paginationSelect.css('min-width', (maxWidth + 32) + 'px');
+			}
+			setPaginationSelectMinWidth();
+
+			// Set min-width of $currentInput based on widest possible value (including " of totalPages")
+			//function setPaginationInputMinWidth() {
+			//	const widestValue = `${totalPages}`; // The largest page number
+			//	const $span = $('<span>').css({
+			//		'position': 'absolute',
+			//		'visibility': 'hidden',
+			//		'white-space': 'pre',
+			//		'font': $currentInput.css('font')
+			//	}).text(widestValue).appendTo('body');
+			//	const width = $span[0].offsetWidth;
+			//	$span.remove();
+			//	// Add some extra space for input borders/padding
+			//	$currentInput.css('min-width', (width + 20) + 'px');
+			//}
+			//setPaginationInputMinWidth();
+		});
+	</script>
