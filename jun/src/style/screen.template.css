@@ -2079,12 +2079,6 @@ body.saPc *::-webkit-scrollbar-corner {
 .saSmallscreensidebar .saContextMenuWrapper .saContextMenu {
   min-width: 100%;
 }
-.saContextMenuWrapper .saContextMenu li:first-child > * {
-  padding-top: 0.25rem;
-}
-.saContextMenuWrapper .saContextMenu li:last-child > * {
-  padding-bottom: 0.25rem;
-}
 .saContextMenuWrapper .saContextMenu li > * {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
@@ -3424,6 +3418,10 @@ div.saPopupOverlay {
   position: sticky;
   bottom: 0;
   padding: 0.5rem;
+  width: unset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .saPagination {
   display: flex;
@@ -3432,7 +3430,16 @@ div.saPopupOverlay {
 }
 .saSmallScreen .saPagination {
   flex-wrap: wrap;
-  box-shadow: 0 -1px 2px rgba(49, 58, 68, 0.04), 0 -2px 0.25rem rgba(49, 58, 68, 0.04), 0 -0.25rem 0.5rem rgba(49, 58, 68, 0.04);
+  box-shadow: inset 0 0 0 1px #ccd5e2, 0 -1px 2px rgba(49, 58, 68, 0.04), 0 -2px 0.25rem rgba(49, 58, 68, 0.04), 0 -0.25rem 0.5rem rgba(49, 58, 68, 0.04);
+  min-height: 3rem;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  gap: 0.5rem;
+  background-color: #f8f9fb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 }
 .saPagination li:not(:first-child) {
   margin-left: -1px;
@@ -3442,9 +3449,6 @@ div.saPopupOverlay {
 .saPagination li:has(:active),
 .saPagination li:has(:focus) {
   z-index: 1;
-}
-.saSmallScreen .saPagination li {
-  flex: 1;
 }
 .saPagination button {
   display: flex;
@@ -3464,6 +3468,19 @@ div.saPopupOverlay {
   width: 100%;
   min-width: 2.75rem;
   height: 2.75rem;
+  min-width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  position: relative;
+}
+.saSmallScreen .saPagination button::after {
+  content: '';
+  height: 3rem;
+  width: 2.75rem;
+  top: -0.5rem;
+  left: -0.625rem;
+  position: absolute;
+  opacity: 0;
 }
 .saPagination button:disabled {
   background: transparent;
@@ -3484,22 +3501,33 @@ div.saPopupOverlay {
   color: var(--Blue700);
   border-color: var(--Blue700);
 }
-.saPagination li:first-child button {
+.saPc .saPagination li:first-child button {
   border-top-left-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
   margin-left: 0;
 }
-.saPagination li:last-child button {
+.saPc .saPagination li:last-child button {
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
 }
-.saPagination li:first-child button:active {
+.saPc .saPagination li:first-child button:active {
   border-top-left-radius: 0.75rem;
   border-bottom-left-radius: 0.75rem;
 }
-.saPagination li:last-child button:active {
+.saPc .saPagination li:last-child button:active {
   border-top-right-radius: 0.75rem;
   border-bottom-right-radius: 0.75rem;
+}
+.saSmallScreen .saPagination li:first-child button::after {
+  left: -0.625rem;
+}
+.saSmallScreen .saPagination li:nth-child(2) button::after {
+  left: unset;
+  right: -0.625rem;
+}
+.saSmallScreen .saPagination li:last-child button::after {
+  left: unset;
+  right: -0.625rem;
 }
 .saPaginationCurrentWrapper {
   position: relative;
@@ -3559,6 +3587,8 @@ div.saPopupOverlay {
 }
 .saSmallScreen .saPaginationSelect {
   font-size: 1rem;
+  height: 2rem;
+  border-radius: 0.5rem;
 }
 .saPaginationSelect:focus-visible {
   border-color: #2d6ce1;
