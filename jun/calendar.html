@@ -1,0 +1,825 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Calendar</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+	<script type="text/javascript" src="https://livejs.com/live.js"></script>
+	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+</head>
+
+<body class="saRootBody saLargeScreen saPc saCompact saXl">
+	<div class="saRootContentWrapper">
+		<div class="saSideBar saSideBarJs saExpanded">
+			<form id="aspnetForm">
+				<nav id="SideBar">
+					<div class="saPageHeader saSmallScreenHeader">
+						<div class="saHeader">
+							<div class="saTopRow">
+								<button class="saNavigator" type="button">
+									<div class="saNavBar saActive">
+										<span class="saNavBarStripe"></span>
+										<span class="saNavBarStripe"></span>
+										<span class="saNavBarStripe"></span>
+									</div>
+								</button>
+								<div class="saHeaderWrapper">
+									<div class="saTitle">
+										<h1>Calendar</h1>
+									</div>
+								</div>
+								<button class="saNotificationWrapper" type="button">
+									<div>
+										<i class="far fa-bell saIcon"></i>
+									</div>
+									<div class="saNotificationBadge saEmpty" aria-hidden="true">
+										<div class="saNotificationBadgeCount">0</div>
+									</div>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="saSidenav" id="sidenav">
+						<div class="saSidenavSection">
+							<div class="saCustomerLogo">
+								<div>
+									<img src="../src/img/logo.svg" alt="Softadmin® logo" style="min-height: 5rem;">
+								</div>
+							</div>
+							<div class="saSidenavContainer">
+								<div class="saSidenavItem saMenuDropdownsOuter">
+									<div class="saSidenavItemWrapper">
+										<label class="saInputTextWrapper saLabeled">
+											<span class="saLabeledLabel">User</span>
+											<span class="saFirstLetter">J</span>
+											<select class="saInputText saDropdown">
+												<option value="0" selected="true">Jonathan</option>
+												<option value="1">Kevin</option>
+											</select>
+											<div class="saTrailingIconsWrapper">
+												<i class="saIcon far fa-angle-down"></i>
+											</div>
+										</label>
+									</div>
+								</div>
+								<div class="saToggleGroup" role="tablist" aria-label="Toggle menu/favorites">
+									<button class="saDynamicTooltipJs" type="button" id="tabbutton1" role="tab"
+										aria-selected="true">
+										<i class="saIcon far fa-bars" aria-hidden="true"></i>
+										<span class="saToggleText">Menu</span>
+									</button>
+									<button class="saDynamicTooltipJs" type="button" id="tabbutton2" role="tab">
+										<i class="saIcon far fa-star" aria-hidden="true"></i>
+										<span class="saToggleText">Favorites</span>
+									</button>
+								</div>
+							</div>
+							<div class="saSidenavLists">
+								<ul class="saSidenavItemList">
+									<li>
+										<a class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="far fa-crow saIcon"></i>
+												<span class="saSidenavItemText">Crow</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="far fa-egg saIcon"></i>
+												<span class="saSidenavItemText">Egg</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="far fa-feather saIcon"></i>
+												<span class="saSidenavItemText">Flying lessons</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saSidenavItemWrapper" tabindex="0">
+											<div class="saSidenavItem">
+												<i class="far fa-ticket-alt saIcon"></i>
+												<span class="saSidenavItemText">Aviary tickets</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="saSidenavSection saSidenavSectionLast">
+							<div class="saSidenavContainer">
+								<div class="saListItem">
+									<button class="saSidenavItemWrapper" type="button" aria-expanded="false">
+										<div class="saSidenavItem saAvatarWrapperOuter">
+											<div class="saAvatarWrapper saUserInitials" aria-hidden="true">JK</div>
+											<span class="saSidenavItemText">Jonathan Kevin</span>
+											<i class="far fa-angle-down saIcon"></i>
+										</div>
+									</button>
+								</div>
+								<div class="saSidenavItem saSidenavItemRow">
+									<button class="saSidenavItemWrapper" type="button">
+										<div class="saSidenavItem">
+											<i class="far fa-gear icon saIcon"></i>
+											<span class="saSidenavItemText">Admin</span>
+										</div>
+									</button>
+									<button class="saSidenavItemWrapper" type="button">
+										<div class="saSidenavItem">
+											<i class="far fa-window-restore icon saIcon"></i>
+											<span class="saSidenavItemText">Ny flik</span>
+										</div>
+									</button>
+									<button class="saSidenavItemWrapper" type="button">
+										<div class="saSidenavItem">
+											<i class="far fa-circle-question icon saIcon"></i>
+											<span class="saSidenavItemText">Visa hjälpsida - Allmän hjälpsida</span>
+										</div>
+									</button>
+									<button class="saSidenavItemWrapper saNotificationLinkLargeScreen" type="button">
+										<div class="saSidenavItem">
+											<div>
+												<i class="far fa-bell saIcon"></i>
+											</div>
+											<span class="saSidenavItemText">Notifieringar</span>
+										</div>
+										<div class="saNotificationBadge saEmpty" aria-hidden="true">
+											<div class="saNotificationBadgeCount">0</div>
+										</div>
+									</button>
+								</div>
+							</div>
+							<div class="saSidenavFooter">
+								<a class="saSoftadminLogo" rel="noopener noreferrer" tabindex="-1" href="#">
+									<img class="saLogo" src="../src/img/softadmin-logo-minimized.svg">
+									<img class="saWordmark" src="../src/img/softadmin-logo-expanded.svg">
+								</a>
+								<button class="saExpander saDynamicTooltipJs" type="button">
+									<i class="fa-angles-left far saIcon"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</form>
+		</div>
+		<div class="saRightFrameRoot">
+			<div class="right standardview saPc saLargeScreen saCompact">
+				<div class="pagecontentframe">
+					<form class="interface">
+						<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs">
+												<div class="saBackButtonWrapper">
+													<button class="saBackButton" type="button" disabled>
+														<i class="fa-arrow-left far saBack saIcon"></i>
+													</button>
+												</div>
+											</nav>
+										</div>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Calendar</h1>
+												<div class="saMarkFavorite saNoSpinner">
+													<button type="button">
+														<i
+															class="fas fa-star saFavoriteIcon saFavoriteAdded icon saIcon"></i>
+													</button>
+												</div>
+												<ul class="saSpecialLinksWrapper"></ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+													<h1 class="saHeaderText">Calendar</h1>
+												</div>
+											</div>
+											<button class="saNavigator" type="button">
+												<div class="saNavBar">
+													<span class="saNavBarStripe"></span>
+													<span class="saNavBarStripe"></span>
+													<span class="saNavBarStripe"></span>
+												</div>
+											</button>
+											<button class="saNotificationWrapper" type="button" aria-live="polite">
+												<div>
+													<i class="far fa-bell saIcon"></i>
+												</div>
+												<div class="saNotificationBadge saEmpty" aria-hidden="true">
+													<div class="saNotificationBadgeCount">0</div>
+												</div>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</header>
+						<div class="maincolinner gradients">
+							<main id="MI_M" class="menuitem pagecontentframe">
+								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable" style="height: calc(100vh - 56px);">
+									<div class="scrollcontent-inner">
+										<softadmin-calendar class="calendar maincolbody saMenuItemRoot saCheckboxesVisible">
+											<div class="saCalendarSection saDesktopCalendar saWeekdaysCalendar">
+												<div class="saCalendarHeader">
+													<div class="saCalendarHeaderInner">
+														<h2 class="saCalendarHeading">Juli 2025</h2>
+														<div class="saPeriodButtons">
+															<button type="button" aria-label="Föregående månad">
+																<i class="fa-angle-left saIcon far"></i>
+															</button>
+															<button type="button" aria-label="Nästa månad">
+																<i class="fa-angle-right saIcon far"></i>
+															</button>
+														</div>
+														<label class="saInputTextWrapper saLabeled">
+															<span class="saLabeledLabel">År</span>
+															<select class="saInputText saDropdown">
+																<option value="2023">2023</option>
+																<option value="2024">2024</option>
+																<option value="2025">2025</option>
+																<option value="2026">2026</option>
+																<option value="2027">2027</option>
+																<option value="2028">2028</option>
+															</select>
+															<div class="saTrailingIconsWrapper">
+																<i class="saIcon far fa-angle-down"></i>
+															</div>
+														</label>
+														<label class="saInputTextWrapper saLabeled">
+															<span class="saLabeledLabel">Månad</span>
+															<select class="saInputText saDropdown">
+																<option value="1">Januari</option>
+																<option value="2">Februari</option>
+																<option value="3">Mars</option>
+																<option value="4">April</option>
+																<option value="5">Maj</option>
+																<option value="6">Juni</option>
+																<option value="7">Juli</option>
+																<option value="8">Augusti</option>
+																<option value="9">September</option>
+																<option value="10">Oktober</option>
+																<option value="11">November</option>
+																<option value="12">December</option>
+															</select>
+															<div class="saTrailingIconsWrapper">
+																<i class="saIcon far fa-angle-down"></i>
+															</div>
+														</label>
+														<button class="saTodayButton" type="button">Idag</button>
+													</div>
+													<div class="saComponentContentLinksWrapper">
+														<ul class="saComponentContentLinks" role="toolbar">
+															<li>
+																<label class="saToggleWrapper">
+																	<div class="saToggleLabelWrapper">
+																		<span class="saToggleLabel">Välj poster</span>
+																		<span class="saToggleDescription">1 vald</span>
+																	</div>
+																	<input class="saToggle" type="checkbox" checked>
+																</label>
+															</li>
+															<li class="saActionLink">
+																<button
+																	class="saComponentContentLinkButton saButtonSecondary notMe"
+																	type="button">
+																	<div class="saIconHolder" aria-hidden="true">
+																		<i class="fa-plus saIcon far"></i>
+																	</div>
+																	<span class="saButtonText">New activity</span>
+																</button>
+															</li>
+															<li class="saActionLink">
+																<button
+																	class="saComponentContentLinkButton saButtonSecondary"
+																	type="button">
+																	<div class="saIconHolder" aria-hidden="true">
+																		<i class="fa-sparkles saIcon far"></i>
+																	</div>
+																	<span class="saButtonText">Auto Assign</span>
+																</button>
+															</li>
+															<li class="saActionLink">
+																<button
+																	class="saComponentContentLinkButton saButtonSecondary"
+																	type="button">
+																	<div class="saIconHolder" aria-hidden="true">
+																		<i class="fa-skull-crossbones saIcon far"></i>
+																	</div>
+																	<span class="saButtonText">Offer to Pirates</span>
+																</button>
+															</li>
+															<li class="saActionLink">
+																<button
+																	class="saComponentContentLinkButton saButtonSecondary saDestructive"
+																	type="button">
+																	<div class="saIconHolder" aria-hidden="true">
+																		<i class="fa-trash-alt saIcon far"></i>
+																	</div>
+																	<span class="saButtonText">Delete</span>
+																</button>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<div class="saCalendarSectionInner">
+													<div class="saCalendarSidebar">
+														<div class="saCalendarSidebarInner">
+															<div class="saCalendarSidebarSection saSidebarCalendar">
+																<div class="saDatePicker saDatePickerRoot saManyWeeks">
+																	<div class="saDatePickerMonthHeading">
+																		<span class="saCalendarSidebarHeading">Juli
+																			2025</span>
+																		<div class="saMonthBrowser">
+																			<a tabindex="-1" aria-hidden="true">
+																				<i class="fa-angle-left saIcon far"></i>
+																			</a>
+																			<a tabindex="-1" aria-hidden="true">
+																				<i
+																					class="fa-angle-right saIcon far"></i>
+																			</a>
+																		</div>
+																	</div>
+																	<div class="saDayRow">
+																		<div class="saWeekNr saEmpty"></div>
+																		<div class="saDay">Mån</div>
+																		<div class="saDay">Tis</div>
+																		<div class="saDay">Ons</div>
+																		<div class="saDay">Tor</div>
+																		<div class="saDay">Fre</div>
+																		<div class="saDay">Lör</div>
+																		<div class="saDay">Sön</div>
+																	</div>
+																	<div class="saDateRow">
+																		<div class="saWeekNr">27</div>
+																		<div class="saDate saDateElement saMarked">30
+																		</div>
+																		<div class="saDate saDateElement saMarked">1
+																		</div>
+																		<div class="saDate saDateElement saMarked">2
+																		</div>
+																		<div class="saDate saDateElement saMarked">3
+																		</div>
+																		<div
+																			class="saDate saDateElement saToday saMarked">
+																			4</div>
+																		<div class="saDate saDateElement saMarked">5
+																		</div>
+																		<div class="saDate saDateElement saMarked">6
+																		</div>
+																	</div>
+																	<div class="saDateRow">
+																		<div class="saWeekNr">28</div>
+																		<div class="saDate saDateElement saMarked">7
+																		</div>
+																		<div class="saDate saDateElement saMarked">8
+																		</div>
+																		<div class="saDate saDateElement saMarked">9
+																		</div>
+																		<div class="saDate saDateElement saMarked">10
+																		</div>
+																		<div class="saDate saDateElement saMarked">11
+																		</div>
+																		<div class="saDate saDateElement saMarked">12
+																		</div>
+																		<div class="saDate saDateElement saMarked">13
+																		</div>
+																	</div>
+																	<div class="saDateRow">
+																		<div class="saWeekNr">29</div>
+																		<div class="saDate saDateElement saMarked">14
+																		</div>
+																		<div class="saDate saDateElement saMarked">15
+																		</div>
+																		<div class="saDate saDateElement saMarked">16
+																		</div>
+																		<div class="saDate saDateElement saMarked">17
+																		</div>
+																		<div class="saDate saDateElement saMarked">18
+																		</div>
+																		<div class="saDate saDateElement saMarked">19
+																		</div>
+																		<div class="saDate saDateElement saMarked">20
+																		</div>
+																	</div>
+																	<div class="saDateRow">
+																		<div class="saWeekNr">30</div>
+																		<div class="saDate saDateElement saMarked">21
+																		</div>
+																		<div class="saDate saDateElement saMarked">22
+																		</div>
+																		<div class="saDate saDateElement saMarked">23
+																		</div>
+																		<div class="saDate saDateElement saMarked">24
+																		</div>
+																		<div class="saDate saDateElement saMarked">25
+																		</div>
+																		<div class="saDate saDateElement saMarked">26
+																		</div>
+																		<div class="saDate saDateElement saMarked">27
+																		</div>
+																	</div>
+																	<div class="saDateRow">
+																		<div class="saWeekNr">31</div>
+																		<div class="saDate saDateElement saMarked">28
+																		</div>
+																		<div class="saDate saDateElement saMarked">29
+																		</div>
+																		<div class="saDate saDateElement saMarked">30
+																		</div>
+																		<div class="saDate saDateElement saMarked">31
+																		</div>
+																		<div class="saDate saDateElement saMarked">1
+																		</div>
+																		<div class="saDate saDateElement saMarked">2
+																		</div>
+																		<div class="saDate saDateElement saMarked">3
+																		</div>
+																	</div>
+																	<div class="saDateRow">
+																		<div class="saWeekNr"></div>
+																		<div class="saDate saEmpty"></div>
+																		<div class="saDate saEmpty"></div>
+																		<div class="saDate saEmpty"></div>
+																		<div class="saDate saEmpty"></div>
+																		<div class="saDate saEmpty"></div>
+																		<div class="saDate saEmpty"></div>
+																		<div class="saDate saEmpty"></div>
+																	</div>
+																</div>
+															</div>
+															<div class="saCalendarSidebarSection saSidebarFilters">
+															</div>
+															<label class="saToggleWrapper">
+																<span class="saToggleWrapperLabel">Visa
+																	beskrivning</span>
+																<input class="saToggle" type="checkbox">
+															</label>
+														</div>
+													</div>
+													<div class="saCalendar" role="table">
+														<div class="saWeek saWeekDays" role="row">
+															<time class="saWeekNumber" role="columnheader">
+																<button type="button"
+																	class="fa-angles-left saIcon far saCalendarSidebarExpander"
+																	aria-expanded="true"></button>
+															</time>
+															<div class="saWeekDay" role="columnheader">Måndag</div>
+															<div class="saWeekDay" role="columnheader">Tisdag</div>
+															<div class="saWeekDay" role="columnheader">Onsdag</div>
+															<div class="saWeekDay" role="columnheader">Torsdag</div>
+															<div class="saWeekDay" role="columnheader">Fredag</div>
+															<div class="saWeekDay" role="columnheader">Lördag</div>
+															<div class="saWeekDay" role="columnheader">Söndag</div>
+														</div>
+														<div class="saCalendarInnerWrapper">
+															<div class="saCalendarInner" role="rowgroup">
+																<div class="saWeek" role="row">
+																	<time class="saWeekNumber" role="rowheader"
+																		datetime="2025-27"
+																		aria-label="Vecka 27">27</time>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-06-30" style="height: 200px;">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-06-30">30 jun</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-01">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-01">1 jul</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-02">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-02">2</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-03">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-03">3</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saDateIsToday saClickable"
+																		role="cell" aria-current="date"
+																		aria-label="2025-07-04">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-04">4</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-05">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-05">5</time>
+																			<ul class="saActivityGroup">
+																				<li class="saActivity saClickable saHasCheckbox saDraggable"
+																					tabindex="0" data-sa-id="1">
+																					<div class="saActivityLine"
+																						style="background-color: green;">
+																					</div>
+																					<input class="saCheckbox"
+																						type="checkbox"
+																						name="selecteditems" value="1"
+																						tabindex="-1" checked>
+																					<div class="saActivityInner">
+																						<div
+																							class="saActivityHeadingWrapper">
+																							<div
+																								class="saActivityHeading">
+																								Veckomöte</div>
+																						</div>
+																						<div
+																							class="saActivityDescription">
+																							Veckomöte för avdelning blå.
+																						</div>
+																					</div>
+																				</li>
+																			</ul>
+																		</div>
+																	</div>
+																	<div class="saDateX saRedDay saClickable"
+																		role="cell" aria-label="2025-07-06">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-06">6</time>
+																		</div>
+																	</div>
+																</div>
+																<div class="saWeek" role="row">
+																	<time class="saWeekNumber" role="rowheader"
+																		datetime="2025-28"
+																		aria-label="Vecka 28">28</time>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-07" style="height: 200px;">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-07">7</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-08">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-08">8</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-09">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-09">9</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-10">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-10">10</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-11">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-11">11</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-12">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-12">12</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saRedDay saClickable"
+																		role="cell" aria-label="2025-07-13">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-13">13</time>
+																		</div>
+																	</div>
+																</div>
+																<div class="saWeek" role="row">
+																	<time class="saWeekNumber" role="rowheader"
+																		datetime="2025-29"
+																		aria-label="Vecka 29">29</time>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-14" style="height: 200px;">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-14">14</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-15">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-15">15</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-16">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-16">16</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-17">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-17">17</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-18">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-18">18</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-19">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-19">19</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saRedDay saClickable"
+																		role="cell" aria-label="2025-07-20">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-20">20</time>
+																		</div>
+																	</div>
+																</div>
+																<div class="saWeek" role="row">
+																	<time class="saWeekNumber" role="rowheader"
+																		datetime="2025-30"
+																		aria-label="Vecka 30">30</time>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-21" style="height: 200px;">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-21">21</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-22">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-22">22</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-23">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-23">23</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-24">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-24">24</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-25">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-25">25</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-26">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-26">26</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saRedDay saClickable"
+																		role="cell" aria-label="2025-07-27">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-27">27</time>
+																		</div>
+																	</div>
+																</div>
+																<div class="saWeek" role="row">
+																	<time class="saWeekNumber" role="rowheader"
+																		datetime="2025-31"
+																		aria-label="Vecka 31">31</time>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-28" style="height: 200px;">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-28">28</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-29">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-29">29</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-30">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-30">30</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-07-31">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-07-31">31 jul</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-08-01">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-08-01">1 aug</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saClickable" role="cell"
+																		aria-label="2025-08-02">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-08-02">2</time>
+																		</div>
+																	</div>
+																	<div class="saDateX saRedDay saClickable"
+																		role="cell" aria-label="2025-08-03">
+																		<div class="saDateInner">
+																			<time class="saDateNumber"
+																				datetime="2025-08-03">3</time>
+																			<ul class="saActivityGroup"></ul>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</softadmin-calendar>
+									</div>
+								</div>
+							</main>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
+
+<script>
+	$(document).ready(function () {
+		$('.saComponentContentLinks .saToggle').on('change', function () {
+			var checked = $(this).is(':checked');
+			$('.saComponentContentLinks .saComponentContentLinkButton:not(.notMe)')
+				.prop('disabled', !checked)
+				.toggleClass('saInactive', !checked);
+
+			$('softadmin-calendar').toggleClass('saCheckboxesVisible', checked);
+			$('.saToggleDescription').toggle(checked);
+		}).trigger('change');
+
+	});
+</script>

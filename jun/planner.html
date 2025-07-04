@@ -1,0 +1,2086 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Planner</title>
+		<link rel="stylesheet" href="./src/style/screen.template.css">
+		<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+		<script src="./script.js"></script>
+		<script type="text/javascript" src="https://livejs.com/live.js"></script>
+		<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+	</head>
+	<body class="saRootBody saLargeScreen saPc saCompact saXl">
+		<div class="saRootContentWrapper">
+			<div class="saSideBar saSideBarJs saExpanded">
+			<form id="aspnetForm">
+				<nav id="SideBar">
+					<div class="saPageHeader saSmallScreenHeader">
+						<div class="saHeader">
+							<div class="saTopRow">
+								<button class="saNavigator" type="button">
+									<div class="saNavBar saActive">
+										<span class="saNavBarStripe"></span>
+										<span class="saNavBarStripe"></span>
+										<span class="saNavBarStripe"></span>
+									</div>
+								</button>
+								<div class="saHeaderWrapper">
+									<div class="saTitle">
+										<h1>Planner</h1>
+									</div>
+								</div>
+								<button class="saNotificationWrapper" type="button">
+									<div>
+										<i class="far fa-bell saIcon"></i>
+									</div>
+									<div class="saNotificationBadge saEmpty" aria-hidden="true">
+										<div class="saNotificationBadgeCount">0</div>
+									</div>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="saSidenav" id="sidenav">
+						<div class="saSidenavSection">
+							<div class="saCustomerLogo">
+								<div>
+									<img src="../src/img/logo.svg" alt="Softadmin® logo" style="min-height: 5rem;">
+									</div>
+								</div>
+								<div class="saSidenavContainer">
+									<div class="saSidenavItem saMenuDropdownsOuter">
+										<div class="saSidenavItemWrapper">
+											<label class="saInputTextWrapper saLabeled">
+												<span class="saLabeledLabel">User</span>
+												<span class="saFirstLetter">J</span>
+												<select class="saInputText saDropdown">
+													<option value="0" selected="true">Jonathan</option>
+													<option value="1">Kevin</option>
+												</select>
+												<div class="saTrailingIconsWrapper">
+													<i class="saIcon far fa-angle-down"></i>
+												</div>
+											</label>
+										</div>
+									</div>
+									<div class="saToggleGroup" role="tablist" aria-label="Toggle menu/favorites">
+										<button class="saDynamicTooltipJs" type="button" id="tabbutton1" role="tab" aria-selected="true">
+											<i class="saIcon far fa-bars" aria-hidden="true"></i>
+											<span class="saToggleText">Menu</span>
+										</button>
+										<button class="saDynamicTooltipJs" type="button" id="tabbutton2" role="tab">
+											<i class="saIcon far fa-star" aria-hidden="true"></i>
+											<span class="saToggleText">Favorites</span>
+										</button>
+									</div>
+								</div>
+								<div class="saSidenavLists">
+									<ul class="saSidenavItemList">
+										<li>
+											<a class="saSidenavItemWrapper" tabindex="0">
+												<div class="saSidenavItem">
+													<i class="far fa-crow saIcon"></i>
+													<span class="saSidenavItemText">Crow</span>
+												</div>
+											</a>
+										</li>
+										<li>
+											<a class="saSidenavItemWrapper" tabindex="0">
+												<div class="saSidenavItem">
+													<i class="far fa-egg saIcon"></i>
+													<span class="saSidenavItemText">Egg</span>
+												</div>
+											</a>
+										</li>
+										<li>
+											<a class="saSidenavItemWrapper" tabindex="0">
+												<div class="saSidenavItem">
+													<i class="far fa-feather saIcon"></i>
+													<span class="saSidenavItemText">Flying lessons</span>
+												</div>
+											</a>
+										</li>
+										<li>
+											<a class="saSidenavItemWrapper" tabindex="0">
+												<div class="saSidenavItem">
+													<i class="far fa-ticket-alt saIcon"></i>
+													<span class="saSidenavItemText">Aviary tickets</span>
+												</div>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="saSidenavSection saSidenavSectionLast">
+								<div class="saSidenavContainer">
+									<div class="saListItem">
+										<button class="saSidenavItemWrapper" type="button" aria-expanded="false">
+											<div class="saSidenavItem saAvatarWrapperOuter">
+												<div class="saAvatarWrapper saUserInitials" aria-hidden="true">JK</div>
+												<span class="saSidenavItemText">Jonathan Kevin</span>
+												<i class="far fa-angle-down saIcon"></i>
+											</div>
+										</button>
+									</div>
+									<div class="saSidenavItem saSidenavItemRow">
+										<button class="saSidenavItemWrapper" type="button">
+											<div class="saSidenavItem">
+												<i class="far fa-gear icon saIcon"></i>
+												<span class="saSidenavItemText">Admin</span>
+											</div>
+										</button>
+										<button class="saSidenavItemWrapper" type="button">
+											<div class="saSidenavItem">
+												<i class="far fa-window-restore icon saIcon"></i>
+												<span class="saSidenavItemText">Ny flik</span>
+											</div>
+										</button>
+										<button class="saSidenavItemWrapper" type="button">
+											<div class="saSidenavItem">
+												<i class="far fa-circle-question icon saIcon"></i>
+												<span class="saSidenavItemText">Visa hjälpsida - Allmän hjälpsida</span>
+											</div>
+										</button>
+										<button class="saSidenavItemWrapper saNotificationLinkLargeScreen" type="button">
+											<div class="saSidenavItem">
+												<div>
+													<i class="far fa-bell saIcon"></i>
+												</div>
+												<span class="saSidenavItemText">Notifieringar</span>
+											</div>
+											<div class="saNotificationBadge saEmpty" aria-hidden="true">
+												<div class="saNotificationBadgeCount">0</div>
+											</div>
+										</button>
+									</div>
+								</div>
+								<div class="saSidenavFooter">
+									<a class="saSoftadminLogo" rel="noopener noreferrer" tabindex="-1" href="#">
+										<img class="saLogo" src="../src/img/softadmin-logo-minimized.svg">
+											<img class="saWordmark" src="../src/img/softadmin-logo-expanded.svg">
+											</a>
+											<button class="saExpander saDynamicTooltipJs" type="button">
+												<i class="fa-angles-left far saIcon"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</nav>
+						</form>
+			</div>
+			<div class="saRightFrameRoot">
+				<div class="right standardview saPc saLargeScreen saCompact">
+					<div class="pagecontentframe">
+						<form class="interface">
+							<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs">
+												<div class="saBackButtonWrapper">
+													<button class="saBackButton" type="button" disabled>
+														<i class="fa-arrow-left far saBack saIcon"></i>
+													</button>
+												</div>
+											</nav>
+										</div>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Planner</h1>
+												<div class="saMarkFavorite saNoSpinner">
+													<button type="button">
+														<i class="fas fa-star saFavoriteIcon saFavoriteAdded icon saIcon"></i>
+													</button>
+												</div>
+												<ul class="saSpecialLinksWrapper"></ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+													<h1 class="saHeaderText">Planner</h1>
+												</div>
+											</div>
+											<button class="saNavigator" type="button">
+												<div class="saNavBar">
+													<span class="saNavBarStripe"></span>
+													<span class="saNavBarStripe"></span>
+													<span class="saNavBarStripe"></span>
+												</div>
+											</button>
+											<button class="saNotificationWrapper" type="button" aria-live="polite">
+												<div>
+													<i class="far fa-bell saIcon"></i>
+												</div>
+												<div class="saNotificationBadge saEmpty" aria-hidden="true">
+													<div class="saNotificationBadgeCount">0</div>
+												</div>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							</header>
+							<div class="maincolinner gradients">
+								<main id="MI_M" class="menuitem pagecontentframe">
+									<div id="MI_ScrollIndicator" class="scrollindicator"></div>
+									<div id="MI_ScrollContent" class="scrollcontent saScrollable" style="height: calc(100vh - 56px);">
+										<div class="scrollcontent-inner">
+										<softadmin-planner data-sa-event-target="MI$MC" data-sa-event-receiver="MI_MC">
+											<div class="saCalendarSection saDesktopCalendar saResourceCalendar saPlanner saShowTime saNarrow saSkipHours" style="height: 1160px;">
+												<div class="saCalendarHeader">
+													<div class="saCalendarHeaderInner">
+																<h2 class="saCalendarHeading">Vecka 27 2025</h2>
+																<div class="saPeriodButtons">
+																	<button data-tooltip="Föregående vecka" aria-label="Föregående vecka" type="button">
+																		<i class="fa-angle-left saIcon far"></i>
+																	</button>
+																	<button data-tooltip="Nästa vecka" aria-label="Nästa vecka" type="button">
+																		<i class="fa-angle-right saIcon far"></i>
+																	</button>
+																</div>
+																<label class="saInputTextWrapper saLabeled">
+																	<span class="saLabeledLabel">Period</span>
+																	<select class="saInputText saDropdown">
+																		<optgroup label="Dagsvy">
+																			<option value="8">Dag</option>
+																			<option value="2">Arbetsvecka</option>
+																			<option value="1">Vecka</option>
+																			<option value="7">2 veckor</option>
+																			<option value="3">4 veckor</option>
+																			<option value="4">Månad</option>
+																		</optgroup>
+																	</select>
+																	<div class="saTrailingIconsWrapper">
+																		<i class="saIcon far fa-angle-down"></i>
+																	</div>
+																</label>
+																<label class="saInputTextWrapper saLabeled">
+																	<span class="saLabeledLabel">År</span>
+																	<select class="saInputText saDropdown">
+																		<option value="2023">2023</option>
+																		<option value="2024">2024</option>
+																		<option value="2025">2025</option>
+																		<option value="2026">2026</option>
+																		<option value="2027">2027</option>
+																		<option value="2028">2028</option>
+																	</select>
+																	<div class="saTrailingIconsWrapper">
+																		<i class="saIcon far fa-angle-down"></i>
+																	</div>
+																</label>
+																<label class="saInputTextWrapper saLabeled shortest">
+																	<span class="saLabeledLabel">Vecka</span>
+																	<input class="saInputText" type="number" maxlength="2">
+																</label>
+																<button class="saTodayButton" type="button">Idag</button>
+																<div class="saToggleGroup" role="group" aria-label="Kolumnbredd">
+																	<label data-tooltip="Smal" data-tooltip-placement="top" aria-label="Smal">
+																		<input type="radio" value="0" name="_jp248si5fb17ra57xxshb">
+																			<i class="fa-grid-5 saIcon fas"></i>
+																	</label>
+																	<label data-tooltip="Mellan" data-tooltip-placement="top" aria-label="Mellan">
+																		<input type="radio" value="1" name="_jp248si5fb17ra57xxshb">
+																		<i class="fa-grid-4 saIcon fas"></i>
+																	</label>
+																	<label data-tooltip="Bred" data-tooltip-placement="top" aria-label="Bred">
+																		<input type="radio" value="2" name="_jp248si5fb17ra57xxshb">
+																		<i class="fa-grid-3 saIcon fas"></i>
+																	</label>
+																	</div>
+													</div>
+														<div class="saComponentContentLinksWrapper">
+															<ul class="saComponentContentLinks" role="toolbar">
+																<li class="saActionLink">
+																	<button
+																		class="saComponentContentLinkButton saButtonSecondary notMe"
+																		type="button">
+																		<div class="saIconHolder" aria-hidden="true">
+																			<i class="fa-plus saIcon far"></i>
+																		</div>
+																		<span class="saButtonText">New activity</span>
+																	</button>
+																</li>
+																<li class="saActionLink">
+																	<button
+																		class="saComponentContentLinkButton saButtonSecondary"
+																		type="button">
+																		<div class="saIconHolder" aria-hidden="true">
+																			<i class="fa-sparkles saIcon far"></i>
+																		</div>
+																		<span class="saButtonText">Auto Assign</span>
+																	</button>
+																</li>
+																<li class="saActionLink">
+																	<button
+																		class="saComponentContentLinkButton saButtonSecondary"
+																		type="button">
+																		<div class="saIconHolder" aria-hidden="true">
+																			<i class="fa-skull-crossbones saIcon far"></i>
+																		</div>
+																		<span class="saButtonText">Offer to Pirates</span>
+																	</button>
+																</li>
+																<li class="saActionLink">
+																	<button
+																		class="saComponentContentLinkButton saButtonSecondary saDestructive"
+																		type="button">
+																		<div class="saIconHolder" aria-hidden="true">
+																			<i class="fa-trash-alt saIcon far"></i>
+																		</div>
+																		<span class="saButtonText">Delete</span>
+																	</button>
+																</li>
+															</ul>
+														</div>
+														</div>
+														<div class="saCalendarSectionInner">
+															<div class="saCalendarSidebar">
+																<div class="saCalendarSidebarInner">
+																	<div class="saCalendarSidebarSection saSidebarCalendar">
+																		<div class="saDatePicker saDatePickerRoot saManyWeeks">
+																			<div class="saDatePickerMonthHeading">
+																				<span class="saCalendarSidebarHeading">Juni 2025</span>
+																				<div class="saMonthBrowser">
+																					<a tabindex="-1" data-tooltip="Föregående månad" aria-hidden="true">
+																						<i class="fa-angle-left saIcon far"></i>
+																					</a>
+																					<a tabindex="-1" data-tooltip="Nästa månad" aria-hidden="true">
+																						<i class="fa-angle-right saIcon far"></i>
+																					</a>
+																				</div>
+																			</div>
+																			<div class="saDayRow">
+																				<div class="saWeekNr saEmpty"></div>
+																				<div class="saDay">Mån</div>
+																				<div class="saDay">Tis</div>
+																				<div class="saDay">Ons</div>
+																				<div class="saDay">Tor</div>
+																				<div class="saDay">Fre</div>
+																				<div class="saDay">Lör</div>
+																				<div class="saDay">Sön</div>
+																			</div>
+																			<div class="saDateRow">
+																				<div class="saWeekNr">22</div>
+																				<div class="saDate saDateElement">26</div>
+																				<div class="saDate saDateElement">27</div>
+																				<div class="saDate saDateElement">28</div>
+																				<div class="saDate saDateElement">29</div>
+																				<div class="saDate saDateElement">30</div>
+																				<div class="saDate saDateElement">31</div>
+																				<div class="saDate saDateElement">1</div>
+																			</div>
+																			<div class="saDateRow">
+																				<div class="saWeekNr">23</div>
+																				<div class="saDate saDateElement">2</div>
+																				<div class="saDate saDateElement">3</div>
+																				<div class="saDate saDateElement">4</div>
+																				<div class="saDate saDateElement">5</div>
+																				<div class="saDate saDateElement">6</div>
+																				<div class="saDate saDateElement">7</div>
+																				<div class="saDate saDateElement">8</div>
+																			</div>
+																			<div class="saDateRow">
+																				<div class="saWeekNr">24</div>
+																				<div class="saDate saDateElement">9</div>
+																				<div class="saDate saDateElement">10</div>
+																				<div class="saDate saDateElement">11</div>
+																				<div class="saDate saDateElement">12</div>
+																				<div class="saDate saDateElement">13</div>
+																				<div class="saDate saDateElement">14</div>
+																				<div class="saDate saDateElement">15</div>
+																			</div>
+																			<div class="saDateRow">
+																				<div class="saWeekNr">25</div>
+																				<div class="saDate saDateElement">16</div>
+																				<div class="saDate saDateElement">17</div>
+																				<div class="saDate saDateElement">18</div>
+																				<div class="saDate saDateElement">19</div>
+																				<div class="saDate saDateElement">20</div>
+																				<div class="saDate saDateElement">21</div>
+																				<div class="saDate saDateElement">22</div>
+																			</div>
+																			<div class="saDateRow">
+																				<div class="saWeekNr">26</div>
+																				<div class="saDate saDateElement">23</div>
+																				<div class="saDate saDateElement">24</div>
+																				<div class="saDate saDateElement">25</div>
+																				<div class="saDate saDateElement">26</div>
+																				<div class="saDate saDateElement">27</div>
+																				<div class="saDate saDateElement">28</div>
+																				<div class="saDate saDateElement">29</div>
+																			</div>
+																			<div class="saDateRow">
+																				<div class="saWeekNr">27</div>
+																				<div class="saDate saDateElement saMarked">30</div>
+																				<div class="saDate saDateElement saMarked">1</div>
+																				<div class="saDate saDateElement saMarked">2</div>
+																				<div class="saDate saDateElement saMarked">3</div>
+																				<div class="saDate saDateElement saToday saMarked">4</div>
+																				<div class="saDate saDateElement saMarked">5</div>
+																				<div class="saDate saDateElement saMarked">6</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="saCalendarSidebarSection saSidebarFilters">
+																		<label class="saInputTextWrapper saLabeled">
+																			<span class="saLabeledLabel">Filter</span>
+																			<select class="saInputText saDropdown">
+																				<option value="0">All</option>
+																				<option value="1">Crab</option>
+																				<option value="2">Snail</option>
+																				<option value="3">Monkey</option>
+																				<option value="4">Snake</option>
+																				<option value="5">Cat</option>
+																			</select>
+																			<div class="saTrailingIconsWrapper">
+																				<i class="saIcon far fa-angle-down"></i>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+															</div>
+															<div class="saUnbookedWrapper">
+																<div class="saUnbooked saUnbookedRow saWeek saClosed">
+																	<div class="saPlannerCell" style="border-right: none;">
+																		<div class="saPlannerCellInner">
+																			<div class="saPlannerCellHeading" id="sa-planner-unbooked-row">Unbooked items</div>
+																		</div>
+																	</div>
+																	<div class="saPlannerAggregateCell">
+																		<button class="saExpandButton" type="button" aria-expanded="false" aria-label="Expandera Unbooked items" data-tooltip="Expandera">
+																			<i class="saIcon far fa-angle-down"></i>
+																		</button>
+																	</div>
+																	<div class="saUnbookedItems saPlannerCell" data-sa-candrop="1" data-sa-dragid="-1x-1x0" data-sa-itemid="-1x-1x0" style="height: 30rem;"></div>
+																	<div class="saPlannerCell saCounterCell"></div>
+																</div>
+															</div>
+															<div class="saCalendar" style="top: 42px; height: calc(100% - 44px);">
+																<div class="saStickyTop">
+																	<div class="saWeek saUnbooked saClosed">
+																		<div class="saRowSticky">
+																			<div class="saPlannerCell">
+																				<div class="saPlannerCellInner">
+																					<div class="saPlannerCellHeading" id="sa-planner-unbooked-day-row">Unbooked day items</div>
+																				</div>
+																			</div>
+																			<div class="saPlannerAggregateCell">
+																				<button class="saExpandButton" type="button" aria-expanded="false" aria-label="Expandera Unbooked day items" data-tooltip="Expandera">
+																					<i class="saIcon far fa-angle-down"></i>
+																				</button>
+																			</div>
+																		</div>
+																		<div class="saPlannerCell saItemCell saDynamicWidthJs" data-sa-candrop="1" data-sa-dragid="-1x0x0" data-sa-itemid="-1x0x0" style="height: calc(-1px + 31.3rem); width: 192px; min-width: 192px;"></div>
+																		<div class="saPlannerCell saCounterCell saDynamicWidthJs" style="width: 192px; min-width: 192px;"></div>
+																		<div class="saPlannerCell saItemCell saDynamicWidthJs" data-sa-candrop="1" data-sa-dragid="-1x24x0" data-sa-itemid="-1x24x0" style="height: calc(-1px + 31.3rem); width: 192px; min-width: 192px;"></div>
+																		<div class="saPlannerCell saCounterCell saDynamicWidthJs" style="width: 192px; min-width: 192px;"></div>
+																		<div class="saPlannerCell saItemCell saDynamicWidthJs" data-sa-candrop="1" data-sa-dragid="-1x48x0" data-sa-itemid="-1x48x0" style="height: calc(-1px + 31.3rem); width: 192px; min-width: 192px;"></div>
+																		<div class="saPlannerCell saCounterCell saDynamicWidthJs" style="width: 192px; min-width: 192px;"></div>
+																		<div class="saPlannerCell saItemCell saDynamicWidthJs" data-sa-candrop="1" data-sa-dragid="-1x72x0" data-sa-itemid="-1x72x0" style="height: calc(-1px + 31.3rem); width: 192px; min-width: 192px;"></div>
+																		<div class="saPlannerCell saCounterCell saDynamicWidthJs" style="width: 192px; min-width: 192px;"></div>
+																		<div class="saPlannerCell saItemCell saDynamicWidthJs" data-sa-candrop="1" data-sa-dragid="-1x96x0" data-sa-itemid="-1x96x0" style="height: calc(-1px + 31.3rem); width: 192px; min-width: 192px;"></div>
+																		<div class="saPlannerCell saCounterCell saDynamicWidthJs" style="width: 192px; min-width: 192px;"></div>
+																		<div class="saPlannerCell saItemCell saDynamicWidthJs" data-sa-candrop="1" data-sa-dragid="-1x120x0" data-sa-itemid="-1x120x0" style="height: calc(-1px + 31.3rem); width: 192px; min-width: 192px;"></div>
+																		<div class="saPlannerCell saCounterCell saDynamicWidthJs" style="width: 192px; min-width: 192px;"></div>
+																		<div class="saPlannerCell saItemCell saDynamicWidthJs" data-sa-candrop="1" data-sa-dragid="-1x144x0" data-sa-itemid="-1x144x0" style="height: calc(-1px + 31.3rem); width: 192px; min-width: 192px;"></div>
+																		<div class="saPlannerCell saCounterCell saDynamicWidthJs" style="width: 192px; min-width: 192px;"></div>
+																	</div>
+																	<div class="saWeek">
+																		<div class="saRowSticky">
+																			<div class="saPlannerCell saDateRowHeading">
+																				<button type="button" class="fa-angles-left saIcon far saCalendarSidebarExpander" data-tooltip="Minimera menyn" aria-label="Minimera menyn" aria-expanded="true"></button>
+																			</div>
+																			<div class="saPlannerAggregateCell"></div>
+																		</div>
+																		<div class="saWeekDay saDynamicWidthJs" id="sa-planner-col-0" style="width: 192px; min-width: 192px;">Måndag
+																			<span class="saDateNumber">30 jun</span>
+																		</div>
+																		<div class="saWeekDay saDynamicWidthJs" id="sa-planner-col-24" style="width: 192px; min-width: 192px;">Tisdag
+																			<span class="saDateNumber">1 jul</span>
+																		</div>
+																		<div class="saWeekDay saDynamicWidthJs" id="sa-planner-col-48" style="width: 192px; min-width: 192px;">Onsdag
+																			<span class="saDateNumber">2</span>
+																		</div>
+																		<div class="saWeekDay saDynamicWidthJs" id="sa-planner-col-72" style="width: 192px; min-width: 192px;">Torsdag
+																			<span class="saDateNumber">3</span>
+																		</div>
+																		<div class="saWeekDay saDynamicWidthJs saDateIsToday" id="sa-planner-col-96" style="width: 192px; min-width: 192px;">Fredag
+																			<span class="saDateNumber">4</span>
+																		</div>
+																		<div class="saWeekDay saDynamicWidthJs" id="sa-planner-col-120" style="width: 192px; min-width: 192px;">Lördag
+																			<span class="saDateNumber">5</span>
+																		</div>
+																		<div class="saWeekDay saDynamicWidthJs saRedDay" id="sa-planner-col-144" style="width: 192px; min-width: 192px;">Söndag
+																			<span class="saDateNumber">6</span>
+																		</div>
+																	</div>
+																	<div class="saWeek">
+																		<div class="saRowSticky">
+																			<div class="saPlannerCell"></div>
+																			<div class="saPlannerAggregateCell"></div>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>00</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>01</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>02</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>03</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>04</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>05</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>06</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>07</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>08</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>09</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>10</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>11</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>12</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>13</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>14</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>15</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>16</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>17</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>18</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>19</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>20</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>21</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>22</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInDay saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>23</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>00</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>01</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>02</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>03</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>04</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>05</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>06</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>07</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>08</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>09</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>10</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>11</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>12</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>13</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>14</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>15</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>16</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>17</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>18</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>19</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>20</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>21</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>22</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInDay saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>23</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>00</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>01</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>02</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>03</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>04</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>05</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>06</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>07</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>08</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>09</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>10</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>11</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>12</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>13</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>14</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>15</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>16</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>17</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>18</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>19</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>20</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>21</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>22</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInDay saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>23</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>00</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>01</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>02</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>03</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>04</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>05</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>06</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>07</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>08</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>09</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>10</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>11</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>12</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>13</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>14</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>15</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>16</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>17</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>18</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>19</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>20</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>21</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>22</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInDay saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>23</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>00</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>01</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>02</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>03</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>04</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>05</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>06</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>07</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>08</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>09</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>10</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>11</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>12</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>13</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>14</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>15</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>16</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>17</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>18</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>19</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>20</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>21</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>22</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInDay saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>23</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>00</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>01</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>02</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>03</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>04</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>05</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>06</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>07</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>08</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>09</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>10</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>11</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>12</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>13</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>14</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>15</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>16</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>17</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>18</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>19</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>20</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>21</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>22</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInDay saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>23</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>00</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>01</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>02</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>03</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>04</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>05</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>06</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>07</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>08</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>09</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>10</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>11</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>12</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>13</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>14</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>15</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>16</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>17</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>18</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>19</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>20</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInBlock" style="width: 8px; min-width: 8px;">
+																			<span>21</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saDynamicWidthJs" style="width: 8px; min-width: 8px;">
+																			<span>22</span>
+																		</div>
+																		<div class="saPlannerCell saTimeCell saSkippable saDynamicWidthJs saLastCellInDay" style="width: 8px; min-width: 8px;">
+																			<span>23</span>
+																		</div>
+																	</div>
+																</div>
+																<div class="saWeek" style="min-height: calc(0px + 7.525rem);">
+																	<div class="saRowSticky">
+																		<div class="saPlannerCell saResourceHeadingCell">
+																			<span class="saPlannerCellHeading" id="sa-planner-resource-0">Crab</span>
+																		</div>
+																		<div class="saPlannerAggregateCell">
+																			<span>4</span>
+																		</div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T00:00:00" data-sa-candrop="1" data-sa-dragid="0x0x0" data-sa-itemid="0x0x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T01:00:00" data-sa-candrop="1" data-sa-dragid="0x1x0" data-sa-itemid="0x1x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T02:00:00" data-sa-candrop="1" data-sa-dragid="0x2x0" data-sa-itemid="0x2x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T03:00:00" data-sa-candrop="1" data-sa-dragid="0x3x0" data-sa-itemid="0x3x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T04:00:00" data-sa-candrop="1" data-sa-dragid="0x4x0" data-sa-itemid="0x4x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T05:00:00" data-sa-candrop="1" data-sa-dragid="0x5x0" data-sa-itemid="0x5x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T06:00:00" data-sa-candrop="1" data-sa-dragid="0x6x0" data-sa-itemid="0x6x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T07:00:00" data-sa-candrop="1" data-sa-dragid="0x7x0" data-sa-itemid="0x7x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T08:00:00" data-sa-candrop="1" data-sa-dragid="0x8x0" data-sa-itemid="0x8x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T09:00:00" data-sa-candrop="1" data-sa-dragid="0x9x0" data-sa-itemid="0x9x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T10:00:00" data-sa-candrop="1" data-sa-dragid="0x10x0" data-sa-itemid="0x10x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T11:00:00" data-sa-candrop="1" data-sa-dragid="0x11x0" data-sa-itemid="0x11x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T12:00:00" data-sa-candrop="1" data-sa-dragid="0x12x0" data-sa-itemid="0x12x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T13:00:00" data-sa-candrop="1" data-sa-dragid="0x13x0" data-sa-itemid="0x13x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T14:00:00" data-sa-candrop="1" data-sa-dragid="0x14x0" data-sa-itemid="0x14x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T15:00:00" data-sa-candrop="1" data-sa-dragid="0x15x0" data-sa-itemid="0x15x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T16:00:00" data-sa-candrop="1" data-sa-dragid="0x16x0" data-sa-itemid="0x16x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T17:00:00" data-sa-candrop="1" data-sa-dragid="0x17x0" data-sa-itemid="0x17x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T18:00:00" data-sa-candrop="1" data-sa-dragid="0x18x0" data-sa-itemid="0x18x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T19:00:00" data-sa-candrop="1" data-sa-dragid="0x19x0" data-sa-itemid="0x19x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T20:00:00" data-sa-candrop="1" data-sa-dragid="0x20x0" data-sa-itemid="0x20x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T21:00:00" data-sa-candrop="1" data-sa-dragid="0x21x0" data-sa-itemid="0x21x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T22:00:00" data-sa-candrop="1" data-sa-dragid="0x22x0" data-sa-itemid="0x22x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T23:00:00" data-sa-candrop="1" data-sa-dragid="0x23x0" data-sa-itemid="0x23x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T00:00:00" data-sa-candrop="1" data-sa-dragid="0x24x0" data-sa-itemid="0x24x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T01:00:00" data-sa-candrop="1" data-sa-dragid="0x25x0" data-sa-itemid="0x25x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T02:00:00" data-sa-candrop="1" data-sa-dragid="0x26x0" data-sa-itemid="0x26x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T03:00:00" data-sa-candrop="1" data-sa-dragid="0x27x0" data-sa-itemid="0x27x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T04:00:00" data-sa-candrop="1" data-sa-dragid="0x28x0" data-sa-itemid="0x28x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T05:00:00" data-sa-candrop="1" data-sa-dragid="0x29x0" data-sa-itemid="0x29x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T06:00:00" data-sa-candrop="1" data-sa-dragid="0x30x0" data-sa-itemid="0x30x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T07:00:00" data-sa-candrop="1" data-sa-dragid="0x31x0" data-sa-itemid="0x31x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T08:00:00" data-sa-candrop="1" data-sa-dragid="0x32x0" data-sa-itemid="0x32x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T09:00:00" data-sa-candrop="1" data-sa-dragid="0x33x0" data-sa-itemid="0x33x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T10:00:00" data-sa-candrop="1" data-sa-dragid="0x34x0" data-sa-itemid="0x34x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T11:00:00" data-sa-candrop="1" data-sa-dragid="0x35x0" data-sa-itemid="0x35x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T12:00:00" data-sa-candrop="1" data-sa-dragid="0x36x0" data-sa-itemid="0x36x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T13:00:00" data-sa-candrop="1" data-sa-dragid="0x37x0" data-sa-itemid="0x37x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T14:00:00" data-sa-candrop="1" data-sa-dragid="0x38x0" data-sa-itemid="0x38x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T15:00:00" data-sa-candrop="1" data-sa-dragid="0x39x0" data-sa-itemid="0x39x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T16:00:00" data-sa-candrop="1" data-sa-dragid="0x40x0" data-sa-itemid="0x40x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T17:00:00" data-sa-candrop="1" data-sa-dragid="0x41x0" data-sa-itemid="0x41x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T18:00:00" data-sa-candrop="1" data-sa-dragid="0x42x0" data-sa-itemid="0x42x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T19:00:00" data-sa-candrop="1" data-sa-dragid="0x43x0" data-sa-itemid="0x43x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T20:00:00" data-sa-candrop="1" data-sa-dragid="0x44x0" data-sa-itemid="0x44x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T21:00:00" data-sa-candrop="1" data-sa-dragid="0x45x0" data-sa-itemid="0x45x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T22:00:00" data-sa-candrop="1" data-sa-dragid="0x46x0" data-sa-itemid="0x46x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T23:00:00" data-sa-candrop="1" data-sa-dragid="0x47x0" data-sa-itemid="0x47x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T00:00:00" data-sa-candrop="1" data-sa-dragid="0x48x0" data-sa-itemid="0x48x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T01:00:00" data-sa-candrop="1" data-sa-dragid="0x49x0" data-sa-itemid="0x49x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T02:00:00" data-sa-candrop="1" data-sa-dragid="0x50x0" data-sa-itemid="0x50x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T03:00:00" data-sa-candrop="1" data-sa-dragid="0x51x0" data-sa-itemid="0x51x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T04:00:00" data-sa-candrop="1" data-sa-dragid="0x52x0" data-sa-itemid="0x52x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T05:00:00" data-sa-candrop="1" data-sa-dragid="0x53x0" data-sa-itemid="0x53x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T06:00:00" data-sa-candrop="1" data-sa-dragid="0x54x0" data-sa-itemid="0x54x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T07:00:00" data-sa-candrop="1" data-sa-dragid="0x55x0" data-sa-itemid="0x55x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T08:00:00" data-sa-candrop="1" data-sa-dragid="0x56x0" data-sa-itemid="0x56x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T09:00:00" data-sa-candrop="1" data-sa-dragid="0x57x0" data-sa-itemid="0x57x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T10:00:00" data-sa-candrop="1" data-sa-dragid="0x58x0" data-sa-itemid="0x58x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T11:00:00" data-sa-candrop="1" data-sa-dragid="0x59x0" data-sa-itemid="0x59x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T12:00:00" data-sa-candrop="1" data-sa-dragid="0x60x0" data-sa-itemid="0x60x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T13:00:00" data-sa-candrop="1" data-sa-dragid="0x61x0" data-sa-itemid="0x61x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T14:00:00" data-sa-candrop="1" data-sa-dragid="0x62x0" data-sa-itemid="0x62x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T15:00:00" data-sa-candrop="1" data-sa-dragid="0x63x0" data-sa-itemid="0x63x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T16:00:00" data-sa-candrop="1" data-sa-dragid="0x64x0" data-sa-itemid="0x64x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T17:00:00" data-sa-candrop="1" data-sa-dragid="0x65x0" data-sa-itemid="0x65x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T18:00:00" data-sa-candrop="1" data-sa-dragid="0x66x0" data-sa-itemid="0x66x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T19:00:00" data-sa-candrop="1" data-sa-dragid="0x67x0" data-sa-itemid="0x67x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T20:00:00" data-sa-candrop="1" data-sa-dragid="0x68x0" data-sa-itemid="0x68x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T21:00:00" data-sa-candrop="1" data-sa-dragid="0x69x0" data-sa-itemid="0x69x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T22:00:00" data-sa-candrop="1" data-sa-dragid="0x70x0" data-sa-itemid="0x70x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T23:00:00" data-sa-candrop="1" data-sa-dragid="0x71x0" data-sa-itemid="0x71x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T00:00:00" data-sa-candrop="1" data-sa-dragid="0x72x0" data-sa-itemid="0x72x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T01:00:00" data-sa-candrop="1" data-sa-dragid="0x73x0" data-sa-itemid="0x73x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T02:00:00" data-sa-candrop="1" data-sa-dragid="0x74x0" data-sa-itemid="0x74x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T03:00:00" data-sa-candrop="1" data-sa-dragid="0x75x0" data-sa-itemid="0x75x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T04:00:00" data-sa-candrop="1" data-sa-dragid="0x76x0" data-sa-itemid="0x76x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T05:00:00" data-sa-candrop="1" data-sa-dragid="0x77x0" data-sa-itemid="0x77x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T06:00:00" data-sa-candrop="1" data-sa-dragid="0x78x0" data-sa-itemid="0x78x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T07:00:00" data-sa-candrop="1" data-sa-dragid="0x79x0" data-sa-itemid="0x79x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T08:00:00" data-sa-candrop="1" data-sa-dragid="0x80x0" data-sa-itemid="0x80x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T09:00:00" data-sa-candrop="1" data-sa-dragid="0x81x0" data-sa-itemid="0x81x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T10:00:00" data-sa-candrop="1" data-sa-dragid="0x82x0" data-sa-itemid="0x82x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T11:00:00" data-sa-candrop="1" data-sa-dragid="0x83x0" data-sa-itemid="0x83x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T12:00:00" data-sa-candrop="1" data-sa-dragid="0x84x0" data-sa-itemid="0x84x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T13:00:00" data-sa-candrop="1" data-sa-dragid="0x85x0" data-sa-itemid="0x85x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T14:00:00" data-sa-candrop="1" data-sa-dragid="0x86x0" data-sa-itemid="0x86x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T15:00:00" data-sa-candrop="1" data-sa-dragid="0x87x0" data-sa-itemid="0x87x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T16:00:00" data-sa-candrop="1" data-sa-dragid="0x88x0" data-sa-itemid="0x88x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T17:00:00" data-sa-candrop="1" data-sa-dragid="0x89x0" data-sa-itemid="0x89x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T18:00:00" data-sa-candrop="1" data-sa-dragid="0x90x0" data-sa-itemid="0x90x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T19:00:00" data-sa-candrop="1" data-sa-dragid="0x91x0" data-sa-itemid="0x91x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T20:00:00" data-sa-candrop="1" data-sa-dragid="0x92x0" data-sa-itemid="0x92x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T21:00:00" data-sa-candrop="1" data-sa-dragid="0x93x0" data-sa-itemid="0x93x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T22:00:00" data-sa-candrop="1" data-sa-dragid="0x94x0" data-sa-itemid="0x94x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T23:00:00" data-sa-candrop="1" data-sa-dragid="0x95x0" data-sa-itemid="0x95x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T00:00:00" data-sa-candrop="1" data-sa-dragid="0x96x0" data-sa-itemid="0x96x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T01:00:00" data-sa-candrop="1" data-sa-dragid="0x97x0" data-sa-itemid="0x97x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T02:00:00" data-sa-candrop="1" data-sa-dragid="0x98x0" data-sa-itemid="0x98x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T03:00:00" data-sa-candrop="1" data-sa-dragid="0x99x0" data-sa-itemid="0x99x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T04:00:00" data-sa-candrop="1" data-sa-dragid="0x100x0" data-sa-itemid="0x100x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T05:00:00" data-sa-candrop="1" data-sa-dragid="0x101x0" data-sa-itemid="0x101x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T06:00:00" data-sa-candrop="1" data-sa-dragid="0x102x0" data-sa-itemid="0x102x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T07:00:00" data-sa-candrop="1" data-sa-dragid="0x103x0" data-sa-itemid="0x103x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T08:00:00" data-sa-candrop="1" data-sa-dragid="0x104x0" data-sa-itemid="0x104x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T09:00:00" data-sa-candrop="1" data-sa-dragid="0x105x0" data-sa-itemid="0x105x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T10:00:00" data-sa-candrop="1" data-sa-dragid="0x106x0" data-sa-itemid="0x106x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T11:00:00" data-sa-candrop="1" data-sa-dragid="0x107x0" data-sa-itemid="0x107x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T12:00:00" data-sa-candrop="1" data-sa-dragid="0x108x0" data-sa-itemid="0x108x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T13:00:00" data-sa-candrop="1" data-sa-dragid="0x109x0" data-sa-itemid="0x109x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T14:00:00" data-sa-candrop="1" data-sa-dragid="0x110x0" data-sa-itemid="0x110x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T15:00:00" data-sa-candrop="1" data-sa-dragid="0x111x0" data-sa-itemid="0x111x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T16:00:00" data-sa-candrop="1" data-sa-dragid="0x112x0" data-sa-itemid="0x112x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T17:00:00" data-sa-candrop="1" data-sa-dragid="0x113x0" data-sa-itemid="0x113x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T18:00:00" data-sa-candrop="1" data-sa-dragid="0x114x0" data-sa-itemid="0x114x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T19:00:00" data-sa-candrop="1" data-sa-dragid="0x115x0" data-sa-itemid="0x115x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T20:00:00" data-sa-candrop="1" data-sa-dragid="0x116x0" data-sa-itemid="0x116x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T21:00:00" data-sa-candrop="1" data-sa-dragid="0x117x0" data-sa-itemid="0x117x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T22:00:00" data-sa-candrop="1" data-sa-dragid="0x118x0" data-sa-itemid="0x118x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T23:00:00" data-sa-candrop="1" data-sa-dragid="0x119x0" data-sa-itemid="0x119x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T00:00:00" data-sa-candrop="1" data-sa-dragid="0x120x0" data-sa-itemid="0x120x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T01:00:00" data-sa-candrop="1" data-sa-dragid="0x121x0" data-sa-itemid="0x121x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T02:00:00" data-sa-candrop="1" data-sa-dragid="0x122x0" data-sa-itemid="0x122x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T03:00:00" data-sa-candrop="1" data-sa-dragid="0x123x0" data-sa-itemid="0x123x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T04:00:00" data-sa-candrop="1" data-sa-dragid="0x124x0" data-sa-itemid="0x124x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T05:00:00" data-sa-candrop="1" data-sa-dragid="0x125x0" data-sa-itemid="0x125x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T06:00:00" data-sa-candrop="1" data-sa-dragid="0x126x0" data-sa-itemid="0x126x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T07:00:00" data-sa-candrop="1" data-sa-dragid="0x127x0" data-sa-itemid="0x127x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T08:00:00" data-sa-candrop="1" data-sa-dragid="0x128x0" data-sa-itemid="0x128x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T09:00:00" data-sa-candrop="1" data-sa-dragid="0x129x0" data-sa-itemid="0x129x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T10:00:00" data-sa-candrop="1" data-sa-dragid="0x130x0" data-sa-itemid="0x130x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T11:00:00" data-sa-candrop="1" data-sa-dragid="0x131x0" data-sa-itemid="0x131x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T12:00:00" data-sa-candrop="1" data-sa-dragid="0x132x0" data-sa-itemid="0x132x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T13:00:00" data-sa-candrop="1" data-sa-dragid="0x133x0" data-sa-itemid="0x133x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T14:00:00" data-sa-candrop="1" data-sa-dragid="0x134x0" data-sa-itemid="0x134x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T15:00:00" data-sa-candrop="1" data-sa-dragid="0x135x0" data-sa-itemid="0x135x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T16:00:00" data-sa-candrop="1" data-sa-dragid="0x136x0" data-sa-itemid="0x136x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T17:00:00" data-sa-candrop="1" data-sa-dragid="0x137x0" data-sa-itemid="0x137x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T18:00:00" data-sa-candrop="1" data-sa-dragid="0x138x0" data-sa-itemid="0x138x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T19:00:00" data-sa-candrop="1" data-sa-dragid="0x139x0" data-sa-itemid="0x139x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T20:00:00" data-sa-candrop="1" data-sa-dragid="0x140x0" data-sa-itemid="0x140x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T21:00:00" data-sa-candrop="1" data-sa-dragid="0x141x0" data-sa-itemid="0x141x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T22:00:00" data-sa-candrop="1" data-sa-dragid="0x142x0" data-sa-itemid="0x142x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T23:00:00" data-sa-candrop="1" data-sa-dragid="0x143x0" data-sa-itemid="0x143x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T00:00:00" data-sa-candrop="1" data-sa-dragid="0x144x0" data-sa-itemid="0x144x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T01:00:00" data-sa-candrop="1" data-sa-dragid="0x145x0" data-sa-itemid="0x145x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T02:00:00" data-sa-candrop="1" data-sa-dragid="0x146x0" data-sa-itemid="0x146x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T03:00:00" data-sa-candrop="1" data-sa-dragid="0x147x0" data-sa-itemid="0x147x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T04:00:00" data-sa-candrop="1" data-sa-dragid="0x148x0" data-sa-itemid="0x148x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T05:00:00" data-sa-candrop="1" data-sa-dragid="0x149x0" data-sa-itemid="0x149x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T06:00:00" data-sa-candrop="1" data-sa-dragid="0x150x0" data-sa-itemid="0x150x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T07:00:00" data-sa-candrop="1" data-sa-dragid="0x151x0" data-sa-itemid="0x151x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T08:00:00" data-sa-candrop="1" data-sa-dragid="0x152x0" data-sa-itemid="0x152x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T09:00:00" data-sa-candrop="1" data-sa-dragid="0x153x0" data-sa-itemid="0x153x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T10:00:00" data-sa-candrop="1" data-sa-dragid="0x154x0" data-sa-itemid="0x154x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T11:00:00" data-sa-candrop="1" data-sa-dragid="0x155x0" data-sa-itemid="0x155x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T12:00:00" data-sa-candrop="1" data-sa-dragid="0x156x0" data-sa-itemid="0x156x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T13:00:00" data-sa-candrop="1" data-sa-dragid="0x157x0" data-sa-itemid="0x157x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T14:00:00" data-sa-candrop="1" data-sa-dragid="0x158x0" data-sa-itemid="0x158x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T15:00:00" data-sa-candrop="1" data-sa-dragid="0x159x0" data-sa-itemid="0x159x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T16:00:00" data-sa-candrop="1" data-sa-dragid="0x160x0" data-sa-itemid="0x160x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T17:00:00" data-sa-candrop="1" data-sa-dragid="0x161x0" data-sa-itemid="0x161x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T18:00:00" data-sa-candrop="1" data-sa-dragid="0x162x0" data-sa-itemid="0x162x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T19:00:00" data-sa-candrop="1" data-sa-dragid="0x163x0" data-sa-itemid="0x163x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T20:00:00" data-sa-candrop="1" data-sa-dragid="0x164x0" data-sa-itemid="0x164x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T21:00:00" data-sa-candrop="1" data-sa-dragid="0x165x0" data-sa-itemid="0x165x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T22:00:00" data-sa-candrop="1" data-sa-dragid="0x166x0" data-sa-itemid="0x166x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T23:00:00" data-sa-candrop="1" data-sa-dragid="0x167x0" data-sa-itemid="0x167x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																</div>
+																<div class="saWeek" style="min-height: calc(0px + 7.525rem);">
+																	<div class="saRowSticky">
+																		<div class="saPlannerCell saResourceHeadingCell">
+																			<span class="saPlannerCellHeading" id="sa-planner-resource-1">Snail</span>
+																		</div>
+																		<div class="saPlannerAggregateCell">
+																			<span>3</span>
+																		</div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T00:00:00" data-sa-candrop="1" data-sa-dragid="1x0x0" data-sa-itemid="1x0x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T01:00:00" data-sa-candrop="1" data-sa-dragid="1x1x0" data-sa-itemid="1x1x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T02:00:00" data-sa-candrop="1" data-sa-dragid="1x2x0" data-sa-itemid="1x2x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T03:00:00" data-sa-candrop="1" data-sa-dragid="1x3x0" data-sa-itemid="1x3x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T04:00:00" data-sa-candrop="1" data-sa-dragid="1x4x0" data-sa-itemid="1x4x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T05:00:00" data-sa-candrop="1" data-sa-dragid="1x5x0" data-sa-itemid="1x5x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T06:00:00" data-sa-candrop="1" data-sa-dragid="1x6x0" data-sa-itemid="1x6x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T07:00:00" data-sa-candrop="1" data-sa-dragid="1x7x0" data-sa-itemid="1x7x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T08:00:00" data-sa-candrop="1" data-sa-dragid="1x8x0" data-sa-itemid="1x8x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T09:00:00" data-sa-candrop="1" data-sa-dragid="1x9x0" data-sa-itemid="1x9x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T10:00:00" data-sa-candrop="1" data-sa-dragid="1x10x0" data-sa-itemid="1x10x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T11:00:00" data-sa-candrop="1" data-sa-dragid="1x11x0" data-sa-itemid="1x11x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T12:00:00" data-sa-candrop="1" data-sa-dragid="1x12x0" data-sa-itemid="1x12x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T13:00:00" data-sa-candrop="1" data-sa-dragid="1x13x0" data-sa-itemid="1x13x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T14:00:00" data-sa-candrop="1" data-sa-dragid="1x14x0" data-sa-itemid="1x14x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T15:00:00" data-sa-candrop="1" data-sa-dragid="1x15x0" data-sa-itemid="1x15x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T16:00:00" data-sa-candrop="1" data-sa-dragid="1x16x0" data-sa-itemid="1x16x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T17:00:00" data-sa-candrop="1" data-sa-dragid="1x17x0" data-sa-itemid="1x17x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T18:00:00" data-sa-candrop="1" data-sa-dragid="1x18x0" data-sa-itemid="1x18x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T19:00:00" data-sa-candrop="1" data-sa-dragid="1x19x0" data-sa-itemid="1x19x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T20:00:00" data-sa-candrop="1" data-sa-dragid="1x20x0" data-sa-itemid="1x20x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T21:00:00" data-sa-candrop="1" data-sa-dragid="1x21x0" data-sa-itemid="1x21x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-06-30T22:00:00" data-sa-candrop="1" data-sa-dragid="1x22x0" data-sa-itemid="1x22x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-06-30T23:00:00" data-sa-candrop="1" data-sa-dragid="1x23x0" data-sa-itemid="1x23x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T00:00:00" data-sa-candrop="1" data-sa-dragid="1x24x0" data-sa-itemid="1x24x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T01:00:00" data-sa-candrop="1" data-sa-dragid="1x25x0" data-sa-itemid="1x25x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T02:00:00" data-sa-candrop="1" data-sa-dragid="1x26x0" data-sa-itemid="1x26x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T03:00:00" data-sa-candrop="1" data-sa-dragid="1x27x0" data-sa-itemid="1x27x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T04:00:00" data-sa-candrop="1" data-sa-dragid="1x28x0" data-sa-itemid="1x28x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T05:00:00" data-sa-candrop="1" data-sa-dragid="1x29x0" data-sa-itemid="1x29x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T06:00:00" data-sa-candrop="1" data-sa-dragid="1x30x0" data-sa-itemid="1x30x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T07:00:00" data-sa-candrop="1" data-sa-dragid="1x31x0" data-sa-itemid="1x31x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T08:00:00" data-sa-candrop="1" data-sa-dragid="1x32x0" data-sa-itemid="1x32x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T09:00:00" data-sa-candrop="1" data-sa-dragid="1x33x0" data-sa-itemid="1x33x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T10:00:00" data-sa-candrop="1" data-sa-dragid="1x34x0" data-sa-itemid="1x34x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T11:00:00" data-sa-candrop="1" data-sa-dragid="1x35x0" data-sa-itemid="1x35x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T12:00:00" data-sa-candrop="1" data-sa-dragid="1x36x0" data-sa-itemid="1x36x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T13:00:00" data-sa-candrop="1" data-sa-dragid="1x37x0" data-sa-itemid="1x37x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T14:00:00" data-sa-candrop="1" data-sa-dragid="1x38x0" data-sa-itemid="1x38x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T15:00:00" data-sa-candrop="1" data-sa-dragid="1x39x0" data-sa-itemid="1x39x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T16:00:00" data-sa-candrop="1" data-sa-dragid="1x40x0" data-sa-itemid="1x40x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T17:00:00" data-sa-candrop="1" data-sa-dragid="1x41x0" data-sa-itemid="1x41x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T18:00:00" data-sa-candrop="1" data-sa-dragid="1x42x0" data-sa-itemid="1x42x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T19:00:00" data-sa-candrop="1" data-sa-dragid="1x43x0" data-sa-itemid="1x43x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T20:00:00" data-sa-candrop="1" data-sa-dragid="1x44x0" data-sa-itemid="1x44x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T21:00:00" data-sa-candrop="1" data-sa-dragid="1x45x0" data-sa-itemid="1x45x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-01T22:00:00" data-sa-candrop="1" data-sa-dragid="1x46x0" data-sa-itemid="1x46x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-01T23:00:00" data-sa-candrop="1" data-sa-dragid="1x47x0" data-sa-itemid="1x47x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T00:00:00" data-sa-candrop="1" data-sa-dragid="1x48x0" data-sa-itemid="1x48x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T01:00:00" data-sa-candrop="1" data-sa-dragid="1x49x0" data-sa-itemid="1x49x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T02:00:00" data-sa-candrop="1" data-sa-dragid="1x50x0" data-sa-itemid="1x50x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T03:00:00" data-sa-candrop="1" data-sa-dragid="1x51x0" data-sa-itemid="1x51x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T04:00:00" data-sa-candrop="1" data-sa-dragid="1x52x0" data-sa-itemid="1x52x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T05:00:00" data-sa-candrop="1" data-sa-dragid="1x53x0" data-sa-itemid="1x53x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T06:00:00" data-sa-candrop="1" data-sa-dragid="1x54x0" data-sa-itemid="1x54x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T07:00:00" data-sa-candrop="1" data-sa-dragid="1x55x0" data-sa-itemid="1x55x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T08:00:00" data-sa-candrop="1" data-sa-dragid="1x56x0" data-sa-itemid="1x56x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T09:00:00" data-sa-candrop="1" data-sa-dragid="1x57x0" data-sa-itemid="1x57x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T10:00:00" data-sa-candrop="1" data-sa-dragid="1x58x0" data-sa-itemid="1x58x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T11:00:00" data-sa-candrop="1" data-sa-dragid="1x59x0" data-sa-itemid="1x59x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T12:00:00" data-sa-candrop="1" data-sa-dragid="1x60x0" data-sa-itemid="1x60x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T13:00:00" data-sa-candrop="1" data-sa-dragid="1x61x0" data-sa-itemid="1x61x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T14:00:00" data-sa-candrop="1" data-sa-dragid="1x62x0" data-sa-itemid="1x62x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T15:00:00" data-sa-candrop="1" data-sa-dragid="1x63x0" data-sa-itemid="1x63x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T16:00:00" data-sa-candrop="1" data-sa-dragid="1x64x0" data-sa-itemid="1x64x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T17:00:00" data-sa-candrop="1" data-sa-dragid="1x65x0" data-sa-itemid="1x65x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T18:00:00" data-sa-candrop="1" data-sa-dragid="1x66x0" data-sa-itemid="1x66x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T19:00:00" data-sa-candrop="1" data-sa-dragid="1x67x0" data-sa-itemid="1x67x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T20:00:00" data-sa-candrop="1" data-sa-dragid="1x68x0" data-sa-itemid="1x68x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T21:00:00" data-sa-candrop="1" data-sa-dragid="1x69x0" data-sa-itemid="1x69x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-02T22:00:00" data-sa-candrop="1" data-sa-dragid="1x70x0" data-sa-itemid="1x70x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-02T23:00:00" data-sa-candrop="1" data-sa-dragid="1x71x0" data-sa-itemid="1x71x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T00:00:00" data-sa-candrop="1" data-sa-dragid="1x72x0" data-sa-itemid="1x72x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T01:00:00" data-sa-candrop="1" data-sa-dragid="1x73x0" data-sa-itemid="1x73x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T02:00:00" data-sa-candrop="1" data-sa-dragid="1x74x0" data-sa-itemid="1x74x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T03:00:00" data-sa-candrop="1" data-sa-dragid="1x75x0" data-sa-itemid="1x75x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T04:00:00" data-sa-candrop="1" data-sa-dragid="1x76x0" data-sa-itemid="1x76x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T05:00:00" data-sa-candrop="1" data-sa-dragid="1x77x0" data-sa-itemid="1x77x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T06:00:00" data-sa-candrop="1" data-sa-dragid="1x78x0" data-sa-itemid="1x78x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T07:00:00" data-sa-candrop="1" data-sa-dragid="1x79x0" data-sa-itemid="1x79x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T08:00:00" data-sa-candrop="1" data-sa-dragid="1x80x0" data-sa-itemid="1x80x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T09:00:00" data-sa-candrop="1" data-sa-dragid="1x81x0" data-sa-itemid="1x81x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T10:00:00" data-sa-candrop="1" data-sa-dragid="1x82x0" data-sa-itemid="1x82x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T11:00:00" data-sa-candrop="1" data-sa-dragid="1x83x0" data-sa-itemid="1x83x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T12:00:00" data-sa-candrop="1" data-sa-dragid="1x84x0" data-sa-itemid="1x84x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T13:00:00" data-sa-candrop="1" data-sa-dragid="1x85x0" data-sa-itemid="1x85x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T14:00:00" data-sa-candrop="1" data-sa-dragid="1x86x0" data-sa-itemid="1x86x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T15:00:00" data-sa-candrop="1" data-sa-dragid="1x87x0" data-sa-itemid="1x87x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T16:00:00" data-sa-candrop="1" data-sa-dragid="1x88x0" data-sa-itemid="1x88x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T17:00:00" data-sa-candrop="1" data-sa-dragid="1x89x0" data-sa-itemid="1x89x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T18:00:00" data-sa-candrop="1" data-sa-dragid="1x90x0" data-sa-itemid="1x90x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T19:00:00" data-sa-candrop="1" data-sa-dragid="1x91x0" data-sa-itemid="1x91x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T20:00:00" data-sa-candrop="1" data-sa-dragid="1x92x0" data-sa-itemid="1x92x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T21:00:00" data-sa-candrop="1" data-sa-dragid="1x93x0" data-sa-itemid="1x93x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-03T22:00:00" data-sa-candrop="1" data-sa-dragid="1x94x0" data-sa-itemid="1x94x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-03T23:00:00" data-sa-candrop="1" data-sa-dragid="1x95x0" data-sa-itemid="1x95x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T00:00:00" data-sa-candrop="1" data-sa-dragid="1x96x0" data-sa-itemid="1x96x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T01:00:00" data-sa-candrop="1" data-sa-dragid="1x97x0" data-sa-itemid="1x97x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T02:00:00" data-sa-candrop="1" data-sa-dragid="1x98x0" data-sa-itemid="1x98x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T03:00:00" data-sa-candrop="1" data-sa-dragid="1x99x0" data-sa-itemid="1x99x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T04:00:00" data-sa-candrop="1" data-sa-dragid="1x100x0" data-sa-itemid="1x100x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T05:00:00" data-sa-candrop="1" data-sa-dragid="1x101x0" data-sa-itemid="1x101x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T06:00:00" data-sa-candrop="1" data-sa-dragid="1x102x0" data-sa-itemid="1x102x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T07:00:00" data-sa-candrop="1" data-sa-dragid="1x103x0" data-sa-itemid="1x103x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T08:00:00" data-sa-candrop="1" data-sa-dragid="1x104x0" data-sa-itemid="1x104x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T09:00:00" data-sa-candrop="1" data-sa-dragid="1x105x0" data-sa-itemid="1x105x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T10:00:00" data-sa-candrop="1" data-sa-dragid="1x106x0" data-sa-itemid="1x106x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T11:00:00" data-sa-candrop="1" data-sa-dragid="1x107x0" data-sa-itemid="1x107x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T12:00:00" data-sa-candrop="1" data-sa-dragid="1x108x0" data-sa-itemid="1x108x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T13:00:00" data-sa-candrop="1" data-sa-dragid="1x109x0" data-sa-itemid="1x109x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T14:00:00" data-sa-candrop="1" data-sa-dragid="1x110x0" data-sa-itemid="1x110x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T15:00:00" data-sa-candrop="1" data-sa-dragid="1x111x0" data-sa-itemid="1x111x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T16:00:00" data-sa-candrop="1" data-sa-dragid="1x112x0" data-sa-itemid="1x112x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T17:00:00" data-sa-candrop="1" data-sa-dragid="1x113x0" data-sa-itemid="1x113x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T18:00:00" data-sa-candrop="1" data-sa-dragid="1x114x0" data-sa-itemid="1x114x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T19:00:00" data-sa-candrop="1" data-sa-dragid="1x115x0" data-sa-itemid="1x115x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T20:00:00" data-sa-candrop="1" data-sa-dragid="1x116x0" data-sa-itemid="1x116x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T21:00:00" data-sa-candrop="1" data-sa-dragid="1x117x0" data-sa-itemid="1x117x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-04T22:00:00" data-sa-candrop="1" data-sa-dragid="1x118x0" data-sa-itemid="1x118x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-04T23:00:00" data-sa-candrop="1" data-sa-dragid="1x119x0" data-sa-itemid="1x119x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T00:00:00" data-sa-candrop="1" data-sa-dragid="1x120x0" data-sa-itemid="1x120x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T01:00:00" data-sa-candrop="1" data-sa-dragid="1x121x0" data-sa-itemid="1x121x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T02:00:00" data-sa-candrop="1" data-sa-dragid="1x122x0" data-sa-itemid="1x122x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T03:00:00" data-sa-candrop="1" data-sa-dragid="1x123x0" data-sa-itemid="1x123x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T04:00:00" data-sa-candrop="1" data-sa-dragid="1x124x0" data-sa-itemid="1x124x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T05:00:00" data-sa-candrop="1" data-sa-dragid="1x125x0" data-sa-itemid="1x125x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T06:00:00" data-sa-candrop="1" data-sa-dragid="1x126x0" data-sa-itemid="1x126x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T07:00:00" data-sa-candrop="1" data-sa-dragid="1x127x0" data-sa-itemid="1x127x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T08:00:00" data-sa-candrop="1" data-sa-dragid="1x128x0" data-sa-itemid="1x128x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T09:00:00" data-sa-candrop="1" data-sa-dragid="1x129x0" data-sa-itemid="1x129x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T10:00:00" data-sa-candrop="1" data-sa-dragid="1x130x0" data-sa-itemid="1x130x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T11:00:00" data-sa-candrop="1" data-sa-dragid="1x131x0" data-sa-itemid="1x131x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T12:00:00" data-sa-candrop="1" data-sa-dragid="1x132x0" data-sa-itemid="1x132x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T13:00:00" data-sa-candrop="1" data-sa-dragid="1x133x0" data-sa-itemid="1x133x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T14:00:00" data-sa-candrop="1" data-sa-dragid="1x134x0" data-sa-itemid="1x134x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T15:00:00" data-sa-candrop="1" data-sa-dragid="1x135x0" data-sa-itemid="1x135x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T16:00:00" data-sa-candrop="1" data-sa-dragid="1x136x0" data-sa-itemid="1x136x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T17:00:00" data-sa-candrop="1" data-sa-dragid="1x137x0" data-sa-itemid="1x137x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T18:00:00" data-sa-candrop="1" data-sa-dragid="1x138x0" data-sa-itemid="1x138x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T19:00:00" data-sa-candrop="1" data-sa-dragid="1x139x0" data-sa-itemid="1x139x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T20:00:00" data-sa-candrop="1" data-sa-dragid="1x140x0" data-sa-itemid="1x140x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T21:00:00" data-sa-candrop="1" data-sa-dragid="1x141x0" data-sa-itemid="1x141x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-05T22:00:00" data-sa-candrop="1" data-sa-dragid="1x142x0" data-sa-itemid="1x142x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-05T23:00:00" data-sa-candrop="1" data-sa-dragid="1x143x0" data-sa-itemid="1x143x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T00:00:00" data-sa-candrop="1" data-sa-dragid="1x144x0" data-sa-itemid="1x144x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T01:00:00" data-sa-candrop="1" data-sa-dragid="1x145x0" data-sa-itemid="1x145x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T02:00:00" data-sa-candrop="1" data-sa-dragid="1x146x0" data-sa-itemid="1x146x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T03:00:00" data-sa-candrop="1" data-sa-dragid="1x147x0" data-sa-itemid="1x147x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T04:00:00" data-sa-candrop="1" data-sa-dragid="1x148x0" data-sa-itemid="1x148x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T05:00:00" data-sa-candrop="1" data-sa-dragid="1x149x0" data-sa-itemid="1x149x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T06:00:00" data-sa-candrop="1" data-sa-dragid="1x150x0" data-sa-itemid="1x150x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T07:00:00" data-sa-candrop="1" data-sa-dragid="1x151x0" data-sa-itemid="1x151x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T08:00:00" data-sa-candrop="1" data-sa-dragid="1x152x0" data-sa-itemid="1x152x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T09:00:00" data-sa-candrop="1" data-sa-dragid="1x153x0" data-sa-itemid="1x153x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T10:00:00" data-sa-candrop="1" data-sa-dragid="1x154x0" data-sa-itemid="1x154x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T11:00:00" data-sa-candrop="1" data-sa-dragid="1x155x0" data-sa-itemid="1x155x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T12:00:00" data-sa-candrop="1" data-sa-dragid="1x156x0" data-sa-itemid="1x156x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T13:00:00" data-sa-candrop="1" data-sa-dragid="1x157x0" data-sa-itemid="1x157x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T14:00:00" data-sa-candrop="1" data-sa-dragid="1x158x0" data-sa-itemid="1x158x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T15:00:00" data-sa-candrop="1" data-sa-dragid="1x159x0" data-sa-itemid="1x159x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T16:00:00" data-sa-candrop="1" data-sa-dragid="1x160x0" data-sa-itemid="1x160x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T17:00:00" data-sa-candrop="1" data-sa-dragid="1x161x0" data-sa-itemid="1x161x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T18:00:00" data-sa-candrop="1" data-sa-dragid="1x162x0" data-sa-itemid="1x162x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T19:00:00" data-sa-candrop="1" data-sa-dragid="1x163x0" data-sa-itemid="1x163x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T20:00:00" data-sa-candrop="1" data-sa-dragid="1x164x0" data-sa-itemid="1x164x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks saLastCellInBlock" data-sa-date="2025-07-06T21:00:00" data-sa-candrop="1" data-sa-dragid="1x165x0" data-sa-itemid="1x165x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T22:00:00" data-sa-candrop="1" data-sa-dragid="1x166x0" data-sa-itemid="1x166x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																	<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saHasLinks" data-sa-date="2025-07-06T23:00:00" data-sa-candrop="1" data-sa-dragid="1x167x0" data-sa-itemid="1x167x0" style="width: 8px; min-width: 8px;">
+																		<div class="saPlannerHoverTarget"></div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+											</softadmin-planner>
+										</div>
+									</div>
+								</main>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script>
+$(document).ready(function () {
+
+
+});
+</script>
