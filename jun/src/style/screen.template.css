@@ -211,9 +211,10 @@
   --Sa-Color-Xyz: #f7faff;
   --Sa-Color-Link: #2d6ce1;
   --Sa-Color-ControlVisibilityChangeBackground: #c4f7ff;
-  --Sa-Color-MenuLinkHover: #f8f9fb;
-  --Sa-Color-ProfileCircle: #2d6ce1;
-  --Sa-Color-MenuLinkActive: #eef1f5;
+  --Sa-Color-MenuLinkHover: #f7faff;
+  --Sa-Color-ProfileCircle: #e5efff;
+  --Sa-Color-ProfileCircleText: #1c57c6;
+  --Sa-Color-MenuLinkActive: #e5efff;
   --Sa-Color-ActiveTab: #2d6ce1;
   --Sa-Color-MenuEnterpriseSearchActive: #2d6ce1;
   --Sa-Color-HelpBadge: #2d6ce1;
@@ -222,13 +223,14 @@
   --Sa-Color-Label: #313a44;
   --Sa-Color-LabelHover: #2d6ce1;
   --Sa-Color-LabelActive: #1c57c6;
+  --Sa-Color-LabelBackground: #f7faff;
   --Sa-Color-SecondaryButtonBackground: #fff;
   --Sa-Color-PrimaryButtonBackground: #2d6ce1;
   --Sa-Color-PrimaryButtonIcon: #1c2025;
   --Sa-Color-PrimaryButtonBackgroundHover: #2d6ce1;
   --Sa-Color-PrimaryButtonBackgroundActive: #1c57c6;
   --Sa-Color-SecondaryButtonBorderHover: #2d6ce1;
-  --Sa-Color-SecondaryButtonBackgroundActive: #eef1f5;
+  --Sa-Color-SecondaryButtonBackgroundActive: #e5efff;
   --Sa-Color-PrimaryButtonLabel: #fff;
   --Sa-Color-PrimaryButtonBackgroundDisabled: #2d6ce1;
   --Sa-Color-GridHead: #f8f9fb;
@@ -2365,15 +2367,19 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saBottomSheet .saSheetButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saBottomSheet .saSheetButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saBottomSheet .saSheetButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saBottomSheet .saSheetButton:active .saIcon {
+  color: inherit;
 }
 .saBottomSheet .saSheetButton:disabled {
   background: #ccd5e2;
@@ -2986,15 +2992,19 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saInfoBoxArea .saExpandButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saInfoBoxArea .saExpandButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saInfoBoxArea .saExpandButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saInfoBoxArea .saExpandButton:active .saIcon {
+  color: inherit;
 }
 .saInfoBoxArea .saExpandButton:disabled {
   background: #ccd5e2;
@@ -4565,15 +4575,19 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saGridTop .saGridButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saGridTop .saGridButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saGridTop .saGridButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saGridTop .saGridButton:active .saIcon {
+  color: inherit;
 }
 .saGridTop .saGridButton:disabled {
   background: #ccd5e2;
@@ -6047,15 +6061,19 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saNotificationsWrapper .saCloseModal:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saNotificationsWrapper .saCloseModal:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saNotificationsWrapper .saCloseModal:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saNotificationsWrapper .saCloseModal:active .saIcon {
+  color: inherit;
 }
 .saNotificationsWrapper .saCloseModal:disabled {
   background: #ccd5e2;
@@ -6137,15 +6155,19 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saNotificationsWrapper .saClearAll:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saNotificationsWrapper .saClearAll:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saNotificationsWrapper .saClearAll:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saNotificationsWrapper .saClearAll:active .saIcon {
+  color: inherit;
 }
 .saNotificationsWrapper .saClearAll:disabled {
   background: #ccd5e2;
@@ -6364,91 +6386,204 @@ div.saPopupOverlay {
     left: -25rem;
   }
 }
-.saNotificationBadge {
-  background-color: #e0173e;
+.saBadgeNotification {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0 0.25rem;
+  height: 1rem;
+  min-width: 1rem;
+  box-sizing: border-box;
+  background-color: #e0173e;
+  color: #fff;
+}
+.saBadgeNotification.saEmpty {
+  display: none;
+}
+.saAside {
+  height: 100%;
+  box-sizing: border-box;
+}
+.saAside * {
+  box-sizing: border-box;
+}
+.saSmallScreen .saAside {
+  height: auto;
+}
+.saSideBar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 16.5rem;
+  height: 100%;
+  position: relative;
+  font-size: 0.875rem;
+  color: #313a44;
+  transition: ease width 0.2s;
+}
+.saSideBar.saMinimized {
+  width: 3rem;
+}
+.saSmallScreen .saSideBar {
+  width: 100%;
+  height: auto;
+}
+.saSideBar .saIcon {
+  color: #60748b;
+  font-size: 1rem;
+  min-width: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+}
+.saCustomerLogo {
+  height: 5rem;
+}
+.saMinimized .saCustomerLogo {
+  display: none;
+}
+.saCustomerLogoMinimized {
+  width: 3rem;
+  height: 3rem;
+  display: none;
+}
+.saMinimized .saCustomerLogoMinimized {
+  display: flex;
+}
+.saSideBar section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.saSideBar section[role='toolbar'] {
+  margin-top: auto;
+}
+.saSideBar ul {
+  display: flex;
+  flex-direction: column;
+}
+.saSideBar h3 {
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  color: #60748b;
+  font-weight: 400;
+  padding: 1rem 0 0 1rem;
+}
+.saSideBar h3:first-child {
+  padding-top: 0;
+}
+.saMinimized.saSideBar h3 {
+  display: none;
+}
+.saSideBar.saMinimized ul:not(:last-child) {
+  padding-bottom: 1.5rem;
+}
+.saSideBarSectionHeader ul {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
+}
+.saSideBarSection {
+  height: 100%;
+  overflow: hidden;
+}
+.saItem {
+  text-decoration: none;
+  color: #313a44;
   display: flex;
   align-items: center;
+  padding: 0 0.5rem;
+}
+.saMinimized .saItem {
   justify-content: center;
-  border-radius: 0.5rem;
-  order: 2;
-}
-.saNotificationBadgeCount {
-  color: #fff;
-  font-size: 0.875rem;
-  line-height: 0.875rem;
-  font-weight: 700;
-  padding: 0.25rem;
-}
-.saNotificationBadge.saEmpty {
-  visibility: hidden;
-}
-.saSidenav {
-  display: flex;
-  flex-direction: column;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.saSidenav .saSidenavItemWrapper.saSearch .saInputTextWrapper {
-  flex-direction: row;
-}
-.saSidenav .saSidenavItemWrapper.saSearch .saIcon {
-  margin-left: -100%;
-  transition: ease color 0.2s;
-}
-.saSidenav .saSidenavItemWrapper.saSearch .saSidenavItem {
   padding: 0;
-  text-align: left;
 }
-.saSidenav .saSidenavItemWrapper.saSearch input {
-  padding: 0.5rem 0.5rem 0.5rem 2.5rem;
+@media (pointer: fine) {
+  .saItem:hover {
+    color: var(--Sa-Color-LabelHover);
+  }
+  .saItem:hover .saItemInner {
+    background-color: var(--Sa-Color-LabelBackground);
+    outline-color: var(--Sa-Color-LabelHover);
+  }
+  .saItem:hover .saIcon {
+    color: var(--Sa-Color-LabelHover);
+  }
 }
-.saSidenav .saSidenavItemWrapper.saSearch input:focus-visible + .saIcon {
-  color: var(--Sa-Color-MenuEnterpriseSearchActive);
+.saItem:active {
+  color: var(--Sa-Color-LabelActive);
 }
-.saSidenav .saSidenavLists {
-  overflow-y: auto;
+.saItem:active .saItemInner {
+  background-color: #e5efff;
+  outline-color: var(--Sa-Color-LabelActive);
+  border-radius: 0.75rem;
+}
+.saItem:active .saIcon {
+  color: var(--Sa-Color-LabelActive);
+}
+.saItemInner {
+  display: inline-flex;
+  align-items: center;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  padding: 0.25rem 0;
+  min-height: 2rem;
+  position: relative;
+  width: 100%;
+  border-radius: 0.5rem;
+}
+.saSmallScreen .saItemInner {
+  min-height: 2.75rem;
+  padding: 0.5rem 0;
+}
+.saMinimized .saItemInner {
+  justify-content: center;
+  max-width: 2rem;
+}
+.saItemInner span {
+  overflow: hidden;
+  overflow-wrap: break-word;
+  line-height: 1.125rem;
+  margin-left: 0.25rem;
+}
+.saMinimized .saItemInner span {
+  display: none;
+}
+.saTabPanel {
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
   overflow-x: hidden;
-  min-height: 2.5rem;
-}
-.saSidenav .saSidenavContainer {
-  flex-direction: column;
-  display: flex;
+  flex: 0 1 auto;
+  max-height: 100%;
   width: 100%;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  padding-inline-start: 0;
 }
-.saSidenav .saSidenavItemList {
-  flex-direction: column;
+.saTabPanel:hover,
+.saTabPanel:focus-within {
+  overflow-y: auto;
+}
+.saSmallScreen .saTabPanel {
+  overflow-y: auto;
+  max-height: unset;
+}
+.saButtonGroupDesktop {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  padding-inline-start: 0;
-  list-style-type: none;
+  padding: 0 0.5rem;
 }
-.saSidenav .saHelpBadge {
-  position: absolute;
-  display: flex;
-  order: 2;
-  border-radius: 50%;
-  min-height: 1rem;
-  width: 1rem;
-  right: 0.1875rem;
-  top: 0.1875rem;
-}
-.saSidenav .saHelpBadge.saPush {
-  background: #e0173e;
-}
-.saSidenav .saHelpBadge.saPresent {
-  background: var(--Sa-Color-HelpBadge);
-}
-.saSidenav .saExpander {
+.saButtonGroupDesktop button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: 'Lexend', sans-serif;
@@ -6460,295 +6595,390 @@ div.saPopupOverlay {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
+  color: #2d6ce1;
+  background: transparent;
   border-radius: 0.5rem;
   padding: 0 0.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  max-width: 2.5rem;
-  min-width: 2.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
   font-size: 1rem;
-  border: solid 1px #ccd5e2;
-  background-color: var(--Sa-Color-SecondaryButtonBackground);
-  color: var(--Sa-Color-Label);
   position: relative;
 }
-.saSidenav .saExpander .saButtonText {
+.saButtonGroupDesktop button .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.saSidenav .saExpander .saBadgedIcon {
+.saButtonGroupDesktop button .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saSidenav .saExpander .saIcon {
+.saButtonGroupDesktop button .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.saSidenav .saExpander:active {
-  border-radius: 0.75rem;
-}
-.saSidenav .saExpander .saIcon {
+.saButtonGroupDesktop button .saIcon {
   color: var(--Sa-Color-Icon);
 }
-.saSidenav .saExpander .saBadge {
+.saButtonGroupDesktop button.saDestructive {
+  color: #e0173e;
+}
+.saButtonGroupDesktop button.saDestructive .saIcon {
+  color: #e0173e;
+}
+@media (pointer: fine) {
+  .saButtonGroupDesktop button.saDestructive:hover {
+    color: #e0173e;
+    background: #ffe8e7;
+  }
+  .saButtonGroupDesktop button.saDestructive:hover .saIcon {
+    color: #e0173e;
+  }
+}
+.saButtonGroupDesktop button.saDestructive:active {
+  color: #fff;
+  background: #e0173e;
+}
+.saButtonGroupDesktop button.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saButtonGroupDesktop button:hover {
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
+  }
+  .saButtonGroupDesktop button:hover .saIcon {
+    color: inherit;
+  }
+}
+.saButtonGroupDesktop button:active {
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saButtonGroupDesktop button:active .saIcon {
+  color: inherit;
+}
+.saButtonGroupDesktop button:disabled {
+  background: #ccd5e2;
+  pointer-events: none;
+  color: #7088a4;
+}
+.saButtonGroupDesktop button:disabled .saIcon {
+  color: #7088a4;
+}
+.saButtonGroupDesktop button:active {
+  border-radius: 0.75rem;
+}
+.saButtonGroupDesktop button::after {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 3rem;
+}
+.saButtonGroupDesktop button .saBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.saMinimized .saButtonGroupDesktop {
+  flex-direction: column;
+}
+.saSmallScreen .saButtonGroupDesktop {
+  display: none;
+}
+.saButtonGroupSmallScreen {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.saLargeScreen .saButtonGroupSmallScreen {
+  display: none;
+}
+.saAccountDropdown {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  height: 2rem;
+  align-items: center;
+  background-color: transparent;
+  width: 100%;
+  justify-content: center;
+}
+@media (pointer: fine) {
+  .saAccountDropdown:hover {
+    color: var(--Sa-Color-LabelHover);
+  }
+  .saAccountDropdown:hover .saAccountAvatar {
+    opacity: 0.8;
+  }
+  .saAccountDropdown:hover .saIcon {
+    color: inherit;
+  }
+}
+.saAccountDropdown:active {
+  color: var(--Sa-Color-LabelActive);
+}
+.saAccountDropdown:active .saAccountAvatar {
+  opacity: 0.5;
+}
+.saAccountDropdown:active .saIcon {
+  color: inherit;
+}
+.saAccountDropdown.saOpen {
+  color: var(--Sa-Color-LabelHover);
+}
+.saAccountDropdown.saOpen .saAccountAvatar {
+  opacity: 0.8;
+}
+.saAccountDropdown.saOpen .saIcon {
+  color: inherit;
+  transform: rotate(180deg);
+}
+.saSmallScreen .saAccountDropdown {
+  height: 2.75rem;
+}
+.saAccountDropdown .saIcon {
+  margin-left: auto;
+  min-width: 2rem;
+}
+.saMinimized .saAccountDropdown .saIcon {
+  display: none;
+}
+.saAccountAvatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.5rem;
+  aspect-ratio: 1;
+  background-color: var(--Sa-Color-ProfileCircle);
+  color: var(--Sa-Color-ProfileCircleText);
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1;
+  border-radius: 99rem;
+  transition: ease opacity 0.2s;
+  margin: 0 4px;
+}
+.saSmallScreen .saAccountAvatar {
+  height: 2rem;
+  font-size: 1rem;
+}
+.saAccountName {
+  text-align: left;
+  margin-left: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1;
+  color: inherit;
+  font-weight: 500;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.saMinimized .saAccountName {
+  display: none;
+}
+.saExpander {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+}
+.saExpander .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saExpander .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saExpander .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saExpander .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saExpander .saBadge {
   color: var(--Sa-Color-SecondaryButtonBackground);
   border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
 }
 @media (pointer: fine) {
-  .saSidenav .saExpander:hover {
+  .saExpander:hover {
     border-color: var(--Sa-Color-SecondaryButtonBorderHover);
     color: var(--Sa-Color-LabelHover);
   }
-  .saSidenav .saExpander:hover .saIcon {
+  .saExpander:hover .saIcon {
     color: var(--Sa-Color-IconHover);
   }
-  .saSidenav .saExpander:hover .saBadge {
+  .saExpander:hover .saBadge {
     background-color: var(--Sa-Color-IconHover);
   }
 }
-.saSidenav .saExpander:active {
+.saExpander:active {
   background: var(--Sa-Color-SecondaryButtonBackgroundActive);
 }
-.saSidenav .saExpander:active .saBadge {
+.saExpander:active .saBadge {
   color: var(--Sa-Color-SecondaryButtonBackgroundActive);
   border-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
 }
-.saSidenav .saExpander.saDestructive {
+.saExpander.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
 }
-.saSidenav .saExpander.saDestructive .saIcon {
+.saExpander.saDestructive .saIcon {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
-.saSidenav .saExpander.saDestructive .saBadge {
+.saExpander.saDestructive .saBadge {
   background-color: var(--Sa-Color-DestructiveButtonBackground);
 }
 @media (pointer: fine) {
-  .saSidenav .saExpander.saDestructive:hover {
+  .saExpander.saDestructive:hover {
     color: var(--Sa-Color-SecondaryButtonBackground);
     background: var(--Sa-Color-DestructiveButtonBackground);
     border-color: transparent;
   }
-  .saSidenav .saExpander.saDestructive:hover .saIcon {
+  .saExpander.saDestructive:hover .saIcon {
     color: var(--Sa-Color-SecondaryButtonBackground);
   }
-  .saSidenav .saExpander.saDestructive:hover .saBadge {
+  .saExpander.saDestructive:hover .saBadge {
     background-color: var(--Sa-Color-SecondaryButtonBackground);
     color: var(--Sa-Color-DestructiveButtonBackground);
     border-color: var(--Sa-Color-DestructiveButtonBackground);
   }
 }
-.saSidenav .saExpander.saDestructive:active {
+.saExpander.saDestructive:active {
   color: var(--Sa-Color-SecondaryButtonBackground);
   background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: transparent;
 }
-.saSidenav .saExpander.saDestructive:active .saIcon {
+.saExpander.saDestructive:active .saIcon {
   color: var(--Sa-Color-SecondaryButtonBackground);
   background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
 }
-.saSidenav .saExpander.saDestructive:active .saBadge {
+.saExpander.saDestructive:active .saBadge {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
 }
-.saSidenav .saExpander::after {
+.saExpander:active {
+  border-radius: 0.75rem;
+}
+.saMinimized .saExpander .saIcon {
+  transform: rotate(180deg);
+}
+.saExpander::after {
   content: '';
-  height: 100%;
-  width: 100%;
   position: absolute;
-  padding: 0 1rem;
+  height: 3rem;
+  width: 3rem;
 }
-.saSidenav .saCustomerLogo {
+.saSmallScreen .saExpander {
+  display: none;
+}
+.saSideBarFooter {
   display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-}
-.saSidenav .saCustomerLogo img {
-  display: block;
-  width: auto;
-  height: auto;
-}
-.saSidenav ul.saContextMenu {
-  left: 1rem;
-}
-.saSidenav ul.saContextMenu li:not(:last-child) {
-  border-bottom: 1px solid #eef1f5;
-}
-.saSidenav .saSidenavItemWrapper {
-  width: 100%;
-  background: none;
-  cursor: pointer;
-}
-@media (pointer: fine) {
-  .saSidenav .saSidenavItemWrapper:hover .saSidenavItem {
-    background-color: var(--Sa-Color-MenuLinkHover);
-  }
-  .saSidenav .saSidenavItemWrapper:hover .saSidenavItem .saIcon {
-    color: var(--Sa-Color-IconHover);
-  }
-  .saSidenav .saSidenavItemWrapper:hover .saSidenavItem .saSidenavItemText {
-    color: var(--Sa-Color-LabelHover);
-  }
-}
-.saSidenav .saSidenavItemText {
-  color: var(--Sa-Color-Label);
-}
-.saSidenav .saIcon {
-  font-size: 1.25rem;
-  min-width: 1.625rem;
-  display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  color: var(--Sa-Color-Icon);
-}
-.saSidenav .saSearchInput {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-.saSidenav .saSearch .saIcon {
-  position: relative;
-  pointer-events: none;
-}
-.saSidenav .saLogo {
-  background: url(../img/softadmin-logo-minimized.svg) top center no-repeat;
-}
-.saSidenav .saRing {
-  animation: ring;
-  animation-timing-function: ease-in;
-  animation-duration: 3s;
-  animation-iteration-count: infinite;
-}
-.saSidenav .saRing.saRingThreeTimes {
-  animation-iteration-count: 3;
-}
-.saSidenav .saSidenavSection .saSidenavContainer .saMenuDropdownsOuter {
-  flex-direction: column;
-  display: flex;
-  gap: 0.5rem;
-  padding: 0;
-}
-.saSidenav .saSidenavSection .saSidenavContainer .saMenuDropdownsOuter .saSidenavItemWrapper {
-  padding: 0;
-}
-.saSidenav .saMenuDropdowns {
-  flex-direction: column;
-  display: flex;
-  gap: 0.5rem;
-  height: fit-content;
-  max-height: fit-content;
-  min-height: 0;
-}
-.saSidenav .saMenuDropdowns .saSidenavItemWrapper {
-  height: 2.5rem;
-  min-height: 2.5rem;
-  max-height: 2.5rem;
-}
-.saSidenav .saSelectLabel {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 0.875rem;
-  font-weight: 600;
-  display: flex;
   width: 100%;
-}
-.saSidenav .saInputTextWrapper {
-  margin: 0;
-  color: #313a44;
-}
-.saSidenav .saInputTextWrapper.saLabeled .saLabeledLabel {
-  top: 0.375rem;
-}
-.saSidenav .saInputTextWrapper.saLabeled .saInputText {
-  padding-bottom: 0;
-  padding-top: 0.75rem;
-}
-.saSidenav .saInputTextWrapper .saInputText {
-  line-height: 1.0625rem;
-  height: 2.5rem;
-}
-.saSidenav .saInputTextWrapper .saTrailingIconsWrapper {
-  height: 2.5rem;
-  padding: 0;
-}
-.saSidenav .saListItem {
-  position: relative;
-}
-.saSidenav .saAvatarWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0 0.5rem 0.5rem 0.5rem;
   gap: 0.5rem;
+}
+.saMinimized .saSideBarFooter {
+  flex-direction: column;
+}
+.saSmallScreen .saSideBarFooter {
+  justify-content: center;
+  padding-bottom: 2.5rem;
+}
+.saSoftadminLogo {
+  display: flex;
+}
+.saMinimized .saSoftadminLogo {
+  order: 1;
+  margin-top: 0.5rem;
+}
+.saLogo {
   height: 2rem;
-  min-width: 2rem;
-  max-width: 2rem;
-  border-radius: 50%;
+  width: 2rem;
+  transition: ease width 0.2s, ease height 0.2s;
 }
-.saSidenav .saUserInitials {
-  background: var(--Sa-Color-ProfileCircle);
-  color: #fff;
-  font-weight: 500;
-  font-size: 0.875rem;
+.saMinimized .saLogo {
+  height: 1.5rem;
+  width: 1.5rem;
 }
-.saSidenav .saAvatarWrapperOuter.saOpen {
-  background: var(--Sa-Color-MenuLinkHover);
+.saWordmark {
+  height: 2rem;
+  width: 7rem;
+  transition: ease width 0.2s, ease height 0.2s, display 0.2s;
 }
-.saSidenav .saAvatarWrapperOuter.saOpen > .saSidenavItemText {
-  color: var(--Sa-Color-LabelHover);
+.saMinimized .saWordmark {
+  height: 0;
+  width: 0;
+  display: none;
 }
-.saSidenav .saAvatarWrapperOuter.saOpen > .saIcon {
-  color: var(--Sa-Color-IconHover);
-}
-.saSidenav .saAvatarWrapperOuter .saSidenavItemText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-right: 1.5rem;
-}
-.saSidenav .saAvatarWrapperOuter .saIcon {
-  font-size: 1rem;
-  position: absolute;
-  right: 1.25rem;
-}
-.saSidenav .saToggleGroup {
+.saToggleGroup {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0 0.5rem;
   width: 100%;
   box-sizing: border-box;
   z-index: 0;
+  font-size: 0.875rem;
 }
-.saMinimized .saSidenav .saToggleGroup {
+.saMinimized .saToggleGroup {
   flex-direction: column;
+  padding: 0.5rem;
 }
-.saSmallScreen .saSidenav .saToggleGroup {
-  padding: 0;
-}
-.saSidenav .saToggleGroup * {
+.saToggleGroup * {
   box-sizing: border-box;
 }
-.saSidenav .saToggleGroup button {
+.saToggleGroup button {
   display: flex;
   align-items: center;
   justify-content: center;
   appearance: none;
-  gap: 0.25rem;
+  gap: 0.5rem;
   margin: 0;
   padding: 0.5rem 0.25rem;
-  min-height: 2.5rem;
+  min-height: 2rem;
   flex: 1 1 auto;
   min-width: 50%;
   cursor: pointer;
@@ -6760,767 +6990,365 @@ div.saPopupOverlay {
   position: relative;
   color: var(--Sa-Color-Label);
 }
-.saSidenav .saToggleGroup button::after {
+.saToggleGroup button::after {
   content: '';
   height: calc(100% + 2px);
   position: absolute;
   opacity: 0;
 }
-.saSidenav .saToggleGroup button:first-child {
+.saMinimized .saToggleGroup button {
+  min-width: 2rem;
+  padding: 0;
+}
+.saSmallScreen .saToggleGroup button {
+  min-height: 2.75rem;
+}
+.saToggleGroup button:first-child {
   border-radius: 0.5rem 0 0 0.5rem;
   margin-right: -1px;
 }
-.saSidenav .saToggleGroup button:first-child::after {
+.saToggleGroup button:first-child::after {
   top: -1px;
-  left: calc(-1rem - 1px);
-  width: calc(100% + 1rem + 1px);
+  left: calc(-0.5rem - 1px);
+  width: calc(100% + 0.5rem + 1px);
 }
-.saMinimized .saSidenav .saToggleGroup button:first-child {
+.saMinimized .saToggleGroup button:first-child {
   border-radius: 0.5rem 0.5rem 0 0;
   margin-right: 0;
   margin-bottom: -1px;
 }
-.saMinimized .saSidenav .saToggleGroup button:first-child::after {
-  width: 4.5rem;
-  height: 2.5rem;
+.saMinimized .saToggleGroup button:first-child::after {
+  width: 3rem;
+  height: 2rem;
   left: unset;
 }
-.saSidenav .saToggleGroup button:last-child {
+.saToggleGroup button:last-child {
   border-right-style: solid;
   border-width: 1px;
   border-radius: 0 0.5rem 0.5rem 0;
 }
-.saSidenav .saToggleGroup button:last-child::after {
-  width: calc(100% + 1rem);
-  right: -1rem;
+.saToggleGroup button:last-child::after {
+  width: calc(100% + 0.5rem);
+  right: -0.5rem;
   bottom: -1px;
 }
-.saMinimized .saSidenav .saToggleGroup button:last-child {
+.saMinimized .saToggleGroup button:last-child {
   border-radius: 0 0 0.5rem 0.5rem;
 }
-.saMinimized .saSidenav .saToggleGroup button:last-child::after {
-  width: 4.5rem;
-  height: 2.5rem;
+.saMinimized .saToggleGroup button:last-child::after {
+  width: 3rem;
+  height: 2rem;
   right: unset;
 }
-.saMinimized .saSidenav .saToggleGroup button {
-  min-width: 2.5rem;
-  padding: 0;
-}
-.saSmallScreen .saSidenav .saToggleGroup button {
-  min-height: 2.75rem;
-}
 @media (pointer: fine) {
-  .saSidenav .saToggleGroup button:hover {
+  .saToggleGroup button:hover {
     color: var(--Sa-Color-LabelActive);
     background-color: var(--Sa-Color-LabelBackground);
     border-color: var(--Sa-Color-LabelActive);
     z-index: 3;
   }
-  .saSidenav .saToggleGroup button:hover .saIcon {
+  .saToggleGroup button:hover .saIcon {
     color: currentColor;
   }
 }
-.saSidenav .saToggleGroup button:active {
+.saToggleGroup button:active {
   color: var(--Sa-Color-LabelActive);
   background-color: var(--Sa-Color-IconMarked);
   border-color: var(--Sa-Color-LabelActive);
 }
-.saSidenav .saToggleGroup button:active:first-child {
+.saToggleGroup button:active:first-child {
   border-radius: 0.75rem 0 0 0.75rem;
 }
-.saMinimized .saSidenav .saToggleGroup button:active:first-child {
+.saMinimized .saToggleGroup button:active:first-child {
   border-radius: 0.75rem 0.75rem 0 0;
 }
-.saSidenav .saToggleGroup button:active:last-child {
+.saToggleGroup button:active:last-child {
   border-radius: 0 0.75rem 0.75rem 0;
 }
-.saMinimized .saSidenav .saToggleGroup button:active:last-child {
+.saMinimized .saToggleGroup button:active:last-child {
   border-radius: 0 0 0.75rem 0.75rem;
 }
-.saSidenav .saToggleGroup button[aria-selected="true"] {
+.saToggleGroup button[aria-selected="true"] {
   z-index: 2;
   background-color: var(--Sa-Color-LabelBackground);
   color: var(--Sa-Color-LabelActive);
   border-color: var(--Sa-Color-IconHover);
 }
-.saSidenav .saToggleGroup button[aria-selected="true"] .saIcon {
+.saToggleGroup button[aria-selected="true"] .saIcon {
   color: currentColor;
 }
-.saSidenav .saToggleGroup button .saIcon {
+.saToggleGroup button .saIcon {
   min-width: auto;
 }
-.saSidenav .saToggleGroup button span {
+.saToggleGroup button span {
   overflow-wrap: anywhere;
   font-size: 0.875rem;
   line-height: 1rem;
 }
-.saMinimized .saSidenav .saToggleGroup button span {
+.saMinimized .saToggleGroup button span {
   display: none;
 }
-.saSidenav .saWrapped.saToggleGroup button:first-child {
+.saWrapped.saToggleGroup button {
+  width: 100%;
+}
+.saWrapped.saToggleGroup button:first-child {
   border-radius: 0.5rem 0.5rem 0 0;
 }
-.saSidenav .saWrapped.saToggleGroup button:first-child:active {
+.saWrapped.saToggleGroup button:first-child:active {
   border-radius: 0.75rem 0.75rem 0 0;
 }
-.saSidenav .saWrapped.saToggleGroup button:last-child {
+.saWrapped.saToggleGroup button:last-child {
   border-radius: 0 0 0.5rem 0.5rem;
 }
-.saSidenav .saWrapped.saToggleGroup button:last-child:active {
+.saWrapped.saToggleGroup button:last-child:active {
   border-radius: 0 0 0.75rem 0.75rem;
 }
-.saSidenav .saWrapped.saToggleGroup button:not(:last-child) {
+.saWrapped.saToggleGroup button:not(:last-child) {
   margin-right: 0;
   margin-bottom: -1px;
 }
-.saLargeScreen .saSidenav {
-  height: 100%;
-  background-color: #fff;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  flex-shrink: 0;
-}
-.saLargeScreen .saSidenav .saMenuDropdownsOuter {
-  margin-top: 0.5rem;
-}
-.saLargeScreen .saSidenav .saSidenavSection {
+.saSuperSearch {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 2rem;
-}
-.saLargeScreen .saSidenav .saSidenavSection.saSidenavSectionLast {
-  min-height: fit-content;
-  gap: 0;
-  margin-bottom: 0.5rem;
-}
-.saLargeScreen .saSidenav .saSidenavLists {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.saLargeScreen .saSidenav .saFirstLetter {
-  position: absolute;
-  font-weight: 700;
-  font-size: 1.5rem;
-}
-.saLargeScreen .saSidenav .saSidenavItemWrapper {
-  display: flex;
-  min-height: 2.5rem;
-  flex-direction: row;
-  border-radius: 0.5rem;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-}
-.saLargeScreen .saSidenav .saSidenavItemWrapper:active .saSidenavItem {
-  background-color: var(--Sa-Color-MenuLinkActive);
-}
-.saLargeScreen .saSidenav .saSidenavItem {
+  position: relative;
+  height: 2rem;
+  width: 100%;
   padding: 0 0.5rem;
-  max-width: 14.5rem;
-  box-sizing: border-box;
+  z-index: 1;
+  cursor: text;
 }
-.saLargeScreen .saSidenav a {
-  text-decoration: none;
+.saSmallScreen .saSuperSearch {
+  height: 2.75rem;
 }
-.saLargeScreen .saSidenav .saSidenavContainer {
-  align-items: center;
-}
-.saLargeScreen .saSidenav .saSidenavItem.saSidenavItemRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.saSuperSearch input {
   width: 100%;
-  height: 100%;
-  padding: 0;
-  gap: 0;
-}
-.saLargeScreen .saSidenav .saSidenavItem.saSidenavItemRow .saSidenavItemWrapper {
-  position: relative;
-  height: 2.5rem;
-  max-width: fit-content;
-  width: fit-content;
-  padding: 0;
-  justify-content: center;
-  min-width: 0;
-}
-.saLargeScreen .saSidenav .saSidenavItem.saSidenavItemRow .saSidenavItemWrapper .saSidenavItem {
-  max-width: 2.5rem;
-  min-width: 2.5rem;
-  overflow: hidden;
-  align-items: center;
-  justify-content: center;
-}
-.saLargeScreen .saSidenav .saSidenavItem.saSidenavItemRow .saSidenavItemText {
-  display: none;
-}
-.saLargeScreen .saSidenav .saNotificationBadge {
-  height: 1rem;
-  min-width: 1rem;
-  right: 0.1875rem;
-  top: 0.1875rem;
-}
-.saLargeScreen .saSidenav .saAvatarWrapper {
-  gap: 0;
-  display: flex;
-}
-.saLargeScreen .saSidenav .saUserNameWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.saLargeScreen .saSidenav .saSoftadminLogo {
-  height: 2rem;
-  display: flex;
-}
-.saLargeScreen .saSidenav .saLogo {
-  width: 2rem;
-  height: 2rem;
-}
-.saLargeScreen .saSidenav .saWordmark {
-  opacity: 0;
-  transform: translateX(-0.5rem);
-  width: 0;
-  height: 0;
-  position: relative;
-}
-.saSmallscreensidebar .saSideBar {
-  width: 100%;
-  height: 100%;
-  line-height: 1;
-}
-.saSmallscreensidebar .saHasLogotypeHeader .saCustomerLogo {
-  display: none;
-}
-.saSmallscreensidebar .saSidenav {
-  gap: 0.5rem;
-  background-color: #fff;
-  overflow-x: hidden;
-  z-index: 2;
-  padding: 1rem;
-  box-sizing: border-box;
-  border-right: transparent;
-  align-items: stretch;
-  position: relative;
-  height: calc(100% - 3.5rem);
-  overflow: auto;
-}
-.saSmallscreensidebar .saSidenav .saInputTextWrapper {
-  width: 100%;
-}
-.saSmallscreensidebar .saSidenav .saInputTextWrapper .saInputText {
-  font-size: 1rem;
-  line-height: 1.1875rem;
-}
-.saSmallscreensidebar .saSidenav .saDivider {
-  height: 1px;
-  background: #eef1f5;
-}
-.saSmallscreensidebar .saSidenav .saSidenavSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-.saSmallscreensidebar .saSidenav .saSidenavLists {
-  width: 100%;
-}
-.saSmallscreensidebar .saSidenav .saFirstLetter {
-  display: none;
-}
-.saSmallscreensidebar .saSidenav .saSidenavItemText {
-  font-size: 1rem;
-  text-align: left;
-}
-.saSmallscreensidebar .saSidenav .saSelectLabel {
-  padding-left: 0;
-}
-.saSmallscreensidebar .saSidenav select {
-  min-width: 100%;
-}
-.saSmallscreensidebar .saSidenav .saAvatarWrapperOuter .saIcon {
-  right: 0.5rem;
-}
-.saSmallscreensidebar .saSidenav .saHelpBadge {
-  left: 1.5rem;
-  top: 0.375rem;
-}
-.saSmallscreensidebar .saSidenav .saActive {
-  background-color: #fff;
-  box-shadow: 0 2px 2px rgba(56, 73, 93, 0.32);
-}
-.saSmallscreensidebar .saSidenav .saExpander {
-  display: none;
-}
-.saSmallscreensidebar .saSidenav a {
-  text-decoration: none;
-}
-.saSmallscreensidebar .saSidenav .saSidenavContainer {
-  flex: 1;
-  gap: 0.5rem;
-}
-.saSmallscreensidebar .saSidenav .saSidenavSectionLast {
-  margin-bottom: 1rem;
-}
-.saSmallscreensidebar .saSidenav .saSidenavSectionLast::before {
-  content: '';
-  height: 1px;
-  width: 100%;
-  border-radius: 1px;
-  position: relative;
-  background: #eef1f5;
-}
-.saSmallscreensidebar .saSidenav .saSidenavItemWrapper {
-  gap: 0.5rem;
+  padding: 0 0.625rem 0 2rem;
   border-radius: 0.5rem;
-  justify-content: flex-start;
-  align-items: center;
-  color: #60748b;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  position: relative;
+  border: 1px solid #ccd5e2;
+  transition: width 0.2s ease;
 }
-.saSmallscreensidebar .saSidenav .saSidenavItemWrapper.saNotificationLinkLargeScreen {
-  display: none;
-}
-.saSmallscreensidebar .saSidenav .saSidenavItemWrapper:active .saSidenavItem {
-  background-color: var(--Sa-Color-MenuLinkActive);
-}
-.saSmallscreensidebar .saSidenav .saHideWhenExpanded {
-  display: none;
-}
-.saSmallscreensidebar .saSidenav .saSidenavItem {
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-  min-height: 3rem;
-  width: 100%;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  align-items: center;
-  box-sizing: border-box;
-  position: relative;
-}
-.saSmallscreensidebar .saSidenav .saSidenavItem.saSidenavItemRow {
-  height: 100%;
-  padding: 0;
-  max-height: fit-content;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.saSmallscreensidebar .saSidenav .saSearch .saSidenavItem {
-  min-height: 2.5rem;
-}
-.saSmallscreensidebar .saSidenav .saMenuDropdowns {
-  width: 100%;
-}
-.saSmallscreensidebar .saSidenav .saMenuDropdowns .saSidenavItemWrapper {
-  padding: 0;
-}
-.saSmallscreensidebar .saSidenav .saCustomerLogo img {
-  max-width: 100%;
-  max-height: 14.5rem;
-}
-.saSmallscreensidebar .saSidenav .saLogo {
-  width: 2rem;
-}
-.saSmallscreensidebar .saSidenav .saWordmark {
-  opacity: 1;
-  height: 2rem;
-  width: 7rem;
-  position: relative;
-}
-.saSmallscreensidebar .saSidenav .saSoftadminLogo {
-  margin-top: 0.75rem;
-  min-width: 10rem;
-  height: 2rem;
-  display: flex;
-  flex-direction: row;
-}
-@keyframes ring {
-  6% {
-    transform: rotate(-15deg);
-  }
-  12% {
-    transform: rotate(15deg);
-  }
-  18% {
-    transform: rotate(-22deg);
-  }
-  24% {
-    transform: rotate(22deg);
-  }
-  30% {
-    transform: rotate(-28deg);
-  }
-  36% {
-    transform: rotate(28deg);
-  }
-  42% {
-    transform: rotate(-22deg);
-  }
-  48% {
-    transform: rotate(22deg);
-  }
-  54% {
-    transform: rotate(-12deg);
-  }
-  60% {
-    transform: rotate(12deg);
-  }
-  66%,
-  100% {
-    transform: rotate(0deg);
-  }
-}
-.saProfileMenu ul.saContextMenu a,
-.saProfileMenu ul.saContextMenu label {
-  height: 2.5rem;
-}
-@media (pointer: fine) {
-  .saProfileMenu ul.saContextMenu a:hover .saContextMenu,
-  .saProfileMenu ul.saContextMenu label:hover .saContextMenu {
-    background-color: var(--Sa-Color-MenuLinkHover);
-  }
-}
-.saProfileMenu ul.saContextMenu a:active .saContextMenu,
-.saProfileMenu ul.saContextMenu label:active .saContextMenu {
-  background-color: var(--Sa-Color-MenuLinkActive);
-}
-.saProfileMenu ul.saContextMenu a .saIcon,
-.saProfileMenu ul.saContextMenu label .saIcon {
-  min-width: 2rem;
-}
-.saProfileMenu input.saToggle {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background: #ccd5e2;
-  margin: 0;
-  min-width: 2rem;
-  height: 1.5rem;
-  border-radius: 0.75rem;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.3s;
-  position: relative;
-}
-.saProfileMenu input.saToggle:active::before {
-  width: 1.5rem;
-}
-.saProfileMenu input.saToggle::before {
-  content: "";
-  margin: 0 2px;
-  border-radius: 0.625rem;
-  box-shadow: 0 2px 2px rgba(49, 58, 68, 0.1);
-  box-sizing: border-box;
-  transition: 0.3s ease all, left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
-  background: #fff;
-  width: 1.25rem;
-  height: 1.25rem;
-  border: solid #f8f9fb 1px;
-  position: absolute;
-  top: 2px;
-  left: 0;
-}
-.saProfileMenu input.saToggle:checked {
-  background: #29bb4e;
-}
-.saProfileMenu input.saToggle:checked::before {
-  transform: translateX(0.5rem);
-}
-.saProfileMenu input.saToggle:checked:active::before {
-  width: 1.5rem;
-  margin-left: -2px;
-}
-.saSideBar {
-  box-sizing: border-box;
-}
-.saSmallScreen .saSideBar {
-  display: none;
-}
-.saLargeScreen .saSideBar {
-  height: 100%;
-  position: relative;
-  transition: ease width 0.2s;
-}
-.saLargeScreen .saSideBar nav {
-  height: 100%;
-}
-.saLargeScreen .saSideBar form:first-child {
-  height: 100%;
-}
-.saLargeScreen .saSideBar.saExpanded {
-  width: 16.5rem;
-}
-.saLargeScreen .saSideBar.saExpanded .saSidenavSection {
-  width: 16.5rem;
-}
-.saLargeScreen .saSideBar.saExpanded .saHideWhenExpanded {
-  display: none;
-}
-.saLargeScreen .saSideBar.saExpanded .saSidenavLists {
-  width: 100%;
-  margin-top: -0.75rem;
-}
-.saLargeScreen .saSideBar.saExpanded .saSidenavItemWrapper {
-  box-sizing: border-box;
-  position: relative;
-  width: 16.5rem;
-}
-.saLargeScreen .saSideBar.saExpanded .saSidenavItem {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  width: 14.5rem;
-  border-radius: 0.5rem;
-  min-height: 2.5rem;
-}
-.saLargeScreen .saSideBar.saExpanded .saSidenavItemText {
-  font-size: 0.875rem;
-  line-height: 1.125rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.saLargeScreen .saSideBar.saExpanded .saUserName {
-  font-size: 0.75rem;
-}
-.saLargeScreen .saSideBar.saExpanded .saFirstLetter {
-  display: none;
-}
-.saLargeScreen .saSideBar.saExpanded .saSidenavItem.saSidenavItemRow .saSidenavItem.saShowTitleWhenExpanded {
-  max-width: max-content;
-}
-.saLargeScreen .saSideBar.saExpanded .saSidenavItem.saSidenavItemRow .saSidenavItem.saShowTitleWhenExpanded .saSidenavItemText {
-  max-width: max-content;
-  display: flex;
-}
-.saLargeScreen .saSideBar.saExpanded select {
-  width: 14.5rem;
-}
-.saLargeScreen .saSideBar.saExpanded .saToggleIconText {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 0.375rem;
-  height: 2.125rem;
-  width: 6.9375rem;
-  cursor: pointer;
-  text-decoration: none;
-}
-.saLargeScreen .saSideBar.saExpanded .saToggleIconText .saIcon {
-  min-width: 0;
-  max-width: 1.6875rem;
-}
-.saLargeScreen .saSideBar.saExpanded .saToggleIconText:first-child::before {
-  content: '';
-  width: 8.25rem;
-  height: 2.5rem;
-  left: 0;
-  opacity: 0.2;
-  position: absolute;
-}
-.saLargeScreen .saSideBar.saExpanded .saToggleIconText:last-child::before {
-  content: '';
-  width: 8.25rem;
-  height: 2.5rem;
-  right: 0;
-  opacity: 0.2;
-  position: absolute;
-}
-@media (pointer: fine) {
-  .saLargeScreen .saSideBar.saExpanded .saToggleIconText:hover {
-    box-shadow: 0 2px 2px rgba(56, 73, 93, 0.32);
-  }
-}
-.saLargeScreen .saSideBar.saExpanded .saToggleIconText:active {
-  box-shadow: inset 0 2px 2px rgba(56, 73, 93, 0.32);
-}
-.saLargeScreen .saSideBar.saExpanded .saToggleIconText:first-child {
-  margin-right: 2px;
-}
-.saLargeScreen .saSideBar.saExpanded .saToggleIconText:last-child {
-  margin-left: 2px;
-}
-.saLargeScreen .saSideBar.saExpanded .saToggleIconText .saToggleText {
-  margin-left: 0.5rem;
-  font-size: 0.875rem;
-}
-.saLargeScreen .saSideBar.saExpanded .saActive {
-  background-color: #fff;
-  box-shadow: 0 2px 2px rgba(56, 73, 93, 0.32);
-}
-.saLargeScreen .saSideBar.saExpanded .saCustomerLogo {
-  max-width: 14.5rem;
-}
-.saLargeScreen .saSideBar.saExpanded .saCustomerLogo img {
-  max-width: 14.5rem;
-  max-height: 7rem;
-}
-.saLargeScreen .saSideBar.saExpanded .saSidenavFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 14.5rem;
-}
-.saLargeScreen .saSideBar.saExpanded .saExpander {
-  order: 2;
-}
-.saLargeScreen .saSideBar.saExpanded .saAvatarWrapperOuter {
-  padding: 0 2rem 0 0.25rem;
-}
-.saLargeScreen .saSideBar.saExpanded .saSoftadminLogo {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  order: 1;
-  margin-left: 0.1875rem;
-}
-.saLargeScreen .saSideBar.saExpanded .saLogo {
-  width: 2rem;
-}
-.saLargeScreen .saSideBar.saExpanded .saWordmark {
-  opacity: 1;
-  transform: translateX(0);
-  height: 2rem;
-  width: 7rem;
-  position: relative;
-}
-.saLargeScreen .saSideBar.saMinimized {
-  width: 4.5rem;
-}
-.saLargeScreen .saSideBar.saMinimized .saHideWhenMinimized {
-  display: none;
-}
-.saLargeScreen .saSideBar.saMinimized .saMenuDropdownsOuter {
-  margin: 0;
-  gap: 0;
-}
-.saLargeScreen .saSideBar.saMinimized .saSidenavItemWrapper {
-  height: 2.5rem;
-  width: 4.5rem;
-  justify-content: center;
-}
-.saLargeScreen .saSideBar.saMinimized .saInputTextWrapper {
-  justify-content: center;
-  align-items: center;
+.saSuperSearch input::placeholder {
   color: #313a44;
-  height: 2rem;
 }
-.saLargeScreen .saSideBar.saMinimized .saInputTextWrapper .saLabeledLabel {
-  display: none;
+.saSmallScreen .saSuperSearch input {
+  padding: 0 0.625rem 0 2.5rem;
+  font-size: 1rem;
 }
-.saLargeScreen .saSideBar.saMinimized .saInputTextWrapper .saTrailingIconsWrapper {
-  display: none;
+.saMinimized .saSuperSearch input {
+  width: 2rem;
+  padding: 0;
+  color: transparent;
 }
-.saLargeScreen .saSideBar.saMinimized .saSidenavItem {
-  width: 2.5rem;
-  min-height: 2.5rem;
-  border-radius: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.saMinimized .saSuperSearch input::placeholder {
+  color: transparent;
 }
-.saLargeScreen .saSideBar.saMinimized .saSidenavItemText {
-  display: none;
+.saMinimized .saSuperSearch input:focus {
+  outline: 2px solid #2d6ce1;
+  outline-offset: -2px;
+  padding: 0.625rem 0.625rem 0.625rem 2rem;
+  width: 25rem;
+  color: #313a44;
 }
-.saLargeScreen .saSideBar.saMinimized .saSidenavItem.saSidenavItemRow {
-  flex-direction: column;
-  position: relative;
+.saMinimized .saSuperSearch input:focus::placeholder {
+  color: #313a44;
 }
-.saLargeScreen .saSideBar.saMinimized .saSidenavItem.saSidenavItemRow .saSidenavItemWrapper::after {
-  content: '';
-  height: 100%;
-  width: 100%;
+@media (pointer: fine) {
+  .saSuperSearch:hover input {
+    outline: 1px solid #2d6ce1;
+    outline-offset: -1px;
+  }
+  .saSuperSearch:hover .saIcon {
+    color: #2d6ce1;
+  }
+}
+.saSuperSearch:focus-within input {
+  outline: 2px solid #2d6ce1;
+  outline-offset: -2px;
+}
+.saSuperSearch:focus-within .saIcon {
+  color: #2d6ce1;
+}
+.saSuperSearch .saIcon {
   position: absolute;
-  padding: 0 1rem;
-}
-.saLargeScreen .saSideBar.saMinimized .saSidenavLists {
-  width: 4.5rem;
-}
-.saLargeScreen .saSideBar.saMinimized .saSelectLabel {
-  width: 0;
-  height: 0;
-  margin-bottom: -0.5rem;
-  display: none;
-}
-.saLargeScreen .saSideBar.saMinimized select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  padding: 0;
-  padding-left: 2rem;
-  max-width: 2rem;
-}
-.saLargeScreen .saSideBar.saMinimized .saMenuDropdowns {
-  gap: 0;
-  padding: 0;
-}
-.saLargeScreen .saSideBar.saMinimized .saFirstLetter {
+  top: 0;
+  left: 0;
+  height: 2rem;
+  width: 3rem;
+  font-size: 1rem;
   pointer-events: none;
-  text-align: center;
-  color: #313a44;
-  position: absolute;
-  box-sizing: border-box;
 }
-.saLargeScreen .saSideBar.saMinimized .saSearch.saSidenavItemWrapper .saSidenavItem {
-  min-width: 2.5rem;
-  min-height: 2.5rem;
+.saSmallScreen .saSuperSearch .saIcon {
+  height: 2.75rem;
+  width: 3.5rem;
+  font-size: 1rem;
+}
+.saImpersonator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.5rem;
+  position: relative;
+  width: 100%;
+}
+@media (pointer: fine) {
+  .saImpersonator:hover .saFirstLetter {
+    color: #2d6ce1;
+  }
+  .saImpersonator:hover .saTrailing {
+    color: #2d6ce1;
+  }
+}
+.saMinimized .saImpersonator {
+  padding: 0;
+}
+.saImpersonator .saLabel {
+  position: absolute;
+  top: 0.25rem;
+  left: 1rem;
+  font-size: 0.75rem;
+  color: #60748b;
+  pointer-events: none;
+}
+.saMinimized .saImpersonator .saLabel {
+  display: none;
+}
+.saSmallScreen .saImpersonator .saLabel {
+  top: 1rem;
+  left: 1.125rem;
+}
+.saImpersonator .saTrailing {
+  position: absolute;
+  right: 0.5rem;
+  height: 2rem;
+  width: 2rem;
+  font-size: 1rem;
+  pointer-events: none;
+}
+.saSmallScreen .saImpersonator .saTrailing {
+  height: 2.75rem;
+  width: 2.75rem;
+}
+.saMinimized .saImpersonator .saTrailing {
+  display: none;
+}
+.saImpersonator button {
+  appearance: none;
+  position: absolute;
+  right: 0.625rem;
+  height: 1.75rem;
+  width: 1.75rem;
+  border: 2px solid #fff;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  color: #2d6ce1;
+  background-color: transparent;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+}
+.saImpersonator button::after {
+  content: '';
+  position: absolute;
+  height: 2rem;
+  width: 2rem;
+  top: -0.25rem;
+  left: -0.25rem;
+}
+.saSmallScreen .saImpersonator button {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+.saSmallScreen .saImpersonator button::after {
+  content: '';
+  position: absolute;
+  height: 2.75rem;
+  width: 2.75rem;
+}
+.saMinimized .saImpersonator button {
+  display: none;
+}
+@media (pointer: fine) {
+  .saImpersonator button:hover {
+    background-color: #e5efff;
+    color: #2d6ce1;
+  }
+}
+.saImpersonator button:active {
+  background-color: #bbd6ff;
+  color: #1c57c6;
+  border-radius: 0.5rem;
+}
+.saOpen .saImpersonator button {
+  background-color: #2d6ce1;
+  color: #fff;
+}
+.saImpersonator button .saIcon {
+  color: inherit;
+  min-width: unset;
+}
+.saImpersonator select,
+.saImpersonator input {
+  appearance: none;
+  width: 100%;
+  outline: 1px solid #ccd5e2;
+  outline-offset: -1px;
+  margin: 0;
+  padding: 0.75rem 2.25rem 0rem 0.5rem;
+  height: 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  color: #313a44;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+}
+@media (pointer: fine) {
+  .saImpersonator select:hover,
+  .saImpersonator input:hover {
+    outline: 1px solid #2d6ce1;
+    outline-offset: -1px;
+  }
+}
+.saImpersonator select:focus,
+.saImpersonator input:focus {
+  outline: 2px solid #2d6ce1;
+  outline-offset: -2px;
+}
+.saMinimized .saImpersonator select,
+.saMinimized .saImpersonator input {
+  color: transparent;
+  padding: 0.5rem;
+  width: 2rem;
+}
+.saSmallScreen .saImpersonator select,
+.saSmallScreen .saImpersonator input {
+  height: 2.75rem;
+  padding: 1rem 2.5rem 0 0.625rem;
+  font-size: 1rem;
+}
+.saImpersonator input {
+  cursor: text;
+}
+.saImpersonator select {
   cursor: pointer;
 }
-.saLargeScreen .saSideBar.saMinimized .saSearch.saSidenavItemWrapper .saSidenavItem .saIcon {
-  margin: 0;
+.saImpersonator option {
+  color: #313a44;
 }
-.saLargeScreen .saSideBar.saMinimized .saSidenavItemText {
-  width: 0;
-  opacity: 0;
+.saSideBar .saInputTextWrapper {
+  width: 100%;
+  margin-right: 0;
+  padding: 0 0.5rem;
 }
-.saLargeScreen .saSideBar.saMinimized .saUserName {
-  width: 0;
-}
-.saLargeScreen .saSideBar.saMinimized .saCustomerLogo {
-  max-width: 3rem;
-}
-.saLargeScreen .saSideBar.saMinimized .saCustomerLogo img {
-  max-width: 3rem;
-  max-height: 3rem;
-}
-.saLargeScreen .saSideBar.saMinimized .saAvatarWrapperOuter .saIcon {
-  display: none;
-}
-.saLargeScreen .saSideBar.saMinimized .saSidenavFooter {
+.saFirstLetter {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  width: 4.5rem;
-}
-.saLargeScreen .saSideBar.saMinimized .saExpander {
-  width: 2.5rem;
-  margin-bottom: 0.5rem;
-  order: 1;
-}
-.saLargeScreen .saSideBar.saMinimized .saExpander .saIcon {
-  -webkit-transform: rotate(180deg);
-  transform: rotate(180deg);
-}
-.saLargeScreen .saSideBar.saMinimized .saSoftadminLogo {
-  order: 2;
-}
-.saLargeScreen .saSideBar.saMinimized .saWordmark {
+  font-weight: 500;
+  font-size: 1rem;
+  position: absolute;
+  pointer-events: none;
   display: none;
+}
+.saMinimized .saFirstLetter {
+  display: flex;
 }
 .saLargeScreen .saSmallScreenHeader {
   display: none;
@@ -7689,19 +7517,25 @@ div.saPopupOverlay {
   .saPageHeader .saSpecialLinksWrapper button:hover,
   .saPartHeader .saSpecialLinksWrapper button:hover,
   .saPartButtons .saSpecialLinksWrapper button:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saPageHeader .saSpecialLinksWrapper button:hover .saIcon,
   .saPartHeader .saSpecialLinksWrapper button:hover .saIcon,
   .saPartButtons .saSpecialLinksWrapper button:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saPageHeader .saSpecialLinksWrapper button:active,
 .saPartHeader .saSpecialLinksWrapper button:active,
 .saPartButtons .saSpecialLinksWrapper button:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saPageHeader .saSpecialLinksWrapper button:active .saIcon,
+.saPartHeader .saSpecialLinksWrapper button:active .saIcon,
+.saPartButtons .saSpecialLinksWrapper button:active .saIcon {
+  color: inherit;
 }
 .saPageHeader .saSpecialLinksWrapper button:disabled,
 .saPartHeader .saSpecialLinksWrapper button:disabled,
@@ -8190,17 +8024,22 @@ div.saPopupOverlay {
 @media (pointer: fine) {
   .saPageHeader .saNavigationLinks .saMoreButton:hover,
   .saPartButtons .saNavigationLinks .saMoreButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saPageHeader .saNavigationLinks .saMoreButton:hover .saIcon,
   .saPartButtons .saNavigationLinks .saMoreButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saPageHeader .saNavigationLinks .saMoreButton:active,
 .saPartButtons .saNavigationLinks .saMoreButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saPageHeader .saNavigationLinks .saMoreButton:active .saIcon,
+.saPartButtons .saNavigationLinks .saMoreButton:active .saIcon {
+  color: inherit;
 }
 .saPageHeader .saNavigationLinks .saMoreButton:disabled,
 .saPartButtons .saNavigationLinks .saMoreButton:disabled {
@@ -8799,15 +8638,19 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saLargeScreen .saPageHeader .saBackButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saLargeScreen .saPageHeader .saBackButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saLargeScreen .saPageHeader .saBackButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saLargeScreen .saPageHeader .saBackButton:active .saIcon {
+  color: inherit;
 }
 .saLargeScreen .saPageHeader .saBackButton:disabled {
   background: #ccd5e2;
@@ -9304,15 +9147,19 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saSmallScreen .saExpandWrapper .saExpand:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saSmallScreen .saExpandWrapper .saExpand:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saSmallScreen .saExpandWrapper .saExpand:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saSmallScreen .saExpandWrapper .saExpand:active .saIcon {
+  color: inherit;
 }
 .saSmallScreen .saExpandWrapper .saExpand:disabled {
   background: #ccd5e2;
@@ -9784,15 +9631,19 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saButtonGhost:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saButtonGhost:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saButtonGhost:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saButtonGhost:active .saIcon {
+  color: inherit;
 }
 .saButtonGhost:disabled {
   background: #ccd5e2;
@@ -11000,15 +10851,19 @@ a.saAuthLink:active {
 }
 @media (pointer: fine) {
   .saColumnManager .saCloseColumnManager:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saColumnManager .saCloseColumnManager:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saColumnManager .saCloseColumnManager:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saColumnManager .saCloseColumnManager:active .saIcon {
+  color: inherit;
 }
 .saColumnManager .saCloseColumnManager:disabled {
   background: #ccd5e2;
@@ -12634,15 +12489,19 @@ a.saAuthLink:active {
 }
 @media (pointer: fine) {
   .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton:active .saIcon {
+  color: inherit;
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton:disabled {
   background: #ccd5e2;
@@ -13729,48 +13588,105 @@ a.saAuthLink:active {
   padding-bottom: 12.5rem;
   max-width: 25rem;
 }
-.saInlineDocumentWrapper a.saLink {
-  cursor: pointer;
-}
-.saInlineDocumentWrapper a.saLink .saLinkText {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  text-decoration: none;
-  font-weight: 500;
-  color: var(--Sa-Color-Link);
-}
-@media (pointer: fine) {
-  .saInlineDocumentWrapper a.saLink:hover .saLinkText {
-    text-decoration: underline;
-  }
-  .saInlineDocumentWrapper a.saLink:hover img,
-  .saInlineDocumentWrapper a.saLink:hover svg {
-    opacity: 0.8;
-    transition: transform 0.5s;
-  }
-  .saInlineDocumentWrapper a.saLink:hover .saMeterHeader,
-  .saInlineDocumentWrapper a.saLink:hover .saMeterValue {
-    text-decoration: underline;
-  }
-}
-.saInlineDocumentWrapper a.saLink:active .saLinkText {
-  color: var(--Sa-Color-Link-Brightness80);
-}
-.saInlineDocumentWrapper a.saLink:active img,
-.saInlineDocumentWrapper a.saLink:active svg {
-  opacity: 0.8;
-  transition: transform 0.5s;
-}
-.saInlineDocumentWrapper a.saLink:active .saMeterHeader,
-.saInlineDocumentWrapper a.saLink:active .saMeterValue {
-  text-decoration: underline;
-}
 .saSmallScreen .saInlineDocumentWrapper {
   padding: 1rem;
 }
 .saMultiPartContent .saInlineDocumentWrapper {
   padding-right: 2px;
   padding-bottom: 2px;
+}
+.saInlineDownload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #313a44;
+  text-align: center;
+  margin-top: 5rem;
+}
+.saInlineDownload .saIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  height: 3rem;
+  width: 3rem;
+  background-color: #f0ebff;
+  color: #8b4af1;
+  border: 1px solid #8b4af1;
+}
+.saInlineDownload .saIcon.fa-file-word {
+  background-color: #e5efff;
+  color: #2d6ce1;
+  border: 1px solid #2d6ce1;
+}
+.saInlineDownload .saIcon.fa-video {
+  background-color: #ffeada;
+  color: #ae5c28;
+  border: 1px solid #ae5c28;
+}
+.saInlineDownload .saIcon.fa-file-excel {
+  background-color: #d6f7d9;
+  color: #008429;
+  border: 1px solid #008429;
+}
+.saInlineDownload .saIcon.fa-file-pdf {
+  background-color: #ffe8e7;
+  color: #e0173e;
+  border: 1px solid #e0173e;
+}
+.saInlineDownload .saIcon.fa-image {
+  background-color: #ffe7f7;
+  color: #ca2c9b;
+  border: 1px solid #ca2c9b;
+}
+.saInlineDownload .saIcon.fa-exclamation {
+  background-color: #e0173e;
+  color: #fff;
+  border: none;
+}
+.saInlineDownload .saIcon.fa-question {
+  background-color: #da9600;
+  color: #fff;
+  border: none;
+}
+@media (pointer: fine) {
+  .saInlineDownload:hover .saInlineDownloadButton {
+    background-color: #1c57c6;
+  }
+}
+.saInlineDownload:active .saInlineDownloadButton {
+  background-color: #0f44a6;
+  border-radius: 0.75rem;
+}
+.saInlineDownloadHeading {
+  font-size: 1rem;
+  line-height: 1;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  overflow-wrap: anywhere;
+}
+.saInlineDownloadDescription {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin-bottom: 1rem;
+  color: #60748b;
+}
+.saInlineDownloadButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0 1rem;
+  height: 2.75rem;
+  color: #fff;
+  background-color: #2d6ce1;
+  border-radius: 0.5rem;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
 }
 input.saCheckbox {
   appearance: none;
@@ -17415,15 +17331,19 @@ legend + .saInputCardsWrapper {
 }
 @media (pointer: fine) {
   .saDatePickerRoot .saTodayLink:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saDatePickerRoot .saTodayLink:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saDatePickerRoot .saTodayLink:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saDatePickerRoot .saTodayLink:active .saIcon {
+  color: inherit;
 }
 .saDatePickerRoot .saTodayLink:disabled {
   background: #ccd5e2;
@@ -20466,15 +20386,19 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 @media (pointer: fine) {
   .saSignatureCanvasRoot.saSignatureLargeScreen .saCanvasButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saSignatureCanvasRoot.saSignatureLargeScreen .saCanvasButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saSignatureCanvasRoot.saSignatureLargeScreen .saCanvasButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saSignatureCanvasRoot.saSignatureLargeScreen .saCanvasButton:active .saIcon {
+  color: inherit;
 }
 .saSignatureCanvasRoot.saSignatureLargeScreen .saCanvasButton:disabled {
   background: #ccd5e2;
@@ -20663,15 +20587,19 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 @media (pointer: fine) {
   .saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saClosePopup:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saClosePopup:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saClosePopup:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saClosePopup:active .saIcon {
+  color: inherit;
 }
 .saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saClosePopup:disabled {
   background: #ccd5e2;
@@ -22294,15 +22222,19 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 @media (pointer: fine) {
   .saMagicBox .saBoxLink:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saMagicBox .saBoxLink:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saMagicBox .saBoxLink:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saMagicBox .saBoxLink:active .saIcon {
+  color: inherit;
 }
 .saMagicBox .saBoxLink:disabled {
   background: #ccd5e2;
@@ -25056,15 +24988,19 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saPdfTemplateEditor .saToolbarButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saPdfTemplateEditor .saToolbarButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saPdfTemplateEditor .saToolbarButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saPdfTemplateEditor .saToolbarButton:active .saIcon {
+  color: inherit;
 }
 .saPdfTemplateEditor .saToolbarButton:disabled {
   background: #ccd5e2;
@@ -25427,15 +25363,19 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton:active .saIcon {
+  color: inherit;
 }
 .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton:disabled {
   background: #ccd5e2;
@@ -26765,15 +26705,19 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saCalendarSection .saPeriodButtons button:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saCalendarSection .saPeriodButtons button:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saCalendarSection .saPeriodButtons button:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saCalendarSection .saPeriodButtons button:active .saIcon {
+  color: inherit;
 }
 .saCalendarSection .saPeriodButtons button:disabled {
   background: #ccd5e2;
@@ -26880,15 +26824,19 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saCalendarSection .saTodayButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saCalendarSection .saTodayButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saCalendarSection .saTodayButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saCalendarSection .saTodayButton:active .saIcon {
+  color: inherit;
 }
 .saCalendarSection .saTodayButton:disabled {
   background: #ccd5e2;
@@ -27516,15 +27464,19 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saDesktopCalendar.saWeekdaysCalendar .saShowMoreButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saDesktopCalendar.saWeekdaysCalendar .saShowMoreButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saDesktopCalendar.saWeekdaysCalendar .saShowMoreButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saDesktopCalendar.saWeekdaysCalendar .saShowMoreButton:active .saIcon {
+  color: inherit;
 }
 .saDesktopCalendar.saWeekdaysCalendar .saShowMoreButton:disabled {
   background: #ccd5e2;
@@ -27772,15 +27724,19 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saDesktopCalendar.saResourceCalendar .saCalendarResourceFilter .saResourceFilterExpandButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saDesktopCalendar.saResourceCalendar .saCalendarResourceFilter .saResourceFilterExpandButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saDesktopCalendar.saResourceCalendar .saCalendarResourceFilter .saResourceFilterExpandButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saDesktopCalendar.saResourceCalendar .saCalendarResourceFilter .saResourceFilterExpandButton:active .saIcon {
+  color: inherit;
 }
 .saDesktopCalendar.saResourceCalendar .saCalendarResourceFilter .saResourceFilterExpandButton:disabled {
   background: #ccd5e2;
@@ -28074,15 +28030,19 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saSmallScreenCalendar.saCalendarSection .saCalendarHeadingButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saSmallScreenCalendar.saCalendarSection .saCalendarHeadingButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarHeadingButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saSmallScreenCalendar.saCalendarSection .saCalendarHeadingButton:active .saIcon {
+  color: inherit;
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarHeadingButton:disabled {
   background: #ccd5e2;
@@ -29047,15 +29007,19 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saVisibleParametersWrapper .saVisibleParametersButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saVisibleParametersWrapper .saVisibleParametersButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saVisibleParametersWrapper .saVisibleParametersButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saVisibleParametersWrapper .saVisibleParametersButton:active .saIcon {
+  color: inherit;
 }
 .saVisibleParametersWrapper .saVisibleParametersButton:disabled {
   background: #ccd5e2;
@@ -29827,15 +29791,19 @@ a.saKpiOuter:active {
 }
 @media (pointer: fine) {
   .saErrorSummaryWrapper .saErrorSummaryCloseButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saErrorSummaryWrapper .saErrorSummaryCloseButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saErrorSummaryWrapper .saErrorSummaryCloseButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saErrorSummaryWrapper .saErrorSummaryCloseButton:active .saIcon {
+  color: inherit;
 }
 .saErrorSummaryWrapper .saErrorSummaryCloseButton:disabled {
   background: #ccd5e2;
@@ -30895,15 +30863,19 @@ a.saKpiOuter:active {
 }
 @media (pointer: fine) {
   .saToolbox .saToolboxButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saToolbox .saToolboxButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saToolbox .saToolboxButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saToolbox .saToolboxButton:active .saIcon {
+  color: inherit;
 }
 .saToolbox .saToolboxButton:disabled {
   background: #ccd5e2;
@@ -31492,15 +31464,19 @@ a.saKpiOuter:active {
 }
 @media (pointer: fine) {
   .saPlanner .saUnbooked .saExpandButton:hover {
-    background: #f8f9fb;
-    color: #2d6ce1;
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
   }
   .saPlanner .saUnbooked .saExpandButton:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
+    color: inherit;
   }
 }
 .saPlanner .saUnbooked .saExpandButton:active {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saPlanner .saUnbooked .saExpandButton:active .saIcon {
+  color: inherit;
 }
 .saPlanner .saUnbooked .saExpandButton:disabled {
   background: #ccd5e2;
@@ -32104,4 +32080,65 @@ pre.saCode {
 .saColHeader.saPurple {
   background-color: #f9f7ff;
   color: #8b4af1;
+}
+.saInputSliderWrapper {
+  position: relative;
+  width: 100%;
+}
+.saInputSlider {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 200px;
+  height: 32px;
+}
+.saSmallScreen .saInputSlider {
+  height: 44px;
+}
+.saInputSlider:enabled {
+  cursor: pointer;
+}
+.saInputSlider::-webkit-slider-runnable-track {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 8px;
+  background-image: linear-gradient(to right, red, blue);
+  border-radius: 99rem;
+}
+.saInputSlider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border: 1px solid #f8f9fb;
+  box-shadow: 0 2px 2px rgba(49, 58, 68, 0.07);
+  border-radius: 99rem;
+  transform: translateY(-6px);
+}
+.saDataList {
+  display: flex;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 12px;
+  color: #60748b;
+}
+.saDataList option {
+  position: relative;
+  left: attr(value);
+}
+.saDataList option::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  height: 8px;
+  width: 1px;
+  background-color: #ccd5e2;
 }

@@ -12,7 +12,7 @@ $(document).ready(function () {
 	});
 
 	const $body = $(".right.standardview, body");
-	const $sideBar = $(".saSideBar");
+	const $sideBar = $(".saSideBarJs");
 
 	$($body).addClass("saPc saLargeScreen saCompact");
 	$('body').append(theToggler);
