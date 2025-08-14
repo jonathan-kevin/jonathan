@@ -17,6 +17,87 @@
 
 <body class="saRootBody saLargeScreen saPc saCompact">
 	<div class="saRootContentWrapper">
+		<dialog id="theDialog" class="saDialog">
+			<div class="saDialogTabWrapper">
+				<button type="button" class="saButton saButtonDialogClose" aria-label="Close dialog" id="closeDialog">
+					<i class="fa-xmark saIcon far"></i>
+				</button>
+				<div role="tablist">
+					<button id="tab-1" type="button" role="tab" aria-selected="true" aria-controls="tabpanel-1">
+						<i class="saIcon far fa-cog"></i>
+						<span>Settings</span>
+					</button>
+					<button id="tab-2" type="button" role="tab" aria-selected="false" aria-controls="tabpanel-2" tabindex="-1">
+						<i class="saIcon far fa-bolt"></i>
+						<span>Shortcuts</span>
+					</button>
+				</div>
+				<div class="saDialogTab">
+					<div id="tabpanel-1" role="tabpanel" aria-labelledby="tab-1">
+						<h2>Settings</h2>
+						<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quas nesciunt distinctio earum nemo modi quaerat.</p>
+						<table>
+							<caption class="saScreenReaderOnly">General Settings</caption>
+							<thead class="saScreenReaderOnly">
+								<tr>
+									<th scope="col">Setting</th>
+									<th scope="col">Value</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><label for="theme">Theme</label></td>
+									<td>
+										<select id="theme">
+											<option value="light">Light</option>
+											<option value="dark">Dark</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td><label for="compact">Compact</label></td>
+									<td>
+										<select id="compact">
+											<option value="true">True</option>
+											<option value="false">False</option>
+										</select>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div id="tabpanel-2" role="tabpanel" aria-labelledby="tab-2" class="saHidden">
+						<h2>Keyboard shortcuts</h2>
+						<p>Praesentium totam necessitatibus reprehenderit molestiae nemo. Sed quia sequi fugit voluptatum deleniti voluptates cupiditate!</p>
+						<table>
+							<caption class="saScreenReaderOnly">Shortcuts</caption>
+							<thead class="saScreenReaderOnly">
+								<tr>
+									<th scope="col">Action</th>
+									<th scope="col">Keys</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Save</td>
+									<td><div class="saShortCut"><kbd>ctrl</kbd>+<kbd>S</kbd></div></td>
+								</tr>
+								<tr>
+									<td>Close</td>
+									<td><div class="saShortCut"><kbd>esc</kbd></div></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="saButtonWrapper">
+						<div class="saButtonGroup">
+							<button type="button" class="saDefaultButtonPrimary">Save</button>
+							<button type="button" class="saDefaultButtonSecondary">Cancel</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</dialog>
 		<aside class="saAside">
 			<div class="saPageHeader saSmallScreenHeader">
 				<div class="saHeader">
@@ -464,11 +545,11 @@
 														<span class="saMenuBoxDescription">For real this time.</span>
 														<ul>
 															<li class="saMenuItemWrapper saSelectable">
-																<a class="saMenuItem" tabindex="0" id="removeGroups" href="#">
+																<a class="saMenuItem" tabindex="0" id="openDialog" href="#">
 																	<div class="saIconHolder" aria-hidden="true">
-																		<i class="far fa-bomb saIcon"></i>
+																		<i class="far fa-window-maximize saIcon"></i>
 																	</div>
-																	<span class="saMenuItemText">Remove groups</span>
+																	<span class="saMenuItemText">Open dialog</span>
 																</a>
 																<div class="saMenuItemTools">
 																	<button class="saIconWrapper fa-star far saFavoriteIcon saFavoriteNotAdded" type="button" tabindex="-1"></button>
@@ -480,28 +561,6 @@
 																		<i class="far fa-user-circle saIcon"></i>
 																	</div>
 																	<span class="saMenuItemText">Toggle avatar / initials</span>
-																</a>
-																<div class="saMenuItemTools">
-																	<button class="saIconWrapper fa-star far saFavoriteIcon saFavoriteNotAdded" type="button" tabindex="-1"></button>
-																</div>
-															</li>
-															<li class="saMenuItemWrapper saSelectable">
-																<a class="saMenuItem" tabindex="0" id="toggleShortcut" href="#">
-																	<div class="saIconHolder" aria-hidden="true">
-																		<i class="far fa-keyboard saIcon"></i>
-																	</div>
-																	<span class="saMenuItemText">Toggle shortcuts</span>
-																</a>
-																<div class="saMenuItemTools">
-																	<button class="saIconWrapper fa-star far saFavoriteIcon saFavoriteNotAdded" type="button" tabindex="-1"></button>
-																</div>
-															</li>
-															<li class="saMenuItemWrapper saSelectable">
-																<a class="saMenuItem" tabindex="0" id="toggleStyle" href="#">
-																	<div class="saIconHolder" aria-hidden="true">
-																		<i class="far fa-keyboard saIcon"></i>
-																	</div>
-																	<span class="saMenuItemText">Toggle shortcuts style</span>
 																</a>
 																<div class="saMenuItemTools">
 																	<button class="saIconWrapper fa-star far saFavoriteIcon saFavoriteNotAdded" type="button" tabindex="-1"></button>
@@ -526,71 +585,116 @@
 
 <script>
 	$(document).ready(function () {
-		$('#impersonator2').click(function (e) {
-			e.preventDefault();
+		'use strict';
 
-			const $sideBar = $(".saSideBarJs");
-
-			if ($sideBar.hasClass("saMinimized")) {
-				$sideBar.removeClass("saMinimized").addClass("saExpanded");
-			}
-
-			else { }
+		const dialog = document.getElementById('theDialog');
+		document.getElementById('openDialog').addEventListener('click', () => {
+    		dialog.showModal();
 		});
 
-		$('#removeGroups').click(function (e) {
-			e.preventDefault();
-
-			$('h3').remove();
-
-			const $tabPanel = $('.saTabPanel');
-			const $allLists = $tabPanel.find('ul');
-			if ($allLists.length > 1) {
-				const $mergedList = $('<ul></ul>');
-				$allLists.each(function () {
-					$(this).children('li').appendTo($mergedList);
-				});
-				$allLists.remove();
-				$tabPanel.append($mergedList);
-			}
-
+		document.getElementById('closeDialog').addEventListener('click', () => {
+    		dialog.close();
 		});
 
-		$('#toggleAvatar').click(function (e) {
-			e.preventDefault();
+		dialog.addEventListener('keydown', function (event) {
+			if (event.key === 'Escape') {
+				dialog.close();
+			}
+		});
 
-			const $imgAvatar = $('.saAccountAvatar[type="img"], img.saAccountAvatar');
-			const $divAvatar = $('.saAccountAvatar').not('img.saAccountAvatar');
-			if ($imgAvatar.is(':visible')) {
-				$imgAvatar.hide();
-				$divAvatar.show();
+		function TabsManual($tablist) {
+			this.$tablist = $tablist;
+			this.$tabs = $tablist.find('[role=tab]');
+			this.$tabpanels = $();
+
+			this.$tabs.each(function (i, tab) {
+				var $tab = $(tab);
+				var $tabpanel = $('#' + $tab.attr('aria-controls'));
+				$tab.attr('tabindex', -1).attr('aria-selected', 'false');
+				this.$tabpanels = this.$tabpanels.add($tabpanel);
+
+				$tab.on('keydown', this.onKeydown.bind(this));
+				$tab.on('click', this.onClick.bind(this));
+			}.bind(this));
+
+			this.firstTab = this.$tabs[0];
+			this.lastTab = this.$tabs[this.$tabs.length - 1];
+
+			this.setSelectedTab($(this.firstTab));
+		}
+
+		TabsManual.prototype.setSelectedTab = function ($currentTab) {
+			this.$tabs.each(function (i, tab) {
+				var $tab = $(tab);
+				var $tabpanel = this.$tabpanels.eq(i);
+				if ($tab.is($currentTab)) {
+					$tab.attr('aria-selected', 'true').removeAttr('tabindex');
+					$tabpanel.removeClass('saHidden');
+				} else {
+					$tab.attr('aria-selected', 'false').attr('tabindex', -1);
+					$tabpanel.addClass('saHidden');
+				}
+			}.bind(this));
+		};
+
+		TabsManual.prototype.moveFocusToTab = function ($tab) {
+			$tab.focus();
+		};
+
+		TabsManual.prototype.moveFocusToPreviousTab = function ($currentTab) {
+			if ($currentTab[0] === this.firstTab) {
+				this.moveFocusToTab($(this.lastTab));
 			} else {
-				$imgAvatar.show();
-				$divAvatar.hide();
+				var idx = this.$tabs.index($currentTab);
+				this.moveFocusToTab(this.$tabs.eq(idx - 1));
 			}
-		});
+		};
 
-
-		$('#toggleShortcut').click(function (e) {
-			e.preventDefault();
-
-			$('.saSideBarShortcut').toggle();
-
-		});
-
-		$('#toggleStyle').click(function (e) {
-			e.preventDefault();
-			$('.saSideBarShortcut').toggleClass('saVariant');
-		});
-
-		document.addEventListener('keydown', (event) => {
-		  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
-		    	event.preventDefault();
-		    	console.log('Open your custom search here');
-				$('.saSideBarSearch').focus();
+		TabsManual.prototype.moveFocusToNextTab = function ($currentTab) {
+			if ($currentTab[0] === this.lastTab) {
+				this.moveFocusToTab($(this.firstTab));
+			} else {
+				var idx = this.$tabs.index($currentTab);
+				this.moveFocusToTab(this.$tabs.eq(idx + 1));
 			}
-		});
+		};
 
+		TabsManual.prototype.onKeydown = function (event) {
+			var $tgt = $(event.currentTarget), flag = false;
+			switch (event.key) {
+				case 'ArrowLeft':
+					this.moveFocusToPreviousTab($tgt);
+					flag = true;
+					break;
+				case 'ArrowRight':
+					this.moveFocusToNextTab($tgt);
+					flag = true;
+					break;
+				case 'Home':
+					this.moveFocusToTab($(this.firstTab));
+					flag = true;
+					break;
+				case 'End':
+					this.moveFocusToTab($(this.lastTab));
+					flag = true;
+					break;
+				default:
+					break;
+			}
+			if (flag) {
+				event.stopPropagation();
+				event.preventDefault();
+			}
+		};
+
+		TabsManual.prototype.onClick = function (event) {
+			this.setSelectedTab($(event.currentTarget));
+		};
+
+		// Initialize tablist
+		$('.saDialog [role=tablist]').each(function () {
+			new TabsManual($(this));
+		});
 	});
 </script>
 

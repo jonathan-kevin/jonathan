@@ -245,11 +245,6 @@
 															Error message.
 														</a>
 													</li>
-													<li>
-														<a class="saErrorMessage" href="#inputText3-1">
-															Error message 2.
-														</a>
-													</li>
 												</ul>
 											</div>
 											<div id="MI_MC_FormsArea">
@@ -257,13 +252,6 @@
 													<aside class="saFormAside">
 														<nav aria-labelledby="toc" class="saToC">
 															<h3 id="toc" class="saToCHeading">Table of contents</h3>
-															<button aria-expanded="true" type="button"
-																aria-controls="toc-list" id="toc-btn"
-																class="saToCButton">
-																<h2>Table of contents</h2>
-																<i class="saIcon far fa-angle-up"></i>
-															</button>
-															<div class="saToCDot"></div>
 															<ul id="toc-list" aria-live="polite">
 															</ul>
 														</nav>
@@ -700,29 +688,6 @@
 																				</div>
 																			</label>
 																		</div>
-																		<div class="saInputWrapper long">
-																			<div class="saInput">
-																				<div
-																					class="saInputTextWrapper saHighlightFieldError saInputPageField long">
-																					<input class="saInputText"
-																						id="inputText3-1" type="text"
-																						required aria-invalid="true"
-																						aria-required="true"
-																						aria-errormessage="inputText3-1Error">
-																				</div>
-																			</div>
-																			<label
-																				class="saValidationMessage saError saErrorJs"
-																				for="inputText3-1"
-																				id="inputText3-1Error">
-																				<i class="saIcon fas fa-octagon-xmark"
-																					aria-hidden="true"></i>
-																				<div class="saValidationMessageText"
-																					role="alert">
-																					Error message
-																				</div>
-																			</label>
-																		</div>
 																	</div>
 																</div>
 															</div>
@@ -847,41 +812,6 @@
 
 <script>
 	$(document).ready(function () {
-		/*
-		function positionToCDot() {
-			const $tocDot = $('.saToCDot');
-			const $current = $('#toc-list li[aria-current="true"]');
-			if ($current.length === 0) {
-				$tocDot.hide();
-				return;
-			}
-			$tocDot.show();
-			const $tocList = $('#toc-list');
-			const listOffset = $tocList.offset();
-			const currentOffset = $current.offset();
-			const dotHeight = $tocDot.outerHeight();
-			const dotWidth = $tocDot.outerWidth();
-			const currentHeight = $current.outerHeight();
-
-			if (listOffset && currentOffset) {
-				const top = currentOffset.top - listOffset.top + 163 + (currentHeight / 2) - (dotHeight / 2);
-				$tocDot.css('top', top + 'px');
-			}
-		}
-
-		// Initial positioning
-		positionToCDot();
-
-		// Reposition on scroll and when ToC changes
-		$('#MI_ScrollContent').on('scroll', positionToCDot);
-		$(window).on('resize', positionToCDot);
-
-		// Also reposition when ToC is toggled
-		$('#toc-btn').on('click', function () {
-			setTimeout(positionToCDot, 200);
-		});
-
-		*/
 
 		$('.saErrorSummaryCloseButton').click(function (e) {
 			e.preventDefault();
@@ -891,6 +821,7 @@
 		$('#shuffle').click(function (e) {
 			$('.saFormRoot').toggleClass('saLabelsAbove saLabelsBefore');
 		});
+
 		function wrapped() {
 			var $children = $('.saFormRootWrapper').children();
 			var wrapped = $children.eq(0).offset().top !== $children.eq(1).offset().top;
@@ -906,12 +837,6 @@
 
 		wrapped();
 		$(window).on('resize', wrapped);
-
-		$('#toc-btn').click(function (e) {
-			e.preventDefault();
-			$('.saToC').toggleClass('saMinimized');
-		});
-
 
 		$('.saSectionHeaderWrapper').each(function () {
 			const $header = $(this);
@@ -959,7 +884,14 @@
 		}).get();
 
 		$scrollContent.on('scroll', function () {
-			if (!$body.hasClass('saLargeScreen')) return;
+			if ($body.hasClass('saSmallScreen')) {
+				const $activeLi = $('#toc-list li[aria-current="true"]');
+				if ($activeLi.length) {
+					const $ul = $('#toc-list');
+					$ul[0].scrollLeft = $activeLi[0].offsetLeft;
+				}
+			}
+
 			const scrollTop = $(window).scrollTop();
 			let currentId = null;
 			for (const section of sections) {

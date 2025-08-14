@@ -28764,17 +28764,18 @@ a.saKpiOuter:active {
 .saErrorSummaryWrapper {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
   padding: 1rem;
-  margin-bottom: 1rem;
+  background-color: #fff;
+  margin-bottom: 0.5rem;
   border-radius: 1rem;
+  border: 1px #dde3ec solid;
   position: relative;
-  background-color: var(--Red50);
-  border: 1px solid var(--Red200);
 }
 .saSmallScreen .saErrorSummaryWrapper {
   margin: 1rem;
 }
-.saErrorSummaryCloseButton {
+.saErrorSummaryWrapper .saErrorSummaryCloseButton {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
@@ -28792,71 +28793,71 @@ a.saKpiOuter:active {
   color: var(--Blue600);
   background: transparent;
 }
-.saErrorSummaryCloseButton .saButtonText {
+.saErrorSummaryWrapper .saErrorSummaryCloseButton .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.saErrorSummaryCloseButton .saBadgedIcon {
+.saErrorSummaryWrapper .saErrorSummaryCloseButton .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saErrorSummaryCloseButton .saIcon {
+.saErrorSummaryWrapper .saErrorSummaryCloseButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.saErrorSummaryCloseButton .saIcon {
+.saErrorSummaryWrapper .saErrorSummaryCloseButton .saIcon {
   color: var(--Sa-Color-Icon);
 }
-.saErrorSummaryCloseButton.saDestructive {
+.saErrorSummaryWrapper .saErrorSummaryCloseButton.saDestructive {
   color: var(--Red600);
 }
-.saErrorSummaryCloseButton.saDestructive .saIcon {
+.saErrorSummaryWrapper .saErrorSummaryCloseButton.saDestructive .saIcon {
   color: var(--Red600);
 }
 @media (pointer: fine) {
-  .saErrorSummaryCloseButton.saDestructive:hover {
+  .saErrorSummaryWrapper .saErrorSummaryCloseButton.saDestructive:hover {
     color: var(--Red600);
     background: var(--Red100);
   }
-  .saErrorSummaryCloseButton.saDestructive:hover .saIcon {
+  .saErrorSummaryWrapper .saErrorSummaryCloseButton.saDestructive:hover .saIcon {
     color: var(--Red600);
   }
 }
-.saErrorSummaryCloseButton.saDestructive:active {
+.saErrorSummaryWrapper .saErrorSummaryCloseButton.saDestructive:active {
   color: #fff;
   background: var(--Red600);
 }
-.saErrorSummaryCloseButton.saDestructive:active > .saIcon {
+.saErrorSummaryWrapper .saErrorSummaryCloseButton.saDestructive:active > .saIcon {
   color: #fff;
 }
 @media (pointer: fine) {
-  .saErrorSummaryCloseButton:hover {
+  .saErrorSummaryWrapper .saErrorSummaryCloseButton:hover {
     background: var(--Gray50);
     color: var(--Blue600);
   }
-  .saErrorSummaryCloseButton:hover .saIcon {
+  .saErrorSummaryWrapper .saErrorSummaryCloseButton:hover .saIcon {
     color: var(--Sa-Color-IconHover);
   }
 }
-.saErrorSummaryCloseButton:active {
+.saErrorSummaryWrapper .saErrorSummaryCloseButton:active {
   background: var(--Gray150);
 }
-.saErrorSummaryCloseButton:disabled {
+.saErrorSummaryWrapper .saErrorSummaryCloseButton:disabled {
   background: var(--Gray200);
   pointer-events: none;
   color: var(--Gray500);
 }
-.saErrorSummaryCloseButton:disabled .saIcon {
+.saErrorSummaryWrapper .saErrorSummaryCloseButton:disabled .saIcon {
   color: var(--Gray500);
 }
-.saStandard .saErrorSummaryCloseButton {
+.saStandard .saErrorSummaryWrapper .saErrorSummaryCloseButton {
   border-radius: 0.5rem;
   padding: 0 0.5rem;
   width: 2.5rem;
@@ -28865,10 +28866,10 @@ a.saKpiOuter:active {
   min-width: 2.5rem;
   font-size: 1rem;
 }
-.saStandard .saErrorSummaryCloseButton:active {
+.saStandard .saErrorSummaryWrapper .saErrorSummaryCloseButton:active {
   border-radius: 0.75rem;
 }
-.saCompact .saErrorSummaryCloseButton {
+.saCompact .saErrorSummaryWrapper .saErrorSummaryCloseButton {
   border-radius: 0.5rem;
   padding: 0 0.5rem;
   width: 2rem;
@@ -28877,10 +28878,10 @@ a.saKpiOuter:active {
   min-width: 2rem;
   font-size: 1rem;
 }
-.saCompact .saErrorSummaryCloseButton:active {
+.saCompact .saErrorSummaryWrapper .saErrorSummaryCloseButton:active {
   border-radius: 0.75rem;
 }
-.saSmallScreen .saErrorSummaryCloseButton {
+.saSmallScreen .saErrorSummaryWrapper .saErrorSummaryCloseButton {
   border-radius: 0.5rem;
   padding: 0 0.5rem;
   width: 2.5rem;
@@ -28889,46 +28890,47 @@ a.saKpiOuter:active {
   min-width: 2.5rem;
   font-size: 1rem;
 }
-.saSmallScreen .saErrorSummaryCloseButton:active {
+.saSmallScreen .saErrorSummaryWrapper .saErrorSummaryCloseButton:active {
   border-radius: 0.75rem;
 }
-.saErrorSummaryHeadingWrapper {
+.saErrorSummaryWrapper .saErrorSummaryHeadingWrapper {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   padding-right: 2.5rem;
 }
-.saErrorSummaryHeadingWrapper .saIcon {
-  color: var(--Red600);
+.saErrorSummaryWrapper .saErrorSummaryHeadingWrapper .saIcon {
+  color: #e0173e;
   font-size: 1.25rem;
 }
-.saErrorSummaryWrapper p {
-  padding-bottom: 0.5rem;
-}
-.saErrorSummary {
+.saErrorSummaryWrapper .saErrorSummary {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
+  list-style-type: disc;
+  margin-inline-start: 0.5rem;
 }
-.saErrorSummary li {
-  height: 1.5rem;
-  padding-left: 0.5rem;
+.saErrorSummaryWrapper .saErrorSummary li {
+  margin-inline-start: 1rem;
 }
-.saErrorSummary .saErrorMessage {
-  color: var(--Red600);
-  font-weight: 500;
+.saErrorSummaryWrapper .saErrorSummary li::marker {
+  color: #e0173e;
+}
+.saErrorSummaryWrapper .saErrorSummary .saErrorMessage {
+  color: #e0173e;
   transition: ease color 0.2s;
+  text-decoration: underline;
   cursor: pointer;
-  height: 1.5rem;
 }
 @media (pointer: fine) {
-  .saErrorSummary .saErrorMessage:hover {
-    color: var(--Red700);
+  .saErrorSummaryWrapper .saErrorSummary .saErrorMessage:hover {
+    color: #bf0024;
   }
 }
-.saErrorSummary .saErrorMessage:active {
-  color: var(--Red800);
+.saErrorSummaryWrapper .saErrorSummary .saErrorMessage:active {
+  color: #9b0002;
 }
-.saErrorSummary span.saErrorMessage {
+.saErrorSummaryWrapper .saErrorSummary span.saErrorMessage {
   text-decoration: none;
   pointer-events: none;
 }
@@ -31017,10 +31019,6 @@ pre.saCode {
   flex-direction: column;
   align-items: start;
 }
-.saWrapped.saFormRootWrapper {
-  flex-direction: column;
-  align-items: start;
-}
 .saFormAside {
   position: sticky;
   top: 0;
@@ -31029,19 +31027,14 @@ pre.saCode {
   height: fit-content;
   margin-left: 2rem;
   order: 99;
+  background-color: #fff;
 }
-.saSmallScreen .saFormAside,
-.saWrapped .saFormAside {
-  position: static;
+.saSmallScreen .saFormAside {
   max-width: 100%;
-  height: auto;
+  min-width: 100%;
+  margin-left: 0;
   order: 0;
-  width: 100%;
-  margin: unset;
-  margin-bottom: 1rem;
-}
-.saFormAside h3 {
-  color: var(--Gray900);
+  z-index: 99;
 }
 .saToC {
   display: flex;
@@ -31064,13 +31057,10 @@ pre.saCode {
   transition: ease 0.2s transform, ease 0.2s visibility, ease 0.2s height;
 }
 .saSmallScreen .saToC ul {
-  padding: 0 1rem 1rem 2rem;
-}
-.saMinimized.saToC ul {
-  transform: translateY(-1rem);
-  opacity: 0;
-  height: 0;
-  visibility: hidden;
+  padding: 0;
+  flex-direction: row;
+  scroll-snap-type: x proximity;
+  border-bottom: 1px solid #ccd5e2;
 }
 .saToC li {
   display: flex;
@@ -31078,11 +31068,20 @@ pre.saCode {
   position: relative;
   overflow-wrap: break-word;
 }
-.saLargeScreen .saToC li[aria-current="true"] a {
-  font-weight: 500;
-  letter-spacing: 0;
-  border-color: var(--Blue600);
-  color: var(--Blue700);
+.saToC li[aria-current="true"] a {
+  border-color: #2d6ce1;
+  color: #2d6ce1;
+}
+.saToC li[aria-current="true"] a::after {
+  opacity: 1;
+}
+.saSmallScreen .saToC li {
+  overflow-wrap: normal;
+  white-space: nowrap;
+  scroll-snap-align: start;
+}
+.saSmallScreen .saToC li:last-child {
+  scroll-snap-align: end;
 }
 .saToC a {
   display: flex;
@@ -31092,25 +31091,37 @@ pre.saCode {
   padding: 0.25rem 0.5rem 0.25rem 0.5rem;
   min-height: 1.5rem;
   text-decoration: none;
-  color: var(--Gray600);
+  color: #60748b;
   flex-wrap: wrap;
   position: relative;
-  border-left: 1px solid var(--Gray200);
-  letter-spacing: 0.125px;
+  border-left: 1px solid #ccd5e2;
 }
 .saSmallScreen .saToC a {
   min-height: 2.75rem;
+  padding: 0.25rem 1rem;
+  border: none;
+  flex-wrap: nowrap;
+}
+.saSmallScreen .saToC a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  background-color: #2d6ce1;
+  width: calc(100% - 2rem);
+  height: 2px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 @media (pointer: fine) {
   .saToC a:hover {
-    color: var(--Blue600);
-    background-color: var(--Blue50);
+    color: #2d6ce1;
+    border-color: #2d6ce1;
   }
 }
 .saToC a:active {
-  color: var(--Blue700);
-  border-color: var(--Blue900);
-  background-color: var(--Blue100);
+  color: #1c57c6;
+  border-color: #063384;
 }
 .saToC a .saIcon {
   font-size: 1rem;
@@ -31118,43 +31129,16 @@ pre.saCode {
   cursor: default;
 }
 .saToC a .saIcon.saWarning {
-  color: var(--Yellow300);
+  color: #f6ad00;
 }
 .saToC a .saIcon.saError {
-  color: var(--Red600);
+  color: #e0173e;
 }
 .saToC a .saIcon.saDisabled {
-  color: var(--Gray200);
+  color: #ccd5e2;
 }
 .saToC a .saIcon.saSuccess {
-  color: var(--Green500);
-}
-.saToCButton {
-  justify-content: flex-start;
-  display: none;
-}
-.saMinimized .saToCButton .saIcon {
-  transform: rotate(180deg);
-}
-.saSmallScreen .saToCButton {
-  height: 3rem;
-  display: flex;
-  padding: 16px !important;
-  justify-content: space-between;
-}
-@media (pointer: fine) {
-  .saSmallScreen .saToCButton:hover {
-    color: var(--Blue600);
-  }
-  .saSmallScreen .saToCButton:hover .saIcon {
-    color: var(--Blue700);
-  }
-}
-.saSmallScreen .saToCButton:active {
-  color: var(--Blue700);
-}
-.saSmallScreen .saToCButton:active .saIcon {
-  color: var(--Blue700);
+  color: #009b36;
 }
 h3.saToCHeading {
   padding-bottom: 0.25rem;
