@@ -31059,8 +31059,7 @@ pre.saCode {
 .saSmallScreen .saToC ul {
   padding: 0;
   flex-direction: row;
-  scroll-snap-type: x proximity;
-  border-bottom: 1px solid #ccd5e2;
+  scrollbar-width: none;
 }
 .saToC li {
   display: flex;
@@ -31075,13 +31074,12 @@ pre.saCode {
 .saToC li[aria-current="true"] a::after {
   opacity: 1;
 }
+.saSmallScreen .saToC li[aria-current="true"] a {
+  border-color: #ccd5e2;
+}
 .saSmallScreen .saToC li {
   overflow-wrap: normal;
   white-space: nowrap;
-  scroll-snap-align: start;
-}
-.saSmallScreen .saToC li:last-child {
-  scroll-snap-align: end;
 }
 .saToC a {
   display: flex;
@@ -31101,17 +31099,19 @@ pre.saCode {
   padding: 0.25rem 1rem;
   border: none;
   flex-wrap: nowrap;
+  border-bottom: 1px solid #ccd5e2;
+  font-weight: 500;
 }
 .saSmallScreen .saToC a::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -1px;
   left: 1rem;
   background-color: #2d6ce1;
   width: calc(100% - 2rem);
-  height: 2px;
+  height: 0.25rem;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  border-radius: 0.125rem 0.125rem 0 0;
 }
 @media (pointer: fine) {
   .saToC a:hover {
