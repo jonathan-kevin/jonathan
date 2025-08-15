@@ -35,7 +35,7 @@
 						</div>
 						<button class="saNotificationWrapper" type="button" aria-live="polite" aria-expanded="false" aria-label="Notifieringar">
 							<i class="far fa-bell saIcon"></i>
-							<div class="saBadgeNotification">3</div>
+							<div class="saBadgeCount saUrgent">3</div>
 						</button>
 					</div>
 				</div>
@@ -49,7 +49,6 @@
 							<label class="saSideBarSearch">
 								<input type="search" aria-label="Search" placeholder="Search">
 								<i class="saIcon far fa-search"></i>
-								<div class="saSideBarShortcut"><kbd>ctrl</kbd> + <kbd>K</kbd></div>
 							</label>
 						</li>
 						<li>
@@ -99,7 +98,6 @@
 										<span>
 											Properties
 										</span>
-										<div class="saSideBarShortcut"><kbd>⇧</kbd> + <kbd>1</kbd></div>
 									</div>
 								</a>
 							</li>
@@ -110,7 +108,6 @@
 										<span>
 											Admin Dashboard
 										</span>
-										<div class="saSideBarShortcut"><kbd>⌘</kbd> + <kbd>2</kbd></div>
 									</div>
 								</a>
 							</li>
@@ -323,6 +320,39 @@
 						<div class="saAccountName">Name Lastname</div>
 						<i class="saIcon far fa-angle-down"></i>
 					</button>
+					<div class="saContextMenuWrapper" style="display: none; position: absolute; left: 0.5rem; bottom: 15rem; width: 15.5rem; max-height: 969px;">
+						<div class="saContextMenu" style="width: 100%;">
+							<ul class="saActionLinkList">
+								<li>
+									<label class="saToggleCompactWrapper" for="saToggleCompact">
+										<div class="saToggleCompactText">
+											<span class="saButtonText">Compact mode</span>
+											<span class="saButtonText saExtraText">This will reload the page.</span>
+										</div>
+										<div class="saToggleWrapper">
+											<input class="saToggle" type="checkbox" id="saToggleCompact" checked>
+										</div>
+									</label>
+								</li>
+								<li>
+									<a tabindex="0">
+										<div class="saContextMenuItem">
+											<i class="far fa-mobile-notch icon saIcon" aria-hidden="true"></i>
+											<span class="saButtonText">Softadmin® App</span>
+										</div>
+									</a>
+								</li>
+								<li>
+									<a tabindex="0">
+										<div class="saContextMenuItem">
+											<i class="far fa-arrow-right-from-bracket icon saIcon" aria-hidden="true"></i>
+											<span class="saButtonText">Log out</span>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
 					<div class="saButtonGroupDesktop">
 						<button type="button" aria-label="Settings">
 							<div class="saIcon far fa-gear"></div>
@@ -330,15 +360,16 @@
 						<button type="button" aria-label="New tab">
 							<div class="saIcon far fa-window-restore"></div>
 						</button>
-						<button type="button" aria-label="Cats">
-							<div class="saIcon far fa-cat"></div>
+						<button type="button" aria-label="Database designer">
+							<div class="saIcon far fa-chart-network"></div>
 						</button>
 						<button type="button" aria-label="Help" aria-expanded="false">
 							<div class="fa-life-ring saIcon far"></div>
+							<div class="saBadgeCount saNew saSmall"></div>
 						</button>
 						<button type="button" aria-label="Notifications" aria-expanded="false">
-							<div class="saIcon far fa-bell"></div>
-							<div class="saBadgeNotification">3</div>
+							<div class="saIcon far fa-bell saRing"></div>
+							<div class="saBadgeCount saUrgent">3</div>
 						</button>
 					</div>
 					<ul class="saButtonGroupSmallScreen">
@@ -365,9 +396,9 @@
 						<li>
 							<a href="#" class="saItem">
 								<div class="saItemInner">
-									<i class="saIcon far fa-cat"></i>
+									<i class="saIcon far fa-chart-network"></i>
 									<span>
-										Cats
+										Database designer
 									</span>
 								</div>
 							</a>
@@ -375,7 +406,10 @@
 						<li>
 							<a href="#" class="saItem">
 								<div class="saItemInner">
-									<i class="saIcon far fa-life-ring"></i>
+									<div class="saRelative">
+										<i class="saIcon far fa-life-ring"></i>
+										<div class="saBadgeCount saNew saSmall"></div>
+									</div>
 									<span>
 										Help
 									</span>
@@ -444,7 +478,7 @@
 											</button>
 											<button class="saNotificationWrapper" type="button" aria-live="polite">
 												<i class="far fa-bell saIcon"></i>
-												<div class="saBadgeNotification">3</div>
+												<div class="saBadgeCount saUrgent">3</div>
 											</button>
 										</div>
 									</div>
@@ -485,28 +519,6 @@
 																	<button class="saIconWrapper fa-star far saFavoriteIcon saFavoriteNotAdded" type="button" tabindex="-1"></button>
 																</div>
 															</li>
-															<li class="saMenuItemWrapper saSelectable">
-																<a class="saMenuItem" tabindex="0" id="toggleShortcut" href="#">
-																	<div class="saIconHolder" aria-hidden="true">
-																		<i class="far fa-keyboard saIcon"></i>
-																	</div>
-																	<span class="saMenuItemText">Toggle shortcuts</span>
-																</a>
-																<div class="saMenuItemTools">
-																	<button class="saIconWrapper fa-star far saFavoriteIcon saFavoriteNotAdded" type="button" tabindex="-1"></button>
-																</div>
-															</li>
-															<li class="saMenuItemWrapper saSelectable">
-																<a class="saMenuItem" tabindex="0" id="toggleStyle" href="#">
-																	<div class="saIconHolder" aria-hidden="true">
-																		<i class="far fa-keyboard saIcon"></i>
-																	</div>
-																	<span class="saMenuItemText">Toggle shortcuts style</span>
-																</a>
-																<div class="saMenuItemTools">
-																	<button class="saIconWrapper fa-star far saFavoriteIcon saFavoriteNotAdded" type="button" tabindex="-1"></button>
-																</div>
-															</li>
 														</ul>
 													</div>
 												</div>
@@ -526,6 +538,20 @@
 
 <script>
 	$(document).ready(function () {
+		$('.saAccountDropdown').on('click', function (e) {
+			e.stopPropagation();
+			$('.saAccountDropdown').toggleClass('saOpen');
+			$('.saContextMenuWrapper').toggle();
+		});
+
+		$(document).on('click', function (e) {
+			if (!$(e.target).closest('.saContextMenuWrapper, .saAccountDropdown').length) {
+				$('.saAccountDropdown').removeClass('saOpen');
+				$('.saContextMenuWrapper').hide();
+			}
+		});
+
+
 		$('#impersonator2').click(function (e) {
 			e.preventDefault();
 
@@ -568,19 +594,6 @@
 				$imgAvatar.show();
 				$divAvatar.hide();
 			}
-		});
-
-
-		$('#toggleShortcut').click(function (e) {
-			e.preventDefault();
-
-			$('.saSideBarShortcut').toggle();
-
-		});
-
-		$('#toggleStyle').click(function (e) {
-			e.preventDefault();
-			$('.saSideBarShortcut').toggleClass('saVariant');
 		});
 
 		document.addEventListener('keydown', (event) => {

@@ -16,6 +16,7 @@
   --Sa-Color-LabelHover: #2d6ce1;
   --Sa-Color-LabelActive: #1c57c6;
   --Sa-Color-LabelBackground: #f7faff;
+  --Sa-Color-LabelBackgroundActive: #e5efff;
   --Sa-Color-SecondaryButtonBackground: #fff;
   --Sa-Color-PrimaryButtonBackground: #2d6ce1;
   --Sa-Color-PrimaryButtonIcon: #1c2025;
@@ -1871,6 +1872,9 @@ body .scrollcontent {
 .saGrid {
   box-shadow: none !important;
 }
+.saRelative {
+  position: relative;
+}
 a {
   cursor: pointer;
 }
@@ -2082,7 +2086,13 @@ body.saPc *::-webkit-scrollbar-corner {
 .saSmallscreensidebar .saContextMenuWrapper .saContextMenu {
   min-width: 100%;
 }
-.saContextMenuWrapper .saContextMenu li > * {
+.saContextMenuWrapper .saContextMenu li:first-child a {
+  padding: 0.25rem 0.25rem 0 0.25rem;
+}
+.saContextMenuWrapper .saContextMenu li:last-child a {
+  padding: 0 0.25rem 0.25rem 0.25rem;
+}
+.saContextMenuWrapper .saContextMenu li a {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   text-decoration: none;
@@ -2094,43 +2104,32 @@ body.saPc *::-webkit-scrollbar-corner {
   cursor: pointer;
   padding: 0 0.25rem;
 }
-.saContextMenuWrapper .saContextMenu li > * .saIcon {
+.saContextMenuWrapper .saContextMenu li a .saIcon {
   color: var(--Sa-Color-Icon);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.saStandard .saContextMenuWrapper .saContextMenu li > * .saIcon {
-  font-size: 1.25rem;
-  min-width: 1.625rem;
-}
-.saCompact .saContextMenuWrapper .saContextMenu li > * .saIcon {
   font-size: 1rem;
-  min-width: 1.25rem;
-}
-.saSmallscreensidebar .saContextMenuWrapper .saContextMenu li > * .saIcon,
-.saSmallScreen .saContextMenuWrapper .saContextMenu li > * .saIcon {
-  font-size: 1.25rem;
-  min-width: 1.625rem;
+  min-width: 2rem;
 }
 @media (pointer: fine) {
-  .saContextMenuWrapper .saContextMenu li > *:hover .saContextMenuItem {
-    background-color: #f8f9fb;
+  .saContextMenuWrapper .saContextMenu li a:hover .saContextMenuItem {
+    background-color: var(--Sa-Color-LabelBackground);
     color: var(--Sa-Color-LabelHover);
   }
-  .saContextMenuWrapper .saContextMenu li > *:hover .saIcon {
+  .saContextMenuWrapper .saContextMenu li a:hover .saIcon {
     color: var(--Sa-Color-IconHover);
   }
-  .saContextMenuWrapper .saContextMenu li > *:hover .saBadge {
+  .saContextMenuWrapper .saContextMenu li a:hover .saBadge {
     background: var(--Sa-Color-IconHover);
   }
 }
-.saContextMenuWrapper .saContextMenu li > *:active .saContextMenuItem {
-  background-color: #ccd5e2;
+.saContextMenuWrapper .saContextMenu li a:active .saContextMenuItem {
+  background-color: var(--Sa-Color-LabelBackgroundActive);
   color: var(--Sa-Color-LabelHover);
   border-radius: 0.5rem;
 }
-.saContextMenuWrapper .saContextMenu li > *:active .saBadge {
+.saContextMenuWrapper .saContextMenu li a:active .saBadge {
   border-color: #ccd5e2;
   color: #ccd5e2;
 }
@@ -2191,7 +2190,7 @@ body.saPc *::-webkit-scrollbar-corner {
   border-color: #ccd5e2;
 }
 .saContextMenuWrapper .saContextMenu li.saSelected .saContextMenuItem {
-  background-color: #f8f9fb;
+  background-color: var(--Sa-Color-LabelBackground);
   color: var(--Sa-Color-LabelHover);
 }
 .saContextMenuWrapper .saContextMenu li.saSelected .saIcon {
@@ -2202,10 +2201,8 @@ body.saPc *::-webkit-scrollbar-corner {
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   font-size: 0.875rem;
   line-height: 1rem;
-  padding: 0.5rem;
   border-radius: 0.25rem;
   height: 100%;
   width: 100%;
@@ -3289,24 +3286,190 @@ div.saPopupOverlay {
 .saInfoArea .saWarningBox.saExpandable .saWarningExpander {
   display: flex;
 }
-.saInfoArea .saWarningBox .saAction {
+.saInfoArea .saWarningBox a.saAction {
   color: var(--Sa-Color-Link);
   font-weight: 700;
   cursor: pointer;
 }
 @media (pointer: fine) {
-  .saInfoArea .saWarningBox .saAction:hover {
+  .saInfoArea .saWarningBox a.saAction:hover {
     text-decoration: underline;
   }
 }
-.saInfoArea .saWarningBox .saAction:active {
+.saInfoArea .saWarningBox a.saAction:active {
   color: var(--Sa-Color-Link-Brightness80);
 }
-.saSmallScreen .saInfoArea .saWarningBox .saAction.saDesktopOnly {
+.saSmallScreen .saInfoArea .saWarningBox a.saAction.saDesktopOnly {
   display: none;
 }
-.saLargeScreen .saInfoArea .saWarningBox .saAction.saSmallScreenOnly {
+.saLargeScreen .saInfoArea .saWarningBox a.saAction.saSmallScreenOnly {
   display: none;
+}
+button.saAction {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #2d6ce1;
+  background: transparent;
+  background-color: #e5efff;
+  color: #1c57c6;
+  font-weight: 500;
+  position: relative;
+}
+button.saAction .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+button.saAction .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+button.saAction .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+button.saAction:active {
+  border-radius: 0.75rem;
+}
+button.saAction .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
+}
+button.saAction .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+button.saAction.saDestructive {
+  color: #e0173e;
+}
+button.saAction.saDestructive .saIcon {
+  color: #e0173e;
+}
+@media (pointer: fine) {
+  button.saAction.saDestructive:hover {
+    color: #e0173e;
+    background: #ffe8e7;
+  }
+  button.saAction.saDestructive:hover .saIcon {
+    color: #e0173e;
+  }
+}
+button.saAction.saDestructive:active {
+  color: #fff;
+  background: #e0173e;
+}
+button.saAction.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  button.saAction:hover {
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
+  }
+  button.saAction:hover .saIcon {
+    color: inherit;
+  }
+}
+button.saAction:active {
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+button.saAction:active .saIcon {
+  color: inherit;
+}
+button.saAction:disabled {
+  background: #ccd5e2;
+  pointer-events: none;
+  color: #7088a4;
+}
+button.saAction:disabled .saIcon {
+  color: #7088a4;
+}
+.saSmallScreen button.saAction.saDesktopOnly {
+  display: none;
+}
+.saLargeScreen button.saAction.saSmallScreenOnly {
+  display: none;
+}
+@media (pointer: fine) {
+  button.saAction:hover {
+    background-color: #bbd6ff;
+    color: #0f44a6;
+  }
+}
+button.saAction:active {
+  background-color: #93bdff;
+  color: #063384;
+  border-radius: 0.75rem;
+}
+button.saAction::after {
+  content: '';
+  height: 3rem;
+  width: 100%;
+  position: absolute;
+  top: -0.5rem;
+}
+.saWarning button.saAction {
+  background-color: #ffecb7;
+  color: #825400;
+}
+@media (pointer: fine) {
+  .saWarning button.saAction:hover {
+    background-color: #ffcd5b;
+    color: #694300;
+  }
+}
+.saWarning button.saAction:active {
+  background-color: #f6ad00;
+  color: #513200;
+}
+.saError button.saAction {
+  background-color: #ffe8e7;
+  color: #bf0024;
+}
+@media (pointer: fine) {
+  .saError button.saAction:hover {
+    background-color: #ffc6c5;
+    color: #9b0002;
+  }
+}
+.saError button.saAction:active {
+  background-color: #fba4a3;
+  color: #790000;
+}
+.saSuccess button.saAction {
+  background-color: #d6f7d9;
+  color: #006d1e;
+}
+@media (pointer: fine) {
+  .saSuccess button.saAction:hover {
+    background-color: #91e89b;
+    color: #005815;
+  }
+}
+.saSuccess button.saAction:active {
+  background-color: #58d36e;
+  color: #00430d;
 }
 .saMultiPartContent .saInfoBoxAreaWrapper {
   padding-bottom: 1rem;
@@ -3722,22 +3885,36 @@ div.saPopupOverlay {
 }
 .saGridTop .saComponentContentLinksWrapper .saBadgeCount {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 1rem;
-  box-sizing: border-box;
   min-width: 1rem;
+  box-sizing: border-box;
   color: var(--Sa-Color-BadgeCountText);
   background-color: var(--Sa-Color-BadgeCountBackground);
   border-radius: 0.75rem;
   font-size: 0.75rem;
   line-height: 0.75rem;
-  padding: 0.25rem;
+  padding: 0 0.25rem;
   transition: ease background-color 0.2s;
 }
 .saGridTop .saComponentContentLinksWrapper .saBadgeCount.saUrgent {
   color: #fff;
   background-color: #e0173e;
+}
+.saGridTop .saComponentContentLinksWrapper .saBadgeCount.saNew,
+.saGridTop .saComponentContentLinksWrapper .saBadgeCount.saPresent {
+  background-color: var(--Sa-Color-HelpBadge);
+  color: #fff;
+}
+.saGridTop .saComponentContentLinksWrapper .saBadgeCount.saEmpty {
+  display: none;
+}
+.saGridTop .saComponentContentLinksWrapper .saBadgeCount.saSmall {
+  width: 0.75rem;
+  min-width: unset;
+  height: 0.75rem;
+  padding: 0;
 }
 .saStandard .saGridTop .saComponentContentLinksWrapper .saContextMenu {
   top: 3.5rem;
@@ -4092,22 +4269,36 @@ div.saPopupOverlay {
 }
 .saGridTop .saComponentContentLinksWrapper .saBadgeCount {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 1rem;
-  box-sizing: border-box;
   min-width: 1rem;
+  box-sizing: border-box;
   color: var(--Sa-Color-BadgeCountText);
   background-color: var(--Sa-Color-BadgeCountBackground);
   border-radius: 0.75rem;
   font-size: 0.75rem;
   line-height: 0.75rem;
-  padding: 0.25rem;
+  padding: 0 0.25rem;
   transition: ease background-color 0.2s;
 }
 .saGridTop .saComponentContentLinksWrapper .saBadgeCount.saUrgent {
   color: #fff;
   background-color: #e0173e;
+}
+.saGridTop .saComponentContentLinksWrapper .saBadgeCount.saNew,
+.saGridTop .saComponentContentLinksWrapper .saBadgeCount.saPresent {
+  background-color: var(--Sa-Color-HelpBadge);
+  color: #fff;
+}
+.saGridTop .saComponentContentLinksWrapper .saBadgeCount.saEmpty {
+  display: none;
+}
+.saGridTop .saComponentContentLinksWrapper .saBadgeCount.saSmall {
+  width: 0.75rem;
+  min-width: unset;
+  height: 0.75rem;
+  padding: 0;
 }
 .saStandard .saGridTop .saComponentContentLinksWrapper .saContextMenu {
   top: 3.5rem;
@@ -6386,26 +6577,6 @@ div.saPopupOverlay {
     left: -25rem;
   }
 }
-.saBadgeNotification {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  right: 0;
-  border-radius: 0.5rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  padding: 0 0.25rem;
-  height: 1rem;
-  min-width: 1rem;
-  box-sizing: border-box;
-  background-color: #e0173e;
-  color: #fff;
-}
-.saBadgeNotification.saEmpty {
-  display: none;
-}
 .saAside {
   height: 100%;
   box-sizing: border-box;
@@ -6444,56 +6615,45 @@ div.saPopupOverlay {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
 }
-.saSideBarShortcut {
+.saSideBar .saBadgeCount {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.125rem;
-  white-space: nowrap;
-  user-select: none;
-  font-size: 0.625rem;
-  line-height: 1;
-  color: #313a44;
-}
-.saItem .saSideBarShortcut {
-  padding-right: 0.5rem;
-  margin-left: auto;
-}
-.saSideBarSearch .saSideBarShortcut {
+  height: 1rem;
+  min-width: 1rem;
+  box-sizing: border-box;
+  color: var(--Sa-Color-BadgeCountText);
+  background-color: var(--Sa-Color-BadgeCountBackground);
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  padding: 0 0.25rem;
+  transition: ease background-color 0.2s;
   position: absolute;
   top: 0;
-  right: 1rem;
-  height: 2rem;
-  pointer-events: none;
+  right: 0;
 }
-.saSideBarShortcut.saVariant {
-  color: #60748b;
-  font-size: 0.75rem;
-  font-family: 'Lexend', sans-serif;
-  font-weight: 300;
+.saSideBar .saBadgeCount.saUrgent {
+  color: #fff;
+  background-color: #e0173e;
 }
-.saSideBarShortcut.saVariant kbd {
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  min-width: unset;
-  font-family: 'Lexend', sans-serif;
+.saSideBar .saBadgeCount.saNew,
+.saSideBar .saBadgeCount.saPresent {
+  background-color: var(--Sa-Color-HelpBadge);
+  color: #fff;
 }
-.saMinimized .saSideBarShortcut,
-.saSmallScreen .saSideBarShortcut {
+.saSideBar .saBadgeCount.saEmpty {
   display: none;
 }
-.saSideBarShortcut kbd {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 1.25rem;
-  background-color: #eef1f5;
-  border-radius: 0.25rem;
-  border: 1px solid #ccd5e2;
-  padding: 0.125rem 0.25rem;
-  font-family: monospace;
-  min-width: 1rem;
+.saSideBar .saBadgeCount.saSmall {
+  width: 0.75rem;
+  min-width: unset;
+  height: 0.75rem;
+  padding: 0;
+}
+.saSideBar .saBadgeCount.saSmall {
+  top: 0.125rem;
+  right: 0.125rem;
 }
 .saCustomerLogo {
   height: 5rem;
@@ -6747,12 +6907,12 @@ div.saPopupOverlay {
   display: none;
 }
 .saButtonGroupSmallScreen {
-  display: flex;
+  display: none;
   flex-direction: column;
   width: 100%;
 }
-.saLargeScreen .saButtonGroupSmallScreen {
-  display: none;
+.saSmallScreen .saButtonGroupSmallScreen {
+  display: flex;
 }
 .saAccountDropdown {
   display: flex;
@@ -6769,7 +6929,7 @@ div.saPopupOverlay {
     color: var(--Sa-Color-LabelHover);
   }
   .saAccountDropdown:hover .saAccountAvatar {
-    opacity: 0.8;
+    box-shadow: 0 0 0 2px var(--Sa-Color-ProfileCircleText);
   }
   .saAccountDropdown:hover .saIcon {
     color: inherit;
@@ -6779,7 +6939,7 @@ div.saPopupOverlay {
   color: var(--Sa-Color-LabelActive);
 }
 .saAccountDropdown:active .saAccountAvatar {
-  opacity: 0.5;
+  box-shadow: 0 0 0 2px var(--Sa-Color-ProfileCircleText);
 }
 .saAccountDropdown:active .saIcon {
   color: inherit;
@@ -6788,7 +6948,7 @@ div.saPopupOverlay {
   color: var(--Sa-Color-LabelHover);
 }
 .saAccountDropdown.saOpen .saAccountAvatar {
-  opacity: 0.8;
+  box-shadow: 0 0 0 2px var(--Sa-Color-ProfileCircleText);
 }
 .saAccountDropdown.saOpen .saIcon {
   color: inherit;
@@ -6816,12 +6976,8 @@ div.saPopupOverlay {
   font-size: 0.75rem;
   line-height: 1;
   border-radius: 99rem;
-  transition: ease opacity 0.2s;
+  transition: ease opacity 0.2s, ease box-shadow 0.2s;
   margin: 0 4px;
-}
-.saSmallScreen .saAccountAvatar {
-  height: 2rem;
-  font-size: 1rem;
 }
 .saAccountName {
   text-align: left;
@@ -7384,11 +7540,6 @@ div.saPopupOverlay {
 .saImpersonator option {
   color: #313a44;
 }
-.saSideBar .saInputTextWrapper {
-  width: 100%;
-  margin-right: 0;
-  padding: 0 0.5rem;
-}
 .saFirstLetter {
   display: flex;
   justify-content: center;
@@ -7401,6 +7552,99 @@ div.saPopupOverlay {
 }
 .saMinimized .saFirstLetter {
   display: flex;
+}
+.saRing {
+  animation: ring;
+  animation-timing-function: ease-in;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+.saRing.saRingThreeTimes {
+  animation-iteration-count: 3;
+}
+@keyframes ring {
+  6% {
+    transform: rotate(-15deg);
+  }
+  12% {
+    transform: rotate(15deg);
+  }
+  18% {
+    transform: rotate(-22deg);
+  }
+  24% {
+    transform: rotate(22deg);
+  }
+  30% {
+    transform: rotate(-28deg);
+  }
+  36% {
+    transform: rotate(28deg);
+  }
+  42% {
+    transform: rotate(-22deg);
+  }
+  48% {
+    transform: rotate(22deg);
+  }
+  54% {
+    transform: rotate(-12deg);
+  }
+  60% {
+    transform: rotate(12deg);
+  }
+  66%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+.saToggleCompactText {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0.25rem;
+}
+.saToggleCompactText span {
+  line-height: 1;
+}
+.saToggleCompactText .saExtraText {
+  font-size: 0.75rem;
+  color: #60748b;
+}
+.saToggleCompactWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+}
+@media (pointer: fine) {
+  .saToggleCompactWrapper:hover {
+    color: #2d6ce1;
+  }
+  .saToggleCompactWrapper:hover .saButtonText {
+    color: inherit;
+  }
+}
+.saToggleCompactWrapper:active {
+  color: #1c57c6;
+}
+.saToggleCompactWrapper:active .saButtonText {
+  color: inherit;
+}
+li:first-child .saToggleCompactWrapper {
+  border-bottom: 1px solid #ccd5e2;
+  margin-bottom: 0.25rem;
+}
+li:last-child .saToggleCompactWrapper {
+  border-top: 1px solid #ccd5e2;
+  margin-top: 0.25rem;
+}
+li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
+  border-top: 1px solid #ccd5e2;
+  border-bottom: 1px solid #ccd5e2;
+  margin: 0.25rem 0;
 }
 .saLargeScreen .saSmallScreenHeader {
   display: none;
@@ -7640,23 +7884,41 @@ div.saPopupOverlay {
 .saPageHeader .saBadgeCount,
 .saPartButtons .saBadgeCount {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 1rem;
-  box-sizing: border-box;
   min-width: 1rem;
+  box-sizing: border-box;
   color: var(--Sa-Color-BadgeCountText);
   background-color: var(--Sa-Color-BadgeCountBackground);
   border-radius: 0.75rem;
   font-size: 0.75rem;
   line-height: 0.75rem;
-  padding: 0.25rem;
+  padding: 0 0.25rem;
   transition: ease background-color 0.2s;
 }
 .saPageHeader .saBadgeCount.saUrgent,
 .saPartButtons .saBadgeCount.saUrgent {
   color: #fff;
   background-color: #e0173e;
+}
+.saPageHeader .saBadgeCount.saNew,
+.saPartButtons .saBadgeCount.saNew,
+.saPageHeader .saBadgeCount.saPresent,
+.saPartButtons .saBadgeCount.saPresent {
+  background-color: var(--Sa-Color-HelpBadge);
+  color: #fff;
+}
+.saPageHeader .saBadgeCount.saEmpty,
+.saPartButtons .saBadgeCount.saEmpty {
+  display: none;
+}
+.saPageHeader .saBadgeCount.saSmall,
+.saPartButtons .saBadgeCount.saSmall {
+  width: 0.75rem;
+  min-width: unset;
+  height: 0.75rem;
+  padding: 0;
 }
 .saPageHeader .saBadge,
 .saPartButtons .saBadge {
@@ -8916,18 +9178,53 @@ div.saPopupOverlay {
   justify-content: center;
   background: none;
 }
-.saSmallScreen .saPageHeader .saNotificationWrapper .saNotificationBadge,
-.saSmallscreensidebar .saPageHeader .saNotificationWrapper .saNotificationBadge {
-  height: 1rem;
-  min-width: 1rem;
-  right: 0;
-  top: 0;
-}
 .saSmallScreen .saPageHeader .saNotificationWrapper .saIcon,
 .saSmallscreensidebar .saPageHeader .saNotificationWrapper .saIcon {
   font-size: 1.5rem;
   min-height: 1.625rem;
   color: #fff;
+}
+.saSmallScreen .saPageHeader .saBadgeCount,
+.saSmallscreensidebar .saPageHeader .saBadgeCount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1rem;
+  min-width: 1rem;
+  box-sizing: border-box;
+  color: var(--Sa-Color-BadgeCountText);
+  background-color: var(--Sa-Color-BadgeCountBackground);
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  padding: 0 0.25rem;
+  transition: ease background-color 0.2s;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.saSmallScreen .saPageHeader .saBadgeCount.saUrgent,
+.saSmallscreensidebar .saPageHeader .saBadgeCount.saUrgent {
+  color: #fff;
+  background-color: #e0173e;
+}
+.saSmallScreen .saPageHeader .saBadgeCount.saNew,
+.saSmallscreensidebar .saPageHeader .saBadgeCount.saNew,
+.saSmallScreen .saPageHeader .saBadgeCount.saPresent,
+.saSmallscreensidebar .saPageHeader .saBadgeCount.saPresent {
+  background-color: var(--Sa-Color-HelpBadge);
+  color: #fff;
+}
+.saSmallScreen .saPageHeader .saBadgeCount.saEmpty,
+.saSmallscreensidebar .saPageHeader .saBadgeCount.saEmpty {
+  display: none;
+}
+.saSmallScreen .saPageHeader .saBadgeCount.saSmall,
+.saSmallscreensidebar .saPageHeader .saBadgeCount.saSmall {
+  width: 0.75rem;
+  min-width: unset;
+  height: 0.75rem;
+  padding: 0;
 }
 .saSmallScreen .saPageHeader .saBackButton,
 .saSmallscreensidebar .saPageHeader .saBackButton {
@@ -10776,22 +11073,36 @@ a.saAuthLink:active {
 }
 .saColumnManager .saBadgeCount {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 1rem;
-  box-sizing: border-box;
   min-width: 1rem;
+  box-sizing: border-box;
   color: var(--Sa-Color-BadgeCountText);
   background-color: var(--Sa-Color-BadgeCountBackground);
   border-radius: 0.75rem;
   font-size: 0.75rem;
   line-height: 0.75rem;
-  padding: 0.25rem;
+  padding: 0 0.25rem;
   transition: ease background-color 0.2s;
 }
 .saColumnManager .saBadgeCount.saUrgent {
   color: #fff;
   background-color: #e0173e;
+}
+.saColumnManager .saBadgeCount.saNew,
+.saColumnManager .saBadgeCount.saPresent {
+  background-color: var(--Sa-Color-HelpBadge);
+  color: #fff;
+}
+.saColumnManager .saBadgeCount.saEmpty {
+  display: none;
+}
+.saColumnManager .saBadgeCount.saSmall {
+  width: 0.75rem;
+  min-width: unset;
+  height: 0.75rem;
+  padding: 0;
 }
 .saColumnManager .saTabGroup .saTab.saMoreTab {
   padding: 0;
@@ -11572,26 +11883,36 @@ a.saAuthLink:active {
 }
 .saGalleryWrapper .saGalleryGroup .saHeadingButton .saBadgeCount {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 1rem;
-  box-sizing: border-box;
   min-width: 1rem;
+  box-sizing: border-box;
   color: var(--Sa-Color-BadgeCountText);
   background-color: var(--Sa-Color-BadgeCountBackground);
   border-radius: 0.75rem;
   font-size: 0.75rem;
   line-height: 0.75rem;
-  padding: 0.25rem;
+  padding: 0 0.25rem;
   transition: ease background-color 0.2s;
 }
 .saGalleryWrapper .saGalleryGroup .saHeadingButton .saBadgeCount.saUrgent {
   color: #fff;
   background-color: #e0173e;
 }
-.saGalleryWrapper .saGalleryGroup .saHeadingButton .saBadgeCount {
-  background-color: #eef1f5;
-  color: #313a44;
+.saGalleryWrapper .saGalleryGroup .saHeadingButton .saBadgeCount.saNew,
+.saGalleryWrapper .saGalleryGroup .saHeadingButton .saBadgeCount.saPresent {
+  background-color: var(--Sa-Color-HelpBadge);
+  color: #fff;
+}
+.saGalleryWrapper .saGalleryGroup .saHeadingButton .saBadgeCount.saEmpty {
+  display: none;
+}
+.saGalleryWrapper .saGalleryGroup .saHeadingButton .saBadgeCount.saSmall {
+  width: 0.75rem;
+  min-width: unset;
+  height: 0.75rem;
+  padding: 0;
 }
 @media (pointer: fine) {
   .saGalleryWrapper .saGalleryGroup .saHeadingButton:hover {
@@ -12176,22 +12497,36 @@ a.saAuthLink:active {
 }
 .saImageCarouselWrapper .saCarousel .saBadgeCount {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 1rem;
-  box-sizing: border-box;
   min-width: 1rem;
+  box-sizing: border-box;
   color: var(--Sa-Color-BadgeCountText);
   background-color: var(--Sa-Color-BadgeCountBackground);
   border-radius: 0.75rem;
   font-size: 0.75rem;
   line-height: 0.75rem;
-  padding: 0.25rem;
+  padding: 0 0.25rem;
   transition: ease background-color 0.2s;
 }
 .saImageCarouselWrapper .saCarousel .saBadgeCount.saUrgent {
   color: #fff;
   background-color: #e0173e;
+}
+.saImageCarouselWrapper .saCarousel .saBadgeCount.saNew,
+.saImageCarouselWrapper .saCarousel .saBadgeCount.saPresent {
+  background-color: var(--Sa-Color-HelpBadge);
+  color: #fff;
+}
+.saImageCarouselWrapper .saCarousel .saBadgeCount.saEmpty {
+  display: none;
+}
+.saImageCarouselWrapper .saCarousel .saBadgeCount.saSmall {
+  width: 0.75rem;
+  min-width: unset;
+  height: 0.75rem;
+  padding: 0;
 }
 .saImageCarouselWrapper .saCarousel .saBadge {
   height: 0.875rem;
@@ -15957,6 +16292,7 @@ legend + .saInputCardsWrapper {
 .saInputCardWrapper.saNoHeading {
   border-radius: 0.5rem;
   padding: 1rem;
+  padding: 1rem 0.5rem;
   gap: 0.5rem;
   overflow: unset;
   justify-content: start;
@@ -21205,22 +21541,36 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saMenuBoxWrapper .saMenuItem .saBadgeCount {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 1rem;
-  box-sizing: border-box;
   min-width: 1rem;
+  box-sizing: border-box;
   color: var(--Sa-Color-BadgeCountText);
   background-color: var(--Sa-Color-BadgeCountBackground);
   border-radius: 0.75rem;
   font-size: 0.75rem;
   line-height: 0.75rem;
-  padding: 0.25rem;
+  padding: 0 0.25rem;
   transition: ease background-color 0.2s;
 }
 .saMenuBoxWrapper .saMenuItem .saBadgeCount.saUrgent {
   color: #fff;
   background-color: #e0173e;
+}
+.saMenuBoxWrapper .saMenuItem .saBadgeCount.saNew,
+.saMenuBoxWrapper .saMenuItem .saBadgeCount.saPresent {
+  background-color: var(--Sa-Color-HelpBadge);
+  color: #fff;
+}
+.saMenuBoxWrapper .saMenuItem .saBadgeCount.saEmpty {
+  display: none;
+}
+.saMenuBoxWrapper .saMenuItem .saBadgeCount.saSmall {
+  width: 0.75rem;
+  min-width: unset;
+  height: 0.75rem;
+  padding: 0;
 }
 .saMenuBoxWrapper .saMenuItem .saIcon {
   display: flex;
@@ -21563,22 +21913,36 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saLinkCardsOuter .saLinkCardInner .saBadgeCount {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 1rem;
-  box-sizing: border-box;
   min-width: 1rem;
+  box-sizing: border-box;
   color: var(--Sa-Color-BadgeCountText);
   background-color: var(--Sa-Color-BadgeCountBackground);
   border-radius: 0.75rem;
   font-size: 0.75rem;
   line-height: 0.75rem;
-  padding: 0.25rem;
+  padding: 0 0.25rem;
   transition: ease background-color 0.2s;
 }
 .saLinkCardsOuter .saLinkCardInner .saBadgeCount.saUrgent {
   color: #fff;
   background-color: #e0173e;
+}
+.saLinkCardsOuter .saLinkCardInner .saBadgeCount.saNew,
+.saLinkCardsOuter .saLinkCardInner .saBadgeCount.saPresent {
+  background-color: var(--Sa-Color-HelpBadge);
+  color: #fff;
+}
+.saLinkCardsOuter .saLinkCardInner .saBadgeCount.saEmpty {
+  display: none;
+}
+.saLinkCardsOuter .saLinkCardInner .saBadgeCount.saSmall {
+  width: 0.75rem;
+  min-width: unset;
+  height: 0.75rem;
+  padding: 0;
 }
 .saSmall.saLinkCardsOuter .saLinkCardInner {
   padding: 0.5rem;
@@ -22503,25 +22867,37 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   box-shadow: none;
   position: relative;
   height: fit-content;
-}
-.saSmallScreen .saSmallScreenMenu .saContextMenu .saBadgeCount {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 1rem;
-  box-sizing: border-box;
   min-width: 1rem;
+  box-sizing: border-box;
   color: var(--Sa-Color-BadgeCountText);
   background-color: var(--Sa-Color-BadgeCountBackground);
   border-radius: 0.75rem;
   font-size: 0.75rem;
   line-height: 0.75rem;
-  padding: 0.25rem;
+  padding: 0 0.25rem;
   transition: ease background-color 0.2s;
 }
-.saSmallScreen .saSmallScreenMenu .saContextMenu .saBadgeCount.saUrgent {
+.saSmallScreen .saSmallScreenMenu .saContextMenu.saUrgent {
   color: #fff;
   background-color: #e0173e;
+}
+.saSmallScreen .saSmallScreenMenu .saContextMenu.saNew,
+.saSmallScreen .saSmallScreenMenu .saContextMenu.saPresent {
+  background-color: var(--Sa-Color-HelpBadge);
+  color: #fff;
+}
+.saSmallScreen .saSmallScreenMenu .saContextMenu.saEmpty {
+  display: none;
+}
+.saSmallScreen .saSmallScreenMenu .saContextMenu.saSmall {
+  width: 0.75rem;
+  min-width: unset;
+  height: 0.75rem;
+  padding: 0;
 }
 .saSmallScreen .saSmallScreenMenu .saBadge {
   height: 0.875rem;
@@ -23405,22 +23781,36 @@ softadmin-nodegraph .saDragged {
 }
 .saIFrameTabs .saBadgeCount {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 1rem;
-  box-sizing: border-box;
   min-width: 1rem;
+  box-sizing: border-box;
   color: var(--Sa-Color-BadgeCountText);
   background-color: var(--Sa-Color-BadgeCountBackground);
   border-radius: 0.75rem;
   font-size: 0.75rem;
   line-height: 0.75rem;
-  padding: 0.25rem;
+  padding: 0 0.25rem;
   transition: ease background-color 0.2s;
 }
 .saIFrameTabs .saBadgeCount.saUrgent {
   color: #fff;
   background-color: #e0173e;
+}
+.saIFrameTabs .saBadgeCount.saNew,
+.saIFrameTabs .saBadgeCount.saPresent {
+  background-color: var(--Sa-Color-HelpBadge);
+  color: #fff;
+}
+.saIFrameTabs .saBadgeCount.saEmpty {
+  display: none;
+}
+.saIFrameTabs .saBadgeCount.saSmall {
+  width: 0.75rem;
+  min-width: unset;
+  height: 0.75rem;
+  padding: 0;
 }
 .saIFrameTabs .saTabGroup .saTab.saMoreTab {
   padding: 0;
@@ -23474,6 +23864,17 @@ softadmin-nodegraph .saDragged {
 .saLinkTabs {
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 1rem;
+  min-width: 1rem;
+  box-sizing: border-box;
+  color: var(--Sa-Color-BadgeCountText);
+  background-color: var(--Sa-Color-BadgeCountBackground);
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  padding: 0 0.25rem;
+  transition: ease background-color 0.2s;
 }
 .saLinkTabs .saTabViewInner {
   position: relative;
@@ -23556,24 +23957,23 @@ softadmin-nodegraph .saDragged {
 .saLinkTabs .saTabviewInner {
   display: none;
 }
-.saLinkTabs .saBadgeCount {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 1rem;
-  box-sizing: border-box;
-  min-width: 1rem;
-  color: var(--Sa-Color-BadgeCountText);
-  background-color: var(--Sa-Color-BadgeCountBackground);
-  border-radius: 0.75rem;
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-  padding: 0.25rem;
-  transition: ease background-color 0.2s;
-}
-.saLinkTabs .saBadgeCount.saUrgent {
+.saLinkTabs.saUrgent {
   color: #fff;
   background-color: #e0173e;
+}
+.saLinkTabs.saNew,
+.saLinkTabs.saPresent {
+  background-color: var(--Sa-Color-HelpBadge);
+  color: #fff;
+}
+.saLinkTabs.saEmpty {
+  display: none;
+}
+.saLinkTabs.saSmall {
+  width: 0.75rem;
+  min-width: unset;
+  height: 0.75rem;
+  padding: 0;
 }
 body.saMiniView {
   overflow: hidden;
@@ -26302,22 +26702,36 @@ body.saMiniView {
 }
 .saComponentContentLinksWrapper .saBadgeCount {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 1rem;
-  box-sizing: border-box;
   min-width: 1rem;
+  box-sizing: border-box;
   color: var(--Sa-Color-BadgeCountText);
   background-color: var(--Sa-Color-BadgeCountBackground);
   border-radius: 0.75rem;
   font-size: 0.75rem;
   line-height: 0.75rem;
-  padding: 0.25rem;
+  padding: 0 0.25rem;
   transition: ease background-color 0.2s;
 }
 .saComponentContentLinksWrapper .saBadgeCount.saUrgent {
   color: #fff;
   background-color: #e0173e;
+}
+.saComponentContentLinksWrapper .saBadgeCount.saNew,
+.saComponentContentLinksWrapper .saBadgeCount.saPresent {
+  background-color: var(--Sa-Color-HelpBadge);
+  color: #fff;
+}
+.saComponentContentLinksWrapper .saBadgeCount.saEmpty {
+  display: none;
+}
+.saComponentContentLinksWrapper .saBadgeCount.saSmall {
+  width: 0.75rem;
+  min-width: unset;
+  height: 0.75rem;
+  padding: 0;
 }
 .saStandard .saComponentContentLinksWrapper .saContextMenu {
   top: 3.5rem;
@@ -28903,44 +29317,6 @@ body.saMiniView {
 .saDisabled.saToggleWrapper .saToggle:active::after {
   right: 1.125rem;
   width: 1.25rem;
-}
-.saSmallScreen .saToggleWrapper {
-  gap: 0.5rem;
-}
-.saSmallScreen .saToggleWrapper:active .saToggle::after {
-  right: 1.125rem;
-  width: 2.25rem;
-}
-.saSmallScreen .saToggleWrapper:active .saToggle:checked::after {
-  right: 2px;
-  width: 2.25rem;
-}
-.saSmallScreen .saToggleWrapper .saToggle {
-  min-width: 3.5rem;
-  height: 2rem;
-}
-.saSmallScreen .saToggleWrapper .saToggle::before {
-  min-height: 2rem;
-  min-width: 3.5rem;
-  border-radius: 1rem;
-}
-.saSmallScreen .saToggleWrapper .saToggle::after {
-  height: 1.75rem;
-  width: 1.75rem;
-  border-radius: 0.875rem;
-  right: 1.625rem;
-}
-.saSmallScreen .saToggleWrapper .saToggle:active::after {
-  right: 1.125rem;
-  width: 2.25rem;
-}
-.saSmallScreen .saToggleWrapper .saToggle:checked::after {
-  right: 2px;
-  width: 1.75rem;
-}
-.saSmallScreen .saToggleWrapper .saToggle:checked:active::after {
-  right: 2px;
-  width: 2.25rem;
 }
 .saVisibleParametersWrapper {
   display: flex;
@@ -32202,6 +32578,7 @@ pre.saCode {
   overflow: hidden;
   border: 1px solid #ccd5e2;
   min-height: 60vh;
+  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 0.25rem rgba(49, 58, 68, 0.07);
 }
 .saDialogTab {
   display: flex;
@@ -32323,7 +32700,13 @@ pre.saCode {
   padding-top: 1rem;
 }
 .saDialog tr {
-  height: 2rem;
+  height: 3.5rem;
+}
+.saDialog tr:last-child td {
+  border-bottom: none;
+}
+.saDialog td {
+  border-bottom: 1px solid #eef1f5;
 }
 .saDialog :is(th,td):last-child {
   text-align: right;
@@ -32334,19 +32717,20 @@ pre.saCode {
   align-items: center;
   justify-content: flex-end;
   font-size: 0.75rem;
-  color: #404c5b;
+  color: #313a44;
   font-family: monospace;
-  font-weight: 300;
+  font-weight: 400;
 }
 .saShortCut kbd {
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #eef1f5;
-  border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  min-height: 1.5rem;
-  min-width: 1.5rem;
+  box-shadow: inset 0 0 0 1px #ccd5e2;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  min-height: 2rem;
+  min-width: 2rem;
   box-sizing: border-box;
 }
 .saButtonGroup {
