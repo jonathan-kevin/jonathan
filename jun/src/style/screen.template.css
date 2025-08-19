@@ -6,6 +6,7 @@
   --Sa-Color-MenuLinkHover: #f7faff;
   --Sa-Color-ProfileCircle: #e5efff;
   --Sa-Color-ProfileCircleText: #1c57c6;
+  --Sa-Color-ProfileCircleBorder: #bbd6ff;
   --Sa-Color-MenuLinkActive: #e5efff;
   --Sa-Color-ActiveTab: #2d6ce1;
   --Sa-Color-MenuEnterpriseSearchActive: #2d6ce1;
@@ -1871,9 +1872,6 @@ body .scrollcontent {
 }
 .saGrid {
   box-shadow: none !important;
-}
-.saRelative {
-  position: relative;
 }
 a {
   cursor: pointer;
@@ -6125,62 +6123,147 @@ button.saAction::after {
   display: none;
 }
 .saNotificationsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   position: absolute;
   height: 100%;
-  animation-duration: 250ms;
-  animation-name: drawerslidein;
+  animation-duration: 125ms;
+  animation-name: drawerSlideIn;
   animation-timing-function: ease-out;
+  width: 25rem;
+  background-color: #fff;
+  padding: 1rem 0 1rem 1rem;
+  box-sizing: border-box;
+  box-shadow: 0 0 2rem rgba(49, 58, 68, 0.07);
+}
+.saNotificationsWrapper * {
+  box-sizing: border-box;
+}
+@supports not (scrollbar-gutter: stable) {
+  .saNotificationsWrapper {
+    padding: 1rem;
+  }
+}
+.saLargeScreen .saNotificationsWrapper {
+  margin-left: 16.5rem;
+}
+.saSmallScreen .saNotificationsWrapper {
+  margin-left: 0;
+}
+.saSmallScreen .saNotificationsWrapper {
+  width: 100%;
+  box-shadow: none;
+  padding: 0 1rem 1rem 1rem;
+  flex: 1;
+  min-height: 0;
+}
+.saNotificationsWrapper.saSlideout {
+  animation-name: drawerSlideOut;
 }
 .saNotificationsWrapper:focus {
   outline: none;
 }
-.saNotificationsWrapper.saSlideout {
-  animation-duration: 125ms;
-  animation-name: drawerslideout;
-}
-.saNotificationsWrapper .saNotificationsInner {
-  display: flex;
-  position: absolute;
-  top: 0;
-  flex-direction: column;
-  background: #fff;
-  height: 100%;
-  overflow: hidden;
-  overflow-y: auto;
-  padding: 1rem;
-  box-sizing: border-box;
-  box-shadow: 0 0 2rem rgba(49, 58, 68, 0.07);
-}
-.saNotificationsWrapper .saNotificationList {
+.saNotificationsWrapper ul {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
+  overflow: auto;
+  scrollbar-gutter: stable;
 }
-.saNotificationsWrapper .saNotificationsHeading {
-  position: sticky;
-  top: 0;
-  z-index: 2;
+.saSmallScreen .saNotificationsWrapper ul {
+  scrollbar-gutter: unset;
+  flex: 1;
+  min-height: 0;
+}
+.saNotificationsWrapper h2 {
   font-weight: 500;
-  margin-bottom: -0.25rem;
+  padding-right: 3.5rem;
+}
+.saNotificationsWrapper li {
+  position: relative;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  word-break: break-word;
+}
+.saNotificationsWrapper li:hover .saDismissButton,
+.saNotificationsWrapper li:focus-visible .saDismissButton,
+.saNotificationsWrapper li:focus-within .saDismissButton {
+  opacity: 1;
+}
+.saNotificationsWrapper li:hover h3:first-child,
+.saNotificationsWrapper li:focus-visible h3:first-child,
+.saNotificationsWrapper li:focus-within h3:first-child,
+.saNotificationsWrapper li:hover p:first-child,
+.saNotificationsWrapper li:focus-visible p:first-child,
+.saNotificationsWrapper li:focus-within p:first-child {
+  padding-right: 3.5rem;
+}
+.saNotificationsWrapper h3 {
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1rem;
+}
+.saNotificationsWrapper time,
+.saNotificationsWrapper .saNotificationExtraText {
+  font-size: 0.75rem;
+  color: #60748b;
+}
+.saNotificationsWrapper .saEmptyState {
+  padding: 2rem 2rem 2rem 1rem;
+  position: relative;
+  line-height: 1rem;
+}
+@supports not (scrollbar-gutter: stable) {
+  .saNotificationsWrapper .saEmptyState {
+    padding: 2rem;
+  }
+}
+.saNotificationExtraText {
+  padding: 0.25rem 0.5rem 0.5rem 0.5rem;
+}
+.saNotification {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.25rem;
+  background-color: #fff;
+  border: 1px solid #dde3ec;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  position: relative;
+  transition: height ease 0.2s, background-color ease 0.2s, color ease 0.2s, border-color ease 0.2s, opacity ease 0.2s, transform ease 0.2s;
 }
-.saNotificationsWrapper .saNotificationsHeading::before {
-  content: '';
-  position: absolute;
-  width: calc(100% + 4rem);
-  top: -1.5rem;
-  left: -1.5rem;
-  height: 4.5rem;
-  flex-basis: 100%;
-  background: #fff;
-  z-index: -1;
+.saNotification.saActive {
+  cursor: pointer;
 }
-.saNotificationsWrapper .saNotificationsHeading h3 {
-  color: #313a44;
+@media (pointer: fine) {
+  .saNotification.saActive:hover {
+    border-color: #2d6ce1;
+    background-color: #f7faff;
+    color: #2d6ce1;
+  }
+  .saNotification.saActive:hover :is(h3, p, span, time) {
+    color: inherit;
+  }
 }
-.saNotificationsWrapper .saCloseModal {
+.saNotification.saActive:active {
+  border-color: #1c57c6;
+  background-color: #e5efff;
+  color: #1c57c6;
+  border-radius: 0.75rem;
+}
+.saNotification.saActive:active :is(h3, p, span, time) {
+  color: inherit;
+}
+.saNotification:not(.saActive) {
+  background-color: #f8f9fb;
+  color: #60748b;
+  cursor: default;
+}
+.saNotification:not(.saActive) :is(h3, p, span, time) {
+  color: inherit;
+}
+.saCloseModal {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: 'Lexend', sans-serif;
@@ -6194,95 +6277,97 @@ button.saAction::after {
   flex-shrink: 0;
   border-radius: 0.5rem;
   padding: 0 0.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  max-width: 2.5rem;
-  min-width: 2.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
   font-size: 1rem;
   color: #2d6ce1;
   background: transparent;
-  font-size: 1.25rem;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
 }
-.saNotificationsWrapper .saCloseModal .saButtonText {
+.saCloseModal .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.saNotificationsWrapper .saCloseModal .saBadgedIcon {
+.saCloseModal .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saNotificationsWrapper .saCloseModal .saIcon {
+.saCloseModal .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.saNotificationsWrapper .saCloseModal:active {
+.saCloseModal:active {
   border-radius: 0.75rem;
 }
-.saNotificationsWrapper .saCloseModal .saIcon {
+.saCloseModal .saIcon {
   color: var(--Sa-Color-Icon);
 }
-.saNotificationsWrapper .saCloseModal.saDestructive {
+.saCloseModal.saDestructive {
   color: #e0173e;
 }
-.saNotificationsWrapper .saCloseModal.saDestructive .saIcon {
+.saCloseModal.saDestructive .saIcon {
   color: #e0173e;
 }
 @media (pointer: fine) {
-  .saNotificationsWrapper .saCloseModal.saDestructive:hover {
+  .saCloseModal.saDestructive:hover {
     color: #e0173e;
     background: #ffe8e7;
   }
-  .saNotificationsWrapper .saCloseModal.saDestructive:hover .saIcon {
+  .saCloseModal.saDestructive:hover .saIcon {
     color: #e0173e;
   }
 }
-.saNotificationsWrapper .saCloseModal.saDestructive:active {
+.saCloseModal.saDestructive:active {
   color: #fff;
   background: #e0173e;
 }
-.saNotificationsWrapper .saCloseModal.saDestructive:active > .saIcon {
+.saCloseModal.saDestructive:active > .saIcon {
   color: #fff;
 }
 @media (pointer: fine) {
-  .saNotificationsWrapper .saCloseModal:hover {
+  .saCloseModal:hover {
     background-color: var(--Sa-Color-LabelBackground);
     color: var(--Sa-Color-LabelHover);
   }
-  .saNotificationsWrapper .saCloseModal:hover .saIcon {
+  .saCloseModal:hover .saIcon {
     color: inherit;
   }
 }
-.saNotificationsWrapper .saCloseModal:active {
+.saCloseModal:active {
   background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
   color: var(--Sa-Color-LabelActive);
 }
-.saNotificationsWrapper .saCloseModal:active .saIcon {
+.saCloseModal:active .saIcon {
   color: inherit;
 }
-.saNotificationsWrapper .saCloseModal:disabled {
+.saCloseModal:disabled {
   background: #ccd5e2;
   pointer-events: none;
   color: #7088a4;
 }
-.saNotificationsWrapper .saCloseModal:disabled .saIcon {
+.saCloseModal:disabled .saIcon {
   color: #7088a4;
 }
-.saNotificationsWrapper .saCloseModal::after {
+.saCloseModal::after {
   content: '';
-  height: 3.5rem;
-  width: 3.5rem;
+  height: 3rem;
+  width: 3rem;
   position: absolute;
-  top: -1rem;
-  right: -1rem;
+  top: -0.5rem;
+  right: -0.5rem;
 }
-.saNotificationsWrapper .saClearAll {
+.saClearAll {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: 'Lexend', sans-serif;
@@ -6296,112 +6381,96 @@ button.saAction::after {
   flex-shrink: 0;
   color: #2d6ce1;
   background: transparent;
+  gap: 0.5rem;
+  height: 2rem;
+  font-size: 0.875rem;
   width: fit-content;
   padding: 0.5rem;
   border-radius: 0.5rem;
 }
-.saNotificationsWrapper .saClearAll .saButtonText {
+.saClearAll .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.saNotificationsWrapper .saClearAll .saBadgedIcon {
+.saClearAll .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saNotificationsWrapper .saClearAll .saIcon {
+.saClearAll .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.saNotificationsWrapper .saClearAll .saIcon {
+.saClearAll .saIcon {
   color: var(--Sa-Color-Icon);
 }
-.saNotificationsWrapper .saClearAll.saDestructive {
+.saClearAll.saDestructive {
   color: #e0173e;
 }
-.saNotificationsWrapper .saClearAll.saDestructive .saIcon {
+.saClearAll.saDestructive .saIcon {
   color: #e0173e;
 }
 @media (pointer: fine) {
-  .saNotificationsWrapper .saClearAll.saDestructive:hover {
+  .saClearAll.saDestructive:hover {
     color: #e0173e;
     background: #ffe8e7;
   }
-  .saNotificationsWrapper .saClearAll.saDestructive:hover .saIcon {
+  .saClearAll.saDestructive:hover .saIcon {
     color: #e0173e;
   }
 }
-.saNotificationsWrapper .saClearAll.saDestructive:active {
+.saClearAll.saDestructive:active {
   color: #fff;
   background: #e0173e;
 }
-.saNotificationsWrapper .saClearAll.saDestructive:active > .saIcon {
+.saClearAll.saDestructive:active > .saIcon {
   color: #fff;
 }
 @media (pointer: fine) {
-  .saNotificationsWrapper .saClearAll:hover {
+  .saClearAll:hover {
     background-color: var(--Sa-Color-LabelBackground);
     color: var(--Sa-Color-LabelHover);
   }
-  .saNotificationsWrapper .saClearAll:hover .saIcon {
+  .saClearAll:hover .saIcon {
     color: inherit;
   }
 }
-.saNotificationsWrapper .saClearAll:active {
+.saClearAll:active {
   background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
   color: var(--Sa-Color-LabelActive);
 }
-.saNotificationsWrapper .saClearAll:active .saIcon {
+.saClearAll:active .saIcon {
   color: inherit;
 }
-.saNotificationsWrapper .saClearAll:disabled {
+.saClearAll:disabled {
   background: #ccd5e2;
   pointer-events: none;
   color: #7088a4;
 }
-.saNotificationsWrapper .saClearAll:disabled .saIcon {
+.saClearAll:disabled .saIcon {
   color: #7088a4;
 }
-.saNotificationsWrapper .saNotificationWrapper {
-  position: relative;
+.saClearAll:active {
+  border-radius: 0.75rem;
 }
-.saNotificationsWrapper .saNotification {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.2s ease;
-  background: #fff;
-  border: 1px solid #dde3ec;
+.saClearAll .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
 }
-.saNotificationsWrapper .saNotification.saActive {
-  cursor: pointer;
-}
-@media (pointer: fine) {
-  .saNotificationsWrapper .saNotification.saActive:hover {
-    border: 1px solid #2d6ce1;
-    background: #f7faff;
-  }
-  .saNotificationsWrapper .saNotification.saActive:hover .saNotificationText {
-    color: #2d6ce1;
-  }
-}
-.saNotificationsWrapper .saNotification.saActive:active {
-  background: #e5efff;
-}
-.saNotificationsWrapper .saDismissButton {
+.saDismissButton {
   position: absolute;
   right: 0;
   top: 0;
   color: #60748b;
   background-color: transparent;
   font-weight: 400;
-  transition: all 0.2s ease;
   width: fit-content;
   cursor: pointer;
   font-size: 0.75rem;
@@ -6409,172 +6478,46 @@ button.saAction::after {
   padding: 0.25rem 0.375rem;
   border-radius: 0.25rem;
   margin: 0.25rem;
+  opacity: 0;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+}
+.saDismissButton::after {
+  content: '';
+  position: absolute;
+  height: calc(100% + 0.25rem);
+  width: calc(100% + 0.25rem);
+  top: -0.25rem;
+  right: -0.25rem;
+}
+.saSmallScreen .saDismissButton {
+  opacity: 1;
 }
 @media (pointer: fine) {
-  .saNotificationsWrapper .saDismissButton:hover {
-    color: #e0173e;
+  .saDismissButton:hover {
+    color: #bf0024;
     background: #ffe8e7;
   }
 }
-.saNotificationsWrapper .saDismissButton:active {
+.saDismissButton:active {
   color: #fff;
   background: #e0173e;
   border-radius: 0.375rem;
 }
-.saNotificationsWrapper .saNotificationText {
-  color: #313a44;
-  word-break: break-word;
-}
-.saNotificationsWrapper p {
-  font-size: 0.875rem;
-  line-height: 1rem;
-  font-weight: 400;
-  color: #60748b;
-}
-.saNotificationsWrapper .saNotificationExtraText {
-  font-weight: 400;
-  font-size: 0.75rem;
-  color: #60748b;
-  margin-bottom: -0.5rem;
-}
-.saNotificationsWrapper .saNotificationTime {
-  font-weight: 400;
-  font-size: 0.625rem;
-  color: #60748b;
-}
-.saStandard .saNotificationsWrapper .saNotificationsInner {
-  gap: 1rem;
-  width: 25rem;
-}
-.saStandard .saNotificationsWrapper .saNotificationList {
-  gap: 1rem;
-}
-.saStandard .saNotificationsWrapper .saClearAll {
-  gap: 0.5rem;
-  padding: 0.5rem;
-  height: 2rem;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-}
-.saStandard .saNotificationsWrapper .saClearAll:active {
-  border-radius: 0.75rem;
-}
-.saStandard .saNotificationsWrapper .saClearAll .saIcon {
-  font-size: 1rem;
-  min-width: 1.125rem;
-  max-width: 1.125rem;
-}
-.saStandard .saNotificationsWrapper .saNotification {
-  gap: 0.5rem;
-  border-radius: 0.5rem;
-  padding: 1rem 3rem 1rem 1rem;
-}
-.saStandard .saNotificationsWrapper .saNotificationHeading {
-  font-size: 1rem;
-}
-.saCompact .saNotificationsWrapper .saNotificationsInner {
-  gap: 0.5rem;
-  width: 25rem;
-}
-.saCompact .saNotificationsWrapper .saNotificationsInner .saNotificationsHeading::before {
-  content: '';
-  height: 4rem;
-}
-.saCompact .saNotificationsWrapper .saNotificationList {
-  gap: 0.5rem;
-}
-.saCompact .saNotificationsWrapper .saClearAll {
-  gap: 0.5rem;
-  height: 1.5rem;
-  padding: 0.5rem;
-  font-size: 0.75rem;
-  border-radius: 0.25rem;
-}
-.saCompact .saNotificationsWrapper .saClearAll:active {
-  border-radius: 0.75rem;
-}
-.saCompact .saNotificationsWrapper .saNotification {
-  gap: 0.5rem;
-  border-radius: 0.5rem;
-  padding: 0.5rem 3rem 0.5rem 0.5rem;
-}
-.saCompact .saNotificationsWrapper .saNotificationHeading {
-  font-size: 0.75rem;
-}
-.saSmallScreen .saNotificationsWrapper,
-.saSmallscreensidebar .saNotificationsWrapper {
-  position: relative;
-}
-.saSmallScreen .saNotificationsWrapper .saNotificationsInner,
-.saSmallscreensidebar .saNotificationsWrapper .saNotificationsInner {
-  gap: 1rem;
-  width: 100%;
-  border-left: none;
-}
-.saSmallScreen .saNotificationsWrapper .saNotificationList,
-.saSmallscreensidebar .saNotificationsWrapper .saNotificationList {
-  gap: 1rem;
-}
-.saSmallScreen .saNotificationsWrapper .saClearAll,
-.saSmallscreensidebar .saNotificationsWrapper .saClearAll {
-  gap: 0.5rem;
-  padding: 0.5rem;
-  height: 2rem;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-}
-.saSmallScreen .saNotificationsWrapper .saClearAll:active,
-.saSmallscreensidebar .saNotificationsWrapper .saClearAll:active {
-  border-radius: 0.75rem;
-}
-.saSmallScreen .saNotificationsWrapper .saClearAll .saIcon,
-.saSmallscreensidebar .saNotificationsWrapper .saClearAll .saIcon {
-  font-size: 1rem;
-  min-width: 1.125rem;
-  max-width: 1.125rem;
-}
-.saSmallScreen .saNotificationsWrapper .saClearAll::after,
-.saSmallscreensidebar .saNotificationsWrapper .saClearAll::after {
-  content: '';
-  height: 2.75rem;
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: -0.5rem;
-}
-.saSmallScreen .saNotificationsWrapper .saDismissButton::after,
-.saSmallscreensidebar .saNotificationsWrapper .saDismissButton::after {
-  content: '';
-  height: 2.75rem;
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: -0.75rem;
-}
-.saSmallScreen .saNotificationsWrapper .saNotification,
-.saSmallscreensidebar .saNotificationsWrapper .saNotification {
-  gap: 0.5rem;
-  border-radius: 0.5rem;
-  padding: 1rem 2.5rem 1rem 1rem;
-}
-.saSmallScreen .saNotificationsWrapper .saNotificationHeading,
-.saSmallscreensidebar .saNotificationsWrapper .saNotificationHeading {
-  font-size: 1rem;
-}
-@keyframes drawerslidein {
+@keyframes drawerSlideIn {
   from {
-    left: -25rem;
+    transform: translateX(-25rem);
   }
   to {
-    left: 0;
+    transform: translateX(0);
   }
 }
-@keyframes drawerslideout {
+@keyframes drawerSlideOut {
   from {
-    left: 0;
+    transform: translateX(0);
   }
   to {
-    left: -25rem;
+    transform: translateX(-25rem);
   }
 }
 .saAside {
@@ -6651,10 +6594,6 @@ button.saAction::after {
   height: 0.75rem;
   padding: 0;
 }
-.saSideBar .saBadgeCount.saSmall {
-  top: 0.125rem;
-  right: 0.125rem;
-}
 .saCustomerLogo {
   height: 5rem;
 }
@@ -6682,32 +6621,16 @@ button.saAction::after {
   display: flex;
   flex-direction: column;
 }
-.saSideBar h3 {
-  font-size: 0.75rem;
-  line-height: 1;
-  color: #60748b;
-  font-weight: 400;
-  padding: 1rem 0.5rem 0.25rem 1rem;
-  overflow-wrap: anywhere;
-}
-.saSideBar h3:first-child {
-  padding-top: 0.5rem;
-}
-.saMinimized.saSideBar h3 {
-  display: none;
-}
-.saSideBar.saMinimized ul:not(:last-child) {
-  padding-bottom: 1.5rem;
-}
-.saSideBarSectionHeader ul {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 0.5rem;
-}
 .saSideBarSection {
   height: 100%;
   overflow: hidden;
+}
+.saSideBarHeader {
+  width: 100%;
+  gap: 0.5rem;
+}
+.saMinimized h3:first-child + .saItemList {
+  padding-top: 0.5rem;
 }
 .saItem {
   text-decoration: none;
@@ -6726,10 +6649,10 @@ button.saAction::after {
   }
   .saItem:hover .saItemInner {
     background-color: var(--Sa-Color-LabelBackground);
-    outline-color: var(--Sa-Color-LabelHover);
   }
   .saItem:hover .saIcon {
     color: var(--Sa-Color-LabelHover);
+    box-shadow: none;
   }
 }
 .saItem:active {
@@ -6737,11 +6660,11 @@ button.saAction::after {
 }
 .saItem:active .saItemInner {
   background-color: #e5efff;
-  outline-color: var(--Sa-Color-LabelActive);
   border-radius: 0.75rem;
 }
 .saItem:active .saIcon {
   color: var(--Sa-Color-LabelActive);
+  box-shadow: none;
 }
 .saItemInner {
   display: inline-flex;
@@ -6771,6 +6694,13 @@ button.saAction::after {
 .saMinimized .saItemInner span {
   display: none;
 }
+.saItemIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 2rem;
+}
 .saTabPanel {
   display: flex;
   flex-direction: column;
@@ -6779,6 +6709,7 @@ button.saAction::after {
   flex: 0 1 auto;
   max-height: 100%;
   width: 100%;
+  height: 100%;
 }
 .saTabPanel:hover,
 .saTabPanel:focus-within {
@@ -6788,14 +6719,42 @@ button.saAction::after {
   overflow-y: auto;
   max-height: unset;
 }
-.saButtonGroupDesktop {
+.saMinimized .saTabPanel {
+  gap: 1rem;
+}
+.saTabPanel h3 {
+  font-size: 0.75rem;
+  line-height: 1;
+  color: #60748b;
+  font-weight: 400;
+  padding: 1rem 0.5rem 0.25rem 0.75rem;
+  overflow-wrap: anywhere;
+}
+.saTabPanel h3:first-child {
+  padding-top: 0.5rem;
+}
+.saMinimized .saTabPanel h3 {
+  padding: 0;
+  opacity: 0;
+  position: absolute;
+  height: 0;
+  pointer-events: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+ul.saSideBarToolbar {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   padding: 0 0.5rem;
 }
-.saButtonGroupDesktop button {
+ul.saSideBarToolbar button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: 'Lexend', sans-serif;
@@ -6818,100 +6777,99 @@ button.saAction::after {
   font-size: 1rem;
   position: relative;
 }
-.saButtonGroupDesktop button .saButtonText {
+ul.saSideBarToolbar button .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.saButtonGroupDesktop button .saBadgedIcon {
+ul.saSideBarToolbar button .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saButtonGroupDesktop button .saIcon {
+ul.saSideBarToolbar button .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.saButtonGroupDesktop button .saIcon {
+ul.saSideBarToolbar button .saIcon {
   color: var(--Sa-Color-Icon);
 }
-.saButtonGroupDesktop button.saDestructive {
+ul.saSideBarToolbar button.saDestructive {
   color: #e0173e;
 }
-.saButtonGroupDesktop button.saDestructive .saIcon {
+ul.saSideBarToolbar button.saDestructive .saIcon {
   color: #e0173e;
 }
 @media (pointer: fine) {
-  .saButtonGroupDesktop button.saDestructive:hover {
+  ul.saSideBarToolbar button.saDestructive:hover {
     color: #e0173e;
     background: #ffe8e7;
   }
-  .saButtonGroupDesktop button.saDestructive:hover .saIcon {
+  ul.saSideBarToolbar button.saDestructive:hover .saIcon {
     color: #e0173e;
   }
 }
-.saButtonGroupDesktop button.saDestructive:active {
+ul.saSideBarToolbar button.saDestructive:active {
   color: #fff;
   background: #e0173e;
 }
-.saButtonGroupDesktop button.saDestructive:active > .saIcon {
+ul.saSideBarToolbar button.saDestructive:active > .saIcon {
   color: #fff;
 }
 @media (pointer: fine) {
-  .saButtonGroupDesktop button:hover {
+  ul.saSideBarToolbar button:hover {
     background-color: var(--Sa-Color-LabelBackground);
     color: var(--Sa-Color-LabelHover);
   }
-  .saButtonGroupDesktop button:hover .saIcon {
+  ul.saSideBarToolbar button:hover .saIcon {
     color: inherit;
   }
 }
-.saButtonGroupDesktop button:active {
+ul.saSideBarToolbar button:active {
   background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
   color: var(--Sa-Color-LabelActive);
 }
-.saButtonGroupDesktop button:active .saIcon {
+ul.saSideBarToolbar button:active .saIcon {
   color: inherit;
 }
-.saButtonGroupDesktop button:disabled {
+ul.saSideBarToolbar button:disabled {
   background: #ccd5e2;
   pointer-events: none;
   color: #7088a4;
 }
-.saButtonGroupDesktop button:disabled .saIcon {
+ul.saSideBarToolbar button:disabled .saIcon {
   color: #7088a4;
 }
-.saButtonGroupDesktop button:active {
+ul.saSideBarToolbar button:active {
   border-radius: 0.75rem;
 }
-.saButtonGroupDesktop button::after {
+ul.saSideBarToolbar button::after {
   content: '';
   position: absolute;
   height: 100%;
   width: 3rem;
 }
-.saButtonGroupDesktop button .saBadge {
+ul.saSideBarToolbar button .saBadge {
   position: absolute;
   top: 0;
   right: 0;
 }
-.saMinimized .saButtonGroupDesktop {
+.saMinimized ul.saSideBarToolbar {
   flex-direction: column;
 }
-.saSmallScreen .saButtonGroupDesktop {
+.saSmallScreen ul.saSideBarToolbar {
   display: none;
 }
-.saButtonGroupSmallScreen {
+ul.saSideBarToolbarSmallScreen {
   display: none;
-  flex-direction: column;
   width: 100%;
 }
-.saSmallScreen .saButtonGroupSmallScreen {
+.saSmallScreen ul.saSideBarToolbarSmallScreen {
   display: flex;
 }
 .saAccountDropdown {
@@ -6977,7 +6935,8 @@ button.saAction::after {
   line-height: 1;
   border-radius: 99rem;
   transition: ease opacity 0.2s, ease box-shadow 0.2s;
-  margin: 0 4px;
+  margin: 0 0.25rem;
+  box-shadow: 0 0 0 1px var(--Sa-Color-ProfileCircleBorder);
 }
 .saAccountName {
   text-align: left;
