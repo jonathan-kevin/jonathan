@@ -33,7 +33,7 @@
 								<h1>Jonathan</h1>
 							</div>
 						</div>
-						<button class="saNotificationWrapper" type="button" aria-live="polite" aria-expanded="false" aria-label="Notifications">
+						<button class="saNotificationWrapper" type="button" aria-live="polite" aria-expanded="false" aria-label="Notifications" id="smallScreenNotifications">
 							<i class="far fa-bell saIcon"></i>
 							<div class="saBadgeCount saUrgent" aria-label="3 new notifications">3</div>
 						</button>
@@ -160,16 +160,6 @@
 										<i class="saIcon far fa-lock"></i>
 										<span>
 											Security Settings
-										</span>
-									</div>
-								</a>
-							</li>
-							<li>
-								<a href="#" class="saItem">
-									<div class="saItemInner">
-										<i class="saIcon far fa-bell"></i>
-										<span>
-											Notifications
 										</span>
 									</div>
 								</a>
@@ -454,7 +444,7 @@
 							</button>
 						</li>
 						<li>
-							<button type="button" aria-label="Notifications" aria-expanded="false">
+							<button type="button" aria-label="Notifications" aria-expanded="false" id="largeScreenNotifications">
 								<div class="saIcon far fa-bell saRing"></div>
 								<div class="saBadgeCount saUrgent">3</div>
 							</button>
@@ -582,8 +572,9 @@
 						<div class="saSheetDragHandle">
 							<div class="saDraggableThumb"></div>
 						</div>
+						<button class="saSheetButton">Close</button>
 					</div>
-					<div class="saSheetContent">
+					<div class="saSheetContent" style="height: 354px;">
 						<div class="saNotificationsWrapper" tabindex="0">
 							<button class="saClearAll saDestructive">
 								Clear all
@@ -624,69 +615,6 @@
 									</a>
 									<button type="button" class="saDismissButton saDestructive">Dismiss</button>
 									<p class="saNotificationExtraText">This notification has expired, sad :/</p>
-								</li>
-								<li>
-									<a class="saNotification saActive" tabindex="0">
-										<h3>Softadmin®</h3>
-										<p>Labore itaque distinctio maiores accusantium voluptatem. Ipsa similique distinctio praesentium odit reprehenderit.</p>
-										<p>Autem perferendis iure officiis. Ducimus sit nam cum commodi nostrum maxime fugiat soluta.</p>
-										<time datetime="2025-12-24 11:12+0200">December 12th</time>
-									</a>
-									<button type="button" class="saDismissButton saDestructive">Dismiss</button>
-								</li>
-								<li>
-									<a class="saNotification saActive" tabindex="0">
-										<h3>Softadmin®</h3>
-										<p>Labore itaque distinctio maiores accusantium voluptatem. Ipsa similique distinctio praesentium odit reprehenderit.</p>
-										<p>Autem perferendis iure officiis. Ducimus sit nam cum commodi nostrum maxime fugiat soluta.</p>
-										<time datetime="2025-12-24 11:12+0200">December 12th</time>
-									</a>
-									<button type="button" class="saDismissButton saDestructive">Dismiss</button>
-								</li>
-								<li>
-									<a class="saNotification saActive" tabindex="0">
-										<h3>Softadmin®</h3>
-										<p>Labore itaque distinctio maiores accusantium voluptatem. Ipsa similique distinctio praesentium odit reprehenderit.</p>
-										<p>Autem perferendis iure officiis. Ducimus sit nam cum commodi nostrum maxime fugiat soluta.</p>
-										<time datetime="2025-12-24 11:12+0200">December 12th</time>
-									</a>
-									<button type="button" class="saDismissButton saDestructive">Dismiss</button>
-								</li>
-								<li>
-									<a class="saNotification saActive" tabindex="0">
-										<h3>Softadmin®</h3>
-										<p>Labore itaque distinctio maiores accusantium voluptatem. Ipsa similique distinctio praesentium odit reprehenderit.</p>
-										<p>Autem perferendis iure officiis. Ducimus sit nam cum commodi nostrum maxime fugiat soluta.</p>
-										<time datetime="2025-12-24 11:12+0200">December 12th</time>
-									</a>
-									<button type="button" class="saDismissButton saDestructive">Dismiss</button>
-								</li>
-								<li>
-									<a class="saNotification saActive" tabindex="0">
-										<h3>Softadmin®</h3>
-										<p>Labore itaque distinctio maiores accusantium voluptatem. Ipsa similique distinctio praesentium odit reprehenderit.</p>
-										<p>Autem perferendis iure officiis. Ducimus sit nam cum commodi nostrum maxime fugiat soluta.</p>
-										<time datetime="2025-12-24 11:12+0200">December 12th</time>
-									</a>
-									<button type="button" class="saDismissButton saDestructive">Dismiss</button>
-								</li>
-								<li>
-									<a class="saNotification saActive" tabindex="0">
-										<h3>Softadmin®</h3>
-										<p>Labore itaque distinctio maiores accusantium voluptatem. Ipsa similique distinctio praesentium odit reprehenderit.</p>
-										<p>Autem perferendis iure officiis. Ducimus sit nam cum commodi nostrum maxime fugiat soluta.</p>
-										<time datetime="2025-12-24 11:12+0200">December 12th</time>
-									</a>
-									<button type="button" class="saDismissButton saDestructive">Dismiss</button>
-								</li>
-								<li>
-									<a class="saNotification saActive" tabindex="0">
-										<h3>Softadmin®</h3>
-										<p>Labore itaque distinctio maiores accusantium voluptatem. Ipsa similique distinctio praesentium odit reprehenderit.</p>
-										<p>Autem perferendis iure officiis. Ducimus sit nam cum commodi nostrum maxime fugiat soluta.</p>
-										<time datetime="2025-12-24 11:12+0200">December 12th</time>
-									</a>
-									<button type="button" class="saDismissButton saDestructive">Dismiss</button>
 								</li>
 								<li>
 									<a class="saNotification saActive" tabindex="0">
@@ -810,6 +738,12 @@
 
 <script>
 	$(document).ready(function () {
+
+		$('.saSheetButton').on('click', function () {
+			$('.saBottomSheetOverlay').hide();
+		});
+
+
 		// Dismiss single notification
 		$(".saNotificationsWrapper").on("click", ".saDismissButton", function () {
 			const $li = $(this).closest("li");
@@ -854,12 +788,18 @@
 			$empty.hide().css({ opacity: 0, right: "-20%" }).show().animate({ opacity: 1, right: 0 }, 125);
 		}
 
-		$('button:has(.saIcon.fa-bell)').on('click', function (e) {
+		$('#largeScreenNotifications').on('click', function (e) {
 			e.preventDefault();
 			const $dialog = $('.saPopupOverlay')[0];
 			const $notificationsWrapper = $('.saNotificationsWrapper');
 			$notificationsWrapper.removeClass('saSlideout');
 			$dialog.showModal();
+		});
+
+
+		$('#smallScreenNotifications').on('click', function (e) {
+			e.preventDefault();
+			$('.saBottomSheetOverlay').show();
 		});
 
 		$('.saCloseModal').on('click', function (e) {

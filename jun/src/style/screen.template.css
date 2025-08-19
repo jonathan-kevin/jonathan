@@ -2312,6 +2312,11 @@ div.saPopupOverlay {
   flex-shrink: 0;
   color: #2d6ce1;
   background: transparent;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
   position: absolute;
   right: 0.25rem;
   top: 0.25rem;
@@ -2384,48 +2389,13 @@ div.saPopupOverlay {
 .saBottomSheet .saSheetButton:disabled .saIcon {
   color: #7088a4;
 }
-.saStandard .saBottomSheet .saSheetButton {
-  gap: 0.5rem;
-  height: 2.5rem;
-  font-size: 0.875rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-}
-.saStandard .saBottomSheet .saSheetButton:active {
+.saBottomSheet .saSheetButton:active {
   border-radius: 0.75rem;
 }
-.saStandard .saBottomSheet .saSheetButton .saIcon {
-  font-size: 1.25rem;
-  min-width: 1.625rem;
-}
-.saCompact .saBottomSheet .saSheetButton {
-  gap: 0.5rem;
-  padding: 0.5rem;
-  height: 2rem;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-}
-.saCompact .saBottomSheet .saSheetButton:active {
-  border-radius: 0.75rem;
-}
-.saCompact .saBottomSheet .saSheetButton .saIcon {
+.saBottomSheet .saSheetButton .saIcon {
   font-size: 1rem;
   min-width: 1.125rem;
   max-width: 1.125rem;
-}
-.saSmallScreen .saBottomSheet .saSheetButton {
-  gap: 0.5rem;
-  border-radius: 0.5rem;
-  height: 2.5rem;
-  font-size: 1rem;
-  padding: 0.5rem 0.75rem;
-}
-.saSmallScreen .saBottomSheet .saSheetButton:active {
-  border-radius: 0.75rem;
-}
-.saSmallScreen .saBottomSheet .saSheetButton .saIcon {
-  font-size: 1.25rem;
-  min-width: 1.625rem;
 }
 .saSpinnerWrapper {
   position: fixed;
@@ -6122,6 +6092,9 @@ button.saAction::after {
 .saListGrid .saInfoIndicator {
   display: none;
 }
+.saLargeScreen .saBottomSheetOverlay {
+  display: none;
+}
 .saNotificationsWrapper {
   display: flex;
   flex-direction: column;
@@ -6150,13 +6123,13 @@ button.saAction::after {
 }
 .saSmallScreen .saNotificationsWrapper {
   margin-left: 0;
+  height: 486px;
 }
 .saSmallScreen .saNotificationsWrapper {
   width: 100%;
   box-shadow: none;
   padding: 0 1rem 1rem 1rem;
-  flex: 1;
-  min-height: 0;
+  animation: none;
 }
 .saNotificationsWrapper.saSlideout {
   animation-name: drawerSlideOut;
@@ -6197,6 +6170,10 @@ button.saAction::after {
 .saNotificationsWrapper li:hover p:first-child,
 .saNotificationsWrapper li:focus-visible p:first-child,
 .saNotificationsWrapper li:focus-within p:first-child {
+  padding-right: 3.5rem;
+}
+.saSmallScreen .saNotificationsWrapper li h3:first-child,
+.saSmallScreen .saNotificationsWrapper li p:first-child {
   padding-right: 3.5rem;
 }
 .saNotificationsWrapper h3 {
