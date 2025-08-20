@@ -2080,7 +2080,14 @@
 
 <script>
 $(document).ready(function () {
-
+	var arr = [];
+	$('table tr').each(function () {
+		var tds = $(this).find('td');
+		var fourth = $(tds[3]).text();
+		var fifth = $(tds[4]).text();
+		arr.push([fourth, fifth]);
+	});
+	console.log(arr);
 
 });
 </script>
