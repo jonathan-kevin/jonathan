@@ -36,6 +36,7 @@ $(document).ready(function () {
 			$("#theToggler").text("Compact");
 		} else if ($($body).hasClass("saCompact")) {
 			$($body).removeClass("saCompact saPc saLargeScreen").addClass("saSmallScreen smallscreen saSmallscreensidebar saMobile");
+			$($sideBar).removeClass("saMinimized");
 			$("#theToggler").text("SmallScreen");
 		} else {
 			$($body).removeClass("saSmallScreen saSmallscreensidebar saMobile smallscreen").addClass("saStandard saPc saLargeScreen");
