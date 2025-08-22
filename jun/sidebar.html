@@ -14,6 +14,7 @@
 	<script src="./script.js"></script>
 	<script type="text/javascript" src="https://livejs.com/live.js"></script>
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+	<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js" integrity="sha256-AlTido85uXPlSyyaZNsjJXeCs07eSv3r43kyCVc8ChI=" crossorigin="anonymous"></script>
 </head>
 
 <body class="saRootBody saLargeScreen saPc saCompact">
@@ -736,6 +737,9 @@
 
 <script>
 	$(document).ready(function () {
+    	$('.saItemList').sortable({
+    	  connectWith: '.saItemList'
+    	}).disableSelection();
 
 		$('.saSheetButton').on('click', function () {
 			$('.saBottomSheetOverlay').hide();
