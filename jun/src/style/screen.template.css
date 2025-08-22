@@ -6497,9 +6497,6 @@ button.saAction::after {
     transform: translateX(-25rem);
   }
 }
-:root {
-  --fa-secondary-opacity: 0.15;
-}
 .saAside {
   height: 100%;
   box-sizing: border-box;
@@ -6537,6 +6534,7 @@ button.saAction::after {
   align-items: center;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
+  --fa-secondary-opacity: 0;
 }
 .saSideBar .saBadgeCount {
   display: flex;
@@ -6609,6 +6607,110 @@ button.saAction::after {
   width: 100%;
   gap: 0.5rem;
 }
+.saSideBarFavorites {
+  display: flex;
+}
+.saMinimized .saSideBarFavorites {
+  display: none;
+}
+.saSideBarFavorites button {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  color: #2d6ce1;
+  background: transparent;
+  border-radius: 0.375rem;
+  padding: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  max-width: 1.5rem;
+  min-width: 1.5rem;
+  font-size: 0.75rem;
+  opacity: 0;
+}
+.saSideBarFavorites button .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saSideBarFavorites button .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saSideBarFavorites button .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saSideBarFavorites button .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saSideBarFavorites button.saDestructive {
+  color: #e0173e;
+}
+.saSideBarFavorites button.saDestructive .saIcon {
+  color: #e0173e;
+}
+@media (pointer: fine) {
+  .saSideBarFavorites button.saDestructive:hover {
+    color: #e0173e;
+    background: #ffe8e7;
+  }
+  .saSideBarFavorites button.saDestructive:hover .saIcon {
+    color: #e0173e;
+  }
+}
+.saSideBarFavorites button.saDestructive:active {
+  color: #fff;
+  background: #e0173e;
+}
+.saSideBarFavorites button.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saSideBarFavorites button:hover {
+    background-color: var(--Sa-Color-LabelBackground);
+    color: var(--Sa-Color-LabelHover);
+  }
+  .saSideBarFavorites button:hover .saIcon {
+    color: inherit;
+  }
+}
+.saSideBarFavorites button:active {
+  background-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  color: var(--Sa-Color-LabelActive);
+}
+.saSideBarFavorites button:active .saIcon {
+  color: inherit;
+}
+.saSideBarFavorites button:disabled {
+  background: #ccd5e2;
+  pointer-events: none;
+  color: #7088a4;
+}
+.saSideBarFavorites button:disabled .saIcon {
+  color: #7088a4;
+}
+.saSideBarFavorites button:active {
+  border-radius: 0.5rem;
+}
+.saSideBarFavorites .saIcon {
+  font-size: 0.75rem;
+  min-width: auto;
+}
 .saMinimized h3:first-child + .saItemList {
   padding-top: 0.5rem;
 }
@@ -6618,6 +6720,7 @@ button.saAction::after {
   display: flex;
   align-items: center;
   padding: 0 0.5rem;
+  width: 100%;
 }
 .saMinimized .saItem {
   justify-content: center;
@@ -6647,6 +6750,247 @@ button.saAction::after {
   color: var(--Sa-Color-LabelActive);
   box-shadow: none;
   --fa-secondary-opacity: 0.3;
+}
+.saItem.saFavorite .saIcon {
+  min-width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.375rem;
+  margin: 0 0.25rem;
+}
+.saItem.saFavorite:active .saIcon {
+  border-radius: 0.5rem;
+}
+.saItem.saFavorite.saRed .saIcon {
+  background-color: #fff7f7;
+  box-shadow: 0 0 0 1px #ffc6c5;
+  color: #e0173e;
+}
+@media (pointer: fine) {
+  .saItem.saFavorite.saRed:hover {
+    color: #e0173e;
+  }
+  .saItem.saFavorite.saRed:hover .saItemInner {
+    background-color: #fff7f7;
+  }
+  .saItem.saFavorite.saRed:hover .saIcon {
+    color: #fff;
+    box-shadow: none;
+    background-color: #e0173e;
+  }
+}
+.saItem.saFavorite.saRed:active {
+  color: #bf0024;
+}
+.saItem.saFavorite.saRed:active .saItemInner {
+  background-color: #ffe8e7;
+}
+.saItem.saFavorite.saRed:active .saIcon {
+  color: #fff;
+  box-shadow: none;
+  background-color: #bf0024;
+}
+.saItem.saFavorite.saPurple .saIcon {
+  background-color: #f9f7ff;
+  box-shadow: 0 0 0 1px #ddccff;
+  color: #8b4af1;
+}
+@media (pointer: fine) {
+  .saItem.saFavorite.saPurple:hover {
+    color: #8b4af1;
+  }
+  .saItem.saFavorite.saPurple:hover .saItemInner {
+    background-color: #f9f7ff;
+  }
+  .saItem.saFavorite.saPurple:hover .saIcon {
+    color: #fff;
+    box-shadow: none;
+    background-color: #8b4af1;
+  }
+}
+.saItem.saFavorite.saPurple:active {
+  color: #7734d5;
+}
+.saItem.saFavorite.saPurple:active .saItemInner {
+  background-color: #f0ebff;
+}
+.saItem.saFavorite.saPurple:active .saIcon {
+  color: #fff;
+  box-shadow: none;
+  background-color: #7734d5;
+}
+.saItem.saFavorite.saPink .saIcon {
+  background-color: #fff7fc;
+  box-shadow: 0 0 0 1px #ffc1ed;
+  color: #ca2c9b;
+}
+@media (pointer: fine) {
+  .saItem.saFavorite.saPink:hover {
+    color: #ca2c9b;
+  }
+  .saItem.saFavorite.saPink:hover .saItemInner {
+    background-color: #fff7fc;
+  }
+  .saItem.saFavorite.saPink:hover .saIcon {
+    color: #fff;
+    box-shadow: none;
+    background-color: #ca2c9b;
+  }
+}
+.saItem.saFavorite.saPink:active {
+  color: #ac1b82;
+}
+.saItem.saFavorite.saPink:active .saItemInner {
+  background-color: #ffe7f7;
+}
+.saItem.saFavorite.saPink:active .saIcon {
+  color: #fff;
+  box-shadow: none;
+  background-color: #ac1b82;
+}
+.saItem.saFavorite.saOrange .saIcon {
+  background-color: #fff8f4;
+  box-shadow: 0 0 0 1px #ffc9a4;
+  color: #ae5c28;
+}
+@media (pointer: fine) {
+  .saItem.saFavorite.saOrange:hover {
+    color: #ae5c28;
+  }
+  .saItem.saFavorite.saOrange:hover .saItemInner {
+    background-color: #fff8f4;
+  }
+  .saItem.saFavorite.saOrange:hover .saIcon {
+    color: #fff;
+    box-shadow: none;
+    background-color: #ae5c28;
+  }
+}
+.saItem.saFavorite.saOrange:active {
+  color: #924a1d;
+}
+.saItem.saFavorite.saOrange:active .saItemInner {
+  background-color: #ffeada;
+}
+.saItem.saFavorite.saOrange:active .saIcon {
+  color: #fff;
+  box-shadow: none;
+  background-color: #924a1d;
+}
+.saItem.saFavorite.saBlue .saIcon {
+  background-color: #f7faff;
+  box-shadow: 0 0 0 1px #bbd6ff;
+  color: #2d6ce1;
+}
+@media (pointer: fine) {
+  .saItem.saFavorite.saBlue:hover {
+    color: #2d6ce1;
+  }
+  .saItem.saFavorite.saBlue:hover .saItemInner {
+    background-color: #f7faff;
+  }
+  .saItem.saFavorite.saBlue:hover .saIcon {
+    color: #fff;
+    box-shadow: none;
+    background-color: #2d6ce1;
+  }
+}
+.saItem.saFavorite.saBlue:active {
+  color: #1c57c6;
+}
+.saItem.saFavorite.saBlue:active .saItemInner {
+  background-color: #e5efff;
+}
+.saItem.saFavorite.saBlue:active .saIcon {
+  color: #fff;
+  box-shadow: none;
+  background-color: #1c57c6;
+}
+.saItem.saFavorite.saBlue .saIcon {
+  background-color: #f7faff;
+  box-shadow: 0 0 0 1px #bbd6ff;
+  color: #2d6ce1;
+}
+@media (pointer: fine) {
+  .saItem.saFavorite.saBlue:hover {
+    color: #2d6ce1;
+  }
+  .saItem.saFavorite.saBlue:hover .saItemInner {
+    background-color: #f7faff;
+  }
+  .saItem.saFavorite.saBlue:hover .saIcon {
+    color: #fff;
+    box-shadow: none;
+    background-color: #2d6ce1;
+  }
+}
+.saItem.saFavorite.saBlue:active {
+  color: #1c57c6;
+}
+.saItem.saFavorite.saBlue:active .saItemInner {
+  background-color: #e5efff;
+}
+.saItem.saFavorite.saBlue:active .saIcon {
+  color: #fff;
+  box-shadow: none;
+  background-color: #1c57c6;
+}
+.saItem.saFavorite.saGreen .saIcon {
+  background-color: #f2fcf2;
+  box-shadow: 0 0 0 1px #91e89b;
+  color: #008429;
+}
+@media (pointer: fine) {
+  .saItem.saFavorite.saGreen:hover {
+    color: #008429;
+  }
+  .saItem.saFavorite.saGreen:hover .saItemInner {
+    background-color: #f2fcf2;
+  }
+  .saItem.saFavorite.saGreen:hover .saIcon {
+    color: #fff;
+    box-shadow: none;
+    background-color: #008429;
+  }
+}
+.saItem.saFavorite.saGreen:active {
+  color: #006d1e;
+}
+.saItem.saFavorite.saGreen:active .saItemInner {
+  background-color: #d6f7d9;
+}
+.saItem.saFavorite.saGreen:active .saIcon {
+  color: #fff;
+  box-shadow: none;
+  background-color: #006d1e;
+}
+.saItem.saFavorite.saSky .saIcon {
+  background-color: #f0fcff;
+  box-shadow: 0 0 0 1px #82e1fb;
+  color: #2a7b90;
+}
+@media (pointer: fine) {
+  .saItem.saFavorite.saSky:hover {
+    color: #2a7b90;
+  }
+  .saItem.saFavorite.saSky:hover .saItemInner {
+    background-color: #f0fcff;
+  }
+  .saItem.saFavorite.saSky:hover .saIcon {
+    color: #fff;
+    box-shadow: none;
+    background-color: #2a7b90;
+  }
+}
+.saItem.saFavorite.saSky:active {
+  color: #206678;
+}
+.saItem.saFavorite.saSky:active .saItemInner {
+  background-color: #c4f7ff;
+}
+.saItem.saFavorite.saSky:active .saIcon {
+  color: #fff;
+  box-shadow: none;
+  background-color: #206678;
 }
 .saItemInner {
   display: inline-flex;
@@ -6693,9 +7037,19 @@ button.saAction::after {
   width: 100%;
   height: 100%;
 }
-.saTabPanel:hover,
+@media (pointer: fine) {
+  .saTabPanel:hover {
+    overflow-y: auto;
+  }
+  .saTabPanel:hover .saSideBarFavorites button {
+    opacity: 1;
+  }
+}
 .saTabPanel:focus-within {
   overflow-y: auto;
+}
+.saTabPanel:focus-within .saSideBarFavorites button {
+  opacity: 1;
 }
 .saSmallScreen .saTabPanel {
   overflow-y: auto;
@@ -7217,13 +7571,13 @@ ul.saSideBarToolbarSmallScreen {
 .saMinimized .saToggleGroup button:active:last-child {
   border-radius: 0 0 0.75rem 0.75rem;
 }
-.saToggleGroup button[aria-selected="true"] {
+.saToggleGroup button[aria-selected='true'] {
   z-index: 2;
   background-color: var(--Sa-Color-LabelBackground);
   color: var(--Sa-Color-LabelActive);
   border-color: var(--Sa-Color-IconHover);
 }
-.saToggleGroup button[aria-selected="true"] .saIcon {
+.saToggleGroup button[aria-selected='true'] .saIcon {
   color: currentColor;
 }
 .saToggleGroup button .saIcon {
@@ -7431,7 +7785,7 @@ ul.saSideBarToolbarSmallScreen {
 }
 .saImpersonator button .saIcon {
   color: inherit;
-  min-width: unset;
+  min-width: 1.5rem;
 }
 .saImpersonator select,
 .saImpersonator input {

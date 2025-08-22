@@ -93,53 +93,55 @@
 					-->
 					<div class="saTabPanel" role="tabpanel" id="tabpanel1" aria-labelledby="tabbutton1" aria-selected="true">
 						<div class="saSideBarFavorites">
-							<h3>Favorites</h3>
-							<button type="button" data-tooltip="Edit favorites" aria-label="Edit favorites">
-								<i class="saIcon fadr fa-pen"></i>
-							</button>
+							<div class="saSideBarFavoritesHeader">
+								<h3>Favorites</h3>
+								<button class="saButtonFavorites" type="button">
+									<i class="saIcon fadr fa-pen"></i>
+								</button>
+							</div>
+							<ul class="saItemList">
+								<li>
+									<a href="#" class="saItem">
+										<div class="saItemInner">
+											<i class="saIcon fadr fa-chart-bar"></i>
+											<span>
+												Properties
+											</span>
+										</div>
+									</a>
+								</li>
+								<li>
+									<a href="#" class="saItem">
+										<div class="saItemInner">
+											<i class="saIcon fadr fa-wind"></i>
+											<span>
+												Admin Dashboard
+											</span>
+										</div>
+									</a>
+								</li>
+								<li>
+									<a href="#" class="saItem">
+										<div class="saItemInner">
+											<i class="saIcon fadr fa-users"></i>
+											<span>
+												User Management
+											</span>
+										</div>
+									</a>
+								</li>
+								<li>
+									<a href="#" class="saItem">
+										<div class="saItemInner">
+											<i class="saIcon fadr fa-cloud"></i>
+											<span>
+												Cloud Updates
+											</span>
+										</div>
+									</a>
+								</li>
+							</ul>
 						</div>
-						<ul class="saItemList saFavoriteList">
-							<li>
-								<a href="#" class="saItem saFavorite saGreen">
-									<div class="saItemInner">
-										<i class="saIcon fadr fa-chart-bar"></i>
-										<span>
-											Properties
-										</span>
-									</div>
-								</a>
-							</li>
-							<li>
-								<a href="#" class="saItem saFavorite saSky">
-									<div class="saItemInner">
-										<i class="saIcon fadr fa-wind"></i>
-										<span>
-											Admin Dashboard
-										</span>
-									</div>
-								</a>
-							</li>
-							<li>
-								<a href="#" class="saItem saFavorite saRed">
-									<div class="saItemInner">
-										<i class="saIcon fadr fa-user"></i>
-										<span>
-											User Management
-										</span>
-									</div>
-								</a>
-							</li>
-							<li>
-								<a href="#" class="saItem saFavorite saPurple">
-									<div class="saItemInner">
-										<i class="saIcon fadr fa-cloud"></i>
-										<span>
-											Cloud Updates
-										</span>
-									</div>
-								</a>
-							</li>
-						</ul>
 						<h3>Crows and Data</h3>
 						<ul  class="saItemList">
 							<li>
@@ -708,20 +710,9 @@
 															<li class="saMenuItemWrapper saSelectable">
 																<a class="saMenuItem" tabindex="0" id="removeGroups" href="#">
 																	<div class="saIconHolder" aria-hidden="true">
-																		<i class="far fa-skull-crossbones saIcon"></i>
+																		<i class="far fa-bomb saIcon"></i>
 																	</div>
 																	<span class="saMenuItemText">Remove groups</span>
-																</a>
-																<div class="saMenuItemTools">
-																	<button class="saIconWrapper fa-star far saFavoriteIcon saFavoriteNotAdded" type="button" tabindex="-1"></button>
-																</div>
-															</li>
-															<li class="saMenuItemWrapper saSelectable">
-																<a class="saMenuItem" tabindex="0" id="toggleFavorites" href="#">
-																	<div class="saIconHolder" aria-hidden="true">
-																		<i class="far fa-star saIcon"></i>
-																	</div>
-																	<span class="saMenuItemText">Toggle favorites appearance</span>
 																</a>
 																<div class="saMenuItemTools">
 																	<button class="saIconWrapper fa-star far saFavoriteIcon saFavoriteNotAdded" type="button" tabindex="-1"></button>
@@ -871,7 +862,6 @@
 			e.preventDefault();
 
 			$('h3').remove();
-			$('.saSideBarFavorites').remove();
 
 			const $tabPanel = $('.saTabPanel');
 			const $allLists = $tabPanel.find('ul');
@@ -883,13 +873,6 @@
 				$allLists.remove();
 				$tabPanel.append($mergedList);
 			}
-
-		});
-
-		$('#toggleFavorites').click(function (e) {
-			e.preventDefault();
-
-			$('ul.saFavoriteList li a').toggleClass('saFavorite');
 
 		});
 
