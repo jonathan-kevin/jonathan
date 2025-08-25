@@ -92,6 +92,46 @@
 						</div>
 						<ul class="saItemList" id="saFavoritesList" aria-label="Favorites">
 							<li>
+								<a href="#" class="saItem saFavorite saYellow">
+									<div class="saItemInner">
+										<i class="saIcon fadr fa-dove"></i>
+										<span>
+											Bird Sightings
+										</span>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href="#" class="saItem saFavorite saSky">
+									<div class="saItemInner">
+										<i class="saIcon fadr fa-kiwi-bird"></i>
+										<span>
+											Endangered Species
+										</span>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href="#" class="saItem saFavorite saGreen">
+									<div class="saItemInner">
+										<i class="saIcon fadr fa-egg"></i>
+										<span>
+											Nesting Reports
+										</span>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a href="#" class="saItem saFavorite saGreen">
+									<div class="saItemInner">
+										<i class="saIcon fadr fa-binoculars"></i>
+										<span>
+											Birdwatching Events
+										</span>
+									</div>
+								</a>
+							</li>
+							<li>
 								<a href="#" class="saItem saFavorite saPink">
 									<div class="saItemInner">
 										<i class="saIcon fadr fa-chart-bar"></i>
@@ -739,6 +779,17 @@
 																	<button class="saIconWrapper fa-star far saFavoriteIcon saFavoriteNotAdded" type="button" tabindex="-1"></button>
 																</div>
 															</li>
+															<li class="saMenuItemWrapper saSelectable">
+																<a class="saMenuItem" tabindex="0" id="hideItems" href="#">
+																	<div class="saIconHolder" aria-hidden="true">
+																		<i class="fas fa-eye-slash saIcon"></i>
+																	</div>
+																	<span class="saMenuItemText">Hide some items</span>
+																</a>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper fa-star far saFavoriteIcon saFavoriteNotAdded" type="button" tabindex="-1"></button>
+																</div>
+															</li>
 														</ul>
 													</div>
 												</div>
@@ -887,6 +938,35 @@
 			}
 
 			else { }
+		});
+
+
+		$('#hideItems').click(function (e) {
+			e.preventDefault();
+
+			const $lists = $('.saSideBarBody ul.saItemList');
+			let hideState = $lists.data('hideState') || false;
+
+			$lists.each(function () {
+				const $items = $(this).children('li');
+				if (!hideState) {
+					// Hide half, but leave at least one visible
+					const visibleItems = $items.filter(':visible');
+					const countToHide = Math.floor(visibleItems.length / 2);
+					let hidden = 0;
+					visibleItems.each(function (i) {
+						if (hidden < countToHide && visibleItems.length - hidden > 1) {
+							$(this).hide();
+							hidden++;
+						}
+					});
+				} else {
+					// Show all
+					$items.show();
+				}
+			});
+			$lists.data('hideState', !hideState);
+
 		});
 
 		$('#toggleFavorites').click(function (e) {
