@@ -234,93 +234,7 @@
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner">
-
 										<div class="saCardPreviewWrapper">
-											<div class="saCardPreview">
-												<ul class="saCardPreviewButtonGroup" role="toolbar">
-													<li>
-														<button type="button" aria-label="Preview">
-															<i class="far fa-angle-down saIcon"></i>
-														</button>
-													</li>
-													<li>
-														<button type="button" aria-label="Preview">
-															<i class="far fa-bomb saIcon"></i>
-														</button>
-													</li>
-													<li>
-														<button type="button" aria-label="Preview">
-															<i class="far fa-ellipsis-vertical saIcon"></i>
-														</button>
-													</li>
-												</ul>
-												<div class="saCardHeader">
-													<i class="saIcon far fa-cat"></i>
-													<div class="saCardTitle">
-														<h3 class="saCardHeading">Lorem ammet</h3>
-														<p class="saCardDescription">Lorem ipsum dolor sit amet consectetur</p>
-													</div>
-												</div>
-												<div class="saCardBody">
-													<table>
-														<caption>Badge colors</caption>
-														<thead>
-															<tr>
-																<th>Color</th>
-																<th>Example</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td>Primary</td>
-																<td><span class="saBadge saBadgePrimary">Primary</span>
-																</td>
-															</tr>
-															<tr>
-																<td>Secondary</td>
-																<td><span
-																		class="saBadge saBadgeSecondary">Secondary</span>
-																</td>
-															</tr>
-															<tr>
-																<td>Success</td>
-																<td><span class="saBadge saBadgeSuccess">Success</span>
-																</td>
-															</tr>
-															<tr>
-																<td>Danger</td>
-																<td><span class="saBadge saBadgeDanger">Danger</span>
-																</td>
-															</tr>
-															<tr>
-																<td>Warning</td>
-																<td><span class="saBadge saBadgeWarning">Warning</span>
-																</td>
-															</tr>
-															<tr>
-																<td>Info</td>
-																<td><span class="saBadge saBadgeInfo">Info</span></td>
-															</tr>
-															<tr>
-																<td>Light</td>
-																<td><span class="saBadge saBadgeLight">Light</span></td>
-															</tr>
-															<tr>
-																<td>Dark</td>
-																<td><span class="saBadge saBadgeDark">Dark</span></td>
-															</tr>
-															<tr>
-																<td>Muted</td>
-																<td><span class="saBadge saBadgeMuted">Muted</span></td>
-															</tr>
-															<tr>
-																<td>White</td>
-																<td><span class="saBadge saBadgeWhite">White</span></td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
 										</div>
 									</div>
 								</div>
@@ -332,5 +246,392 @@
 		</div>
 	</div>
 </body>
+
+<script>
+	$(document).ready(function () {
+
+		const colors = [
+			{
+				colorName: "Red",
+				colors: [
+					{ shade: "0", value: "#ffffff" },
+					{ shade: "50", value: "#fff7f7" },
+					{ shade: "100", value: "#ffe8e7" },
+					{ shade: "200", value: "#ffc6c5" },
+					{ shade: "300", value: "#fba4a3" },
+					{ shade: "400", value: "#f58082" },
+					{ shade: "500", value: "#ea4f5b" },
+					{ shade: "600", value: "#e0173e" },
+					{ shade: "700", value: "#bf0024" },
+					{ shade: "800", value: "#9b0002" },
+					{ shade: "900", value: "#790000" },
+					{ shade: "950", value: "#470000" }
+				]
+			},
+			{
+				colorName: "Orange",
+				colors: [
+					{ shade: "0", value: "#ffffff" },
+					{ shade: "50", value: "#fff8f4" },
+					{ shade: "100", value: "#ffeada" },
+					{ shade: "200", value: "#ffc9a4" },
+					{ shade: "300", value: "#ffa56f" },
+					{ shade: "400", value: "#ee894d" },
+					{ shade: "500", value: "#ca6d34" },
+					{ shade: "600", value: "#ae5c28" },
+					{ shade: "700", value: "#924a1d" },
+					{ shade: "800", value: "#763b14" },
+					{ shade: "900", value: "#5b2b0c" },
+					{ shade: "950", value: "#351604" }
+				]
+			},
+			{
+				colorName: "Yellow",
+				colors: [
+					{ shade: "0", value: "#ffffff" },
+					{ shade: "50", value: "#fff8e7" },
+					{ shade: "100", value: "#ffecb7" },
+					{ shade: "200", value: "#ffcd5b" },
+					{ shade: "300", value: "#f6ad00" },
+					{ shade: "400", value: "#da9600" },
+					{ shade: "500", value: "#b67a00" },
+					{ shade: "600", value: "#9c6700" },
+					{ shade: "700", value: "#825400" },
+					{ shade: "800", value: "#694300" },
+					{ shade: "900", value: "#513200" },
+					{ shade: "950", value: "#2e1b00" }
+				]
+			},
+			{
+				colorName: "Green",
+				colors: [
+					{ shade: "0", value: "#ffffff" },
+					{ shade: "50", value: "#f2fcf2" },
+					{ shade: "100", value: "#d6f7d9" },
+					{ shade: "200", value: "#91e89b" },
+					{ shade: "300", value: "#58d36e" },
+					{ shade: "400", value: "#29bb4e" },
+					{ shade: "500", value: "#009b36" },
+					{ shade: "600", value: "#008429" },
+					{ shade: "700", value: "#006d1e" },
+					{ shade: "800", value: "#005815" },
+					{ shade: "900", value: "#00430d" },
+					{ shade: "950", value: "#002504" }
+				]
+			},
+			{
+				colorName: "Sky",
+				colors: [
+					{ shade: "0", value: "#ffffff" },
+					{ shade: "50", value: "#f0fcff" },
+					{ shade: "100", value: "#c4f7ff" },
+					{ shade: "200", value: "#82e1fb" },
+					{ shade: "300", value: "#5ec8e4" },
+					{ shade: "400", value: "#49b0ca" },
+					{ shade: "500", value: "#3591a8" },
+					{ shade: "600", value: "#2a7b90" },
+					{ shade: "700", value: "#206678" },
+					{ shade: "800", value: "#165160" },
+					{ shade: "900", value: "#0f3e4a" },
+					{ shade: "950", value: "#05222a" }
+				]
+			},
+			{
+				colorName: "Blue",
+				colors: [
+					{ shade: "0", value: "#ffffff" },
+					{ shade: "50", value: "#f7faff" },
+					{ shade: "100", value: "#e5efff" },
+					{ shade: "200", value: "#bbd6ff" },
+					{ shade: "300", value: "#93bdff" },
+					{ shade: "400", value: "#6ea3ff" },
+					{ shade: "500", value: "#4582f4" },
+					{ shade: "600", value: "#2d6ce1" },
+					{ shade: "700", value: "#1c57c6" },
+					{ shade: "800", value: "#0f44a6" },
+					{ shade: "900", value: "#063384" },
+					{ shade: "950", value: "#011b50" }
+				]
+			},
+			{
+				colorName: "Purple",
+				colors: [
+					{ shade: "0", value: "#ffffff" },
+					{ shade: "50", value: "#f9f7ff" },
+					{ shade: "100", value: "#f0ebff" },
+					{ shade: "200", value: "#ddccff" },
+					{ shade: "300", value: "#caadff" },
+					{ shade: "400", value: "#b78eff" },
+					{ shade: "500", value: "#9e65ff" },
+					{ shade: "600", value: "#8b4af1" },
+					{ shade: "700", value: "#7734d5" },
+					{ shade: "800", value: "#6123b4" },
+					{ shade: "900", value: "#4c1590" },
+					{ shade: "950", value: "#2c0658" }
+				]
+			},
+			{
+				colorName: "Pink",
+				colors: [
+					{ shade: "0", value: "#ffffff" },
+					{ shade: "50", value: "#fff7fc" },
+					{ shade: "100", value: "#ffe7f7" },
+					{ shade: "200", value: "#ffc1ed" },
+					{ shade: "300", value: "#ff9ae1" },
+					{ shade: "400", value: "#ff6dcd" },
+					{ shade: "500", value: "#e641b2" },
+					{ shade: "600", value: "#ca2c9b" },
+					{ shade: "700", value: "#ac1b82" },
+					{ shade: "800", value: "#8d0e6a" },
+					{ shade: "900", value: "#6e0552" },
+					{ shade: "950", value: "#41012f" }
+				]
+			},
+			{
+				colorName: "Gray",
+				colors: [
+					{ shade: "0", value: "#ffffff" },
+					{ shade: "50", value: "#f8f9fb" },
+					{ shade: "100", value: "#eef1f5" },
+					//{ shade: "150", value: "#dde3ec" },
+					{ shade: "200", value: "#ccd5e2" },
+					{ shade: "300", value: "#adbdd1" },
+					{ shade: "400", value: "#8fa5c0" },
+					{ shade: "500", value: "#7088a4" },
+					{ shade: "600", value: "#60748b" },
+					{ shade: "700", value: "#506072" },
+					{ shade: "800", value: "#404c5b" },
+					{ shade: "900", value: "#313a44" },
+					{ shade: "950", value: "#1c2025" }
+				]
+			},
+		];
+
+		/**
+		 * Multi-step color selection for icon and card.
+		 * Steps:
+		 * 1. Select color family (e.g., Blue)
+		 * 2. Select icon background shade
+		 * 3. Select icon text shade (only those with >=3:1 contrast)
+		 * 4. Select card background shade (any except icon bg shade and one shade removed)
+		 */
+
+
+		$(function () {
+			const $container = $('<div class="color-selector"></div>');
+			const $step1 = $('<div class="saRow saFamily">	<div class="saCol">		<legend>Color family</legend>				<span id="colorFamilySelected">XXX</span>		</div>	<fieldset class="saRow saGapS" id="colorFamily">	</fieldset>	</div>');
+			const $stepX = $('<div class="saRow">			<div class="saCol">		<legend></legend>							<span></span>									</div>	<fieldset class="saRow saShades"><div>0</div><div>50</div><div>100</div><div>200</div><div>300</div><div>400</div><div>500</div><div>600</div><div>700</div><div>800</div><div>900</div><div>950</div></fieldset>	</div>');
+			const $step2 = $('<div class="saRow">			<div class="saCol">		<legend>Icon background shade</legend>		<span id="iconBgShadeSelected">XXX</span>		</div>	<fieldset class="saRow" id="iconBgShade">			</fieldset>	</div>');
+			const $step3 = $('<div class="saRow">			<div class="saCol">		<legend>Icon text shade</legend>			<span id="iconTextShadeSelected">XXX</span>		</div>	<fieldset class="saRow" id="iconTextShade">			</fieldset>	</div>');
+			const $step4 = $('<div class="saRow">			<div class="saCol">		<legend>Card background shade</legend>		<span id="cardBgShadeSelected">XXX</span>		</div>	<fieldset class="saRow" id="cardBgShade">			</fieldset>	</div>');
+
+			// Update selection display
+			function updateSelectionDisplay() {
+				$('#colorFamilySelected', $container).text(getSelected('colorFamily', $container));
+				$('#iconBgShadeSelected', $container).text(getSelected('iconBgShade', $container));
+				$('#iconTextShadeSelected', $container).text(getSelected('iconTextShade', $container));
+				$('#cardBgShadeSelected', $container).text(getSelected('cardBgShade', $container));
+			}
+
+			// Call updateSelectionDisplay on relevant changes
+			$container.on('change', 'input[name="colorFamily"]', updateSelectionDisplay);
+			$container.on('change', 'input[name="iconBgShade"]', updateSelectionDisplay);
+			$container.on('change', 'input[name="iconTextShade"]', updateSelectionDisplay);
+			$container.on('change', 'input[name="cardBgShade"]', updateSelectionDisplay);
+			const $preview = $('<div class="color-preview"></div>');
+
+			$container.append($step1, $stepX, $step2, $step3, $step4, $preview);
+			$('.saCardPreviewWrapper').prepend($container);
+
+			// Step 1: Color family (radio buttons)
+			colors.forEach((c, i) => {
+				const id = `colorFamily_${i}`;
+				$('#colorFamily', $container).append(
+					`<label class="sa${c.colorName}"><input type="radio" name="colorFamily" value="${c.colorName}" id="${id}" ${i === 0 ? 'checked' : ''}></label> `
+				);
+			});
+
+			function getSelected(name, $parent) {
+				return $parent.find(`input[name="${name}"]:checked`).val();
+			}
+
+			// Helper: focus next available input if current is disabled
+			$container.on('focus', 'input:disabled', function (e) {
+				const $inputs = $(this).closest('fieldset').find('input:not(:disabled)');
+				const idx = $inputs.index(this);
+				if ($inputs.length) {
+					// Try next, else first
+					const next = $inputs.get(idx + 1) || $inputs.get(0);
+					if (next) next.focus();
+				}
+			});
+
+			// Helper: keep focus on available input after fieldset update
+			function restoreFocus(name, prevVal) {
+				const $inputs = $container.find(`input[name="${name}"]:not(:disabled)`);
+				const $prev = $inputs.filter(`[value="${prevVal}"]`);
+				if ($prev.length) {
+					$prev.prop('checked', true).focus();
+				}
+				else if ($inputs.length) {
+					$inputs.first().prop('checked', true).focus();
+				}
+			}
+
+			// Helper: select middle shade for balanced auto selection
+			function selectMiddleShade($fieldset) {
+				const $inputs = $fieldset.find('input:not(:disabled)');
+				if ($inputs.length) {
+					const mid = Math.floor($inputs.length / 2);
+					$inputs.prop('checked', false);
+					$inputs.eq(mid).prop('checked', true);
+				}
+			}
+
+			function updateIconBgShades(keepFocus) {
+				const family = getSelected('colorFamily', $container);
+				const colorObj = colors.find(c => c.colorName === family);
+				const $iconBg = $('#iconBgShade', $container);
+				const prevVal = getSelected('iconBgShade', $container);
+				$iconBg.empty();
+				colorObj.colors.forEach((s, i) => {
+					const id = `iconBgShade_${s.shade}`;
+					$iconBg.append(
+						`<label class="sa${family}${s.shade}"><input type="radio" name="iconBgShade" value="${s.shade}" id="${id}"></label> `
+					);
+				});
+				if (keepFocus) {
+					restoreFocus('iconBgShade', prevVal);
+				} else {
+					selectMiddleShade($iconBg);
+				}
+				updateIconTextShades(keepFocus);
+				updateCardBgShades(keepFocus);
+				updatePreview();
+			}
+
+			function updateIconTextShades(keepFocus) {
+				const family = getSelected('colorFamily', $container);
+				const bgShade = getSelected('iconBgShade', $container);
+				const colorObj = colors.find(c => c.colorName === family);
+				const $iconText = $('#iconTextShade', $container);
+				const prevVal = getSelected('iconTextShade', $container);
+				$iconText.empty();
+
+				colorObj.colors.forEach((textObj, i) => {
+					const textClass = `saText${family}${textObj.shade}`;
+					const bgClass = `sa${family}${bgShade}`;
+					const dummy = $('<span>')
+						.addClass(`${textClass} ${bgClass}`)
+						.css('display', 'none')
+						.appendTo(document.body);
+					const style = window.getComputedStyle(dummy[0]);
+					function parseColor(str) {
+						let m = str.match(/rgba?\(([^)]+)\)/);
+						if (!m) return [255, 255, 255];
+						return m[1].split(',').map(Number).slice(0, 3);
+					}
+					function luminance(rgb) {
+						return rgb.map(v => {
+							v /= 255;
+							return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+						}).reduce((acc, v, i) => acc + v * [0.2126, 0.7152, 0.0722][i], 0);
+					}
+					function contrast(l1, l2) {
+						return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+					}
+					const fgRgb = parseColor(style.color);
+					const bgRgb = parseColor(style.backgroundColor);
+					const fgLum = luminance(fgRgb);
+					const bgLum = luminance(bgRgb);
+					const ratio = contrast(fgLum, bgLum);
+					dummy.remove();
+					const disabled = ratio < 3 ? 'disabled' : '';
+					const id = `iconTextShade_${textObj.shade}`;
+					$iconText.append(
+						`<label class="sa${family}${textObj.shade}"><input type="radio" name="iconTextShade" value="${textObj.shade}" id="${id}" ${disabled}></label> `
+					);
+				});
+				if (keepFocus) {
+					restoreFocus('iconTextShade', prevVal);
+				} else {
+					selectMiddleShade($iconText);
+				}
+				updateCardBgShades(keepFocus);
+				updatePreview();
+			}
+
+			function updateCardBgShades(keepFocus) {
+				const family = getSelected('colorFamily', $container);
+				const iconBgShade = getSelected('iconBgShade', $container);
+				const colorObj = colors.find(c => c.colorName === family);
+				const shades = colorObj.colors.map(c => c.shade);
+				const iconBgIndex = shades.indexOf(iconBgShade);
+				const $cardBg = $('#cardBgShade', $container);
+				const prevVal = getSelected('cardBgShade', $container);
+				$cardBg.empty();
+				colorObj.colors.forEach((obj, i) => {
+					const disabled = (i === iconBgIndex || Math.abs(i - iconBgIndex) < 2) ? 'disabled' : '';
+					const id = `cardBgShade_${obj.shade}`;
+					$cardBg.append(
+						`<label class="sa${family}${obj.shade}"><input type="radio" name="cardBgShade" value="${obj.shade}" id="${id}" ${disabled}></label> `
+					);
+				});
+				if (keepFocus) {
+					restoreFocus('cardBgShade', prevVal);
+				} else {
+					selectMiddleShade($cardBg);
+				}
+				updatePreview();
+			}
+
+			function updatePreview() {
+				const family = getSelected('colorFamily', $container);
+				const iconBgShade = getSelected('iconBgShade', $container);
+				const iconTextShade = getSelected('iconTextShade', $container);
+				const cardBgShade = getSelected('cardBgShade', $container);
+				const iconBgClass = `sa${family}${iconBgShade}`;
+				const iconTextClass = `saText${family}${iconTextShade}`;
+				const cardBgClass = `sa${family}${cardBgShade}`;
+				$preview.html(`
+					<div class="saCardPreview ${cardBgClass}">
+						<i class="far fa-bolt ${iconBgClass} ${iconTextClass} saIcon"></i>
+						<div class="saCardTitle">
+							<div>Preview</div>
+							<span>Description</span>
+						</div>
+					</div>
+				`);
+			}
+
+			$container.on('change', 'input[name="colorFamily"]', function () {
+				updateIconBgShades(false);
+			});
+			$container.on('change', 'input[name="iconBgShade"]', function () {
+				updateIconTextShades(false);
+			});
+			$container.on('change', 'input[name="iconTextShade"]', function () {
+				updateCardBgShades(false);
+			});
+			$container.on('change', 'input[name="cardBgShade"]', updatePreview);
+
+			// Initialize
+			updateIconBgShades();
+		});
+
+		function addHoverEffect(fieldsetId, previewSelector, className) {
+			$(document).on('mouseenter', `#${fieldsetId} label`, function () {
+				$(previewSelector).addClass(className);
+			});
+			$(document).on('mouseleave', `#${fieldsetId} label`, function () {
+				$(previewSelector).removeClass(className);
+			});
+		}
+
+		addHoverEffect('iconBgShade', '.saCardPreview i', 'saActiveBackground');
+		addHoverEffect('iconTextShade', '.saCardPreview i', 'saActiveText');
+		addHoverEffect('cardBgShade', '.saCardPreview', 'saActiveBackground');
+	});
+</script>
 
 </html>
