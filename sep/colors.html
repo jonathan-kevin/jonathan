@@ -246,6 +246,7 @@
 												<label>	<div class="saLabel">Purple	</div>		<input type="radio" name="colorFamily"	 class="saPurple"		aria-label="Purple" 	value="Purple" 		id="colorPurple"></label>
 												<label>	<div class="saLabel">Pink	</div>		<input type="radio" name="colorFamily"	 class="saPink"			aria-label="Pink" 		value="Pink" 		id="colorPink"></label>
 												<label>	<div class="saLabel">Gray	</div>		<input type="radio" name="colorFamily"	 class="saGray"			aria-label="Gray" 		value="Gray" 		id="colorGray"></label>
+												<button type="button" id="randomizeButton" class="saButtonRandomize"><i class="saIcon far fa-shuffle"></i></button>
 											</fieldset>
 											<fieldset class="saInputColorShade" id="colorIconBackground">
 												<legend>Icon background</legend>
@@ -335,7 +336,6 @@
 
 												const allShades = [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
 
-
 												const cardBgContrastMap = Object.fromEntries(
 													allShades.map((shade, idx) => [
 														shade,
@@ -350,6 +350,7 @@
 												const $cardBg = $('#colorCardBackground');
 												const $preview = $('#colorGroup .saColor');
 												const $previewIcon = $preview.find('.saColorIcon');
+												const $randomizeButton = $('#randomizeButton');
 
 												function updatePalette() {
 													const familyName = $colorFamily.filter(':checked').val() || 'Blue';
@@ -371,6 +372,8 @@
 													});
 
 													applySelectedColors();
+													updateAriaLabels(familyName);
+													updateRecommendedClasses();
 												}
 
 												function updateContrast(bgShade) {
@@ -385,6 +388,8 @@
 														const shade = parseInt($(this).val());
 														$(this).prop('disabled', !allowedCardShades.includes(shade));
 													});
+
+													updateRecommendedClasses();
 												}
 
 												function applySelectedColors() {
@@ -397,19 +402,6 @@
 													$previewIcon.attr('class', `saColorIcon far fa-star sa${familyName}${iconBgShade} saText${familyName}${iconTextShade}`);
 												}
 
-												// Event delegation for all radio inputs
-												$('.saInputColorShadeWrapper').on('change', 'input[type="radio"]', function () {
-													if ($(this).attr('name') === 'colorFamily') {
-														updatePalette();
-													} else if ($(this).attr('name') === 'colorShadeIconBackground') {
-														updateContrast(parseInt($(this).val()));
-													}
-													applySelectedColors();
-												});
-
-												// Initial setup
-												updatePalette();
-
 												function updateAriaLabels(familyName) {
 													const shadeLabels = {
 														0: 'White',
@@ -417,12 +409,12 @@
 														100: 'Extra Light',
 														200: 'Light',
 														300: 'Soft',
-														400: '',
-														500: 'Strong',
+														400: 'Cat',
+														500: 'Crow',
 														600: '',
 														700: 'Dark',
-														800: 'Extra Dark',
-														900: 'Deep',
+														800: 'Dark',
+														900: 'Extra Dark',
 														950: 'Near Black'
 													};
 													[$iconBg, $iconText, $cardBg].forEach($fieldset => {
@@ -434,25 +426,13 @@
 													});
 												}
 
-												// Call this inside updatePalette after updating radio classes
-												const originalUpdatePalette = updatePalette;
-												updatePalette = function () {
-													originalUpdatePalette();
-													const familyName = $colorFamily.filter(':checked').val() || 'Blue';
-													updateAriaLabels(familyName);
-												};
-												// Add .saRecommended to card background shades 50-200 if enabled
 												function updateRecommendedClasses() {
 													const familyName = $colorFamily.filter(':checked').val() || 'Blue';
 
 													// Card background: shades 50, 100, 200
 													$cardBg.find('label').each(function () {
 														const shade = parseInt($(this).find('input').val());
-														if ([50, 100, 200].includes(shade) && !$(this).find('input').prop('disabled')) {
-															$(this).addClass('saRecommended');
-														} else {
-															$(this).removeClass('saRecommended');
-														}
+														$(this).toggleClass('saRecommended', [50, 100, 200].includes(shade) && !$(this).find('input').prop('disabled'));
 													});
 
 													// Icon background: recommended shades per family
@@ -470,33 +450,62 @@
 													const recommended = recommendedIconBg[familyName] || [];
 													$iconBg.find('label').each(function () {
 														const shade = parseInt($(this).find('input').val());
-														if (recommended.includes(shade) && !$(this).find('input').prop('disabled')) {
-															$(this).addClass('saRecommended');
-															console.log('added recommended')
-														} else {
-															$(this).removeClass('saRecommended');
-														}
+														$(this).toggleClass('saRecommended', recommended.includes(shade) && !$(this).find('input').prop('disabled'));
 													});
 												}
 
-												// Patch updatePalette to also update recommended classes
-												const originalUpdatePalette2 = updatePalette;
-												updatePalette = function () {
-													originalUpdatePalette2();
-													const familyName = $colorFamily.filter(':checked').val() || 'Blue';
-													updateAriaLabels(familyName);
-													updateRecommendedClasses();
-												};
+												function randomizeSelections() {
+													// Randomly select color family
+													const families = Object.keys(colorFamilies);
+													const randomFamily = families[Math.floor(Math.random() * families.length)];
+													$colorFamily.filter(`[value="${randomFamily}"]`).prop('checked', true);
 
-												// Also update recommended classes after contrast changes
-												const originalUpdateContrast = updateContrast;
-												updateContrast = function (bgShade) {
-													originalUpdateContrast(bgShade);
-													updateRecommendedClasses();
-												};
+													// Update palette for new family
+													updatePalette();
+
+													// Randomly select icon background shade
+													const availableBgShades = colorFamilies[randomFamily];
+													const randomBgShade = availableBgShades[Math.floor(Math.random() * availableBgShades.length)];
+													$iconBg.find(`input[value="${randomBgShade}"]`).prop('checked', true);
+
+													// Update contrast for icon text and card background
+													updateContrast(randomBgShade);
+
+													// Randomly select icon text shade from allowed shades
+													const allowedTextShades = contrastMap[randomBgShade] || [];
+													if (allowedTextShades.length > 0) {
+														const randomTextShade = allowedTextShades[Math.floor(Math.random() * allowedTextShades.length)];
+														$iconText.find(`input[value="${randomTextShade}"]`).prop('checked', true);
+													}
+
+													// Randomly select card background shade from allowed shades
+													const allowedCardShades = cardBgContrastMap[randomBgShade] || [];
+													if (allowedCardShades.length > 0) {
+														const randomCardShade = allowedCardShades[Math.floor(Math.random() * allowedCardShades.length)];
+														$cardBg.find(`input[value="${randomCardShade}"]`).prop('checked', true);
+													}
+
+													// Apply selections to preview
+													applySelectedColors();
+												}
+
+												// Event delegation for radio inputs
+												$('.saInputColorShadeWrapper').on('change', 'input[type="radio"]', function () {
+													if ($(this).attr('name') === 'colorFamily') {
+														updatePalette();
+													} else if ($(this).attr('name') === 'colorShadeIconBackground') {
+														updateContrast(parseInt($(this).val()));
+													}
+													applySelectedColors();
+												});
+
+												// Randomizer button event
+												$randomizeButton.on('click', randomizeSelections);
+
+												// Initial setup
+												updatePalette();
+
 											});
-
-
 										</script>
 									</div>
 								</div>
