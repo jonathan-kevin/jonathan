@@ -20,13 +20,16 @@ $(document).ready(function () {
 	setTimeout(() => {
 		if (path.includes("smallscreen")) {
 			$($body).removeClass().addClass("saSmallScreen smallscreen saSmallscreensidebar saMobile");
+			$('.saPopupOverlay.saBottomSheetOverlay').show();
 			$("#theToggler").text("SmallScreen");
 		} else if (path.includes("standard")) {
 			$($body).removeClass().addClass("saStandard saPc saLargeScreen");
 			$("#theToggler").text("Standard");
+			$('.saPopupOverlay.saBottomSheetOverlay').hide();
 		} else if (path.includes("compact")) {
 			$($body).removeClass().addClass("saCompact saPc saLargeScreen");
 			$("#theToggler").text("Compact");
+			$('.saPopupOverlay.saBottomSheetOverlay').hide();
 		}
 	}, 200);
 
@@ -38,6 +41,7 @@ $(document).ready(function () {
 			$($body).removeClass("saCompact saPc saLargeScreen").addClass("saSmallScreen smallscreen saSmallscreensidebar saMobile");
 			$($sideBar).removeClass("saMinimized");
 			$("#theToggler").text("SmallScreen");
+			$('.saPopupOverlay.saBottomSheetOverlay').show();
 		} else {
 			$($body).removeClass("saSmallScreen saSmallscreensidebar saMobile smallscreen").addClass("saStandard saPc saLargeScreen");
 			$("#theToggler").text("Standard");
