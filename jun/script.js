@@ -51,7 +51,7 @@ $(document).ready(function () {
 
 	$('.saExpander').click(function (e) {
 		e.preventDefault();
-		$('.saExpanded').toggleClass('saMinimized');
+		$('.saSideBarJs').toggleClass('saMinimized');
 		// Toggle aria-expanded on the button
 		const $btn = $(this);
 		const expanded = $btn.attr('aria-expanded') === 'true';

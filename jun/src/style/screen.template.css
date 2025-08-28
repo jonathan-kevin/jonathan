@@ -6513,6 +6513,7 @@ button.saAction::after {
 .saSmallScreen .saSideBar {
   width: 100%;
   height: auto;
+  gap: 1rem;
 }
 .saSideBar .saIcon {
   color: #60748b;
@@ -6577,6 +6578,7 @@ button.saAction::after {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  align-items: center;
 }
 .saSideBarInputGroup {
   width: 100%;
@@ -6601,22 +6603,16 @@ button.saAction::after {
   overflow-y: auto;
   max-height: unset;
 }
-.saMinimized .saSideBarBody {
-  gap: 1rem;
-}
 .saSideBarBody h3 {
   font-size: 0.75rem;
   line-height: 1;
   color: #60748b;
   font-weight: 400;
-  padding: 1rem 0.5rem 0.25rem 0.75rem;
+  padding: 0 0.5rem 0.25rem 0.75rem;
   overflow-wrap: anywhere;
 }
-.saSideBarBody h3:first-child {
-  padding-top: 0.5rem;
-}
 .saSmallScreen .saSideBarBody h3 {
-  padding: 1.5rem 0.5rem 0.25rem 1rem;
+  padding: 0 0.5rem 0.5rem 1rem;
 }
 .saMinimized .saSideBarBody h3 {
   padding: 0;
@@ -6651,9 +6647,6 @@ button.saAction::after {
   display: flex;
   align-items: end;
 }
-.saMinimized .saSideBarFavoritesHeader {
-  display: none;
-}
 .saButtonFavorites {
   display: flex;
   gap: 0.25rem;
@@ -6673,6 +6666,31 @@ button.saAction::after {
 }
 .saButtonFavorites[aria-expanded='true'] .saIcon {
   transform: rotate(-180deg);
+}
+.saMinimized .saButtonFavorites {
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  padding: 0;
+  width: 100%;
+}
+.saMinimized .saButtonFavorites .saIcon {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+@media (pointer: fine) {
+  .saMinimized .saButtonFavorites:hover .saIcon {
+    background-color: var(--Sa-Color-LabelBackground);
+  }
+}
+.saMinimized .saButtonFavorites:active .saIcon {
+  background-color: var(--Sa-Color-LabelBackgroundActive);
+  border-radius: 0.75rem;
+}
+.saMinimized .saButtonFavorites span {
+  display: none;
 }
 .saButtonFavorites .saIcon {
   font-size: 0.75rem;
@@ -6783,6 +6801,9 @@ button.saAction::after {
 .saButtonFavoritesEdit:active {
   border-radius: 0.75rem;
 }
+.saMinimized .saButtonFavoritesEdit {
+  display: none;
+}
 .saSmallScreen .saButtonFavoritesEdit {
   height: 2.75rem;
   min-width: 2.75rem;
@@ -6793,12 +6814,22 @@ button.saAction::after {
   font-size: 0.75rem;
   min-width: auto;
 }
+.saSideBarGroup {
+  padding-top: 1rem;
+}
+.saSideBarGroup:first-child {
+  padding: 0;
+}
+.saSmallScreen .saSideBarGroup:not(:first-child) {
+  padding-top: 1.5rem;
+}
 .saSideBarFavorites .saItemList {
-  transition: ease height 0.2s;
+  transition: ease height 0.2s, ease opacity 0.2s, ease visibility 0.2s;
   overflow: hidden;
 }
 .saClosed .saItemList {
   height: 0;
+  opacity: 0;
   visibility: hidden;
 }
 .saItem {
@@ -7183,6 +7214,10 @@ button.saAction::after {
   gap: 0.5rem;
   margin-top: auto;
 }
+.saSmallScreen .saSideBarFooter {
+  padding-top: 1rem;
+  border-top: 1px solid #ccd5e2;
+}
 ul.saSideBarToolbar {
   display: flex;
   flex-direction: row;
@@ -7347,7 +7382,7 @@ ul.saSideBarToolbarSmallScreen {
 }
 .saAccountDropdown.saOpen .saIcon {
   color: inherit;
-  transform: rotate(180deg);
+  transform: rotate(-180deg);
 }
 .saSmallScreen .saAccountDropdown {
   height: 2.75rem;
@@ -7391,6 +7426,9 @@ ul.saSideBarToolbarSmallScreen {
 }
 .saMinimized .saAccountName {
   display: none;
+}
+.saSmallScreen .saAccountName {
+  margin-left: 0.5rem;
 }
 .saExpander {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -7555,163 +7593,6 @@ ul.saSideBarToolbarSmallScreen {
   width: 0;
   display: none;
 }
-.saToggleGroup {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  width: 100%;
-  box-sizing: border-box;
-  z-index: 0;
-  font-size: 0.875rem;
-}
-.saMinimized .saToggleGroup {
-  flex-direction: column;
-  padding: 0.5rem;
-}
-.saToggleGroup * {
-  box-sizing: border-box;
-}
-.saToggleGroup button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  appearance: none;
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0.5rem 0.25rem;
-  min-height: 2rem;
-  flex: 1 1 auto;
-  min-width: 50%;
-  cursor: pointer;
-  font-weight: 500;
-  text-align: center;
-  transition: ease background 0.2s, ease color 0.2s, ease border-color 0.2s, ease border-radius 0.2s, ease box-shadow 0.2s;
-  background-color: #fff;
-  border: 1px solid var(--Sa-Color-InputFieldBorder);
-  position: relative;
-  color: var(--Sa-Color-Label);
-}
-.saToggleGroup button::after {
-  content: '';
-  height: calc(100% + 2px);
-  position: absolute;
-  opacity: 0;
-}
-.saMinimized .saToggleGroup button {
-  min-width: 2rem;
-  padding: 0;
-}
-.saSmallScreen .saToggleGroup button {
-  min-height: 2.75rem;
-}
-.saToggleGroup button:first-child {
-  border-radius: 0.5rem 0 0 0.5rem;
-  margin-right: -1px;
-}
-.saToggleGroup button:first-child::after {
-  top: -1px;
-  left: calc(-0.5rem - 1px);
-  width: calc(100% + 0.5rem + 1px);
-}
-.saMinimized .saToggleGroup button:first-child {
-  border-radius: 0.5rem 0.5rem 0 0;
-  margin-right: 0;
-  margin-bottom: -1px;
-}
-.saMinimized .saToggleGroup button:first-child::after {
-  width: 3rem;
-  height: 2rem;
-  left: unset;
-}
-.saToggleGroup button:last-child {
-  border-right-style: solid;
-  border-width: 1px;
-  border-radius: 0 0.5rem 0.5rem 0;
-}
-.saToggleGroup button:last-child::after {
-  width: calc(100% + 0.5rem);
-  right: -0.5rem;
-  bottom: -1px;
-}
-.saMinimized .saToggleGroup button:last-child {
-  border-radius: 0 0 0.5rem 0.5rem;
-}
-.saMinimized .saToggleGroup button:last-child::after {
-  width: 3rem;
-  height: 2rem;
-  right: unset;
-}
-@media (pointer: fine) {
-  .saToggleGroup button:hover {
-    color: var(--Sa-Color-LabelActive);
-    background-color: var(--Sa-Color-LabelBackground);
-    border-color: var(--Sa-Color-LabelActive);
-    z-index: 3;
-  }
-  .saToggleGroup button:hover .saIcon {
-    color: currentColor;
-  }
-}
-.saToggleGroup button:active {
-  color: var(--Sa-Color-LabelActive);
-  background-color: var(--Sa-Color-IconMarked);
-  border-color: var(--Sa-Color-LabelActive);
-}
-.saToggleGroup button:active:first-child {
-  border-radius: 0.75rem 0 0 0.75rem;
-}
-.saMinimized .saToggleGroup button:active:first-child {
-  border-radius: 0.75rem 0.75rem 0 0;
-}
-.saToggleGroup button:active:last-child {
-  border-radius: 0 0.75rem 0.75rem 0;
-}
-.saMinimized .saToggleGroup button:active:last-child {
-  border-radius: 0 0 0.75rem 0.75rem;
-}
-.saToggleGroup button[aria-selected='true'] {
-  z-index: 2;
-  background-color: var(--Sa-Color-LabelBackground);
-  color: var(--Sa-Color-LabelActive);
-  border-color: var(--Sa-Color-IconHover);
-}
-.saToggleGroup button[aria-selected='true'] .saIcon {
-  color: currentColor;
-}
-.saToggleGroup button .saIcon {
-  min-width: auto;
-}
-.saToggleGroup button span {
-  overflow-wrap: anywhere;
-  font-size: 0.875rem;
-  line-height: 1rem;
-}
-.saMinimized .saToggleGroup button span {
-  display: none;
-}
-.saWrapped.saToggleGroup button {
-  width: 100%;
-}
-.saWrapped.saToggleGroup button:first-child {
-  border-radius: 0.5rem 0.5rem 0 0;
-}
-.saWrapped.saToggleGroup button:first-child:active {
-  border-radius: 0.75rem 0.75rem 0 0;
-}
-.saWrapped.saToggleGroup button:last-child {
-  border-radius: 0 0 0.5rem 0.5rem;
-}
-.saWrapped.saToggleGroup button:last-child:active {
-  border-radius: 0 0 0.75rem 0.75rem;
-}
-.saWrapped.saToggleGroup button:not(:last-child) {
-  margin-right: 0;
-  margin-bottom: -1px;
-}
 .saSideBarSearch {
   display: flex;
   position: relative;
@@ -7815,6 +7696,7 @@ ul.saSideBarToolbarSmallScreen {
   top: 0.25rem;
   left: 1rem;
   font-size: 0.75rem;
+  line-height: 1;
   color: #60748b;
   pointer-events: none;
 }
@@ -7822,7 +7704,7 @@ ul.saSideBarToolbarSmallScreen {
   display: none;
 }
 .saSmallScreen .saImpersonator .saLabel {
-  top: 1rem;
+  top: 0.5rem;
   left: 1.625rem;
 }
 .saImpersonator .saTrailing {
