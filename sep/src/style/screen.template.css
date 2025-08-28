@@ -67,10 +67,10 @@
   --Sa-Color-PrimaryBackgroundHover: #f7faff;
   --Sa-Color-PrimaryBackgroundActive: #e5efff;
 }
-.scrollcontent {
+.scrollcontent:has(.saInputC0lorShadeWrapper) {
   max-height: 90vh;
 }
-.saLargeScreen .scrollcontent-inner {
+.saLargeScreen .scrollcontent-inner:has(.saInputC0lorShadeWrapper) {
   padding-top: 0.5rem !important;
   display: flex;
   gap: 1.5rem;
@@ -177,6 +177,10 @@
   gap: 0.5rem;
   box-sizing: border-box;
 }
+.saInputC0lorShade.saGridz {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+}
 .saInputC0lorShade * {
   box-sizing: border-box;
 }
@@ -241,14 +245,11 @@
   cursor: not-allowed;
 }
 .saInputC0lorShade input:checked {
-  box-shadow: 0 0 0 2px #2d6ce1;
-  border-color: #2d6ce1;
   border-radius: 1rem;
 }
 @media (pointer: fine) {
   .saInputC0lorShade input:checked:enabled:hover {
     transform: scale(1);
-    box-shadow: 0 0 0 2px #2d6ce1;
   }
 }
 .saInputC0lorShade input:disabled:checked {
@@ -265,18 +266,18 @@
 }
 .saInputC0lorShade input::before {
   content: "";
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 0.625rem;
+  height: 0.625rem;
   transition: transform 0.1s ease;
-  background-color: #fff;
   transform-origin: center;
-  clip-path: polygon(78.5% 38.5%, 46.5% 70.5%, 46.5% 70.5%, 46.172% 70.799%, 45.792% 71.092%, 45.371% 71.373%, 44.916% 71.636%, 44.438% 71.875%, 43.944% 72.084%, 43.445% 72.257%, 42.948% 72.388%, 42.464% 72.471%, 42% 72.5%, 42% 72.5%, 41.537% 72.485%, 41.052% 72.436%, 40.556% 72.352%, 40.056% 72.228%, 39.563% 72.063%, 39.084% 71.852%, 38.63% 71.594%, 38.208% 71.284%, 37.829% 70.921%, 37.5% 70.5%, 21.5% 54.5%, 21.5% 54.5%, 20.825% 53.708%, 20.3% 52.844%, 19.925% 51.926%, 19.7% 50.972%, 19.625% 50%, 19.7% 49.028%, 19.925% 48.074%, 20.3% 47.156%, 20.825% 46.292%, 21.5% 45.5%, 21.5% 45.5%, 22.292% 44.825%, 23.156% 44.3%, 24.074% 43.925%, 25.028% 43.7%, 26% 43.625%, 26.972% 43.7%, 27.926% 43.925%, 28.844% 44.3%, 29.708% 44.825%, 30.5% 45.5%, 42% 57%, 69.5% 29.5%, 69.5% 29.5%, 70.292% 28.825%, 71.156% 28.3%, 72.074% 27.925%, 73.028% 27.7%, 74% 27.625%, 74.972% 27.7%, 75.926% 27.925%, 76.844% 28.3%, 77.708% 28.825%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 79.175% 30.292%, 79.7% 31.156%, 80.075% 32.074%, 80.3% 33.028%, 80.375% 34%, 80.3% 34.972%, 80.075% 35.926%, 79.7% 36.844%, 79.175% 37.708%, 78.5% 38.5%);
-  transform: scale(0);
-  background-color: white;
+  background-color: #fff;
   transform: translate(-50%, -50%) scale(0);
   position: absolute;
   top: 50%;
   left: 50%;
+  border-radius: 50%;
+  box-shadow: 0 2px 2px rgba(49, 58, 68, 0.2);
+  border: solid 1px #ccd5e2;
 }
 .saInputC0lorShade input::after {
   content: '';
