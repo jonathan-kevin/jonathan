@@ -1,83 +1,89 @@
 $(document).ready(function () {
-	var slug = window.location.pathname + window.location.search + window.location.hash;
-	var path = slug.toLowerCase()
-	console.log(path);
+    // Get current URL path
+    const path = (window.location.pathname + window.location.search + window.location.hash).toLowerCase();
 
-	var theToggler = $("<button>", {
-		id: "theToggler",
-		class: "saButton saDefaultButtonSecondary",
-		style: "position: fixed; bottom: 1rem; right: 1rem; z-index: 9999; color: white; background-color: black; border: none;",
-		text: "Compact",
-		title: "Toggle between saStandard, saCompact and saSmallScreen"
-	});
+    // Create toggle button
+    const $toggler = $('<button>', {
+        id: 'theToggler',
+        class: 'saButton saDefaultButtonSecondary',
+        style: 'position: fixed; bottom: 1rem; right: 1rem; z-index: 9999; color: white; background-color: black; border: none;',
+        text: 'Compact',
+        title: 'Toggle between Standard, Compact, and SmallScreen views'
+    });
 
-	const $body = $(".right.standardview, body");
-	const $sideBar = $(".saSideBar");
+    // Cache DOM elements
+    const $body = $('body');
+    const $sideBar = $('.saSideBar');
 
-	$($body).addClass("saPc saLargeScreen saCompact");
-	$('body').append(theToggler);
+    // View configurations
+    const views = [
+        {
+            name: 'Standard',
+            classes: 'saStandard saPc saLargeScreen',
+            url: 'standard'
+        },
+        {
+            name: 'Compact',
+            classes: 'saCompact saPc saLargeScreen',
+            url: 'compact'
+        },
+        {
+            name: 'SmallScreen',
+            classes: 'saSm saSmallScreen smallscreen saSmallscreensidebar saMobile',
+            url: 'smallscreen'
+        }
+    ];
 
-	setTimeout(() => {
-		if (path.includes("smallscreen")) {
-			$($body).removeClass().addClass("saSmallScreen smallscreen saSmallscreensidebar saMobile");
-			$("#theToggler").text("SmallScreen");
-		} else if (path.includes("standard")) {
-			$($body).removeClass().addClass("saStandard saPc saLargeScreen");
-			$("#theToggler").text("Standard");
-		} else if (path.includes("compact")) {
-			$($body).removeClass().addClass("saCompact saPc saLargeScreen");
-			$("#theToggler").text("Compact");
-		}
-	}, 200);
+    // Initialize view based on URL
+    function initializeView() {
+        const currentView = views.find(view => path.includes(view.url)) || views[1]; // Default to Compact
+        $body.addClass(currentView.classes);
+        $toggler.text(currentView.name);
+    }
 
-	function toggleClasses() {
-		if ($($body).hasClass("saStandard")) {
-			$($body).removeClass("saStandard").addClass("saCompact saPc saLargeScreen");
-			$("#theToggler").text("Compact");
-		} else if ($($body).hasClass("saCompact")) {
-			$($body).removeClass("saCompact saPc saLargeScreen").addClass("saSmallScreen smallscreen saSmallscreensidebar saMobile");
-			$("#theToggler").text("SmallScreen");
-		} else {
-			$($body).removeClass("saSmallScreen saSmallscreensidebar saMobile smallscreen").addClass("saStandard saPc saLargeScreen");
-			$("#theToggler").text("Standard");
-		}
-		updateResponsiveClasses();
-	}
+    // Toggle between views
+    function toggleView() {
+        const currentClasses = $body.attr('class').split(' ').filter(cls => cls.startsWith('sa') || cls === 'smallscreen');
+        const currentViewIndex = views.findIndex(view => currentClasses.includes(view.classes.split(' ')[0]));
+        const nextView = views[(currentViewIndex + 1) % views.length];
 
-	$("#theToggler").click(function () {
-		toggleClasses();
-	});
+        $body.removeClass(currentClasses.join(' ')).addClass(nextView.classes);
+        $toggler.text(nextView.name);
+    }
 
-	$('.saExpander').click(function (e) {
-		e.preventDefault();
-		if ($sideBar.hasClass("saExpanded")) {
-			$sideBar.removeClass("saExpanded").addClass("saMinimized");
-		} else {
-			$sideBar.removeClass("saMinimized").addClass("saExpanded");
-		}
-	});
+    // Handle sidebar expansion
+    function toggleSidebar(e) {
+        e.preventDefault();
+        $sideBar.toggleClass('saExpanded saMinimized');
+    }
 
-	// Toggle responsive classes on <body> based on screen width
-	function updateResponsiveClasses() {
-		const width = window.innerWidth;
-		const $body = $("body");
-		$body.removeClass("saSm saMd saLg saXl sa2xl");
+    // Update responsive classes based on screen width
+    function updateResponsiveClasses() {
+        const width = window.innerWidth;
+        const responsiveClasses = [
+            { minWidth: 1536, classes: 'sa2xl saCompact saPc saLargeScreen saRootBody' },
+            { minWidth: 1280, classes: 'saXl saCompact saPc saLargeScreen saRootBody' },
+            { minWidth: 1024, classes: 'saLg saCompact saPc saLargeScreen saRootBody' },
+            { minWidth: 768, classes: 'saMd saCompact saPc saLargeScreen saRootBody' },
+            { minWidth: 0, classes: 'saSm saSmallScreen smallscreen saSmallscreensidebar saMobile' }
+        ];
 
-		if (width >= 1536) {
-			$body.addClass("sa2xl");
-		} else if (width >= 1280) {
-			$body.addClass("saXl");
-		} else if (width >= 1024) {
-			$body.addClass("saLg");
-		} else if (width >= 768) {
-			$body.addClass("saMd");
-		} else if (width >= 640 || width <= 640) {
-			$body.addClass("saSm");
-		}
-	}
+        const currentClasses = $body.attr('class').split(' ').filter(cls => !cls.startsWith('sa') && cls !== 'smallscreen');
+        $body.removeClass().addClass(currentClasses.join(' '));
 
-	$(window).resize(function () {
-		updateResponsiveClasses();
-	});
+        const matchingView = responsiveClasses.find(view => width >= view.minWidth);
 
+        if (matchingView) {
+            $body.addClass(matchingView.classes);
+        }
+    }
+
+    // Append toggler and set initial state
+    $body.append($toggler);
+    setTimeout(initializeView, 200);
+
+    // Event listeners
+    $toggler.on('click', toggleView);
+    $('.saExpander').on('click', toggleSidebar);
+    $(window).on('resize', updateResponsiveClasses);
 });
