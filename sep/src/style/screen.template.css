@@ -33700,7 +33700,6 @@ pre.saCode {
   overflow-y: auto;
   height: 100%;
   gap: 0.5rem;
-  padding-bottom: 1rem;
 }
 .saMessageGroup {
   display: flex;
@@ -34004,10 +34003,18 @@ pre.saCode {
   padding: 0.5rem 1.5rem 0.5rem 1rem;
   position: relative;
   width: 100%;
+  z-index: 0;
 }
-.saMessage.saAbove {
-  background-color: red !important;
-  box-shadow: 0 0 0 40px orange;
+.saMessage::after {
+  content: '';
+  height: 100%;
+  width: 100%;
+  background-color: #ffe8e7;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transition: ease opacity 2s;
+  opacity: 0;
 }
 @media (pointer: fine) {
   .saMessage:hover {
@@ -34016,6 +34023,7 @@ pre.saCode {
   .saMessage:hover .saMessageToolbar {
     opacity: 1;
     transform: scale(1);
+    visibility: visible;
   }
 }
 .saMessage.saSelected {
@@ -34029,26 +34037,8 @@ pre.saCode {
   padding: 2.5rem;
   z-index: 99;
 }
-.saMessage.saUnread {
-  background-color: #ffe8e7;
-  transition: ease background-color 1s;
-}
-.saMessage.saUnread.saRead {
-  background-color: #fff;
-}
-@media (pointer: fine) {
-  .saMessage.saUnread.saRead:hover {
-    background-color: #f7faff;
-    transition: none;
-  }
-}
-.saMessage.saUnread.saRead:has(:checked) {
-  background-color: #e5efff;
-}
-@media (pointer: fine) {
-  .saMessage.saUnread.saRead:has(:checked):hover {
-    background-color: #e5efff;
-  }
+.saMessage.saUnread::after {
+  opacity: 1;
 }
 .saMessage:has(:checked) {
   background-color: #e5efff;
@@ -34063,7 +34053,7 @@ pre.saCode {
 }
 @keyframes slider-slider {
   0% {
-    transform: translateY(40px);
+    transform: translateY(2.5rem);
   }
   100% {
     transform: translateY(0px);
@@ -34081,6 +34071,7 @@ pre.saCode {
   transform: scale(0.8);
   transition: ease 0.2s transform;
   z-index: 1;
+  visibility: hidden;
 }
 .saSmallScreen .saMessageToolbar {
   display: none;
@@ -34235,7 +34226,8 @@ input.saAvatarCheckbox {
   height: 1.5rem;
   width: 1.5rem;
   transform: scale(1);
-  transition: ease background 0.2s, ease transform 0.2s, ease opacity 0.2s;
+  transition: ease background 0.2s, ease transform 0.2s, ease opacity 0.2s, ease visibility 0.2s;
+  visibility: hidden;
 }
 input.saAvatarCheckbox::after {
   height: 2.75rem;
@@ -34246,6 +34238,7 @@ input.saAvatarCheckbox::after {
 .saSenderAvatarWrapper:has(input[type='checkbox']):has(:checked) input.saAvatarCheckbox {
   opacity: 1;
   transform: scale(1);
+  visibility: visible;
 }
 .saSenderAvatarWrapper:has(input[type='checkbox']):hover .saSenderAvatar,
 .saSenderAvatarWrapper:has(input[type='checkbox']):focus .saSenderAvatar,
@@ -34268,7 +34261,6 @@ input.saAvatarCheckbox::after {
   align-items: center;
 }
 .saSenderName {
-  gap: 0.25rem;
   font-size: 0.875rem;
   line-height: 1.125rem;
   font-weight: 500;
@@ -34280,6 +34272,28 @@ input.saAvatarCheckbox::after {
   font-size: 0.75rem;
   line-height: 0.75rem;
   color: #60748b;
+  position: relative;
+}
+.saMessageTime::after {
+  content: '';
+  display: flex;
+  height: 0.375rem;
+  width: 0.375rem;
+  border-radius: 100%;
+  background-color: #e0173e;
+  position: absolute;
+  right: -0.75rem;
+  top: 0.1875rem;
+  transition: ease opacity 0.2s, ease transform 0.2s, ease visibility 0.2s;
+  transition-delay: 2s;
+  opacity: 0;
+  transform: scale(0);
+  visibility: hidden;
+}
+.saUnread .saMessageTime::after {
+  opacity: 1;
+  transform: scale(1);
+  visibility: visible;
 }
 .saMessageBody {
   display: flex;
@@ -34342,7 +34356,7 @@ toolbar {
   bottom: 0.5rem;
   left: 0.5rem;
 }
-toolbar button {
+toolbar .saButtonToolbar {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: 'Lexend', sans-serif;
@@ -34356,72 +34370,75 @@ toolbar button {
   flex-shrink: 0;
   color: #2d6ce1;
   background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
-toolbar button .saButtonText {
+toolbar .saButtonToolbar .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-toolbar button .saBadgedIcon {
+toolbar .saButtonToolbar .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-toolbar button .saIcon {
+toolbar .saButtonToolbar .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-toolbar button .saIcon {
+toolbar .saButtonToolbar .saIcon {
   color: var(--Sa-Color-Icon);
 }
-toolbar button.saDestructive {
+toolbar .saButtonToolbar.saDestructive {
   color: #e0173e;
 }
-toolbar button.saDestructive .saIcon {
+toolbar .saButtonToolbar.saDestructive .saIcon {
   color: #e0173e;
 }
 @media (pointer: fine) {
-  toolbar button.saDestructive:hover {
+  toolbar .saButtonToolbar.saDestructive:hover {
     color: #e0173e;
     background: #ffe8e7;
   }
-  toolbar button.saDestructive:hover .saIcon {
+  toolbar .saButtonToolbar.saDestructive:hover .saIcon {
     color: #e0173e;
   }
 }
-toolbar button.saDestructive:active {
+toolbar .saButtonToolbar.saDestructive:active {
   color: #fff;
   background: #e0173e;
 }
-toolbar button.saDestructive:active > .saIcon {
+toolbar .saButtonToolbar.saDestructive:active > .saIcon {
   color: #fff;
 }
 @media (pointer: fine) {
-  toolbar button:hover {
+  toolbar .saButtonToolbar:hover {
     background: #f8f9fb;
     color: #2d6ce1;
   }
-  toolbar button:hover .saIcon {
+  toolbar .saButtonToolbar:hover .saIcon {
     color: var(--Sa-Color-IconHover);
   }
 }
-toolbar button:active {
+toolbar .saButtonToolbar:active {
   background: #dde3ec;
 }
-toolbar button:disabled {
+toolbar .saButtonToolbar:disabled {
   background: #ccd5e2;
   pointer-events: none;
   color: #7088a4;
 }
-toolbar button:disabled .saIcon {
+toolbar .saButtonToolbar:disabled .saIcon {
   color: #7088a4;
 }
-.saStandard toolbar button {
+.saStandard toolbar .saButtonToolbar {
   border-radius: 0.5rem;
   padding: 0 0.5rem;
   width: 2.5rem;
@@ -34430,10 +34447,10 @@ toolbar button:disabled .saIcon {
   min-width: 2.5rem;
   font-size: 1rem;
 }
-.saStandard toolbar button:active {
+.saStandard toolbar .saButtonToolbar:active {
   border-radius: 0.75rem;
 }
-.saCompact toolbar button {
+.saCompact toolbar .saButtonToolbar {
   border-radius: 0.5rem;
   padding: 0 0.5rem;
   width: 2rem;
@@ -34442,10 +34459,10 @@ toolbar button:disabled .saIcon {
   min-width: 2rem;
   font-size: 1rem;
 }
-.saCompact toolbar button:active {
+.saCompact toolbar .saButtonToolbar:active {
   border-radius: 0.75rem;
 }
-.saSmallScreen toolbar button {
+.saSmallScreen toolbar .saButtonToolbar {
   border-radius: 0.5rem;
   padding: 0 0.5rem;
   width: 2.5rem;
@@ -34454,8 +34471,14 @@ toolbar button:disabled .saIcon {
   min-width: 2.5rem;
   font-size: 1rem;
 }
-.saSmallScreen toolbar button:active {
+.saSmallScreen toolbar .saButtonToolbar:active {
   border-radius: 0.75rem;
+}
+toolbar .saButtonToolbar [type='file'] {
+  display: none;
+}
+toolbar .saButtonToolbar::-webkit-file-upload-button {
+  display: none;
 }
 .saButtonSend {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
