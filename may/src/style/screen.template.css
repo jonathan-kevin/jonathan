@@ -31157,6 +31157,51 @@ h3.saToCHeading {
   -ms-user-select: none;
   user-select: none;
 }
+html {
+  background-color: #f8f9fb;
+}
+body {
+  background-color: #fff;
+}
+.saSizer {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99;
+  box-sizing: border-box;
+  cursor: not-allowed;
+}
+.saSizer * {
+  box-sizing: border-box;
+}
+.saSizer fieldset {
+  display: flex;
+  flex-direction: row;
+  padding: 0.25rem;
+  border-radius: 0.75rem;
+  background-color: #1c2025;
+  pointer-events: none;
+}
+.saSizer label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 3rem;
+  height: 2rem;
+  position: relative;
+  color: #ccd5e2;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+}
+.saSizer label input {
+  display: none;
+}
+.saSizer label:has(:checked) {
+  background-color: #404c5b;
+  color: #fff;
+}
 .saDisplayGrid {
   display: grid;
   grid-auto-flow: dense;
@@ -32544,9 +32589,6 @@ h3.saToCHeading {
 .saBentoWrapper * {
   box-sizing: border-box;
 }
-.saBentoWrapper .saBentoWrapper {
-  display: contents;
-}
 .saSmallScreen .saBentoWrapper {
   padding: 1rem;
 }
@@ -32572,6 +32614,10 @@ h3.saToCHeading {
 .saTiny .saBentoInner {
   justify-content: space-between;
 }
+.saSolid .saBentoInner {
+  background-color: #f7faff;
+  border-color: #bbd6ff;
+}
 .saBentoInner::after {
   content: '';
   width: 100%;
@@ -32586,26 +32632,28 @@ h3.saToCHeading {
   pointer-events: none;
   user-select: none;
 }
-.saBentoInner:hover {
-  background-color: var(--Blue50);
-  border-color: var(--Blue200);
-}
-.saBentoInner:hover::after {
-  transform: translateY(60%);
-}
-.saBentoInner:hover .saBentoImage img {
-  transform: scale(1.125);
-}
-.saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: var(--Blue600);
-  color: var(--White);
-  box-shadow: none;
-}
-.saBentoInner:hover .saBentoHeading,
-.saBentoInner:hover .saBentoDescription,
-.saBentoInner:hover .saBentoHeading .saIcon {
-  color: var(--Blue600);
+@media (pointer: fine) {
+  .saBentoInner:hover {
+    background-color: var(--Blue50);
+    border-color: var(--Blue200);
+  }
+  .saBentoInner:hover::after {
+    transform: translateY(60%);
+  }
+  .saBentoInner:hover .saBentoImage img {
+    transform: scale(1.125);
+  }
+  .saBentoInner:hover .saBentoIcon {
+    background-image: none;
+    background-color: var(--Blue600);
+    color: var(--White);
+    box-shadow: none;
+  }
+  .saBentoInner:hover .saBentoHeading,
+  .saBentoInner:hover .saBentoDescription,
+  .saBentoInner:hover .saBentoHeading .saIcon {
+    color: var(--Blue600);
+  }
 }
 .saBentoInner:active {
   border-radius: 1.5rem;
@@ -32625,6 +32673,10 @@ h3.saToCHeading {
 .saBentoInner:active .saBentoHeading .saIcon {
   color: var(--Blue700);
 }
+.saSolid.saGreen .saBentoInner {
+  background-color: #f2fcf2;
+  border-color: #91e89b;
+}
 .saGreen .saBentoInner::after {
   background-image: radial-gradient(at bottom, var(--Green200) 0%, rgba(145, 232, 155, 0) 80%);
 }
@@ -32635,20 +32687,22 @@ h3.saToCHeading {
 .saTiny.saGreen .saBentoInner .saBentoIcon {
   box-shadow: inset 0 0 0 1px var(--Green200);
 }
-.saGreen .saBentoInner:hover {
-  background-color: var(--Green50);
-  border-color: var(--Green200);
-}
-.saGreen .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: var(--Green500);
-  color: var(--White);
-  box-shadow: none;
-}
-.saGreen .saBentoInner:hover .saBentoHeading,
-.saGreen .saBentoInner:hover .saBentoDescription,
-.saGreen .saBentoInner:hover .saBentoHeading .saIcon {
-  color: var(--Green600);
+@media (pointer: fine) {
+  .saGreen .saBentoInner:hover {
+    background-color: var(--Green50);
+    border-color: var(--Green200);
+  }
+  .saGreen .saBentoInner:hover .saBentoIcon {
+    background-image: none;
+    background-color: var(--Green500);
+    color: var(--White);
+    box-shadow: none;
+  }
+  .saGreen .saBentoInner:hover .saBentoHeading,
+  .saGreen .saBentoInner:hover .saBentoDescription,
+  .saGreen .saBentoInner:hover .saBentoHeading .saIcon {
+    color: var(--Green600);
+  }
 }
 .saGreen .saBentoInner:active {
   background-color: var(--Green100);
@@ -32664,6 +32718,10 @@ h3.saToCHeading {
 .saGreen .saBentoInner:active .saBentoHeading .saIcon {
   color: var(--Green700);
 }
+.saSolid.saGray .saBentoInner {
+  background-color: #f8f9fb;
+  border-color: #ccd5e2;
+}
 .saGray .saBentoInner::after {
   background-image: radial-gradient(at bottom, var(--Gray300) 0%, rgba(173, 189, 209, 0) 80%);
 }
@@ -32674,20 +32732,22 @@ h3.saToCHeading {
 .saTiny.saGray .saBentoInner .saBentoIcon {
   box-shadow: inset 0 0 0 1px var(--Gray200);
 }
-.saGray .saBentoInner:hover {
-  background-color: var(--Gray50);
-  border-color: var(--Gray200);
-}
-.saGray .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: var(--Gray600);
-  color: var(--White);
-  box-shadow: none;
-}
-.saGray .saBentoInner:hover .saBentoHeading,
-.saGray .saBentoInner:hover .saBentoDescription,
-.saGray .saBentoInner:hover .saBentoHeading .saIcon {
-  color: var(--Gray600);
+@media (pointer: fine) {
+  .saGray .saBentoInner:hover {
+    background-color: var(--Gray50);
+    border-color: var(--Gray200);
+  }
+  .saGray .saBentoInner:hover .saBentoIcon {
+    background-image: none;
+    background-color: var(--Gray600);
+    color: var(--White);
+    box-shadow: none;
+  }
+  .saGray .saBentoInner:hover .saBentoHeading,
+  .saGray .saBentoInner:hover .saBentoDescription,
+  .saGray .saBentoInner:hover .saBentoHeading .saIcon {
+    color: var(--Gray600);
+  }
 }
 .saGray .saBentoInner:active {
   background-color: var(--Gray100);
@@ -32703,6 +32763,10 @@ h3.saToCHeading {
 .saGray .saBentoInner:active .saBentoHeading .saIcon {
   color: var(--Gray700);
 }
+.saSolid.saRed .saBentoInner {
+  background-color: #fff7f7;
+  border-color: #ffc6c5;
+}
 .saRed .saBentoInner::after {
   background-image: radial-gradient(at bottom, var(--Red200) 0%, rgba(255, 198, 197, 0) 80%);
 }
@@ -32713,20 +32777,22 @@ h3.saToCHeading {
 .saTiny.saRed .saBentoInner .saBentoIcon {
   box-shadow: inset 0 0 0 1px var(--Red200);
 }
-.saRed .saBentoInner:hover {
-  background-color: var(--Red50);
-  border-color: var(--Red200);
-}
-.saRed .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: var(--Red600);
-  color: var(--White);
-  box-shadow: none;
-}
-.saRed .saBentoInner:hover .saBentoHeading,
-.saRed .saBentoInner:hover .saBentoDescription,
-.saRed .saBentoInner:hover .saBentoHeading .saIcon {
-  color: var(--Red600);
+@media (pointer: fine) {
+  .saRed .saBentoInner:hover {
+    background-color: var(--Red50);
+    border-color: var(--Red200);
+  }
+  .saRed .saBentoInner:hover .saBentoIcon {
+    background-image: none;
+    background-color: var(--Red600);
+    color: var(--White);
+    box-shadow: none;
+  }
+  .saRed .saBentoInner:hover .saBentoHeading,
+  .saRed .saBentoInner:hover .saBentoDescription,
+  .saRed .saBentoInner:hover .saBentoHeading .saIcon {
+    color: var(--Red600);
+  }
 }
 .saRed .saBentoInner:active {
   background-color: var(--Red100);
@@ -32742,6 +32808,10 @@ h3.saToCHeading {
 .saRed .saBentoInner:active .saBentoHeading .saIcon {
   color: var(--Red700);
 }
+.saSolid.saOrange .saBentoInner {
+  background-color: #fff8f4;
+  border-color: #ffc9a4;
+}
 .saOrange .saBentoInner::after {
   background-image: radial-gradient(at bottom, var(--Orange200) 0%, rgba(255, 201, 164, 0) 80%);
 }
@@ -32752,20 +32822,22 @@ h3.saToCHeading {
 .saTiny.saOrange .saBentoInner .saBentoIcon {
   box-shadow: inset 0 0 0 1px var(--Orange200);
 }
-.saOrange .saBentoInner:hover {
-  background-color: var(--Orange50);
-  border-color: var(--Orange200);
-}
-.saOrange .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: var(--Orange500);
-  color: var(--White);
-  box-shadow: none;
-}
-.saOrange .saBentoInner:hover .saBentoHeading,
-.saOrange .saBentoInner:hover .saBentoDescription,
-.saOrange .saBentoInner:hover .saBentoHeading .saIcon {
-  color: var(--Orange600);
+@media (pointer: fine) {
+  .saOrange .saBentoInner:hover {
+    background-color: var(--Orange50);
+    border-color: var(--Orange200);
+  }
+  .saOrange .saBentoInner:hover .saBentoIcon {
+    background-image: none;
+    background-color: var(--Orange500);
+    color: var(--White);
+    box-shadow: none;
+  }
+  .saOrange .saBentoInner:hover .saBentoHeading,
+  .saOrange .saBentoInner:hover .saBentoDescription,
+  .saOrange .saBentoInner:hover .saBentoHeading .saIcon {
+    color: var(--Orange600);
+  }
 }
 .saOrange .saBentoInner:active {
   background-color: var(--Orange100);
@@ -32781,6 +32853,10 @@ h3.saToCHeading {
 .saOrange .saBentoInner:active .saBentoHeading .saIcon {
   color: var(--Orange700);
 }
+.saSolid.saYellow .saBentoInner {
+  background-color: #fff8e7;
+  border-color: #ffcd5b;
+}
 .saYellow .saBentoInner::after {
   background-image: radial-gradient(at bottom, var(--Yellow200) 0%, rgba(255, 205, 91, 0) 80%);
 }
@@ -32791,20 +32867,22 @@ h3.saToCHeading {
 .saTiny.saYellow .saBentoInner .saBentoIcon {
   box-shadow: inset 0 0 0 1px var(--Yellow200);
 }
-.saYellow .saBentoInner:hover {
-  background-color: var(--Yellow50);
-  border-color: var(--Yellow200);
-}
-.saYellow .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: var(--Yellow500);
-  color: var(--White);
-  box-shadow: none;
-}
-.saYellow .saBentoInner:hover .saBentoHeading,
-.saYellow .saBentoInner:hover .saBentoDescription,
-.saYellow .saBentoInner:hover .saBentoHeading .saIcon {
-  color: var(--Yellow600);
+@media (pointer: fine) {
+  .saYellow .saBentoInner:hover {
+    background-color: var(--Yellow50);
+    border-color: var(--Yellow200);
+  }
+  .saYellow .saBentoInner:hover .saBentoIcon {
+    background-image: none;
+    background-color: var(--Yellow500);
+    color: var(--White);
+    box-shadow: none;
+  }
+  .saYellow .saBentoInner:hover .saBentoHeading,
+  .saYellow .saBentoInner:hover .saBentoDescription,
+  .saYellow .saBentoInner:hover .saBentoHeading .saIcon {
+    color: var(--Yellow600);
+  }
 }
 .saYellow .saBentoInner:active {
   background-color: var(--Yellow100);
@@ -32820,6 +32898,10 @@ h3.saToCHeading {
 .saYellow .saBentoInner:active .saBentoHeading .saIcon {
   color: var(--Yellow700);
 }
+.saSolid.saSky .saBentoInner {
+  background-color: #f0fcff;
+  border-color: #82e1fb;
+}
 .saSky .saBentoInner::after {
   background-image: radial-gradient(at bottom, var(--Sky200) 0%, rgba(130, 225, 251, 0) 80%);
 }
@@ -32830,20 +32912,22 @@ h3.saToCHeading {
 .saTiny.saSky .saBentoInner .saBentoIcon {
   box-shadow: inset 0 0 0 1px var(--Sky200);
 }
-.saSky .saBentoInner:hover {
-  background-color: var(--Sky50);
-  border-color: var(--Sky200);
-}
-.saSky .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: var(--Sky500);
-  color: var(--White);
-  box-shadow: none;
-}
-.saSky .saBentoInner:hover .saBentoHeading,
-.saSky .saBentoInner:hover .saBentoDescription,
-.saSky .saBentoInner:hover .saBentoHeading .saIcon {
-  color: var(--Sky600);
+@media (pointer: fine) {
+  .saSky .saBentoInner:hover {
+    background-color: var(--Sky50);
+    border-color: var(--Sky200);
+  }
+  .saSky .saBentoInner:hover .saBentoIcon {
+    background-image: none;
+    background-color: var(--Sky500);
+    color: var(--White);
+    box-shadow: none;
+  }
+  .saSky .saBentoInner:hover .saBentoHeading,
+  .saSky .saBentoInner:hover .saBentoDescription,
+  .saSky .saBentoInner:hover .saBentoHeading .saIcon {
+    color: var(--Sky600);
+  }
 }
 .saSky .saBentoInner:active {
   background-color: var(--Sky100);
@@ -32859,6 +32943,10 @@ h3.saToCHeading {
 .saSky .saBentoInner:active .saBentoHeading .saIcon {
   color: var(--Sky700);
 }
+.saSolid.saPurple .saBentoInner {
+  background-color: #f9f7ff;
+  border-color: #ddccff;
+}
 .saPurple .saBentoInner::after {
   background-image: radial-gradient(at bottom, var(--Purple300) 0%, rgba(202, 173, 255, 0) 80%);
 }
@@ -32869,20 +32957,22 @@ h3.saToCHeading {
 .saTiny.saPurple .saBentoInner .saBentoIcon {
   box-shadow: inset 0 0 0 1px var(--Purple200);
 }
-.saPurple .saBentoInner:hover {
-  background-color: var(--Purple50);
-  border-color: var(--Purple200);
-}
-.saPurple .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: var(--Purple600);
-  color: var(--White);
-  box-shadow: none;
-}
-.saPurple .saBentoInner:hover .saBentoHeading,
-.saPurple .saBentoInner:hover .saBentoDescription,
-.saPurple .saBentoInner:hover .saBentoHeading .saIcon {
-  color: var(--Purple600);
+@media (pointer: fine) {
+  .saPurple .saBentoInner:hover {
+    background-color: var(--Purple50);
+    border-color: var(--Purple200);
+  }
+  .saPurple .saBentoInner:hover .saBentoIcon {
+    background-image: none;
+    background-color: var(--Purple600);
+    color: var(--White);
+    box-shadow: none;
+  }
+  .saPurple .saBentoInner:hover .saBentoHeading,
+  .saPurple .saBentoInner:hover .saBentoDescription,
+  .saPurple .saBentoInner:hover .saBentoHeading .saIcon {
+    color: var(--Purple600);
+  }
 }
 .saPurple .saBentoInner:active {
   background-color: var(--Purple100);
@@ -32898,6 +32988,10 @@ h3.saToCHeading {
 .saPurple .saBentoInner:active .saBentoHeading .saIcon {
   color: var(--Purple700);
 }
+.saSolid.saPink .saBentoInner {
+  background-color: #fff7fc;
+  border-color: #ffc1ed;
+}
 .saPink .saBentoInner::after {
   background-image: radial-gradient(at bottom, var(--Pink200) 0%, rgba(255, 193, 237, 0) 80%);
 }
@@ -32908,20 +33002,22 @@ h3.saToCHeading {
 .saTiny.saPink .saBentoInner .saBentoIcon {
   box-shadow: inset 0 0 0 1px var(--Pink200);
 }
-.saPink .saBentoInner:hover {
-  background-color: var(--Pink50);
-  border-color: var(--Pink200);
-}
-.saPink .saBentoInner:hover .saBentoIcon {
-  background-image: none;
-  background-color: var(--Pink500);
-  color: var(--White);
-  box-shadow: none;
-}
-.saPink .saBentoInner:hover .saBentoHeading,
-.saPink .saBentoInner:hover .saBentoDescription,
-.saPink .saBentoInner:hover .saBentoHeading .saIcon {
-  color: var(--Pink600);
+@media (pointer: fine) {
+  .saPink .saBentoInner:hover {
+    background-color: var(--Pink50);
+    border-color: var(--Pink200);
+  }
+  .saPink .saBentoInner:hover .saBentoIcon {
+    background-image: none;
+    background-color: var(--Pink500);
+    color: var(--White);
+    box-shadow: none;
+  }
+  .saPink .saBentoInner:hover .saBentoHeading,
+  .saPink .saBentoInner:hover .saBentoDescription,
+  .saPink .saBentoInner:hover .saBentoHeading .saIcon {
+    color: var(--Pink600);
+  }
 }
 .saPink .saBentoInner:active {
   background-color: var(--Pink100);
