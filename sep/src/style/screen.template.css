@@ -4506,23 +4506,6 @@ div.saPopupOverlay {
   display: flex;
   flex-direction: column;
 }
-@keyframes clip {
-  to {
-    background-position: -200% center;
-  }
-}
-.saInfoBoxArea .saInfoBoxCol:has(.saAiIcon:hover) .saInfoBoxTextContent,
-.saInfoBoxArea .saInfoBoxCol:has(.saAiIcon:focus-visible) .saInfoBoxTextContent {
-  background-image: linear-gradient(0.1turn, #8b4af1 0%, #8b4af1 50%, #ff6dcd 60%, #8b4af1 100%);
-  background-size: auto auto;
-  background-clip: border-box;
-  background-size: 200% auto;
-  background-clip: text;
-  text-fill-color: transparent;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: clip 4s ease;
-}
 .saInfoBoxArea .saInfoBoxImage {
   display: flex;
   justify-content: center;
@@ -16272,7 +16255,7 @@ select.saInputText {
 .saInputPage .saFormPlaceholder {
   display: none;
 }
-.saInputPage .saFormRootAndToCWrapper {
+.saInputPage .saFormRootAndTocWrapper {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -16283,7 +16266,7 @@ select.saInputText {
   height: 100%;
   box-sizing: border-box;
 }
-.saInputPage .saFormRootAndToCWrapper.saToCFixed {
+.saInputPage .saFormRootAndTocWrapper.saTocFixed {
   flex-direction: column;
 }
 .saInputPage .saFormRoot {
@@ -17534,7 +17517,6 @@ legend + .saInputCardsWrapper {
 .saInputCardWrapper.saSmall .saInputCardHeading {
   font-size: 0.875rem;
   text-align: center;
-  box-shadow: inset 0, 0, 0, 1px, var(--Sa-Color-InputFieldBorder);
   hyphens: auto;
 }
 @media (pointer: fine) {
@@ -18942,6 +18924,7 @@ legend + .saInputCardsWrapper {
   box-shadow: inset 0 0 0 1px transparent;
 }
 .saDatePickerRoot .saDatePickerSlot.saSelected.saYearCurrent {
+  color: var(--Sa-Color-LabelBackground);
   font-weight: inherit;
 }
 .saDatePickerRoot .saDatePickerSlot.saYearCurrent {
@@ -24304,9 +24287,10 @@ softadmin-nodegraph .saNodeGroup {
   display: flex;
   justify-content: flex-start;
   gap: 0.5rem;
-  border-style: dashed;
-  border-width: 2px;
-  border-color: #9e65ff;
+  outline-style: dashed;
+  outline-width: 2px;
+  outline-color: #9e65ff;
+  outline-offset: -3px;
   background-color: rgba(221, 204, 255, 0.1);
   border-radius: 1.5rem;
   z-index: 0;
@@ -24318,6 +24302,10 @@ softadmin-nodegraph .saNodeGroup .saNodeTools {
 softadmin-nodegraph .saNodeGroup:hover .saNodeTools,
 softadmin-nodegraph .saNodeGroup .saNodeTools:has(.open) {
   display: flex;
+}
+softadmin-nodegraph .saNodeGroup.saSelected {
+  outline-style: solid;
+  outline-width: 3px;
 }
 softadmin-nodegraph .saNodeGroupTitle {
   display: flex;
@@ -33407,11 +33395,14 @@ body.saPopup::before {
 .apiAlertText {
   color: #e0173e;
 }
-.saToC {
+.saFormRootAndTocWrapper {
+  interpolate-size: allow-keywords;
+}
+.saToc {
   display: flex;
   flex-direction: column;
   position: sticky;
-  top: 0;
+  top: 1rem;
   font-size: 0.875rem;
   line-height: 1;
   box-sizing: border-box;
@@ -33420,46 +33411,57 @@ body.saPopup::before {
   max-width: 22rem;
   min-width: 12rem;
   height: fit-content;
+  max-height: 80vh;
   margin-left: 2rem;
   order: 99;
 }
-.saSmallScreen .saToC {
+.saSmallScreen .saToc {
   display: none;
 }
-.saToCFixed .saToC,
-.saMultiPartContent .saToC {
+.saTocFixed .saToc,
+.saMultiPartContent .saToc {
+  top: 0;
   order: 0;
   position: relative;
   margin-left: 0;
   padding: 0 0 1rem 0;
+  max-height: 100%;
 }
-.saToC * {
+.saToc * {
   box-sizing: border-box;
 }
-.saToC ul {
+.saToc ul {
   display: flex;
   flex-direction: column;
   padding-left: 1rem;
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
+  margin-top: 0.25rem;
+  height: 0;
+  visibility: hidden;
+  transition: ease 0.2s height, ease visibility 0.2s;
 }
-.saToC li {
+.saOpen.saToc ul {
+  height: auto;
+  visibility: visible;
+}
+.saToc li {
   display: flex;
   flex-direction: column;
   position: relative;
   overflow-wrap: break-word;
 }
-.saToC li[hidden] {
+.saToc li[hidden] {
   display: none;
 }
-.saToC li[aria-current="true"] a {
+.saToc li[aria-current='true'] a {
   border-color: #2d6ce1;
   color: #2d6ce1;
 }
-.saToC li[aria-current="true"] a::after {
+.saToc li[aria-current='true'] a::after {
   opacity: 1;
 }
-.saToC a {
+.saToc a {
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -33473,25 +33475,70 @@ body.saPopup::before {
   border-left: 1px solid #ccd5e2;
 }
 @media (pointer: fine) {
-  .saToC a:hover {
+  .saToc a:hover {
     color: #2d6ce1;
     border-color: #2d6ce1;
   }
 }
-.saToC a:active {
+.saToc a:active {
   color: #1c57c6;
   border-color: #063384;
 }
-.saToC a .saIcon {
+.saToc a .saIcon {
   font-size: 1rem;
   line-height: 1;
   cursor: default;
 }
-.saToC a .saIcon.saError {
+.saToc a .saIcon.saError {
   color: #e0173e;
 }
-.saToC .saToCHeading {
-  padding-bottom: 0.25rem;
+.saTocButton {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #313a44;
+  background-color: transparent;
+  min-height: 2rem;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.375rem;
+}
+.saTocFixed .saTocButton {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+}
+.saStandard .saTocFixed .saTocButton {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  min-height: 2.5rem;
+}
+.saTocButton .saIcon {
+  font-size: 0.875rem;
+  color: #7088a4;
+  transition: ease 0.2s transform;
+}
+.saOpen .saTocButton .saIcon {
+  transform: rotate(-180deg);
+}
+@media (pointer: fine) {
+  .saTocButton:hover {
+    color: #2d6ce1;
+  }
+  .saTocButton:hover .saIcon {
+    color: inherit;
+  }
+}
+.saTocButton:active {
+  color: #1c57c6;
+}
+.saTocButton:active .saIcon {
+  color: inherit;
 }
 /* Let this be the last import */
 .saGridCell .saIconTable .saIcon {

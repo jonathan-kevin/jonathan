@@ -31157,7 +31157,7 @@ h3.saToCHeading {
   -ms-user-select: none;
   user-select: none;
 }
-html {
+body#frameX {
   background-color: #f8f9fb;
 }
 body {
@@ -31165,12 +31165,11 @@ body {
 }
 .saSizer {
   position: absolute;
-  bottom: 1rem;
+  bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 99;
   box-sizing: border-box;
-  cursor: not-allowed;
 }
 .saSizer * {
   box-sizing: border-box;
@@ -31181,7 +31180,6 @@ body {
   padding: 0.25rem;
   border-radius: 0.75rem;
   background-color: #1c2025;
-  pointer-events: none;
 }
 .saSizer label {
   display: flex;
@@ -31196,7 +31194,13 @@ body {
   font-size: 0.75rem;
 }
 .saSizer label input {
-  display: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
 }
 .saSizer label:has(:checked) {
   background-color: #404c5b;
@@ -32598,6 +32602,14 @@ body {
 .saBento article {
   height: 100%;
   position: relative;
+}
+.saBento article fieldset {
+  display: flex;
+  gap: 0.25rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 9;
 }
 .saBentoInner {
   display: flex;
