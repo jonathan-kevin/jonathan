@@ -186,14 +186,16 @@
 }
 .saInputC0lorShade label {
   position: relative;
+  width: fit-content;
+  height: fit-content;
 }
 .saInputC0lorShade label::after {
   content: '';
   height: 0.5rem;
   width: 0.5rem;
   position: absolute;
-  top: -2px;
-  right: -2px;
+  top: 0;
+  right: 0;
   border-radius: 100%;
   background-color: #29bb4e;
   box-shadow: 0 0 0 0.125rem #fff;
@@ -411,7 +413,7 @@
   color: #011b50;
 }
 .saBlue500 span {
-  color: #063384;
+  color: #011b50;
 }
 .saBlue600 {
   background-color: #2d6ce1;
@@ -478,14 +480,6 @@
   color: #313a44;
 }
 .saGray100 span {
-  color: #506072;
-}
-.saGray150 {
-  background-color: #dde3ec;
-  outline-color: #adbdd1;
-  color: #313a44;
-}
-.saGray150 span {
   color: #404c5b;
 }
 .saGray200 {
@@ -499,7 +493,7 @@
 .saGray300 {
   background-color: #adbdd1;
   outline-color: #8fa5c0;
-  color: #1c2025;
+  color: #313a44;
 }
 .saGray300 span {
   color: #313a44;
@@ -515,26 +509,26 @@
 .saGray500 {
   background-color: #7088a4;
   outline-color: #adbdd1;
-  color: #fff;
+  color: #1c2025;
 }
 .saGray500 span {
-  color: #f8f9fb;
+  color: #1c2025;
 }
 .saGray600 {
   background-color: #60748b;
   outline-color: #8fa5c0;
-  color: #f8f9fb;
+  color: #fff;
 }
 .saGray600 span {
-  color: #eef1f5;
+  color: #f8f9fb;
 }
 .saGray700 {
   background-color: #506072;
   outline-color: #7088a4;
-  color: #eef1f5;
+  color: #f8f9fb;
 }
 .saGray700 span {
-  color: #ccd5e2;
+  color: #eef1f5;
 }
 .saGray800 {
   background-color: #404c5b;
@@ -542,7 +536,7 @@
   color: #eef1f5;
 }
 .saGray800 span {
-  color: #adbdd1;
+  color: #ccd5e2;
 }
 .saGray900 {
   background-color: #313a44;
@@ -550,7 +544,7 @@
   color: #eef1f5;
 }
 .saGray900 span {
-  color: #8fa5c0;
+  color: #adbdd1;
 }
 .saGray950 {
   background-color: #1c2025;
@@ -617,7 +611,7 @@
   color: #470000;
 }
 .saRed500 span {
-  color: #790000;
+  color: #470000;
 }
 .saRed600 {
   background-color: #e0173e;
@@ -716,7 +710,7 @@
   color: #351604;
 }
 .saOrange500 span {
-  color: #5b2b0c;
+  color: #351604;
 }
 .saOrange600 {
   background-color: #ae5c28;
@@ -815,7 +809,7 @@
   color: #2e1b00;
 }
 .saYellow500 span {
-  color: #513200;
+  color: #2e1b00;
 }
 .saYellow600 {
   background-color: #9c6700;
@@ -914,7 +908,7 @@
   color: #002504;
 }
 .saGreen500 span {
-  color: #00430d;
+  color: #002504;
 }
 .saGreen600 {
   background-color: #008429;
@@ -1013,7 +1007,7 @@
   color: #05222a;
 }
 .saSky500 span {
-  color: #0f3e4a;
+  color: #05222a;
 }
 .saSky600 {
   background-color: #2a7b90;
@@ -1112,7 +1106,7 @@
   color: #2c0658;
 }
 .saPurple500 span {
-  color: #4c1590;
+  color: #2c0658;
 }
 .saPurple600 {
   background-color: #8b4af1;
@@ -1211,7 +1205,7 @@
   color: #41012f;
 }
 .saPink500 span {
-  color: #6e0552;
+  color: #41012f;
 }
 .saPink600 {
   background-color: #ca2c9b;
@@ -33405,14 +33399,6 @@ body.saPopup::before {
 .apiAlertText {
   color: #e0173e;
 }
-.saFormRootAndTocWrapper {
-  interpolate-size: allow-keywords;
-}
-pre[class*=language-] {
-  max-width: 800px;
-  overflow: auto;
-  max-height: 400px;
-}
 .saToc {
   display: flex;
   flex-direction: column;
@@ -33420,15 +33406,19 @@ pre[class*=language-] {
   top: 1rem;
   font-size: 0.875rem;
   line-height: 1;
-  box-sizing: border-box;
   background-color: #fff;
-  border-radius: 1rem;
   max-width: 22rem;
   min-width: 12rem;
-  height: fit-content;
-  max-height: 80vh;
   margin-left: 2rem;
   order: 99;
+  transition: ease max-height 0.2s;
+  max-height: 2rem;
+}
+.saToc * {
+  box-sizing: border-box;
+}
+.saToc.saOpen {
+  max-height: 80vh;
 }
 .saSmallScreen .saToc {
   display: none;
@@ -33440,74 +33430,96 @@ pre[class*=language-] {
   position: relative;
   margin-left: 0;
   padding: 0 0 1rem 0;
-  max-height: 100%;
-}
-.saToc * {
-  box-sizing: border-box;
 }
 .saToc ul {
-  display: flex;
-  flex-direction: column;
   padding-left: 1rem;
+  padding-bottom: 1rem;
   width: 100%;
-  overflow: hidden;
+  overflow: auto;
   margin-top: 0.25rem;
-  height: 0;
   visibility: hidden;
-  transition: ease 0.2s height, ease visibility 0.2s;
+  transition: ease transform 0.2s, ease visibility 0.2s, ease opacity 0.2s;
+  transform: scaleY(0);
+  transform-origin: top;
+  opacity: 0;
 }
 .saOpen.saToc ul {
-  height: auto;
+  opacity: 1;
+  transform: scaleY(1);
   visibility: visible;
 }
 .saToc li {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   position: relative;
   overflow-wrap: break-word;
 }
 .saToc li[hidden] {
   display: none;
 }
-.saToc li[aria-current='true'] a {
-  border-color: #2d6ce1;
-  color: #2d6ce1;
+.saToc li[aria-current="true"] .saTocLinkWrapper {
+  border-color: var(--Sa-Color-PrimaryButtonBackgroundHover);
+  color: var(--Sa-Color-PrimaryButtonBackgroundHover);
 }
-.saToc li[aria-current='true'] a::after {
+.saToc li[aria-current="true"] .saTocLinkWrapper .saTocHeadingLink {
+  color: inherit;
+}
+.saToc li[aria-current="true"] .saTocLinkWrapper::after {
   opacity: 1;
 }
-.saToc a {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
+.saToc .saTocLinkWrapper {
+  padding-right: 0.5rem;
   width: 100%;
-  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+  border-left: 1px solid #ccd5e2;
   min-height: 1.5rem;
+  align-content: center;
+}
+.saToc .saTocLinkWrapper a {
+  display: inline;
+}
+.saToc .saTocLinkWrapper .saTocHeadingLink {
+  padding: 0.25rem 0 0.25rem 0.5rem;
   text-decoration: none;
   color: #60748b;
-  flex-wrap: wrap;
-  position: relative;
-  border-left: 1px solid #ccd5e2;
+  box-decoration-break: clone;
 }
 @media (pointer: fine) {
-  .saToc a:hover {
-    color: #2d6ce1;
-    border-color: #2d6ce1;
+  .saToc .saTocLinkWrapper .saTocHeadingLink:hover {
+    color: var(--Sa-Color-PrimaryButtonBackgroundHover);
   }
 }
-.saToc a:active {
-  color: #1c57c6;
-  border-color: #063384;
+.saToc .saTocLinkWrapper .saTocHeadingLink:active {
+  color: var(--Sa-Color-PrimaryButtonBackgroundActive);
 }
-.saToc a .saIcon {
+@media (pointer: fine) {
+  .saToc .saTocLinkWrapper:hover {
+    border-color: var(--Sa-Color-PrimaryButtonBackgroundHover);
+  }
+  .saToc .saTocLinkWrapper:hover .saTocHeadingLink {
+    color: var(--Sa-Color-PrimaryButtonBackgroundHover);
+  }
+}
+.saToc .saTocLinkWrapper:active {
+  border-color: var(--Sa-Color-PrimaryButtonBackgroundActive);
+}
+.saToc .saTocLinkWrapper:active .saTocHeadingLink {
+  color: var(--Sa-Color-PrimaryButtonBackgroundActive);
+}
+.saToc .saTocLinkWrapper .saIcon {
   font-size: 1rem;
   line-height: 1;
-  cursor: default;
+  cursor: pointer;
+  padding-left: 0.25rem;
 }
-.saToc a .saIcon.saError {
+.saToc .saTocLinkWrapper .saIcon.saError {
   color: #e0173e;
 }
-.saTocButton {
+@media (pointer: fine) {
+  .saToc .saTocLinkWrapper .saIcon.saError:hover {
+    color: #bf0024;
+  }
+}
+.saToc .saTocButton {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -33516,43 +33528,43 @@ pre[class*=language-] {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #313a44;
+  color: var(--Sa-Color-Label);
   background-color: transparent;
   min-height: 2rem;
   font-weight: 500;
   font-size: 1rem;
   line-height: 1.375rem;
 }
-.saTocFixed .saTocButton {
+.saTocFixed .saToc .saTocButton {
   font-size: 1.25rem;
   line-height: 1.75rem;
   font-weight: 600;
 }
-.saStandard .saTocFixed .saTocButton {
+.saStandard .saTocFixed .saToc .saTocButton {
   font-size: 1.5rem;
   line-height: 2rem;
   min-height: 2.5rem;
 }
-.saTocButton .saIcon {
+.saToc .saTocButton .saIcon {
   font-size: 0.875rem;
-  color: #7088a4;
+  color: var(--sa-Color-Icon);
   transition: ease 0.2s transform;
 }
-.saOpen .saTocButton .saIcon {
+.saOpen.saToc .saTocButton .saIcon {
   transform: rotate(-180deg);
 }
 @media (pointer: fine) {
-  .saTocButton:hover {
-    color: #2d6ce1;
+  .saToc .saTocButton:hover {
+    color: var(--Sa-Color-PrimaryButtonBackground);
   }
-  .saTocButton:hover .saIcon {
+  .saToc .saTocButton:hover .saIcon {
     color: inherit;
   }
 }
-.saTocButton:active {
-  color: #1c57c6;
+.saToc .saTocButton:active {
+  color: var(--Sa-Color-PrimaryButtonBackgroundActive);
 }
-.saTocButton:active .saIcon {
+.saToc .saTocButton:active .saIcon {
   color: inherit;
 }
 /* Let this be the last import */
