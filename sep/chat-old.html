@@ -252,26 +252,6 @@
 													<div class="saChatTitle">Chat name</div>
 													<div class="saChatHeaderDescription">7 members</div>
 												</div>
-												<ul class="saChatToolbar" role="toolbar" style="display: none;">
-													<li>
-														<button type="button" class="saButton saDefaultButtonSecondary">
-															<i class="far fa-arrow-turn-down-left saIcon"></i>
-															Egg
-														</button>
-													</li>
-													<li>
-														<button type="button" class="saButton saDefaultButtonSecondary">
-															<i class="far fa-crow saIcon"></i>
-															Crow
-														</button>
-													</li>
-													<li>
-														<button type="button"
-															class="saButton saDefaultButtonSecondary IconButton">
-															<i class="far fa-ellipsis-vertical saIcon"></i>
-														</button>
-													</li>
-												</ul>
 												<ol class="saMessageGroup" aria-role="log" aria-relevant="additions"
 													aria-labelledby="chatname" id="chat-log">
 													<li role="separator" class="saChatDay">
@@ -1151,7 +1131,7 @@
 					const $p = $(this);
 					const offset = $p.offset();
 					elements.$toolbar?.css({
-						top: offset.top,
+						top: offset.top - 32,
 						left: offset.left + $p.outerWidth() - elements.$toolbar.outerWidth(),
 						display: 'flex'
 					}).data('associatedP', $p);
@@ -1164,7 +1144,7 @@
 				utils.announceToScreenReader('Emoji picker would open here');
 			});
 
-			$(window).on('scroll', () => elements.$toolbar?.hide());
+			$('.saMessageGroup').on('scroll', () => elements.$toolbar?.hide());
 			if (elements.$toolbar) elements.$toolbar.on('mouseleave', () => elements.$toolbar.hide());
 
 			// Setup toolbar
