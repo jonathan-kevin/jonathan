@@ -13,6 +13,25 @@
 	<script src="./script.js"></script>
 	<script type="text/javascript" src="https://livejs.com/live.js"></script>
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+	<!-- Install culori via npm or use CDN -->
+	<!-- <script src="https://cdn.jsdelivr.net/npm/culori/dist/culori.min.js"></script> -->
+	<script>
+		const { hex, oklch } = culori;
+
+		// Convert hex to OKLCH
+		function hexToOklch(hexColor) {
+			const color = hex(hexColor);
+			const oklchColor = oklch(color);
+			return oklchColor; // { l, c, h, alpha }
+		}
+
+		// Example usage:
+		console.log(hexToOklch("#ff5733"));
+
+		function oklchString({ l, c, h }) {
+			return `oklch(${(l * 100).toFixed(2)}% ${(c * 100).toFixed(2)} ${h.toFixed(2)})`;
+		}
+	</script>
 </head>
 
 <body class="saRootBody saLargeScreen saPc saCompact">
@@ -22,21 +41,22 @@
 				<nav id="SideBar">
 					<div class="saPageHeader saSmallScreenHeader">
 						<div class="saHeader">
-							<div class="saTopRow"><button class="saNavigator" type="button">
-									<div class="saNavBar saActive"><span class="saNavBarStripe"></span>
-										<span class="saNavBarStripe"></span>
-										<span class="saNavBarStripe"></span>
-									</div>
-								</button>
+							<div class="saTopRow">
 								<div class="saHeaderWrapper">
 									<div class="saTitle">
-										<h1>Softadmin® Utvecklingssystem</h1>
+										<h1>Index</h1>
 									</div>
 								</div>
 								<button class="saNotificationWrapper" type="button">
 									<div><i class="far fa-bell saIcon"></i></div>
 									<div class="saNotificationBadge saEmpty" aria-hidden="true">
 										<div class="saNotificationBadgeCount">0</div>
+									</div>
+								</button>
+								<button class="saNavigator" type="button">
+									<div class="saNavBar saActive"><span class="saNavBarStripe"></span>
+										<span class="saNavBarStripe"></span>
+										<span class="saNavBarStripe"></span>
 									</div>
 								</button>
 							</div>
@@ -233,8 +253,11 @@
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner">
+										<div id="colors">
+											<script>
 
-										<div style="height: 200px; width: 200px; display: flex; background-color: light-dark(black, green);"></div>
+											</script>
+										</div>
 									</div>
 								</div>
 							</main>
