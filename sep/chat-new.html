@@ -17,7 +17,7 @@
 <body class="saRootBody saLargeScreen saPc saCompact">
 	<div class="saRootContentWrapper">
 		<div class="saSideBar saSideBarJs saExpanded">
-			<div id="aspnetForm">
+			<form id="aspnetForm">
 				<nav id="SideBar">
 					<div class="saPageHeader saSmallScreenHeader">
 						<div class="saHeader">
@@ -46,7 +46,8 @@
 						<div class="saSidenavSection">
 							<div class="saCustomerLogo">
 								<div>
-									<img src="../src/img/logo.svg" alt="Softadmin® logo" style="min-height: 5rem;">
+									<img loading="lazy" src="../src/img/logo.svg" alt="Softadmin® logo"
+										style="min-height: 5rem;">
 								</div>
 							</div>
 							<div class="saSidenavContainer">
@@ -163,8 +164,8 @@
 							</div>
 							<div class="saSidenavFooter">
 								<a class="saSoftadminLogo" rel="noopener noreferrer" tabindex="-1" href="#">
-									<img class="saLogo" src="../src/img/softadmin-logo-minimized.svg">
-									<img class="saWordmark" src="../src/img/softadmin-logo-expanded.svg">
+									<img loading="lazy" class="saLogo" src="../src/img/softadmin-logo-minimized.svg">
+									<img loading="lazy" class="saWordmark" src="../src/img/softadmin-logo-expanded.svg">
 								</a>
 								<button class="saExpander saDynamicTooltipJs" type="button">
 									<i class="fa-angles-left far saIcon"></i>
@@ -173,12 +174,12 @@
 						</div>
 					</div>
 				</nav>
-			</div>
+			</form>
 		</div>
 		<div class="saRightFrameRoot">
 			<div class="right standardview">
 				<div class="pagecontentframe">
-					<div class="interface">
+					<form class="interface">
 						<header id="pageheader" class="saPageHeaderHolder">
 							<div class="saPageHeader saDesktopHeader">
 								<div class="saHeader">
@@ -235,620 +236,396 @@
 							<main id="MI_M" class="menuitem pagecontentframe">
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
-									<div class="scrollcontent-inner">
-										<section aria-label="Support chat" class="saChat" role="region" id="chat">
-											<ol id="chat-log" role="log" aria-live="polite" aria-relevant="additions"
-												aria-label="Chat messages">
-											</ol>
-											<p id="log-help" class="saScreenReaderOnly">
-												New messages appear at the bottom. This list updates automatically.
-												Use arrow keys or Page Up/Down to browse. Press "Jump to latest" to
-												scroll down.
-											</p>
-											<div class="saChatControls">
-												<button type="button" id="jump-latest" hidden
-													aria-describedby="jump-latest-desc">Jump to latest</button>
-												<div id="jump-latest-desc" class="saScreenReaderOnly">Jump to the
-													most recent message in the chat</div>
-												<div id="typing" role="status" aria-live="polite" aria-atomic="true"
-													hidden>Alex is typing…</div>
+									<div class="scrollcontent-inner" style="height:calc(100vh - 112px);">
+										<div class="saChatWrapper">
+											<div class="saChat">
+												<ol class="saLog" aria-role="log" aria-relevant="additions" id="chatLog"
+													aria-label="The Chat">
+													<li role="separator" class="saChatDay">
+														<time datetime="2025-10-08">Yesterday</time>
+													</li>
+													<li class="saPrompt">
+														<p>Can you help me?</p>
+														<ul class="saChatToolbar" role="toolbar"
+															aria-label="Message actions">
+															<li>
+																<button type="button" title="Dislike message"
+																	aria-label="Edit message">
+																	<i class="far fa-pen saIcon"></i>
+																</button>
+															</li>
+															<li>
+																<button type="button" title="Copy message"
+																	aria-label="Copy message">
+																	<i class="far fa-copy saIcon"></i>
+																</button>
+															</li>
+														</ul>
+													</li>
+													<li class="saResponse">
+														<p>Sure,</p>
+														<p>Let's make sure we're on track to resolve it efficiently.
+															Also,
+															it's time we discuss the bird bill of sale. I'll be
+															available
+															for a meeting later today to go over the details. Looking
+															forward to hearing from everyone!</p>
+														<ul class="saChatToolbar" role="toolbar"
+															aria-label="Message actions">
+															<li>
+																<button type="button" title="Copy message"
+																	aria-label="Copy message">
+																	<i class="far fa-copy saIcon"></i>
+																</button>
+															</li>
+															<li>
+																<button type="button" title="Like message"
+																	aria-label="Like message">
+																	<i class="far fa-thumbs-up saIcon"></i>
+																</button>
+															</li>
+															<li>
+																<button type="button" title="Dislike message"
+																	aria-label="Dislike message">
+																	<i class="far fa-thumbs-down saIcon"></i>
+																</button>
+															</li>
+														</ul>
+													</li>
+													<li role="separator" class="saChatDay">
+														<time datetime="2025-10-08">Today</time>
+													</li>
+													<li class="saPrompt">
+														<p>Let's make sure we're on track to resolve it efficiently. Also, it's time we discuss the bird bill of sale. I'll be available for a meeting later today to go over the details. Looking forward to hearing from everyone!</p>
+														<ul class="saChatToolbar" role="toolbar"
+															aria-label="Message actions">
+															<li>
+																<button type="button" title="Dislike message"
+																	aria-label="Edit message">
+																	<i class="far fa-pen saIcon"></i>
+																</button>
+															</li>
+															<li>
+																<button type="button" title="Copy message"
+																	aria-label="Copy message">
+																	<i class="far fa-copy saIcon"></i>
+																</button>
+															</li>
+														</ul>
+													</li>
+													<li class="saResponse">
+														<p>Sure,</p>
+														<p>Let's make sure we're on track to resolve it efficiently. Also, it's time we discuss the bird bill of sale. I'll be available for a meeting later today to go over the details. Looking forward to hearing from everyone!</p>
+														<ul class="saChatToolbar" role="toolbar"
+															aria-label="Message actions">
+															<li>
+																<button type="button" title="Copy message"
+																	aria-label="Copy message">
+																	<i class="far fa-copy saIcon"></i>
+																</button>
+															</li>
+															<li>
+																<button type="button" title="Like message"
+																	aria-label="Like message">
+																	<i class="far fa-thumbs-up saIcon"></i>
+																</button>
+															</li>
+															<li>
+																<button type="button" title="Dislike message"
+																	aria-label="Dislike message">
+																	<i class="far fa-thumbs-down saIcon"></i>
+																</button>
+															</li>
+														</ul>
+													</li>
+													<li class="saSparkles" id="sparkles" role="separator">
+													<svg xmlns="http://www.w3.org/2000/svg" id="lg"
+														class="saSparkle saLg" data-name="Layer 1"
+														viewBox="0 0 381.1 381.2">
+														<defs>
+															<style>
+																.mask {
+																	isolation: isolate;
+																	opacity: .2;
+																}
+															</style>
+														</defs>
+														<g id="lg_" data-name="Layer 1">
+															<g>
+																<path class="mask"
+																	d="M92.3,190.7l51.2,23.6c10.4,4.8,18.7,13.1,23.5,23.5l23.6,51.2,23.6-51.2c4.8-10.4,13.1-18.7,23.5-23.5l51.2-23.6-51.2-23.6c-10.4-4.8-18.7-13.1-23.5-23.5l-23.6-51.2-23.6,51.2c-4.8,10.4-13.1,18.7-23.5,23.5l-51.2,23.6Z">
+																</path>
+																<path
+																	d="M166.9,143.6l23.6-51.2,23.6,51.2c4.8,10.4,13.1,18.7,23.5,23.5l51.2,23.6-51.2,23.6c-10.4,4.8-18.7,13.1-23.5,23.5l-23.6,51.2-23.6-51.2c-4.8-10.4-13.1-18.7-23.5-23.5l-51.1-23.6,51.2-23.6c10.4-4.8,18.7-13.1,23.5-23.5h-.1ZM164.1,35.2l-40.8,88.3-88.2,40.7-.6.3-8.1,3.7-17.1,7.9c-5.7,2.6-9.3,8.3-9.3,14.6s3.6,11.9,9.3,14.5l17,7.9,8.1,3.7.6.3,88.3,40.8,40.8,88.2.3.6,3.7,8.1,7.9,17.1c2.6,5.7,8.3,9.3,14.5,9.3s11.9-3.6,14.5-9.3l7.9-17.1,3.7-8.1.3-.6,40.8-88.3,88.3-40.7.6-.3,8.1-3.7,17.1-7.9c5.7-2.6,9.3-8.3,9.3-14.5s-3.6-11.9-9.3-14.5l-17.1-7.9-8.1-3.7-.6-.3-88.3-40.8-40.7-88.3-.3-.6-3.7-8.2-7.9-17.1c-2.6-5.7-8.3-9.3-14.5-9.3s-11.9,3.6-14.5,9.3l-7.9,17.1-3.7,8.1-.3.6-.1.1Z">
+																</path>
+															</g>
+														</g>
+													</svg>
+													<svg xmlns="http://www.w3.org/2000/svg" id="sm-n"
+														class="saSparkle saSm" data-name="Layer 2"
+														viewBox="0 0 192 192">
+														<g id="sm-n_" data-name="Layer 2">
+															<path
+																d="M64,64L7.5,85.2c-4.5,1.7-7.5,6-7.5,10.8s3,9.1,7.5,10.8l56.5,21.2,21.2,56.5c1.7,4.5,6,7.5,10.8,7.5s9.1-3,10.8-7.5l21.2-56.5,56.5-21.2c4.5-1.7,7.5-6,7.5-10.8s-3-9.1-7.5-10.8l-56.5-21.2L106.8,7.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1,3-10.8,7.5l-21.2,56.5Z">
+															</path>
+														</g>
+													</svg>
+													<svg xmlns="http://www.w3.org/2000/svg" id="sm-s"
+														class="saSparkle saSm" data-name="Layer 3"
+														viewBox="0 0 192 192">
+														<g id="sm-s_" data-name="Layer 3">
+															<path
+																d="M64,64L7.5,85.2c-4.5,1.7-7.5,6-7.5,10.8s3,9.1,7.5,10.8l56.5,21.2,21.2,56.5c1.7,4.5,6,7.5,10.8,7.5s9.1-3,10.8-7.5l21.2-56.5,56.5-21.2c4.5-1.7,7.5-6,7.5-10.8s-3-9.1-7.5-10.8l-56.5-21.2L106.8,7.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1,3-10.8,7.5l-21.2,56.5Z">
+															</path>
+														</g>
+													</svg>
+													</li>
+												</ol>
+												<a class="saChatLatest saReached" id="latest" href="#"
+													aria-label="Scroll to latest messages">
+													<i class="far fa-arrow-down"></i>
+												</a>
 											</div>
-											<form id="composer" class="saComposer" aria-labelledby="composer-label">
-												<label id="composer-label" for="message">Message</label>
-												<div class="saComposerToolbar">
-													<button type="button" aria-label="Insert emoji"
-														aria-describedby="emoji-desc">
-														<i class="saIcon far fa-face-smile" aria-hidden="true"></i>
-													</button>
-													<div id="emoji-desc" class="saScreenReaderOnly">Opens emoji
-														picker</div>
-													<label for="file-input" aria-describedby="file-desc">
-														<span class="saScreenReaderOnly">Attach file</span>
-														<input type="file" multiple id="file-input"
-															class="saScreenReaderOnly">
-														<i class="saIcon far fa-paperclip" aria-hidden="true"></i>
-													</label>
-													<div id="file-desc" class="saScreenReaderOnly">Select files to
-														attach to your message</div>
-												</div>
-												<textarea id="message" name="message" rows="2" aria-controls="chat-log"
-													aria-describedby="composer-help" placeholder="Type your message...">
-                </textarea>
-												<ul class="saAttachmentList" aria-label="Attached files" role="list">
-												</ul>
-												<p id="composer-help" class="saScreenReaderOnly">
-													Press Enter to send. Shift+Enter inserts a line break. Drag and
-													drop files anywhere in the chat area to attach them.
-												</p>
-												<button type="submit" aria-label="Send message" disabled>
-													<span class="saScreenReaderOnly">Send</span>
-													<i class="saIcon far fa-paper-plane" aria-hidden="true"></i>
+											<div class="saComposer" id="composer">
+												<textarea name="message" placeholder="Write your message..."
+													id="prompt"></textarea>
+												<button type="submit" class="saButtonSend" id="send" disabled
+													aria-label="Send prompt" title="Send prompt">
+													<i class="fa-arrow-up saIcon far"></i>
 												</button>
-											</form>
-										</section>
+												<button type="button" class="saButtonStop" id="stop"
+													aria-label="Stop response" title="Stop prompt"
+													style="display: none;">
+													<i class="fa-stop saIcon fas"></i>
+												</button>
+											</div>
+										</div>
 									</div>
-
-									<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-									<script>
-										jQuery(document).ready(function ($) {
-											const $log = $('#chat-log');
-											const $composer = $('#composer');
-											const $input = $('#message');
-											const $sendButton = $composer.find('button[type="submit"]');
-											const $jump = $('#jump-latest');
-											const $attachInput = $('#file-input');
-											const $attachmentList = $('.saAttachmentList');
-											const $scrollContentInner = $('.scrollcontent-inner');
-
-											// Validate required elements exist
-											const requiredElements = {
-												'#chat-log': $log,
-												'#composer': $composer,
-												'#message': $input,
-												'#jump-latest': $jump,
-												'.saAttachmentList': $attachmentList,
-												'.scrollcontent-inner': $scrollContentInner
-											};
-
-											for (const [selector, $element] of Object.entries(requiredElements)) {
-												if (!$element.length) {
-													console.error(`Required element ${selector} not found`);
-													return;
-												}
-											}
-
-											let msgId = 1;
-											let lastMessageTime = null;
-											let lastMessageFrom = null;
-											let lastMessageDay = null;
-											let attachments = [];
-
-											// Chat history data
-											const chatHistory = [
-												{
-													from: 'You',
-													fullName: 'Me',
-													initials: 'ME',
-													text: 'Hey Alex, can you help with a bug in the login system?',
-													timestamp: '2025-09-08T10:30:00+02:00',
-													sender: true
-												},
-												{
-													from: 'Alex Holm',
-													fullName: 'Alex Holm',
-													initials: 'AH',
-													text: 'Sure, can you share a screenshot of the error?',
-													timestamp: '2025-09-08T10:31:00+02:00',
-													sender: false
-												},
-												{
-													from: 'You',
-													fullName: 'Me',
-													initials: 'ME',
-													text: 'Here\'s the screenshot.',
-													timestamp: '2025-09-08T10:31:30+02:00',
-													sender: true
-												},
-												{
-													from: 'Alex Holm',
-													fullName: 'Alex Holm',
-													initials: 'AH',
-													text: 'Got it, looks like a session timeout issue. Try clearing your cookies.',
-													timestamp: '2025-09-08T10:32:00+02:00',
-													sender: false
-												},
-												{
-													from: 'You',
-													fullName: 'Me',
-													initials: 'ME',
-													text: 'Still not working. Here\'s a debug log.',
-													timestamp: '2025-09-09T09:15:00+02:00',
-													sender: true
-												},
-												{
-													from: 'Alex Holm',
-													fullName: 'Alex Holm',
-													initials: 'AH',
-													text: 'Thanks, I\'ll review the log and get back to you.',
-													timestamp: '2025-09-09T09:16:00+02:00',
-													sender: false
-												},
-												{
-													from: 'You',
-													fullName: 'Me',
-													initials: 'ME',
-													text: 'Any updates?',
-													timestamp: '2025-09-09T11:58:00+02:00',
-													sender: true
-												}
-											];
-
-											// Utility functions
-											function isNearBottom() {
-												const scrollHeight = $log[0].scrollHeight;
-												const scrollTop = $log.scrollTop();
-												const clientHeight = $log.innerHeight();
-												return scrollHeight - scrollTop - clientHeight < 48;
-											}
-
-											function scrollToBottom(animate = true) {
-												const scrollHeight = $log[0].scrollHeight;
-												if (animate) {
-													$log.animate({ scrollTop: scrollHeight }, 300);
-												} else {
-													$log.scrollTop(scrollHeight);
-												}
-											}
-
-											function getDateLabel(date) {
-												const today = new Date('2025-09-09T20:35:00+02:00');
-												const yesterday = new Date(today);
-												yesterday.setDate(yesterday.getDate() - 1);
-
-												if (date.toDateString() === today.toDateString()) {
-													return 'Today';
-												} else if (date.toDateString() === yesterday.toDateString()) {
-													return 'Yesterday';
-												} else {
-													return date.toLocaleDateString('en-US', {
-														year: 'numeric',
-														month: 'long',
-														day: 'numeric'
-													});
-												}
-											}
-
-											function insertDateSeparator(now) {
-												const currentDay = now.toDateString();
-												if (lastMessageDay !== currentDay) {
-													const label = getDateLabel(now);
-													const $separator = $('<li>', {
-														role: 'separator',
-														class: 'saChatDay',
-														'aria-label': `Messages from ${label}`
-													}).append(
-														$('<time>', {
-															datetime: now.toISOString().split('T')[0]
-														}).text(label)
-													);
-													$log.append($separator);
-													lastMessageDay = currentDay;
-												}
-											}
-
-											function formatFileSize(bytes) {
-												if (bytes < 1024) return `${bytes} B`;
-												if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-												return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-											}
-
-											function getFileIcon(file) {
-												const type = file.type || '';
-												if (type.startsWith('image/')) return 'fa-image';
-												if (type === 'application/pdf') return 'fa-file-pdf';
-												if (type.startsWith('text/')) return 'fa-file-alt';
-												if (type.startsWith('video/')) return 'fa-file-video';
-												if (type.startsWith('audio/')) return 'fa-file-audio';
-												return 'fa-file';
-											}
-
-											function addAttachment(file) {
-												const fileId = `attachment-${Date.now()}-${Math.random()}`;
-												const $li = $('<li>', {
-													class: 'saAttachmentItem'
-												});
-
-												const isImage = file.type.startsWith('image/');
-												const fileUrl = URL.createObjectURL(file);
-
-												const $link = $('<a>', {
-													href: fileUrl,
-													download: file.name,
-													'aria-describedby': `${fileId}-desc`,
-													'aria-label': `Download ${file.name}, ${formatFileSize(file.size)}`
-												});
-
-												const $icon = $('<i>', {
-													class: `saIcon far ${getFileIcon(file)}`,
-													'aria-hidden': 'true'
-												});
-
-												const $preview = isImage ? $('<img>', {
-													src: fileUrl,
-													alt: '',
-													class: 'saAttachmentPreview',
-													'aria-hidden': 'true'
-												}) : null;
-
-												const $info = $('<div>');
-												const $name = $('<div>').text(file.name);
-												const $size = $('<div>', {
-													id: `${fileId}-desc`,
-													class: 'saScreenReaderOnly'
-												}).text(`File size: ${formatFileSize(file.size)}`);
-
-												const $removeBtn = $('<button>', {
-													type: 'button',
-													'aria-label': `Remove file ${file.name}`,
-													class: 'saRemoveAttachment'
-												}).append($('<i>', {
-													class: 'saIcon far fa-trash-alt',
-													'aria-hidden': 'true'
-												}));
-
-												$info.append($name, $size);
-												$link.append($icon, $preview, $info);
-												$li.append($link, $removeBtn);
-												$attachmentList.append($li);
-
-												attachments.push(file);
-												updateSendButtonState();
-
-												// Announce attachment added
-												announceToScreenReader(`File ${file.name} attached`);
-
-												$removeBtn.on('click', function () {
-													if ($preview) URL.revokeObjectURL($preview.attr('src'));
-													URL.revokeObjectURL($link.attr('href'));
-													$li.remove();
-													attachments = attachments.filter(f => f !== file);
-													updateSendButtonState();
-													announceToScreenReader(`File ${file.name} removed`);
-												});
-											}
-
-											function updateSendButtonState() {
-												const hasContent = $input.val().trim() !== '' || attachments.length > 0;
-												$sendButton.prop('disabled', !hasContent);
-
-												if (hasContent) {
-													$sendButton.attr('aria-label', 'Send message');
-												} else {
-													$sendButton.attr('aria-label', 'Send message (disabled - enter text or attach files)');
-												}
-											}
-
-											function announceToScreenReader(message) {
-												const $announcement = $('<div>', {
-													role: 'status',
-													'aria-live': 'polite',
-													class: 'saScreenReaderOnly'
-												}).text(message);
-
-												$('body').append($announcement);
-												setTimeout(() => $announcement.remove(), 2000);
-											}
-
-											function createMessageStructure({ from, fullName, initials, text, sender = false, files = [], timestamp }) {
-												const now = timestamp ? new Date(timestamp) : new Date();
-												const currentMinute = Math.floor(now.getTime() / 60000);
-												const lastMinute = lastMessageTime ? Math.floor(lastMessageTime.getTime() / 60000) : null;
-												const messageId = `message-${msgId++}`;
-
-												insertDateSeparator(now);
-
-												let $targetLi, $article, $contentWrapper;
-
-												// Check if we can append to the last message (same sender, same minute)
-												if (lastMessageFrom === from && currentMinute === lastMinute) {
-													$targetLi = $log.children('li').last();
-													if ($targetLi.hasClass('saChatMessage')) {
-														$article = $targetLi.find('article');
-														$contentWrapper = $article.find('.saChatContent');
-													}
-												}
-
-												// Create new message if we can't append
-												if (!$targetLi || !$article.length || !$contentWrapper.length) {
-													const messageClasses = sender ? 'saChatMessage saSender' : 'saChatMessage';
-
-													$targetLi = $('<li>', {
-														class: messageClasses,
-														'data-id': msgId - 1,
-														'data-read': 'false',
-														'data-from': from,
-														id: messageId
-													});
-
-													$article = $('<article>', {
-														'aria-labelledby': `${messageId}-from`,
-														'aria-describedby': `${messageId}-time`
-													});
-
-													$contentWrapper = $('<div>', { class: 'saChatContent' });
-
-													const $footer = $('<footer>').append(
-														$('<span>', {
-															class: 'saChatFrom',
-															id: `${messageId}-from`
-														}).text(from),
-														' ',
-														$('<time>', {
-															datetime: now.toISOString(),
-															id: `${messageId}-time`
-														}).text(now.toLocaleTimeString('en-US', {
-															hour: '2-digit',
-															minute: '2-digit',
-															hour12: false
-														}))
-													);
-
-													const $header = $('<header>', {
-														class: 'saChatAvatar',
-														'aria-label': fullName,
-														'aria-hidden': 'true'
-													}).text(initials);
-
-													// Structure based on sender status
-													if (sender) {
-														$contentWrapper.append($footer);
-														$article.append($contentWrapper, $header);
-													} else {
-														$contentWrapper.append($footer);
-														$article.append($header, $contentWrapper);
-													}
-
-													$targetLi.append($article);
-													$log.append($targetLi);
-												}
-
-												// Add message text
-												if (text && text.trim()) {
-													const $paragraph = $('<p>').text(text);
-													$contentWrapper.find('footer').before($paragraph);
-												}
-
-												// Add file attachments
-												if (files.length > 0) {
-													let $fileList = $contentWrapper.find('ul.saAttachmentList');
-													if (!$fileList.length) {
-														$fileList = $('<ul>', {
-															class: 'saAttachmentList',
-															'aria-label': 'Message attachments',
-															role: 'list'
-														});
-														$contentWrapper.find('footer').before($fileList);
-													}
-
-													files.forEach(file => {
-														const isImage = file.type.startsWith('image/');
-														const fileUrl = URL.createObjectURL(file);
-														const attachmentId = `msg-attachment-${Date.now()}-${Math.random()}`;
-
-														const $li = $('<li class="saAttachmentItem">');
-
-														const $link = $('<a>', {
-															href: fileUrl,
-															download: file.name,
-															'aria-label': `Download ${file.name}, ${formatFileSize(file.size)}`,
-															'aria-describedby': `${attachmentId}-desc`
-														});
-
-														const $icon = $('<i>', {
-															class: `saIcon far ${getFileIcon(file)}`,
-															'aria-hidden': 'true'
-														});
-
-														const $preview = isImage ? $('<img>', {
-															src: fileUrl,
-															alt: '',
-															class: 'saAttachmentPreview',
-															'aria-hidden': 'true'
-														}) : null;
-
-														const $info = $('<div>');
-														const $name = $('<div>').text(file.name);
-														const $size = $('<div>', {
-															id: `${attachmentId}-desc`,
-															class: 'saScreenReaderOnly'
-														}).text(`File size: ${formatFileSize(file.size)}`);
-
-														const $downloadIcon = $('<i>', {
-															class: 'saIcon far fa-arrow-down-to-bracket',
-															'aria-hidden': 'true'
-														});
-
-														$info.append($name, $size);
-														$link.append($icon, $preview, $info, $downloadIcon);
-														$li.append($link);
-														$fileList.append($li);
-
-														// Clean up object URLs after a delay
-														setTimeout(() => {
-															if ($preview) URL.revokeObjectURL($preview.attr('src'));
-															URL.revokeObjectURL($link.attr('href'));
-														}, 60000);
-													});
-												}
-
-												lastMessageTime = now;
-												lastMessageFrom = from;
-
-												// Handle scrolling and read status
-												if (!timestamp) {
-													// New message sent by user
-													scrollToBottom(true);
-													markAsRead($targetLi);
-													$jump.attr('hidden', true);
-												} else if (isNearBottom()) {
-													// Historical message and user is at bottom
-													scrollToBottom(true);
-													markAsRead($targetLi);
-													$jump.attr('hidden', true);
-												} else {
-													// Historical message and user is not at bottom
-													$jump.removeAttr('hidden');
-												}
-
-												return $targetLi;
-											}
-
-											function markAsRead($msg) {
-												if ($msg.attr('data-read') === 'false') {
-													$msg.attr('data-read', 'true').removeClass('saUnread');
-												}
-											}
-
-											function markVisibleAsRead() {
-												const containerRect = $log[0].getBoundingClientRect();
-
-												$log.find('li[data-read="false"]').each(function () {
-													const rect = this.getBoundingClientRect();
-													if (rect.top >= containerRect.top && rect.bottom <= containerRect.bottom) {
-														markAsRead($(this));
-													}
-												});
-
-												if ($log.find('li[data-read="false"]').length === 0) {
-													$jump.attr('hidden', true);
-												}
-											}
-
-											// Event handlers
-											function handleDragOver(e) {
-												e.preventDefault();
-												e.stopPropagation();
-												$(this).addClass('saDragOver');
-												$attachmentList.attr('aria-label', 'Attached files (drop files here to attach)');
-											}
-
-											function handleDragLeave(e) {
-												e.preventDefault();
-												e.stopPropagation();
-												if (e.target === this) {
-													$(this).removeClass('saDragOver');
-													$attachmentList.attr('aria-label', 'Attached files');
-												}
-											}
-
-											function handleDrop(e) {
-												e.preventDefault();
-												e.stopPropagation();
-												$(this).removeClass('saDragOver');
-												$attachmentList.attr('aria-label', 'Attached files');
-
-												const files = Array.from(e.originalEvent.dataTransfer.files);
-												files.forEach(file => addAttachment(file));
-
-												const fileWord = files.length === 1 ? 'file' : 'files';
-												announceToScreenReader(`${files.length} ${fileWord} attached`);
-											}
-
-											// Set up drag and drop
-											$scrollContentInner.on('dragover', handleDragOver);
-											$scrollContentInner.on('dragenter', handleDragOver);
-											$scrollContentInner.on('dragleave', handleDragLeave);
-											$scrollContentInner.on('drop', handleDrop);
-
-											// Load chat history
-											chatHistory.forEach(message => {
-												createMessageStructure(message);
-											});
-
-											// Initial setup
-											scrollToBottom(false);
-											markVisibleAsRead();
-											updateSendButtonState();
-
-											// Input event handlers
-											$input.on('input', updateSendButtonState);
-
-											$input.on('keydown', function (e) {
-												if (e.key === 'Enter' && !e.shiftKey) {
-													e.preventDefault();
-													if (!$(this).prop('disabled')) {
-														$composer.trigger('submit');
-													}
-												}
-											});
-
-											// File input handler
-											$attachInput.on('change', function () {
-												const files = Array.from(this.files);
-												files.forEach(file => addAttachment(file));
-												this.value = '';
-											});
-
-											// Form submit handler
-											$composer.on('submit', function (e) {
-												e.preventDefault();
-												const text = $input.val().trim();
-
-												if (!text && attachments.length === 0) return;
-
-												createMessageStructure({
-													from: 'You',
-													fullName: 'Me',
-													initials: 'ME',
-													text,
-													files: [...attachments],
-													sender: true
-												});
-
-												$input.val('').focus();
-												$attachmentList.empty();
-												attachments = [];
-												updateSendButtonState();
-
-												announceToScreenReader('Message sent');
-											});
-
-											// Emoji button placeholder
-											$composer.find('button[aria-label^="Insert emoji"]').on('click', function () {
-												announceToScreenReader('Emoji picker would open here');
-											});
-
-											// Scroll handler
-											$log.on('scroll', function () {
-												markVisibleAsRead();
-												if (isNearBottom()) {
-													$jump.attr('hidden', true);
-												} else {
-													$jump.removeAttr('hidden');
-												}
-											});
-
-											// Jump to latest handler
-											$jump.on('click', function () {
-												scrollToBottom(true);
-												markVisibleAsRead();
-												$jump.attr('hidden', true);
-												$input.focus();
-												announceToScreenReader('Jumped to latest message');
-											});
-
-											// Focus management
-											$input.focus();
-										});
-									</script>
 								</div>
 							</main>
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
+<script>
+ $(document).ready(function () {
+    // Chat application module
+    const ChatApp = (function () {
+        // DOM elements
+        const $prompt = $('#prompt');
+        const $composer = $('#composer');
+        const $chatLog = $('#chatLog');
+        const $latest = $('#latest');
+        const $send = $('#send');
+        const $stop = $('#stop');
+        const $sparkles = $('#sparkles');
+
+        // State management
+        let state = 'idle'; // idle | thinking
+        let responseTimeout = null;
+
+        // Create toolbar for messages
+        function createToolbar(isPrompt) {
+            const $toolbar = $('<ul>')
+                .attr({
+                    'role': 'toolbar',
+                    'aria-label': 'Message actions'
+                })
+                .addClass('saChatToolbar');
+
+            const buttons = isPrompt
+                ? [
+                    { label: 'Edit message', icon: 'pen' },
+                    { label: 'Copy message', icon: 'copy' }
+                ]
+                : [
+                    { label: 'Copy message', icon: 'copy' },
+                    { label: 'Like message', icon: 'thumbs-up' },
+                    { label: 'Dislike message', icon: 'thumbs-down' }
+                ];
+
+            buttons.forEach(({ label, icon }) => {
+                $toolbar.append(
+                    $('<li>').append(
+                        $('<button>')
+                            .attr({
+                                'type': 'button',
+                                'aria-label': label
+                            })
+                            .append($('<i>').addClass(`far fa-${icon} saIcon`))
+                    )
+                );
+            });
+
+            return $toolbar;
+        }
+
+        // Update send button state
+        function updateSendButton() {
+            $send.prop('disabled', !$prompt.val().trim());
+        }
+
+        // Manage sparkles animation
+        function setSparkles(show) {
+            $sparkles
+                .toggle(show)
+                .attr('aria-busy', show ? 'true' : null);
+        }
+
+        // Update chat state
+        function setState(newState) {
+            state = newState;
+            const isThinking = state === 'thinking';
+
+            $send.toggle(!isThinking);
+            $stop.toggle(isThinking);
+            setSparkles(isThinking);
+
+            if (!isThinking) {
+                updateSendButton();
+            }
+        }
+
+        // Send and handle message
+        function sendMessage() {
+            const message = $prompt.val().trim();
+            if (!message || state !== 'idle') return;
+
+            // Add user prompt to chat log
+            const lines = message.split(/\r?\n/);
+            const $promptLi = $('<li>')
+                .addClass('saPrompt')
+                .append(
+                    $('<p>').html(lines.map(line => $('<div>').text(line).html()).join('<br>')),
+                    createToolbar(true)
+                );
+            $chatLog.append($promptLi);
+
+            // Reset input
+            $prompt.val('');
+            updateSendButton();
+            $prompt.focus();
+            scrollToBottom();
+
+            // Set thinking state
+            setState('thinking');
+
+            // Simulate response with word-by-word reveal
+            const responseLines = [
+                "Absolutely, I can help you with that.",
+                "Here are the steps you should follow:",
+                "1. Review the requirements.",
+                "2. Implement the necessary changes.",
+                "3. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            ];
+
+            const $responseLi = $('<li>').addClass('saResponse');
+            $chatLog.append($responseLi);
+
+            // Split response into words and track paragraph boundaries
+            const words = responseLines.join(' ').split(/\s+/);
+            const lineWordCounts = responseLines.map(line => line.split(/\s+/).length);
+            let wordIndex = 0;
+            let currentLineIndex = 0;
+            let wordsInCurrentLine = 0;
+            let currentP = $('<p>').appendTo($responseLi);
+
+            function revealWord() {
+                if (wordIndex < words.length) {
+                    if (wordIndex > 0 && wordsInCurrentLine === 0) {
+                        currentP = $('<p>').appendTo($responseLi); // Start new paragraph
+                    } else if (wordIndex > 0) {
+                        currentP.append(' ');
+                    }
+                    currentP.append($('<span>').text(words[wordIndex]).addClass('saWord'));
+                    scrollToBottom();
+                    wordIndex++;
+                    wordsInCurrentLine++;
+
+                    // Check if current paragraph is complete
+                    if (wordsInCurrentLine >= lineWordCounts[currentLineIndex]) {
+                        // Replace spans with paragraph text
+                        currentP.html($('<div>').text(responseLines[currentLineIndex]).html());
+                        currentLineIndex++;
+                        wordsInCurrentLine = 0;
+                    }
+
+                    responseTimeout = setTimeout(revealWord, 10); // Adjust delay (10ms per word)
+                } else {
+                    $responseLi.append(createToolbar(false));
+                    scrollToBottom();
+                    setState('idle');
+                }
+            }
+
+            // Start revealing words after a short delay
+            setTimeout(revealWord, 1000);
+
+            // Handle stop button
+            $stop.off('click').on('click', function () {
+                clearTimeout(responseTimeout);
+                // Replace all content with final paragraphs
+                const finalHtml = responseLines.map(line => $('<p>').text(line).prop('outerHTML')).join('');
+                $responseLi.html(finalHtml);
+                $responseLi.append(createToolbar(false));
+                setState('idle');
+            });
+        }
+
+        // Scroll chat log to bottom
+        function scrollToBottom() {
+            $chatLog[0].scrollTop = $chatLog[0].scrollHeight;
+        }
+
+        // Handle scroll events
+        function handleScroll() {
+            const isAtBottom = Math.abs(
+                $chatLog[0].scrollHeight - $chatLog[0].scrollTop - $chatLog[0].clientHeight
+            ) < 16;
+            $latest.toggleClass('saReached', isAtBottom);
+        }
+
+        // Initialize event listeners
+        function initEvents() {
+            $prompt.on('input', function () {
+                if (state === 'idle') updateSendButton();
+            });
+
+            $send.on('click', function (e) {
+                e.preventDefault();
+                sendMessage();
+            });
+
+            $prompt.on('keydown', function (e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            $stop.on('click', function () {
+                clearTimeout(responseTimeout);
+                setState('idle');
+            });
+
+            $chatLog.on('scroll', handleScroll);
+        }
+
+        // Initialize the chat application
+        function init() {
+            initEvents();
+            updateSendButton();
+        }
+
+        return { init };
+    })();
+
+    // Start the application
+    ChatApp.init();
+});
+</script>
 
 </html>

@@ -4308,133 +4308,6 @@ div.saPopupOverlay {
   font-size: 0.875rem;
   color: #60748b;
 }
-:is(html, body):has(.schedule) {
-  height: 100%;
-}
-main:has(.schedule) {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-}
-.schedule {
-  border-collapse: collapse;
-  border-spacing: 0;
-  margin: 0;
-  padding: 0;
-  font-size: 0.875rem;
-  line-height: 1rem;
-  text-align: left;
-  border: none;
-  z-index: 0;
-  overflow-x: auto;
-}
-.schedule * {
-  box-sizing: border-box;
-}
-thead {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-thead th:has(time)::after {
-  content: '';
-  position: absolute;
-  height: 4px;
-  left: 0;
-  bottom: 0;
-  width: 1px;
-  background-color: #ccd5e2;
-}
-thead th:last-child::after {
-  left: -1px;
-}
-time {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 1rem;
-  height: 1.5rem;
-  left: -0.5rem;
-  font-variant-numeric: tabular-nums;
-}
-td,
-th {
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 400;
-  height: auto;
-  position: relative;
-}
-button[data-book] {
-  display: flex;
-  min-width: 2.75rem;
-  height: 2.75rem;
-  border-left: 1px solid #ccd5e2;
-  border-bottom: 1px solid #ccd5e2;
-  cursor: default;
-}
-td:nth-last-child(2) button[data-book] {
-  border-right: 1px solid #ccd5e2;
-}
-tbody tr:first-child button[data-book] {
-  border-top: 1px solid #ccd5e2;
-}
-button[data-book]:disabled {
-  pointer-events: all;
-  cursor: not-allowed;
-  background-image: linear-gradient(45deg, #eef1f5 9.09%, #f8f9fb 9.09%, #f8f9fb 50%, #eef1f5 50%, #eef1f5 59.09%, #f8f9fb 59.09%, #f8f9fb 100%);
-  background-size: 11px 11px;
-}
-button[data-book]:enabled {
-  cursor: pointer;
-  background-color: #d6f7d9;
-  transition: ease background-color 0.2s;
-}
-button[data-book]:enabled:hover {
-  background-color: #91e89b;
-}
-button[data-book]:enabled:active {
-  background-color: #58d36e;
-}
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-.row {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  width: fit-content;
-  min-width: 10rem;
-  padding: 0.5rem;
-  height: 2.75rem;
-  width: 100%;
-  border-bottom: 1px solid #ccd5e2;
-  border-left: 1px solid #ccd5e2;
-}
-tbody tr:first-child .row {
-  border-top: 1px solid #ccd5e2;
-}
-.row h3 {
-  font-size: 0.875rem;
-  line-height: 0.875rem;
-  font-weight: 500;
-  white-space: nowrap;
-}
-.row p {
-  font-size: 0.75rem;
-  line-height: 0.875rem;
-  color: #60748b;
-}
 .saAccessibilityBanner {
   display: flex;
   justify-content: center;
@@ -24124,10 +23997,17 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   justify-content: center;
   height: 2rem;
 }
+.saMessageBanner .saBannerMessage:last-child {
+  display: none;
+}
 .saMessageBanner .saBannerMessage.saAnimated {
   justify-content: flex-start;
   text-align: left;
-  animation: marquee ease-out infinite alternate;
+  animation: marquee linear infinite;
+  padding-left: 2rem;
+}
+.saMessageBanner .saBannerMessage.saAnimated:last-child {
+  display: flex;
 }
 .saMessageBanner.saFadeOut {
   animation: 2s ease marquee-out forwards;
@@ -33967,736 +33847,189 @@ softadmin-nodegraph .saNodeContent .saNodeTable:has(td .saNodeColumnMandatory) t
 pre.saCode {
   tab-size: 4;
 }
-.saDragOverlayWrapper {
-  display: grid;
-  grid-template-rows: repeat(5, 1fr);
-  align-items: end;
-  text-align: center;
+.saSparkles {
+  position: relative;
+  height: 1.25rem;
+  width: 1.25rem;
+}
+.saSparkles .saSparkle {
+  fill: #8b4af1;
   position: absolute;
-  inset: 0;
-  height: 100%;
-  width: 100%;
-  visibility: hidden;
-  opacity: 0;
-  z-index: 99;
-  transition: ease visibility 0.2s, ease opacity 0.2s, ease box-shadow 0.2s;
-  background-color: rgba(229, 239, 255, 0.9);
-  box-shadow: inset 0 0 0 0 #2d6ce1;
 }
-.saDragOver .saDragOverlayWrapper {
-  visibility: visible;
-  opacity: 1;
-  box-shadow: inset 0 0 0 2px #2d6ce1;
+.saSparkles .saSparkle.saLg {
+  width: 1rem;
+  height: 1rem;
+  left: 0;
+  top: 2px;
+  animation: sparkle 2s ease infinite;
 }
-.saDragOverlay {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  grid-row: 2;
+.saSparkles .saSparkle.saSm {
+  width: 0.5rem;
+  height: 0.5rem;
+  right: 0;
+  top: -2px;
+  transform-origin: left bottom;
+  animation: sparkle 2s 0.25s ease infinite;
 }
-.saDragOverlay .saIcon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 4rem;
-  min-width: 4rem;
-  background-color: #2d6ce1;
-  color: #fff;
-  font-size: 2rem;
-  line-height: 2rem;
-  border-radius: 1rem;
-  margin-bottom: 1rem;
-  transform: translateY(2rem);
-  transition: ease transform 0.2s;
+.saSparkles .saSparkle.saSm:last-child {
+  top: unset;
+  bottom: -2px;
+  transform-origin: left top;
+  animation: sparkle 2s 0.5s ease infinite;
 }
-.saDragOver .saDragOverlay .saIcon {
-  transform: translateY(0);
-}
-.saDragOverlay div {
-  transform: translateY(1rem);
-  transition: ease transform 0.2s;
-}
-.saDragOver .saDragOverlay div {
-  transform: translateY(0);
-}
-.saDragOverlay p {
-  color: #60748b;
+@keyframes sparkle {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.75);
+  }
 }
 .saChatWrapper {
   display: flex;
-  flex: 1;
-  height: 100%;
+  flex-direction: column;
   box-sizing: border-box;
-  height: calc(100dvh - 200px);
+  max-width: 768px;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  justify-content: space-between;
 }
 .saChatWrapper * {
   box-sizing: border-box;
 }
-.saSmallScreen .saChatWrapper {
-  padding: 0;
-}
-.saChat {
-  max-width: 48rem;
-  border: 1px solid #ccd5e2;
-  background-color: #fff;
-  border-radius: 1rem;
-  overflow: hidden;
-  height: 100%;
-  display: flex;
-  flex: 1;
-  justify-content: space-between;
-  flex-direction: column;
-}
-.saSmallScreen .saChat {
-  width: 100%;
-  max-width: unset;
-  border: none;
-  border-radius: 0;
-}
-.saSmallScreen .saChat * {
-  user-select: none;
-  user-zoom: fixed;
-}
-.saChatHeader {
-  justify-content: center;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  height: 2.5rem;
-  border-bottom: 1px solid #ccd5e2;
-  background-color: #f8f9fb;
-  font-weight: 500;
-  font-size: 1rem;
-  display: flex;
-  gap: 0.5rem;
-}
-.saSmallScreen .saChatHeader {
-  display: none;
-}
-.saChatTitle {
-  font-size: 1rem;
-  font-weight: 500;
-}
-.saChatHeaderDescription {
-  font-weight: 300;
-  font-size: 0.75rem;
-}
-.saMessageGroup {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-x: hidden;
-  overflow-y: auto;
-  height: 100%;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  padding-inline-start: 0;
-  padding-right: 1rem;
-}
-.saLargeScreen .saMessageGroup {
-  padding-right: 0;
-  scrollbar-gutter: stable;
-}
-.saLargeScreen .saMessageGroup::-webkit-scrollbar {
-  background-color: transparent;
-}
-.saLargeScreen .saMessageGroup::-webkit-scrollbar-thumb {
-  background-color: transparent;
-}
-.saLargeScreen .saMessageGroup:is(:hover, :focus-within)::-webkit-scrollbar {
-  background-color: #ccd5e2;
-}
-.saLargeScreen .saMessageGroup:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
-  background-color: #7088a4;
-}
-.saLargeScreen .saMessageGroup:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
-  background-color: #506072;
-}
-.saLargeScreen .saMessageGroup:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
-  background-color: #313a44;
-}
 .saChatDay {
   display: flex;
-  width: 100%;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  width: 100%;
   position: sticky;
-  top: 0.5rem;
-  z-index: 1;
-  margin: 2rem 0 1rem 0;
-  transition: ease inset 0.2s;
+  top: 0;
 }
 .saChatDay time {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #60748b;
-  background-color: #f8f9fb;
   font-size: 0.75rem;
-  text-align: center;
-  max-height: 1.5rem;
-  min-height: 1.5rem;
-  padding: 0 0.5rem;
-  border-radius: 99rem;
-  font-weight: 400;
-  box-shadow: inset 0 0 0 1px #ccd5e2;
-  z-index: 1;
-  transform-origin: top;
-}
-.saChatUnreadWrapper + .saChatDay {
-  margin-top: 0;
-}
-.saChatUnreadWrapper.saAbove ~ .saChatDay {
-  top: 2.5rem;
-}
-.saChatUnreadWrapper {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  position: sticky;
-  z-index: 1;
-  margin: 2rem 0 0.5rem 0;
-  bottom: 0.5rem;
-  transition: ease inset 0.2s;
-}
-.saChatUnreadWrapper.saAbove {
-  top: 0.5rem;
-}
-.saChatUnreadWrapper.saAbove .fa-caret-up {
-  display: flex;
-}
-.saChatUnreadWrapper.saAbove .fa-caret-down {
-  display: none;
-}
-.saChatUnreadWrapper .fa-caret-up {
-  display: none;
-}
-@media (pointer: fine) {
-  .saChatUnreadWrapper:hover .saChatUnread {
-    background-color: #bf0024;
-  }
-}
-.saChatUnreadWrapper:active .saChatUnread {
-  background-color: #9b0002;
-}
-.saChatUnread {
-  position: relative;
-  gap: 0.25rem;
   line-height: 0.75rem;
-  font-weight: 500;
+  height: 1.5rem;
+  width: fit-content;
+  padding: 0 0.5rem;
   background-color: #eef1f5;
-  padding: 0.25rem 0.5rem;
-  width: fit-content;
-  height: 1.5rem;
-  transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
-  box-shadow: inset 0 0 0 0 transparent;
-  border-radius: 1rem;
+  border: 1px solid #ccd5e2;
+  border-radius: 99rem;
+}
+.saChat {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  font-size: 0.75rem;
-  text-align: center;
-  max-height: 1.5rem;
-  min-height: 1.5rem;
-  font-weight: 400;
-  gap: 0.5rem;
-  white-space: nowrap;
-  z-index: 2;
-  background-color: #e0173e;
-  color: #fff;
-}
-.saChatUnread.saDisabled {
-  background: #eef1f5;
-  color: #adbdd1;
-  cursor: not-allowed;
-}
-.saChatUnread:has(:enabled) {
-  cursor: pointer;
-}
-@media (pointer: fine) {
-  .saChatUnread:has(:enabled):hover {
-    background-color: #e5efff;
-    color: #1c57c6;
-  }
-  .saChatUnread:has(:enabled):hover.saOutline {
-    box-shadow: inset 0 0 0 1px #2d6ce1;
-  }
-}
-.saChatUnread:has(:enabled):active {
-  background-color: #bbd6ff;
-  color: #0f44a6;
-}
-.saChatUnread::before {
-  content: "";
-  height: 2.75rem;
-  width: 100%;
-  background-color: transparent;
-  opacity: 0;
-  position: absolute;
-}
-.saChatUnread.saSmall {
-  height: 1.5rem;
-  min-width: 2.5rem;
-  border-radius: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  gap: 0.25rem;
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-}
-.saChatUnread.saMedium {
-  min-width: 4rem;
-  height: 2rem;
-  border-radius: 1rem;
-  padding: 0 0.75rem;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 0.875rem;
-}
-.saChatUnread.saLarge {
-  min-width: 4rem;
-  height: 2.5rem;
-  border-radius: 1.25rem;
-  padding: 0 0.75rem;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 0.875rem;
-}
-.saChatUnread.saOutline {
-  box-shadow: inset 0 0 0 1px #ccd5e2;
-}
-.saChatUnread:has(:checked) {
-  background-color: #2d6ce1;
-  color: #fff;
-}
-.saChatUnread:has(:checked).saOutline {
-  background-color: #e5efff;
-  color: #1c57c6;
-  box-shadow: inset 0 0 0 1px #2d6ce1;
-}
-.saChatUnread input {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  border: none;
-  margin: 0;
-  padding: 0;
-  padding-block: 0;
-  padding-inline: 0;
-  position: absolute;
+  flex-direction: column;
   height: 100%;
-  width: 100%;
-  left: 0;
-  top: 0;
-  background: none;
-  border-radius: 1rem;
-  cursor: inherit;
-}
-.saMessage {
-  display: flex;
-  gap: 0.5rem;
-  padding-left: 1rem;
   position: relative;
-  width: 100%;
-  z-index: 0;
-  align-items: flex-end;
 }
-.saMessage.saSender {
-  justify-content: flex-end;
-}
-.saMessage.saSender:last-child {
-  padding-bottom: 0;
-}
-.saMessageToolbar {
-  display: flex;
+.saChatLatest {
   position: absolute;
-  background-color: #313a44;
-  padding: 0.25rem;
-  border-radius: 0.75rem;
-  z-index: 1;
-  width: fit-content;
-}
-.saSmallScreen .saMessageToolbar {
-  display: none;
-}
-.saMessageToolbar .saButton {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
-  white-space: nowrap;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  max-width: 100%;
-  flex-shrink: 0;
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  width: 2rem;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
   height: 2rem;
-  max-width: 2rem;
-  min-width: 2rem;
-  font-size: 1rem;
-  position: relative;
-  background-color: #313a44;
-}
-.saMessageToolbar .saButton .saButtonText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.5;
-}
-.saMessageToolbar .saButton .saBadgedIcon {
+  width: 2rem;
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
-}
-.saMessageToolbar .saButton .saIcon {
+  align-items: center;
+  background-color: #eef1f5;
+  border: 1px solid #ccd5e2;
+  border-radius: 99rem;
+  color: #60748b;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
-.saMessageToolbar .saButton:active {
-  border-radius: 0.75rem;
-}
-.saMessageToolbar .saButton .saIcon {
-  color: #ccd5e2;
-}
-.saMessageToolbar .saButton::after {
-  content: '';
-  height: 2.75rem;
-  width: 100%;
-  position: absolute;
+.saChatLatest.saReached {
+  visibility: hidden;
   opacity: 0;
 }
 @media (pointer: fine) {
-  .saMessageToolbar .saButton:hover {
-    background-color: #506072;
+  .saChatLatest:hover {
+    color: #2d6ce1;
+    border-color: #2d6ce1;
+    background-color: #e5efff;
   }
-  .saMessageToolbar .saButton:hover .saIcon {
-    color: #fff;
-  }
 }
-.saMessageToolbar li:first-child .saButton::after {
-  width: calc(100% + 8px);
-  left: -0.25rem;
+.saChatLatest:active {
+  color: #1c57c6;
+  border-color: #1c57c6;
+  background-color: #bbd6ff;
 }
-.saMessageToolbar li:only-child .saButton::after {
-  width: calc(100% + 4px);
-  left: -0.25rem;
-}
-.saMessageToolbar li:last-child .saButton::after {
-  width: calc(100% + 4px);
-  right: -0.25rem;
-}
-.saSenderAvatarWrapper {
+.saLog {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   height: fit-content;
-  width: fit-content;
-  margin-bottom: 2.25rem;
-  position: relative;
+  list-style-type: none;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 0;
+  padding: 1rem;
+  overflow-wrap: break-word;
+  height: calc(100dvh - 240px);
+  overflow: auto;
 }
-.saSenderAvatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 1.5rem;
-  min-width: 1.5rem;
-  background-color: #adbdd1;
-  color: #fff;
-  border-radius: 50%;
-  font-size: 0.625rem;
-  line-height: 1.5rem;
-  transition: ease background 0.2s, ease transform 0.2s, ease opacity 0.2s;
-  transform: scale(1);
-  border-width: 1px;
-  border-style: solid;
-}
-.saSenderAvatar.saPrimary {
-  background-color: #f7faff;
-  color: #2d6ce1;
-  border-color: #bbd6ff;
-}
-.saSenderAvatar.saPurple {
-  background-color: #f9f7ff;
-  color: #8b4af1;
-  border-color: #ddccff;
-}
-.saSenderAvatar.saGray {
-  background-color: #f8f9fb;
-  color: #60748b;
-  border-color: #ccd5e2;
-}
-.saSenderAvatar.saRed {
-  background-color: #fff7f7;
-  color: #e0173e;
-  border-color: #ffc6c5;
-}
-.saSenderAvatar.saOrange {
-  background-color: #fff8f4;
-  color: #ae5c28;
-  border-color: #ffc9a4;
-}
-.saSenderAvatar.saYellow {
-  background-color: #fff8e7;
-  color: #9c6700;
-  border-color: #ffcd5b;
-}
-.saSenderAvatar.saGreen {
-  background-color: #f2fcf2;
-  color: #008429;
-  border-color: #91e89b;
-}
-.saSenderAvatar.saSky {
-  background-color: #f0fcff;
-  color: #2a7b90;
-  border-color: #82e1fb;
-}
-.saSenderAvatar.saPink {
-  background-color: #fff7fc;
-  color: #ca2c9b;
-  border-color: #ffc1ed;
-}
-input.saAvatarCheckbox {
-  position: absolute;
-  opacity: 0;
-  border-radius: 50%;
-  height: 1.5rem;
-  width: 1.5rem;
-  transform: scale(1);
-  transition: ease background 0.2s, ease transform 0.2s, ease opacity 0.2s, ease visibility 0.2s;
-  visibility: hidden;
-}
-.saSenderAvatarWrapper:has(input[type='checkbox']):hover input.saAvatarCheckbox,
-.saSenderAvatarWrapper:has(input[type='checkbox']):focus input.saAvatarCheckbox,
-.saSenderAvatarWrapper:has(input[type='checkbox']):has(:checked) input.saAvatarCheckbox {
-  opacity: 1;
-  transform: scale(1);
-  visibility: visible;
-}
-.saSenderAvatarWrapper:has(input[type='checkbox']):hover .saSenderAvatar,
-.saSenderAvatarWrapper:has(input[type='checkbox']):focus .saSenderAvatar,
-.saSenderAvatarWrapper:has(input[type='checkbox']):has(:checked) .saSenderAvatar {
-  opacity: 0;
-  transform: scale(0);
-}
-.saMessageInner {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 28rem;
-  padding-bottom: 1rem;
-  position: relative;
-}
-.saSender .saMessageInner {
-  align-items: flex-end;
-}
-.saMessageFooter {
-  display: flex;
-  gap: 0.5rem;
-  position: relative;
-  min-height: 1rem;
-  align-items: end;
-  padding: 0.5rem 0 0 1rem;
-  z-index: -1;
-}
-.saSenderName {
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-  font-weight: 500;
-}
-.saMessageTime {
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-  color: #60748b;
-  position: relative;
-}
-.saSender .saMessageTime {
-  padding-right: 1rem;
-}
-.saMessageTime::after {
-  content: '';
-  display: flex;
-  height: 0.375rem;
-  width: 0.375rem;
-  border-radius: 100%;
-  background-color: #e0173e;
-  position: absolute;
-  right: -0.75rem;
-  top: 0.1875rem;
-  transition: ease opacity 0.2s, ease transform 0.2s, ease visibility 0.2s;
-  transition-delay: 2s;
-  opacity: 0;
-  transform: scale(0);
-  visibility: hidden;
-}
-.saUnread .saMessageTime::after {
-  opacity: 1;
-  transform: scale(1);
-  visibility: visible;
-}
-.saMessageBody {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-.saSender .saMessageBody {
-  align-items: flex-end;
-}
-.saMessageImage {
-  border-radius: 0.25rem;
-  width: 100%;
-  margin: 0.5rem 0;
-}
-.saMessageImage:first-child {
-  margin-top: 0;
-}
-.saMessageImage:last-child {
-  margin-bottom: 0;
-}
-.saMessageBody p {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  word-break: break-word;
-  background-color: #f8f9fb;
-  padding: 0.625rem 1rem;
-  width: fit-content;
-  border-radius: 0.5rem;
-  min-width: 2.5rem;
-  transition: border-radius ease 0.2s, background-color ease 5s;
-}
-.saNew .saMessageBody p {
-  animation: slider-slider 0.2s ease;
-}
-@keyframes slider-slider {
-  0% {
-    transform: translateY(5rem) scale(0);
-    max-height: 0;
-  }
-  100% {
-    transform: translateY(0px) scale(1);
-    max-height: 100%;
-  }
-}
-.saUnread .saMessageBody p {
-  background-color: #ffe8e7;
-}
-.saMessageBody p:first-child {
-  border-radius: 1rem 1rem 0.5rem 0.5rem;
-}
-.saMessageBody p:last-child {
-  border-radius: 0.5rem 0.5rem 1rem 0.25rem;
-}
-.saMessageBody p:only-child {
-  border-radius: 1rem 1rem 1rem 0.25rem;
-}
-.saSender .saMessageBody p {
-  background-color: #e5efff;
-}
-.saSender .saMessageBody p:last-child {
-  border-radius: 0.5rem 0.5rem 0.25rem 1rem;
-}
-.saSender .saMessageBody p:only-child {
-  border-radius: 1rem 1rem 0.25rem 1rem;
-}
-.saSmallScreen .saMessageBody p {
-  font-size: 1rem;
-  line-height: 1.5rem;
-}
-a.saMention {
-  text-decoration: none;
-  font-weight: 500;
-  color: #2d6ce1;
-  transition: color ease 0.2s;
-}
-@media (pointer: fine) {
-  a.saMention:hover {
-    color: #0f44a6;
-    text-decoration: underline;
-  }
-}
-a.saMention:active {
-  color: #011b50;
-}
-.saChatComposer {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  max-height: 50%;
-}
-.saChatComposer textarea {
-  width: 100%;
-  min-height: 6rem;
-  max-height: calc(100% - 4rem);
-  resize: none;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-family: 'Lexend', sans-serif;
-  appearance: none;
-  padding: 1rem 1.5rem 1rem 1rem;
-  border: none;
-  background-color: transparent;
-  border-radius: 0 0 1rem 1rem;
-  color: #313a44;
-  border-top: 1px solid #ccd5e2;
-  field-sizing: content;
+.saLargeScreen .saLog {
+  padding-right: 0;
   scrollbar-gutter: stable;
 }
-.saChatComposer textarea::-webkit-scrollbar {
+.saLargeScreen .saLog::-webkit-scrollbar {
   background-color: transparent;
 }
-.saChatComposer textarea::-webkit-scrollbar-thumb {
+.saLargeScreen .saLog::-webkit-scrollbar-thumb {
   background-color: transparent;
 }
-.saChatComposer textarea:is(:hover, :focus-within)::-webkit-scrollbar {
+.saLargeScreen .saLog:is(:hover, :focus-within)::-webkit-scrollbar {
   background-color: #ccd5e2;
 }
-.saChatComposer textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
+.saLargeScreen .saLog:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
   background-color: #7088a4;
 }
-.saChatComposer textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
+.saLargeScreen .saLog:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
   background-color: #506072;
 }
-.saChatComposer textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
+.saLargeScreen .saLog:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
   background-color: #313a44;
 }
-r .saChatComposer textarea:focus-within,
-.saChatComposer textarea:focus,
-.saChatComposer textarea:focus-visible {
-  outline: none;
+.saPrompt p {
+  background-color: #f8f9fb;
+  padding: 0.5rem 1rem;
+  border-radius: 1.125rem;
+  max-width: 38rem;
+  width: fit-content;
+  min-width: 2.5rem;
+  margin-left: auto;
 }
-.saChatComposer textarea::placeholder {
-  color: #60748b;
+.saPrompt:hover .saChatToolbar,
+.saPrompt:focus-within .saChatToolbar {
+  opacity: 1;
 }
-.saSmallScreen .saChatComposer textarea {
-  min-height: 3rem;
-  height: 3rem;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  border-radius: 0;
-  padding: 0.75rem 2.5rem 0 1rem;
-  scrollbar-gutter: unset;
+.saResponse p:not(:last-child) {
+  margin-bottom: 1rem;
 }
-.saSmallScreen .saChatComposer textarea[rows] {
-  height: unset;
+.saResponse .saWord {
+  animation: blurin 0.1s ease forwards;
+}
+@keyframes blurin {
+  0% {
+    filter: blur(8px);
+    color: #fff;
+  }
+  100% {
+    filter: blur(0);
+    color: #313a44;
+  }
 }
 .saChatToolbar {
   display: flex;
-  padding: 0.5rem;
-  width: 100%;
-  justify-content: space-between;
+  flex-direction: row;
+  list-style: none;
+  min-height: 2.5rem;
+  align-items: center;
 }
-.saButtonUpload {
+.saChatToolbar button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: 'Lexend', sans-serif;
@@ -34710,87 +34043,6 @@ r .saChatComposer textarea:focus-within,
   flex-shrink: 0;
   color: #2d6ce1;
   background: transparent;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-.saButtonUpload .saButtonText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.5;
-}
-.saButtonUpload .saBadgedIcon {
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
-.saButtonUpload .saIcon {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.saButtonUpload .saIcon {
-  color: var(--Sa-Color-Icon);
-}
-.saButtonUpload.saDestructive {
-  color: #e0173e;
-}
-.saButtonUpload.saDestructive .saIcon {
-  color: #e0173e;
-}
-@media (pointer: fine) {
-  .saButtonUpload.saDestructive:hover {
-    color: #e0173e;
-    background: #ffe8e7;
-  }
-  .saButtonUpload.saDestructive:hover .saIcon {
-    color: #e0173e;
-  }
-}
-.saButtonUpload.saDestructive:active {
-  color: #fff;
-  background: #e0173e;
-}
-.saButtonUpload.saDestructive:active > .saIcon {
-  color: #fff;
-}
-@media (pointer: fine) {
-  .saButtonUpload:hover {
-    background-color: #f7faff;
-    color: #2d6ce1;
-  }
-  .saButtonUpload:hover .saIcon {
-    color: var(--Sa-Color-IconHover);
-  }
-}
-.saButtonUpload:active {
-  background: #e5efff;
-}
-.saButtonUpload:disabled {
-  background: #ccd5e2;
-  pointer-events: none;
-  color: #7088a4;
-}
-.saButtonUpload:disabled .saIcon {
-  color: #7088a4;
-}
-.saStandard .saButtonUpload {
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  max-width: 2.5rem;
-  min-width: 2.5rem;
-  font-size: 1rem;
-}
-.saStandard .saButtonUpload:active {
-  border-radius: 0.75rem;
-}
-.saCompact .saButtonUpload {
   border-radius: 0.5rem;
   padding: 0 0.5rem;
   width: 2rem;
@@ -34799,179 +34051,106 @@ r .saChatComposer textarea:focus-within,
   min-width: 2rem;
   font-size: 1rem;
 }
-.saCompact .saButtonUpload:active {
-  border-radius: 0.75rem;
+.saChatToolbar button .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
 }
-.saSmallScreen .saButtonUpload {
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  max-width: 2.5rem;
-  min-width: 2.5rem;
-  font-size: 1rem;
+.saChatToolbar button .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
 }
-.saSmallScreen .saButtonUpload:active {
-  border-radius: 0.75rem;
-}
-.saButtonUpload [type='file'] {
-  display: none;
-}
-.saButtonUpload::-webkit-file-upload-button {
-  display: none;
-}
-.saButtonSend {
-  height: 2rem;
-  width: 2rem;
-  background-color: #2d6ce1;
-  color: #fff;
-  border-radius: 999rem;
-  font-size: 1rem;
+.saChatToolbar button .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.saButtonSend::after {
-  content: '';
-  height: 3rem;
-  width: 3rem;
-  position: absolute;
-  bottom: -0.5rem;
-  right: -0.5rem;
+.saChatToolbar button .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saChatToolbar button.saDestructive {
+  color: #e0173e;
+}
+.saChatToolbar button.saDestructive .saIcon {
+  color: #e0173e;
+}
+@media (pointer: fine) {
+  .saChatToolbar button.saDestructive:hover {
+    color: #e0173e;
+    background: #ffe8e7;
+  }
+  .saChatToolbar button.saDestructive:hover .saIcon {
+    color: #e0173e;
+  }
+}
+.saChatToolbar button.saDestructive:active {
+  color: #fff;
+  background: #e0173e;
+}
+.saChatToolbar button.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saChatToolbar button:hover {
+    background-color: #f7faff;
+    color: #2d6ce1;
+  }
+  .saChatToolbar button:hover .saIcon {
+    color: var(--Sa-Color-IconHover);
+  }
+}
+.saChatToolbar button:active {
+  background: #e5efff;
+}
+.saChatToolbar button:disabled {
+  background: #ccd5e2;
+  pointer-events: none;
+  color: #7088a4;
+}
+.saChatToolbar button:disabled .saIcon {
+  color: #7088a4;
+}
+.saChatToolbar button:active {
+  border-radius: 0.75rem;
+}
+.saPrompt .saChatToolbar {
+  justify-content: flex-end;
   opacity: 0;
 }
-@media (pointer: fine) {
-  .saButtonSend:enabled:hover {
-    background-color: #1c57c6;
-  }
-}
-.saButtonSend:enabled:active {
-  background-color: #0f44a6;
-}
-.saButtonSend:disabled {
-  transform: scale(0);
-}
-.saAttachmentList {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.25rem;
-}
-.saChatComposer + .saAttachmentList {
-  padding: 0.5rem;
-  border-top: 1px #ccd5e2 solid;
-  background-color: #f8f9fb;
-}
-.saAttachmentList:empty {
-  display: none;
-}
-.saAttachmentItem {
+.saComposer {
   display: flex;
-  width: 100%;
-  min-width: 0;
-  position: relative;
-}
-.saAttachmentItem:only-child {
-  grid-column: 2;
-}
-.saAttachmentItem a {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  width: 100%;
-  box-shadow: inset 0 0 0 1px #ccd5e2;
-  padding: 0.25rem 2rem 0.25rem 0.25rem;
-  height: 2.5rem;
-  border-radius: 0.5rem;
-  color: #313a44;
+  align-items: end;
+  flex-direction: column;
+  border-radius: 1rem;
+  border: 1px solid #ccd5e2;
   background-color: #fff;
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
+  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.05), 0 2px 0.1875rem rgba(49, 58, 68, 0.05);
 }
-@media (pointer: fine) {
-  .saAttachmentItem a:hover {
-    background-color: #f7faff;
-    color: #2d6ce1;
-    box-shadow: inset 0 0 0 1px #2d6ce1;
-  }
-  .saAttachmentItem a:hover i.saAttachmentDownload,
-  .saAttachmentItem a:hover .saAttachmentSize {
-    color: inherit;
-  }
-}
-.saAttachmentItem a:active {
-  background-color: #e5efff;
-  color: #1c57c6;
-  box-shadow: inset 0 0 0 1px #1c57c6;
-  border-radius: 0.75rem;
-}
-.saAttachmentItem a:active i.saAttachmentDownload,
-.saAttachmentItem a:active .saAttachmentSize {
+.saComposer textarea {
+  width: 100%;
+  height: 100%;
+  min-height: 80px;
+  max-height: 20dvh;
+  border-radius: 1rem;
+  resize: none;
+  border: none;
+  padding: 12px 1rem;
+  font-size: 14px;
+  line-height: 1rem;
+  font-family: inherit;
+  outline: none;
   color: inherit;
+  field-sizing: content;
 }
-.saAttachmentItem a:active i.saAttachmentIcon,
-.saAttachmentItem a:active .saAttachmentPreview {
-  border-radius: 0.5rem;
+.saComposer textarea::placeholder {
+  color: #8fa5c0;
 }
-.saAttachmentLoader {
-  position: absolute;
-  box-sizing: border-box;
-  width: 1.25rem;
-  height: 1.25rem;
-  top: 0.375rem;
-  left: 0.375rem;
-  background-color: #009b36;
-  border-radius: 99rem;
-  transform: scale(0);
-  transition: transform 0.2s ease 0.5s;
-  z-index: 1;
-}
-.saAttachmentLoader::before {
-  content: '';
-  position: absolute;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 3px solid transparent;
-  inset: 0;
-  animation: attachment-rotation 1s linear infinite;
-  animation-play-state: paused;
-  transition: ease border-color 0.2s, ease transform 0.2s, ease animation-play-state 0.2s;
-}
-.saAttachmentLoader::after {
-  content: '';
-  position: absolute;
-  box-sizing: border-box;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.1s ease;
-  background-color: #fff;
-  transform-origin: center;
-  clip-path: polygon(78.5% 38.5%, 46.5% 70.5%, 46.5% 70.5%, 46.172% 70.799%, 45.792% 71.092%, 45.371% 71.373%, 44.916% 71.636%, 44.438% 71.875%, 43.944% 72.084%, 43.445% 72.257%, 42.948% 72.388%, 42.464% 72.471%, 42% 72.5%, 42% 72.5%, 41.537% 72.485%, 41.052% 72.436%, 40.556% 72.352%, 40.056% 72.228%, 39.563% 72.063%, 39.084% 71.852%, 38.63% 71.594%, 38.208% 71.284%, 37.829% 70.921%, 37.5% 70.5%, 21.5% 54.5%, 21.5% 54.5%, 20.825% 53.708%, 20.3% 52.844%, 19.925% 51.926%, 19.7% 50.972%, 19.625% 50%, 19.7% 49.028%, 19.925% 48.074%, 20.3% 47.156%, 20.825% 46.292%, 21.5% 45.5%, 21.5% 45.5%, 22.292% 44.825%, 23.156% 44.3%, 24.074% 43.925%, 25.028% 43.7%, 26% 43.625%, 26.972% 43.7%, 27.926% 43.925%, 28.844% 44.3%, 29.708% 44.825%, 30.5% 45.5%, 42% 57%, 69.5% 29.5%, 69.5% 29.5%, 70.292% 28.825%, 71.156% 28.3%, 72.074% 27.925%, 73.028% 27.7%, 74% 27.625%, 74.972% 27.7%, 75.926% 27.925%, 76.844% 28.3%, 77.708% 28.825%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 79.175% 30.292%, 79.7% 31.156%, 80.075% 32.074%, 80.3% 33.028%, 80.375% 34%, 80.3% 34.972%, 80.075% 35.926%, 79.7% 36.844%, 79.175% 37.708%, 78.5% 38.5%);
-  transform: scale(0);
-  transform: scale(1);
-}
-:disabled .saAttachmentLoader {
-  background-color: transparent;
-  transform: scale(1);
-}
-:disabled .saAttachmentLoader::before {
-  animation-play-state: running;
-  border-color: #bbd6ff;
-  border-bottom-color: #2d6ce1;
-}
-:disabled .saAttachmentLoader::after {
-  transform: scale(0);
-}
-@keyframes attachment-rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-.saAttachmentRemove {
+.saButtonSend {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: 'Lexend', sans-serif;
@@ -34983,202 +34162,172 @@ r .saChatComposer textarea:focus-within,
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  color: #2d6ce1;
-  background: transparent;
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  width: 2rem;
+  background-color: var(--Sa-Color-PrimaryButtonBackground);
+  color: var(--Sa-Color-PrimaryButtonLabel);
   height: 2rem;
-  max-width: 2rem;
-  min-width: 2rem;
-  font-size: 1rem;
-  position: absolute;
-  right: 4px;
-  top: 4px;
+  width: 2rem;
+  border-radius: 999rem;
+  margin: 0.5rem;
 }
-.saAttachmentRemove .saButtonText {
+.saButtonSend .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.saAttachmentRemove .saBadgedIcon {
+.saButtonSend .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saAttachmentRemove .saIcon {
+.saButtonSend .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.saAttachmentRemove .saIcon {
+.saButtonSend .saIcon {
+  color: var(--Sa-Color-PrimaryButtonIcon);
+}
+.saButtonSend .saBadge {
+  color: var(--Sa-Color-PrimaryButtonBackground);
+  background: var(--Sa-Color-PrimaryButtonIcon);
+  border-color: var(--Sa-Color-PrimaryButtonBackground);
+}
+@media (pointer: fine) {
+  .saButtonSend:hover {
+    background-color: var(--Sa-Color-PrimaryButtonBackgroundHover);
+  }
+  .saButtonSend:hover .saBadge {
+    background-color: var(--Sa-Color-PrimaryButtonIcon);
+    border-color: var(--Sa-Color-PrimaryButtonBackgroundHover);
+  }
+}
+.saButtonSend:active {
+  background-color: var(--Sa-Color-PrimaryButtonBackgroundActive);
+}
+.saButtonSend:active .saBadge {
+  color: var(--Sa-Color-PrimaryButtonBackgroundActive);
+  border-color: 2px solid var(--Sa-Color-PrimaryButtonBackgroundActive);
+}
+.saButtonSend:disabled {
+  background: var(--Sa-Color-PrimaryButtonBackgroundDisabled);
+  pointer-events: none;
+}
+.saButtonSend.saDestructive {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+  color: #fff;
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+@media (pointer: fine) {
+  .saButtonSend.saDestructive:hover {
+    background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness90);
+  }
+}
+.saButtonStop {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+  background-color: #f8f9fb;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 999rem;
+  margin: 0.5rem;
+}
+.saButtonStop .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saButtonStop .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saButtonStop .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saButtonStop .saIcon {
   color: var(--Sa-Color-Icon);
 }
-.saAttachmentRemove.saDestructive {
-  color: #e0173e;
-}
-.saAttachmentRemove.saDestructive .saIcon {
-  color: #e0173e;
+.saButtonStop .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
 }
 @media (pointer: fine) {
-  .saAttachmentRemove.saDestructive:hover {
-    color: #e0173e;
-    background: #ffe8e7;
+  .saButtonStop:hover {
+    border-color: var(--Sa-Color-SecondaryButtonBorderHover);
+    color: var(--Sa-Color-LabelHover);
   }
-  .saAttachmentRemove.saDestructive:hover .saIcon {
-    color: #e0173e;
-  }
-}
-.saAttachmentRemove.saDestructive:active {
-  color: #fff;
-  background: #e0173e;
-}
-.saAttachmentRemove.saDestructive:active > .saIcon {
-  color: #fff;
-}
-@media (pointer: fine) {
-  .saAttachmentRemove:hover {
-    background-color: #f7faff;
-    color: #2d6ce1;
-  }
-  .saAttachmentRemove:hover .saIcon {
+  .saButtonStop:hover .saIcon {
     color: var(--Sa-Color-IconHover);
   }
+  .saButtonStop:hover .saBadge {
+    background-color: var(--Sa-Color-IconHover);
+  }
 }
-.saAttachmentRemove:active {
-  background: #e5efff;
+.saButtonStop:active {
+  background: var(--Sa-Color-SecondaryButtonBackgroundActive);
 }
-.saAttachmentRemove:disabled {
-  background: #ccd5e2;
-  pointer-events: none;
-  color: #7088a4;
+.saButtonStop:active .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackgroundActive);
+  border-color: var(--Sa-Color-SecondaryButtonBackgroundActive);
 }
-.saAttachmentRemove:disabled .saIcon {
-  color: #7088a4;
+.saButtonStop.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
 }
-.saAttachmentRemove:active {
-  border-radius: 0.75rem;
+.saButtonStop.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
 }
-.saAttachmentRemove .saIcon {
-  transition: ease transform 0.2s;
-  transform: scale(0);
-}
-.saAttachmentRemove:disabled {
-  background-color: transparent;
-}
-.saAttachmentRemove:disabled .saIcon {
-  transform: scale(0);
-}
-.saAttachmentItem:hover .saAttachmentRemove:enabled .saIcon {
-  transform: scale(1);
+.saButtonStop.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
 }
 @media (pointer: fine) {
-  .saAttachmentRemove:enabled:hover {
-    background-color: #ffe8e7;
+  .saButtonStop.saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
   }
-  .saAttachmentRemove:enabled:hover .saIcon {
-    color: #e0173e;
+  .saButtonStop.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .saButtonStop.saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
   }
 }
-.saAttachmentRemove:enabled:active {
-  background-color: #ffc6c5;
+.saButtonStop.saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
 }
-.saAttachmentRemove:enabled:active .saIcon {
-  color: #bf0024;
+.saButtonStop.saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
 }
-i.saAttachmentDownload {
-  position: absolute;
-  right: 0.25rem;
-  color: #7088a4;
-  margin: 0 0.25rem 0 auto;
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-}
-i.saAttachmentIcon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  height: 2rem;
-  min-width: 2rem;
-  color: #7088a4;
-  background-color: #ccd5e2;
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  background-color: #f0ebff;
-  color: #8b4af1;
-  border: 1px solid #8b4af1;
-}
-i.saAttachmentIcon.fa-file-word {
-  background-color: #e5efff;
-  color: #2d6ce1;
-  border: 1px solid #2d6ce1;
-}
-i.saAttachmentIcon.fa-video {
-  background-color: #ffeada;
-  color: #ae5c28;
-  border: 1px solid #ae5c28;
-}
-i.saAttachmentIcon.fa-file-excel {
-  background-color: #d6f7d9;
-  color: #008429;
-  border: 1px solid #008429;
-}
-i.saAttachmentIcon.fa-file-pdf {
-  background-color: #ffe8e7;
-  color: #e0173e;
-  border: 1px solid #e0173e;
-}
-i.saAttachmentIcon.fa-image {
-  background-color: #ffe7f7;
-  color: #ca2c9b;
-  border: 1px solid #ca2c9b;
-}
-i.saAttachmentIcon.fa-xmark {
-  background-color: #e0173e;
-  color: #fff;
-  border: none;
-}
-i.saAttachmentIcon.fa-question {
-  background-color: #da9600;
-  color: #fff;
-  border: none;
-}
-.saAttachmentPreview {
-  width: 2rem;
-  height: 2rem;
-  aspect-ratio: 1;
-  border-radius: 0.25rem;
-  object-fit: cover;
-  border: solid 1px #ccd5e2;
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-}
-.saAttachmentContent {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  flex: 1;
-}
-.saAttachmentName {
-  font-size: 0.875rem;
-  line-height: 1rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-}
-.saAttachmentSize {
-  color: #60748b;
-  font-size: 0.75rem;
-  line-height: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
+.saButtonStop.saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
 }
