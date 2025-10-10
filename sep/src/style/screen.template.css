@@ -33847,8 +33847,22 @@ softadmin-nodegraph .saNodeContent .saNodeTable:has(td .saNodeColumnMandatory) t
 pre.saCode {
   tab-size: 4;
 }
-.scrollcontent-inner {
-  height: calc(100vh - 112px);
+#settings {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+body {
+  padding: 1.5rem;
+}
+body.saSmallScreen {
+  padding: 0;
 }
 .saChatLoading {
   display: flex;
@@ -33886,23 +33900,67 @@ pre.saCode {
 .saChatWrapper {
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-  max-width: 768px;
+  width: 100%;
+  height: 100%;
   justify-content: space-between;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.saLargeScreen .saChatWrapper {
+  max-width: 48rem;
 }
 .saChatWrapper * {
   box-sizing: border-box;
+}
+.saChatUnread {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  position: sticky;
+  bottom: -0.5rem;
+  padding: 2rem 0 1rem 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.saChatUnread button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  height: 1.5rem;
+  width: fit-content;
+  padding: 0 0.625rem;
+  background-color: #e0173e;
+  color: #fff;
+  border-radius: 99rem;
+  pointer-events: all;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+}
+@media (pointer: fine) {
+  .saChatUnread button:hover {
+    background-color: #bf0024;
+  }
+}
+.saChatUnread button:active {
+  background-color: #9b0002;
 }
 .saChatDate {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  gap: 0.5rem;
   width: 100%;
   position: sticky;
-  top: 0;
+  top: -1rem;
   padding: 2rem 0 1rem 0;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
 }
 .saChatDate time {
   display: flex;
@@ -33912,8 +33970,8 @@ pre.saCode {
   line-height: 0.75rem;
   height: 1.5rem;
   width: fit-content;
-  padding: 0 0.5rem;
-  background-color: #eef1f5;
+  padding: 0 0.625rem;
+  background-color: #f8f9fb;
   border: 1px solid #ccd5e2;
   border-radius: 99rem;
   pointer-events: all;
@@ -33923,14 +33981,44 @@ pre.saCode {
   flex-direction: column;
   height: 100%;
   position: relative;
+  flex: 1;
+  overflow: auto;
+  padding: 0 1rem 1rem 1rem;
+}
+.saLargeScreen .saChat {
+  border-radius: 1rem 1rem 0 0;
+  border: 1px solid #ccd5e2;
+  border-bottom: none;
+  padding-right: 0;
+  scrollbar-gutter: stable;
+}
+.saLargeScreen .saChat::-webkit-scrollbar {
+  background-color: transparent;
+}
+.saLargeScreen .saChat::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+.saLargeScreen .saChat:is(:hover, :focus-within)::-webkit-scrollbar {
+  background-color: #ccd5e2;
+}
+.saLargeScreen .saChat:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
+  background-color: #7088a4;
+}
+.saLargeScreen .saChat:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
+  background-color: #506072;
+}
+.saLargeScreen .saChat:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
+  background-color: #313a44;
 }
 .saChatLatest {
-  position: absolute;
+  position: sticky;
   bottom: 0.5rem;
   left: 50%;
   transform: translate(-50%, 0);
   height: 2rem;
   width: 2rem;
+  min-height: 2rem;
+  min-width: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33942,9 +34030,9 @@ pre.saCode {
   transition: all 0.2s ease;
 }
 .saChatLatest.saReached {
-  visibility: hidden;
-  transform: translate(-50%, 100%);
+  transform: translate(-50%, 0.5rem);
   opacity: 0;
+  pointer-events: none;
 }
 @media (pointer: fine) {
   .saChatLatest:hover {
@@ -33961,47 +34049,19 @@ pre.saCode {
 .saLog {
   display: flex;
   flex-direction: column;
-  height: fit-content;
   list-style-type: none;
   margin-block-start: 0;
   margin-block-end: 0;
   padding-inline-start: 0;
-  padding: 0 1rem 1rem 1rem;
-  padding-bottom: calc(100dvh - 456px);
   overflow-wrap: break-word;
-  height: calc(100dvh - 256px);
-  overflow: auto;
   z-index: 0;
-}
-.saLargeScreen .saLog {
-  padding-right: 0;
-  scrollbar-gutter: stable;
-}
-.saLargeScreen .saLog::-webkit-scrollbar {
-  background-color: transparent;
-}
-.saLargeScreen .saLog::-webkit-scrollbar-thumb {
-  background-color: transparent;
-}
-.saLargeScreen .saLog:is(:hover, :focus-within)::-webkit-scrollbar {
-  background-color: #ccd5e2;
-}
-.saLargeScreen .saLog:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
-  background-color: #7088a4;
-}
-.saLargeScreen .saLog:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
-  background-color: #506072;
-}
-.saLargeScreen .saLog:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
-  background-color: #313a44;
-}
-.saPrompt:hover .saChatToolbar,
-.saPrompt:focus-within .saChatToolbar {
-  opacity: 1;
 }
 .saResponse {
   font-size: 0.875rem;
   line-height: 1.5rem;
+}
+.saResponse:last-child {
+  margin-bottom: 8rem;
 }
 .saResponse p:not(:last-child) {
   margin-bottom: 1rem;
@@ -34119,7 +34179,7 @@ pre.saCode {
 .saChatToolbar button:active {
   border-radius: 0.75rem;
 }
-.saPrompt .saChatToolbar {
+.saSender .saChatToolbar {
   justify-content: flex-end;
   opacity: 0;
 }
@@ -34139,17 +34199,17 @@ pre.saCode {
 .saComposer {
   display: flex;
   position: relative;
+  max-height: 50%;
 }
 .saSmallScreen .saComposer {
-  padding: 0 1rem 0 1rem;
+  padding: 0 0.5rem 0 0.5rem;
 }
 .saComposer textarea {
   width: 100%;
   height: 100%;
-  border-radius: 1rem;
   resize: none;
   border: none;
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   font-size: 0.875rem;
   line-height: 1rem;
   font-family: inherit;
@@ -34157,17 +34217,59 @@ pre.saCode {
   color: inherit;
   field-sizing: content;
   min-height: 8rem;
-  max-height: 20dvh;
   border: 1px solid #ccd5e2;
   background-color: #fff;
   box-shadow: 0 1px 2px rgba(49, 58, 68, 0.04), 0 2px 0.1875rem rgba(49, 58, 68, 0.04);
 }
+.saLargeScreen .saComposer textarea {
+  border-radius: 0 0 1rem 1rem;
+  padding-right: 0;
+  scrollbar-gutter: stable;
+}
+.saLargeScreen .saComposer textarea::-webkit-scrollbar {
+  background-color: transparent;
+}
+.saLargeScreen .saComposer textarea::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+.saLargeScreen .saComposer textarea:is(:hover, :focus-within)::-webkit-scrollbar {
+  background-color: #ccd5e2;
+}
+.saLargeScreen .saComposer textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
+  background-color: #7088a4;
+}
+.saLargeScreen .saComposer textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
+  background-color: #506072;
+}
+.saLargeScreen .saComposer textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
+  background-color: #313a44;
+}
 .saSmallScreen .saComposer textarea {
+  border-radius: 1.5rem;
   font-size: 1rem;
   line-height: 1.25rem;
+  min-height: 3rem;
+  padding: 0.75rem 3.5rem 0.75rem 1rem;
 }
 .saComposer textarea::placeholder {
   color: #8fa5c0;
+}
+.saComposer textarea:disabled {
+  background-color: #eef1f5;
+  color: #adbdd1;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.saError.saComposer textarea {
+  background-color: #fff7f7;
+  border-color: #e0173e;
+}
+.saWarning.saComposer textarea {
+  background-color: #fff8e7;
+  border-color: #ffcd5b;
+}
+.saHidden.saComposer textarea {
+  display: none;
 }
 .saComposerInstruction {
   font-size: 0.75rem;
@@ -34196,10 +34298,9 @@ pre.saCode {
   height: 2rem;
   width: 2rem;
   border-radius: 999rem;
-  margin: 0.5rem;
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 0.5rem;
+  right: 0.5rem;
 }
 .saButtonSend .saButtonText,
 .saButtonStop .saButtonText {
@@ -34226,7 +34327,7 @@ pre.saCode {
 .saSmallScreen .saButtonSend,
 .saSmallScreen .saButtonStop {
   bottom: 0.5rem;
-  right: 0.5rem;
+  right: 1rem;
 }
 .saButtonSend {
   background-color: var(--Sa-Color-PrimaryButtonBackground);
@@ -34344,9 +34445,15 @@ pre.saCode {
   display: flex;
   align-items: end;
   gap: 0.5rem;
+  margin: 0 2rem 0 0;
 }
 .saMessage.saSender {
   justify-content: flex-end;
+  margin: 0 0 0 2rem;
+}
+.saMessage.saSender:hover .saChatToolbar,
+.saMessage.saSender:focus-within .saChatToolbar {
+  opacity: 1;
 }
 .saChatAvatar {
   display: flex;
