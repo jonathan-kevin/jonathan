@@ -33847,43 +33847,40 @@ softadmin-nodegraph .saNodeContent .saNodeTable:has(td .saNodeColumnMandatory) t
 pre.saCode {
   tab-size: 4;
 }
-.saSparkles {
-  position: relative;
-  height: 1.25rem;
-  width: 1.25rem;
+.scrollcontent-inner {
+  height: calc(100vh - 112px);
 }
-.saSparkles .saSparkle {
-  fill: #8b4af1;
-  position: absolute;
+.saChatLoading {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  border-radius: 999rem;
+  background-color: #dde3ec;
+  width: fit-content;
+  cursor: wait;
+  margin-top: 1rem;
 }
-.saSparkles .saSparkle.saLg {
-  width: 1rem;
-  height: 1rem;
-  left: 0;
-  top: 2px;
-  animation: sparkle 2s ease infinite;
-}
-.saSparkles .saSparkle.saSm {
-  width: 0.5rem;
+.saChatLoading .saDot {
   height: 0.5rem;
-  right: 0;
-  top: -2px;
-  transform-origin: left bottom;
-  animation: sparkle 2s 0.25s ease infinite;
+  width: 0.5rem;
+  background: #8fa5c0;
+  border-radius: 999rem;
+  animation: dotter 1s infinite ease-in-out;
 }
-.saSparkles .saSparkle.saSm:last-child {
-  top: unset;
-  bottom: -2px;
-  transform-origin: left top;
-  animation: sparkle 2s 0.5s ease infinite;
+.saChatLoading .saDot:nth-child(2) {
+  animation-delay: 0.2s;
 }
-@keyframes sparkle {
+.saChatLoading .saDot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+@keyframes dotter {
   0%,
+  60%,
   100% {
-    transform: scale(1);
+    transform: translateY(0);
   }
-  50% {
-    transform: scale(0.75);
+  30% {
+    transform: translateY(-0.25rem);
   }
 }
 .saChatWrapper {
@@ -33891,22 +33888,23 @@ pre.saCode {
   flex-direction: column;
   box-sizing: border-box;
   max-width: 768px;
-  font-size: 0.875rem;
-  line-height: 1.5rem;
   justify-content: space-between;
 }
 .saChatWrapper * {
   box-sizing: border-box;
 }
-.saChatDay {
+.saChatDate {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   position: sticky;
   top: 0;
+  padding: 2rem 0 1rem 0;
+  pointer-events: none;
+  z-index: 1;
 }
-.saChatDay time {
+.saChatDate time {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33918,6 +33916,7 @@ pre.saCode {
   background-color: #eef1f5;
   border: 1px solid #ccd5e2;
   border-radius: 99rem;
+  pointer-events: all;
 }
 .saChat {
   display: flex;
@@ -33929,7 +33928,7 @@ pre.saCode {
   position: absolute;
   bottom: 0.5rem;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, 0);
   height: 2rem;
   width: 2rem;
   display: flex;
@@ -33939,11 +33938,12 @@ pre.saCode {
   border: 1px solid #ccd5e2;
   border-radius: 99rem;
   color: #60748b;
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
+  transform-origin: center;
+  transition: all 0.2s ease;
 }
 .saChatLatest.saReached {
   visibility: hidden;
+  transform: translate(-50%, 100%);
   opacity: 0;
 }
 @media (pointer: fine) {
@@ -33966,10 +33966,12 @@ pre.saCode {
   margin-block-start: 0;
   margin-block-end: 0;
   padding-inline-start: 0;
-  padding: 1rem;
+  padding: 0 1rem 1rem 1rem;
+  padding-bottom: calc(100dvh - 456px);
   overflow-wrap: break-word;
-  height: calc(100dvh - 240px);
+  height: calc(100dvh - 256px);
   overflow: auto;
+  z-index: 0;
 }
 .saLargeScreen .saLog {
   padding-right: 0;
@@ -33993,21 +33995,20 @@ pre.saCode {
 .saLargeScreen .saLog:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
   background-color: #313a44;
 }
-.saPrompt p {
-  background-color: #f8f9fb;
-  padding: 0.5rem 1rem;
-  border-radius: 1.125rem;
-  max-width: 38rem;
-  width: fit-content;
-  min-width: 2.5rem;
-  margin-left: auto;
-}
 .saPrompt:hover .saChatToolbar,
 .saPrompt:focus-within .saChatToolbar {
   opacity: 1;
 }
+.saResponse {
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+}
 .saResponse p:not(:last-child) {
   margin-bottom: 1rem;
+}
+.saSmallScreen .saResponse {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 .saResponse .saWord {
   animation: blurin 0.1s ease forwards;
@@ -34026,7 +34027,7 @@ pre.saCode {
   display: flex;
   flex-direction: row;
   list-style: none;
-  min-height: 2.5rem;
+  height: 2.5rem;
   align-items: center;
 }
 .saChatToolbar button {
@@ -34122,35 +34123,64 @@ pre.saCode {
   justify-content: flex-end;
   opacity: 0;
 }
+.saResponse .saChatToolbar {
+  animation: crowww forwards 0.2s ease;
+}
+@keyframes crowww {
+  0% {
+    opacity: 0;
+    height: 0;
+  }
+  100% {
+    opacity: 1;
+    height: 2.5rem;
+  }
+}
 .saComposer {
   display: flex;
-  align-items: end;
-  flex-direction: column;
-  border-radius: 1rem;
-  border: 1px solid #ccd5e2;
-  background-color: #fff;
-  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.05), 0 2px 0.1875rem rgba(49, 58, 68, 0.05);
+  position: relative;
+}
+.saSmallScreen .saComposer {
+  padding: 0 1rem 0 1rem;
 }
 .saComposer textarea {
   width: 100%;
   height: 100%;
-  min-height: 80px;
-  max-height: 20dvh;
   border-radius: 1rem;
   resize: none;
   border: none;
-  padding: 12px 1rem;
-  font-size: 14px;
+  padding: 1rem;
+  font-size: 0.875rem;
   line-height: 1rem;
   font-family: inherit;
   outline: none;
   color: inherit;
   field-sizing: content;
+  min-height: 8rem;
+  max-height: 20dvh;
+  border: 1px solid #ccd5e2;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.04), 0 2px 0.1875rem rgba(49, 58, 68, 0.04);
+}
+.saSmallScreen .saComposer textarea {
+  font-size: 1rem;
+  line-height: 1.25rem;
 }
 .saComposer textarea::placeholder {
   color: #8fa5c0;
 }
-.saButtonSend {
+.saComposerInstruction {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: #60748b;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.saButtonSend,
+.saButtonStop {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: 'Lexend', sans-serif;
@@ -34162,31 +34192,45 @@ pre.saCode {
   box-sizing: border-box;
   max-width: 100%;
   flex-shrink: 0;
-  background-color: var(--Sa-Color-PrimaryButtonBackground);
-  color: var(--Sa-Color-PrimaryButtonLabel);
+  background-color: #f8f9fb;
   height: 2rem;
   width: 2rem;
   border-radius: 999rem;
   margin: 0.5rem;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
-.saButtonSend .saButtonText {
+.saButtonSend .saButtonText,
+.saButtonStop .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.saButtonSend .saBadgedIcon {
+.saButtonSend .saBadgedIcon,
+.saButtonStop .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saButtonSend .saIcon {
+.saButtonSend .saIcon,
+.saButtonStop .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.saSmallScreen .saButtonSend,
+.saSmallScreen .saButtonStop {
+  bottom: 0.5rem;
+  right: 0.5rem;
+}
+.saButtonSend {
+  background-color: var(--Sa-Color-PrimaryButtonBackground);
+  color: var(--Sa-Color-PrimaryButtonLabel);
 }
 .saButtonSend .saIcon {
   color: var(--Sa-Color-PrimaryButtonIcon);
@@ -34227,44 +34271,9 @@ pre.saCode {
   }
 }
 .saButtonStop {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
-  white-space: nowrap;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  max-width: 100%;
-  flex-shrink: 0;
   border: solid 1px #ccd5e2;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
-  background-color: #f8f9fb;
-  height: 2rem;
-  width: 2rem;
-  border-radius: 999rem;
-  margin: 0.5rem;
-}
-.saButtonStop .saButtonText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.5;
-}
-.saButtonStop .saBadgedIcon {
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
-.saButtonStop .saIcon {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .saButtonStop .saIcon {
   color: var(--Sa-Color-Icon);
@@ -34330,4 +34339,180 @@ pre.saCode {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saMessage {
+  display: flex;
+  align-items: end;
+  gap: 0.5rem;
+}
+.saMessage.saSender {
+  justify-content: flex-end;
+}
+.saChatAvatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.5rem;
+  min-width: 1.5rem;
+  background-color: #adbdd1;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.625rem;
+  line-height: 1.5rem;
+  transition: ease background 0.2s, ease transform 0.2s, ease opacity 0.2s;
+  transform: scale(1);
+  border-width: 1px;
+  border-style: solid;
+  margin-bottom: 2.5rem;
+}
+.saChatAvatar.saPrimary {
+  background-color: #f7faff;
+  color: #2d6ce1;
+  border-color: #bbd6ff;
+}
+.saChatAvatar.saPurple {
+  background-color: #f9f7ff;
+  color: #8b4af1;
+  border-color: #ddccff;
+}
+.saChatAvatar.saGray {
+  background-color: #f8f9fb;
+  color: #60748b;
+  border-color: #ccd5e2;
+}
+.saChatAvatar.saRed {
+  background-color: #fff7f7;
+  color: #e0173e;
+  border-color: #ffc6c5;
+}
+.saChatAvatar.saOrange {
+  background-color: #fff8f4;
+  color: #ae5c28;
+  border-color: #ffc9a4;
+}
+.saChatAvatar.saYellow {
+  background-color: #fff8e7;
+  color: #9c6700;
+  border-color: #ffcd5b;
+}
+.saChatAvatar.saGreen {
+  background-color: #f2fcf2;
+  color: #008429;
+  border-color: #91e89b;
+}
+.saChatAvatar.saSky {
+  background-color: #f0fcff;
+  color: #2a7b90;
+  border-color: #82e1fb;
+}
+.saChatAvatar.saPink {
+  background-color: #fff7fc;
+  color: #ca2c9b;
+  border-color: #ffc1ed;
+}
+.saMessageInner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 28rem;
+  padding-bottom: 1rem;
+  position: relative;
+}
+.saSender .saMessageInner {
+  align-items: flex-end;
+}
+.saMessageFooter {
+  display: flex;
+  gap: 0.5rem;
+  position: relative;
+  min-height: 1.5rem;
+  align-items: end;
+  padding: 0.5rem 0 0 1rem;
+}
+.saSenderName {
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 500;
+}
+.saMessageTime {
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  color: #60748b;
+  position: relative;
+}
+.saSender .saMessageTime {
+  padding-right: 1rem;
+}
+.saMessageTime::after {
+  content: '';
+  display: flex;
+  height: 0.375rem;
+  width: 0.375rem;
+  border-radius: 100%;
+  background-color: #e0173e;
+  position: absolute;
+  right: -0.75rem;
+  top: 0.1875rem;
+  transition: ease opacity 0.2s, ease transform 0.2s, ease visibility 0.2s;
+  transition-delay: 2s;
+  opacity: 0;
+  transform: scale(0);
+  visibility: hidden;
+}
+.saUnread .saMessageTime::after {
+  opacity: 1;
+  transform: scale(1);
+  visibility: visible;
+}
+.saMessageBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.saSender .saMessageBody {
+  align-items: flex-end;
+}
+.saMessageBody img {
+  border-radius: 0.25rem;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+.saMessageBody img:first-child {
+  margin-top: 0;
+}
+.saMessageBody img:last-child {
+  margin-bottom: 0;
+}
+.saMessageBody p {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  word-break: break-word;
+  background-color: #eef1f5;
+  padding: 0.625rem 1rem;
+  width: fit-content;
+  border-radius: 0.25rem;
+  min-width: 2.5rem;
+  transition: border-radius ease 0.2s;
+}
+.saSmallScreen .saMessageBody p {
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+.saMessageBody p:first-child {
+  border-radius: 0.75rem 0.75rem 0.25rem 0.25rem;
+}
+.saMessageBody p:last-child {
+  border-radius: 0.25rem 0.25rem 0.75rem 0.125rem;
+}
+.saMessageBody p:only-child {
+  border-radius: 0.75rem 0.75rem 0.75rem 0.125rem;
+}
+.saSender .saMessageBody p {
+  background-color: #e5efff;
+}
+.saSender .saMessageBody p:last-child {
+  border-radius: 0.25rem 0.25rem 0.125rem 0.75rem;
+}
+.saSender .saMessageBody p:only-child {
+  border-radius: 0.75rem 0.75rem 0.125rem 0.75rem;
 }
