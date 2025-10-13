@@ -271,8 +271,9 @@
 							<time class="saChatMessageTime" datetime="2026-01-12T12:15:12+02:00" aria-label="Sent at 11:00">11:01</time>
 						</footer>
 						<ul role="toolbar" aria-label="Message actions" class="saChatToolbar saFloating">
-							<li><button type="button" aria-label="Edit message"><i class="far fa-pen saIcon"></i></button></li>
+							<li><button type="button" aria-label="Edit message" disabled><i class="far fa-pen saIcon"></i></button></li>
 							<li><button type="button" aria-label="Copy message"><i class="far fa-copy saIcon"></i></button></li>
+							<li><button class="saDestructive" type="button" aria-label="Delete message"><i class="far fa-trash-alt saIcon"></i></button></li>
 							<li><button type="button" aria-label="More actions"><i class="far fa-ellipsis-vertical saIcon"></i></button></li>
 						</ul>
 					</article>
@@ -284,8 +285,9 @@
 							<p>today?</p>
 						</div>
 						<ul role="toolbar" aria-label="Message actions" class="saChatToolbar">
-							<li><button type="button" aria-label="Edit message"><i class="far fa-pen saIcon"></i></button></li>
+							<li><button type="button" aria-label="Edit message" disabled><i class="far fa-pen saIcon"></i></button></li>
 							<li><button type="button" aria-label="Copy message"><i class="far fa-copy saIcon"></i></button></li>
+							<li><button class="saDestructive" type="button" aria-label="Delete message"><i class="far fa-trash-alt saIcon"></i></button></li>
 							<li><button type="button" aria-label="More actions"><i class="far fa-ellipsis-vertical saIcon"></i></button></li>
 						</ul>
 						<div class="saScreenReaderOnly">
@@ -353,7 +355,7 @@
 			</button>
 		</div>
 		<form class="saChatComposer" id="composer">
-			<textarea name="message" placeholder="Write your message..." id="prompt" enterkeyhint="send" aria-label="Wrtie your message"></textarea>
+			<textarea name="message" placeholder="Write your message..." id="prompt" enterkeyhint="send" aria-label="Wrtie your message" rows="1"></textarea>
 			<button type="submit" class="saChatButtonSend" id="send" disabled aria-label="Send prompt" title="Send prompt">
 				<i class="fa-arrow-up saIcon far"></i>
 			</button>
@@ -367,7 +369,12 @@
 		<div class="saValidationMessage saWarning" id="warning1"><i class="saIcon fas fa-triangle-exclamation" aria-hidden="true"></i><div class="saValidationMessageText" role="alert">Warning goes here</div></div>
 		<p class="saChatComposerInstruction">Please check my work. I'm sickly.</p>
 	</div>
-	<pre style="max-height: 20px;"><code>
+	<details>
+		<summary>
+			LESS
+		</summary>
+		<pre><code>
+
 html,
 body {
 	height: 100%;
@@ -657,6 +664,7 @@ body {
 		border-radius: 0.375rem;
 		.StandardTransition();
 
+
 		.saFloating& {
 			color: @ColorGray200;
 		}
@@ -681,6 +689,34 @@ body {
 					background-color: @ColorGray700;
 					color: @ColorWhite;
 				}
+			}
+
+			&.saDestructive {
+				color: @ColorRed600;
+
+				.saFloating& {
+					color: @ColorRed300;
+				}
+
+				.Hover({
+					background-color: @ColorRed600;
+					color: @ColorWhite;
+				});
+
+				&:active {
+					background-color: @ColorRed700;
+					color: @ColorWhite;
+				}
+			}
+		}
+
+		&:disabled {
+			color: @ColorGray300;
+			cursor: not-allowed;
+			pointer-events: all;
+
+			.saFloating& {
+				color: @ColorGray600;
 			}
 		}
 	}
@@ -831,7 +867,8 @@ body {
 	}
 
 	&:hover,
-	&:focus-within {
+	&:focus-within,
+	&:has(:focus, :hover) {
 		.saChatToolbar {
 			opacity: 1;
 		}
@@ -1137,7 +1174,9 @@ body {
 	}
 }
 
-	</code></pre>
+
+		</code></pre>
+	</details>
 </body>
 <script>
  $(document).ready(function () {

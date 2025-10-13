@@ -34134,6 +34134,30 @@ body.saSmallScreen {
   background-color: #506072;
   color: #fff;
 }
+.saChatToolbar button:enabled.saDestructive {
+  color: #e0173e;
+}
+.saFloating.saChatToolbar button:enabled.saDestructive {
+  color: #fba4a3;
+}
+@media (pointer: fine) {
+  .saChatToolbar button:enabled.saDestructive:hover {
+    background-color: #e0173e;
+    color: #fff;
+  }
+}
+.saChatToolbar button:enabled.saDestructive:active {
+  background-color: #bf0024;
+  color: #fff;
+}
+.saChatToolbar button:disabled {
+  color: #adbdd1;
+  cursor: not-allowed;
+  pointer-events: all;
+}
+.saFloating.saChatToolbar button:disabled {
+  color: #60748b;
+}
 .saSender .saChatToolbar {
   justify-content: flex-end;
   opacity: 0;
@@ -34416,7 +34440,8 @@ body.saSmallScreen {
   padding: 0;
 }
 .saChatMessage:hover .saChatToolbar,
-.saChatMessage:focus-within .saChatToolbar {
+.saChatMessage:focus-within .saChatToolbar,
+.saChatMessage:has(:focus, :hover) .saChatToolbar {
   opacity: 1;
 }
 .saChatAvatar {
