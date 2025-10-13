@@ -102,7 +102,7 @@
 				$editBody.show();
 				$editTextarea.val(originalEditValue);
 				$saveBtn.prop('disabled', true);
-				$footer.find('.saEdited').remove();
+				$footer.find('.saMessageEdited').remove();
 			});
 
 			$editForm.on('submit', function(e) {
@@ -114,8 +114,8 @@
 				$editBody.show();
 				originalEditValue = newText;
 				$saveBtn.prop('disabled', true);
-				if ($footer.find('.saEdited').length === 0) {
-					$footer.prepend('<span class="saEdited">Edited</span>');
+				if ($footer.find('.saMessageEdited').length === 0) {
+					$footer.prepend('<span class="saMessageEdited">Edited</span>');
 				}
 			});
 
