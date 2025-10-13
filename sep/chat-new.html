@@ -15,38 +15,130 @@
 </head>
 
 <body class="saRootBody saLargeScreen saPc saCompact">
-	<fieldset id="settings">
+	<fieldset id="settings1">
 		<legend>Settings</legend>
-		<label><input name="settings" id="enable" type="radio" checked>Enabled</label>
-		<label><input name="settings" id="disable" type="radio">Disabled</label>
-		<label><input name="settings" id="error" type="radio">Error</label>
-		<label><input name="settings" id="warning" type="radio">Warning</label>
-		<label><input name="settings" id="hidden" type="radio">Hidden</label>
+		<label><input name="settings1" id="enable" type="radio" checked>Enabled</label>
+		<label><input name="settings1" id="disable" type="radio">Disabled</label>
+		<label><input name="settings1" id="error" type="radio">Error</label>
+		<label><input name="settings1" id="warning" type="radio">Warning</label>
+		<label><input name="settings1" id="hidden" type="radio">Hidden</label>
 	</fieldset>
 	<script>
-	$(function() {
-		const $composer = $('#composer');
-		const $prompt = $('#prompt');
-		const $send = $('#send');
+		$(function() {
+			const $editor = $('#editor');
+			const $prompt = $('#prompt');
+			const $send = $('#send');
+			const $editButtons = $('#editButtons');
+			const $error1 = $('#error1');
+			const $warning1 = $('#warning1');
+			const $error2 = $('#error2');
+			const $warning2 = $('#warning2');
 
-		$('input[name="settings"]').on('change', function() {
-			const id = $(this).attr('id');
-			$composer.removeClass('saError saWarning saHidden');
-			$prompt.prop('disabled', false);
-			$send.show();
-
-			if (id === 'error') {
-				$composer.addClass('saError');
-			} else if (id === 'warning') {
-				$composer.addClass('saWarning');
-			} else if (id === 'hidden') {
-				$composer.addClass('saHidden');
-			} else if (id === 'disable') {
-				$prompt.prop('disabled', true);
-				$send.hide();
+			function hideAllValidation() {
+				$error1.hide();
+				$warning1.hide();
+				$error2.hide();
+				$warning2.hide();
 			}
+
+			hideAllValidation();
+
+			$('input[name="settings1"]').on('change', function() {
+				const id = this.id;
+				$prompt.removeClass('saError saWarning saHidden').prop('disabled', false)
+					.removeAttr('invalid aria-errormessage');
+				$editor.removeClass('saError saWarning saHidden').prop('disabled', false)
+					.removeAttr('invalid aria-errormessage');
+				$send.show();
+				$editButtons.show();
+				hideAllValidation();
+
+				switch (id) {
+					case 'error':
+						$prompt.addClass('saError').attr({'invalid': 'true', 'aria-errormessage': 'error1'});
+						$editor.addClass('saError').attr({'invalid': 'true', 'aria-errormessage': 'error2'});
+						$error1.show();
+						$error2.show();
+						break;
+					case 'warning':
+						$prompt.addClass('saWarning');
+						$editor.addClass('saWarning');
+						$warning1.show();
+						$warning2.show();
+						break;
+					case 'hidden':
+						$prompt.addClass('saHidden');
+						$editor.addClass('saHidden');
+						break;
+					case 'disable':
+						$prompt.prop('disabled', true);
+						$editor.prop('disabled', true);
+						$send.hide();
+						$editButtons.hide();
+						break;
+				}
+			});
+
+			// Handle cancel and save for .saEdit message
+			const $editForm = $('.saMessage.saEdit .saMessageEdit');
+			const $editMessage = $('.saMessage.saEdit');
+			const $editTextarea = $editForm.find('textarea');
+			const $editBody = $editMessage.find('.saMessageBody');
+			const $saveBtn = $editForm.find('button[type="submit"]');
+			const $footer = $editMessage.find('.saMessageFooter');
+
+			// Track original value for change detection
+			let originalEditValue = $editTextarea.val();
+
+			$editTextarea.on('input', function() {
+				const changed = $(this).val() !== originalEditValue;
+				$saveBtn.prop('disabled', !changed);
+			});
+
+			$editForm.on('reset', function(e) {
+				e.preventDefault();
+				$editMessage.removeClass('saEdit');
+				$editForm.hide();
+				$editBody.show();
+				$editTextarea.val(originalEditValue);
+				$saveBtn.prop('disabled', true);
+				$footer.find('.saEdited').remove();
+			});
+
+			$editForm.on('submit', function(e) {
+				e.preventDefault();
+				const newText = $editTextarea.val();
+				$editBody.html('<p>' + $('<div>').text(newText).html().replace(/\n/g, '</p><p>') + '</p>');
+				$editMessage.removeClass('saEdit');
+				$editForm.hide();
+				$editBody.show();
+				originalEditValue = newText;
+				$saveBtn.prop('disabled', true);
+				if ($footer.find('.saEdited').length === 0) {
+					$footer.prepend('<span class="saEdited">Edited</span>');
+				}
+			});
+
+			// Trigger edit state when clicking edit button
+			$('.saMessage .saChatToolbar button[aria-label="Edit message"]').on('click', function(e) {
+				e.preventDefault();
+				$editMessage.addClass('saEdit');
+				$editForm.show();
+				$editBody.hide();
+				$editTextarea.focus();
+				originalEditValue = $editTextarea.val();
+				$saveBtn.prop('disabled', true);
+			});
+
+			// Save on Enter, newline on Shift+Enter in edit textarea
+			$editTextarea.on('keydown', function(e) {
+				if (e.key === 'Enter' && !e.shiftKey) {
+					e.preventDefault();
+					$editForm.submit();
+				}
+				// Shift+Enter: default behavior (newline)
+			});
 		});
-	});
 	</script>
 	<div class="saChatWrapper">
 		<div class="saChat" id="theChat">
@@ -82,7 +174,7 @@
 						</footer>
 					</article>
 				</li>
-				<li class="saMessage saSender">
+				<li class="saMessage saEdit saSender">
 					<article class="saMessageInner">
 						<div class="saMessageBody">
 							<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt mollitia rerum hic ducimus nulla soluta, reiciendis eveniet omnis quod obcaecati numquam porro ullam reprehenderit atque quis. Doloribus natus sit omnis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore accusamus recusandae itaque corporis nostrum accusantium quia fuga adipisci temporibus laboriosam quas ullam enim tenetur repellat fugit, in perspiciatis sed quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis sed ratione delectus ipsum! Beatae blanditiis porro voluptas quidem, deserunt illum laboriosam repellat provident dolorem, possimus rem corrupti quo officia repudiandae.</p>
@@ -95,12 +187,13 @@
 							<li><button type="button" aria-label="Copy message"><i class="far fa-copy saIcon"></i></button></li>
 						</ul>
 					</article>
-				</li>
-				<li class="saMessageEdit">
-					<form>
-						<textarea>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt mollitia rerum hic ducimus nulla soluta, reiciendis eveniet omnis quod obcaecati numquam porro ullam reprehenderit atque quis. Doloribus natus sit omnis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore accusamus recusandae itaque corporis nostrum accusantium quia fuga adipisci temporibus laboriosam quas ullam enim tenetur repellat fugit, in perspiciatis sed quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis sed ratione delectus ipsum! Beatae blanditiis porro voluptas quidem, deserunt illum laboriosam repellat provident dolorem, possimus rem corrupti quo officia repudiandae.</textarea>
-						<div class="saButtonGroup">
-							<button type="submit" class="saDefaultButtonPrimary">Save</button>
+					<form class="saMessageEdit">
+						<label for="editor" class="saScreenReaderOnly">Edit text of message you sent on 12 December 2025 at 11:15</label>
+						<textarea id="editor">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt mollitia rerum hic ducimus nulla soluta, reiciendis eveniet omnis quod obcaecati numquam porro ullam reprehenderit atque quis. Doloribus natus sit omnis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore accusamus recusandae itaque corporis nostrum accusantium quia fuga adipisci temporibus laboriosam quas ullam enim tenetur repellat fugit, in perspiciatis sed quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis sed ratione delectus ipsum! Beatae blanditiis porro voluptas quidem, deserunt illum laboriosam repellat provident dolorem, possimus rem corrupti quo officia repudiandae.</textarea>
+						<div class="saValidationMessage saError" id="error2"><i class="saIcon fas fa-octagon-xmark" aria-hidden="true"></i><div class="saValidationMessageText" role="alert">Error or warning goes here</div></div>
+						<div class="saValidationMessage saWarning" id="warning2"><i class="saIcon fas fa-triangle-exclamation" aria-hidden="true"></i><div class="saValidationMessageText" role="alert">Warning goes here</div></div>
+						<div class="saButtonGroup" id="editButtons">
+							<button type="submit" class="saDefaultButtonPrimary" disabled>Save</button>
 							<button type="reset" class="saDefaultButtonSecondary">Cancel</button>
 						</div>
 					</form>
@@ -221,6 +314,8 @@
 				<i class="fa-stop saIcon fas"></i>
 			</button>
 		</form>
+		<div class="saValidationMessage saError" id="error1"><i class="saIcon fas fa-octagon-xmark" aria-hidden="true"></i><div class="saValidationMessageText" role="alert">Error goes here</div></div>
+		<div class="saValidationMessage saWarning" id="warning1"><i class="saIcon fas fa-triangle-exclamation" aria-hidden="true"></i><div class="saValidationMessageText" role="alert">Warning goes here</div></div>
 		<p class="saComposerInstruction">Please check my work. I'm sickly.</p>
 	</div>
 </body>
@@ -230,7 +325,6 @@
     const ChatApp = (function () {
         // DOM elements
         const $prompt = $('#prompt');
-        const $composer = $('#composer');
 		const $theChat = $('#theChat');
         const $chatLog = $('#chatLog');
         const $latest = $('#latest');
@@ -390,12 +484,9 @@
             });
         }
 
-		// Enhanced scroll handler for chat day/date pills and lines
+		// Enhanced scroll handler for chat day/date pills
 		function enhancedHandleScroll() {
-			// Mark visible messages as read (if you have such logic)
-			// messageHandler.markVisibleAsRead();
 
-			// For each chat day separator
 			$(".saChatDate").each(function (index) {
 				const $current = $(this);
 				const $pill = $current.find('time');
@@ -428,7 +519,10 @@
 
 		$('#scrollToBottom').click(function (e) {
 			scrollToBottom();
-			$(this).remove();
+		});
+
+		$latest.click(function (e) {
+			scrollToBottom();
 		});
 
         // Handle scroll events
