@@ -15,7 +15,6 @@
 </head>
 
 <body class="saRootBody saLargeScreen saPc saCompact">
-	<a href="./src/style/Chat.less">LESS</a>
 	<fieldset id="settings1">
 		<legend>Settings</legend>
 		<label><input name="settings1" id="enable" type="radio" checked>Enabled</label>
@@ -81,12 +80,12 @@
 			});
 
 			// Handle cancel and save for .saEdit message
-			const $editForm = $('.saMessage.saEdit .saMessageEdit');
-			const $editMessage = $('.saMessage.saEdit');
+			const $editForm = $('.saChatMessage.saEdit .saChatMessageEdit');
+			const $editMessage = $('.saChatMessage.saEdit');
 			const $editTextarea = $editForm.find('textarea');
-			const $editBody = $editMessage.find('.saMessageBody');
+			const $editBody = $editMessage.find('.saChatMessageBody');
 			const $saveBtn = $editForm.find('button[type="submit"]');
-			const $footer = $editMessage.find('.saMessageFooter');
+			const $footer = $editMessage.find('.saChatMessageFooter');
 
 			// Track original value for change detection
 			let originalEditValue = $editTextarea.val();
@@ -103,7 +102,7 @@
 				$editBody.show();
 				$editTextarea.val(originalEditValue);
 				$saveBtn.prop('disabled', true);
-				$footer.find('.saMessageEdited').remove();
+				$footer.find('.saChatMessageEdited').remove();
 			});
 
 			$editForm.on('submit', function(e) {
@@ -115,13 +114,13 @@
 				$editBody.show();
 				originalEditValue = newText;
 				$saveBtn.prop('disabled', true);
-				if ($footer.find('.saMessageEdited').length === 0) {
-					$footer.prepend('<span class="saMessageEdited">Edited</span>');
+				if ($footer.find('.saChatMessageEdited').length === 0) {
+					$footer.prepend('<span class="saChatMessageEdited">Edited</span>');
 				}
 			});
 
 			// Trigger edit state when clicking edit button
-			$('.saMessage .saChatToolbar button[aria-label="Edit message"]').on('click', function(e) {
+			$('.saChatMessage .saChatToolbar button[aria-label="Edit message"]').on('click', function(e) {
 				e.preventDefault();
 				$editMessage.addClass('saEdit');
 				$editForm.show();
@@ -143,57 +142,84 @@
 	</script>
 	<div class="saChatWrapper">
 		<div class="saChat" id="theChat">
-			<ol class="saLog" aria-role="log" aria-relevant="additions" id="chatLog"
-				aria-label="The Chat">
+			<ol class="saChatLog" aria-role="log" aria-relevant="additions" id="chatLog" aria-label="The Chat">
 				<li role="separator" class="saChatDate"><time datetime="2025-10-08">Yesterday</time></li>
-				<li class="saMessage">
+				<li class="saChatMessage">
 					<div title="Olivia Rydén" class="saChatAvatar saPink">JM</div>
-					<article class="saMessageInner">
-						<div class="saMessageBody">
+					<article class="saChatMessageInner">
+						<div class="saChatMessageBody">
 							<p>Wings UP team! As we navigate through our tasks today.</p>
 							<p>Wings UP team! As we navigate through our tasks today.</p>
 							<p>Wings UP team! As we navigate through our tasks today.</p>
 						</div>
-						<footer class="saMessageFooter">
-							<div class="saSenderName">Jessica Mås</div>
-							<time class="saMessageTime" datetime="2026-01-12T12:15:12+02:00" aria-label="Sent at 11:00">11:01</time>
+						<footer class="saChatMessageFooter">
+							<div class="saChatSenderName">Jessica Mås</div>
+							<time class="saChatMessageTime" datetime="2026-01-12T12:15:12+02:00" aria-label="Sent at 11:00">11:01</time>
 						</footer>
+						<ul role="toolbar" aria-label="Message actions" class="saChatToolbar saFloating">
+							<li><button type="button" aria-label="Edit message"><i class="far fa-pen saIcon"></i></button></li>
+							<li><button type="button" aria-label="Copy message"><i class="far fa-copy saIcon"></i></button></li>
+							<li><button type="button" aria-label="More actions"><i class="far fa-ellipsis-vertical saIcon"></i></button></li>
+						</ul>
+					</article>
+				</li>
+				<li class="saChatMessage">
+					<div title="Peter Peter Peter" class="saChatAvatar saGreen">PP</div>
+					<article class="saChatMessageInner">
+						<div class="saChatMessageBody">
+							<p>Wings UP team! As we navigate through our tasks today.</p>
+						</div>
+						<footer class="saChatMessageFooter">
+							<div class="saChatSenderName">Peter Peter Peter</div>
+							<time class="saChatMessageTime" datetime="2026-01-12T12:15:12+02:00" aria-label="Sent at 11:00">12:01</time>
+						</footer>
+						<ul role="toolbar" aria-label="Message actions" class="saChatToolbar saFloating">
+							<li><button type="button" aria-label="Edit message"><i class="far fa-pen saIcon"></i></button></li>
+							<li><button type="button" aria-label="Copy message"><i class="far fa-copy saIcon"></i></button></li>
+							<li><button type="button" aria-label="More actions"><i class="far fa-ellipsis-vertical saIcon"></i></button></li>
+						</ul>
 					</article>
 				</li>
 				<li role="separator" class="saChatDate"><time datetime="2025-10-08">Tomorrow</time></li>
-				<li class="saMessage">
+				<li class="saChatMessage">
 					<div title="Olivia Rydén" class="saChatAvatar saPink">JM</div>
-					<article class="saMessageInner">
-						<div class="saMessageBody">
-							<p>Wings UP team! As we navigate through our tasks today.</p>
-							<p>Wings UP team! As we navigate through our tasks today.</p>
-							<p>Wings UP team! As we navigate through our tasks today.</p>
+					<article class="saChatMessageInner">
+						<div class="saChatMessageBody">
+							<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus praesentium adipisci, earum voluptate veritatis fugit architecto quasi, rerum voluptatibus aperiam fuga aliquam? Dignissimos, dolor ratione. Libero minima similique doloribus laboriosam. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis officiis sint autem est molestias sunt quidem optio soluta cum ea, obcaecati, consectetur sapiente nobis laudantium. Quidem quam vitae doloremque mollitia. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum sequi itaque reiciendis cumque. Doloribus tenetur omnis atque voluptatum iusto repellendus tempora quidem non quo quasi dolorum, voluptatibus id, ex nesciunt. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, illum? Esse ipsum distinctio repellendus consectetur itaque necessitatibus, repudiandae fugiat sint excepturi doloremque non dolorum sunt quas hic laborum dicta vero! Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia quas, praesentium et rerum eligendi placeat ex commodi, explicabo temporibus totam, ut omnis quod sit sunt. Veniam molestias blanditiis consequuntur aperiam. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Alias ut aliquam beatae hic voluptatum ullam. Vel vitae nulla enim impedit non ad ea, repellat voluptate reiciendis dolore eligendi, harum provident?</p>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, perspiciatis soluta? Non inventore omnis veritatis? Nobis nesciunt aut ab distinctio consectetur. Debitis placeat sequi totam aspernatur officiis quidem sint unde. Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt rem delectus amet exercitationem molestiae error impedit dolorum cumque eveniet quibusdam, assumenda, quo officiis eum quis suscipit minima! Odio, voluptatum. Explicabo.</p>
+							<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit magni exercitationem, rem corrupti odit inventore incidunt eum, nam dolorem debitis perspiciatis nihil quia suscipit praesentium, possimus ipsa repudiandae optio porro.</p>
 						</div>
-						<footer class="saMessageFooter">
-							<div class="saSenderName">Jessica Mås</div>
-							<time class="saMessageTime" datetime="2026-01-12T12:15:12+02:00" aria-label="Sent at 11:00">11:01</time>
+						<footer class="saChatMessageFooter">
+							<div class="saChatSenderName">Jessica Mås</div>
+							<time class="saChatMessageTime" datetime="2026-01-12T12:15:12+02:00" aria-label="Sent at 11:00">11:01</time>
 						</footer>
+						<ul role="toolbar" aria-label="Message actions" class="saChatToolbar saFloating">
+							<li><button type="button" aria-label="Edit message"><i class="far fa-pen saIcon"></i></button></li>
+							<li><button type="button" aria-label="Copy message"><i class="far fa-copy saIcon"></i></button></li>
+							<li><button type="button" aria-label="More actions"><i class="far fa-ellipsis-vertical saIcon"></i></button></li>
+						</ul>
 					</article>
 				</li>
-				<li class="saMessage saEdit saSender">
-					<article class="saMessageInner">
-						<div class="saMessageBody">
+				<li class="saChatMessage saEdit saSender">
+					<article class="saChatMessageInner">
+						<div class="saChatMessageBody">
 							<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt mollitia rerum hic ducimus nulla soluta, reiciendis eveniet omnis quod obcaecati numquam porro ullam reprehenderit atque quis. Doloribus natus sit omnis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore accusamus recusandae itaque corporis nostrum accusantium quia fuga adipisci temporibus laboriosam quas ullam enim tenetur repellat fugit, in perspiciatis sed quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis sed ratione delectus ipsum! Beatae blanditiis porro voluptas quidem, deserunt illum laboriosam repellat provident dolorem, possimus rem corrupti quo officia repudiandae.</p>
 						</div>
-						<footer class="saMessageFooter">
-							<time class="saMessageTime" datetime="2026-01-12T12:15:12+02:00" aria-label="Sent at 11:00">11:01</time>
+						<footer class="saChatMessageFooter">
+							<time class="saChatMessageTime" datetime="2026-01-12T12:15:12+02:00" aria-label="Sent at 11:01">11:01</time>
 						</footer>
 						<ul role="toolbar" aria-label="Message actions" class="saChatToolbar">
 							<li><button type="button" aria-label="Edit message"><i class="far fa-pen saIcon"></i></button></li>
 							<li><button type="button" aria-label="Copy message"><i class="far fa-copy saIcon"></i></button></li>
+							<li><button type="button" aria-label="More actions"><i class="far fa-ellipsis-vertical saIcon"></i></button></li>
 						</ul>
 					</article>
-					<form class="saMessageEdit">
+					<form class="saChatMessageEdit">
 						<label for="editor" class="saScreenReaderOnly">Edit text of message you sent on 12 December 2025 at 11:15</label>
 						<textarea id="editor">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt mollitia rerum hic ducimus nulla soluta, reiciendis eveniet omnis quod obcaecati numquam porro ullam reprehenderit atque quis. Doloribus natus sit omnis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore accusamus recusandae itaque corporis nostrum accusantium quia fuga adipisci temporibus laboriosam quas ullam enim tenetur repellat fugit, in perspiciatis sed quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis sed ratione delectus ipsum! Beatae blanditiis porro voluptas quidem, deserunt illum laboriosam repellat provident dolorem, possimus rem corrupti quo officia repudiandae.</textarea>
 						<div class="saValidationMessage saError" id="error2"><i class="saIcon fas fa-octagon-xmark" aria-hidden="true"></i><div class="saValidationMessageText" role="alert">Error or warning goes here</div></div>
 						<div class="saValidationMessage saWarning" id="warning2"><i class="saIcon fas fa-triangle-exclamation" aria-hidden="true"></i><div class="saValidationMessageText" role="alert">Warning goes here</div></div>
-						<div class="saButtonGroup" id="editButtons">
+						<div class="saChatButtonGroup" id="editButtons">
 							<button type="submit" class="saDefaultButtonPrimary" disabled>Save</button>
 							<button type="reset" class="saDefaultButtonSecondary">Cancel</button>
 						</div>
@@ -202,50 +228,72 @@
 				<li role="separator" class="saChatUnread">
 					<button type="button" id="scrollToBottom">New message(s)</button>
 				</li>
-				<li class="saMessage saUnread">
-					<img loading="lazy" title="Stefan Stefan" class="saChatAvatar" src="https://untitledui.com/images/avatars/loki-bright" alt="Avatar of Stefan Stefan">
-					<div class="saMessageInner">
-						<div class="saMessageBody">
-							<p>With unity and determination, there's no limit to what we can achieve!</p>
+				<li class="saChatMessage saUnread">
+					<img loading="lazy" title="Stefan Stefan" class="saChatAvatar" src="https://untitledui.com/images/avatars/olivia-rhye" alt="Avatar of Stefan Stefan">
+					<div class="saChatMessageInner">
+						<div class="saChatMessageBody">
+							<p>Ok.</p>
 						</div>
-						<footer class="saMessageFooter">
-							<div class="saSenderName">Erik Öster</div>
-							<time class="saMessageTime" datetime="2026-01-12T12:15:12+02:00" aria-label="Sent at 08:11">08:11</time>
+						<footer class="saChatMessageFooter">
+							<div class="saChatSenderName">Olivia Thye</div>
+							<time class="saChatMessageTime" datetime="2026-01-12T12:15:12+02:00" aria-label="Sent at 08:11">08:11</time>
 						</footer>
-					</div>
-				</li>
-				<li class="saMessage saSender">
-					<article class="saMessageInner">
-						<div class="saMessageBody">
-							<p>today?</p>
-							<p>or?</p>
-							<p>tomorrow?</p>
-						</div>
-						<footer class="saMessageFooter">
-							<time class="saMessageTime" datetime="2026-01-12T12:15:12+02:00" aria-label="Sent at 11:00">11:01</time>
-						</footer>
-						<ul role="toolbar" aria-label="Message actions" class="saChatToolbar">
+						<ul role="toolbar" aria-label="Message actions" class="saChatToolbar saFloating">
 							<li><button type="button" aria-label="Edit message"><i class="far fa-pen saIcon"></i></button></li>
 							<li><button type="button" aria-label="Copy message"><i class="far fa-copy saIcon"></i></button></li>
+							<li><button type="button" aria-label="More actions"><i class="far fa-ellipsis-vertical saIcon"></i></button></li>
+						</ul>
+					</div>
+				</li>
+				<li class="saChatMessage saUnread">
+					<img loading="lazy" title="Stefan Stefan" class="saChatAvatar" src="https://untitledui.com/images/avatars/loki-bright" alt="Avatar of Stefan Stefan">
+					<div class="saChatMessageInner">
+						<div class="saChatMessageBody">
+							<p>I'm Stefan and with unity and determination, there's no limit to what we can achieve!</p>
+						</div>
+						<footer class="saChatMessageFooter">
+							<div class="saChatSenderName">Erik Öster</div>
+							<time class="saChatMessageTime" datetime="2026-01-12T12:15:12+02:00" aria-label="Sent at 08:11">08:11</time>
+						</footer>
+						<ul role="toolbar" aria-label="Message actions" class="saChatToolbar saFloating">
+							<li><button type="button" aria-label="Edit message"><i class="far fa-pen saIcon"></i></button></li>
+							<li><button type="button" aria-label="Copy message"><i class="far fa-copy saIcon"></i></button></li>
+							<li><button type="button" aria-label="More actions"><i class="far fa-ellipsis-vertical saIcon"></i></button></li>
+						</ul>
+					</div>
+				</li>
+				<li class="saChatMessage saSender">
+					<article class="saChatMessageInner">
+						<div class="saChatMessageBody">
+							<p>tomorrow?</p>
+						</div>
+						<footer class="saChatMessageFooter">
+							<time class="saChatMessageTime" datetime="2026-01-12T12:15:12+02:00" aria-label="Sent at 11:00">11:01</time>
+						</footer>
+						<ul role="toolbar" aria-label="Message actions" class="saChatToolbar saFloating">
+							<li><button type="button" aria-label="Edit message"><i class="far fa-pen saIcon"></i></button></li>
+							<li><button type="button" aria-label="Copy message"><i class="far fa-copy saIcon"></i></button></li>
+							<li><button type="button" aria-label="More actions"><i class="far fa-ellipsis-vertical saIcon"></i></button></li>
 						</ul>
 					</article>
 				</li>
 
-				<li class="saMessage saSender">
-					<article class="saMessageInner">
-						<div class="saMessageBody">
+				<li class="saChatMessage saSender">
+					<article class="saChatMessageInner">
+						<div class="saChatMessageBody">
 							<p>today?</p>
 						</div>
 						<ul role="toolbar" aria-label="Message actions" class="saChatToolbar">
 							<li><button type="button" aria-label="Edit message"><i class="far fa-pen saIcon"></i></button></li>
 							<li><button type="button" aria-label="Copy message"><i class="far fa-copy saIcon"></i></button></li>
+							<li><button type="button" aria-label="More actions"><i class="far fa-ellipsis-vertical saIcon"></i></button></li>
 						</ul>
 						<div class="saScreenReaderOnly">
 							<time datetime="2026-01-12T12:15:12+02:00" aria-label="Sent at 11:01">11:01</time>
 						</div>
 					</article>
 				</li>
-				<li class="saResponse">
+				<li class="saChatResponse">
 					<article>
 						<p>Sure,</p>
 						<p>Let's make sure we're on track to resolve it efficiently. Also, it's time we discuss the bird bill of sale. I'll be available for a meeting later today to go over the details. Looking forward to hearing from everyone!</p>
@@ -271,7 +319,7 @@
 				<li role="separator" class="saChatDate">
 					<time datetime="2025-10-08">Today</time>
 				</li>
-				<li class="saResponse">
+				<li class="saChatResponse">
 					<article>
 						<p>Sure,</p>
 						<p>Let's make sure we're on track to resolve it efficiently. Also, it's time we discuss the bird bill of sale. I'll be available for a meeting later today to go over the details. Looking forward to hearing from everyone!</p>
@@ -304,12 +352,12 @@
 				<i class="far fa-arrow-down"></i>
 			</button>
 		</div>
-		<form class="saComposer" id="composer">
+		<form class="saChatComposer" id="composer">
 			<textarea name="message" placeholder="Write your message..." id="prompt" enterkeyhint="send" aria-label="Wrtie your message"></textarea>
-			<button type="submit" class="saButtonSend" id="send" disabled aria-label="Send prompt" title="Send prompt">
+			<button type="submit" class="saChatButtonSend" id="send" disabled aria-label="Send prompt" title="Send prompt">
 				<i class="fa-arrow-up saIcon far"></i>
 			</button>
-			<button type="button" class="saButtonStop" id="stop"
+			<button type="button" class="saChatButtonStop" id="stop"
 				aria-label="Stop response" title="Stop prompt"
 				style="display: none;">
 				<i class="fa-stop saIcon fas"></i>
@@ -317,8 +365,11 @@
 		</form>
 		<div class="saValidationMessage saError" id="error1"><i class="saIcon fas fa-octagon-xmark" aria-hidden="true"></i><div class="saValidationMessageText" role="alert">Error goes here</div></div>
 		<div class="saValidationMessage saWarning" id="warning1"><i class="saIcon fas fa-triangle-exclamation" aria-hidden="true"></i><div class="saValidationMessageText" role="alert">Warning goes here</div></div>
-		<p class="saComposerInstruction">Please check my work. I'm sickly.</p>
+		<p class="saChatComposerInstruction">Please check my work. I'm sickly.</p>
 	</div>
+	<pre style="max-height: 20px;"><code>
+
+	</code></pre>
 </body>
 <script>
  $(document).ready(function () {
@@ -349,12 +400,13 @@
             const buttons = isPrompt
                 ? [
                     { label: 'Edit message', icon: 'pen' },
-                    { label: 'Copy message', icon: 'copy' }
+                    { label: 'Copy message', icon: 'copy' },
+					{ label: 'More actions', icon: 'ellipis-vertical' }
                 ]
                 : [
                     { label: 'Copy message', icon: 'copy' },
                     { label: 'Try again', icon: 'arrow-rotate-right' },
-                    { label: 'Crow', icon: 'bird-crow' }
+                    { label: 'Crow', icon: 'crow' }
                 ];
 
             buttons.forEach(({ label, icon }) => {
@@ -404,14 +456,29 @@
             if (!message || state !== 'idle') return;
 
             // Add user prompt to chat log
-            const lines = message.split(/\r?\n/);
-            const $promptLi = $('<li>')
-                .addClass('saMessage saSender')
-                .append(
-                    $('<p>').html(lines.map(line => $('<div>').text(line).html()).join('<br>')),
-                    createToolbar(true)
-                );
-            $chatLog.append($promptLi);
+			const lines = message.split(/\r?\n/);
+			const $promptLi = $('<li>')
+				.addClass('saChatMessage saSender')
+				.append(
+					$('<article>').addClass('saChatMessageInner').append(
+						$('<div>').addClass('saChatMessageBody').append(
+							lines.map(line => $('<p>').text(line))
+						),
+						$('<footer>').addClass('saChatMessageFooter').append(
+							$('<time>')
+								.addClass('saChatMessageTime')
+								.attr({
+									datetime: new Date().toISOString(),
+									'aria-label': 'Sent just now'
+								})
+								.text(
+									new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+								)
+						),
+						createToolbar(true)
+					)
+				);
+			$chatLog.append($promptLi);
 
             // Reset input
             $prompt.val('');
@@ -426,12 +493,10 @@
             const responseLines = [
                 "Absolutely, I can help you with that.",
                 "Here are the steps you should follow:",
-                "1. Review the requirements.",
-                "2. Implement the necessary changes.",
-                "3. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             ];
 
-            const $responseLi = $('<li>').addClass('saResponse');
+            const $responseLi = $('<li>').addClass('saChatResponse');
             $chatLog.append($responseLi);
 
             // Split response into words and track paragraph boundaries
