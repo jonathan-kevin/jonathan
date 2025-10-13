@@ -368,6 +368,774 @@
 		<p class="saChatComposerInstruction">Please check my work. I'm sickly.</p>
 	</div>
 	<pre style="max-height: 20px;"><code>
+html,
+body {
+	height: 100%;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+body {
+	padding: 1.5rem;
+	&.saSmallScreen {
+		padding: 0;
+	}
+}
+
+.ScrollbarHover() {
+	scrollbar-gutter: stable;
+
+	&::-webkit-scrollbar {
+		background-color: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: transparent;
+	}
+
+	&:is(:hover, :focus-within) {
+		&::-webkit-scrollbar {
+			background-color: @ColorGray200;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background-color: @ColorGray500;
+
+			&:hover {
+				background-color: @ColorGray700;
+			}
+
+			&:active {
+				background-color: @ColorGray900;
+			}
+		}
+	}
+}
+
+.saChatLoading {
+	display: flex;
+	gap: 0.25rem;
+	padding: 0.5rem;
+	border-radius: 999rem;
+	background-color: @ColorGray150;
+	width: fit-content;
+	cursor: wait;
+	margin-top: 1rem;
+
+	.saDot {
+		height: 0.5rem;
+		width: 0.5rem;
+		background: @ColorGray400;
+		border-radius: 999rem;
+		animation: saChatLoading 1s infinite ease-in-out;
+
+		&:nth-child(2) {
+			animation-delay: 0.2s;
+		}
+
+		&:nth-child(3) {
+			animation-delay: 0.4s;
+		}
+	}
+}
+
+@keyframes saChatLoading {
+	0%,
+	60%,
+	100% {
+		transform: translateY(0);
+	}
+
+	30% {
+		transform: translateY(-0.25rem);
+	}
+}
+
+.saChatWrapper {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	justify-content: space-between;
+	box-sizing: border-box;
+	overflow: hidden;
+
+	.saLargeScreen & {
+		max-width: 48rem;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+}
+
+.saChatUnread {
+	.FlexCentered();
+	flex-direction: column;
+	gap: 0.5rem;
+	width: 100%;
+	position: sticky;
+	bottom: -0.5rem;
+	padding: 2rem 0 1rem 0;
+	pointer-events: none;
+	z-index: 1;
+
+	button {
+		.FlexCentered();
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		height: 1.5rem;
+		width: fit-content;
+		padding: 0 0.625rem;
+		background-color: @ColorRed600;
+		color: @ColorWhite;
+		border-radius: 99rem;
+		pointer-events: all;
+		.StandardTransition();
+
+		.Hover({
+			background-color: @ColorRed700;
+		});
+		&:active {
+			background-color: @ColorRed800;
+		}
+	}
+}
+
+.saChatDate {
+	.FlexCentered();
+	flex-direction: column;
+	gap: 0.5rem;
+	width: 100%;
+	position: sticky;
+	top: -1rem;
+	padding: 2rem 0 1rem 0;
+	pointer-events: none;
+	z-index: 2;
+
+	time {
+		.FlexCentered();
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		height: 1.5rem;
+		width: fit-content;
+		padding: 0 0.625rem;
+		background-color: @ColorGray50;
+		border: 1px solid @ColorGray200;
+		border-radius: 99rem;
+		pointer-events: all;
+	}
+}
+
+.saChat {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	position: relative;
+	flex: 1;
+	overflow: auto;
+	padding: 0 1rem 1rem 1rem;
+
+	.saLargeScreen & {
+		border-radius: 1rem 1rem 0 0;
+		border: 1px solid @ColorGray200;
+		border-bottom: none;
+		padding-right: 0;
+		.ScrollbarHover();
+	}
+}
+
+.saChatLatest {
+	position: sticky;
+	bottom: 0.5rem;
+	left: 50%;
+	transform: translate(-50%, 0);
+	height: 2rem;
+	width: 2rem;
+	min-height: 2rem;
+	min-width: 2rem;
+	.FlexCentered();
+	background-color: @ColorGray100;
+	border: 1px solid @ColorGray200;
+	border-radius: 99rem;
+	color: @ColorGray600;
+	transform-origin: center;
+	transition: all 0.2s ease;
+
+	&.saReached {
+		transform: translate(-50%, 0.5rem);
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.Hover({
+		color: @ColorBlue600;
+		border-color: @ColorBlue600;
+		background-color: @ColorBlue100;
+	});
+
+	&:active {
+		color: @ColorBlue700;
+		border-color: @ColorBlue700;
+		background-color: @ColorBlue200;
+	}
+}
+
+.saChatLog {
+	display: flex;
+	flex-direction: column;
+	list-style-type: none;
+	margin-block-start: 0;
+	margin-block-end: 0;
+	padding-inline-start: 0;
+	overflow-wrap: break-word;
+	z-index: 0;
+}
+
+.saChatResponse {
+	font-size: 0.875rem;
+	line-height: 1.5rem;
+
+	&:last-child {
+		margin-bottom: 8rem;
+	}
+
+	p:not(:last-child) {
+		margin-bottom: 1rem;
+	}
+
+	.saSmallScreen & {
+		font-size: 1rem;
+		line-height: 1.5rem;
+	}
+
+	.saWord {
+		animation: blurin 0.1s ease forwards;
+	}
+
+	@keyframes blurin {
+		0% {
+			filter: blur(8px);
+			color: @ColorWhite;
+		}
+		100% {
+			filter: blur(0);
+			color: @ColorGray900;
+		}
+	}
+}
+
+.saChatToolbar {
+	display: flex;
+	flex-direction: row;
+	gap: 0.25rem;
+	list-style: none;
+	height: 2rem;
+	align-items: center;
+	margin-top: 0.5rem;
+
+	&.saFloating {
+		position: absolute;
+		margin-top: 0;
+		top: -1.75rem;
+		right: -1rem;
+		background-color: @ColorGray900;
+		border-radius: 0.625rem;
+		padding: 0.25rem;
+
+		.saSender & {
+			right: 0;
+		}
+	}
+
+	button {
+		appearance: none;
+		background-color: transparent;
+		color: @ColorGray500;
+		width: 1.5rem;
+		height: 1.5rem;
+		border-radius: 0.375rem;
+		.StandardTransition();
+
+		.saFloating& {
+			color: @ColorGray200;
+		}
+
+		&:enabled {
+			.Hover({
+				background-color: @ColorBlue50;
+				color: @ColorBlue600;
+
+				.saFloating& {
+					background-color: @ColorGray800;
+					color: @ColorGray50;
+				}
+			});
+
+			&:active {
+				background-color: @ColorBlue100;
+				color: @ColorBlue700;
+				border-radius: 0.5rem;
+
+				.saFloating& {
+					background-color: @ColorGray700;
+					color: @ColorWhite;
+				}
+			}
+		}
+	}
+
+	.saSender & {
+		justify-content: flex-end;
+		opacity: 0;
+	}
+
+	.saFloating& {
+		opacity: 0;
+	}
+
+	.saChatResponse & {
+		animation: saRevealToolbar forwards 0.2s ease;
+
+		@keyframes saRevealToolbar {
+			0% {
+				opacity: 0;
+				height: 0;
+			}
+			100% {
+				opacity: 1;
+				height: 2rem;
+			}
+		}
+	}
+}
+
+.saChatComposer {
+	display: flex;
+	position: relative;
+	max-height: 50%;
+
+	.saSmallScreen & {
+		padding: 0 0.5rem 0 0.5rem;
+	}
+
+	textarea {
+		appearance: none;
+		width: 100%;
+		height: 100%;
+		resize: none;
+		border: none;
+		padding: 0.75rem 1rem;
+		font-size: 0.875rem;
+		line-height: 1.25rem;
+		font-family: inherit;
+		outline: none;
+		color: inherit;
+		field-sizing: content;
+		min-height: 8rem;
+		border: 1px solid @ColorGray200;
+		background-color: @ColorWhite;
+
+		.saLargeScreen & {
+			border-radius: 0 0 1rem 1rem;
+			padding-right: 0;
+			.ScrollbarHover();
+		}
+
+		.saSmallScreen & {
+			border-radius: 1.5rem;
+			font-size: 1rem;
+			line-height: 1.25rem;
+			min-height: 3rem;
+			padding: 0.75rem 3.5rem 0.75rem 1rem;
+		}
+
+		&::placeholder {
+			color: @ColorGray400;
+		}
+
+		&:enabled {
+			box-shadow: 0 1px 2px fade(@ColorGray900, 4), 0 2px 0.1875rem fade(@ColorGray900, 4);
+		}
+
+		&:disabled {
+			background-color: @ColorGray100;
+			color: @ColorGray300;
+			cursor: not-allowed;
+			box-shadow: none;
+		}
+
+		&.saError {
+			background-color: @ColorRed50;
+			border-color: @ColorRed600;
+		}
+
+		&.saWarning {
+			background-color: @ColorYellow50;
+			border-color: @ColorYellow200;
+		}
+
+		&.saHidden {
+			display: none;
+		}
+	}
+}
+
+.saChatComposerInstruction {
+	font-size: 0.75rem;
+	line-height: 1rem;
+	color: @ColorGray600;
+	padding: 0.5rem 1rem;
+	text-align: center;
+	.Ellipsis();
+}
+
+.saChatButtonSend,
+.saChatButtonStop {
+	.Button();
+	background-color: @ColorGray50;
+	height: 2rem;
+	width: 2rem;
+	border-radius: 999rem;
+	position: absolute;
+	bottom: 0.5rem;
+	right: 0.5rem;
+
+	.saSmallScreen & {
+		bottom: 0.5rem;
+		right: 1rem;
+	}
+}
+
+.saChatButtonSend {
+	.ButtonPrimary();
+}
+
+.saChatButtonStop {
+	.ButtonSecondary();
+}
+
+.saChatMessage {
+	display: flex;
+	align-items: end;
+	gap: 0.5rem;
+	padding: 0 2rem 1rem 0;
+
+	&.saSender {
+		justify-content: flex-end;
+		padding: 0 0 1rem 2rem;
+
+		&.saEdit {
+			padding: 0;
+		}
+	}
+
+	&:hover,
+	&:focus-within {
+		.saChatToolbar {
+			opacity: 1;
+		}
+	}
+}
+
+.saChatAvatar {
+	.FlexCentered();
+	height: 1.5rem;
+	min-width: 1.5rem;
+	background-color: @ColorGray300;
+	color: @ColorWhite;
+	border-radius: 50%;
+	font-size: 0.625rem;
+	line-height: 1.5rem;
+	transition: ease background 0.2s, ease transform 0.2s, ease opacity 0.2s;
+	transform: scale(1);
+	border-width: 1px;
+	border-style: solid;
+	margin-bottom: 1.5rem;
+
+	&.saPrimary {
+		background-color: @ColorBlue50;
+		color: @ColorBlue600;
+		border-color: @ColorBlue200;
+	}
+
+	&.saPurple {
+		background-color: @ColorPurple50;
+		color: @ColorPurple600;
+		border-color: @ColorPurple200;
+	}
+
+	&.saGray {
+		background-color: @ColorGray50;
+		color: @ColorGray600;
+		border-color: @ColorGray200;
+	}
+
+	&.saRed {
+		background-color: @ColorRed50;
+		color: @ColorRed600;
+		border-color: @ColorRed200;
+	}
+
+	&.saOrange {
+		background-color: @ColorOrange50;
+		color: @ColorOrange600;
+		border-color: @ColorOrange200;
+	}
+
+	&.saYellow {
+		background-color: @ColorYellow50;
+		color: @ColorYellow600;
+		border-color: @ColorYellow200;
+	}
+
+	&.saGreen {
+		background-color: @ColorGreen50;
+		color: @ColorGreen600;
+		border-color: @ColorGreen200;
+	}
+
+	&.saSky {
+		background-color: @ColorSky50;
+		color: @ColorSky600;
+		border-color: @ColorSky200;
+	}
+
+	&.saPink {
+		background-color: @ColorPink50;
+		color: @ColorPink600;
+		border-color: @ColorPink200;
+	}
+}
+
+.saChatMessageInner {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	position: relative;
+
+	.saSender & {
+		align-items: flex-end;
+	}
+
+	.saEdit & {
+		display: none;
+	}
+}
+
+.saChatMessageFooter {
+	display: flex;
+	gap: 0.5rem;
+	position: relative;
+	min-height: 1.5rem;
+	align-items: end;
+	padding: 0.5rem 0 0 1rem;
+}
+
+.saChatMessageEdited {
+	font-size: 0.75rem;
+	line-height: 0.75rem;
+	color: @ColorGray600;
+}
+
+.saChatSenderName {
+	font-size: 0.75rem;
+	line-height: 0.75rem;
+	font-weight: 500;
+}
+
+.saChatMessageTime {
+	font-size: 0.75rem;
+	line-height: 0.75rem;
+	color: @ColorGray600;
+	position: relative;
+
+	.saSender & {
+		padding-right: 1rem;
+	}
+
+	&::after {
+		content: '';
+		display: flex;
+		height: 0.375rem;
+		width: 0.375rem;
+		border-radius: 100%;
+		background-color: @ColorRed600;
+		position: absolute;
+		right: -0.75rem;
+		top: 0.1875rem;
+		transition: ease opacity 0.2s, ease transform 0.2s, ease visibility 0.2s;
+		transition-delay: 2s;
+		opacity: 0;
+		transform: scale(0);
+		visibility: hidden;
+
+		.saUnread & {
+			opacity: 1;
+			transform: scale(1);
+			visibility: visible;
+		}
+	}
+}
+
+.saChatMessageBody {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	max-width: 28rem;
+
+	.saSender & {
+		align-items: flex-end;
+	}
+
+	img {
+		border-radius: 0.25rem;
+		width: 100%;
+		margin: 0.5rem 0;
+
+		&:first-child {
+			margin-top: 0;
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.saChatMessageBody p {
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	word-break: break-word;
+	background-color: @ColorGray100;
+	padding: 0.625rem 1rem;
+	width: fit-content;
+	border-radius: 0.25rem;
+	min-width: 2.5rem;
+	transition: border-radius ease 0.2s;
+
+	.saSmallScreen & {
+		font-size: 1rem;
+		line-height: 1.25rem;
+	}
+
+	&:first-child {
+		border-radius: 0.75rem 0.75rem 0.25rem 0.25rem;
+	}
+
+	&:last-child {
+		border-radius: 0.25rem 0.25rem 0.75rem 0.125rem;
+	}
+
+	&:only-child {
+		border-radius: 0.75rem 0.75rem 0.75rem 0.125rem;
+	}
+
+	.saSender & {
+		background-color: @ColorBlue100;
+
+		&:last-child {
+			border-radius: 0.25rem 0.25rem 0.125rem 0.75rem;
+		}
+
+		&:only-child {
+			border-radius: 0.75rem 0.75rem 0.125rem 0.75rem;
+		}
+	}
+}
+
+.saChatMessageEdit {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+
+	textarea {
+		appearance: none;
+		background-color: transparent;
+		width: 100%;
+		height: 100%;
+		resize: none;
+		border: none;
+		outline: none;
+		font-size: 0.875rem;
+		line-height: 1.25rem;
+		font-family: inherit;
+		color: inherit;
+		field-sizing: content;
+		min-height: 8rem;
+		max-height: 50dvh;
+		background-color: @ColorWhite;
+		border-radius: 0.75rem;
+		border: none;
+		padding: 0.625rem 0 0.625rem 1rem;
+
+		&:enabled {
+			outline: 1px solid @ColorGray200;
+			outline-offset: -1px;
+			box-shadow: 0 1px 2px fade(@ColorGray900, 3), 0 2px 0.1875rem fade(@ColorGray900, 3);
+
+			.Hover({
+				outline-color: @ColorBlue600;
+				background-color: @ColorBlue50;
+			});
+
+			&:focus {
+				outline-color: @ColorBlue600;
+				outline-offset: -2px;
+				outline-width: 2px;
+				background-color: @ColorBlue50;
+			}
+
+			&.saError,
+			&.saError:is(:hover, :focus) {
+				background-color: @ColorRed50;
+				outline-color: @ColorRed600;
+				outline-width: 2px;
+			}
+
+			&.saWarning,
+			&.saWarning:is(:hover, :focus) {
+				background-color: @ColorYellow50;
+				outline-color: @ColorYellow200;
+				outline-width: 2px;
+			}
+		}
+
+		&:disabled {
+			background-color: @ColorGray100;
+			outline-color: transparent;
+			color: @ColorGray300;
+		}
+
+		.saLargeScreen & {
+			.ScrollbarHover();
+		}
+
+		.saSmallScreen & {
+			padding: 0.625rem 1rem 0.625rem 1rem;
+			font-size: 1rem;
+			line-height: 1.25rem;
+		}
+	}
+
+	.saChatButtonGroup {
+		display: flex;
+		padding: 1rem 0 0 1rem;
+		gap: 0.5rem;
+
+		.saSmallScreen & {
+			padding: 1rem 0 0 0;
+		}
+
+		button {
+			min-width: 4rem;
+
+			.saSmallScreen & {
+				flex: 1;
+			}
+		}
+	}
+}
 
 	</code></pre>
 </body>
