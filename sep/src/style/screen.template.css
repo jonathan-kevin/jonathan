@@ -34008,6 +34008,13 @@ body.saSmallScreen {
 .saLargeScreen .saChat:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
   background-color: #313a44;
 }
+.saReadOnly .saChat {
+  border-radius: 1rem;
+  border-bottom: 1px solid #ccd5e2;
+}
+.saChat .saEmptyState {
+  height: 100%;
+}
 .saChatLatest {
   position: sticky;
   bottom: 0.5rem;
@@ -34253,7 +34260,7 @@ body.saSmallScreen {
   background-color: #fff8e7;
   border-color: #ffcd5b;
 }
-.saChatComposer textarea.saHidden {
+.saReadOnly .saChatComposer textarea {
   display: none;
 }
 .saChatComposerInstruction {
@@ -34313,6 +34320,10 @@ body.saSmallScreen {
 .saSmallScreen .saChatButtonStop {
   bottom: 0.5rem;
   right: 1rem;
+}
+.saReadOnly .saChatButtonSend,
+.saReadOnly .saChatButtonStop {
+  display: none;
 }
 .saChatButtonSend {
   background-color: var(--Sa-Color-PrimaryButtonBackground);

@@ -21,10 +21,14 @@
 		<label><input name="settings1" id="disable" type="radio">Disabled</label>
 		<label><input name="settings1" id="error" type="radio">Error</label>
 		<label><input name="settings1" id="warning" type="radio">Warning</label>
-		<label><input name="settings1" id="hidden" type="radio">Hidden</label>
+		<label><input name="settings1" id="readonly" type="radio">Readonly</label>
+		<label><input name="settings1" id="empty" type="radio">Empty</label>
 	</fieldset>
 	<script>
 		$(function() {
+			const $chatWrapper = $('.saChatWrapper');
+			const $chatLog = $('.saChatLog');
+			const $emptyState = $('.saEmptyState');
 			const $editor = $('#editor');
 			const $prompt = $('#prompt');
 			const $send = $('#send');
@@ -45,12 +49,16 @@
 
 			$('input[name="settings1"]').on('change', function() {
 				const id = this.id;
-				$prompt.removeClass('saError saWarning saHidden').prop('disabled', false)
+				$prompt.removeClass('saError saWarning').prop('disabled', false)
 					.removeAttr('invalid aria-errormessage');
-				$editor.removeClass('saError saWarning saHidden').prop('disabled', false)
+				$editor.removeClass('saError saWarning').prop('disabled', false)
 					.removeAttr('invalid aria-errormessage');
-				$send.show();
+				$send.css('display', 'flex');
 				$editButtons.show();
+				$chatWrapper.removeClass('saReadOnly');
+				$chatWrapper.removeClass('saEmpty');
+				$chatLog.css('display', 'flex');
+				$emptyState.hide();
 				hideAllValidation();
 
 				switch (id) {
@@ -60,16 +68,25 @@
 						$error1.show();
 						$error2.show();
 						break;
+
 					case 'warning':
 						$prompt.addClass('saWarning');
 						$editor.addClass('saWarning');
 						$warning1.show();
 						$warning2.show();
 						break;
-					case 'hidden':
-						$prompt.addClass('saHidden');
-						$editor.addClass('saHidden');
+
+					case 'readonly':
+						$chatWrapper.addClass('saReadOnly');
+						$send.hide();
 						break;
+
+					case 'empty':
+						$chatWrapper.addClass('saEmpty');
+						$chatLog.hide();
+						$emptyState.css('display', 'flex')
+						break;
+
 					case 'disable':
 						$prompt.prop('disabled', true);
 						$editor.prop('disabled', true);
@@ -130,18 +147,35 @@
 				$saveBtn.prop('disabled', true);
 			});
 
-			// Save on Enter, newline on Shift+Enter in edit textarea
+			// Editing: Ctrl+Enter saves, Enter/Shift+Enter adds newline
 			$editTextarea.on('keydown', function(e) {
-				if (e.key === 'Enter' && !e.shiftKey) {
+				if (e.ctrlKey && e.key === 'Enter') {
 					e.preventDefault();
 					$editForm.submit();
 				}
-				// Shift+Enter: default behavior (newline)
+				// Enter or Shift+Enter: insert newline
+				if ((e.key === 'Enter' && !e.ctrlKey)) {
+					e.preventDefault();
+					const val = $(this).val();
+					const start = this.selectionStart;
+					const end = this.selectionEnd;
+					$(this).val(val.substring(0, start) + '\n' + val.substring(end));
+					this.selectionStart = this.selectionEnd = start + 1;
+				}
 			});
 		});
 	</script>
 	<div class="saChatWrapper">
 		<div class="saChat" id="theChat">
+			<div class="saEmptyState" style="display: none;">
+				<div class="saEmptyStateIcon">
+					<i class="saIcon far fa-message-dots"></i>
+				</div>
+				<div class="saEmptyStateBody">
+					<div class="saEmptyStateHeading">You're starting a new conversation</div>
+					<div class="saEmptyStateDescription">Type your first message below.</div>
+				</div>
+			</div>
 			<ol class="saChatLog" aria-role="log" aria-relevant="additions" id="chatLog" aria-label="The Chat">
 				<li role="separator" class="saChatDate"><time datetime="2025-10-08">Yesterday</time></li>
 				<li class="saChatMessage">
@@ -377,7 +411,6 @@
 			LESS
 		</summary>
 		<pre><code>
-
 html,
 body {
 	height: 100%;
@@ -546,6 +579,7 @@ body {
 	overflow: auto;
 	padding: 0 1rem 1rem 1rem;
 
+
 	.saLargeScreen & {
 		border-radius: 1rem 1rem 0 0;
 		border: 1px solid @ColorGray200;
@@ -553,6 +587,15 @@ body {
 		padding-right: 0;
 		.ScrollbarHover();
 	}
+
+	.saReadOnly & {
+		border-radius: 1rem;
+		border-bottom: 1px solid @ColorGray200;
+	}
+}
+
+.saChat .saEmptyState {
+	height: 100%;
 }
 
 .saChatLatest {
@@ -814,7 +857,7 @@ body {
 			border-color: @ColorYellow200;
 		}
 
-		&.saHidden {
+		.saReadOnly & {
 			display: none;
 		}
 	}
@@ -843,6 +886,11 @@ body {
 	.saSmallScreen & {
 		bottom: 0.5rem;
 		right: 1rem;
+	}
+
+
+	.saReadOnly & {
+		display: none;
 	}
 }
 
@@ -1186,7 +1234,6 @@ body {
 	}
 }
 
-
 		</code></pre>
 	</details>
 </body>
@@ -1370,7 +1417,7 @@ body {
         }
 
 		// Enhanced scroll handler for chat day/date pills
-		function enhancedHandleScroll() {
+		/*function enhancedHandleScroll() {
 
 			$(".saChatDate").each(function (index) {
 				const $current = $(this);
@@ -1395,7 +1442,7 @@ body {
 					}
 				}
 			});
-		}
+		}*/
 
         // Scroll chat log to bottom
         function scrollToBottom() {
@@ -1416,7 +1463,7 @@ body {
                 $theChat[0].scrollHeight - $theChat[0].scrollTop - $theChat[0].clientHeight
             ) < 16;
             $latest.toggleClass('saReached', isAtBottom);
-			 enhancedHandleScroll();
+			// enhancedHandleScroll();
         }
 
         // Initialize event listeners

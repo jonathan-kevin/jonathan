@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Test</title>
+</head>
+
+<body>
+	<section>
+		<div class="box">box 1</div>
+		<div class="spacer"></div>
+		<div class="spacer"></div>
+	</section>
+	<section>
+		<div class="box">box 2</div>
+		<div class="spacer"></div>
+		<div class="spacer"></div>
+	</section>
+	<style>
+		html, body {
+			height: 100%;
+			overflow: hidden;
+		}
+
+		body {
+			display: flex;
+			flex-direction: column;
+			overflow: auto;
+			height: 100%;
+			gap: 16px;
+		}
+
+		section {
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			gap: 16px;
+			border: 1px solid salmon;
+			padding: 16px;
+
+		}
+
+		.spacer {
+			min-height: 100vh;
+		}
+
+		.box {
+			position: sticky;
+			top: 16px;
+			width: 100px;
+			min-height: 24px;
+			border-radius: 99rem;
+		}
+
+
+		@supports(animation-timeline: view()) {
+			.box {
+				animation: scaleDown 1s linear both;
+				animation-timeline: view();
+				animation-range: exit -5rem exit 100%;
+			}
+		}
+		@keyframes scaleDown {
+			0% {
+				transform: scale(1);
+				opacity: 1;
+				background-color: gray;
+			}
+
+			50% {
+				transform: scale(0.5);
+				opacity: 0.5;
+			}
+
+			100% {
+				transform: scale(0);
+				opacity: 0;
+				background-color: red;
+			}
+		}
+	</style>
+</body>
+
+</html>
