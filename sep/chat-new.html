@@ -449,7 +449,7 @@
 			LESS
 		</summary>
 		<pre><code>
-html,
+			html,
 body {
 	height: 100%;
 	width: 100%;
@@ -489,6 +489,19 @@ body {
 			&:active {
 				background-color: @ColorGray900;
 			}
+		}
+	}
+}
+
+.saSkeleton {
+	animation: saSkeleton 2s ease  infinite;
+	@keyframes saSkeleton {
+		0%,100% {
+			opacity: 1;
+		}
+
+		50% {
+			opacity: 0.5;
 		}
 	}
 }
@@ -605,6 +618,12 @@ body {
 		border: 1px solid @ColorGray200;
 		border-radius: 99rem;
 		pointer-events: all;
+
+		.saSkeleton& {
+			width: 5rem;
+			background-color: @ColorGray100;
+			border: none;
+		}
 	}
 }
 
@@ -988,6 +1007,10 @@ body {
 	border-style: solid;
 	margin-bottom: 1.25rem;
 
+	.saSkeleton & {
+		background-color: @ColorGray100;
+	}
+
 	&.saPrimary {
 		background-color: @ColorBlue50;
 		color: @ColorBlue600;
@@ -1066,6 +1089,10 @@ body {
 	min-height: 1rem;
 	align-items: end;
 	padding: 0.5rem 0 0 1rem;
+
+	.saSender & {
+		padding: 0.5rem 1rem 0 0;
+	}
 }
 
 .saChatMessageEdited {
@@ -1078,6 +1105,13 @@ body {
 	font-size: 0.75rem;
 	line-height: 0.75rem;
 	font-weight: 500;
+
+	.saSkeleton & {
+		height: 0.75rem;
+		width: 25%;
+		background-color: @ColorGray100;
+		border-radius: 99rem;
+	}
 }
 
 .saChatMessageTime {
@@ -1086,8 +1120,11 @@ body {
 	color: @ColorGray600;
 	position: relative;
 
-	.saSender & {
-		padding-right: 1rem;
+	.saSkeleton & {
+		height: 0.75rem;
+		width: 40px;
+		background-color: @ColorGray100;
+		border-radius: 99rem;
 	}
 
 	&::after {
@@ -1118,6 +1155,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	gap: 0.25rem;
+	width: 100%;
 
 	.saSender & {
 		align-items: flex-end;
@@ -1149,6 +1187,12 @@ body {
 	min-width: 2.5rem;
 	transition: border-radius ease 0.2s;
 
+
+	.saSkeleton & {
+		height: 5rem;
+		width: 100%;
+	}
+
 	.saSmallScreen & {
 		font-size: 1rem;
 		line-height: 1.25rem;
@@ -1168,6 +1212,10 @@ body {
 
 	.saSender & {
 		background-color: @ColorBlue100;
+
+		.saSkeleton& {
+			background-color: @ColorGray100;
+		}
 
 		&:last-child {
 			border-radius: 0.25rem 0.25rem 0.125rem 0.75rem;
