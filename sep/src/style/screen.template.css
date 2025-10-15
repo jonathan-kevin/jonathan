@@ -33862,6 +33862,18 @@ body {
 body.saSmallScreen {
   padding: 0;
 }
+.saSkeleton {
+  animation: saSkeleton 2s ease  infinite;
+}
+@keyframes saSkeleton {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
 .saChatLoading {
   display: flex;
   gap: 0.25rem;
@@ -33973,6 +33985,11 @@ body.saSmallScreen {
   border: 1px solid #ccd5e2;
   border-radius: 99rem;
   pointer-events: all;
+}
+.saSkeleton.saChatDate time {
+  width: 5rem;
+  background-color: #eef1f5;
+  border: none;
 }
 .saChat {
   display: flex;
@@ -34482,6 +34499,9 @@ body.saSmallScreen {
   border-style: solid;
   margin-bottom: 1.25rem;
 }
+.saSkeleton .saChatAvatar {
+  background-color: #eef1f5;
+}
 .saChatAvatar.saPrimary {
   background-color: #f7faff;
   color: #2d6ce1;
@@ -34548,6 +34568,9 @@ body.saSmallScreen {
   align-items: end;
   padding: 0.5rem 0 0 1rem;
 }
+.saSender .saChatMessageFooter {
+  padding: 0.5rem 1rem 0 0;
+}
 .saChatMessageEdited {
   font-size: 0.75rem;
   line-height: 0.75rem;
@@ -34558,14 +34581,23 @@ body.saSmallScreen {
   line-height: 0.75rem;
   font-weight: 500;
 }
+.saSkeleton .saChatSenderName {
+  height: 0.75rem;
+  width: 25%;
+  background-color: #eef1f5;
+  border-radius: 99rem;
+}
 .saChatMessageTime {
   font-size: 0.75rem;
   line-height: 0.75rem;
   color: #60748b;
   position: relative;
 }
-.saSender .saChatMessageTime {
-  padding-right: 1rem;
+.saSkeleton .saChatMessageTime {
+  height: 0.75rem;
+  width: 40px;
+  background-color: #eef1f5;
+  border-radius: 99rem;
 }
 .saChatMessageTime::after {
   content: '';
@@ -34592,6 +34624,7 @@ body.saSmallScreen {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  width: 100%;
 }
 .saSender .saChatMessageBody {
   align-items: flex-end;
@@ -34618,6 +34651,10 @@ body.saSmallScreen {
   min-width: 2.5rem;
   transition: border-radius ease 0.2s;
 }
+.saSkeleton .saChatMessageBody p {
+  height: 5rem;
+  width: 100%;
+}
 .saSmallScreen .saChatMessageBody p {
   font-size: 1rem;
   line-height: 1.25rem;
@@ -34633,6 +34670,9 @@ body.saSmallScreen {
 }
 .saSender .saChatMessageBody p {
   background-color: #e5efff;
+}
+.saSkeleton.saSender .saChatMessageBody p {
+  background-color: #eef1f5;
 }
 .saSender .saChatMessageBody p:last-child {
   border-radius: 0.25rem 0.25rem 0.125rem 0.75rem;
