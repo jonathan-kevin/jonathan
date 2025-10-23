@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,25 +12,6 @@
 	<script src="./script.js"></script>
 	<script type="text/javascript" src="https://livejs.com/live.js"></script>
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
-	<!-- Install culori via npm or use CDN -->
-	<!-- <script src="https://cdn.jsdelivr.net/npm/culori/dist/culori.min.js"></script> -->
-	<script>
-		const { hex, oklch } = culori;
-
-		// Convert hex to OKLCH
-		function hexToOklch(hexColor) {
-			const color = hex(hexColor);
-			const oklchColor = oklch(color);
-			return oklchColor; // { l, c, h, alpha }
-		}
-
-		// Example usage:
-		console.log(hexToOklch("#ff5733"));
-
-		function oklchString({ l, c, h }) {
-			return `oklch(${(l * 100).toFixed(2)}% ${(c * 100).toFixed(2)} ${h.toFixed(2)})`;
-		}
-	</script>
 </head>
 
 <body class="saRootBody saLargeScreen saPc saCompact">
@@ -54,12 +34,10 @@
 											<h1>Mitt system</h1>
 										</div>
 									</div>
-									<button class="saNotificationWrapper" type="button" aria-live="polite" aria-expanded="false" aria-label="Notifieringar">
+									<button class="saNotificationWrapper" type="button" aria-live="polite">
 										<i class="far fa-bell saIcon"></i>
-										<div class="saBadgeCount saUrgent saEmpty">0</div>
 									</button>
-									<button class="saNavigator" type="button" aria-label="Stäng meny"
-										data-tooltip="Stäng meny">
+									<button class="saNavigator" type="button" aria-label="Stäng meny">
 										<div class="saNavBar saActive">
 											<span class="saNavBarStripe"></span>
 											<span class="saNavBarStripe"></span>
@@ -69,184 +47,133 @@
 								</div>
 							</div>
 						</div>
-						<section class="saSideBarSection saSideBarHeader"><img class="saCustomerLogo"
-								data-sa-minimized-url="../Content.ashx?h=1wvgjNzlYUjYTnoIZyOXkI2qOf8"
-								data-sa-expanded-url="../Content.ashx?h=1wvgjNzlYUjYTnoIZyOXkI2qOf8"
-								alt="Mitt system logotyp" src="../Content.ashx?h=1wvgjNzlYUjYTnoIZyOXkI2qOf8">
+						<section class="saSideBarSection saSideBarHeader">
+							<img class="saCustomerLogo" alt="Mitt system logotyp"
+								src="./Presentation/img/softadmin-logo-minimized.svg">
 							<ul class="saSideBarInputGroup">
-								<li><a class="saSideBarSearchLink" tabindex="0" data-tooltip="Sök..."
-										aria-label="Sök...">
+								<li>
+									<a class="saSideBarSearchLink" tabindex="0" aria-label="Sök...">
 										<div><i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i></div>
-									</a><label class="saSideBarSearch"><input id="SideBarSearchInput"
-											class="saSearchInput saInputText" type="search" placeholder="Sök..."
-											aria-label="Sök..."><i class="far fa-magnifying-glass saIcon"
-											aria-hidden="true"></i></label></li>
-								<li class="saMenuDropdowns" style="display: none;"></li>
-								<li><label class="saImpersonator"><span class="saLabel">Användare</span><span
-											class="saFirstLetter">A</span><select class="saInputText saDropdown">
-											<option value="21">jonathan.kevin@Multisoft.se * (logged in user)</option>
-											<option value="1" selected="">admin - PUBLISHWebdesigner *</option>
-											<option value="19">alex.norlin@Multisoft.se *</option>
-											<option value="3">charlesk - Användare</option>
-											<option value="20">ellioth.rosenberg@Multisoft.se *</option>
-											<option value="13">fr *</option>
-											<option value="10">Matcha - Hjälpare</option>
-											<option value="2">TestEng - Användare *</option>
-											<option value="23">useless</option>
-										</select><i class="saIcon far fa-angle-down saTrailing"></i></label></li>
+									</a>
+									<label class="saSideBarSearch">
+										<input id="SideBarSearchInput" class="saSearchInput saInputText" type="search"
+											placeholder="Sök..." aria-label="Sök...">
+										<i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i>
+									</label>
+								</li>
+								<li>
+									<label class="saImpersonator">
+										<span class="saLabel">Användare</span>
+										<span class="saFirstLetter">A</span>
+										<select class="saInputText saDropdown">
+											<option value="0" selected="">Jonathan</option>
+											<option value="1">Kevin</option>
+										</select>
+										<i class="saIcon far fa-angle-down saTrailing"></i>
+									</label>
+								</li>
 							</ul>
 						</section>
 						<section class="saSideBarSection saSideBarBody">
 							<div class="saSideBarGroup saSideBarFavorites">
-								<div class="saSideBarFavoritesHeader"><button class="saButtonFavorites" type="button"
-										aria-expanded="true"><span>Favoriter</span><i
-											class="saIcon saIcon far fa-angle-down"
-											aria-hidden="true"></i></button><button
-										class="saButtonFavoritesEdit">Redigera</button></div>
+								<div class="saSideBarFavoritesHeader">
+									<button class="saButtonFavorites" type="button" aria-expanded="true">
+										<span>Favoriter</span><i class="saIcon saIcon far fa-angle-down"
+											aria-hidden="true"></i>
+									</button>
+									<button type="button" class="saButtonFavoritesEdit">Redigera</button>
+								</div>
 								<ul class="saItemList">
-									<li><a class="saItem saFavorite a4deb33fadc364479a9a1c32acd641f3a a0aafda483f6340ad82c8755b3364849a acf6ce255a3d74ccc94f3e7cd2805ab60 a18964bab6eb04756b1a0c92b9f23ad3f saDynamicTooltipJs"
-											tabindex="0" data-sa-minimized-tooltip="Book cal">
-											<div class="saItemInner"><i class="far fa-square icon saIcon"></i><span>Book
-													cal</span></div>
-										</a></li>
-									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="Test">
+									<li>
+										<a class="saItem saFavorite" tabindex="0">
 											<div class="saItemInner"><i
-													class="far fa-cat icon saIcon"></i><span>Test</span></div>
-										</a></li>
-									<li><a class="saItem saFavorite a2ceb4233c0184e6f8aa81ee9994aa66d a44208c4c973042bab354a9532f88c12c a3d73c52c56ea4b5691e8de4502cc8513 ab4ae71c636b745ef9e338d9307ab177d saDynamicTooltipJs"
-											tabindex="0" data-sa-minimized-tooltip="Cats">
+													class="far fa-square icon saIcon"></i><span>Book</span></div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saFavorite" tabindex="0">
 											<div class="saItemInner"><i
-													class="far fa-horse icon saIcon"></i><span>Cats</span></div>
-										</a></li>
-									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="UP: xxx">
+													class="far fa-square icon saIcon"></i><span>Book</span></div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saFavorite" tabindex="0">
 											<div class="saItemInner"><i
-													class="far fa-paragraph icon saIcon"></i><span>UP: xxx</span></div>
-										</a></li>
-									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="Profiler">
-											<div class="saItemInner"><i
-													class="far fa-calendar-clock icon saIcon"></i><span>Profiler</span>
-											</div>
-										</a></li>
-									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="UP: 8758, uråldrigt utseende">
-											<div class="saItemInner"><i class="far fa-square icon saIcon"></i><span>UP:
-													8758, uråldrigt utseende</span></div>
-										</a></li>
-									<li><a class="saItem saFavorite a50342f1bb610408c8e47cb2a557bfdd3 a353e249263b14823bdd58152fedaf720 a1ef831b1621443e3b0397a2875b21c27 a18a00130d6a648258af52b694d34b436 saDynamicTooltipJs"
-											tabindex="0" data-sa-minimized-tooltip="Ny radiocard">
-											<div class="saItemInner"><i class="far fa-plus icon saIcon"></i><span>Ny
-													radiocard</span></div>
-										</a></li>
-									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="Games">
-											<div class="saItemInner"><i
-													class="far fa-square icon saIcon"></i><span>Games</span></div>
-										</a></li>
-									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="Menu group headings">
-											<div class="saItemInner"><i class="far fa-cube icon saIcon"></i><span>Menu
-													group headings</span></div>
-										</a></li>
-									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="UP 9025: Design: Prefix och suffix">
-											<div class="saItemInner"><i class="far fa-plus icon saIcon"></i><span>UP
-													9025: Design: Prefix och suffix</span></div>
-										</a></li>
-									<li><a class="saItem saFavorite ae97b5f3df5954518a0dcc15812d41490 a4d69994a142e410ea8ee06c08220740a aa11621bab52944a782539dfed57fd0f7 af8da30bd68634be7873b91799f19a6fb saDynamicTooltipJs"
-											tabindex="0" data-sa-minimized-tooltip="Roles">
-											<div class="saItemInner"><i
-													class="far fa-cube icon saIcon"></i><span>Roles</span></div>
-										</a></li>
+													class="far fa-square icon saIcon"></i><span>Book</span></div>
+										</a>
+									</li>
 								</ul>
 							</div>
 							<div class="saSideBarGroup">
 								<h3>Meny</h3>
 								<ul class="saItemList">
-									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="AI Gen!!!!">
-											<div class="saItemInner"><i class="fab fa-tiktok icon saIcon"></i><span>AI
-													Gen!!!!</span></div>
-										</a></li>
-									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="Sup 4301">
-											<div class="saItemInner"><i
-													class="far fa-skull-cow icon saIcon"></i><span>Sup 4301</span></div>
-										</a></li>
-									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="UP Collection">
-											<div class="saItemInner"><i
-													class="far fa-cat-space icon saIcon"></i><span>UP Collection</span>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<i class="far fa-cat-space icon saIcon"></i><span>Cats in Space</span>
 											</div>
-										</a></li>
-									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="Todo listTodo listTodo listTodo listTodo list!! :D">
-											<div class="saItemInner"><i
-													class="far fa-face-cowboy-hat icon saIcon"></i><span>Todo listTodo
-													listTodo listTodo listTodo list!! :D</span></div>
-										</a></li>
-									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="Conditional ??">
-											<div class="saItemInner"><i
-													class="far fa-ghost icon saIcon"></i><span>Conditional ??</span>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<i class="far fa-cat-space icon saIcon"></i><span>Cats in Space II: The
+													Famine</span>
 											</div>
-										</a></li>
-									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="Cats">
-											<div class="saItemInner"><i
-													class="far fa-dog icon saIcon"></i><span>Cats</span></div>
-										</a></li>
-									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="Test">
-											<div class="saItemInner"><i
-													class="far fa-cat icon saIcon"></i><span>Test</span></div>
-										</a></li>
+										</a>
+									</li>
 								</ul>
 							</div>
 							<div class="saSideBarGroup">
 								<h3>System</h3>
 								<ul class="saItemList">
-									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="Systemöversikt">
-											<div class="saItemInner"><i
-													class="far fa-chart-column icon saIcon"></i><span>Systemöversikt</span>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<i class="far fa-chart-column icon saIcon"></i>
+												<span>Systemöversikt</span>
 											</div>
-										</a></li>
-									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="Deploy">
-											<div class="saItemInner"><i
-													class="far fa-wifi icon saIcon"></i><span>Deploy</span></div>
-										</a></li>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<i class="far fa-wifi icon saIcon"></i><span>Deploy</span>
+											</div>
+										</a>
+									</li>
 								</ul>
 							</div>
 						</section>
 						<section class="saSideBarSection saSideBarFooter">
 							<div class="saSideBarFooterPrimary">
-								<div class="saListItem"><button class="saAccountDropdown" type="button"
-										aria-expanded="false">
-										<div class="saAccountAvatar" aria-hidden="true">MA</div><span
-											class="saAccountName">Multisoft AB</span><i
+								<div class="saListItem">
+									<button class="saAccountDropdown" type="button" aria-expanded="false">
+										<div class="saAccountAvatar" aria-hidden="true">JK</div>
+										<span class="saAccountName">Jonathan Kevin</span><i
 											class="far fa-angle-down saIcon"></i>
-									</button></div>
-								<ul class="saSideBarToolbar"><button data-tooltip="Softadmin® programmers menu group"><i
-											class="far fa-gear icon saIcon"></i><span>Admin</span></button><button
-										data-tooltip="Database designer"><i
-											class="far fa-chart-network icon saIcon"></i><span>Database
-											designer</span></button><button
-										data-tooltip="Starta ytterligare en session"><i
-											class="far fa-window-restore icon saIcon"></i><span>Ny
-											flik</span></button><button
-										data-tooltip="Visa hjälpsida - Redigera hjälpsida"><i
-											class="far fa-circle-question icon saIcon"></i><span>Visa hjälpsida -
-											Redigera hjälpsida</span></button>
-									<li class="saNotificationsItem"><button id="largeScreenNotifications" type="button"
-											aria-label="Notifieringar" aria-live="polite" data-tooltip="Notifieringar"
+									</button>
+								</div>
+								<ul class="saSideBarToolbar"><button>
+										<i class="far fa-gear icon saIcon"></i><span>Admin</span></button>
+									<button>
+										<i class="far fa-chart-network icon saIcon"></i>
+										<span>Database designer</span></button>
+									<button>
+										<i class="far fa-window-restore icon saIcon"></i><span>Ny flik</span></button>
+									<button>
+										<i class="far fa-circle-question icon saIcon"></i>
+										<span>Visa hjälpsida</span>
+									</button>
+									<li class="saNotificationsItem">
+										<button type="button" aria-label="Notifieringar" aria-live="polite"
 											aria-expanded="false">
-											<div class="saSidenavItem"><i class="far fa-bell saIcon"></i></div>
+											<div class="saSidenavItem">
+												<i class="far fa-bell saIcon"></i>
+											</div>
 											<div class="saBadgeCount saUrgent saEmpty">0</div>
-										</button></li>
+										</button>
+									</li>
 								</ul>
 							</div>
 							<div class="saSideBarFooterSecondary"><a class="saSoftadminLogo" target="_blank"
@@ -254,9 +181,7 @@
 									href="https://www.softadmin.com/"><img class="saLogo"
 										src="./Presentation/img/softadmin-logo-minimized.svg"><img class="saWordmark"
 										src="./Presentation/img/softadmin-logo-expanded.svg"></a><button
-									class="saExpander saDynamicTooltipJs" type="button" aria-label="Minimera menyn"
-									aria-expanded="true" data-sa-minimized-tooltip="Expandera menyn"
-									data-sa-expanded-tooltip="Minimera menyn" data-tooltip="Minimera menyn"><i
+									class="saExpander" type="button" aria-label="Minimera menyn" aria-expanded="true"><i
 										class="far fa-angles-left saIcon"></i></button></div>
 						</section>
 					</nav>
@@ -264,7 +189,7 @@
 			</form>
 		</div>
 		<div class="saRightFrameRoot">
-			<div class="right standardview">
+			<div class="right standardview saPc saLargeScreen saCompact">
 				<div class="pagecontentframe">
 					<form class="interface">
 						<header id="pageheader" class="saPageHeaderHolder">
@@ -274,7 +199,7 @@
 										<div class="saTopRow">
 											<nav class="saBreadcrumbs">
 												<div class="saBackButtonWrapper">
-													<button class="saBackButton" type="button" disabled>
+													<button class="saBackButton" type="button" disabled="">
 														<i class="fa-arrow-left far saBack saIcon"></i>
 													</button>
 												</div>
@@ -308,9 +233,7 @@
 											</button><button class="saNotificationWrapper" type="button"
 												aria-live="polite">
 												<div><i class="far fa-bell saIcon"></i></div>
-												<div class="saNotificationBadge saEmpty" aria-hidden="true">
-													<div class="saNotificationBadgeCount">0</div>
-												</div>
+												<div class="saNotificationBadge saEmpty" aria-hidden="true"></div>
 											</button>
 										</div>
 									</div>
@@ -323,10 +246,27 @@
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner">
-										<div id="colors">
-											<script>
+										<div class="theGrid">
+											<div class="step">1</div>
+											<div class="step">2</div>
+											<div class="step">3</div>
+											<div class="step">4</div>
+											<div class="step">5</div>
+											<div class="step">6</div>
+											<div class="step">7</div>
+											<style>
+												.theGrid {
+													display: flex;
+												gap: 1rem;
+												}
 
-											</script>
+												.step {
+													display: flex;
+													width: 100%;
+													background-color: red;
+													height: 200px;
+												}
+											</style>
 										</div>
 									</div>
 								</div>
@@ -338,5 +278,3 @@
 		</div>
 	</div>
 </body>
-
-</html>

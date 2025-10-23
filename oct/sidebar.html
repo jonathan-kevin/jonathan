@@ -1,0 +1,266 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sidebar</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+	<script type="text/javascript" src="https://livejs.com/live.js"></script>
+	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+</head>
+
+<body class="saRootBody saSmallScreen">
+	<div class="saRootContentWrapper">
+		<div class="saSideBarOuter saClosed"  role="dialog" aria-label="Sidebar">
+			<form name="aspnetForm" method="post" action="./softadmin.aspx" id="aspnetForm">
+				<aside class="saAside">
+					<nav id="SideBar" class="saSideBar saSideBarJs saExpanded" aria-label="Sidomeny">
+						<div class="saAccessibilityBannerHolderJs">
+							<ul class="saAccessibilityBanner">
+								<li><a tabindex="0">Gå till innehåll</a></li>
+								<li><a tabindex="0">Gå till meny</a></li>
+							</ul>
+						</div>
+						<div class="saSideBarHead">
+							<h1 class="saHeaderText">Jonathan AB</h1>
+							<button class="saNavigator" type="button" aria-expanded="false">
+								<i class="saIcon far fa-xmark"></i>
+							</button>
+						</div>
+						<div class="saSideBarContent">
+							<section class="saSideBarSection saSideBarHeader">
+								<img class="saCustomerLogo" alt="Mitt system logotyp"
+									src="./Presentation/img/softadmin-logo-minimized.svg">
+								<ul class="saSideBarInputGroup">
+									<li>
+										<a class="saSideBarSearchLink" tabindex="0" aria-label="Sök...">
+											<div><i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i></div>
+										</a>
+										<label class="saSideBarSearch">
+											<input id="SideBarSearchInput" class="saSearchInput saInputText" type="search"
+												placeholder="Sök..." aria-label="Sök...">
+											<i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i>
+										</label>
+									</li>
+									<li>
+										<label class="saImpersonator">
+											<span class="saLabel">Användare</span>
+											<span class="saFirstLetter">A</span>
+											<select class="saInputText saDropdown">
+												<option value="0" selected="">Jonathan</option>
+												<option value="1">Kevin</option>
+											</select>
+											<i class="saIcon far fa-angle-down saTrailing"></i>
+										</label>
+									</li>
+								</ul>
+							</section>
+							<section class="saSideBarSection saSideBarBody">
+								<div class="saSideBarGroup saSideBarFavorites">
+									<div class="saSideBarFavoritesHeader">
+										<button class="saButtonFavorites" type="button" aria-expanded="true">
+											<span>Favoriter</span><i class="saIcon saIcon far fa-angle-down"
+												aria-hidden="true"></i>
+										</button>
+										<button type="button" class="saButtonFavoritesEdit">Redigera</button>
+									</div>
+									<ul class="saItemList">
+										<li>
+											<a class="saItem saFavorite" tabindex="0">
+												<div class="saItemInner"><i
+														class="far fa-square icon saIcon"></i><span>Book</span></div>
+											</a>
+										</li>
+										<li>
+											<a class="saItem saFavorite" tabindex="0">
+												<div class="saItemInner"><i
+														class="far fa-square icon saIcon"></i><span>Book</span></div>
+											</a>
+										</li>
+										<li>
+											<a class="saItem saFavorite" tabindex="0">
+												<div class="saItemInner"><i
+														class="far fa-square icon saIcon"></i><span>Book</span></div>
+											</a>
+										</li>
+									</ul>
+								</div>
+								<div class="saSideBarGroup">
+									<h3>Meny</h3>
+									<ul class="saItemList">
+										<li>
+											<a class="saItem" tabindex="0">
+												<div class="saItemInner">
+													<i class="far fa-cat-space icon saIcon"></i><span>Cats in Space</span>
+												</div>
+											</a>
+										</li>
+										<li>
+											<a class="saItem" tabindex="0">
+												<div class="saItemInner">
+													<i class="far fa-cat-space icon saIcon"></i><span>Cats in Space II: The
+														Famine</span>
+												</div>
+											</a>
+										</li>
+									</ul>
+								</div>
+								<div class="saSideBarGroup">
+									<h3>System</h3>
+									<ul class="saItemList">
+										<li>
+											<a class="saItem" tabindex="0">
+												<div class="saItemInner">
+													<i class="far fa-chart-column icon saIcon"></i>
+													<span>Systemöversikt</span>
+												</div>
+											</a>
+										</li>
+										<li>
+											<a class="saItem" tabindex="0">
+												<div class="saItemInner">
+													<i class="far fa-wifi icon saIcon"></i><span>Deploy</span>
+												</div>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</section>
+							<section class="saSideBarSection saSideBarFooter">
+								<div class="saSideBarFooterPrimary">
+									<div class="saListItem">
+										<button class="saAccountDropdown" type="button" aria-expanded="false">
+											<div class="saAccountAvatar" aria-hidden="true">JK</div>
+											<span class="saAccountName">Jonathan Kevin</span><i
+												class="far fa-angle-down saIcon"></i>
+										</button>
+									</div>
+									<ul class="saSideBarToolbar"><button>
+											<i class="far fa-gear icon saIcon"></i><span>Admin</span></button>
+										<button>
+											<i class="far fa-chart-network icon saIcon"></i>
+											<span>Database designer</span></button>
+										<button>
+											<i class="far fa-window-restore icon saIcon"></i><span>Ny flik</span></button>
+										<button>
+											<i class="far fa-circle-question icon saIcon"></i>
+											<span>Visa hjälpsida</span>
+										</button>
+										<li class="saNotificationsItem">
+											<button type="button" aria-label="Notifieringar" aria-live="polite"
+												aria-expanded="false">
+												<div class="saSidenavItem">
+													<i class="far fa-bell saIcon"></i>
+												</div>
+											</button>
+										</li>
+									</ul>
+								</div>
+								<div class="saSideBarFooterSecondary"><a class="saSoftadminLogo" target="_blank"
+										rel="noopener noreferrer" tabindex="-1" aria-hidden="true"
+										href="https://www.softadmin.com/"><img class="saLogo"
+											src="./Presentation/img/softadmin-logo-minimized.svg"><img class="saWordmark"
+											src="./Presentation/img/softadmin-logo-expanded.svg"></a><button
+										class="saExpander" type="button" aria-label="Minimera menyn" aria-expanded="true"><i
+											class="far fa-angles-left saIcon"></i></button></div>
+							</section>
+						</div>
+					</nav>
+				</aside>
+			</form>
+		</div>
+		<div class="saPopupOverlay" aria-hidden="true" style="display: none;"></div>
+		<div class="saRightFrameRoot">
+			<div class="right standardview saSmallScreen">
+				<div class="pagecontentframe">
+					<form class="interface">
+						<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs">
+												<div class="saBackButtonWrapper">
+													<button class="saBackButton" type="button" disabled="">
+														<i class="fa-arrow-left far saBack saIcon"></i>
+													</button>
+												</div>
+											</nav>
+										</div>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Test</h1>
+												<div class="saMarkFavorite saNoSpinner"><button type="button">
+													<i class="fas fa-star saFavoriteIcon saFavoriteAdded icon saIcon"></i></button>
+												</div>
+												<ul class="saSpecialLinksWrapper"></ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<button class="saBackButton" type="button">
+												<i class="far fa-arrow-left saBack saIcon"></i>
+											</button>
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+													<h1 class="saHeaderText">Sidebar</h1>
+												</div>
+											</div>
+											<button class="saNotificationWrapper" type="button" aria-expanded="false"><i
+													class="far fa-bell saIcon"></i>
+												<div class="saBadgeCount saUrgent">0</div>
+											</button>
+											<button class="saNavigator" type="button" aria-label="Öppna meny" data-tooltip="Öppna meny"><i class="saIcon far fa-bars"></i></button>
+										</div>
+									</div>
+									<nav class="saBottomRow saActionLinkBar" aria-label="Sidnavigering" style="display: none;">
+										<div class="saTopButtons saActionLinks">
+											<button class="saTopLink saActionLink saButtonSecondary saDestructive" type="button">
+												<div class="saIconHolder" aria-hidden="true">
+													<i class="far fa-trash-can icon saIcon"></i>
+												</div>
+												<span class="saButtonText">Delete Chat</span>
+											</button>
+										</div>
+									</nav>
+								</div>
+							</div>
+						</header>
+						<div class="maincolinner gradients">
+							<main id="MI_M" class="menuitem pagecontentframe">
+								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
+									<div class="scrollcontent-inner">
+										<div style="padding: 1rem;">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris volutpat eleifend semper. Morbi in nunc ac mauris dignissim mollis ac eget sapien. Phasellus sagittis et justo sit amet interdum. Nullam nulla justo, venenatis et quam eu, commodo egestas purus. Sed ac hendrerit nisl, sit amet semper diam. Donec eleifend mauris quam, eget mattis erat maximus ut. Duis non ultrices lacus. Aenean vel ipsum sed erat iaculis volutpat sed vitae erat. Nullam at lacus sed tellus finibus dignissim. Vestibulum molestie ligula tempor facilisis vulputate. Vestibulum sit amet blandit metus. Donec a turpis sit amet lacus interdum posuere at ut ante. Curabitur diam massa, euismod ac diam ac, euismod varius massa. Quisque porta tristique pretium. Duis eleifend tortor ut massa dignissim efficitur. Ut rutrum eget libero vitae finibus. Mauris vehicula metus sit amet urna auctor, blandit laoreet ligula eleifend. Donec vitae tellus eget purus volutpat dapibus. Donec lacinia odio justo, eget dapibus dolor sagittis eu. Vestibulum vel commodo massa, quis dignissim magna. Nulla eu odio at turpis elementum pretium. Donec finibus eros eget mattis finibus. Fusce viverra condimentum risus, elementum volutpat libero accumsan ut. Cras semper eu nisl vitae vulputate. Phasellus bibendum sollicitudin fringilla. In posuere, sem a mollis vehicula, odio augue fermentum augue, eget lobortis nisl dolor et diam. Nullam ultricies tempor diam, et semper dui fringilla non. Vivamus gravida pharetra massa ac efficitur. Curabitur sodales, eros a consectetur bibendum, est mauris sodales urna, ac dignissim tortor nulla sed dui. Integer tincidunt rutrum ultricies. Fusce ut placerat quam. Pellentesque cursus id nisi id finibus. Curabitur ac tincidunt diam. Fusce sed felis non urna tincidunt ultricies. Integer est ex, iaculis in quam a, pulvinar aliquam neque. Mauris non ullamcorper sapien. Aenean ultrices quam ut diam tempor molestie. Vestibulum luctus posuere nisi, eu dictum felis sagittis vel. Donec metus leo, suscipit quis convallis sit amet, iaculis tempor est. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam at auctor nunc, in finibus elit. Nulla eu rutrum est. Vivamus blandit lorem in pharetra placerat. Praesent quis nunc a mauris sagittis molestie sit amet eu mi. Quisque volutpat fermentum tortor non egestas. Sed tincidunt felis at tristique vehicula. Phasellus cursus purus in metus maximus, a facilisis elit viverra. Fusce dui ligula, tempus quis iaculis id, vehicula quis odio. Morbi volutpat in mi sit amet sagittis. Nulla dapibus ex in ipsum eleifend, non suscipit metus elementum. In bibendum, augue eu fringilla maximus, urna eros dictum elit, sit amet dictum magna elit sagittis nulla. Vestibulum auctor nibh vehicula, placerat est at, pulvinar massa. Etiam porttitor venenatis nulla, et ullamcorper neque. Mauris iaculis cursus auctor. Morbi id tortor urna. Cras eu dui pharetra, maximus risus vitae, tempor augue. Praesent dignissim, dui nec rhoncus vestibulum, tellus arcu mattis arcu, non sodales diam mi ac turpis. Morbi vel sapien vel elit porta viverra ac sit amet erat. Aliquam bibendum magna ac elit efficitur suscipit. Quisque bibendum, velit quis ornare tempus, felis eros sollicitudin dui, quis porttitor magna felis ut nisi. In neque ex, malesuada eget convallis vel, condimentum at tortor. Curabitur eget enim quis nunc auctor placerat et at ligula. Quisque orci diam, pharetra vel lorem eu, semper sodales odio. Maecenas orci orci, auctor non ex vitae, ornare finibus mauris. Maecenas vel semper massa, condimentum efficitur odio. Maecenas at ultricies tellus, sed bibendum dui. Interdum et malesuada fames ac ante ipsum primis in faucibus. Etiam quis nunc in nunc sollicitudin volutpat quis sed orci. Praesent vulputate id diam in tristique. Nunc nunc nisi, cursus elementum eleifend in, porttitor nec quam. Donec nisl sapien, scelerisque in consequat id, ultricies ut arcu. Nulla bibendum, lectus ut porttitor tincidunt, nunc augue scelerisque lectus, non consequat enim dolor at neque. Suspendisse a ultricies tortor, ac egestas velit. Praesent accumsan orci vel ante semper, sit amet vehicula nisl sagittis. Nam eu rutrum sem. Sed in sem ante. Fusce eleifend dui quis aliquam vulputate. Mauris tellus nisi, elementum sed massa ut, facilisis ultricies odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas congue semper purus, id accumsan turpis aliquam at. Nam tempor sem vel lectus volutpat, sit amet vehicula ante egestas. Morbi a mi enim. Maecenas cursus commodo erat in commodo. Ut laoreet purus in purus fringilla, non mattis ante hendrerit. Nunc non pulvinar magna. Morbi sollicitudin rutrum dictum. Sed quis leo non dolor egestas volutpat vel sed ipsum. Maecenas eget augue sed leo maximus molestie a eget elit. Sed sed nisi vestibulum, rhoncus orci commodo, porta tellus. Nullam eros erat, interdum eu leo sit amet, faucibus sollicitudin ipsum. Morbi sodales sollicitudin dolor, quis pharetra felis tincidunt et. Sed sagittis semper venenatis. Donec vitae placerat justo. Nulla vitae nulla elementum, semper nisl ut, condimentum mauris. Etiam blandit fringilla euismod. Phasellus placerat viverra egestas. Sed interdum, nunc ultrices tincidunt pretium, mi leo bibendum risus, vel semper lacus ante ac dui. Proin placerat tincidunt orci. Ut tempor leo nisl, eget efficitur lacus ullamcorper ac. Nulla vehicula volutpat efficitur. Sed nisi nulla, venenatis non diam nec, scelerisque vulputate odio. Ut nec velit consequat, consequat massa eget, viverra arcu. Sed congue sodales turpis vitae pharetra. Vivamus laoreet in arcu sit amet mollis. Aliquam at egestas ex, in viverra arcu. Phasellus et neque commodo, efficitur metus nec, dapibus ex. Mauris vitae quam ut nisi rhoncus ultrices vel a eros. Morbi ullamcorper sit amet enim id posuere. Nulla vulputate elementum efficitur. Quisque eu orci ut ante pharetra tincidunt. Phasellus condimentum auctor lorem a venenatis. Aliquam erat volutpat. Nullam eget tempus sem. Suspendisse malesuada fermentum ante vel tincidunt. Sed sed mauris ac mauris eleifend porttitor ac in ligula. In leo nisl, imperdiet et dolor in, cursus mollis tellus. Sed accumsan lorem dui, varius vehicula magna porttitor at. Etiam vestibulum ultricies egestas. Suspendisse ac orci mauris. Sed sit amet elit vel purus placerat scelerisque sit amet et lacus. Sed finibus laoreet venenatis. Nullam id euismod risus. Nullam rutrum ante eget orci vestibulum posuere. Phasellus consectetur massa elit, quis consectetur eros sollicitudin vel. Cras bibendum at magna ut efficitur. Aliquam ut dignissim ex. Donec ut consequat purus. Nulla facilisi. Curabitur ut libero pretium, egestas nisl tincidunt, posuere nunc. Cras nec faucibus nulla. Donec lobortis suscipit eros. Cras varius justo sed ante tristique eleifend. Nulla eu neque ac lacus ultricies auctor. Praesent vitae dui tempor est lobortis euismod vel sit amet est. Aliquam mattis urna at rutrum mattis. Nunc diam neque, elementum finibus nunc at, commodo ornare sapien. Duis iaculis quis metus vitae laoreet. Donec non suscipit magna. Mauris pretium est erat, vestibulum euismod lorem placerat nec. Maecenas sagittis congue tempor. Praesent eget nisl eu massa gravida pharetra sit amet quis ante. Phasellus ac nibh porta, aliquet mauris ut, molestie tellus. Maecenas fermentum massa id nibh blandit porttitor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur quis ex sem. Curabitur sodales eu sem vitae faucibus. Vestibulum ultrices odio eu aliquet sollicitudin. Fusce ornare arcu nec faucibus molestie. Praesent vitae mi et nisl pulvinar pretium. Nunc eleifend leo vel turpis consectetur, bibendum egestas ipsum ultricies. Ut quis felis nec mi gravida convallis finibus eget ante. Duis et sem ligula. Praesent id hendrerit purus, sit amet lobortis ex. Phasellus mollis augue mauris, et tristique arcu pretium vitae. Maecenas lectus lorem, porta id facilisis ut, mollis nec elit. Mauris lobortis metus id fringilla vulputate. Suspendisse potenti. Proin posuere interdum dui, quis tincidunt nibh rhoncus ut. Vestibulum in porta nulla. Ut ex ipsum, lacinia id rhoncus sed, sodales et lacus. In pellentesque mauris eu ante ultrices, vel pharetra elit scelerisque. Sed lacus eros, placerat pharetra dolor at, tincidunt gravida dolor. Donec euismod vehicula diam, quis tincidunt mauris. Curabitur consectetur a elit quis malesuada. Sed tempor tristique bibendum. Integer nec efficitur tellus, quis molestie felis. Aliquam vitae erat ipsum. Donec vel vehicula nisi, sit amet maximus tortor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi et aliquet lorem. Suspendisse potenti. Nam arcu nisi, posuere vel sem et, viverra dapibus lacus. Aenean accumsan quam eros. Ut nec dui consequat, dignissim magna quis, laoreet turpis. Mauris ac augue sed velit efficitur tristique id vitae ante. Ut eleifend arcu sit amet dapibus fermentum. Mauris vel nulla sit amet odio porttitor ullamcorper. In pretium sed mauris eget maximus. Nulla rhoncus interdum nibh vel congue. Sed eu nulla justo. Aliquam diam ex, consequat quis placerat ac, finibus nec sem. Proin sit amet diam eget justo aliquet bibendum quis vitae urna. Nam eu molestie neque. Phasellus dictum ante eget turpis accumsan, in tristique felis convallis. Phasellus quis sodales lacus, id scelerisque nisl. Praesent in tellus hendrerit, dictum neque eget, bibendum nulla. Donec pellentesque, mauris quis blandit posuere, sapien ex sodales orci, sed efficitur libero orci eu ante. Etiam volutpat justo at laoreet bibendum. Mauris id maximus velit. Duis eget tellus sit amet eros fermentum efficitur. Sed sodales ipsum eu justo malesuada varius. Aliquam porta tincidunt fermentum. Integer euismod metus id felis interdum, bibendum lobortis sapien placerat. Pellentesque ornare sagittis orci ut sagittis. Vestibulum cursus blandit neque, vel imperdiet felis tristique tristique. Aenean ullamcorper bibendum quam at viverra. Mauris nisi quam, scelerisque id volutpat imperdiet, porta at urna. Donec vitae congue metus. Proin sollicitudin venenatis tortor eu congue. Sed ac commodo erat, ut sollicitudin enim. Mauris laoreet tristique lectus et egestas. Donec bibendum egestas ultricies. Morbi maximus lobortis arcu, sit amet condimentum erat. Quisque quam lectus, aliquam ac aliquam et, tincidunt non sapien. Nam nulla nisl, egestas congue dictum vel, mattis sed sapien. Etiam sit amet sem eu lacus cursus tristique. Mauris ultricies molestie diam, vel efficitur dolor elementum sit amet. Vivamus ultricies pretium mollis. Suspendisse convallis purus tellus, ac ultrices diam aliquam a. Ut vitae felis elementum, hendrerit tellus at, mattis lorem. Sed consectetur odio ut magna sagittis tincidunt. Donec id mollis massa. Proin ac tristique nulla, at faucibus augue. Suspendisse hendrerit sapien justo, quis laoreet arcu tincidunt in. Sed rhoncus convallis lacus ac finibus. Cras nisl metus, aliquam et lectus et, finibus pulvinar magna. Aenean pretium lacus quis lectus varius, ut aliquet ipsum suscipit. Sed nunc dolor, imperdiet eget blandit venenatis, feugiat pulvinar ante. Integer accumsan mollis felis sed semper. Duis sagittis mi vitae ultricies maximus. Nunc ut viverra est, et fringilla eros. Phasellus tristique fringilla augue sagittis facilisis. Suspendisse id nisl sed diam blandit malesuada vitae quis arcu. Maecenas eu mi id eros aliquet pharetra interdum id est. Donec convallis libero massa. In varius, felis eget fermentum rutrum, velit arcu varius purus, id ultricies massa justo malesuada felis. Curabitur pulvinar tempor lorem vitae fringilla. Pellentesque placerat congue odio, ut mollis mi aliquet vel. Aenean egestas ultrices felis. Nam dapibus dui non tellus condimentum, a feugiat erat consequat. Quisque luctus sed diam non elementum. Vestibulum eu tortor dapibus, molestie lacus sit amet, iaculis mi. Nullam vel nibh et enim rhoncus tristique. Aenean imperdiet semper nulla sit amet consectetur. Sed lacinia ultrices erat, in feugiat lorem aliquet vel. Donec fermentum sapien id dapibus ullamcorper. Integer euismod viverra leo a euismod. Nulla et turpis turpis. Vivamus volutpat consequat venenatis. Suspendisse id purus ut leo venenatis interdum eu non sem. Fusce euismod consequat velit. Mauris finibus nec ligula nec ullamcorper. Morbi laoreet magna eu convallis convallis. Etiam auctor neque elit, eget pellentesque nunc egestas vel. Pellentesque in condimentum ipsum. Morbi id ullamcorper arcu. Sed venenatis diam vitae condimentum iaculis. Suspendisse ultricies non urna eu gravida. Morbi aliquet fringilla magna, nec porta risus. Sed et mauris tristique, iaculis mi quis, posuere augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum orci purus, congue eget tincidunt ut, eleifend ut libero. Nam eget ornare mauris, ut feugiat leo. Nam eleifend suscipit libero ornare viverra. Nam id diam sem. Nunc vel turpis in leo ultrices condimentum. Ut semper nisl ut tellus venenatis, eget fringilla tellus condimentum. Nam eleifend faucibus dignissim. Nunc id ipsum at lectus maximus pharetra. Donec ut rhoncus ante, vulputate lobortis tellus. Curabitur faucibus, lorem sit amet rhoncus bibendum, nunc lacus tincidunt velit, id sagittis magna sapien sed dolor. Phasellus suscipit vulputate nisl at faucibus. Aenean vitae condimentum lectus, eget scelerisque massa. Integer pellentesque porta imperdiet. In id facilisis augue, eu lacinia nulla. Pellentesque feugiat nunc a suscipit varius. Aenean sed congue ipsum. Pellentesque justo elit, condimentum eget feugiat nec, pulvinar sed quam. Mauris imperdiet tellus dui, in vulputate leo mattis non. Praesent molestie maximus urna sed lacinia. Vivamus vel cursus felis, ut rhoncus justo. Praesent feugiat sagittis sapien ut fermentum. Integer laoreet metus mauris, a fermentum eros dapibus et. Sed at elit placerat, hendrerit lorem vitae, vehicula nulla. Aliquam euismod nulla non justo porttitor, a volutpat odio condimentum. Phasellus mi lectus, luctus ut diam quis, convallis mollis lacus. Fusce sed turpis lorem. Ut massa dolor, lacinia a orci non, efficitur ultricies nunc. Praesent sit amet ultrices justo, id luctus libero. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc tempus venenatis est, nec facilisis enim egestas ac. Curabitur ultricies nibh in orci rhoncus faucibus. Aenean id pretium nulla. Donec facilisis elit quis porttitor interdum. Fusce nec justo commodo, porta risus sed, porta ante. Duis in tortor luctus leo facilisis suscipit at in nunc. Morbi ornare nec erat eu gravida. Fusce id tempus magna, sed suscipit erat. Nunc a fringilla diam. Nam pretium lobortis magna. Nullam pellentesque sem sed nisi pellentesque, at sodales sem pellentesque. Aliquam erat volutpat. Aliquam aliquet ex eu auctor dictum. Suspendisse potenti. Aliquam tristique id elit eget vehicula. Pellentesque a dapibus risus. Nullam et accumsan neque. Duis pharetra, sem non aliquet volutpat, diam diam maximus justo, at convallis neque dui a nulla. Phasellus dignissim mattis sapien, in volutpat eros vehicula ac. Integer a metus sit amet sem accumsan sodales. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras sem tellus, pellentesque vel diam sit amet, posuere efficitur neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas ipsum erat, sagittis at feugiat nec, congue sit amet magna. Nunc nec odio vel enim vulputate ultricies vitae ut nulla. Aenean ex ex, lobortis et condimentum et, tincidunt ac dolor. Nunc vulputate arcu urna, id tincidunt lorem vestibulum sed. Fusce at ante ut nunc tempor volutpat. Nunc eu euismod elit, eget sodales diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac odio non risus varius varius. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam lectus turpis, eleifend vel eros at, molestie porta risus. In lacinia a eros rhoncus tincidunt. Mauris tristique bibendum viverra. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In mattis dolor justo, id eleifend magna luctus at. Nullam quis odio risus. Nullam consectetur purus a congue auctor. Curabitur eu magna erat. Pellentesque porttitor orci leo, tempor euismod purus faucibus vitae. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Morbi pharetra leo et purus porta eleifend. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam egestas iaculis felis, varius faucibus libero ullamcorper sit amet. Proin nisl velit, commodo id posuere a, lobortis quis orci. Fusce tristique arcu vitae urna pharetra fringilla. Vestibulum facilisis dignissim mauris, et luctus odio. Nulla vitae ligula ante. Aenean posuere arcu et mauris porta pellentesque. Morbi at neque nisi. Mauris lacinia id tortor at facilisis. In libero diam, mattis vel ultricies non, aliquet eget massa. Praesent sit amet posuere nibh. Etiam neque dui, feugiat in elementum et, mattis at lectus. Fusce id diam magna. Suspendisse potenti. Sed rutrum sed eros ut malesuada. Mauris iaculis vel quam et blandit. Donec nec nulla ac justo vestibulum venenatis id vitae odio. Mauris malesuada risus in mi rhoncus, quis auctor leo dapibus. In pretium mattis mauris ut porta. Donec eget dapibus ante, eget ullamcorper purus. Nulla vehicula augue et nisi dictum posuere. Donec eu turpis tincidunt, auctor justo ut, commodo urna. Integer egestas dignissim tristique. Quisque gravida scelerisque pulvinar. Fusce ipsum quam, pretium et velit eget, viverra cursus arcu. Suspendisse porta ligula non erat ullamcorper, molestie laoreet mi dignissim. Duis in bibendum odio. Sed lorem tellus, fermentum in magna vitae, imperdiet convallis lacus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque ut sodales ex. Cras tristique, eros in volutpat tincidunt, quam nulla condimentum metus, ut semper leo turpis in purus. Aliquam sit amet faucibus neque, in rutrum nulla. Proin iaculis ex non urna venenatis commodo quis nec nulla. Vestibulum dignissim velit sit amet luctus hendrerit. Maecenas suscipit at enim vitae sollicitudin. Donec feugiat nunc nisl, sit amet feugiat dolor congue ac. Ut in volutpat nisl. Sed vel hendrerit felis. Integer sit amet euismod metus, at dapibus nulla. Nam quis mattis leo. Duis venenatis libero mi, eu mattis eros vestibulum et. Mauris vestibulum imperdiet libero ac semper. Donec pharetra arcu urna, vel dapibus odio congue ut. Donec nec est sed orci egestas mollis vel at ante. Nam venenatis, eros eu ultricies mollis, orci dolor commodo lectus, non eleifend odio augue non tellus. Ut velit augue, porttitor et finibus sit amet, efficitur eu enim. Duis commodo sem vel metus semper, sit amet lobortis neque efficitur. Nam quis ante in erat tempus finibus. Ut vitae augue nec ante condimentum finibus. Phasellus non libero ac nunc euismod efficitur. Donec varius bibendum molestie. Nullam tincidunt convallis mi a semper. Donec facilisis semper velit nec condimentum. Pellentesque nec elementum libero, rhoncus facilisis elit. Sed laoreet eros in condimentum dignissim. Nullam venenatis id ante eu tincidunt. Nulla facilisi. Suspendisse facilisis, diam condimentum iaculis elementum, ex justo pulvinar est, vel tincidunt quam magna et diam. Maecenas elit ex, tempor et nisl nec, rhoncus tincidunt massa. Nulla aliquam tortor porttitor arcu rhoncus feugiat id nec justo. Quisque sagittis erat et sem dignissim vehicula. Cras eu lacus in mi dapibus interdum eget id mauris. Etiam blandit augue massa, sed congue augue sollicitudin quis. Cras eu volutpat ante. Nullam vitae molestie mi. Maecenas commodo metus nec nulla blandit, in tristique nunc fringilla. Donec aliquam, urna eu tristique rutrum, enim dolor ullamcorper nulla, ut bibendum augue augue sed libero. Donec eu neque ultricies, cursus nibh eget, ornare diam. Sed vitae mauris consequat, vestibulum eros ut, rutrum metus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras risus risus, tempus nec magna ac, placerat hendrerit libero. Maecenas ut gravida ex. Donec eget lacinia erat. Phasellus ullamcorper venenatis quam eget tristique. Mauris in maximus magna. Nulla in congue dui. Aenean gravida et dolor vitae lacinia. Fusce vel est a sapien porta semper fermentum vel lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Quisque lobortis pharetra quam eu imperdiet. Vivamus lectus lorem, efficitur vitae odio et, ullamcorper consequat risus. Nam eros odio, bibendum accumsan est ac, pellentesque interdum eros. Duis egestas nulla eget velit porta iaculis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut dignissim mi interdum risus consectetur aliquam. Duis pretium mi et nisi sodales, quis commodo diam cursus. Integer sed enim id lorem bibendum rhoncus nec eget eros. Curabitur nisi tortor, bibendum ut quam sit amet, lobortis lacinia purus. Cras ipsum magna, aliquam vel commodo vitae, iaculis eu purus. Suspendisse at arcu dui. Nunc sagittis nisi eget sollicitudin feugiat. Etiam tincidunt consectetur elit, vel molestie diam blandit quis. Duis eu erat quis turpis sollicitudin fermentum. Vivamus auctor egestas tellus. Nullam vulputate lorem vel ante finibus mollis. Nulla consectetur, orci nec vestibulum tempor, nisi neque efficitur ipsum, a lobortis massa ipsum sit amet leo. Fusce rhoncus laoreet condimentum. Integer auctor ut erat id posuere. Nulla sed ultricies leo. Nulla interdum pellentesque tellus at consectetur. Aliquam a orci turpis. Ut imperdiet accumsan metus, at ullamcorper lorem egestas nec. Sed mollis id massa quis posuere. Nullam imperdiet nulla ut mauris interdum vehicula. Phasellus euismod, ex et laoreet eleifend, dui felis vulputate felis, eu luctus massa mi ac nulla. Morbi euismod pulvinar erat sed dapibus. Fusce sapien nibh, egestas non consectetur et, cursus nec lorem. In ut enim dui. Proin vehicula, ipsum nec vehicula congue, justo velit volutpat elit, id scelerisque lectus nisi ac ipsum. Quisque nibh purus, efficitur eget sodales et, semper sit amet felis. In nec eros vitae eros tempus scelerisque eleifend molestie ligula. Maecenas fringilla, velit sed consequat tempus, metus enim tempor justo, at vulputate turpis ante blandit nibh. Maecenas volutpat commodo ultrices. Vestibulum vitae accumsan risus. Mauris leo elit, dictum rutrum finibus et, hendrerit sed eros. Mauris placerat condimentum lacus id blandit. Pellentesque semper tellus vitae mi scelerisque facilisis in non orci. Quisque vel justo et tortor tristique vehicula. Curabitur ornare dictum lectus, eget sodales nisl aliquet sit amet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse scelerisque non dui eget rutrum. Ut quis leo tortor. Nam at convallis dolor, ac sollicitudin nisi. Sed non pharetra tortor, sed ultricies nisi. Pellentesque nec ante vulputate, ultricies metus quis, lacinia augue. Praesent imperdiet molestie ipsum, in suscipit lorem auctor vel. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed bibendum nibh ac gravida hendrerit. Etiam massa neque, interdum et mauris cursus, euismod fringilla quam. Suspendisse dictum elementum orci vel accumsan. Cras justo felis, imperdiet id nisi a, pretium congue magna. Cras semper risus id justo pellentesque, vestibulum iaculis erat tristique. Ut suscipit, lacus eu dignissim aliquam, augue elit vulputate ipsum, at interdum quam justo at orci. In laoreet purus eget ex malesuada maximus in sit amet felis. Praesent sollicitudin consectetur viverra. Etiam pulvinar lorem mauris, vitae pulvinar elit mollis finibus. Sed pellentesque dictum enim, fringilla tempus purus hendrerit sed.
+										</div>
+									</div>
+									<div class="checkbox-filter-wrapper">
+										<div class="label">Åldersgrupp</div>
+										<div role="group" class="checkbox-filter" id="targetGroupFilter" aria-label="Åldersgrupp">
+											<label>
+												<div>0-6 år</div>
+												<input id="0-6 år" type="checkbox" value="0-6 år">
+											</label>
+											...
+										</div>
+									</div>
+								</div>
+							</main>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>

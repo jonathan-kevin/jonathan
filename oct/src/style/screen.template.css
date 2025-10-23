@@ -1,4 +1,93 @@
 @charset "utf-8";
+:root {
+  --Sa-Color-Link: #2d6ce1;
+  --Sa-Color-ControlVisibilityChangeBackground: #f0fcff;
+  --Sa-Color-Icon: #7088a4;
+  --Sa-Color-Label: #313a44;
+  --Sa-Color-SecondaryButtonBackground: #fff;
+  --Sa-Color-PrimaryButtonIcon: #fff;
+  --Sa-Color-PrimaryButtonLabel: #fff;
+  --Sa-Color-GridHead: #f8f9fb;
+  --Sa-Color-GridFoot: #f8f9fb;
+  --Sa-Color-GridRowHighlight: #f8f9fb;
+  --Sa-Color-HeadingText: #313a44;
+  --Sa-Color-MenuGroupFeatureColor1: #2d6ce1;
+  --Sa-Color-MenuGroupFeatureColor2: #8b4af1;
+  --Sa-Color-MenuGroupFeatureColor3: #ca2c9b;
+  --Sa-Color-MenuGroupFeatureColor4: #206678;
+  --Sa-Color-MenuGroupFeatureColor5: #29bb4e;
+  --Sa-Color-TooltipText: #fff;
+  --Sa-Color-TooltipBackground: #313a44;
+  --Sa-Color-GridHeadingText: #313a44;
+  --Sa-Color-InputFieldIconInverted: #fff;
+  --Sa-Color-InfoBoxLabel: #60748b;
+  --Sa-Color-DestructiveButtonBackground: #e0173e;
+  --Sa-Color-PositiveTrend: #008429;
+  --Sa-Color-NegativeTrend: #e0173e;
+  --Sa-Color-NeutralTrend: #60748b;
+  --Sa-Color-InputFieldBorder: #ccd5e2;
+  --Sa-Color-SystemIconBlue: #2d6ce1;
+  --Sa-Color-SystemIconRed: #e0173e;
+  --Sa-Color-SystemIconGreen: #009b36;
+  --Sa-Color-SystemIconYellow: #f6ad00;
+  --Sa-Color-SystemIconBlack: #313a44;
+  --Sa-Color-InfoIndicator: #7088a4;
+  --Sa-Color-GridEditableToggleAndBorder: #8b4af1;
+  --Sa-Color-GridEditableBackground: #f0ebff;
+  --Sa-Color-GridEditableBackgroundHover: #ddccff;
+  --Sa-Color-FieldDescription: #60748b;
+  --Sa-Color-BadgeCountBackground: #dde3ec;
+  --Sa-Color-BadgeCountText: #313a44;
+  --Sa-Color-LinkDisabled: #7088a4;
+  --Sa-Color-Text: #313a44;
+  --Sa-Color-TextSecondary: #60748b;
+  --Sa-Color-IconDark: #60748b;
+  --Sa-Color-Primary50: #f7faff;
+  --Sa-Color-Primary100: #e5efff;
+  --Sa-Color-Primary200: #bbd6ff;
+  --Sa-Color-Primary300: #93bdff;
+  --Sa-Color-Primary400: #6ea3ff;
+  --Sa-Color-Primary500: #4582f4;
+  --Sa-Color-Primary600: #2d6ce1;
+  --Sa-Color-Primary700: #1c57c6;
+  --Sa-Color-Primary800: #0f44a6;
+  --Sa-Color-Primary900: #063384;
+  --Sa-Color-Primary950: #011b50;
+  --Sa-Color-TimelineIconBorder: #ccd5e2;
+  --Sa-Color-TimelineIconBackground: #eef1f5;
+  --Sa-Color-TimelineIconTextHover: #fff;
+  --Sa-Color-TimelineWarning: #b67a00;
+  --Sa-Color-TimelineError: #e0173e;
+  --Sa-Color-TimelineComplete: #009b36;
+  --Sa-Color-TimelineCurrent: #2d6ce1;
+  --Sa-Color-TimelineTextSecondary: #60748b;
+  --Sa-Color-TimelineText: #313a44;
+  --Sa-Color-TimelineIconText: #506072;
+  --Sa-Color-TimelineConnection: #ccd5e2;
+  --Sa-Color-TabText: #313a44;
+  --Sa-Color-TabBackground: #f8f9fb;
+  --Sa-Color-InfoText: #313a44;
+  --Sa-Color-InfoBackground: #f7faff;
+  --Sa-Color-InfoBorder: #2d6ce1;
+  --Sa-Color-InfoIcon: #2d6ce1;
+  --Sa-Color-SuccessText: #313a44;
+  --Sa-Color-SuccessBackground: #f2fcf2;
+  --Sa-Color-SuccessBorder: #009b36;
+  --Sa-Color-SuccessIcon: #009b36;
+  --Sa-Color-WarningText: #313a44;
+  --Sa-Color-WarningBackground: #fff8e7;
+  --Sa-Color-WarningBorder: #f6ad00;
+  --Sa-Color-WarningIcon: #f6ad00;
+  --Sa-Color-ErrorText: #313a44;
+  --Sa-Color-ErrorBackground: #fff7f7;
+  --Sa-Color-ErrorBorder: #e0173e;
+  --Sa-Color-ErrorIcon: #e0173e;
+  --Sa-Color-WarningExpandIcon: #9c6700;
+  --Sa-Color-ErrorExpandIcon: #e0173e;
+  --Sa-Color-InfoExpandIcon: #2d6ce1;
+  --Sa-Color-SuccessExpandIcon: #008429;
+  --Sa-Color-GridHeadSorted: #ccd5e2;
+}
 h1,
 h2,
 h3,
@@ -5745,6 +5834,31 @@ div.saPopupOverlay {
 .saLargeScreen .saSideBarOuter form:first-child {
   height: 100%;
 }
+.saSmallScreen .saSideBarOuter {
+  position: absolute;
+  inset: 0 0 0 auto;
+  z-index: 9999999;
+  width: 90dvw;
+  transition: ease visibility 0.2s;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.saSmallScreen .saSideBarOuter.saClosed {
+  visibility: hidden;
+}
+.saSmallScreen .saSideBarOuter.saClosed .saSideBar {
+  transform: translateX(100%);
+}
+.saSideBarHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.25rem 0.25rem 0.25rem 1rem;
+}
+.saLargeScreen .saSideBarHead {
+  display: none;
+}
 .saAside {
   height: 100%;
   box-sizing: border-box;
@@ -5763,7 +5877,7 @@ div.saPopupOverlay {
   position: relative;
   font-size: 0.875rem;
   color: var(--Sa-Color-Text);
-  transition: ease width 0.2s;
+  transition: ease width 0.2s, ease transform 0.2s;
   interpolate-size: allow-keywords;
 }
 .saSideBar .saSideBarSection {
@@ -5776,8 +5890,10 @@ div.saPopupOverlay {
   display: none;
 }
 .saSmallScreen .saSideBar {
-  width: 100%;
   height: auto;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 -0.5rem 0.5rem rgba(49, 58, 68, 0.07), 0 -0.75rem 1rem rgba(49, 58, 68, 0.07);
 }
 .saSmallScreen .saSideBar .saSideBarSection {
   margin-bottom: 1rem;
@@ -8227,7 +8343,7 @@ li:not(:first-child, :last-child, :only-child) .saSideBar .saToggleCompactWrappe
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--Sa-Color-HeadingText);
+  color: var(--Sa-Color-Text);
 }
 .saPageHeader .saBottomRow {
   display: flex;
@@ -8553,10 +8669,6 @@ li:not(:first-child, :last-child, :only-child) .saSideBar .saToggleCompactWrappe
 .saSmallscreensidebar .saPageHeader .saLogotypeHeader .saTopRow .saIcon {
   color: var(--Sa-Color-Icon);
 }
-.saSmallScreen .saPageHeader .saLogotypeHeader .saTopRow .saNavBarStripe,
-.saSmallscreensidebar .saPageHeader .saLogotypeHeader .saTopRow .saNavBarStripe {
-  background-color: #7088a4;
-}
 .saSmallScreen .saPageHeader .saLogotypeHeader .saBottomRow,
 .saSmallscreensidebar .saPageHeader .saLogotypeHeader .saBottomRow {
   top: 5.5rem;
@@ -8578,12 +8690,12 @@ li:not(:first-child, :last-child, :only-child) .saSideBar .saToggleCompactWrappe
 }
 .saSmallScreen .saPageHeader .saNotificationWrapper,
 .saSmallscreensidebar .saPageHeader .saNotificationWrapper {
-  position: relative;
-  min-width: 2.5rem;
-  height: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  min-width: 2rem;
+  height: 2rem;
   background: none;
   border-radius: 0.5rem;
 }
@@ -8601,18 +8713,65 @@ li:not(:first-child, :last-child, :only-child) .saSideBar .saToggleCompactWrappe
 }
 .saSmallScreen .saPageHeader .saNotificationWrapper .saIcon,
 .saSmallscreensidebar .saPageHeader .saNotificationWrapper .saIcon {
-  font-size: 1.5rem;
-  min-height: 1.625rem;
+  font-size: 1rem;
+  min-height: 1rem;
   color: #fff;
   align-items: start;
 }
 .saSmallScreen .saPageHeader .saBackButton,
 .saSmallscreensidebar .saPageHeader .saBackButton {
-  min-width: 2.5rem;
-  height: 2.5rem;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  min-width: 2rem;
+  height: 2rem;
   position: relative;
   margin-left: -0.5rem;
   background-color: transparent;
+}
+.saSmallScreen .saPageHeader .saBackButton .saButtonText,
+.saSmallscreensidebar .saPageHeader .saBackButton .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saSmallScreen .saPageHeader .saBackButton .saBadgedIcon,
+.saSmallscreensidebar .saPageHeader .saBackButton .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saSmallScreen .saPageHeader .saBackButton .saIcon,
+.saSmallscreensidebar .saPageHeader .saBackButton .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saSmallScreen .saPageHeader .saBackButton:active,
+.saSmallscreensidebar .saPageHeader .saBackButton:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saPageHeader .saBackButton .saIcon,
+.saSmallscreensidebar .saPageHeader .saBackButton .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
 }
 .saSmallScreen .saPageHeader .saBackButton i,
 .saSmallscreensidebar .saPageHeader .saBackButton i {
@@ -8621,7 +8780,7 @@ li:not(:first-child, :last-child, :only-child) .saSideBar .saToggleCompactWrappe
 @media (pointer: fine) {
   .saSmallScreen .saPageHeader .saBackButton:hover,
   .saSmallscreensidebar .saPageHeader .saBackButton:hover {
-    background: none;
+    background: var(--Sa-Color-Primary700);
   }
 }
 .saSmallScreen .saPageHeader .saBackButton:active,
@@ -8639,9 +8798,9 @@ li:not(:first-child, :last-child, :only-child) .saSideBar .saToggleCompactWrappe
 }
 .saSmallScreen .saPageHeader .saTopRow,
 .saSmallscreensidebar .saPageHeader .saTopRow {
-  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  padding: 0.25rem 0.25rem 0.25rem 1rem;
   background: var(--Sa-Color-Primary600);
-  gap: 0.5rem;
+  gap: 0.25rem;
   position: relative;
   max-width: 100%;
   box-sizing: border-box;
@@ -8698,61 +8857,89 @@ li:not(:first-child, :last-child, :only-child) .saSideBar .saToggleCompactWrappe
   text-align: left;
   justify-content: flex-start;
 }
-.saSmallScreen .saPageHeader .saNavigator,
-.saSmallscreensidebar .saPageHeader .saNavigator {
-  display: flex;
-  height: 2.5rem;
-  min-width: 2.5rem;
-  align-items: center;
-  justify-content: space-evenly;
+.saNavigator {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
   border-radius: 0.5rem;
-  transition: all 0.2s;
-  color: var(--Sa-Color-TextSecondary);
-  z-index: 2;
-  position: relative;
-  background: none;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+  background-color: transparent;
+  color: var(--Sa-Color-Icon);
 }
-.saSmallScreen .saPageHeader .saNavigator:active,
-.saSmallscreensidebar .saPageHeader .saNavigator:active {
+.saNavigator .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saNavigator .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saNavigator .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saNavigator:active {
+  border-radius: 0.75rem;
+}
+@media (pointer: fine) {
+  .saNavigator:hover {
+    background-color: var(--Sa-Color-Primary100);
+  }
+  .saNavigator:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+}
+.saNavigator:active {
+  background-color: var(--Sa-Color-Primary200);
+}
+.saNavigator:active .saIcon {
+  color: var(--Sa-Color-Primary700);
+}
+.saTopRow .saNavigator {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saTopRow .saNavigator:hover {
+    background-color: var(--Sa-Color-Primary700);
+  }
+  .saTopRow .saNavigator:hover .saIcon {
+    color: #fff;
+  }
+}
+.saTopRow .saNavigator:active {
+  background-color: var(--Sa-Color-Primary800);
+}
+.saTopRow .saNavigator:active .saIcon {
+  color: #fff;
+}
+.saSmallScreen .saNavigator {
+  display: flex;
+}
+.saNavigator:active {
   color: var(--Sa-Color-Primary800);
 }
 .saSmallScreen.saPopup .saNavigator {
   display: none;
-}
-.saNavBar {
-  width: 1.5rem;
-  cursor: pointer;
-  display: flex;
-  gap: 0.5rem;
-  flex-direction: column;
-}
-.saNavBarStripe {
-  display: block;
-  width: 100%;
-  border-radius: 2px;
-  height: 2px;
-  background: #fff;
-  transition: all 0.3s;
-  position: relative;
-}
-.saActive .saNavBarStripe:nth-child(1) {
-  animation: ease 0.4s top-1 forwards;
-}
-.saInactive .saNavBarStripe:nth-child(1) {
-  animation: ease 0.4s top-2 forwards;
-}
-.saActive .saNavBarStripe:nth-child(2) {
-  animation: ease 0.4s scaled-1 forwards;
-}
-.saInactive .saNavBarStripe:nth-child(2) {
-  animation: ease 0.4s scaled-2 forwards;
-}
-.saActive .saNavBarStripe:nth-child(3) {
-  animation: ease 0.4s bottom-1 forwards;
-}
-.saInactive .saNavBarStripe:nth-child(3) {
-  animation: ease 0.4s bottom-2 forwards;
 }
 .saLargeScreen.saMiniView .saPageHeader {
   margin: 0 1.5rem 0 1.5rem;
@@ -9062,6 +9249,7 @@ li:not(:first-child, :last-child, :only-child) .saSideBar .saToggleCompactWrappe
   padding: 1rem;
 }
 .saAlert .saAlertMessage {
+  color: var(--Sa-Color-Text);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -13008,6 +13196,7 @@ li:not(:first-child, :last-child, :only-child) .saSideBar .saToggleCompactWrappe
   margin: -0.5rem 0;
 }
 .saCarouselInfo .saCarouselInfoDescription {
+  color: var(--Sa-Color-Text);
   font-size: 0.875rem;
   font-weight: 300;
 }
@@ -14374,6 +14563,7 @@ select.saInputText {
 }
 .saInputAffixWrapper {
   display: flex;
+  align-items: center;
   height: 2rem;
   gap: 0.25rem;
   border-radius: 0.5rem;
@@ -14434,6 +14624,17 @@ select.saInputText {
 .saInputAffixWrapper:has(:disabled) .saInputAffixText {
   color: #adbdd1;
 }
+.saInputAffixWrapper .saInputAffixText {
+  max-width: 80%;
+}
+.saInputAffixWrapper:has(.saInputAffixText ~ .saInputAffixText) .saInputAffixText {
+  max-width: 40%;
+}
+.saGridInputAffixWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
 .saInputAffix {
   appearance: none;
   -webkit-appearance: none;
@@ -14463,19 +14664,19 @@ select.saInputText {
   transition: background-color 100000s ease-in-out 0s;
 }
 .saInputAffixText {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   background-color: transparent;
   pointer-events: none;
   color: var(--Sa-Color-TextSecondary);
-  white-space: nowrap;
+  flex-shrink: 0;
 }
 @keyframes saFieldLabelVisibilityChanged {
   from {
@@ -20869,7 +21070,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saMenuBoxWrapper .saMenuBoxHeading {
   font-size: 1rem;
-  color: var(--Sa-Color-HeadingText);
+  color: var(--Sa-Color-Text);
   padding-left: 0.5rem;
   padding-top: 0.5rem;
   font-weight: 600;
@@ -21627,13 +21828,21 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   overflow: hidden;
   padding: 2px 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
   grid-auto-flow: row;
 }
 .saSmallScreen .saTimeline {
   padding: 2px 0.5rem;
   gap: 0rem;
   grid-template-columns: repeat(auto-fit, minmax(2.75rem, 1fr));
+}
+.saLargeScreen .saTimeline.saSmall {
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+}
+.saLargeScreen .saTimeline.saMedium {
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+}
+.saLargeScreen .saTimeline.saLarge {
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
 }
 .saTimeline .saStep {
   position: relative;
@@ -24866,6 +25075,7 @@ body.saMiniView {
 }
 .saPdfTemplateEditor .saPlaceholderValue {
   display: flex;
+  color: black;
   box-shadow: inset 0 0 0 1px #b78eff;
   font-size: 0.875rem;
   line-height: 1;
@@ -29472,7 +29682,7 @@ a.saKpiOuter:active {
 .saQrWrapper .saQrCountdownText {
   font-size: 0.875rem;
   line-height: normal;
-  color: #506072;
+  color: var(--Sa-Color-Text);
 }
 .saErrorSummaryWrapper {
   display: flex;
@@ -31378,7 +31588,7 @@ a.saKpiOuter:active {
   position: relative;
   min-width: 2.5rem;
   font-size: 1.25rem;
-  color: var(--Sa-Color-TextSecondary);
+  color: var(--Sa-Color-Icon);
 }
 .saPlanner .saToggleGroup label:first-child {
   border-radius: 0.5rem 0 0 0.5rem;
@@ -31505,7 +31715,7 @@ a.saKpiOuter:active {
   fill: var(--Sa-Color-TextSecondary);
 }
 .saInfoSqlChartWrapper .saChartWrapper .saChartAxisTitle {
-  color: var(--Sa-Color-Text);
+  fill: var(--Sa-Color-Text);
 }
 .saInfoSqlChartWrapper .saChartWrapper .saXAxis {
   color: #ccd5e2;
@@ -31534,7 +31744,7 @@ a.saKpiOuter:active {
   stroke-opacity: 0;
 }
 .saInfoSqlChartWrapper .saChartWrapper .saBarLabel {
-  fill: #404c5b;
+  fill: var(--Sa-Color-Text);
   font-weight: 600;
 }
 .saInfoSqlChartWrapper .saChartWrapper .saStackedPartLabel {

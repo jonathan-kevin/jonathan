@@ -85,4 +85,26 @@ $(document).ready(function () {
 		updateResponsiveClasses();
 	});
 
+	$(document).on('click', function(event) {
+		if (!$(event.target).closest('.saSideBarOuter').length &&
+			!$(event.target).closest('.saNavigator').length) {
+			$(".saSideBarOuter").addClass("saClosed");
+			$(".saNavigator").removeClass("saActive");
+			$('.scrollcontent').css('overflow', 'auto');
+		}
+	});
+
+	$(".saNavigator").click(function () {
+		$(".saSideBarOuter").toggleClass("saClosed");
+
+		if (!$(".saSideBarOuter").hasClass("saClosed")) {
+			$(".saNavBar").addClass("saActive").removeClass("saInactive");
+			$('.scrollcontent').css('overflow', 'hidden');
+			$('.saPopupOverlay').show();
+		} else {
+			$(".saNavBar").removeClass("saActive").addClass("saInactive");
+			$('.scrollcontent').css('overflow', 'auto');
+			$('.saPopupOverlay').hide();
+		}
+	});
 });
