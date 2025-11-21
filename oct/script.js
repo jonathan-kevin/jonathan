@@ -221,11 +221,6 @@ $(document).ready(function () {
 		// apply translate
 		$header.css('transform', 'translateY(' + newTranslateY + 'px)');
 
-		// compute and apply opacity: 1 when visible, 0 when fully hidden
-		let opacity = (1 - Math.min(1, Math.abs(newTranslateY) / $headerHeight)).toFixed(2);
-
-		$header.css('opacity', opacity);
-
 		// Add/remove class when header is fully hidden
 		if (newTranslateY <= -$headerHeight) {
 			$header.addClass('saHidden');
