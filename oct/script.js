@@ -13,11 +13,6 @@ $(document).ready(function () {
 
 	const $body = $(".right.standardview, body");
 	const $sideBar = $(".saSideBarJs");
-	const $dlg = $(".saSideBarOuter");
-	let startX = 0;
-	let currentX = 0;
-	let dragging = false;
-
 
 	$($body).addClass("saPc saLargeScreen saCompact");
 	$('body').append(theToggler);
@@ -90,96 +85,121 @@ $(document).ready(function () {
 		updateResponsiveClasses();
 	});
 
-	$(".saNotifications").click(function () {
-		$('.saPopupOverlay').show();
-		$('.saNotificationsWrapper').removeClass('saClosed');
-		$('html').css('overflow', 'hidden');
-		$('.saNotificationsWrapper').css({
-			right: "0",
-			transition: "ease right 0s, ease transform 0.2s, ease visibility 0.2s"
-		});
 
-	});
+	// Shared elements
+	const $overlay = $('.saPopupOverlay');
+	const $html = $('html');
 
-	$(".saCloseModal").click(function () {
-		$('.saPopupOverlay').hide();
-		$('.saNotificationsWrapper').addClass('saClosed');
-		$('html').css('overflow', 'auto');
-	});
+	let dragging = false;
+	let startX = 0;
+	let startY = 0;
+	let currentX = 0;          // positive when dragged left
+	let activePanel = null;
 
-	$(".saNavigator").click(function () {
-		$dlg.toggleClass("saClosed");
-
-		if (!$dlg.hasClass("saClosed")) {
-			$dlg.css({
-				right: "0",
-				transition: "ease right 0s, ease transform 0.2s, ease visibility 0.2s"
-			});
-			$('html').css('overflow', 'hidden');
-			$('.saPopupOverlay').show();
-		} else {
-			$('html').css('overflow', 'auto');
-			$('.saPopupOverlay').hide();
-		}
-	});
+	const DISMISS_THRESHOLD = 120;
+	const VERTICAL_TOLERANCE = 15;
 
 	function getClientX(e) {
 		const ev = e.originalEvent || e;
-		if (ev.touches && ev.touches.length) {
-			return ev.touches[0].clientX;
-		}
-		if (ev.changedTouches && ev.changedTouches.length) {
-			return ev.changedTouches[0].clientX;
-		}
-		return ev.clientX;
+		return (ev.touches?.[0] || ev.changedTouches?.[0] || ev).clientX;
+	}
+	function getClientY(e) {
+		const ev = e.originalEvent || e;
+		return (ev.touches?.[0] || ev.changedTouches?.[0] || ev).clientY;
 	}
 
-	$dlg.on("mousedown touchstart", function (e) {
+	// Open any panel
+	function openPanel($panel) {
+		// Important: clear any leftover inline right from previous drag
+		$panel.css({
+			right: 0,
+			transition: 'right 0.2s ease, transform 0.2s ease, visibility 0.2s ease'
+		});
+		$panel.removeClass('saClosed');
+		$html.css('overflow', 'hidden');
+		$overlay.show();
+	}
+
+	// Close both panels without resetting inline styles
+	function closePanels() {
+		$('.saSideBarOuter, .saNotificationsWrapper')
+			.addClass('saClosed');   // <-- let CSS handle the final position + transition
+
+		$html.css('overflow', 'auto');
+		$overlay.hide();
+	}
+
+	// Click handlers
+	$('.saNotifications').on('click', () => openPanel($('.saNotificationsWrapper')));
+	$('.saNavigator').on('click', () => openPanel($('.saSideBarOuter')));
+
+	$overlay.on('click', closePanels);
+
+	// ------------------ Drag-to-dismiss ------------------
+	$('.saSideBarOuter, .saNotificationsWrapper').on('mousedown touchstart', function (e) {
+		if ($(this).hasClass('saClosed')) return;
+
+		activePanel = $(this);
 		dragging = true;
+		currentX = 0;
+
 		startX = getClientX(e);
+		startY = getClientY(e);
+
+		// Force open position + remove transition for smooth dragging
+		activePanel.css({
+			right: 0,
+			transition: 'none'
+		});
 	});
-	$('.saNotificationsWrapper').on("mousedown touchstart", function (e) {
-		dragging = true;
-		startX = getClientX(e);
-	});
 
-	$(document).on("mousemove touchmove", function (e) {
-		if (!dragging) return;
+	$(document).on('mousemove touchmove', function (e) {
+		if (!dragging || !activePanel) return;
 
-		currentX = getClientX(e) - startX;
+		const deltaX = getClientX(e) - startX;
+		const deltaY = getClientY(e) - startY;
 
-		if (currentX > 0) {
-			$dlg.css("right", `-${currentX}px`);
-			$('.saNotificationsWrapper').css("right", `-${currentX}px`);
+		// Cancel if user is scrolling vertically
+		if (Math.abs(deltaY) > VERTICAL_TOLERANCE && Math.abs(deltaY) > Math.abs(deltaX)) {
+			dragging = false;
+			activePanel = null;
+			return;
 		}
+
+		currentX = Math.max(0, deltaX);  // only allow dragging left
+		activePanel.css('right', -currentX + 'px');
 	});
 
-	$(document).on("mouseup touchend", function () {
-		if (!dragging) return;
-		dragging = false;
+	$(document).on('mouseup touchend touchcancel', function () {
+		if (!dragging || !activePanel) {
+			dragging = false;
+			activePanel = null;
+			return;
+		}
 
-		// threshold before dismissing
-		if (currentX > 120) {
-			$dlg.addClass("saClosed");
-			$('.saNotificationsWrapper').addClass('saClosed');
+		const shouldDismiss = currentX > DISMISS_THRESHOLD;
 
-			$('html').css('overflow', 'auto');
-			$('.saPopupOverlay').hide();
-
+		if (shouldDismiss) {
+			// Keep the current inline "right: -xxxpx" and just add the closed class
+			// → the panel continues sliding out smoothly with CSS transition
+			activePanel.css({
+				transition: 'right 0s ease, transform 0.2s ease, visibility 0.2s ease'
+			});
+			closePanels();
 		} else {
-			// snap back
-			$dlg.css({
-				right: "0",
-				transition: "ease right 0.2s, ease transform 0.2s, ease visibility 0.2s"
-			});
-			$('.saNotificationsWrapper').css({
-				right: "0",
-				transition: "ease right 0.2s, ease transform 0.2s, ease visibility 0.2s"
+			// Snap back to open
+			activePanel.css({
+				right: 0,
+				transition: 'right 0.2s ease, transform 0.2s ease, visibility 0.2s ease'
 			});
 		}
 
+		dragging = false;
+		activePanel = null;
 		currentX = 0;
 	});
+
+	$('.saCloseModal').on('click', closePanels);
 
 
 	let $lastScrollTop = 0;
