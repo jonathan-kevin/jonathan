@@ -149,7 +149,8 @@ $(document).ready(function () {
 		// Force open position + remove transition for smooth dragging
 		activePanel.css({
 			right: 0,
-			transition: 'none'
+			transition: 'right 0s ease, transform 0.2s ease, visibility 0.2s ease',
+			overflow: 'auto'
 		});
 	});
 
@@ -167,6 +168,7 @@ $(document).ready(function () {
 		}
 
 		currentX = Math.max(0, deltaX);  // only allow dragging left
+		activePanel.css('overflow', 'hidden');
 		activePanel.css('right', -currentX + 'px');
 	});
 
@@ -183,14 +185,17 @@ $(document).ready(function () {
 			// Keep the current inline "right: -xxxpx" and just add the closed class
 			// → the panel continues sliding out smoothly with CSS transition
 			activePanel.css({
-				transition: 'right 0s ease, transform 0.2s ease, visibility 0.2s ease'
+				transition: 'right 0s ease, transform 0.2s ease, visibility 0.2s ease',
+				overflow: 'auto'
 			});
+
 			closePanels();
 		} else {
 			// Snap back to open
 			activePanel.css({
 				right: 0,
-				transition: 'right 0.2s ease, transform 0.2s ease, visibility 0.2s ease'
+				transition: 'right 0.2s ease, transform 0.2s ease, visibility 0.2s ease',
+				overflow: 'auto'
 			});
 		}
 
