@@ -206,6 +206,31 @@ $(document).ready(function () {
 
 	$('.saCloseModal').on('click', closePanels);
 
+	// Close panels when clicking/touching outside them (and not while dragging)
+	$(document).on('mousedown touchstart', function (e) {
+		if (dragging) return; // don't close while user is dragging a panel
+
+		// If any panel is open
+		const anyOpen = $('.saSideBarOuter, .saNotificationsWrapper').filter(function () {
+			return !$(this).hasClass('saClosed');
+		}).length > 0;
+
+		if (!anyOpen) return;
+
+		// If the event target is not inside a panel, the overlay, or a control that opens them, close panels
+		const $target = $(e.target);
+		if ($target.closest('.saSideBarOuter, .saNotificationsInner, .saPopupOverlay, .saNotifications, .saNavigator, #theToggler').length === 0) {
+			closePanels();
+		}
+	});
+
+	// Close panels on Escape
+	$(document).on('keydown', function (e) {
+		if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
+			closePanels();
+		}
+	});
+
 
 	let $lastScrollTop = 0;
 	let $header = $('#pageheader');
