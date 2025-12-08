@@ -5877,6 +5877,139 @@ div.saPopupOverlay {
     left: -25rem;
   }
 }
+.saTagGroup {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.saTagGroup .saTag {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  height: 1.5rem;
+  background-color: #dde3ec;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  box-sizing: border-box;
+}
+.saTagGroup .saTag.saDisabled {
+  background-color: #eef1f5;
+  color: #adbdd1;
+}
+.saTagGroup .saTagIcon {
+  font-size: 0.75rem;
+  color: #7088a4;
+  margin-left: -0.375rem;
+}
+.saTagGroup button {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  color: var(--Sa-Color-Primary600);
+  background: transparent;
+  width: 20px;
+  height: 20px;
+  border-radius: 8px;
+  margin-right: -0.625rem;
+}
+.saTagGroup button .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saTagGroup button .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saTagGroup button .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saTagGroup button .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saTagGroup button.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saTagGroup button.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saTagGroup button.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saTagGroup button.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saTagGroup button.saDestructive:active {
+  color: #fff;
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saTagGroup button.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saTagGroup button:hover {
+    background-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary600);
+  }
+  .saTagGroup button:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+}
+.saTagGroup button:active {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+}
+.saTagGroup button:active .saIcon {
+  color: var(--Sa-Color-Primary700);
+}
+.saTagGroup button:disabled,
+.saTagGroup button.saDisabled {
+  color: #adbdd1;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saTagGroup button:disabled .saIcon,
+.saTagGroup button.saDisabled .saIcon {
+  color: #adbdd1;
+}
+@media (pointer: fine) {
+  .saTagGroup button:hover {
+    background-color: #e0173e;
+    color: #fff;
+  }
+  .saTagGroup button:hover .saIcon {
+    color: #fff;
+  }
+}
+.saTagGroup button:active {
+  background-color: #bf0024;
+  color: #fff;
+  border-radius: 1rem;
+}
+.saTagGroup button:active .saIcon {
+  color: #fff;
+}
 .saLargeScreen .saSideBarOuter form:first-child {
   height: 100%;
 }
@@ -9881,6 +10014,134 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   border-radius: 0.75rem;
 }
 .saSmallScreen .saDefaultButtonSecondary .saIcon {
+  font-size: 1.25rem;
+  min-width: 1.625rem;
+}
+.saDefaultButtonGhost {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  color: var(--Sa-Color-Primary600);
+  background: transparent;
+}
+.saDefaultButtonGhost .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saDefaultButtonGhost .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultButtonGhost .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultButtonGhost .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saDefaultButtonGhost.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultButtonGhost.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saDefaultButtonGhost.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saDefaultButtonGhost.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saDefaultButtonGhost.saDestructive:active {
+  color: #fff;
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultButtonGhost.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saDefaultButtonGhost:hover {
+    background-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary600);
+  }
+  .saDefaultButtonGhost:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+}
+.saDefaultButtonGhost:active {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+}
+.saDefaultButtonGhost:active .saIcon {
+  color: var(--Sa-Color-Primary700);
+}
+.saDefaultButtonGhost:disabled,
+.saDefaultButtonGhost.saDisabled {
+  color: #adbdd1;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saDefaultButtonGhost:disabled .saIcon,
+.saDefaultButtonGhost.saDisabled .saIcon {
+  color: #adbdd1;
+}
+.saStandard .saDefaultButtonGhost {
+  gap: 0.5rem;
+  height: 2.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+}
+.saStandard .saDefaultButtonGhost:active {
+  border-radius: 0.75rem;
+}
+.saStandard .saDefaultButtonGhost .saIcon {
+  font-size: 1.25rem;
+  min-width: 1.625rem;
+}
+.saCompact .saDefaultButtonGhost {
+  gap: 0.5rem;
+  padding: 0.5rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}
+.saCompact .saDefaultButtonGhost:active {
+  border-radius: 0.75rem;
+}
+.saCompact .saDefaultButtonGhost .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
+}
+.saSmallScreen .saDefaultButtonGhost {
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  height: 2.75rem;
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+}
+.saSmallScreen .saDefaultButtonGhost:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saDefaultButtonGhost .saIcon {
   font-size: 1.25rem;
   min-width: 1.625rem;
 }

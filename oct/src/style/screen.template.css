@@ -90,38 +90,6 @@
   --Sa-Color-MenuGroupFeatureColor1-Brightness180: #e5efff;
   --Sa-Color-MenuGroupFeatureColor1-Brightness190: #e5efff;
 }
-.saAppInstructions {
-  width: fit-content;
-  box-sizing: border-box;
-}
-.saSmallScreen .saAppInstructions {
-  padding: 1rem;
-  width: 100%;
-}
-.saAppInstructions p {
-  margin: 0.5rem 0;
-}
-.saAppInstructions h2 {
-  margin: -0.25rem 0 0.5rem 0;
-}
-.saAppInstructions ol {
-  margin: 0;
-  padding-inline-start: 1.5rem;
-}
-.saAppInstructions li {
-  margin-top: 1rem;
-}
-.saAppInstructions img {
-  max-width: 100%;
-  height: auto;
-  margin-right: 1rem;
-}
-.saAppInstructions .saDefaultButtonPrimary {
-  margin-top: 1.5rem;
-}
-.saSmallScreen .saAppInstructions .saDefaultButtonPrimary {
-  width: 100%;
-}
 h1,
 h2,
 h3,
@@ -5480,7 +5448,6 @@ div.saPopupOverlay {
   font-weight: 500;
   margin-bottom: -0.25rem;
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
@@ -5490,6 +5457,15 @@ div.saPopupOverlay {
   padding: 0.5rem 0.5rem 0.5rem 1rem;
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(8px);
+}
+.saNotificationsWrapper .saNotificationsHeader h2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.saSmallScreen .saNotificationsWrapper .saNotificationsHeader h2 {
+  font-size: 1rem;
+  line-height: 1.25rem;
 }
 .saNotificationsWrapper .saNotificationsHeader h3 {
   color: var(--Sa-Color-Text);
@@ -8317,6 +8293,7 @@ li:not(:first-child, :last-child, :only-child) .saSideBar .saToggleCompactWrappe
 .saSmallScreen .saPageHeaderHolder {
   box-sizing: border-box;
   position: sticky;
+  overflow: hidden;
   top: 0;
   z-index: 99;
   background-color: rgba(255, 255, 255, 0.8);
@@ -8812,6 +8789,43 @@ li:not(:first-child, :last-child, :only-child) .saSideBar .saToggleCompactWrappe
 }
 .saButtonHeader:active {
   border-radius: 0.75rem;
+}
+.saButtonHeader .saBadgeCount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1rem;
+  box-sizing: border-box;
+  min-width: 1rem;
+  color: var(--Sa-Color-BadgeCountText);
+  background-color: var(--Sa-Color-BadgeCountBackground);
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0.25rem;
+  transition: ease background-color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.saButtonHeader .saBadgeCount.saUrgent {
+  color: #fff;
+  background-color: #e0173e;
+}
+.saButtonHeader::after {
+  content: '';
+  height: 2.75rem;
+  width: 2.75rem;
+  position: absolute;
+  opacity: 0;
+}
+.saNotifications.saButtonHeader::after {
+  left: -0.625rem;
+}
+.saNavigator.saButtonHeader::after {
+  right: -0.625rem;
+}
+.saCloseModal.saButtonHeader::after {
+  right: unset;
 }
 .saButtonHeader .saBadgeCount {
   position: absolute;
