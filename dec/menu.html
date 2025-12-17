@@ -1,0 +1,1155 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Jonathan</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+	<script type="text/javascript" src="https://livejs.com/live.js"></script>
+	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+</head>
+
+<body class="saRootBody saLargeScreen saPc saCompact">
+	<div class="saPopupOverlay saBottomSheetOverlay" style="display: none;">
+    	<div class="saBottomSheet" role="dialog" id="popup" aria-modal="true" style="height: 80dvh; bottom: 0;">
+    	    <div class="saSheetHeader">
+    	        <div class="saSheetDragHandle">
+    	            <div class="saDraggableThumb"></div>
+    	        </div>
+    	    </div>
+    	    <div class="saSheetContent">
+				<div class="saInputTextWrapper">
+					<input
+						type="search"
+						class="menu-target saInputText"
+						data-menu="actionContextMenuSmall"
+						aria-controls="actionContextMenuSmall"
+						aria-label="Search options"
+						title="Settings"
+						aria-expanded="true"
+						aria-activedescendant=""
+						aria-autocomplete="list"
+						aria-expanded="true"
+						style="padding-right: 2.75rem;"
+					>
+					<div class="saTrailingIconsWrapper" style="right: 1rem;"><i class="saIcon far fa-search"></i></div>
+				</div>
+				<div id="actionContextMenuSmall" class="saContextMenu saSmallScreenMenu" role="menu">
+					<button id="theOption1Small" class="saOptionWrapper" type="button" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-lock"></i>
+							<div class="saOptionText">Claim ticket</div>
+						</div>
+					</button>
+					<a id="theOption2Small" href="#" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-hat-cowboy"></i>
+							<div class="saOptionText">Open</div>
+							<div class="saBadgeCount">1</div>
+						</div>
+					</a>
+					<div id="theOption3Small" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far far fa-arrow-alt-circle-right"></i>
+							<div class="saOptionText">Move to next</div>
+							<div class="saBadgeCount saUrgent">2</div>
+						</div>
+					</div>
+					<a id="theOption4Small" class="saOptionWrapper saDisabled" role="menuitem" aria-disabled="true" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-skull"></i>
+							<div class="saOptionText">Dead link with count</div>
+							<div class="saBadgeCount">2</div>
+						</div>
+					</a>
+					<a id="theOption5Small" class="saOptionWrapper saDisabled" role="menuitem" aria-disabled="true" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-skull"></i>
+							<div class="saOptionText">Dead link</div>
+						</div>
+					</a>
+					<button id="theOption6Small" class="saOptionWrapper saDisabled" role="menuitem" aria-disabled="true" tabindex="-1" disabled>
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-cow"></i>
+							<div class="saOptionText">Dead button</div>
+						</div>
+					</button>
+					<hr>
+					<div id="theOption7Small" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-pen"></i>
+							<div class="saOptionText">Edit</div>
+						</div>
+					</div>
+					<div id="theOption8Small" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-copy"></i>
+							<div class="saOptionText">Copy</div>
+						</div>
+					</div>
+					<div id="theOption9Small" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-wand-sparkles"></i>
+							<div class="saOptionText">Magicify</div>
+						</div>
+					</div>
+					<hr>
+					<div id="theOption10Small" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-palette"></i>
+							<div class="saOptionText">Categorize</div>
+						</div>
+					</div>
+					<div id="theOption11Small" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-bomb"></i>
+							<div class="saOptionText">Convert to Action Item</div>
+						</div>
+					</div>
+					<div id="theOption12Small" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-bookmark"></i>
+							<div class="saOptionText">Bookmark this</div>
+						</div>
+					</div>
+					<button id="theOption13Small" class="saOptionWrapper" type="button" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-star"></i>
+							<div class="saOptionText">Add Favorite</div>
+						</div>
+					</button>
+					<hr>
+					<button id="theOption14Small" class="saOptionWrapper saDestructive" type="button" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-trash-alt"></i>
+							<div class="saOptionText">Delete message</div>
+						</div>
+					</button>
+				</div>
+			</div>
+    	</div>
+	</div>
+	<div class="saRootContentWrapper">
+		<div class="saSideBarOuter">
+			<form name="aspnetForm" method="post" action="./softadmin.aspx" id="aspnetForm">
+				<aside class="saAside">
+					<nav id="SideBar" class="saSideBar saSideBarJs saExpanded" aria-label="Sidomeny">
+						<div class="saAccessibilityBannerHolderJs">
+							<ul class="saAccessibilityBanner">
+								<li><a tabindex="0">Gå till innehåll</a></li>
+								<li><a tabindex="0">Gå till meny</a></li>
+							</ul>
+						</div>
+						<div class="saPageHeader saSmallScreenHeader">
+							<div class="saHeader">
+								<div class="saTopRow">
+									<div class="saHeaderWrapper">
+										<div class="saTitle">
+											<h1>KOLL</h1>
+										</div>
+									</div>
+									<button class="saNotificationWrapper" type="button" aria-live="polite"
+										aria-expanded="false" aria-label="83 Notifieringar">
+										<i class="far fa-bell saIcon"></i>
+										<div class="saBadgeCount saUrgent">83</div>
+									</button>
+									<button class="saNavigator" type="button" aria-label="Stäng meny"
+										data-tooltip="Stäng meny">
+										<div class="saNavBar">
+											<span class="saNavBarStripe"></span>
+											<span class="saNavBarStripe"></span>
+											<span class="saNavBarStripe"></span>
+										</div>
+									</button>
+								</div>
+							</div>
+						</div>
+						<section class="saSideBarSection saSideBarHeader saSideBarSectionJs">
+							<img class="saCustomerLogo" alt="KOLL logotyp"
+								src="../Content.ashx?h=1wvgjNzlYUjYTnoIZyOXkI2qOf8">
+							<ul class="saSideBarInputGroup">
+								<li>
+									<a class="saSideBarSearchLink" tabindex="0">
+										<div><i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i></div>
+									</a>
+									<label class="saSideBarSearch">
+										<input id="SideBarSearchInput" class="saSearchInput saInputText" type="search"
+											placeholder="Sök...">
+										<i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i>
+									</label>
+								</li>
+								<li class="saMenuDropdowns">
+									<div class="saMenuDropdown saInputTextWrapper">
+										<span class="saFirstLetter">U</span>
+										<select class="saInputText saDropdown">
+											<option value="8687" selected="">UP 8888 (Softadmin)</option>
+										</select>
+										<i class="saIcon far fa-angle-down saTrailing"></i>
+									</div>
+								</li>
+							</ul>
+						</section>
+						<section class="saSideBarSection saSideBarBody saSideBarSectionJs">
+							<div class="saSideBarGroup saSideBarFavorites">
+								<div class="saSideBarFavoritesHeader">
+									<button class="saButtonFavorites" type="button"
+										aria-expanded="true"><span>Favoriter</span>
+										<i class="saIcon saIcon far fa-angle-down" aria-hidden="true"></i>
+									</button>
+									<button class="saButtonFavoritesMinimized" type="button" aria-expanded="true"
+										data-tooltip="Dölj favoriter">
+										<i class="saIcon saIcon far fa-angle-down" aria-hidden="true"></i>
+									</button>
+									<button class="saButtonFavoritesEdit">Redigera</button>
+								</div>
+								<ul class="saItemList">
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Dagsrapportering">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i
+														class="far fa-clock-rotate-left icon saIcon"></i></div>
+												<span>Dagsrapportering</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Leveranser">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="saC sa-truck-left icon saIcon"></i>
+												</div><span>Leveranser</span>
+											</div>
+										</a></li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Meny</h3>
+								<ul class="saItemList">
+									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Startsida">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i
+														class="far fa-house-window icon saIcon"></i></div>
+												<span>Startsida</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Min Sida">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i
+														class="far fa-circle-user icon saIcon"></i></div><span>Min
+													Sida</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Infobanken">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="fab fa-leanpub icon saIcon"></i>
+												</div><span>Infobanken</span>
+											</div>
+										</a></li>
+								</ul>
+							</div>
+						</section>
+						<section class="saSideBarSection saSideBarFooter saSideBarSectionJs">
+							<div class="saSideBarFooterPrimary">
+								<div class="saListItem">
+									<button class="saAccountDropdown" type="button" aria-expanded="false">
+										<img src="../src/img/chat-1.jpg" aria-hidden="true" class="saAccountAvatar">
+										<span class="saAccountName">Jonathan Kevin</span>
+										<i class="far fa-angle-down saIcon"></i>
+									</button>
+								</div>
+								<ul class="saSideBarToolbar">
+									<li>
+										<button data-tooltip="Starta ytterligare en session">
+											<div class="saIconWrapper"><i class="far fa-window-restore icon saIcon"></i>
+											</div><span>Ny flik</span>
+										</button>
+									</li>
+									<li>
+										<button data-tooltip="Visa hjälpsida - Redigera hjälpsida">
+											<div class="saIconWrapper"><i
+													class="far fa-circle-question icon saIcon"></i></div><span>Visa
+												hjälpsida - Redigera hjälpsida</span>
+										</button>
+									</li>
+									<li class="saNotificationsItem" aria-expanded="false">
+										<button id="largeScreenNotifications" type="button" aria-label="83 Notifieringar"
+											aria-live="polite" data-tooltip="Notifieringar" aria-expanded="true"
+											aria-describedby="TooltipScreenReader79">
+											<div class="saSidenavItem"><i class="far fa-bell saIcon"></i></div>
+											<div class="saBadgeCount saUrgent">83</div>
+										</button>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarFooterSecondary"><a class="saSoftadminLogo" target="_blank"
+									rel="noopener noreferrer" tabindex="-1" aria-hidden="true"
+									href="https://www.multisoft.se/softadmin/"><img class="saLogo"
+										src="./Presentation/img/softadmin-logo-minimized.svg"><img class="saWordmark"
+										src="./Presentation/img/softadmin-logo-expanded.svg"></a><button
+									class="saExpander saDynamicTooltipJs" type="button" aria-label="Minimera menyn"
+									aria-expanded="true" data-sa-minimized-tooltip="Expandera menyn"
+									data-sa-expanded-tooltip="Minimera menyn" data-tooltip="Minimera menyn"
+									aria-describedby="TooltipScreenReader84"><i
+										class="far fa-angles-left saIcon"></i></button></div>
+						</section>
+					</nav>
+				</aside>
+			</form>
+		</div>
+		<div class="saRightFrameRoot">
+			<div class="right standardview saPc saLargeScreen saCompact">
+				<div class="pagecontentframe">
+					<form class="interface">
+						<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs">
+												<div class="saBackButtonWrapper">
+													<button class="saBackButton" type="button" disabled="">
+														<i class="fa-arrow-left far saBack saIcon"></i>
+													</button>
+												</div>
+											</nav>
+										</div>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Test</h1>
+												<div class="saMarkFavorite saNoSpinner"><button type="button"><i
+															class="fas fa-star saFavoriteIcon saFavoriteAdded icon saIcon"></i></button>
+												</div>
+												<ul class="saSpecialLinksWrapper"></ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+													<h1 class="saHeaderText">Test</h1>
+												</div>
+											</div><button class="saNavigator" type="button">
+												<div class="saNavBar"><span class="saNavBarStripe"></span><span
+														class="saNavBarStripe"></span><span
+														class="saNavBarStripe"></span>
+												</div>
+											</button><button class="saNotificationWrapper" type="button"
+												aria-live="polite">
+												<div><i class="far fa-bell saIcon"></i></div>
+												<div class="saNotificationBadge saEmpty" aria-hidden="true"></div>
+											</button>
+										</div>
+									</div>
+									<nav class="saBottomRow saActionLinkBar" style="display: none;"></nav>
+								</div>
+							</div>
+						</header>
+						<div class="maincolinner gradients">
+							<main id="MI_M" class="menuitem pagecontentframe">
+								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
+									<div class="scrollcontent-inner saInputPage ">
+
+										<div class="menu-target-group" style="padding: 1rem;">
+
+											<!-- 1. Settings  -->
+											<div class="relative">
+												<label class="saLabel" for="settings">Settings</label>
+												<div class="saInputTextWrapper">
+													<input
+														type="search"
+														class="menu-target saInputText"
+														data-menu="settingsContextMenu"
+														aria-controls="settingsContextMenu"
+														aria-label="Settings"
+														title="Settings"
+														aria-expanded="true"
+														role="combobox"
+														aria-activedescendant="option1"
+														aria-autocomplete="list"
+														value="Creators mode"
+														id="settings">
+												</div>
+
+												<ul id="settingsContextMenu" class="saContextMenu saOpen" role="listbox">
+
+													<li id="optionn0" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon" aria-hidden="true"></i>
+															<div class="saOptionText">Beast mode</div>
+														</div>
+													</li>
+													<li id="optionn1" class="saOptionWrapper saFocus" role="option" tabindex="-1" aria-selected="true">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon  far fa-check" aria-hidden="true"></i>
+															<div class="saOptionText">Story mode</div>
+														</div>
+													</li>
+													<li id="optionn2" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon" aria-hidden="true"></i>
+															<div class="saOptionText">Creators mode</div>
+														</div>
+													</li>
+
+													<li id="optionn3" class="saOptionWrapper"  role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon" aria-hidden="true"></i>
+															<div class="saOptionText">Advanced mode</div>
+														</div>
+													</li>
+													<li id="optionn4" class="saOptionWrapper saDisabled" role="option" tabindex="-1" aria-selected="false" aria-disabled="true">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon" aria-hidden="true"></i>
+															<div class="saOptionText">God mode (unavailable)</div>
+														</div>
+													</li>
+												</ul>
+											</div>
+
+											<!-- 2. Toggle Context Menu -->
+											<div class="relative">
+												<button type="button" class="menu-target saDefaultButtonSecondary"
+														data-menu="toggleContextMenu"
+														aria-controls="toggleContextMenu"
+														aria-label="Toggle"
+														title="Toggle"
+														aria-expanded="false">
+													<i class="saIcon fas fa-toggle-on"></i>
+												</button>
+												<ul id="toggleContextMenu" class="saContextMenu saOpen" role="menu">
+													<li>
+														<label id="toggle1" class="saOptionWrapper" tabindex="-1" aria-checked="false">
+															<div class="saOption">
+																<div class="saOptionText">
+																	<div class="saOptionTitle">Bird mode</div>
+																	<p class="saOptionDescription">Active the Power of the Bird</p>
+																</div>
+																<input type="checkbox" class="saToggle" name="birdPower" id="birdPower">
+															</div>
+														</label>
+													</li>
+													<li>
+														<hr>
+													</li>
+													<li>
+														<button type="button" id="toggle2" class="saOptionWrapper" tabindex="-1">
+															<div class="saOption">
+																<i class="saIcon saOptionIcon far fa-turtle"></i>
+																<div class="saOptionText">Slow down</div>
+																<div class="saOptionShortCut"><kbd>ctrl</kbd><span>+</span><kbd>D</kbd></div>
+															</div>
+														</button>
+													</li>
+													<li>
+														<button type="button" id="toggle3" class="saOptionWrapper" tabindex="-1">
+															<div class="saOption">
+																<i class="saIcon saOptionIcon far fa-pen"></i>
+																<div class="saOptionText">Edit</div>
+																<div class="saOptionShortCut"><kbd>alt</kbd><span>+</span><kbd>shift</kbd><span>+</span><kbd>E</kbd></div>
+															</div>
+														</button>
+													<li>
+													</li>
+														<button type="button" id="toggle4" class="saOptionWrapper" tabindex="-1">
+															<div class="saOption">
+																<i class="saIcon saOptionIcon far fa-copy"></i>
+																<div class="saOptionText">Copy</div>
+																<div class="saOptionShortCut"><kbd>ctrl</kbd><span>+</span><kbd>C</kbd></div>
+															</div>
+														</button>
+													</li>
+													<li>
+														<button type="button" id="toggle5" class="saOptionWrapper" tabindex="-1">
+															<div class="saOption">
+																<i class="saIcon saOptionIcon far fa-paste"></i>
+																<div class="saOptionText">Paste</div>
+																<div class="saOptionShortCut"><kbd>ctrl</kbd><span>+</span><kbd>V</kbd></div>
+															</div>
+														</button>
+													</li>
+												</ul>
+											</div>
+
+											<!-- 3. General Actions Context Menu -->
+											<div class="relative">
+												<button type="button" class="menu-target saDefaultButtonSecondary"
+														data-menu="actionContextMenu"
+														aria-controls="actionContextMenu"
+														aria-haspopup="menu"
+														aria-label="More actions"
+														title="More actions"
+														aria-expanded="false">
+													<i class="saIcon far fa-ellipsis-v"></i>
+												</button>
+												<div id="actionContextMenu" class="saContextMenu saOpen" role="menu">
+													<button id="theOption1" class="saOptionWrapper" type="button" role="menuitem" tabindex="-1">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon far fa-lock"></i>
+															<div class="saOptionText">Claim ticket</div>
+														</div>
+													</button>
+													<a id="theOption2" href="#" class="saOptionWrapper" role="menuitem" tabindex="-1">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon far fa-hat-cowboy"></i>
+															<div class="saOptionText">Open</div>
+															<div class="saBadgeCount">1</div>
+														</div>
+													</a>
+													<a href="#" id="theOption3" class="saOptionWrapper" role="menuitem" tabindex="-1">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon far far fa-arrow-alt-circle-right"></i>
+															<div class="saOptionText">Move to next</div>
+															<div class="saBadgeCount saUrgent">2</div>
+														</div>
+													</a>
+													<a id="theOption4" class="saOptionWrapper saDisabled" role="menuitem" aria-disabled="true" tabindex="-1">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon far fa-skull"></i>
+															<div class="saOptionText">Dead link with count</div>
+															<div class="saBadgeCount">2</div>
+														</div>
+													</a>
+													<a id="theOption5" class="saOptionWrapper saDisabled" role="menuitem" aria-disabled="true" tabindex="-1">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon far fa-skull"></i>
+															<div class="saOptionText">Dead link</div>
+														</div>
+													</a>
+													<button id="theOption6" class="saOptionWrapper saDisabled" role="menuitem" aria-disabled="true" tabindex="-1" disabled>
+														<div class="saOption">
+															<i class="saIcon saOptionIcon far fa-cow"></i>
+															<div class="saOptionText">Dead button</div>
+														</div>
+													</button>
+													<hr>
+													<button type="button" id="theOption7" class="saOptionWrapper" role="menuitem" tabindex="-1">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon far fa-pen"></i>
+															<div class="saOptionText">Edit</div>
+														</div>
+													</button>
+													<a href="#" id="theOption8" class="saOptionWrapper" role="menuitem" tabindex="-1">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon far fa-copy"></i>
+															<div class="saOptionText">Copy</div>
+														</div>
+													</a>
+													<a href="#" id="theOption9" class="saOptionWrapper" role="menuitem" tabindex="-1">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon far fa-wand-sparkles"></i>
+															<div class="saOptionText">Magicify</div>
+														</div>
+													</a>
+													<hr>
+													<button type="button" id="theOption10" class="saOptionWrapper" role="menuitem" tabindex="-1">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon far fa-palette"></i>
+															<div class="saOptionText">Categorize</div>
+														</div>
+													</button>
+													<a href="#" id="theOption11" class="saOptionWrapper" role="menuitem" tabindex="-1">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon far fa-bomb"></i>
+															<div class="saOptionText">Convert to Action Item</div>
+														</div>
+													</a>
+													<a href="#" id="theOption12" class="saOptionWrapper" role="menuitem" tabindex="-1">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon far fa-bookmark"></i>
+															<div class="saOptionText">Bookmark this</div>
+														</div>
+													</a>
+													<button id="theOption13" class="saOptionWrapper" type="button" role="menuitem" tabindex="-1">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon far fa-star"></i>
+															<div class="saOptionText">Add Favorite</div>
+														</div>
+													</button>
+													<hr>
+													<button id="theOption14" class="saOptionWrapper saDestructive" type="button" role="menuitem" tabindex="-1">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon far fa-trash-alt"></i>
+															<div class="saOptionText">Delete message</div>
+														</div>
+													</button>
+												</div>
+											</div>
+
+											<!-- 5. Search / No Results Menu (e.g. inside a search dropdown) -->
+											<div class="relative">
+												<label class="saLabel" for="noResults">No results</label>
+												<div class="saInputTextWrapper">
+													<input
+														type="search"
+														class="menu-target saInputText"
+														data-menu="emptyContextMenu"
+														aria-controls="emptyContextMenu"
+															aria-label="Search options"
+														title="Settings"
+														aria-expanded="true"
+														aria-activedescendant=""
+														aria-autocomplete="list"
+														aria-expanded="false"
+														id="noResults">
+												</div>
+
+												<ul id="emptyContextMenu" class="saContextMenu saOpen" role="listbox">
+													<div class="saOptionWrapper saNoResults" role="presentation" tabindex="-1">
+														<div class="saOption">
+															<i class="saIcon saOptionIcon far fa-search"></i>
+															<div class="saOptionText">No results</div>
+														</div>
+													</div>
+												</ul>
+											</div>
+
+											<!-- 6. Search (e.g. inside a search dropdown) -->
+											<div class="relative">
+												<label class="saLabel" for="searching">Searching</label>
+												<div class="saInputTextWrapper">
+													<input
+														type="search"
+														class="menu-target saInputText"
+														data-menu="searchContextMenu"
+														aria-controls="searchContextMenu"
+														aria-label="Search options"
+														title="Searching"
+														aria-expanded="true"
+														role="combobox"
+														aria-activedescendant="optiony2"
+														aria-autocomplete="list"
+														aria-expanded="false"
+														value="Dove"
+														id="searching">
+												</div>
+
+												<ul id="searchContextMenu" class="saContextMenu saOpen" role="listbox">
+													<li id="optiony1" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">Crow</div>
+														</div>
+													</li>
+													<li id="optiony2" class="saOptionWrapper saFocus" role="option" tabindex="-1" aria-selected="true">
+														<div class="saOption">
+															<div class="saOptionText">Dove</div>
+														</div>
+													</li>
+													<li id="optiony3" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">Kiwi</div>
+														</div>
+													</li>
+													<li id="optiony4" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">Kråka</div>
+														</div>
+													</li>
+													<li id="optiony5" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">Seagull</div>
+														</div>
+													</li>
+													<li id="optiony6" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">X-Wing</div>
+														</div>
+													</li>
+												</ul>
+											</div>
+											<!-- multi columns -->
+											<div class="relative">
+												<label class="saLabel" for="columns">Columns</label>
+												<div class="saInputTextWrapper">
+													<input type="search" class="menu-target saInputText"
+														data-menu="columnContextMenu"
+														aria-controls="columnContextMenu"
+														aria-haspopup="listbox"
+														aria-label="Options with columns"
+														title="Columns"
+														aria-expanded="false"
+														aria-activedescendant="optionx1"
+														role="combobox"
+														value="Ipsumq Kevijs"
+														id="columns">
+												</div>
+												<ul id="columnContextMenu" class="saContextMenu saOptionColumns saOpen" role="listbox">
+													<li id="optionx1" class="saOptionRow saFocus" role="option" tabindex="-1" aria-selected="true">
+														<div class="saOptionCell">Sarah Anderson</div>
+														<div class="saOptionCell saOptionDescription">Senior Developer</div>
+														<div class="saOptionCell saOptionDescription">Active 2 hours ago</div>
+													</li>
+													<li id="optionx2" class="saOptionRow" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOptionCell">Marcus Chen</div>
+														<div class="saOptionCell saOptionDescription">Product Manager</div>
+														<div class="saOptionCell saOptionDescription">Active 15 minutes ago</div>
+													</li>
+													<li id="optionx3" class="saOptionRow" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOptionCell">Elena Rodriguez</div>
+														<div class="saOptionCell saOptionDescription">UX Designer</div>
+														<div class="saOptionCell saOptionDescription">Active 1 hour ago</div>
+													</li>
+													<li id="optionx4" class="saOptionRow" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOptionCell">David Thompson</div>
+														<div class="saOptionCell saOptionDescription">QA Engineer</div>
+														<div class="saOptionCell saOptionDescription">Active 30 minutes ago</div>
+													</li>
+													<li id="optionx5" class="saOptionRow" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOptionCell">Lisa Park</div>
+														<div class="saOptionCell saOptionDescription">DevOps Specialist</div>
+														<div class="saOptionCell saOptionDescription">Active 45 minutes ago</div>
+													</li>
+												</ul>
+											</div>
+
+											<div class="relative">
+												<label class="saLabel" for="columnsCheck">Columns checked</label>
+												<div class="saInputTextWrapper">
+													<input type="search" class="menu-target saInputText"
+														data-menu="columnsCheckContextMenu"
+														aria-controls="columnsCheckContextMenu"
+														aria-haspopup="listbox"
+														aria-label="Options in columns with checkmark"
+														title="Columns checked"
+														aria-expanded="false"
+														aria-activedescendant="optionF1"
+														role="combobox"
+														value="Ipsumq Kevijs"
+														id="columns">
+												</div>
+												<ul id="columnsCheckContextMenu" class="saContextMenu saOptionColumns saOpen" role="listbox">
+													<li id="optionF1" class="saOptionRow saFocus" role="option" tabindex="-1" aria-selected="true">
+														<div class="saOptionCell"><i class="saIcon saOptionIcon far fa-check"></i></div>
+														<div class="saOptionCell">Sarah Anderson</div>
+														<div class="saOptionCell saOptionDescription">Senior Developer</div>
+														<div class="saOptionCell saOptionDescription">Active 2 hours ago</div>
+													</li>
+													<li id="optionF2" class="saOptionRow" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOptionCell"><i class="saIcon saOptionIcon"></i></div>
+														<div class="saOptionCell">Marcus Chen</div>
+														<div class="saOptionCell saOptionDescription">Product Manager</div>
+														<div class="saOptionCell saOptionDescription">Active 15 minutes ago</div>
+													</li>
+													<li id="optionF3" class="saOptionRow" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOptionCell"><i class="saIcon saOptionIcon"></i></div>
+														<div class="saOptionCell">Elena Rodriguez</div>
+														<div class="saOptionCell saOptionDescription">UX Designer</div>
+														<div class="saOptionCell saOptionDescription">Active 1 hour ago</div>
+													</li>
+													<li id="optionF4" class="saOptionRow" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOptionCell"><i class="saIcon saOptionIcon"></i></div>
+														<div class="saOptionCell">David Thompson</div>
+														<div class="saOptionCell saOptionDescription">QA Engineer</div>
+														<div class="saOptionCell saOptionDescription">Active 30 minutes ago</div>
+													</li>
+													<li id="optionF5" class="saOptionRow" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOptionCell"><i class="saIcon saOptionIcon"></i></div>
+														<div class="saOptionCell">Lisa Park</div>
+														<div class="saOptionCell saOptionDescription">DevOps Specialist</div>
+														<div class="saOptionCell saOptionDescription">Active 45 minutes ago</div>
+													</li>
+												</ul>
+											</div>
+
+											<!-- multi rows -->
+											<div class="relative">
+												<label class="saLabel" for="rows">Rows (for smallscreen)</label>
+												<div class="saInputTextWrapper">
+													<input
+														type="search"
+														class="menu-target saInputText"
+														data-menu="rowsContextMenu"
+														aria-controls="rowsContextMenu"
+														aria-label="Rows"
+														title="Rows"
+														aria-expanded="true"
+														role="combobox"
+														aria-activedescendant="optiones1"
+														aria-autocomplete="list"
+														aria-expanded="false"
+														value="Dove"
+														id="rows">
+												</div>
+
+												<ul id="rowsContextMenu" class="saContextMenu saOpen" role="listbox">
+													<li id="optiones1" class="saOptionWrapper saFocus" role="option" tabindex="-1" aria-selected="true">
+														<div class="saOption">
+															<div class="saOptionText">
+																<div class="saOptionTitle">Sarah Anderson</div>
+																<div class="saOptionDescription">Senior Developer</div>
+																<div class="saOptionDescription">Active 2 hours ago</div>
+															</div>
+														</div>
+													</li>
+													<li id="optiones2" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">
+																<div class="saOptionTitle">Marcus Chen</div>
+																<div class="saOptionDescription">Product Manager</div>
+																<div class="saOptionDescription">Active 15 minutes ago</div>
+															</div>
+														</div>
+													</li>
+													<li id="optiones3" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">
+																<div class="saOptionTitle">Elena Rodriguez</div>
+																<div class="saOptionDescription">UX Designer</div>
+																<div class="saOptionDescription">Active 1 hour ago</div>
+															</div>
+														</div>
+													</li>
+													<li id="optiones4" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">
+																<div class="saOptionTitle">David Thompson</div>
+																<div class="saOptionDescription">QA Engineer</div>
+																<div class="saOptionDescription">Active 30 minutes ago</div>
+															</div>
+														</div>
+													</li>
+													<li id="optiones5" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">
+																<div class="saOptionTitle">Lisa Park</div>
+																<div class="saOptionDescription">DevOps Specialist</div>
+																<div class="saOptionDescription">Active 45 minutes ago</div>
+															</div>
+														</div>
+													</li>
+												</ul>
+											</div>
+
+											<!-- Time -->
+											<div class="relative">
+												<label class="saLabel" for="time">Time</label>
+												<div class="saInputTextWrapper">
+													<input type="text"
+														class="menu-target saInputText"
+														data-menu="timeContextMenu"
+														aria-controls="timeContextMenu"
+														aria-haspopup="listbox"
+														aria-label="Time"
+														title="Columns"
+														aria-expanded="false"
+														aria-activedescendant="option0930"
+														role="combobox"
+														value="02:30"
+														id="time"
+														pattern="^[0-9,.;\-]+$"
+														maxlength="5"
+														minlength="3">
+												</div>
+												<ul id="timeContextMenu" class="saContextMenu saOpen" role="listbox">
+													<li id="option0000" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">00:00</div>
+														</div>
+													</li>
+													<li id="option0030" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">00:30</div>
+														</div>
+													</li>
+													<li id="option0600" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">06:00</div>
+														</div>
+													</li>
+													<li id="option0030" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">01:00</div>
+														</div>
+													</li>
+													<li id="option0130" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">01:30</div>
+														</div>
+													</li>
+													<li id="option0200" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">02:00</div>
+														</div>
+													</li>
+													<li id="option0230" class="saOptionWrapper saFocus" role="option" tabindex="-1" aria-selected="true">
+														<div class="saOption">
+															<div class="saOptionText">02:30</div>
+														</div>
+													</li>
+													<li id="option0300" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">03:00</div>
+														</div>
+													</li>
+													<li id="option0330" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">03:30</div>
+														</div>
+													</li>
+													<li id="option0400" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">04:00</div>
+														</div>
+													</li>
+													<li id="option0430" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">04:30</div>
+														</div>
+													</li>
+													<li id="option0500" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">05:00</div>
+														</div>
+													</li>
+													<li id="option0530" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">05:30</div>
+														</div>
+													</li>
+													<li id="option0600" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">06:00</div>
+														</div>
+													</li>
+													<li id="option0630" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">06:30</div>
+														</div>
+													</li>
+													<li id="option0700" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">07:00</div>
+														</div>
+													</li>
+													<li id="option0730" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">07:30</div>
+														</div>
+													</li>
+													<li id="option0800" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">08:00</div>
+														</div>
+													</li>
+													<li id="option0830" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">08:30</div>
+														</div>
+													</li>
+													<li id="option0900" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">09:00</div>
+														</div>
+													</li>
+													<li id="option0930" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">09:30</div>
+														</div>
+													</li>
+													<li id="option1000" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">10:00</div>
+														</div>
+													</li>
+													<li id="option1030" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">10:30</div>
+														</div>
+													</li>
+													<li id="option1100" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">11:00</div>
+														</div>
+													</li>
+													<li id="option1130" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">11:30</div>
+														</div>
+													</li>
+													<li id="option1200" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">12:00</div>
+														</div>
+													</li>
+													<li id="option1230" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">12:30</div>
+														</div>
+													</li>
+													<li id="option1300" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">13:00</div>
+														</div>
+													</li>
+													<li id="option1330" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">13:30</div>
+														</div>
+													</li>
+													<li id="option1400" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">14:00</div>
+														</div>
+													</li>
+													<li id="option1430" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">14:30</div>
+														</div>
+													</li>
+													<li id="option1500" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">15:00</div>
+														</div>
+													</li>
+													<li id="option1530" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">15:30</div>
+														</div>
+													</li>
+													<li id="option1600" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">16:00</div>
+														</div>
+													</li>
+													<li id="option1630" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">16:30</div>
+														</div>
+													</li>
+													<li id="option1700" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">17:00</div>
+														</div>
+													</li>
+													<li id="option1730" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">17:30</div>
+														</div>
+													</li>
+													<li id="option1800" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">18:00</div>
+														</div>
+													</li>
+													<li id="option1830" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">18:30</div>
+														</div>
+													</li>
+													<li id="option1900" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">19:00</div>
+														</div>
+													</li>
+													<li id="option1930" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">19:30</div>
+														</div>
+													</li>
+													<li id="option2000" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">20:00</div>
+														</div>
+													</li>
+													<li id="option2030" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">20:30</div>
+														</div>
+													</li>
+													<li id="option2100" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">21:00</div>
+														</div>
+													</li>
+													<li id="option2130" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">21:30</div>
+														</div>
+													</li>
+													<li id="option2200" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">22:00</div>
+														</div>
+													</li>
+													<li id="option2230" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">22:30</div>
+														</div>
+													</li>
+													<li id="option2300" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">23:00</div>
+														</div>
+													</li>
+													<li id="option2330" class="saOptionWrapper" role="option" tabindex="-1" aria-selected="false">
+														<div class="saOption">
+															<div class="saOptionText">23:30</div>
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</main>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function () {
+
+			$(document).on('click', '.menu-target', function(e) {
+				e.stopPropagation();
+				const menuId = $(this).data('menu');
+				const $menu = $('#' + menuId);
+
+				// Close all other menus
+				$('.saContextMenu').not($menu).removeClass('saOpen');
+
+				// Toggle current menu
+				$menu.toggleClass('saOpen');
+				$(this).attr('aria-expanded', $menu.hasClass('saOpen'));
+			});
+
+			$(document).on('click', '.saContextMenu [role="option"]', function(e) {
+				e.stopPropagation();
+				const $menu = $(this).closest('.saContextMenu');
+				const menuId = $menu.attr('id');
+				const $trigger = $('[data-menu="' + menuId + '"]');
+				const optionText = $(this).find('.saOptionText').text();
+
+				// Update aria-selected
+				$menu.find('[role="option"]').attr('aria-selected', 'false').removeClass('saFocus');
+				$menu.find('.saOptionIcon').removeClass('far fa-check');
+				$(this).attr('aria-selected', 'true').addClass('saFocus');
+				$(this).find('.saOptionIcon').addClass('far fa-check');
+
+				// Update input value
+				$trigger.val(optionText);
+			});
+
+			$(document).on('click', function(e) {
+				if (!$(e.target).closest('.menu-target, .saContextMenu').length) {
+					$('.saContextMenu').removeClass('saOpen');
+					$('.menu-target').attr('aria-expanded', 'false');
+				}
+			});
+
+
+		});
+	</script>
+</body>
