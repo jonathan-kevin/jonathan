@@ -100,11 +100,22 @@
   --Sa-Color-SuccessExpandIcon: #008429;
   --Sa-Color-GridHeadSorted: #ccd5e2;
   --Sa-Color-White: #fff;
-  --Sa-Color-FavoriteUnchecked: #8fa5c0;
-  --Sa-Color-FavoriteChecked: #ffcd5b;
-  --Sa-Color-Favorite: #ffcd5b;
+  --Sa-Color-Favorite: #ccd5e2;
   --Sa-Color-FavoriteHover: #ffcd5b;
-  --Sa-Color-FavoriteActive: #ffcd5b;
+  --Sa-Color-FavoriteBgHover: #fff8e7;
+  --Sa-Color-FavoriteActive: #f6ad00;
+  --Sa-Color-FavoriteBgActive: #ffecb7;
+  --Sa-Color-FavoriteChecked: #ffcd5b;
+  --Sa-Color-FavoriteCheckedHover: #f6ad00;
+  --Sa-Color-FavoriteCheckedActive: #da9600;
+  --Sa-Color-FavoriteHighContrast: #7088a4;
+  --Sa-Color-FavrotiteHoverHighContrast: #e0173e;
+  --Sa-Color-FavrotiteBgHoverHighContrast: #fff7f7;
+  --Sa-Color-FavoriteActiveHighContrast: #bf0024;
+  --Sa-Color-FavoriteBgActiveHighContrast: #ffe8e7;
+  --Sa-Color-FavoriteCheckedHighContrast: #e0173e;
+  --Sa-Color-FavoriteCheckedHoverHighContrast: #bf0024;
+  --Sa-Color-FavoriteCheckedActiveHighContrast: #9b0002;
 }
 h1,
 h2,
@@ -1772,31 +1783,6 @@ body.saPc *::-webkit-scrollbar-corner {
 .saDropIndicator.saHorizontal {
   border-top: 2px solid var(--Sa-Color-Primary700);
   border-radius: 1px;
-}
-.saMarkFavorite button {
-  background: none;
-}
-.saFavoriteIcon:active.saFavoriteAdded::before,
-.saFavoriteIcon:hover.saFavoriteAdded::before {
-  font-weight: 400;
-  color: #ffcd5b;
-}
-.saFavoriteIcon:active.saFavoriteNotAdded::before,
-.saFavoriteIcon:hover.saFavoriteNotAdded::before,
-.saFavoriteIcon.saFavoriteAdded {
-  font-weight: 900;
-  color: #ffcd5b;
-}
-.saFavoriteIcon.saFavoriteNotAdded {
-  color: #ccd5e2;
-}
-.saHighContrast .saFavoriteIcon.saFavoriteAdded,
-.saHighContrast .saFavoriteIcon:hover::before,
-.saHighContrast .saFavoriteIcon:active::before {
-  color: #ca6d34;
-}
-.saHighContrast .saFavoriteIcon.saFavoriteNotAdded {
-  color: #7088a4;
 }
 .saSpinner > div > div {
   background-color: var(--Sa-Color-Primary600) !important;
@@ -8344,20 +8330,6 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   gap: 1rem;
   min-width: 0;
 }
-.saPageHeader .saMarkFavorite i {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  height: 1.5rem;
-  min-width: 1.5rem;
-}
-.saPageHeader .saMarkFavorite i::after {
-  content: '';
-  height: 2.75rem;
-  width: 2.75rem;
-  position: absolute;
-}
 .saPageHeader .saHeader {
   margin: auto;
   top: 0;
@@ -8593,11 +8565,6 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
 }
 .saStandard .saPageHeader .saTitle {
   gap: 1rem;
-}
-.saStandard .saPageHeader .saMarkFavorite i {
-  font-size: 1.25rem;
-  height: 2rem;
-  min-width: 2rem;
 }
 .saCompact.saLargeScreenHasTopButtons .saPageHeader .saHeader {
   height: 6rem;
@@ -21271,11 +21238,11 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saMenuBoxWrapper .saMenuBoxHeading {
   font-size: 0.875rem;
+  line-height: 1rem;
   padding: 2px 0 0 0.25rem;
   color: var(--Sa-Color-Text);
   font-weight: 600;
 }
-.saMenuBoxWrapper .saIconWrapper,
 .saMenuBoxWrapper .saIconHolder {
   position: relative;
   transition: ease all 0.2s;
@@ -21320,6 +21287,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saSmallScreen .saMenuBoxWrapper .saMenuItem {
   height: 2.75rem;
+  padding: 0 4rem 0 0.75rem;
 }
 .saHasDescription.saMenuBoxWrapper .saMenuItem {
   height: 2.5rem;
@@ -21367,6 +21335,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   color: var(--Sa-Color-Primary700);
 }
 .saMenuBoxWrapper .saMenuItem::after {
+  content: '';
   position: absolute;
   width: calc(100% + 1.125rem);
   left: -0.5625rem;
@@ -21405,58 +21374,100 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   position: absolute;
   right: 0;
 }
-.saSmallScreen .saMenuBoxWrapper .saMenuItemTools {
-  right: 0;
-}
-.saMenuBoxWrapper .saMenuItemTools .saIconWrapper {
+.saMenuBoxWrapper .saHelpLink {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  height: 2rem;
-  min-width: 2rem;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
   border-radius: 0.5rem;
-  background: none;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+  color: var(--Sa-Color-Primary600);
+  background: transparent;
 }
-.saMenuBoxWrapper .saMenuItemTools .saIconWrapper.saHelpLink {
+.saMenuBoxWrapper .saHelpLink .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saMenuBoxWrapper .saHelpLink .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saMenuBoxWrapper .saHelpLink .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saMenuBoxWrapper .saHelpLink:active {
+  border-radius: 0.75rem;
+}
+.saMenuBoxWrapper .saHelpLink .saIcon {
   color: var(--Sa-Color-Icon);
 }
+.saMenuBoxWrapper .saHelpLink.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saMenuBoxWrapper .saHelpLink.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
 @media (pointer: fine) {
-  .saMenuBoxWrapper .saMenuItemTools .saIconWrapper.saHelpLink:hover {
-    background-color: var(--Sa-Color-Primary100);
+  .saMenuBoxWrapper .saHelpLink.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saMenuBoxWrapper .saHelpLink.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saMenuBoxWrapper .saHelpLink.saDestructive:active {
+  color: #fff;
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saMenuBoxWrapper .saHelpLink.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saMenuBoxWrapper .saHelpLink:hover {
+    background-color: var(--Sa-Color-Primary50);
     color: var(--Sa-Color-Primary600);
   }
-  .saMenuBoxWrapper .saMenuItemTools .saIconWrapper.saHelpLink:hover:active {
-    background-color: var(--Sa-Color-Primary200);
-    color: var(--Sa-Color-Primary700);
+  .saMenuBoxWrapper .saHelpLink:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
   }
 }
-@media (pointer: fine) {
-  .saMenuBoxWrapper .saMenuItemTools .saFavoriteIcon:hover {
-    background: #fff8e7;
-    color: #ffcd5b;
-  }
+.saMenuBoxWrapper .saHelpLink:active {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
 }
-.saMenuBoxWrapper .saMenuItemTools .saFavoriteIcon:active {
-  background: #ffecb7;
-  color: #ffcd5b;
+.saMenuBoxWrapper .saHelpLink:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
-@media (pointer: fine) {
-  .saMenuBoxWrapper .saMenuItemTools.saHighContrast .saFavoriteIcon:hover {
-    background: #fff8f4;
-    color: #ca6d34;
-  }
+.saMenuBoxWrapper .saHelpLink:disabled,
+.saMenuBoxWrapper .saHelpLink.saDisabled {
+  color: #adbdd1;
+  background-color: transparent;
+  cursor: not-allowed;
 }
-.saMenuBoxWrapper .saMenuItemTools.saHighContrast .saFavoriteIcon:active {
-  background: #ffeada;
-  color: #ae5c28;
-}
-.saMenuBoxWrapper .saMenuItemTools .saIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.25rem;
-  color: rgba(96, 116, 139, 0.64);
+.saMenuBoxWrapper .saHelpLink:disabled .saIcon,
+.saMenuBoxWrapper .saHelpLink.saDisabled .saIcon {
+  color: #adbdd1;
 }
 .saLinkList.saMenuBoxWrapper .saUnread .saMenuItem .saLinkListRowHeading span,
 .saLinkList.saMenuBoxWrapper .saUnread .saMenuItem .saLinkListRowLabel {
@@ -33594,4 +33605,86 @@ pre.saCode {
 }
 .saContextMenu .saOptionShortCut span {
   margin: 0 0.125rem;
+}
+.saFavoriteToggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  background-color: transparent;
+  color: var(--Sa-Color-Favorite);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  position: relative;
+  transition: ease background-color 0.2s, ease color 0.2s, border-radius 0.2s ease;
+}
+.saFavoriteToggle:active {
+  border-radius: 0.75rem;
+}
+.saDesktopHeader .saFavoriteToggle {
+  margin-bottom: -0.25rem;
+}
+.saSmallScreen .saFavoriteToggle::after {
+  content: '';
+  height: 2.75rem;
+  width: 2.75rem;
+  position: absolute;
+  right: -0.75rem;
+}
+.saHighContrast .saFavoriteToggle {
+  color: var(--Sa-Color-FavoriteHighContrast);
+}
+.saFavoriteToggle:hover {
+  color: var(--Sa-Color-FavoriteHover);
+  background-color: var(--Sa-Color-FavoriteBgHover);
+}
+.saHighContrast .saFavoriteToggle:hover {
+  color: var(--Sa-Color-FavrotiteHoverHighContrast);
+  background-color: var(--Sa-Color-FavrotiteBgHoverHighContrast);
+}
+.saFavoriteToggle:active {
+  color: var(--Sa-Color-FavoriteActive);
+  background-color: var(--Sa-Color-FavoriteBgActive);
+}
+.saHighContrast .saFavoriteToggle:active {
+  color: var(--Sa-Color-FavoriteActiveHighContrast);
+  background-color: var(--Sa-Color-FavoriteBgActiveHighContrast);
+}
+.saFavoriteToggle .saIcon {
+  display: block;
+  position: absolute;
+  inset: auto;
+  transition: ease transform 0.2s, ease opacity 0.2s;
+  transform-origin: center;
+}
+.saFavoriteToggle .fas {
+  transform: scale(0);
+}
+.saFavoriteToggle[aria-checked="true"] {
+  color: var(--Sa-Color-FavoriteChecked);
+}
+.saHighContrast .saFavoriteToggle[aria-checked="true"] {
+  color: var(--Sa-Color-FavoriteCheckedHighContrast);
+}
+.saFavoriteToggle[aria-checked="true"]:hover {
+  color: var(--Sa-Color-FavoriteCheckedHover);
+}
+.saHighContrast .saFavoriteToggle[aria-checked="true"]:hover {
+  color: var(--Sa-Color-FavoriteCheckedHoverHighContrast);
+}
+.saFavoriteToggle[aria-checked="true"]:active {
+  color: var(--Sa-Color-FavoriteCheckedActive);
+}
+.saHighContrast .saFavoriteToggle[aria-checked="true"]:active {
+  color: var(--Sa-Color-FavoriteCheckedActiveHighContrast);
+}
+.saFavoriteToggle[aria-checked="true"] .fas {
+  transform: scale(1);
+}
+.saFavoriteToggle[aria-checked="true"] .far {
+  opacity: 0;
 }

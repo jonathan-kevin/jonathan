@@ -83,19 +83,18 @@
 									<button class="saButtonFavoritesEdit">Redigera</button>
 								</div>
 								<ul class="saItemList">
-									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
-											data-sa-minimized-tooltip="Dagsrapportering">
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
 											<div class="saItemInner">
 												<div class="saIconWrapper"><i
-														class="far fa-clock-rotate-left icon saIcon"></i></div>
-												<span>Dagsrapportering</span>
+														class="far fa-cat icon saIcon"></i></div>
+												<span>Kattsport</span>
 											</div>
 										</a></li>
 									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
 											data-sa-minimized-tooltip="Leveranser">
 											<div class="saItemInner">
-												<div class="saIconWrapper"><i class="saC sa-truck-left icon saIcon"></i>
-												</div><span>Leveranser</span>
+												<div class="saIconWrapper"><i class="far fa-crow icon saIcon"></i>
+												</div><span>Kråkor</span>
 											</div>
 										</a></li>
 								</ul>
@@ -191,9 +190,10 @@
 										<div class="saBottomRow">
 											<div class="saTitle">
 												<h1 class="saHeaderText">Test</h1>
-												<div class="saMarkFavorite saNoSpinner"><button type="button"><i
-															class="fas fa-star saFavoriteIcon saFavoriteAdded icon saIcon"></i></button>
-												</div>
+												<button class="saFavoriteToggle" type="button" tabindex="-1" aria-checked="false" aria-label="Save as favorite">
+													<i aria-hidden="true" class="saIcon far fa-star"></i>
+													<i aria-hidden="true" class="saIcon fas fa-star"></i>
+												</button>
 												<ul class="saSpecialLinksWrapper"></ul>
 											</div>
 										</div>
@@ -229,29 +229,46 @@
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner">
-
-										<ul class="saTagGroup">
-											<li class="saTag" tabindex="0">
-												<i class="far fa-circle-info saIcon saTagIcon" aria-hidden="true"></i>
-												<span>Leading icon</span>
-												<button type="button" aria-label="Remove"><i class="saIcon far fa-xmark" aria-hidden="true"></i></button>
-											</li>
-											<li class="saTag" tabindex="0">
-												<span>No icon</span>
-												<button type="button" aria-label="Remove"><i class="saIcon far fa-xmark" aria-hidden="true"></i></button>
-											</li>
-											<li class="saTag saDisabled" tabindex="0">
-												<i class="far fa-circle-info saIcon saTagIcon" aria-hidden="true"></i>
-												<span>Disabled with leading icon</span>
-												<button type="button" aria-label="Remove"><i class="saIcon far fa-xmark" aria-hidden="true"></i></button>
-											</li>
-											<li class="saTag" tabindex="0">
-												<span>Can't remove</span>
-											</li>
-											<li class="saTag saDisabled" tabindex="0">
-												<span>Can't remove and is disabled</span>
-											</li>
-										</ul>
+										<softadmin-menuitems class="maincolbody saMenuGroup">
+											<div class="saMenuBoxWrapper" tabindex="-1">
+												<div class="saColumn">
+													<div class="saMenuBox">
+														<span class="saMenuBoxHeading">Users</span>
+														<ul>
+															<li class="saMenuItemWrapper saSelectable">
+																<a class="saMenuItem" tabindex="0">
+																	<div class="saIconHolder" aria-hidden="true">
+																		<i class="far fa-flag icon saIcon"></i>
+																	</div>
+																	<span class="saMenuItemText">Oscar Larsen</span>
+																</a>
+																<div class="saMenuItemTools">
+																	<button class="saFavoriteToggle" type="button" tabindex="-1" aria-checked="false" aria-label="Save as favorite">
+																		<i aria-hidden="true" class="saIcon far fa-star"></i>
+																		<i aria-hidden="true" class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saSelectable saHighContrast">
+																<a class="saMenuItem" tabindex="0">
+																	<div class="saIconHolder" aria-hidden="true">
+																		<i class="far fa-flag-checkered icon saIcon"></i>
+																	</div>
+																	<span class="saMenuItemText">Loppan i Mora</span>
+																</a>
+																<div class="saMenuItemTools">
+																	<button class="saHelpLink" type="button" tabindex="-1"><i class="saIcon far fa-life-ring"></i></button>
+																	<button class="saFavoriteToggle" type="button" tabindex="-1" aria-checked="false" aria-label="Save as favorite">
+																		<i aria-hidden="true" class="saIcon far fa-heart"></i>
+																		<i aria-hidden="true" class="saIcon fas fa-heart"></i>
+																	</button>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</softadmin-menuitems>
 									</div>
 								</div>
 							</main>
@@ -261,4 +278,9 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		$('.saFavoriteToggle').click(function () {
+			$(this).attr('aria-checked', function(i, attr) { return attr === 'true' ? 'false' : 'true'; });
+		});
+	</script>
 </body>
