@@ -16122,7 +16122,7 @@ legend + .saInputCardsWrapper {
 }
 .saInputCardWrapper.saLarge:has(:checked):has(:enabled):not(:active) .saInputCardHeading {
   box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
-  background-color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary50);
   border-bottom-color: var(--Sa-Color-Primary600);
 }
 .saInputCardWrapper.saLarge:has(:checked):has(:enabled):not(:active) .saInputCardBody {
@@ -16146,41 +16146,49 @@ legend + .saInputCardsWrapper {
 @media (pointer: fine) {
   .saInputCardWrapper.saMedium.saActive:hover,
   .saInputCardWrapper.saSmall.saActive:hover {
-    background-color: var(--Sa-Color-Primary50);
-    color: var(--Sa-Color-Primary600);
-    box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary100);
+    color: var(--Sa-Color-Primary700);
+    box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary700);
   }
   .saInputCardWrapper.saMedium.saActive:hover .saInputCardDescription,
   .saInputCardWrapper.saSmall.saActive:hover .saInputCardDescription,
   .saInputCardWrapper.saMedium.saActive:hover .saInputCardIconWrapper .saIcon,
   .saInputCardWrapper.saSmall.saActive:hover .saInputCardIconWrapper .saIcon {
-    color: var(--Sa-Color-Primary600);
+    color: inherit;
   }
 }
 .saInputCardWrapper.saMedium.saActive:active,
 .saInputCardWrapper.saSmall.saActive:active {
-  background-color: var(--Sa-Color-Primary50);
-  color: var(--Sa-Color-Primary600);
-  box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
+  background-color: var(--Sa-Color-Primary200);
+  color: var(--Sa-Color-Primary800);
+  box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary800);
+  border-radius: 1rem;
 }
 .saInputCardWrapper.saMedium.saActive:active .saInputCardDescription,
 .saInputCardWrapper.saSmall.saActive:active .saInputCardDescription,
 .saInputCardWrapper.saMedium.saActive:active .saInputCardIconWrapper .saIcon,
 .saInputCardWrapper.saSmall.saActive:active .saInputCardIconWrapper .saIcon {
-  color: var(--Sa-Color-Primary600);
-}
-.saInputCardWrapper.saMedium.saActive:active,
-.saInputCardWrapper.saSmall.saActive:active {
-  border-radius: 1rem;
+  color: inherit;
 }
 .saInputCardWrapper:has(:checked):has(:enabled):not(:active).saNoHeading {
   box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600);
-  background-color: var(--Sa-Color-Primary100);
-  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary50);
+  color: var(--Sa-Color-Primary600);
 }
 .saInputCardWrapper:has(:checked):has(:enabled):not(:active).saNoHeading .saInputCardDescription,
 .saInputCardWrapper:has(:checked):has(:enabled):not(:active).saNoHeading .saInputCardIconWrapper .saIcon {
-  color: var(--Sa-Color-Primary700);
+  color: inherit;
+}
+@media (pointer: fine) {
+  .saInputCardWrapper:has(:checked):has(:enabled):not(:active).saNoHeading:hover {
+    box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary700);
+    background-color: var(--Sa-Color-Primary100);
+    color: var(--Sa-Color-Primary700);
+  }
+  .saInputCardWrapper:has(:checked):has(:enabled):not(:active).saNoHeading:hover .saInputCardDescription,
+  .saInputCardWrapper:has(:checked):has(:enabled):not(:active).saNoHeading:hover .saInputCardIconWrapper .saIcon {
+    color: inherit;
+  }
 }
 .saSmallScreen .saInputCardWrapper.saLarge {
   width: 100%;
