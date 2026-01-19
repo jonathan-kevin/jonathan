@@ -82,19 +82,19 @@
   --Sa-Color-TabBackground: #f8f9fb;
   --Sa-Color-InfoText: #313a44;
   --Sa-Color-InfoBackground: #f7faff;
-  --Sa-Color-InfoBorder: #2d6ce1;
+  --Sa-Color-InfoBorder: #bbd6ff;
   --Sa-Color-InfoIcon: #2d6ce1;
   --Sa-Color-SuccessText: #313a44;
   --Sa-Color-SuccessBackground: #f2fcf2;
-  --Sa-Color-SuccessBorder: #009b36;
+  --Sa-Color-SuccessBorder: #91e89b;
   --Sa-Color-SuccessIcon: #009b36;
   --Sa-Color-WarningText: #313a44;
   --Sa-Color-WarningBackground: #fff8e7;
-  --Sa-Color-WarningBorder: #f6ad00;
+  --Sa-Color-WarningBorder: #ffcd5b;
   --Sa-Color-WarningIcon: #f6ad00;
   --Sa-Color-ErrorText: #313a44;
   --Sa-Color-ErrorBackground: #fff7f7;
-  --Sa-Color-ErrorBorder: #e0173e;
+  --Sa-Color-ErrorBorder: #ffc6c5;
   --Sa-Color-ErrorIcon: #e0173e;
   --Sa-Color-WarningExpandIcon: #9c6700;
   --Sa-Color-ErrorExpandIcon: #e0173e;
@@ -2299,7 +2299,7 @@ div.saPopupOverlay {
   margin: -0.5rem 0;
 }
 .saInfoBoxArea .saInfoBoxHeading.saInfoBoxHeadingButton {
-  background-color: transparent;
+  background: transparent;
   border-radius: 0.5rem;
   width: calc(100% + 1rem);
   padding: 0 0.5rem;
@@ -2311,7 +2311,7 @@ div.saPopupOverlay {
 }
 @media (pointer: fine) {
   .saInfoBoxArea .saInfoBoxHeading.saInfoBoxHeadingButton:hover {
-    background-color: var(--Sa-Color-Primary50);
+    background: #f8f9fb;
   }
   .saInfoBoxArea .saInfoBoxHeading.saInfoBoxHeadingButton:hover h3 {
     color: var(--Sa-Color-Primary600);
@@ -2321,14 +2321,14 @@ div.saPopupOverlay {
   }
 }
 .saInfoBoxArea .saInfoBoxHeading.saInfoBoxHeadingButton:active {
-  background-color: var(--Sa-Color-Primary100);
+  background: #eef1f5;
   border-radius: 0.75rem;
 }
 .saInfoBoxArea .saInfoBoxHeading.saInfoBoxHeadingButton:active h3 {
-  color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary600);
 }
 .saInfoBoxArea .saInfoBoxHeading.saInfoBoxHeadingButton:active .saIcon {
-  color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary600);
 }
 .saInfoBoxArea .saInfoBoxHeading.saInfoBoxHeadingButton::after {
   content: '';
@@ -2760,17 +2760,28 @@ div.saPopupOverlay {
 .saInfoArea .saWarningArea {
   padding-bottom: 1px;
 }
+.saSmallScreen .saInfoArea .saWarningArea {
+  padding: 1rem 0 0.5rem 0;
+}
+.saSmallScreen .saInfoArea .saWarningArea .saWarningBox:last-child {
+  margin-bottom: 0;
+}
 .saInfoArea .saWarningBox {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
   padding: 0.5rem;
-  margin-bottom: 1rem;
-  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.75rem;
   color: var(--Sa-Color-Text);
   overflow: hidden;
+  outline: 1px solid transparent;
+  outline-offset: -1px;
 }
-.saInfoArea .saWarningBox .saIcon {
+.saSmallScreen .saInfoArea .saWarningBox {
+  margin: 0 1rem 0.5rem 1rem;
+}
+.saInfoArea .saWarningBox > .saIcon {
   font-size: 1.25rem;
   min-width: 2rem;
   display: flex;
@@ -2876,14 +2887,24 @@ div.saPopupOverlay {
 @media (pointer: fine) {
   .saInfoArea .saWarningBox .saClose .saWarningButton:hover {
     background: #e0173e;
+    color: #fff;
   }
 }
 .saInfoArea .saWarningBox .saClose .saWarningButton:active {
   background: #bf0024;
+  color: #fff;
 }
 .saInfoArea .saWarningBox .saWarningExpander .saWarningButton::after {
   right: unset;
   left: -0.875rem;
+}
+@media (pointer: fine) {
+  .saInfoArea .saWarningBox .saWarningExpander .saWarningButton:hover {
+    color: #fff;
+  }
+}
+.saInfoArea .saWarningBox .saWarningExpander .saWarningButton:active {
+  color: #fff;
 }
 .saInfoArea .saWarningBox .saWarningExpander.saOpen i {
   transform: rotate(180deg);
@@ -2891,7 +2912,7 @@ div.saPopupOverlay {
 .saInfoArea .saWarningBox.saError {
   color: var(--Sa-Color-ErrorText);
   background: var(--Sa-Color-ErrorBackground);
-  border: 1px solid var(--Sa-Color-ErrorBorder);
+  outline-color: var(--Sa-Color-ErrorBorder);
 }
 .saInfoArea .saWarningBox.saError .saIcon {
   color: var(--Sa-Color-ErrorIcon);
@@ -2907,7 +2928,7 @@ div.saPopupOverlay {
 .saInfoArea .saWarningBox.saWarning {
   color: var(--Sa-Color-WarningText);
   background: var(--Sa-Color-WarningBackground);
-  border: 1px solid var(--Sa-Color-WarningBorder);
+  outline-color: var(--Sa-Color-WarningBorder);
 }
 .saInfoArea .saWarningBox.saWarning .saIcon {
   color: var(--Sa-Color-WarningIcon);
@@ -2923,7 +2944,7 @@ div.saPopupOverlay {
 .saInfoArea .saWarningBox.saInfo {
   color: var(--Sa-Color-InfoText);
   background: var(--Sa-Color-InfoBackground);
-  border: 1px solid var(--Sa-Color-InfoBorder);
+  outline-color: var(--Sa-Color-InfoBorder);
 }
 .saInfoArea .saWarningBox.saInfo .saIcon {
   color: var(--Sa-Color-InfoIcon);
@@ -2939,7 +2960,7 @@ div.saPopupOverlay {
 .saInfoArea .saWarningBox.saSuccess {
   color: var(--Sa-Color-SuccessText);
   background: var(--Sa-Color-SuccessBackground);
-  border: 1px solid var(--Sa-Color-SuccessBorder);
+  outline-color: var(--Sa-Color-SuccessBorder);
 }
 .saInfoArea .saWarningBox.saSuccess .saIcon {
   color: var(--Sa-Color-SuccessIcon);
@@ -3025,12 +3046,6 @@ div.saPopupOverlay {
 .saLargeScreen .saInfoBoxArea .saExpandButton:active {
   background-color: #eef1f5;
 }
-.saSmallScreen .saWarningArea {
-  margin-bottom: 1rem;
-}
-.saSmallScreen .saWarningArea .saWarningBox:last-child {
-  margin-bottom: 0;
-}
 .saSmallScreen .saInfoArea:first-child .saInfoBoxArea {
   margin-top: 1rem;
 }
@@ -3052,9 +3067,6 @@ div.saPopupOverlay {
 }
 .saSmallScreen .saInfoBoxArea .saInfoBox::after {
   bottom: -1rem;
-}
-.saSmallScreen .saWarningBox {
-  margin: 1rem;
 }
 .saBoxTableWrapper {
   overflow-x: auto;
@@ -13948,6 +13960,11 @@ select.saInputText {
 .saInputTextWrapper .saInputText::-webkit-calendar-picker-indicator {
   display: none;
 }
+.saTemporary .saInputTextWrapper .saInputText {
+  outline: 2px dashed var(--Sa-Color-InputFieldBorder);
+  outline-offset: -2px;
+  box-shadow: none;
+}
 .saInputTextWrapper .saInputText.saDropdown {
   appearance: none;
   -webkit-appearance: none;
@@ -15809,6 +15826,9 @@ select.saInputText {
   pointer-events: none;
   box-shadow: inset 0 0 0 2px #ccd5e2, inset 0 0 0 0.375rem #eef1f5, 0 0 0 1px #fff;
 }
+.saInputCardsWrapper input.saRadio {
+  position: absolute;
+}
 .saInputCardsWrapper * {
   box-sizing: border-box;
 }
@@ -15822,16 +15842,38 @@ legend + .saInputCardsWrapper {
 .saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saLarge .saInputCardHeading {
   background-color: #fff7f7;
   box-shadow: inset 0 0 0 1px #e0173e;
-  color: #bf0024;
+  color: #e0173e;
 }
 .saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saLarge .saInputCardBody,
 .saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saLarge .saInputCardBody {
-  box-shadow: inset 1px -1px 0 0 #e0173e, inset -1px -1px 0 0 #e0173e;
+  box-shadow: inset 0 0 0 1px #e0173e;
+}
+@media (pointer: fine) {
+  .saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saLarge:hover .saInputCardHeading,
+  .saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saLarge:hover .saInputCardHeading {
+    box-shadow: inset 0 0 0 1px #bf0024;
+    background-color: #ffe8e7;
+    color: #bf0024;
+  }
+  .saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saLarge:hover .saInputCardBody,
+  .saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saLarge:hover .saInputCardBody {
+    box-shadow: inset 0 0 0 1px #bf0024;
+  }
+}
+.saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saLarge:active .saInputCardHeading,
+.saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saLarge:active .saInputCardHeading {
+  background-color: #ffc6c5;
+  color: #9b0002;
+  box-shadow: inset 0 0 0 1px #9b0002;
+}
+.saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saLarge:active .saInputCardBody,
+.saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saLarge:active .saInputCardBody {
+  box-shadow: inset 0 0 0 1px #9b0002;
 }
 .saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading,
 .saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saNoHeading {
   background-color: #fff7f7;
-  color: #bf0024;
+  color: #e0173e;
   box-shadow: inset 0 0 0 2px #e0173e;
 }
 .saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading .saInputCardHeading,
@@ -15840,15 +15882,33 @@ legend + .saInputCardsWrapper {
 .saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saNoHeading .saInputCardDescription,
 .saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading .saInputCardIconWrapper .saIcon,
 .saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saNoHeading .saInputCardIconWrapper .saIcon {
-  color: #bf0024;
+  color: inherit;
 }
-.saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading :checked[type="checkbox"]::before,
-.saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saNoHeading :checked[type="checkbox"]::before {
-  background-color: #bf0024;
+@media (pointer: fine) {
+  .saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading:hover,
+  .saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saNoHeading:hover {
+    box-shadow: inset 0 0 0 2px #bf0024;
+    background-color: #ffe8e7;
+    color: #bf0024;
+  }
+  .saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading:hover .saInputCardDescription,
+  .saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saNoHeading:hover .saInputCardDescription,
+  .saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading:hover .saInputCardIconWrapper .saIcon,
+  .saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saNoHeading:hover .saInputCardIconWrapper .saIcon {
+    color: inherit;
+  }
 }
-.saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading :checked[type="radio"]::before,
-.saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saNoHeading :checked[type="radio"]::before {
-  box-shadow: inset 0 0 0 0.0625rem #bf0024, inset 0 0 0 0.3125rem #e0173e;
+.saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading:active,
+.saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saNoHeading:active {
+  box-shadow: inset 0 0 0 2px #9b0002;
+  background-color: #ffc6c5;
+  color: #9b0002;
+}
+.saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading:active .saInputCardDescription,
+.saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saNoHeading:active .saInputCardDescription,
+.saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading:active .saInputCardIconWrapper .saIcon,
+.saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled).saNoHeading:active .saInputCardIconWrapper .saIcon {
+  color: inherit;
 }
 .saInputCardsWrapper.saHighlightFieldError label.saInputCardWrapper:has(:checked):has(:enabled) input.saRadio:checked,
 .saInputCardsWrapper.saHighlightFieldError.saEmpty label.saInputCardWrapper:has(:enabled) input.saRadio:checked {
@@ -15856,27 +15916,59 @@ legend + .saInputCardsWrapper {
 }
 .saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saLarge .saInputCardHeading {
   background-color: #fff8e7;
-  box-shadow: inset 0 0 0 1px #f6ad00;
+  box-shadow: inset 0 0 0 1px #ffcd5b;
   color: #9c6700;
 }
 .saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saLarge .saInputCardBody {
-  box-shadow: inset 1px -1px 0 0 #f6ad00, inset -1px -1px 0 0 #f6ad00;
+  box-shadow: inset 0 0 0 1px #ffcd5b;
+}
+@media (pointer: fine) {
+  .saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saLarge:hover .saInputCardHeading {
+    box-shadow: inset 0 0 0 1px #da9600;
+    background-color: #ffecb7;
+    color: #825400;
+  }
+  .saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saLarge:hover .saInputCardBody {
+    box-shadow: inset 0 0 0 1px #da9600;
+  }
+}
+.saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saLarge:active .saInputCardHeading {
+  background-color: #ffcd5b;
+  color: #694300;
+  box-shadow: inset 0 0 0 1px #b67a00;
+}
+.saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saLarge:active .saInputCardBody {
+  box-shadow: inset 0 0 0 1px #b67a00;
 }
 .saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading {
   background-color: #fff8e7;
   color: #9c6700;
-  box-shadow: inset 0 0 0 2px #f6ad00;
+  box-shadow: inset 0 0 0 2px #ffcd5b;
 }
 .saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading .saInputCardHeading,
 .saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading .saInputCardDescription,
 .saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading .saInputCardIconWrapper .saIcon {
-  color: #9c6700;
+  color: inherit;
 }
-.saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled) :checked[type="checkbox"]::before {
-  background-color: #825400;
+@media (pointer: fine) {
+  .saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading:hover {
+    box-shadow: inset 0 0 0 2px #f6ad00;
+    background-color: #ffecb7;
+    color: #825400;
+  }
+  .saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading:hover .saInputCardDescription,
+  .saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading:hover .saInputCardIconWrapper .saIcon {
+    color: inherit;
+  }
 }
-.saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled) :checked[type="radio"]::before {
-  box-shadow: inset 0 0 0 0.0625rem #825400, inset 0 0 0 0.3125rem #9c6700;
+.saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading:active {
+  box-shadow: inset 0 0 0 2px #da9600;
+  background-color: #ffcd5b;
+  color: #694300;
+}
+.saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading:active .saInputCardDescription,
+.saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled).saNoHeading:active .saInputCardIconWrapper .saIcon {
+  color: inherit;
 }
 .saInputCardsWrapper.saHighlightFieldWarning label.saInputCardWrapper:has(:checked):has(:enabled) input.saRadio:checked {
   box-shadow: inset 0 0 0 2px #b67a00, inset 0 0 0 0.375rem #f6ad00, 0 0 0 1px #fff;
@@ -15927,62 +16019,24 @@ legend + .saInputCardsWrapper {
 .saMedium.saInputCardWrapper .saInputCardHeading,
 .saSmall.saInputCardWrapper .saInputCardHeading {
   font-size: 0.875rem;
-  text-align: center;
 }
 .saInputCardWrapper.saNoHeading {
-  border-radius: 0.5rem;
-  padding: 1rem 0.5rem;
+  border-radius: 0.75rem;
+  padding: 1rem;
   gap: 0.5rem;
   overflow: unset;
   justify-content: start;
+  align-items: start;
   background-color: #fff;
   box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
   transition: ease box-shadow 0.2s, ease border-radius 0.2s, ease background 0.2s;
 }
 .saInputCardWrapper.saNoHeading input {
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
-  inset: 0;
-  border-radius: 0;
-  appearance: none;
-  position: absolute;
-  padding: 0;
-  padding-block: 0;
-  padding-inline: 0;
-  display: flex;
-  border-radius: 0.5rem;
-  pointer-events: none;
+  top: 0.875rem;
+  right: 0.875rem;
 }
-.saInputCardWrapper.saNoHeading input[type="checkbox"]::before {
-  content: '';
-  width: 1.25rem;
-  height: 1.25rem;
-  position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
-  clip-path: polygon(78.5% 38.5%, 46.5% 70.5%, 46.5% 70.5%, 46.172% 70.799%, 45.792% 71.092%, 45.371% 71.373%, 44.916% 71.636%, 44.438% 71.875%, 43.944% 72.084%, 43.445% 72.257%, 42.948% 72.388%, 42.464% 72.471%, 42% 72.5%, 42% 72.5%, 41.537% 72.485%, 41.052% 72.436%, 40.556% 72.352%, 40.056% 72.228%, 39.563% 72.063%, 39.084% 71.852%, 38.63% 71.594%, 38.208% 71.284%, 37.829% 70.921%, 37.5% 70.5%, 21.5% 54.5%, 21.5% 54.5%, 20.825% 53.708%, 20.3% 52.844%, 19.925% 51.926%, 19.7% 50.972%, 19.625% 50%, 19.7% 49.028%, 19.925% 48.074%, 20.3% 47.156%, 20.825% 46.292%, 21.5% 45.5%, 21.5% 45.5%, 22.292% 44.825%, 23.156% 44.3%, 24.074% 43.925%, 25.028% 43.7%, 26% 43.625%, 26.972% 43.7%, 27.926% 43.925%, 28.844% 44.3%, 29.708% 44.825%, 30.5% 45.5%, 42% 57%, 69.5% 29.5%, 69.5% 29.5%, 70.292% 28.825%, 71.156% 28.3%, 72.074% 27.925%, 73.028% 27.7%, 74% 27.625%, 74.972% 27.7%, 75.926% 27.925%, 76.844% 28.3%, 77.708% 28.825%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 79.175% 30.292%, 79.7% 31.156%, 80.075% 32.074%, 80.3% 33.028%, 80.375% 34%, 80.3% 34.972%, 80.075% 35.926%, 79.7% 36.844%, 79.175% 37.708%, 78.5% 38.5%);
-  background-color: #1c57c6;
-  transition: ease 0.2s transform;
-  transform: scale(0);
-}
-.saInputCardWrapper.saNoHeading input[type="radio"]::before {
-  content: '';
-  width: 1rem;
-  height: 1rem;
-  position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
-  background-color: #fff;
-  transition: ease 0.2s transform;
-  box-shadow: inset 0 0 0 0.3125rem #1c57c6;
-  border-radius: 999rem;
-  transform: scale(0);
-}
-.saInputCardWrapper.saNoHeading input:checked::before {
-  transform: scale(1);
+.saInputCardWrapper.saNoHeading:not(:has(.saInputCardIconWrapper)) .saInputCardHeading {
+  padding-right: 1.25rem;
 }
 .saInputCardWrapper .saInputCardBody {
   display: flex;
@@ -15993,21 +16047,17 @@ legend + .saInputCardsWrapper {
   transition: inherit;
 }
 .saNoHeading.saInputCardWrapper .saInputCardBody {
-  align-items: center;
   gap: 0.25rem;
   padding: 0;
   height: fit-content;
 }
 .saInputCardWrapper .saInputCardDescription {
   font-size: 0.75rem;
-  line-height: 1rem;
+  line-height: 0.875rem;
   font-weight: 400;
   color: var(--Sa-Color-TextSecondary);
   width: 100%;
   overflow-wrap: break-word;
-}
-.saNoHeading.saInputCardWrapper .saInputCardDescription {
-  text-align: center;
 }
 .saInputCardWrapper .saInputCardIconWrapper {
   display: flex;
@@ -16040,7 +16090,8 @@ legend + .saInputCardsWrapper {
   background-color: #fff;
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
-  box-shadow: inset 1px -1px 0 0 var(--Sa-Color-InputFieldBorder), inset -1px -1px 0 0 var(--Sa-Color-InputFieldBorder);
+  box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+  margin-top: -1px;
 }
 @media (pointer: fine) {
   .saInputCardWrapper.saLarge.saActive:hover .saInputCardHeading {
@@ -16050,7 +16101,7 @@ legend + .saInputCardsWrapper {
     border-bottom-color: var(--Sa-Color-Primary600);
   }
   .saInputCardWrapper.saLarge.saActive:hover .saInputCardBody {
-    box-shadow: inset 1px -1px 0 0 var(--Sa-Color-Primary600), inset -1px -1px 0 0 var(--Sa-Color-Primary600);
+    box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
   }
 }
 .saInputCardWrapper.saLarge.saActive:active .saInputCardHeading {
@@ -16064,7 +16115,7 @@ legend + .saInputCardsWrapper {
 .saInputCardWrapper.saLarge.saActive:active .saInputCardBody {
   border-bottom-right-radius: 1rem;
   border-bottom-left-radius: 1rem;
-  box-shadow: inset 1px -1px 0 0 var(--Sa-Color-Primary600), inset -1px -1px 0 0 var(--Sa-Color-Primary600);
+  box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
 }
 .saInputCardWrapper.saLarge.saActive:active.saNoBody .saInputCardHeading {
   border-radius: 1rem;
@@ -16075,7 +16126,7 @@ legend + .saInputCardsWrapper {
   border-bottom-color: var(--Sa-Color-Primary600);
 }
 .saInputCardWrapper.saLarge:has(:checked):has(:enabled):not(:active) .saInputCardBody {
-  box-shadow: inset 1px -1px 0 0 var(--Sa-Color-Primary600), inset -1px -1px 0 0 var(--Sa-Color-Primary600);
+  box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
 }
 .saLarge.saInputCardWrapper.saLarge .saInputCardIconWrapper {
   max-height: 10rem;
@@ -16090,7 +16141,6 @@ legend + .saInputCardsWrapper {
 .saInputCardWrapper.saMedium .saInputCardHeading,
 .saInputCardWrapper.saSmall .saInputCardHeading {
   font-size: 0.875rem;
-  text-align: center;
   hyphens: auto;
 }
 @media (pointer: fine) {
@@ -16137,7 +16187,7 @@ legend + .saInputCardsWrapper {
 }
 .saDisabled .saInputCardWrapper,
 .saInputCardWrapper.saDisabled {
-  cursor: default;
+  cursor: not-allowed;
 }
 .saDisabled .saInputCardWrapper.saMedium,
 .saInputCardWrapper.saDisabled.saMedium,
@@ -16164,9 +16214,7 @@ legend + .saInputCardsWrapper {
 .saDisabled .saInputCardWrapper:has(:checked).saMedium,
 .saInputCardWrapper.saDisabled:has(:checked).saMedium,
 .saDisabled .saInputCardWrapper:has(:checked).saSmall,
-.saInputCardWrapper.saDisabled:has(:checked).saSmall,
-.saDisabled .saInputCardWrapper:has(:checked).saLarge .saInputCardBody,
-.saInputCardWrapper.saDisabled:has(:checked).saLarge .saInputCardBody {
+.saInputCardWrapper.saDisabled:has(:checked).saSmall {
   background-color: #ccd5e2;
   box-shadow: inset 0 0 0 2px #8fa5c0;
 }
@@ -16174,19 +16222,13 @@ legend + .saInputCardsWrapper {
 .saInputCardWrapper.saDisabled:has(:checked).saLarge .saInputCardHeading {
   background-color: #adbdd1;
 }
-.saDisabled .saInputCardWrapper :checked[type="checkbox"]::before,
-.saInputCardWrapper.saDisabled :checked[type="checkbox"]::before {
-  background-color: #7088a4;
-}
-.saDisabled .saInputCardWrapper :checked[type="radio"]::before,
-.saInputCardWrapper.saDisabled :checked[type="radio"]::before {
-  box-shadow: inset 0 0 0 0.3125rem #adbdd1, inset 0 0 0 1rem #7088a4;
-}
 .saDisabled .saInputCardWrapper img,
-.saInputCardWrapper.saDisabled img,
+.saInputCardWrapper.saDisabled img {
+  opacity: 0.5;
+}
 .saDisabled .saInputCardWrapper .saIcon,
 .saInputCardWrapper.saDisabled .saIcon {
-  opacity: 0.5;
+  color: #adbdd1;
 }
 .saDisabled .saInputCardWrapper .saPill,
 .saInputCardWrapper.saDisabled .saPill {
@@ -16300,8 +16342,7 @@ legend + .saInputCardsWrapper {
   border-radius: 1rem;
   cursor: inherit;
 }
-.saInputCardWrapper input.saRadio,
-.saInputCardWrapper input.saCheckbox {
+.saInputCardWrapper input {
   position: absolute;
   top: 0.625rem;
   right: 0.625rem;
@@ -19084,7 +19125,7 @@ legend + .saInputCardsWrapper {
   outline: 1px solid var(--Sa-Color-InputFieldBorder);
   outline-offset: -1px;
   border: 1px solid transparent;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   margin-right: 0.5rem;
 }
 .saLargeScreen .saMultiPickerWrapper.saHighlightFieldError {
@@ -19155,7 +19196,7 @@ legend + .saInputCardsWrapper {
   flex: 1;
 }
 .saMultiPickerWrapper .saMultiPickerTreeWrapper.saDropOn {
-  background: #f8f9fb;
+  background-color: var(--Sa-Color-Primary50);
   outline: 1px dashed var(--Sa-Color-Primary600);
   outline-offset: -1px;
   border-top-left-radius: 0.5rem;
@@ -19171,13 +19212,24 @@ legend + .saInputCardsWrapper {
 }
 .saMultiPickerWrapper .saMultiPickerTreeWrapper .saCheckboxTree .saExpandButton {
   display: flex;
-  background: none;
+  background-color: transparent;
   flex: 1;
 }
+@media (pointer: fine) {
+  .saMultiPickerWrapper .saMultiPickerTreeWrapper .saCheckboxTree .saExpandButton:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
+  }
+  .saMultiPickerWrapper .saMultiPickerTreeWrapper .saCheckboxTree .saExpandButton:hover:active .saIcon {
+    color: var(--Sa-Color-Primary700);
+    background-color: var(--Sa-Color-Primary100);
+    border-radius: 0.75rem;
+  }
+}
 .saMultiPickerWrapper .saMultiPickerTreeWrapper .saCheckboxTree .saExpandButton:active .saIcon {
-  color: var(--Sa-Color-Primary600);
-  background: #eef1f5;
-  border-radius: 0.5rem;
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+  border-radius: 0.75rem;
 }
 .saMultiPickerWrapper .saMultiPickerTreeWrapper .saCheckboxTree .saExpandButton .saIcon {
   position: relative;
@@ -19185,21 +19237,19 @@ legend + .saInputCardsWrapper {
   top: 0;
 }
 .saMultiPickerWrapper .saMultiPickerTreeWrapper .saCheckboxTree .saExpandButton .saExpandingIcon {
-  background: #dde3ec;
+  background-color: var(--Sa-Color-Primary100);
   cursor: default;
 }
 .saMultiPickerWrapper .saMultiPickerTreeWrapper .saCheckboxTree .saExpandButton .saSpinner {
   cursor: wait;
 }
-.saCompact .saMultiPickerWrapper .saMultiPickerTreeWrapper .saIcon {
-  top: 0;
-}
 .saMultiPickerWrapper .saNumberOfCheckedWrapper {
-  padding: 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.75rem;
   font-size: 0.75rem;
   line-height: 0.75rem;
   display: flex;
   gap: 0.25rem;
+  color: var(--Sa-Color-TextSecondary);
 }
 .saMultiPickerButtons {
   display: flex;
@@ -19222,11 +19272,11 @@ legend + .saInputCardsWrapper {
   height: 2rem;
   width: 2rem;
   border: none;
-  box-shadow: inset 0 0 0 1px #ccd5e2;
-  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+  background-color: #fff;
   padding: 0;
   margin: 0;
-  color: #506072;
+  color: var(--Sa-Color-IconDark);
   cursor: pointer;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
@@ -19262,20 +19312,20 @@ legend + .saInputCardsWrapper {
 }
 @media (pointer: fine) {
   .saMultiPickerButtons .saMultiPickerButton:hover {
-    background: var(--Sa-Color-Primary100);
+    background-color: var(--Sa-Color-Primary100);
     color: var(--Sa-Color-Primary600);
     box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
     z-index: 1;
   }
 }
 .saMultiPickerButtons .saMultiPickerButton:focus-visible {
-  background: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary100);
   color: var(--Sa-Color-Primary600);
   box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
   z-index: 1;
 }
 .saMultiPickerButtons .saMultiPickerButton:active {
-  background: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary100);
   color: var(--Sa-Color-Primary600);
   box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
 }
@@ -19325,8 +19375,8 @@ legend + .saInputCardsWrapper {
 .saMultiPickerItem {
   align-items: center;
   gap: 0.5rem;
-  border-radius: 0.25rem;
-  padding: 0 2rem 0 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0 2rem 0 0.75rem;
   font-size: 0.875rem;
   height: 2rem;
   display: flex;
@@ -19366,12 +19416,42 @@ legend + .saInputCardsWrapper {
 }
 @media (pointer: fine) {
   .saMultiPickerItem:hover {
-    background: #eef1f5;
-    color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary200);
+    color: var(--Sa-Color-Primary800);
+  }
+  .saMultiPickerItem:hover .fa-grip-dots-vertical {
+    color: inherit;
+  }
+  .saMultiPickerItem:hover .saDeleteButton {
+    opacity: 1;
   }
 }
 .saMultiPickerItem:active {
-  background: #ccd5e2;
+  background-color: var(--Sa-Color-Primary300);
+  color: var(--Sa-Color-Primary900);
+}
+.saMultiPickerItem:active .fa-grip-dots-vertical {
+  color: inherit;
+}
+.saMultiPickerItem:active .saDeleteButton {
+  opacity: 1;
+}
+.saMultiPickerItem:has(input:checked) {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+}
+.saMultiPickerItem:has(input:checked) .fa-grip-dots-vertical {
+  color: inherit;
+}
+@media (pointer: fine) {
+  .saMultiPickerItem:has(input:checked):hover {
+    background-color: var(--Sa-Color-Primary200);
+    color: var(--Sa-Color-Primary800);
+  }
+}
+.saMultiPickerItem:has(input:checked):active {
+  background-color: var(--Sa-Color-Primary300);
+  color: var(--Sa-Color-Primary900);
 }
 .saMultiPickerItem label {
   display: flex;
@@ -19402,7 +19482,6 @@ legend + .saInputCardsWrapper {
   display: block;
   font-size: 0.875rem;
   line-height: 0.875rem;
-  align-items: center;
   height: 2rem;
   width: 100%;
   white-space: nowrap;
@@ -19427,10 +19506,11 @@ legend + .saInputCardsWrapper {
   height: 1.5rem;
   width: 1.5rem;
   border-radius: 0.25rem;
-  color: var(--Sa-Color-IconDark);
+  color: var(--Sa-Color-Icon);
   position: absolute;
   border: none;
-  background: none;
+  background-color: #fff;
+  opacity: 0;
 }
 .saMultiPickerItem .saDeleteButton .saButtonText {
   white-space: nowrap;
@@ -19451,16 +19531,20 @@ legend + .saInputCardsWrapper {
   align-items: center;
   justify-content: center;
 }
+.saSmallScreen .saMultiPickerItem .saDeleteButton,
+.saMultiPickerItem .saDeleteButton:focus {
+  opacity: 1;
+}
 @media (pointer: fine) {
   .saMultiPickerItem .saDeleteButton:hover {
-    background: #ffc6c5;
+    background-color: #ffe8e7;
   }
   .saMultiPickerItem .saDeleteButton:hover .saIcon {
     color: #e0173e;
   }
 }
 .saMultiPickerItem .saDeleteButton:active {
-  background: #e0173e;
+  background-color: #e0173e;
   border-radius: 0.5rem;
 }
 .saMultiPickerItem .saDeleteButton:active .saIcon {
@@ -19470,22 +19554,12 @@ legend + .saInputCardsWrapper {
   content: '';
   height: 2rem;
   position: absolute;
-  left: -0.5rem;
-  top: 0;
-  width: 2.5rem;
-  right: -0.75rem;
+  top: -0.25rem;
+  right: -0.25rem;
+  width: 2rem;
 }
 .saMultiPickerItem .saIcon {
   color: var(--Sa-Color-IconDark);
-}
-.saMultiPickerItem:has(input:checked) {
-  background: var(--Sa-Color-Primary100);
-  color: var(--Sa-Color-Primary600);
-}
-@media (pointer: fine) {
-  .saMultiPickerItem:has(input:checked):hover {
-    background: #ccd5e2;
-  }
 }
 .saSmallScreen .saMultiPickerWrapper {
   width: 100%;
@@ -19612,7 +19686,7 @@ legend + .saInputCardsWrapper {
   border: none;
   margin: 0;
   padding: 0;
-  background: transparent;
+  background-color: transparent;
 }
 .saSmallScreen .saMultiPickerSelected {
   padding: unset;
@@ -22376,7 +22450,6 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
   top: 0;
   right: 0;
   height: 2rem;
@@ -22385,6 +22458,8 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   font-weight: 600;
   z-index: 9998;
   white-space: nowrap;
+  overflow: hidden;
+  position: relative;
   left: 0;
   width: 100%;
 }
@@ -22415,29 +22490,26 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
-  padding: 0 2rem;
-  overflow: hidden;
+  width: max-content;
+}
+.saMessageBanner .saBannerMessageWrapper.saAnimated {
+  animation: marquee linear infinite 5s;
 }
 @media (pointer: fine) {
-  .saMessageBanner .saBannerMessageWrapper:hover .saAnimated {
+  .saMessageBanner .saBannerMessageWrapper:hover {
     animation-play-state: paused;
   }
 }
 .saMessageBanner .saBannerMessage {
   display: flex;
-  gap: 0.5rem;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
   height: 2rem;
-}
-.saMessageBanner .saBannerMessage.saAnimated {
-  justify-content: flex-start;
-  text-align: left;
-  animation: marquee ease-out infinite alternate;
+  padding: 0 2rem;
 }
 .saMessageBanner.saFadeOut {
   animation: 2s ease marquee-out forwards;
@@ -22447,7 +22519,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 @keyframes marquee {
   from {
-    transform: translateX(50%);
+    transform: translateX(0);
   }
   to {
     transform: translateX(-50%);
@@ -23674,7 +23746,7 @@ body.saMiniView {
   user-select: none;
 }
 .saDisabled .saCheckboxTree {
-  background: #f8f9fb;
+  background-color: #f8f9fb;
 }
 .saCheckboxTree fieldset {
   display: flex;
@@ -23690,39 +23762,33 @@ body.saMiniView {
 }
 .saCheckboxTree .saCheckboxOuter .saIcon {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   position: absolute;
-  right: 0.25rem;
-  top: 0.25rem;
+  right: 0;
+  top: 0;
   height: 2rem;
   width: 2rem;
   font-size: 0.875rem;
   color: var(--Sa-Color-IconDark);
-  background: transparent;
+  background-color: transparent;
   border: none;
   cursor: pointer;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   padding: 0;
-}
-.saCheckboxTree .saCheckboxOuter .saIcon::after {
-  content: '';
-  height: 3rem;
-  width: 3rem;
-  position: absolute;
-  top: -0.5rem;
-  left: -0.5rem;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
 }
 @media (pointer: fine) {
   .saCheckboxTree .saCheckboxOuter .saIcon:hover:not(.saSpinner):not(.saExpandingIcon) {
     color: var(--Sa-Color-Primary600);
-    background: #f8f9fb;
+    background-color: var(--Sa-Color-Primary50);
   }
 }
 .saCheckboxTree .saCheckboxOuter .saIcon:active {
-  color: var(--Sa-Color-Primary600);
-  background: #eef1f5;
-  border-radius: 0.5rem;
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+  border-radius: 0.75rem;
 }
 .saDisabled .saCheckboxTree .saCheckboxOuter .saIcon {
   color: #ccd5e2;
@@ -23738,43 +23804,22 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saCheckboxTree label.saCheckboxWrapper:not(:has(.saCheckbox:disabled)):hover {
-    background: #f8f9fb;
+    background-color: var(--Sa-Color-Primary50);
   }
 }
 .saCheckboxTree label.saCheckboxWrapper:not(:has(.saCheckbox:disabled)):active {
-  background: #eef1f5;
+  background-color: var(--Sa-Color-Primary100);
   border-radius: 0.75rem;
 }
 .saCheckboxTree .saCheckboxWrapper {
-  min-height: 2.5rem;
+  min-height: 2rem;
+  padding: 0.375rem 2.5rem 0.375rem 0.375rem;
   border-radius: 0.5rem;
-  padding: 0.5rem 2.5rem 0.5rem 0.5rem;
   background-color: transparent;
 }
 .saCheckboxTree .saCheckboxWrapper input.saCheckbox::after {
   height: 1.875rem;
   min-width: 1.875rem;
-}
-.saCompact .saCheckboxTree .saCheckboxWrapper {
-  min-height: 2rem;
-  padding: 0.375rem 2.5rem 0.375rem 0.375rem;
-}
-.saCompact .saCheckboxTree .saCheckboxOuter button.saIcon {
-  top: 0;
-  right: 0;
-}
-.saCompact .saCheckboxTree .saCheckboxOuter button.saIcon::after {
-  content: none;
-}
-.saCompact .saCheckboxTree .saInputTextWrapper .saLeadingIcon {
-  position: absolute;
-  top: 0.5rem;
-  left: 0;
-  z-index: 1;
-  font-size: 1rem;
-}
-.saCompact .saCheckboxTree .saInputText {
-  height: 2rem;
 }
 .saSmallScreen .saCheckboxTreeWrapper {
   max-height: none;
@@ -23793,20 +23838,20 @@ body.saMiniView {
   border-radius: 0.5rem;
   box-shadow: none;
   width: 100%;
-  background: transparent;
+  background-color: transparent;
 }
 @media (pointer: fine) {
   .saSmallScreen .saCheckboxTreeWrapper .saCheckboxTree label.saCheckboxWrapper:not(:has(.saCheckbox:disabled)):hover {
-    background: inherit;
+    background-color: inherit;
   }
 }
 .saSmallScreen .saCheckboxTreeWrapper .saCheckboxTree label.saCheckboxWrapper:not(:has(.saCheckbox:disabled)):active {
-  background: #eef1f5;
+  background-color: var(--Sa-Color-Primary100);
   box-shadow: none;
 }
 @media (pointer: fine) {
   .saSmallScreen .saCheckboxTreeWrapper .saCheckboxTree .saCheckboxOuter button.saIcon:hover {
-    background: transparent;
+    background-color: transparent;
     color: var(--Sa-Color-IconDark);
   }
 }
@@ -32339,13 +32384,6 @@ body.saPopup::before {
   color: #fff;
 }
 .saChatWrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  justify-content: space-between;
-  box-sizing: border-box;
-  overflow: hidden;
   min-height: 16rem;
 }
 .saLargeScreen .saChatWrapper {
@@ -32368,8 +32406,7 @@ body.saPopup::before {
   height: 100%;
   position: relative;
   flex: 1;
-  overflow: auto;
-  padding: 0 1rem 1rem 1rem;
+  padding: 1rem;
 }
 .saLargeScreen .saMultiPartPanel.saHasBorder .saChatWrapper .saChat {
   border-radius: 0;
@@ -32379,26 +32416,6 @@ body.saPopup::before {
   border-radius: 1rem 1rem 0 0;
   border: 1px solid #ccd5e2;
   border-bottom: none;
-  padding-right: 0;
-  scrollbar-gutter: stable;
-}
-.saLargeScreen .saChatWrapper .saChat::-webkit-scrollbar {
-  background-color: transparent;
-}
-.saLargeScreen .saChatWrapper .saChat::-webkit-scrollbar-thumb {
-  background-color: transparent;
-}
-.saLargeScreen .saChatWrapper .saChat:is(:hover, :focus-within)::-webkit-scrollbar {
-  background-color: #ccd5e2;
-}
-.saLargeScreen .saChatWrapper .saChat:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
-  background-color: #7088a4;
-}
-.saLargeScreen .saChatWrapper .saChat:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
-  background-color: #506072;
-}
-.saLargeScreen .saChatWrapper .saChat:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
-  background-color: #313a44;
 }
 .saChatWrapper .saChat hr {
   border-color: #ccd5e2;
@@ -32950,13 +32967,17 @@ body.saPopup::before {
   min-width: 1.125rem;
   max-width: 1.125rem;
 }
+.saChatWrapper .saChatComposerWrapper {
+  bottom: 0;
+  max-height: 50dvh;
+  padding-bottom: 1.5rem;
+  position: sticky;
+}
+.saSmallScreen .saChatWrapper .saChatComposerWrapper {
+  padding: 0 0.5rem 0.5rem 0.5rem;
+}
 .saChatWrapper .saChatComposer {
   display: flex;
-  position: relative;
-  max-height: 50%;
-}
-.saSmallScreen .saChatWrapper .saChatComposer {
-  padding: 0 0.5rem 0.5rem 0.5rem;
 }
 .saChatWrapper .saChatComposer textarea {
   width: 100%;
