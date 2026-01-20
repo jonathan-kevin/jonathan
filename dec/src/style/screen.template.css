@@ -118,6 +118,7 @@
   --Sa-Color-FavoriteCheckedHighContrast: #e0173e;
   --Sa-Color-FavoriteCheckedHoverHighContrast: #bf0024;
   --Sa-Color-FavoriteCheckedActiveHighContrast: #9b0002;
+  --Sa-Color-DestructiveButtonBackground-Brightness187: #ffe8e7;
 }
 h1,
 h2,
@@ -5273,35 +5274,61 @@ div.saPopupOverlay {
 .saNotificationsWrapper {
   position: absolute;
   height: 100%;
-  animation-duration: 250ms;
+  animation-duration: 200ms;
   animation-name: drawerslidein;
-  animation-timing-function: ease-out;
+  animation-timing-function: ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 2rem rgba(49, 58, 68, 0.07);
+}
+.saSmallScreen .saNotificationsWrapper {
+  display: block;
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: 100%;
+  animation-name: drawerslideinsmallscreen;
+  right: 0;
+  width: calc(100dvw - 3rem);
 }
 .saNotificationsWrapper:focus {
   outline: none;
 }
 .saNotificationsWrapper.saSlideout {
-  animation-duration: 125ms;
+  animation-duration: 200ms;
   animation-name: drawerslideout;
 }
 .saNotificationsWrapper .saNotificationsInner {
   display: flex;
-  position: absolute;
-  top: 0;
   flex-direction: column;
-  background: #fff;
+  width: 25rem;
+  top: 0;
+  background-color: #fff;
   height: 100%;
   overflow: hidden;
   overflow-y: auto;
-  padding: 1rem;
   box-sizing: border-box;
-  box-shadow: 0 0 2rem rgba(49, 58, 68, 0.07);
+}
+@media (pointer: fine) {
+  .saLargeScreen .saNotificationsWrapper .saNotificationsInner {
+    scrollbar-gutter: stable;
+  }
+}
+.saSmallScreen .saNotificationsWrapper .saNotificationsInner {
+  width: 100%;
 }
 .saNotificationsWrapper .saNotificationList {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  height: 100%;
 }
-.saNotificationsWrapper .saNotificationsHeading {
+@media (pointer: fine) {
+  .saLargeScreen .saNotificationsWrapper .saNotificationList {
+    padding-right: 0;
+  }
+}
+.saNotificationsWrapper .saNotificationsHeader {
   position: sticky;
   top: 0;
   z-index: 2;
@@ -5311,19 +5338,14 @@ div.saPopupOverlay {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem 0 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
 }
-.saNotificationsWrapper .saNotificationsHeading::before {
-  content: '';
-  position: absolute;
-  width: calc(100% + 4rem);
-  top: -1.5rem;
-  left: -1.5rem;
-  height: 4.5rem;
-  flex-basis: 100%;
-  background: #fff;
-  z-index: -1;
+.saSmallScreen .saNotificationsWrapper .saNotificationsHeader {
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
 }
-.saNotificationsWrapper .saNotificationsHeading h3 {
+.saNotificationsWrapper .saNotificationsHeader h3 {
   color: var(--Sa-Color-Text);
 }
 .saNotificationsWrapper .saCloseModal {
@@ -5340,14 +5362,13 @@ div.saPopupOverlay {
   flex-shrink: 0;
   border-radius: 0.5rem;
   padding: 0 0.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  max-width: 2.5rem;
-  min-width: 2.5rem;
-  font-size: 1rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
   color: var(--Sa-Color-Primary600);
   background: transparent;
-  font-size: 1.25rem;
+  font-size: 1rem;
 }
 .saNotificationsWrapper .saCloseModal .saButtonText {
   white-space: nowrap;
@@ -5427,8 +5448,11 @@ div.saPopupOverlay {
   height: 3.5rem;
   width: 3.5rem;
   position: absolute;
-  top: -1rem;
+  top: 0;
   right: -1rem;
+}
+.saNotificationsWrapper .saClearAllWrapper {
+  padding: 0.5rem 0 0 1rem;
 }
 .saNotificationsWrapper .saClearAll {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -5444,6 +5468,10 @@ div.saPopupOverlay {
   flex-shrink: 0;
   color: var(--Sa-Color-Primary600);
   background: transparent;
+  gap: 0.5rem;
+  height: 1.5rem;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
   width: fit-content;
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -5518,6 +5546,24 @@ div.saPopupOverlay {
 .saNotificationsWrapper .saClearAll.saDisabled .saIcon {
   color: #adbdd1;
 }
+.saNotificationsWrapper .saClearAll:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saNotificationsWrapper .saClearAll {
+  gap: 0.5rem;
+  padding: 0.5rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}
+.saSmallScreen .saNotificationsWrapper .saClearAll:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saNotificationsWrapper .saClearAll .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
+}
 .saNotificationsWrapper .saNotificationWrapper {
   position: relative;
 }
@@ -5527,7 +5573,10 @@ div.saPopupOverlay {
   flex-direction: column;
   transition: all 0.2s ease;
   background: #fff;
-  border: 1px solid #dde3ec;
+  border: 1px solid #ccd5e2;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem 3rem 0.5rem 0.5rem;
 }
 .saNotificationsWrapper .saNotification.saActive {
   cursor: pointer;
@@ -5571,6 +5620,14 @@ div.saPopupOverlay {
   background: #e0173e;
   border-radius: 0.375rem;
 }
+.saSmallScreen .saNotificationsWrapper .saDismissButton::after {
+  content: '';
+  height: 2.75rem;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: -0.75rem;
+}
 .saNotificationsWrapper .saNotificationText {
   color: var(--Sa-Color-Text);
   word-break: break-word;
@@ -5592,131 +5649,20 @@ div.saPopupOverlay {
   font-size: 0.625rem;
   color: var(--Sa-Color-TextSecondary);
 }
-.saStandard .saNotificationsWrapper .saNotificationsInner {
-  gap: 1rem;
-  width: 25rem;
-}
-.saStandard .saNotificationsWrapper .saNotificationList {
-  gap: 1rem;
-}
-.saStandard .saNotificationsWrapper .saClearAll {
-  gap: 0.5rem;
-  padding: 0.5rem;
-  height: 2rem;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-}
-.saStandard .saNotificationsWrapper .saClearAll:active {
-  border-radius: 0.75rem;
-}
-.saStandard .saNotificationsWrapper .saClearAll .saIcon {
-  font-size: 1rem;
-  min-width: 1.125rem;
-  max-width: 1.125rem;
-}
-.saStandard .saNotificationsWrapper .saNotification {
-  gap: 0.5rem;
-  border-radius: 0.5rem;
-  padding: 1rem 3rem 1rem 1rem;
-}
-.saStandard .saNotificationsWrapper .saNotificationHeading {
-  font-size: 1rem;
-}
-.saCompact .saNotificationsWrapper .saNotificationsInner {
-  gap: 0.5rem;
-  width: 25rem;
-}
-.saCompact .saNotificationsWrapper .saNotificationsInner .saNotificationsHeading::before {
-  content: '';
-  height: 4rem;
-}
-.saCompact .saNotificationsWrapper .saNotificationList {
-  gap: 0.5rem;
-}
-.saCompact .saNotificationsWrapper .saClearAll {
-  gap: 0.5rem;
-  height: 1.5rem;
-  padding: 0.5rem;
-  font-size: 0.75rem;
-  border-radius: 0.25rem;
-}
-.saCompact .saNotificationsWrapper .saClearAll:active {
-  border-radius: 0.75rem;
-}
-.saCompact .saNotificationsWrapper .saNotification {
-  gap: 0.5rem;
-  border-radius: 0.5rem;
-  padding: 0.5rem 3rem 0.5rem 0.5rem;
-}
-.saCompact .saNotificationsWrapper .saNotificationHeading {
-  font-size: 0.75rem;
-}
-.saSmallScreen .saNotificationsWrapper,
-.saSmallscreensidebar .saNotificationsWrapper {
-  position: relative;
-}
-.saSmallScreen .saNotificationsWrapper .saNotificationsInner,
-.saSmallscreensidebar .saNotificationsWrapper .saNotificationsInner {
-  gap: 1rem;
-  width: 100%;
-  border-left: none;
-}
-.saSmallScreen .saNotificationsWrapper .saNotificationList,
-.saSmallscreensidebar .saNotificationsWrapper .saNotificationList {
-  gap: 1rem;
-}
-.saSmallScreen .saNotificationsWrapper .saClearAll,
-.saSmallscreensidebar .saNotificationsWrapper .saClearAll {
-  gap: 0.5rem;
-  padding: 0.5rem;
-  height: 2rem;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-}
-.saSmallScreen .saNotificationsWrapper .saClearAll:active,
-.saSmallscreensidebar .saNotificationsWrapper .saClearAll:active {
-  border-radius: 0.75rem;
-}
-.saSmallScreen .saNotificationsWrapper .saClearAll .saIcon,
-.saSmallscreensidebar .saNotificationsWrapper .saClearAll .saIcon {
-  font-size: 1rem;
-  min-width: 1.125rem;
-  max-width: 1.125rem;
-}
-.saSmallScreen .saNotificationsWrapper .saClearAll::after,
-.saSmallscreensidebar .saNotificationsWrapper .saClearAll::after {
-  content: '';
-  height: 2.75rem;
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: -0.5rem;
-}
-.saSmallScreen .saNotificationsWrapper .saDismissButton::after,
-.saSmallscreensidebar .saNotificationsWrapper .saDismissButton::after {
-  content: '';
-  height: 2.75rem;
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: -0.75rem;
-}
-.saSmallScreen .saNotificationsWrapper .saNotification,
-.saSmallscreensidebar .saNotificationsWrapper .saNotification {
-  gap: 0.5rem;
-  border-radius: 0.5rem;
-  padding: 1rem 2.5rem 1rem 1rem;
-}
-.saSmallScreen .saNotificationsWrapper .saNotificationHeading,
-.saSmallscreensidebar .saNotificationsWrapper .saNotificationHeading {
-  font-size: 1rem;
-}
 @keyframes drawerslidein {
   from {
     left: -25rem;
   }
   to {
     left: 0;
+  }
+}
+@keyframes drawerslideinsmallscreen {
+  from {
+    right: -25rem;
+  }
+  to {
+    right: 0;
   }
 }
 @keyframes drawerslideout {
@@ -28951,6 +28897,23 @@ body.saMiniView {
   align-items: center;
   justify-content: space-between;
   min-height: 2rem;
+  color: #313a44;
+}
+.saNotificationsWrapper .saToggleWrapper {
+  background-color: #fff;
+  padding: 1rem;
+  position: sticky;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+}
+@media (pointer: fine) {
+  .saLargeScreen .saNotificationsWrapper .saToggleWrapper {
+    padding-right: 0;
+  }
+}
+.saSmallScreen .saNotificationsWrapper .saToggleWrapper {
+  padding: 0.5rem 1rem;
 }
 .saToggleWrapper.saDisabled {
   cursor: default;
@@ -28959,6 +28922,7 @@ body.saMiniView {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 0.25rem;
 }
 .saToggleWrapper .saToggleLabel {
   display: flex;
@@ -28967,7 +28931,7 @@ body.saMiniView {
 }
 .saToggleWrapper .saToggleDescription {
   display: flex;
-  height: 0.75rem;
+  min-height: 0.75rem;
   font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
   color: var(--Sa-Color-TextSecondary);
@@ -29082,44 +29046,6 @@ body.saMiniView {
 .saDisabled.saToggleWrapper .saToggle:active::after {
   right: 1.125rem;
   width: 1.25rem;
-}
-.saSmallScreen .saToggleWrapper {
-  gap: 0.5rem;
-}
-.saSmallScreen .saToggleWrapper:active .saToggle::after {
-  right: 1.125rem;
-  width: 2.25rem;
-}
-.saSmallScreen .saToggleWrapper:active .saToggle:checked::after {
-  right: 2px;
-  width: 2.25rem;
-}
-.saSmallScreen .saToggleWrapper .saToggle {
-  min-width: 3.5rem;
-  height: 2rem;
-}
-.saSmallScreen .saToggleWrapper .saToggle::before {
-  min-height: 2rem;
-  min-width: 3.5rem;
-  border-radius: 1rem;
-}
-.saSmallScreen .saToggleWrapper .saToggle::after {
-  height: 1.75rem;
-  width: 1.75rem;
-  border-radius: 0.875rem;
-  right: 1.625rem;
-}
-.saSmallScreen .saToggleWrapper .saToggle:active::after {
-  right: 1.125rem;
-  width: 2.25rem;
-}
-.saSmallScreen .saToggleWrapper .saToggle:checked::after {
-  right: 2px;
-  width: 1.75rem;
-}
-.saSmallScreen .saToggleWrapper .saToggle:checked:active::after {
-  right: 2px;
-  width: 2.25rem;
 }
 .saVisibleParametersWrapper {
   display: flex;
