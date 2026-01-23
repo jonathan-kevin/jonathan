@@ -33636,7 +33636,7 @@ pre.saCode {
     outline-offset: -2px;
   }
 }
-.saInputTextWrapper .saInputText.saListBox:enabled:focus-within {
+.saInputTextWrapper .saInputText.saListBox:enabled:focus {
   outline: 2px solid var(--Sa-Color-Primary600);
   outline-offset: -2px;
 }
@@ -33650,7 +33650,7 @@ pre.saCode {
     outline: 2px solid #bf0024;
   }
 }
-.saHighlightFieldError.saInputTextWrapper .saInputText.saListBox:enabled:focus-within {
+.saHighlightFieldError.saInputTextWrapper .saInputText.saListBox:enabled:focus {
   outline: 2px solid #bf0024;
   background-color: #ffe8e7;
 }
@@ -33664,7 +33664,7 @@ pre.saCode {
     outline: 2px solid #da9600;
   }
 }
-.saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox:enabled:focus-within {
+.saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox:enabled:focus {
   outline: 2px solid #da9600;
   background-color: #ffecb7;
 }
@@ -33674,7 +33674,7 @@ pre.saCode {
 }
 .saInputTextWrapper .saInputText.saListBox:disabled option {
   pointer-events: none;
-  color: #8fa5c0;
+  color: #adbdd1;
 }
 .saInputTextWrapper .saInputText.saListBox option {
   overflow: hidden;
@@ -33689,68 +33689,93 @@ pre.saCode {
   padding-inline-end: 0;
   padding: 0.1875rem 0.5rem;
   white-space: nowrap;
+  color: inherit;
 }
 .saInputTextWrapper .saInputText.saListBox option:enabled:checked {
   color: #fff;
-  background-color: var(--Sa-Color-Primary600);
   background: linear-gradient(var(--Sa-Color-Primary600), var(--Sa-Color-Primary600));
-}
-.saHighlightFieldError.saInputTextWrapper .saInputText.saListBox option:enabled:checked {
-  background-color: #e0173e;
-  background: linear-gradient(#e0173e, #e0173e);
-}
-@media (pointer: fine) {
-  .saHighlightFieldError.saInputTextWrapper .saInputText.saListBox option:enabled:checked:hover {
-    background-color: #bf0024;
-    background: linear-gradient(#bf0024, #bf0024);
-  }
-}
-.saHighlightFieldError.saInputTextWrapper .saInputText.saListBox option:enabled:checked:active {
-  background-color: #9b0002;
-  background: linear-gradient(#9b0002, #9b0002);
-}
-.saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox option:enabled:checked {
-  background-color: #9c6700;
-  background: linear-gradient(#9c6700, #9c6700);
-}
-@media (pointer: fine) {
-  .saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox option:enabled:checked:hover {
-    background-color: #825400;
-    background: linear-gradient(#825400, #825400);
-  }
-}
-.saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox option:enabled:checked:active {
-  background-color: #694300;
-  background: linear-gradient(#694300, #694300);
 }
 @media (pointer: fine) {
   .saInputTextWrapper .saInputText.saListBox option:enabled:checked:hover {
-    background-color: var(--Sa-Color-Primary700);
+    color: #fff;
     background: linear-gradient(var(--Sa-Color-Primary700), var(--Sa-Color-Primary700));
   }
 }
 .saInputTextWrapper .saInputText.saListBox option:enabled:checked:active {
-  background-color: var(--Sa-Color-Primary800);
+  color: #fff;
   background: linear-gradient(var(--Sa-Color-Primary800), var(--Sa-Color-Primary800));
+}
+.saHighlightFieldError.saInputTextWrapper .saInputText.saListBox option:enabled:checked {
+  color: #fff;
+  background: linear-gradient(#e0173e, #e0173e);
+}
+@media (pointer: fine) {
+  .saHighlightFieldError.saInputTextWrapper .saInputText.saListBox option:enabled:checked:hover {
+    color: #fff;
+    background: linear-gradient(#bf0024, #bf0024);
+  }
+}
+.saHighlightFieldError.saInputTextWrapper .saInputText.saListBox option:enabled:checked:active {
+  color: #fff;
+  background: linear-gradient(#9b0002, #9b0002);
+}
+.saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox option:enabled:checked {
+  color: #fff;
+  background: linear-gradient(#9c6700, #9c6700);
+}
+@media (pointer: fine) {
+  .saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox option:enabled:checked:hover {
+    color: #fff;
+    background: linear-gradient(#825400, #825400);
+  }
+}
+.saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox option:enabled:checked:active {
+  color: #fff;
+  background: linear-gradient(#694300, #694300);
 }
 @media (pointer: fine) {
   .saInputTextWrapper .saInputText.saListBox option:enabled:hover {
-    color: #fff;
-    background-color: var(--Sa-Color-Primary700);
-    background: linear-gradient(var(--Sa-Color-Primary700), var(--Sa-Color-Primary700));
+    color: var(--Sa-Color-Primary800);
+    background: linear-gradient(var(--Sa-Color-Primary200), var(--Sa-Color-Primary200));
   }
 }
 .saInputTextWrapper .saInputText.saListBox option:enabled:active {
-  color: #fff;
-  background-color: var(--Sa-Color-Primary800);
-  background: linear-gradient(var(--Sa-Color-Primary800), var(--Sa-Color-Primary800));
+  color: var(--Sa-Color-Primary900);
+  background: linear-gradient(var(--Sa-Color-Primary300), var(--Sa-Color-Primary300));
+}
+.saHighlightFieldError.saInputTextWrapper .saInputText.saListBox option:enabled {
+  color: #790000;
+}
+@media (pointer: fine) {
+  .saHighlightFieldError.saInputTextWrapper .saInputText.saListBox option:enabled:hover {
+    color: #9b0002;
+    background: linear-gradient(#ffc6c5, #ffc6c5);
+  }
+}
+.saHighlightFieldError.saInputTextWrapper .saInputText.saListBox option:enabled:active {
+  color: #790000;
+  background: linear-gradient(#fba4a3, #fba4a3);
+}
+.saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox option:enabled {
+  color: #513200;
+}
+@media (pointer: fine) {
+  .saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox option:enabled:hover {
+    color: #694300;
+    background: linear-gradient(#ffcd5b, #ffcd5b);
+  }
+}
+.saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox option:enabled:active {
+  color: #513200;
+  background: linear-gradient(#f6ad00, #f6ad00);
 }
 .saInputTextWrapper .saInputText.saListBox option:disabled {
-  color: #8fa5c0;
+  color: #adbdd1;
   cursor: not-allowed;
+  opacity: 1;
 }
 .saInputTextWrapper .saInputText.saListBox option:disabled:checked {
-  background-color: #8fa5c0;
+  background-color: #adbdd1;
   color: #fff;
 }
 .saInputTextWrapper .saInputText.saListBox option:first-child,
