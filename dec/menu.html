@@ -60,20 +60,20 @@
 							<div class="saBadgeCount saUrgent">2</div>
 						</div>
 					</div>
-					<a id="theOption4Small" class="saOptionWrapper saDisabled" role="menuitem" aria-disabled="true" tabindex="-1">
+					<a id="theOption4Small" class="saOptionWrapper saInactive" role="menuitem" aria-disabled="true" tabindex="-1">
 						<div class="saOption">
 							<i class="saIcon saOptionIcon far fa-skull"></i>
 							<div class="saOptionText">Dead link with count</div>
 							<div class="saBadgeCount">2</div>
 						</div>
 					</a>
-					<a id="theOption5Small" class="saOptionWrapper saDisabled" role="menuitem" aria-disabled="true" tabindex="-1">
+					<a id="theOption5Small" class="saOptionWrapper saInactive" role="menuitem" aria-disabled="true" tabindex="-1">
 						<div class="saOption">
 							<i class="saIcon saOptionIcon far fa-skull"></i>
 							<div class="saOptionText">Dead link</div>
 						</div>
 					</a>
-					<button id="theOption6Small" class="saOptionWrapper saDisabled" role="menuitem" aria-disabled="true" tabindex="-1" disabled>
+					<button id="theOption6Small" class="saOptionWrapper" role="menuitem" aria-disabled="true" tabindex="-1" disabled>
 						<div class="saOption">
 							<i class="saIcon saOptionIcon far fa-cow"></i>
 							<div class="saOptionText">Dead button</div>
@@ -130,6 +130,23 @@
 							<div class="saOptionText">Delete message</div>
 						</div>
 					</button>
+					<button id="theOption15Small" class="saOptionWrapper saDestructive" type="button" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-trash-alt"></i>
+							<div class="saOptionText">Delete message</div>
+						</div>
+					</button>
+					<a class="saOptionWrapper saDestructive" tabindex="0" role="link">
+						<div class="saOption">
+							<div class="saIconHolder" aria-hidden="true">
+								<span class="saBadgedIcon"><i class="far fa-users icon saIcon"></i>
+									<i class="far fa-list list badge saBadge"></i>
+								</span>
+							</div>
+							<span class="saButtonText saOptionText saEllipsis">Delete</span>
+						</div>
+					</a>
+
 				</div>
 			</div>
     	</div>
@@ -361,44 +378,56 @@
 									<div class="scrollcontent-inner saInputPage ">
 
 										<div class="menu-target-group" style="padding: 1rem;">
-											<div class="saContextMenu">
-												<ul class="saActionLinkList">
-													<li>
-														<a class="saOptionWrapper" tabindex="0" role="link">
-															<div class="saOption">
-																<div class="saIconHolder" aria-hidden="true">
-																	<i class="fas fa-eye icon saIcon"></i></div>
-																	<span class="saButtonText saOptionText saEllipsis">bbbb</span>
-																	<span class="saBadgeCount saBadgeCountJs">3</span>
+											<!-- 0. Settings  -->
+											<div class="relative">
+												<button type="button" class="menu-target saDefaultButtonSecondary"
+														data-menu="elliothMenu"
+														aria-controls="elliothMenu"
+														aria-label="Toggle"
+														title="Toggle"
+														aria-expanded="false">
+													<i class="saIcon fas fa-toggle-on"></i>
+												</button>
+												<div class="saContextMenu" id="elliothMenu">
+													<ul class="saActionLinkList">
+														<li>
+															<a class="saOptionWrapper" tabindex="0" role="link">
+																<div class="saOption">
+																	<div class="saIconHolder" aria-hidden="true">
+																		<i class="fas fa-eye icon saIcon"></i></div>
+																		<span class="saButtonText saOptionText saEllipsis">bbbb</span>
+																		<span class="saBadgeCount saBadgeCountJs">3</span>
+																	</div>
+																</a>
+														</li>
+														<li>
+															<a class="saOptionWrapper" tabindex="0" role="link">
+																<div class="saOption">
+																	<div class="saIconHolder" aria-hidden="true">
+																		<span class="saBadgedIcon"><i class="far fa-crow icon saIcon"></i>
+																			<i class="far fa-bird bird badge saBadge"></i>
+																		</span>
+																	</div>
+																	<span class="saButtonText saOptionText saEllipsis">8620: Example</span>
 																</div>
 															</a>
-													</li>
-													<li>
-														<a class="saOptionWrapper" tabindex="0" role="link">
-															<div class="saOption">
-																<div class="saIconHolder" aria-hidden="true">
-																	<i class="far fa-plus icon saIcon"></i>
+														</li>
+														<li>
+															<a class="saOptionWrapper saDestructive" tabindex="0" role="link">
+																<div class="saOption">
+																	<div class="saIconHolder" aria-hidden="true">
+																		<span class="saBadgedIcon"><i class="far fa-users icon saIcon"></i>
+																			<i class="far fa-list list badge saBadge"></i>
+																		</span>
+																	</div>
+																	<span class="saButtonText saOptionText saEllipsis">Delete</span>
 																</div>
-																<span class="saButtonText saOptionText saEllipsis">8620: Example</span>
-															</div>
-														</a>
-													</li>
-													<li>
-														<a class="saOptionWrapper" tabindex="0" role="link">
-															<div class="saOption">
-																<div class="saIconHolder" aria-hidden="true">
-																	<span class="saBadgedIcon"><i class="far fa-users icon saIcon"></i>
-																		<i class="far fa-list list badge saBadge"></i>
-																	</span>
-																</div>
-																<span class="saButtonText saOptionText saEllipsis">Användare</span>
-															</div>
-														</a>
-													</li>
-												</ul>
-												<ul class="saNavigationLinkList"></ul>
+															</a>
+														</li>
+													</ul>
+													<ul class="saNavigationLinkList"></ul>
+												</div>
 											</div>
-
 											<!-- 1. Settings  -->
 											<div class="relative">
 												<label class="saLabel" for="settings">Settings</label>
@@ -445,7 +474,7 @@
 															<div class="saOptionText">Advanced mode</div>
 														</div>
 													</li>
-													<li id="optionn4" class="saOptionWrapper saDisabled" role="option" tabindex="-1" aria-selected="false" aria-disabled="true">
+													<li id="optionn4" class="saOptionWrapper saInactive" role="option" tabindex="-1" aria-selected="false" aria-disabled="true">
 														<div class="saOption">
 															<i class="saIcon saOptionIcon" aria-hidden="true"></i>
 															<div class="saOptionText">God mode (unavailable)</div>
@@ -550,22 +579,26 @@
 															<div class="saBadgeCount saUrgent">2</div>
 														</div>
 													</a>
-													<a id="theOption4" class="saOptionWrapper saDisabled" role="menuitem" aria-disabled="true" tabindex="-1">
+													<a id="theOption4" class="saOptionWrapper saInactive" role="menuitem" aria-disabled="true" tabindex="-1">
 														<div class="saOption">
 															<i class="saIcon saOptionIcon far fa-skull"></i>
 															<div class="saOptionText">Dead link with count</div>
 															<div class="saBadgeCount">2</div>
 														</div>
 													</a>
-													<a id="theOption5" class="saOptionWrapper saDisabled" role="menuitem" aria-disabled="true" tabindex="-1">
+													<a id="theOption5" class="saOptionWrapper saInactive" role="menuitem" aria-disabled="true" tabindex="-1">
 														<div class="saOption">
 															<i class="saIcon saOptionIcon far fa-skull"></i>
 															<div class="saOptionText">Dead link</div>
 														</div>
 													</a>
-													<button id="theOption6" class="saOptionWrapper saDisabled" role="menuitem" aria-disabled="true" tabindex="-1" disabled>
+													<button id="theOption6" class="saOptionWrapper saInactive" role="menuitem" aria-disabled="true" tabindex="-1" disabled>
 														<div class="saOption">
-															<i class="saIcon saOptionIcon far fa-cow"></i>
+															<div class="saIconHolder" aria-hidden="true">
+																<span class="saBadgedIcon"><i class="far fa-users icon saIcon"></i>
+																	<i class="far fa-list list badge saBadge"></i>
+																</span>
+															</div>
 															<div class="saOptionText">Dead button</div>
 														</div>
 													</button>

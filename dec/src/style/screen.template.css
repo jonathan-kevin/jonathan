@@ -33068,14 +33068,29 @@ pre.saCode {
   gap: 0.5rem;
   flex-wrap: wrap;
 }
-.relative {
-  position: relative;
-}
 .saSheetContent .saInputTextWrapper {
   margin: 0;
   padding: 0 1rem 1rem 1rem;
   width: 100%;
   box-sizing: border-box;
+}
+.saSheetContent .saInputTextWrapper .saInputTextWrapper {
+  margin: 0;
+  padding: 0 1rem 1rem 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+.saSheetContent .saInputTextWrapper .saTrailingIconsWrapper {
+  padding: 0 1.5rem;
+}
+.saSheetContent .saInputTextWrapper .saTrailingIconsWrapper .saBottomSheetActionIcon {
+  color: var(--Sa-Color-Primary600);
+}
+.saContextMenu:empty {
+  display: none;
+}
+.saBottomSheetOptionListWrapper {
+  width: 100%;
 }
 .saContextMenu {
   z-index: 1005;
@@ -33123,6 +33138,11 @@ pre.saCode {
   color: #fff;
   background-color: #e0173e;
 }
+.saBottomSheet .saContextMenu {
+  position: static;
+  outline: none;
+  box-shadow: none;
+}
 .saSmallScreen .saContextMenu {
   width: 100%;
   min-width: unset;
@@ -33140,6 +33160,21 @@ pre.saCode {
   padding: 0;
   margin: 0;
   outline: none;
+}
+.saContextMenu.saSmallScreenMenu .saOptionWrapper {
+  display: flex;
+}
+.saContextMenu.saSmallScreenMenu .saOption {
+  width: 100%;
+}
+.saContextMenu.saSmallScreenMenu .saIconHolder .saBadge {
+  height: 0.875rem;
+  min-width: 0.875rem;
+  font-size: 0.625rem;
+  right: -0.25rem;
+  bottom: -0.25rem;
+  z-index: 2;
+  bottom: -0.5rem;
 }
 .saContextMenu.saOpen,
 .saContextMenu.saSmallScreenMenu {
@@ -33172,7 +33207,7 @@ pre.saCode {
 .saContextMenu hr {
   width: 100%;
   border: none;
-  border-top: 1px solid var(--Sa-Color-Gray150);
+  border-top: 1px solid #dde3ec;
   margin: 0.25rem auto;
 }
 .saContextMenu input.saToggle {
@@ -33225,10 +33260,10 @@ pre.saCode {
   border-radius: 0.5rem;
   position: relative;
 }
-.saContextMenu .saOptionRow:not(.saDisabled) {
+.saContextMenu .saOptionRow:not(.saInactive) {
   cursor: pointer;
 }
-.saContextMenu .saOptionRow:not(.saDisabled)::after {
+.saContextMenu .saOptionRow:not(.saInactive)::after {
   content: '';
   position: absolute;
   inset: 0 0 0 -0.25rem;
@@ -33236,42 +33271,42 @@ pre.saCode {
   width: calc(100% + 0.5rem);
 }
 @media (pointer: fine) {
-  .saContextMenu .saOptionRow:not(.saDisabled):hover {
+  .saContextMenu .saOptionRow:not(.saInactive):hover {
     color: var(--Sa-Color-Primary600);
   }
-  .saContextMenu .saOptionRow:not(.saDisabled):hover * {
+  .saContextMenu .saOptionRow:not(.saInactive):hover * {
     color: inherit;
   }
-  .saContextMenu .saOptionRow:not(.saDisabled):hover .saOptionCell {
+  .saContextMenu .saOptionRow:not(.saInactive):hover .saOptionCell {
     background-color: var(--Sa-Color-Primary50);
   }
 }
-.saContextMenu .saOptionRow:not(.saDisabled):active {
+.saContextMenu .saOptionRow:not(.saInactive):active {
   color: var(--Sa-Color-Primary700);
 }
-.saContextMenu .saOptionRow:not(.saDisabled):active * {
+.saContextMenu .saOptionRow:not(.saInactive):active * {
   color: inherit;
 }
-.saContextMenu .saOptionRow:not(.saDisabled):active .saOptionCell {
+.saContextMenu .saOptionRow:not(.saInactive):active .saOptionCell {
   background-color: var(--Sa-Color-Primary100);
 }
-.saContextMenu .saOptionRow:not(.saDisabled):active .saOptionCell:only-child {
+.saContextMenu .saOptionRow:not(.saInactive):active .saOptionCell:only-child {
   border-radius: 0.75rem;
 }
-.saContextMenu .saOptionRow:not(.saDisabled):active .saOptionCell:first-child {
+.saContextMenu .saOptionRow:not(.saInactive):active .saOptionCell:first-child {
   border-top-left-radius: 0.75rem;
   border-bottom-left-radius: 0.75rem;
 }
-.saContextMenu .saOptionRow:not(.saDisabled):active .saOptionCell:last-child {
+.saContextMenu .saOptionRow:not(.saInactive):active .saOptionCell:last-child {
   border-top-right-radius: 0.75rem;
   border-bottom-right-radius: 0.75rem;
 }
-.saContextMenu .saOptionRow:not(.saDisabled).saFocus {
+.saContextMenu .saOptionRow:not(.saInactive).saFocus {
   background-color: var(--Sa-Color-Primary100);
   color: var(--Sa-Color-Primary700);
 }
-.saContextMenu .saOptionRow:not(.saDisabled).saFocus .saIcon,
-.saContextMenu .saOptionRow:not(.saDisabled).saFocus .saOptionDescription {
+.saContextMenu .saOptionRow:not(.saInactive).saFocus .saIcon,
+.saContextMenu .saOptionRow:not(.saInactive).saFocus .saOptionDescription {
   color: inherit;
 }
 .saContextMenu .saOptionCell {
@@ -33316,33 +33351,46 @@ pre.saCode {
   color: var(--Sa-Color-Text);
   width: 100%;
 }
-.saContextMenu .saOptionWrapper:not(.saDisabled, .saNoResults) {
+.saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults) {
   cursor: pointer;
 }
 @media (pointer: fine) {
-  .saContextMenu .saOptionWrapper:not(.saDisabled, .saNoResults):hover .saOption {
+  .saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):hover .saOption {
     color: var(--Sa-Color-Primary600);
     background-color: var(--Sa-Color-Primary50);
   }
-  .saContextMenu .saOptionWrapper:not(.saDisabled, .saNoResults):hover .saOptionDescription,
-  .saContextMenu .saOptionWrapper:not(.saDisabled, .saNoResults):hover .saIcon {
+  .saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):hover .saOptionDescription,
+  .saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):hover .saIcon {
     color: inherit;
   }
+  .saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):hover .saBadge {
+    color: var(--Sa-Color-Primary50);
+    border-color: var(--Sa-Color-Primary50);
+    background-color: var(--Sa-Color-Primary600);
+  }
 }
-.saContextMenu .saOptionWrapper:not(.saDisabled, .saNoResults):active .saOption {
+.saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):active .saOption {
   color: var(--Sa-Color-Primary700);
   background-color: var(--Sa-Color-Primary100);
   border-radius: 0.75rem;
 }
-.saContextMenu .saOptionWrapper:not(.saDisabled, .saNoResults):active .saOptionDescription,
-.saContextMenu .saOptionWrapper:not(.saDisabled, .saNoResults):active .saIcon {
+.saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):active .saOptionDescription,
+.saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):active .saIcon {
   color: inherit;
+}
+.saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):active .saBadge {
+  color: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saContextMenu .saOptionWrapper.saDestructive .saOption {
   color: #e0173e;
 }
-.saContextMenu .saOptionWrapper.saDestructive .saIcon {
+.saContextMenu .saOptionWrapper.saDestructive :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
   color: inherit;
+}
+.saContextMenu .saOptionWrapper.saDestructive .saBadge {
+  background-color: #e0173e;
 }
 @media (pointer: fine) {
   .saContextMenu .saOptionWrapper.saDestructive:hover .saOption {
@@ -33353,6 +33401,11 @@ pre.saCode {
   .saContextMenu .saOptionWrapper.saDestructive:hover .saIcon {
     color: inherit;
   }
+  .saContextMenu .saOptionWrapper.saDestructive:hover .saBadge {
+    background-color: #fff;
+    border-color: currentColor;
+    color: #e0173e;
+  }
 }
 .saContextMenu .saOptionWrapper.saDestructive:active .saOption {
   color: #fff;
@@ -33362,6 +33415,11 @@ pre.saCode {
 .saContextMenu .saOptionWrapper.saDestructive:active .saIcon {
   color: inherit;
 }
+.saContextMenu .saOptionWrapper.saDestructive:active .saBadge {
+  background-color: #fff;
+  border-color: currentColor;
+  color: #bf0024;
+}
 .saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"]) .saOption {
   background-color: var(--Sa-Color-Primary100);
   color: var(--Sa-Color-Primary700);
@@ -33370,15 +33428,24 @@ pre.saCode {
 .saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"]) .saOption .saIcon {
   color: inherit;
 }
-.saContextMenu .saOptionWrapper.saDisabled {
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"]) .saOption .saBadge {
+  background-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary100);
+  border-color: currentColor;
+}
+.saContextMenu .saOptionWrapper.saInactive {
   pointer-events: unset;
   cursor: not-allowed;
   color: #adbdd1;
 }
-.saContextMenu .saOptionWrapper.saDisabled .saIcon {
+.saContextMenu .saOptionWrapper.saInactive :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
   color: #adbdd1;
 }
-.saContextMenu .saOptionWrapper.saDisabled .saBadgeCount {
+.saContextMenu .saOptionWrapper.saInactive .saBadge {
+  background-color: #adbdd1;
+  color: #eef1f5;
+}
+.saContextMenu .saOptionWrapper.saInactive .saBadgeCount {
   background-color: #eef1f5;
   color: #adbdd1;
 }
@@ -33396,13 +33463,24 @@ pre.saCode {
 .saSmallScreen .saContextMenu .saOption {
   min-height: 2.75rem;
 }
-.saContextMenu .saOptionIcon {
+.saContextMenu :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
   min-width: 1.25rem;
   font-size: 1rem;
   color: var(--Sa-Color-Icon);
+  text-align: center;
+  transition: unset;
 }
-.saSmallScreen .saContextMenu .saOptionIcon {
+.saSmallScreen .saContextMenu :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
   margin-left: 0.25rem;
+}
+.saContextMenu .saBadge {
+  font-size: 0.5rem;
+  height: 0.75rem;
+  width: 0.75rem;
+  min-width: 0.75rem;
+  bottom: -0.25rem;
+  right: -0.375rem;
+  box-sizing: content-box;
 }
 .saContextMenu .saOptionText {
   display: block;
