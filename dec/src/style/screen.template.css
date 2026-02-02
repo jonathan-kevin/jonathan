@@ -13422,42 +13422,34 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   width: 3rem;
   background-color: #f0ebff;
   color: #8b4af1;
-  border: 1px solid #8b4af1;
 }
 .saInlineDownload .saIcon.fa-file-word {
   background-color: #e5efff;
   color: #2d6ce1;
-  border: 1px solid #2d6ce1;
 }
 .saInlineDownload .saIcon.fa-video {
   background-color: #ffeada;
   color: #ae5c28;
-  border: 1px solid #ae5c28;
 }
 .saInlineDownload .saIcon.fa-file-excel {
   background-color: #d6f7d9;
   color: #008429;
-  border: 1px solid #008429;
 }
 .saInlineDownload .saIcon.fa-file-pdf {
   background-color: #ffe8e7;
   color: #e0173e;
-  border: 1px solid #e0173e;
 }
 .saInlineDownload .saIcon.fa-image {
   background-color: #ffe7f7;
   color: #ca2c9b;
-  border: 1px solid #ca2c9b;
 }
 .saInlineDownload .saIcon.fa-xmark {
   background-color: #e0173e;
   color: #fff;
-  border: none;
 }
 .saInlineDownload .saIcon.fa-question {
   background-color: #da9600;
   color: #fff;
-  border: none;
 }
 @media (pointer: fine) {
   .saInlineDownload:hover .saInlineDownloadButton {
@@ -15604,21 +15596,51 @@ select.saInputText {
   padding: 1rem;
   width: 16rem;
   border-radius: 0.75rem;
-  border: #ccd5e2 solid 1px;
+  box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
   box-sizing: border-box;
+  text-align: center;
+  align-items: center;
 }
 .crowe * {
   box-sizing: border-box;
 }
 @media (pointer: fine) {
   .crowe:has(:enabled):hover {
-    background-color: #f7faff;
-    border-color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary100);
+    box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary700);
+    color: var(--Sa-Color-Primary700);
+  }
+  .crowe:has(:enabled):hover :is(.crowe-icon, .crowe-heading, .crowe-description) {
+    color: inherit;
   }
 }
 .crowe:has(:enabled):active {
-  background-color: #e5efff;
-  border-color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary200);
+  box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary800);
+  color: var(--Sa-Color-Primary800);
+}
+.crowe:has(:enabled):has(:checked) {
+  background-color: var(--Sa-Color-Primary50);
+  box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600);
+  color: var(--Sa-Color-Primary600);
+}
+.crowe:has(:enabled):has(:checked) :is(.crowe-icon, .crowe-heading, .crowe-description) {
+  color: inherit;
+}
+@media (pointer: fine) {
+  .crowe:has(:enabled):has(:checked):hover {
+    background-color: var(--Sa-Color-Primary100);
+    box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary700);
+    color: var(--Sa-Color-Primary700);
+  }
+  .crowe:has(:enabled):has(:checked):hover :is(.crowe-icon, .crowe-heading, .crowe-description) {
+    color: inherit;
+  }
+}
+.crowe:has(:enabled):has(:checked):active {
+  background-color: var(--Sa-Color-Primary200);
+  box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary800);
+  color: var(--Sa-Color-Primary800);
 }
 .crowe input {
   appearance: none;
@@ -15628,18 +15650,44 @@ select.saInputText {
   width: 100%;
   border-radius: 0.75rem;
 }
-.crowe input:checked + .crow-check {
+.crowe input:enabled {
+  cursor: pointer;
+}
+.crow-check {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.25rem;
+  height: 1rem;
+  transition: transform 0.1s ease;
+  transform-origin: center;
+  transform: scale(0);
+  font-size: 1rem;
+  line-height: 1rem;
+  text-align: center;
+}
+.crowe:has(:checked) .crow-check {
+  transform: scale(1);
+}
+.crow-radio {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
   width: 1rem;
   height: 1rem;
-  border-radius: 1rem;
-  background-color: red;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+  transform-origin: center;
+  transform: scale(0);
+  border-radius: 99rem;
+  box-shadow: inset 0 0 0 0.125rem var(--Sa-Color-Primary700), inset 0 0 0 0.3125rem var(--Sa-Color-Primary600);
+}
+.crowe:has(:checked) .crow-radio {
+  transform: scale(1);
 }
 .crowe-icon {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
+  color: var(--Sa-Color-Icon);
 }
 .crowe-heading {
   font-size: 0.875rem;
@@ -18109,42 +18157,34 @@ legend + .saInputCardsWrapper {
   align-items: center;
   background-color: #f0ebff;
   color: #8b4af1;
-  border: 1px solid #8b4af1;
 }
 .saFileUploadAreaWrapper.saFullSizeArea.saHasFiles .saFileIcon .saIcon.fa-file-word {
   background-color: #e5efff;
   color: #2d6ce1;
-  border: 1px solid #2d6ce1;
 }
 .saFileUploadAreaWrapper.saFullSizeArea.saHasFiles .saFileIcon .saIcon.fa-video {
   background-color: #ffeada;
   color: #ae5c28;
-  border: 1px solid #ae5c28;
 }
 .saFileUploadAreaWrapper.saFullSizeArea.saHasFiles .saFileIcon .saIcon.fa-file-excel {
   background-color: #d6f7d9;
   color: #008429;
-  border: 1px solid #008429;
 }
 .saFileUploadAreaWrapper.saFullSizeArea.saHasFiles .saFileIcon .saIcon.fa-file-pdf {
   background-color: #ffe8e7;
   color: #e0173e;
-  border: 1px solid #e0173e;
 }
 .saFileUploadAreaWrapper.saFullSizeArea.saHasFiles .saFileIcon .saIcon.fa-image {
   background-color: #ffe7f7;
   color: #ca2c9b;
-  border: 1px solid #ca2c9b;
 }
 .saFileUploadAreaWrapper.saFullSizeArea.saHasFiles .saFileIcon .saIcon.fa-xmark {
   background-color: #e0173e;
   color: #fff;
-  border: none;
 }
 .saFileUploadAreaWrapper.saFullSizeArea.saHasFiles .saFileIcon .saIcon.fa-question {
   background-color: #da9600;
   color: #fff;
-  border: none;
 }
 .saDisabled .saFileUploadAreaWrapper.saFullSizeArea.saHasFiles .saFileIcon .saIcon {
   background-color: #ccd5e2;
@@ -18665,7 +18705,6 @@ legend + .saInputCardsWrapper {
   align-items: center;
   background-color: #f0ebff;
   color: #8b4af1;
-  border: 1px solid #8b4af1;
   font-size: 1.25rem;
   border-radius: 0.25rem;
   height: 2rem;
@@ -18674,37 +18713,30 @@ legend + .saInputCardsWrapper {
 .saFileUploadAreaWrapper .saFile .saIcon.fa-file-word {
   background-color: #e5efff;
   color: #2d6ce1;
-  border: 1px solid #2d6ce1;
 }
 .saFileUploadAreaWrapper .saFile .saIcon.fa-video {
   background-color: #ffeada;
   color: #ae5c28;
-  border: 1px solid #ae5c28;
 }
 .saFileUploadAreaWrapper .saFile .saIcon.fa-file-excel {
   background-color: #d6f7d9;
   color: #008429;
-  border: 1px solid #008429;
 }
 .saFileUploadAreaWrapper .saFile .saIcon.fa-file-pdf {
   background-color: #ffe8e7;
   color: #e0173e;
-  border: 1px solid #e0173e;
 }
 .saFileUploadAreaWrapper .saFile .saIcon.fa-image {
   background-color: #ffe7f7;
   color: #ca2c9b;
-  border: 1px solid #ca2c9b;
 }
 .saFileUploadAreaWrapper .saFile .saIcon.fa-xmark {
   background-color: #e0173e;
   color: #fff;
-  border: none;
 }
 .saFileUploadAreaWrapper .saFile .saIcon.fa-question {
   background-color: #da9600;
   color: #fff;
-  border: none;
 }
 .saFileUploadAreaWrapper .saFileInner {
   display: flex;
@@ -33149,6 +33181,42 @@ pre.saCode {
   tab-size: 4;
 }
 /* Let this be the last import */
+.relative {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.relative #contextMenu {
+  position: fixed;
+}
+.animation-test {
+  display: grid;
+  grid-template-columns: repeat(3, 2rem);
+  grid-template-rows: repeat(3, 2rem);
+}
+.animation-test button {
+  width: 2rem;
+  height: 2rem;
+  background-color: transparent;
+  border: none;
+  color: var(--Sa-Color-Icon);
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  border-radius: 0.5rem;
+}
+@media (pointer: fine) {
+  .animation-test button:hover {
+    color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
+  }
+}
+.animation-test button:active {
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+  border-radius: 0.75rem;
+}
 .menu-target-group {
   display: flex;
   flex-direction: column;
@@ -33194,7 +33262,6 @@ pre.saCode {
   overflow-y: auto;
   overflow-x: hidden;
   position: absolute;
-  margin-top: 0.5rem;
   left: 0;
   padding: 0.25rem 0;
   display: none;
@@ -33230,8 +33297,7 @@ pre.saCode {
   outline: none;
   box-shadow: none;
 }
-.saSmallScreen .saContextMenu {
-  width: 100%;
+.saSmallScreen .saBottomSheet .saContextMenu {
   min-width: unset;
   max-width: unset;
   min-height: unset;
@@ -33239,6 +33305,12 @@ pre.saCode {
   margin-top: 0;
   border-radius: 0;
   padding: 0;
+}
+.saSmallScreen .saContextMenu {
+  width: 100%;
+}
+.saTimeField .saContextMenu {
+  min-width: 10rem;
 }
 .saContextMenu.saSmallScreenMenu {
   box-shadow: none;
@@ -33271,24 +33343,50 @@ pre.saCode {
 .saContextMenu.saSmallScreenMenu {
   display: flex;
 }
-.saContextMenu.saOpen.saOptionColumns,
-.saContextMenu.saSmallScreenMenu.saOptionColumns {
-  display: table;
+.saLargeScreen .saContextMenu {
+  transform-origin: unset;
 }
 .saLargeScreen .saContextMenu.saOpen {
-  animation: openContextMenu 0.1s forwards;
+  animation: openContextMenu 0.15s forwards;
+}
+.saLargeScreen .saContextMenu.saOpen.saNorth {
+  transform-origin: bottom;
+}
+.saLargeScreen .saContextMenu.saOpen.saNorthEast {
+  transform-origin: bottom left;
+}
+.saLargeScreen .saContextMenu.saOpen.saEast {
+  transform-origin: left;
+}
+.saLargeScreen .saContextMenu.saOpen.saSouthEast {
+  transform-origin: top left;
+}
+.saLargeScreen .saContextMenu.saOpen.saSouth {
+  transform-origin: top;
+}
+.saLargeScreen .saContextMenu.saOpen.saSouthWest {
+  transform-origin: top right;
+}
+.saLargeScreen .saContextMenu.saOpen.saWest {
+  transform-origin: right;
+}
+.saLargeScreen .saContextMenu.saOpen.saNorthWest {
+  transform-origin: bottom right;
 }
 @keyframes openContextMenu {
   0% {
-    transform: scale(0.5);
-    opacity: 0;
+    transform: scale(0);
+    opacity: 0.5;
   }
   100% {
     transform: scale(1);
     opacity: 1;
   }
 }
-.saContextMenu.saOptionColumns {
+.saLargeScreen .saContextMenu.saOpen.saOptionColumns {
+  display: table;
+}
+.saLargeScreen .saContextMenu.saOptionColumns {
   max-width: 75rem;
   padding: 0.25rem;
 }
@@ -33451,7 +33549,7 @@ pre.saCode {
     background-color: var(--Sa-Color-Primary50);
   }
   .saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):hover .saOptionDescription,
-  .saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):hover .saIcon {
+  .saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):hover :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
     color: inherit;
   }
   .saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):hover .saBadge {
@@ -33466,7 +33564,7 @@ pre.saCode {
   border-radius: 0.75rem;
 }
 .saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):active .saOptionDescription,
-.saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):active .saIcon {
+.saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):active :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
   color: inherit;
 }
 .saContextMenu .saOptionWrapper:not(.saInactive, .saNoResults):active .saBadge {
@@ -33489,7 +33587,7 @@ pre.saCode {
     background-color: #e0173e;
   }
   .saContextMenu .saOptionWrapper.saDestructive:hover .saOptionDescription,
-  .saContextMenu .saOptionWrapper.saDestructive:hover .saIcon {
+  .saContextMenu .saOptionWrapper.saDestructive:hover :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
     color: inherit;
   }
   .saContextMenu .saOptionWrapper.saDestructive:hover .saBadge {
@@ -33503,7 +33601,7 @@ pre.saCode {
   background-color: #bf0024;
 }
 .saContextMenu .saOptionWrapper.saDestructive:active .saOptionDescription,
-.saContextMenu .saOptionWrapper.saDestructive:active .saIcon {
+.saContextMenu .saOptionWrapper.saDestructive:active :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
   color: inherit;
 }
 .saContextMenu .saOptionWrapper.saDestructive:active .saBadge {
@@ -33516,7 +33614,7 @@ pre.saCode {
   color: var(--Sa-Color-Primary700);
 }
 .saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"]) .saOption .saOptionDescription,
-.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"]) .saOption .saIcon {
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"]) .saOption :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
   color: inherit;
 }
 .saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"]) .saOption .saBadge {
@@ -33546,13 +33644,14 @@ pre.saCode {
   align-items: center;
   gap: 0.5rem;
   min-height: 2rem;
-  padding: 0.5rem;
+  padding: 0.25rem 0.5rem;
   margin: 0 0.25rem;
   border-radius: 0.5rem;
   transition: ease border-radius 0.2s, ease color 0.2s, ease background-color 0.2s;
 }
 .saSmallScreen .saContextMenu .saOption {
   min-height: 2.75rem;
+  padding: 0.5rem 1rem 0.5rem 0.5rem;
 }
 .saContextMenu :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
   min-width: 1.25rem;
@@ -33560,6 +33659,7 @@ pre.saCode {
   color: var(--Sa-Color-Icon);
   text-align: center;
   transition: unset;
+  line-height: 1rem;
 }
 .saSmallScreen .saContextMenu :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
   margin-left: 0.25rem;
@@ -33574,11 +33674,14 @@ pre.saCode {
   box-sizing: content-box;
 }
 .saContextMenu .saOptionText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: block;
   text-align: left;
   font-size: 0.875rem;
-  line-height: 1rem;
-  overflow-wrap: anywhere;
+  line-height: 1.25rem;
+  min-width: 0;
 }
 .saContextMenu .saOptionText:first-child {
   padding-left: 0.25rem;
@@ -33586,10 +33689,18 @@ pre.saCode {
 .saSmallScreen .saContextMenu .saOptionText:first-child {
   padding-left: 0.5rem;
 }
+.saContextMenu .saOptionTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .saContextMenu .saOptionDescription {
   font-size: 0.75rem;
   line-height: 0.875rem;
   color: var(--Sa-Color-TextSecondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .saContextMenu .saOptionShortCut {
   text-align: right;

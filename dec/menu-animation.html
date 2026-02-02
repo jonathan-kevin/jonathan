@@ -1,0 +1,504 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Menu animation</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+	<script type="text/javascript" src="https://livejs.com/live.js"></script>
+	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+</head>
+
+<body class="saRootBody saLargeScreen saPc saCompact">
+	<div class="saPopupOverlay saBottomSheetOverlay" style="display: none;">
+    	<div class="saBottomSheet" role="dialog" id="popup" aria-modal="true" style="height: 80dvh; bottom: 0;">
+    	    <div class="saSheetHeader">
+    	        <div class="saSheetDragHandle">
+    	            <div class="saDraggableThumb"></div>
+    	        </div>
+    	    </div>
+    	    <div class="saSheetContent">
+				<div class="saInputTextWrapper">
+					<input
+						type="search"
+						class="menu-target saInputText"
+						data-menu="actionContextMenuSmall"
+						aria-controls="actionContextMenuSmall"
+						aria-label="Search options"
+						title="Settings"
+						aria-expanded="true"
+						aria-activedescendant=""
+						aria-autocomplete="list"
+						aria-expanded="true"
+						style="padding-right: 2.75rem;"
+					>
+					<div class="saTrailingIconsWrapper" style="right: 1rem;"><i class="saIcon far fa-search"></i></div>
+				</div>
+				<div id="actionContextMenuSmall" class="saContextMenu saSmallScreenMenu" role="menu">
+					<button id="theOption1Small" class="saOptionWrapper" type="button" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-lock"></i>
+							<div class="saOptionText">Claim ticket</div>
+						</div>
+					</button>
+					<a id="theOption2Small" href="#" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-hat-cowboy"></i>
+							<div class="saOptionText">Open</div>
+							<div class="saBadgeCount">1</div>
+						</div>
+					</a>
+					<div id="theOption3Small" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far far fa-arrow-alt-circle-right"></i>
+							<div class="saOptionText">Move to next</div>
+							<div class="saBadgeCount saUrgent">2</div>
+						</div>
+					</div>
+					<a id="theOption4Small" class="saOptionWrapper saInactive" role="menuitem" aria-disabled="true" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-skull"></i>
+							<div class="saOptionText">Dead link with count</div>
+							<div class="saBadgeCount">2</div>
+						</div>
+					</a>
+					<a id="theOption5Small" class="saOptionWrapper saInactive" role="menuitem" aria-disabled="true" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-skull"></i>
+							<div class="saOptionText">Dead link</div>
+						</div>
+					</a>
+					<button id="theOption6Small" class="saOptionWrapper" role="menuitem" aria-disabled="true" tabindex="-1" disabled>
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-cow"></i>
+							<div class="saOptionText">Dead button</div>
+						</div>
+					</button>
+					<hr>
+					<div id="theOption7Small" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-pen"></i>
+							<div class="saOptionText">Edit</div>
+						</div>
+					</div>
+					<div id="theOption8Small" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-copy"></i>
+							<div class="saOptionText">Copy</div>
+						</div>
+					</div>
+					<div id="theOption9Small" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-wand-sparkles"></i>
+							<div class="saOptionText">Magicify</div>
+						</div>
+					</div>
+					<hr>
+					<div id="theOption10Small" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-palette"></i>
+							<div class="saOptionText">Categorize</div>
+						</div>
+					</div>
+					<div id="theOption11Small" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-bomb"></i>
+							<div class="saOptionText">Convert to Action Item</div>
+						</div>
+					</div>
+					<div id="theOption12Small" class="saOptionWrapper" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-bookmark"></i>
+							<div class="saOptionText">Bookmark this</div>
+						</div>
+					</div>
+					<button id="theOption13Small" class="saOptionWrapper" type="button" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-star"></i>
+							<div class="saOptionText">Add Favorite</div>
+						</div>
+					</button>
+					<hr>
+					<button id="theOption14Small" class="saOptionWrapper saDestructive" type="button" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-trash-alt"></i>
+							<div class="saOptionText">Delete message</div>
+						</div>
+					</button>
+					<button id="theOption15Small" class="saOptionWrapper saDestructive" type="button" role="menuitem" tabindex="-1">
+						<div class="saOption">
+							<i class="saIcon saOptionIcon far fa-trash-alt"></i>
+							<div class="saOptionText">Delete message</div>
+						</div>
+					</button>
+					<a class="saOptionWrapper saDestructive" tabindex="0" role="link">
+						<div class="saOption">
+							<div class="saIconHolder" aria-hidden="true">
+								<span class="saBadgedIcon"><i class="far fa-users icon saIcon"></i>
+									<i class="far fa-list list badge saBadge"></i>
+								</span>
+							</div>
+							<span class="saButtonText saOptionText saEllipsis">Delete</span>
+						</div>
+					</a>
+
+				</div>
+			</div>
+    	</div>
+	</div>
+	<div class="saRootContentWrapper">
+		<div class="saSideBarOuter">
+			<form name="aspnetForm" method="post" action="./softadmin.aspx" id="aspnetForm">
+				<aside class="saAside">
+					<nav id="SideBar" class="saSideBar saSideBarJs saExpanded" aria-label="Sidomeny">
+						<div class="saAccessibilityBannerHolderJs">
+							<ul class="saAccessibilityBanner">
+								<li><a tabindex="0">Gå till innehåll</a></li>
+								<li><a tabindex="0">Gå till meny</a></li>
+							</ul>
+						</div>
+						<div class="saPageHeader saSmallScreenHeader">
+							<div class="saHeader">
+								<div class="saTopRow">
+									<div class="saHeaderWrapper">
+										<div class="saTitle">
+											<h1>KOLL</h1>
+										</div>
+									</div>
+									<button class="saNotificationWrapper" type="button" aria-live="polite"
+										aria-expanded="false" aria-label="83 Notifieringar">
+										<i class="far fa-bell saIcon"></i>
+										<div class="saBadgeCount saUrgent">83</div>
+									</button>
+									<button class="saNavigator" type="button" aria-label="Stäng meny" data-tooltip="Stäng meny">
+										<div class="saNavBar">
+											<span class="saNavBarStripe"></span>
+											<span class="saNavBarStripe"></span>
+											<span class="saNavBarStripe"></span>
+										</div>
+									</button>
+								</div>
+							</div>
+						</div>
+						<section class="saSideBarSection saSideBarHeader saSideBarSectionJs">
+							<img class="saCustomerLogo" alt="KOLL logotyp"
+								src="../Content.ashx?h=1wvgjNzlYUjYTnoIZyOXkI2qOf8">
+							<ul class="saSideBarInputGroup">
+								<li>
+									<a class="saSideBarSearchLink" tabindex="0">
+										<div><i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i></div>
+									</a>
+									<label class="saSideBarSearch">
+										<input id="SideBarSearchInput" class="saSearchInput saInputText" type="search"
+											placeholder="Sök...">
+										<i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i>
+									</label>
+								</li>
+								<li class="saMenuDropdowns">
+									<div class="saMenuDropdown saInputTextWrapper">
+										<span class="saFirstLetter">U</span>
+										<select class="saInputText saDropdown">
+											<option value="8687" selected="">UP 8888 (Softadmin)</option>
+										</select>
+										<i class="saIcon far fa-angle-down saTrailing"></i>
+									</div>
+								</li>
+							</ul>
+						</section>
+						<section class="saSideBarSection saSideBarBody saSideBarSectionJs">
+							<div class="saSideBarGroup saSideBarFavorites">
+								<div class="saSideBarFavoritesHeader">
+									<button class="saButtonFavorites" type="button"
+										aria-expanded="true"><span>Favoriter</span>
+										<i class="saIcon saIcon far fa-angle-down" aria-hidden="true"></i>
+									</button>
+									<button class="saButtonFavoritesMinimized" type="button" aria-expanded="true"
+										data-tooltip="Dölj favoriter">
+										<i class="saIcon saIcon far fa-angle-down" aria-hidden="true"></i>
+									</button>
+									<button class="saButtonFavoritesEdit">Redigera</button>
+								</div>
+								<ul class="saItemList">
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Dagsrapportering">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i
+														class="far fa-clock-rotate-left icon saIcon"></i></div>
+												<span>Dagsrapportering</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Leveranser">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="saC sa-truck-left icon saIcon"></i>
+												</div><span>Leveranser</span>
+											</div>
+										</a></li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Meny</h3>
+								<ul class="saItemList">
+									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Startsida">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i
+														class="far fa-house-window icon saIcon"></i></div>
+												<span>Startsida</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Min Sida">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i
+														class="far fa-circle-user icon saIcon"></i></div><span>Min
+													Sida</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Infobanken">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="fab fa-leanpub icon saIcon"></i>
+												</div><span>Infobanken</span>
+											</div>
+										</a></li>
+								</ul>
+							</div>
+						</section>
+						<section class="saSideBarSection saSideBarFooter saSideBarSectionJs">
+							<div class="saSideBarFooterPrimary">
+								<div class="saListItem">
+									<button class="saAccountDropdown" type="button" aria-expanded="false">
+										<img src="../src/img/chat-1.jpg" aria-hidden="true" class="saAccountAvatar">
+										<span class="saAccountName">Jonathan Kevin</span>
+										<i class="far fa-angle-down saIcon"></i>
+									</button>
+								</div>
+								<ul class="saSideBarToolbar">
+									<li>
+										<button data-tooltip="Starta ytterligare en session">
+											<div class="saIconWrapper"><i class="far fa-window-restore icon saIcon"></i>
+											</div><span>Ny flik</span>
+										</button>
+									</li>
+									<li>
+										<button data-tooltip="Visa hjälpsida - Redigera hjälpsida">
+											<div class="saIconWrapper"><i
+													class="far fa-circle-question icon saIcon"></i></div><span>Visa
+												hjälpsida - Redigera hjälpsida</span>
+										</button>
+									</li>
+									<li class="saNotificationsItem" aria-expanded="false">
+										<button id="largeScreenNotifications" type="button" aria-label="83 Notifieringar"
+											aria-live="polite" data-tooltip="Notifieringar" aria-expanded="true"
+											aria-describedby="TooltipScreenReader79">
+											<div class="saSidenavItem"><i class="far fa-bell saIcon"></i></div>
+											<div class="saBadgeCount saUrgent">83</div>
+										</button>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarFooterSecondary"><a class="saSoftadminLogo" target="_blank"
+									rel="noopener noreferrer" tabindex="-1" aria-hidden="true"
+									href="https://www.multisoft.se/softadmin/"><img class="saLogo"
+										src="./Presentation/img/softadmin-logo-minimized.svg"><img class="saWordmark"
+										src="./Presentation/img/softadmin-logo-expanded.svg"></a><button
+									class="saExpander saDynamicTooltipJs" type="button" aria-label="Minimera menyn"
+									aria-expanded="true" data-sa-minimized-tooltip="Expandera menyn"
+									data-sa-expanded-tooltip="Minimera menyn" data-tooltip="Minimera menyn"
+									aria-describedby="TooltipScreenReader84"><i
+										class="far fa-angles-left saIcon"></i></button></div>
+						</section>
+					</nav>
+				</aside>
+			</form>
+		</div>
+		<div class="saRightFrameRoot">
+			<div class="right standardview saPc saLargeScreen saCompact">
+				<div class="pagecontentframe">
+					<form class="interface">
+						<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs">
+												<div class="saBackButtonWrapper">
+													<button class="saBackButton" type="button" disabled="">
+														<i class="fa-arrow-left far saBack saIcon"></i>
+													</button>
+												</div>
+											</nav>
+										</div>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Test</h1>
+												<div class="saMarkFavorite saNoSpinner"><button type="button"><i
+															class="fas fa-star saFavoriteIcon saFavoriteAdded icon saIcon"></i></button>
+												</div>
+												<ul class="saSpecialLinksWrapper"></ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+													<h1 class="saHeaderText">Test</h1>
+												</div>
+											</div><button class="saNavigator" type="button">
+												<div class="saNavBar"><span class="saNavBarStripe"></span><span
+														class="saNavBarStripe"></span><span
+														class="saNavBarStripe"></span>
+												</div>
+											</button><button class="saNotificationWrapper" type="button"
+												aria-live="polite">
+												<div><i class="far fa-bell saIcon"></i></div>
+												<div class="saNotificationBadge saEmpty" aria-hidden="true"></div>
+											</button>
+										</div>
+									</div>
+									<nav class="saBottomRow saActionLinkBar" style="display: none;"></nav>
+								</div>
+							</div>
+						</header>
+						<div class="maincolinner gradients">
+							<main id="MI_M" class="menuitem pagecontentframe">
+								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
+									<div class="scrollcontent-inner saInputPage ">
+										<div class="relative">
+											<div class="animation-test">
+												<button aria-controls="contextMenu" type="button" class="far fa-arrow-up-left saNorthWest"></button>
+												<button aria-controls="contextMenu" type="button" class="far fa-arrow-up saNorth"></button>
+												<button aria-controls="contextMenu" type="button" class="far fa-arrow-up-right saNorthEast"></button>
+												<button aria-controls="contextMenu" type="button" class="far fa-arrow-left saWest"></button>
+												<button aria-controls="contextMenu" type="button" class="empty"></button>
+												<button aria-controls="contextMenu" type="button" class="far fa-arrow-right saEast"></button>
+												<button aria-controls="contextMenu" type="button" class="far fa-arrow-down-left saSouthWest"></button>
+												<button aria-controls="contextMenu" type="button" class="far fa-arrow-down saSouth"></button>
+												<button aria-controls="contextMenu" type="button" class="far fa-arrow-down-right saSouthEast"></button>
+											</div>
+											<ul class="saContextMenu" id="contextMenu">
+												<li>
+													<label class="saOptionWrapper" tabindex="0">
+														<div class="saOption">
+															<div class="saOptionText">
+																<div class="saOptionTitle">Power mode</div>
+																<div class="saOptionDescription">Unlease unlimited power.</div>
+															</div>
+															<input class="saToggle" type="checkbox" checked="true">
+														</div>
+													</label>
+												</li>
+												<li><hr></li>
+												<li>
+													<a class="saOptionWrapper" tabindex="0" role="link">
+														<div class="saOption"><i class="far fa-dog icon saIcon saOptionIcon" aria-hidden="true"></i>
+															<div class="saOptionText">Dogs</div>
+														</div>
+													</a>
+												</li>
+												<li>
+													<a class="saOptionWrapper" tabindex="0" role="link">
+														<div class="saOption"><i class="far fa-cat icon saIcon saOptionIcon" aria-hidden="true"></i>
+															<div class="saOptionText">Cats</div>
+														</div>
+													</a>
+												</li>
+												<li>
+													<a class="saOptionWrapper" tabindex="0" role="link">
+														<div class="saOption"><i class="far fa-ice-cream icon saIcon saOptionIcon" aria-hidden="true"></i>
+															<div class="saOptionText">Ice cream flavors</div>
+														</div>
+													</a>
+												</li>
+												<li><hr></li>
+												<li>
+													<a class="saOptionWrapper saDestructive" tabindex="0" role="link">
+														<div class="saOption"><i class="far fa-trash-alt icon saIcon saOptionIcon" aria-hidden="true"></i>
+															<div class="saOptionText">Remove</div>
+														</div>
+													</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</main>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function () {
+			const $menu = $('#contextMenu');
+			const $buttons = $('button[aria-controls="contextMenu"]');
+
+			function getDirectionClass($element) {
+				return $element.attr('class').split(' ').find(cls =>
+					['saNorthWest', 'saNorth', 'saNorthEast', 'saWest', 'saEast', 'saSouthWest', 'saSouth', 'saSouthEast'].includes(cls)
+				);
+			}
+
+			function positionMenu($btn) {
+				const offset = $btn.offset();
+				const btnWidth = $btn.outerWidth();
+				const btnHeight = $btn.outerHeight();
+				const menuWidth = 256;
+				const menuHeight = 196;
+				const directionClass = getDirectionClass($btn);
+
+				const positionMap = {
+					'saNorthWest': { top: Math.round(offset.top - menuHeight - 4), left: Math.round(offset.left - menuWidth - 4) },
+					'saNorth': { top: Math.round(offset.top - menuHeight - 8), left: Math.round(offset.left + btnWidth / 2 - menuWidth / 2) },
+					'saNorthEast': { top: Math.round(offset.top - menuHeight - 4), left: Math.round(offset.left + btnWidth + 4) },
+					'saWest': { top: Math.round(offset.top + btnHeight / 2 - menuHeight / 2), left: Math.round(offset.left - menuWidth - 8) },
+					'saEast': { top: Math.round(offset.top + btnHeight / 2 - menuHeight / 2), left: Math.round(offset.left + btnWidth + 8) },
+					'saSouthWest': { top: Math.round(offset.top + btnHeight + 4), left: Math.round(offset.left - menuWidth - 4) },
+					'saSouth': { top: Math.round(offset.top + btnHeight + 8), left: Math.round(offset.left + btnWidth / 2 - menuWidth / 2) },
+					'saSouthEast': { top: Math.round(offset.top + btnHeight + 4), left: Math.round(offset.left + btnWidth + 4) }
+				};
+
+				$menu.css(positionMap[directionClass] || {});
+			}
+
+			$buttons.on('click', function(e) {
+				e.stopPropagation();
+				const $btn = $(this);
+				const directionClass = getDirectionClass($btn);
+
+				$menu.removeClass('saNorthWest saNorth saNorthEast saWest saEast saSouthWest saSouth saSouthEast saOpen');
+				positionMenu($btn);
+
+				setTimeout(() => {
+					$menu.addClass(directionClass).addClass('saOpen');
+				}, 1);
+			});
+
+			$(document).on('click', function(e) {
+				if (!$(e.target).closest('button[aria-controls="contextMenu"], #contextMenu').length) {
+					$menu.removeClass('saOpen');
+					$buttons.attr('aria-expanded', 'false');
+				}
+			});
+
+			$(document).on('keydown', function(e) {
+				if (e.key === 'Escape') {
+					$menu.removeClass('saOpen');
+				}
+			});
+		});
+	</script>
+</body>
