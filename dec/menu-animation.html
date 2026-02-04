@@ -416,11 +416,35 @@
 													</a>
 												</li>
 												<li>
-													<a class="saOptionWrapper" tabindex="0" role="link">
-														<div class="saOption"><i class="far fa-ice-cream icon saIcon saOptionIcon" aria-hidden="true"></i>
+													<button class="saOptionWrapper" tabindex="0" type="button" aria-expanded="false" aria-controls="contextMenuSub">
+														<div class="saOption"><i class="saIcon saOptionIcon" aria-hidden="true"></i>
 															<div class="saOptionText">Ice cream flavors</div>
+															<i class="far fa-angle-right saOptionIcon saOptionIconTrailing icon saIcon" aria-hidden="true"></i>
 														</div>
-													</a>
+													</button>
+													<ul class="saContextMenu saContextMenuSub saEast" id="contextMenuSub">
+														<li>
+															<a class="saOptionWrapper" tabindex="0" role="link">
+																<div class="saOption"><i class="far fa-dog icon saIcon saOptionIcon" aria-hidden="true"></i>
+																	<div class="saOptionText">Dogs</div>
+																</div>
+															</a>
+														</li>
+														<li>
+															<a class="saOptionWrapper" tabindex="0" role="link">
+																<div class="saOption"><i class="far fa-dog icon saIcon saOptionIcon" aria-hidden="true"></i>
+																	<div class="saOptionText">Dogs</div>
+																</div>
+															</a>
+														</li>
+														<li>
+															<a class="saOptionWrapper" tabindex="0" role="link">
+																<div class="saOption"><i class="far fa-dog icon saIcon saOptionIcon" aria-hidden="true"></i>
+																	<div class="saOptionText">Dogs</div>
+																</div>
+															</a>
+														</li>
+													</ul>
 												</li>
 												<li><hr></li>
 												<li>
@@ -443,6 +467,7 @@
 	</div>
 	<script>
 		$(document).ready(function () {
+
 			const $menu = $('#contextMenu');
 			const $buttons = $('button[aria-controls="contextMenu"]');
 
@@ -497,6 +522,27 @@
 			$(document).on('keydown', function(e) {
 				if (e.key === 'Escape') {
 					$menu.removeClass('saOpen');
+				}
+			});
+
+			const $subMenu = $('#contextMenuSub');
+			const $subMenuBtn = $('button[aria-controls="contextMenuSub"]');
+
+			$subMenuBtn.on('click', function(e) {
+				e.stopPropagation();
+				const isExpanded = $(this).attr('aria-expanded') === 'true';
+				$(this).attr('aria-expanded', !isExpanded);
+				$subMenu.toggleClass('saOpen saFocus');
+			});
+
+			$menu.on('click', function(e) {
+				e.stopPropagation();
+			});
+
+			$(document).on('click', function(e) {
+				if (!$(e.target).closest('button[aria-controls="contextMenuSub"], #contextMenuSub').length) {
+					$subMenu.removeClass('saOpen saFocus');
+					$subMenuBtn.attr('aria-expanded', 'false');
 				}
 			});
 		});

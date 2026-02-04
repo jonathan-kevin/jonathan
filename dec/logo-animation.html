@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Jonathan</title>
+	<title>Menu animation</title>
 	<link rel="stylesheet" href="./src/style/screen.template.css">
 	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
 
@@ -39,8 +39,7 @@
 										<i class="far fa-bell saIcon"></i>
 										<div class="saBadgeCount saUrgent">83</div>
 									</button>
-									<button class="saNavigator" type="button" aria-label="Stäng meny"
-										data-tooltip="Stäng meny">
+									<button class="saNavigator" type="button" aria-label="Stäng meny" data-tooltip="Stäng meny">
 										<div class="saNavBar">
 											<span class="saNavBarStripe"></span>
 											<span class="saNavBarStripe"></span>
@@ -89,17 +88,19 @@
 									<button class="saButtonFavoritesEdit">Redigera</button>
 								</div>
 								<ul class="saItemList">
-									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Dagsrapportering">
 											<div class="saItemInner">
-												<div class="saIconWrapper"><i class="far fa-cat icon saIcon"></i></div>
-												<span>Kattsport</span>
+												<div class="saIconWrapper"><i
+														class="far fa-clock-rotate-left icon saIcon"></i></div>
+												<span>Dagsrapportering</span>
 											</div>
 										</a></li>
 									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
 											data-sa-minimized-tooltip="Leveranser">
 											<div class="saItemInner">
-												<div class="saIconWrapper"><i class="far fa-crow icon saIcon"></i>
-												</div><span>Kråkor</span>
+												<div class="saIconWrapper"><i class="saC sa-truck-left icon saIcon"></i>
+												</div><span>Leveranser</span>
 											</div>
 										</a></li>
 								</ul>
@@ -135,29 +136,35 @@
 						</section>
 						<section class="saSideBarSection saSideBarFooter saSideBarSectionJs">
 							<div class="saSideBarFooterPrimary">
-								<div class="saListItem"><button class="saAccountDropdown" type="button"
-										aria-expanded="false"><img
-											src="/UserPhoto.ashx?id=140d3c0e-1376-4f95-9ced-174c03915ac7"
-											aria-hidden="true" class="saAccountAvatar"><span
-											class="saAccountName">Jonathan Kevin</span><i
-											class="far fa-angle-down saIcon"></i></button></div>
+								<div class="saListItem">
+									<button class="saAccountDropdown" type="button" aria-expanded="false">
+										<img src="../src/img/chat-1.jpg" aria-hidden="true" class="saAccountAvatar">
+										<span class="saAccountName">Jonathan Kevin</span>
+										<i class="far fa-angle-down saIcon"></i>
+									</button>
+								</div>
 								<ul class="saSideBarToolbar">
-									<li><button data-tooltip="Starta ytterligare en session">
+									<li>
+										<button data-tooltip="Starta ytterligare en session">
 											<div class="saIconWrapper"><i class="far fa-window-restore icon saIcon"></i>
 											</div><span>Ny flik</span>
-										</button></li>
-									<li><button data-tooltip="Visa hjälpsida - Redigera hjälpsida">
+										</button>
+									</li>
+									<li>
+										<button data-tooltip="Visa hjälpsida - Redigera hjälpsida">
 											<div class="saIconWrapper"><i
 													class="far fa-circle-question icon saIcon"></i></div><span>Visa
 												hjälpsida - Redigera hjälpsida</span>
-										</button></li>
-									<li class="saNotificationsItem" aria-expanded="false"><button
-											id="largeScreenNotifications" type="button" aria-label="83 Notifieringar"
+										</button>
+									</li>
+									<li class="saNotificationsItem" aria-expanded="false">
+										<button id="largeScreenNotifications" type="button" aria-label="83 Notifieringar"
 											aria-live="polite" data-tooltip="Notifieringar" aria-expanded="true"
 											aria-describedby="TooltipScreenReader79">
 											<div class="saSidenavItem"><i class="far fa-bell saIcon"></i></div>
 											<div class="saBadgeCount saUrgent">83</div>
-										</button></li>
+										</button>
+									</li>
 								</ul>
 							</div>
 							<div class="saSideBarFooterSecondary"><a class="saSoftadminLogo" target="_blank"
@@ -195,11 +202,9 @@
 										<div class="saBottomRow">
 											<div class="saTitle">
 												<h1 class="saHeaderText">Test</h1>
-												<button class="saFavoriteToggle" type="button" tabindex="-1"
-													aria-checked="false" aria-label="Save as favorite">
-													<i aria-hidden="true" class="saIcon far fa-star"></i>
-													<i aria-hidden="true" class="saIcon fas fa-star"></i>
-												</button>
+												<div class="saMarkFavorite saNoSpinner"><button type="button"><i
+															class="fas fa-star saFavoriteIcon saFavoriteAdded icon saIcon"></i></button>
+												</div>
 												<ul class="saSpecialLinksWrapper"></ul>
 											</div>
 										</div>
@@ -234,104 +239,30 @@
 							<main id="MI_M" class="menuitem pagecontentframe">
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
-									<div class="scrollcontent-inner" style="display: flex; flex-direction: column; gap: 1rem;">
+									<div class="scrollcontent-inner saInputPage ">
+										<div class="saLoogoWrapper">
+											<div class="saLoogo">
+												<div class="saSquircle"></div>
+												<div class="saSquircle"></div>
+												<div class="saSquircle"></div>
+												<div class="saSquircle"></div>
 
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField mediumLong">
-														<select class="saInputText saListBox" size="5" multiple="" required>
-															<option value="0">Denmark</option>
-															<option value="1" disabled>Finland</option>
-															<option value="2">Norway</option>
-															<option value="3" selected>Sweden</option>
-															<option value="4">Germany</option>
-															<option value="5">Option5</option>
-															<option value="6">Option6</option>
-															<option value="7">Option7</option>
-															<option value="8">Option8</option>
-															<option value="9">Option9</option>
-														</select>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField mediumLong saHighlightFieldError">
-														<select class="saInputText saListBox" size="5" multiple required>
-															<option value="0">Denmark</option>
-															<option value="1" disabled>Finland</option>
-															<option value="2">Norway</option>
-															<option value="3" selected>Sweden</option>
-															<option value="4">Germany</option>
-															<option value="5">Option5</option>
-															<option value="6">Option6</option>
-															<option value="7">Option7</option>
-															<option value="8">Option8</option>
-															<option value="9">Option9</option>
-														</select>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField mediumLong saHighlightFieldWarning">
-														<select class="saInputText saListBox" size="5" multiple required>
-															<option value="0">Denmark</option>
-															<option value="1" disabled>Finland</option>
-															<option value="2">Norway</option>
-															<option value="3" selected>Sweden</option>
-															<option value="4">Germany</option>
-															<option value="5">Option5</option>
-															<option value="6">Option6</option>
-															<option value="7">Option7</option>
-															<option value="8">Option8</option>
-															<option value="9">Option9</option>
-														</select>
-													</div>
-												</div>
-											</div>
-										</div>
+												<div class="saSquircle"></div>
+												<div class="saSquircle"></div>
+												<div class="saSquircle"></div>
 
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField mediumLong">
-														<select class="saInputText saListBox" size="5" multiple required disabled>
-															<option value="0">Denmark</option>
-															<option value="1" disabled>Finland</option>
-															<option value="2">Norway</option>
-															<option value="3" selected disabled>Option3</option>
-															<option value="4">Germany</option>
-															<option value="5">Option5</option>
-															<option value="6">Option6</option>
-															<option value="7">Option7</option>
-															<option value="8">Option8</option>
-															<option value="9">Option9</option>
-														</select>
-													</div>
-												</div>
+												<div class="saSquircle"></div>
+												<div class="saSquircle"></div>
+
+												<div class="saSquircle"></div>
+												<div class="saSquircle"></div>
+												<div class="saSquircle"></div>
+
+												<div class="saSquircle"></div>
+												<div class="saSquircle"></div>
+												<div class="saSquircle"></div>
+												<div class="saSquircle"></div>
 											</div>
-										</div>
-
-
-										<div class="croow">
-											<select size="5" multiple required>
-												<option value="0">Denmark</option>
-												<option value="1" disabled>Option1</option>
-												<option value="2">Norway</option>
-												<option value="3" selected>Sweden</option>
-												<option value="4">Germany</option>
-												<option value="5" selected disabled>Option5</option>
-												<option value="6">Option6</option>
-												<option value="7">Option7</option>
-												<option value="8">Option8</option>
-												<option value="9">Option9</option>
-											</select>
 										</div>
 									</div>
 								</div>
@@ -343,8 +274,24 @@
 		</div>
 	</div>
 	<script>
-		$('.saFavoriteToggle').click(function () {
-			$(this).attr('aria-checked', function (i, attr) { return attr === 'true' ? 'false' : 'true'; });
+		$(document).ready(function () {
+			$(document).on('mousemove', function(e) {
+				const cursorX = e.pageX;
+				const cursorY = e.pageY;
+				const proximityRange = 100;
+
+				$('.saSquircle').each(function() {
+					const $el = $(this);
+					const rect = this.getBoundingClientRect();
+					const elementX = rect.left + window.scrollX + rect.width / 2;
+					const elementY = rect.top + window.scrollY + rect.height / 2;
+
+					const distance = Math.sqrt(Math.pow(cursorX - elementX, 2) + Math.pow(cursorY - elementY, 2));
+					const scale = Math.round((Math.min(1, 0.5 + (distance / proximityRange) * 0.5)) * 100) / 100;
+
+					$el.css('transform', `scale(${scale})`);
+				});
+			});
 		});
 	</script>
 </body>
