@@ -136,7 +136,7 @@
 																		<div class="saInputTextWrapper saInputPageField mediumLong">
 																			<input class="saInputText" id="dataType3" role="combobox" name="$3" aria-expanded="false" autocomplete="off">
 																			<div class="saTrailingIconsWrapper">
-																				<button class="saActionIcon" tabindex="-1" type="button" aria-label="Visa/göm lista" aria-expanded="false">
+																				<button class="saActionIcon" tabindex="-1" type="button" aria-label="Visa/göm lista" aria-expanded="false" id="btn3">
 																					<i class="saIcon fas fa-caret-down"></i>
 																				</button>
 																			</div>
@@ -160,6 +160,49 @@
 																				<li id="optX17" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">datetimeoffset(2)</div></div></li>
 																				<li id="optX18" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">uniqueidentifier</div></div></li>
 																				<li id="optX19" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">varbinary(max)</div></div></li>
+																			</ul>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="saFieldAndLabelWrapper">
+															<label class="saLabelCell" for="dataType4">
+																<div class="saLabel"><span class="saMandatory">Textbox with Dropdown<span class="saMandatoryStar" aria-label="oblig">*</span></span></div>
+															</label>
+															<div class="saFieldCell">
+																<div class="saInputWrapper long">
+																	<div class="saInput">
+																		<div class="saInputTextWrapper saInputPageField mediumLong">
+																			<input class="saInputText" id="dataType4" role="combobox" name="$4" aria-expanded="false" autocomplete="off">
+																			<div class="saTrailingIconsWrapper">
+																				<button class="saActionIcon" tabindex="-1" type="button" aria-label="Visa/göm lista" aria-expanded="false" id="btn4">
+																					<i class="saIcon fas fa-caret-down"></i>
+																				</button>
+																			</div>
+																			<ul id="dataType4-list" class="saContextMenu saSouth" role="listbox" aria-label="Data types" hidden style="top: 2.25rem;">
+																				<li id="optY1" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">Henkesträng</div></div></li>
+																				<li id="optY2" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">PK char(4)</div></div></li>
+																				<li id="optY3" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">Apa</div></div></li>
+																				<li role="presentation"><hr></li>
+																				<li id="optY4" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">bit</div></div></li>
+																				<li id="optY5" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">int</div></div></li>
+																				<li id="optY6" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">tinyint</div></div></li>
+																				<li id="optY7" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">smallint</div></div></li>
+																				<li id="optY8" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">bigint</div></div></li>
+																				<li role="presentation"><hr></li>
+																				<li id="optY9" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">varchar(300)</div></div></li>
+																				<li id="optY10" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">varchar(max)</div></div></li>
+																				<li id="optY11" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">nvarchar(300)</div></div></li>
+																				<li id="optY12" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">nvarchar(max)</div></div></li>
+																				<li id="optY13" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">numeric</div></div></li>
+																				<li role="presentation"><hr></li>
+																				<li id="optY14" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">datetime2</div></div></li>
+																				<li id="optY15" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">date</div></div></li>
+																				<li id="optY16" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">time</div></div></li>
+																				<li id="optY17" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">datetimeoffset(2)</div></div></li>
+																				<li id="optY18" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">uniqueidentifier</div></div></li>
+																				<li id="optY19" class="saOptionWrapper" role="option" aria-selected="false"><div class="saOption"><div class="saOptionText">varbinary(max)</div></div></li>
 																			</ul>
 																		</div>
 																	</div>
@@ -341,7 +384,7 @@
 				const $input = $('#dataType3');
 				const $list = $('#dataType3-list');
 				const $options = $list.find('[role="option"]');
-				const $btn = $('.saActionIcon');
+				const $btn = $('#btn3');
 
 				let index = -1;
 
@@ -411,10 +454,12 @@
 							if (e.altKey) {
 								e.preventDefault();
 								openList();
-							} else {
+							}
+							else {
 								e.preventDefault();
 								setActive(index + 1);
 							}
+
 							break;
 
 						case 'ArrowUp':
@@ -429,10 +474,6 @@
 
 						case 'Escape':
 							closeList();
-							break;
-
-						case 'Alt ArrowDown':
-							openList();
 							break;
 					}
 				});
@@ -449,6 +490,181 @@
 
 				$(document).on('mousedown', function (e) {
 					if (!$(e.target).closest('#dataType3-list, #dataType3').length) {
+						closeList();
+					}
+				});
+			})();
+
+
+			(function () {
+				const $input = $('#dataType4');
+				const $list = $('#dataType4-list');
+				const $options = $list.find('[role="option"]');
+				const $btn = $('#btn4');
+
+				let index = -1; // index among ALL options (not just visible/matching)
+
+				$input.attr({
+					'aria-autocomplete': 'list',
+					'aria-controls': $list.attr('id') || 'dataType4-list'
+				});
+
+				function openList() {
+					$list.addClass('saOpen').attr('hidden', false);
+					$input.attr('aria-expanded', 'true');
+					$btn.attr('aria-expanded', 'true');
+				}
+
+				function closeList() {
+					$list.removeClass('saOpen').attr('hidden', true);
+					$input.attr('aria-expanded', 'false');
+					$btn.attr('aria-expanded', 'false');
+					clearFocus();
+					index = -1;
+				}
+
+				function clearFocus() {
+					$options
+						.removeClass('saFocus')
+						.attr('aria-selected', 'false');
+					$input.removeAttr('aria-activedescendant');
+				}
+
+				function setActive(newIndex) {
+					if (!$options.length) return;
+
+					// Wrap around the full list
+					index = (newIndex + $options.length) % $options.length;
+
+					clearFocus();
+
+					const $active = $options.eq(index);
+					$active
+						.addClass('saFocus')
+						.attr('aria-selected', 'true');
+
+					$input.attr('aria-activedescendant', $active.attr('id'));
+
+					$active[0].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+				}
+
+				function commitSelection() {
+					if (index < 0) return;
+
+					const $selected = $options.eq(index);
+					$input.val($selected.find('.saOptionText').text().trim());
+
+					closeList();
+				}
+
+				function findBestMatchIndex(query) {
+					const q = (query || '').trim().toLowerCase();
+					if (!q) return -1; // no auto-highlight when empty
+
+					let bestGlobalIndex = -1;
+					let bestScore = -Infinity;
+
+					$options.each(function (i) {
+						const text = $(this).find('.saOptionText').text().trim().toLowerCase();
+
+						let score = 0;
+						if (text.includes(q))      score += 10;
+						if (text.startsWith(q))    score += 20;
+						if (text === q)            score += 30;
+						// Could add more: Levenshtein, word starts-with, etc.
+
+						if (score > bestScore) {
+							bestScore = score;
+							bestGlobalIndex = i;
+						}
+					});
+
+					return bestScore > 0 ? bestGlobalIndex : -1;
+				}
+
+				function filterOptions(query) {
+					// No more hiding — all options stay visible
+					// Separators: you may want different logic now (e.g. always show, or hide if irrelevant)
+					// For now: show all separators (simplest when not filtering visibility)
+					$list.find('[role="presentation"]').show();
+
+					clearFocus();
+
+					const bestIdx = findBestMatchIndex(query);
+
+					if (bestIdx >= 0) {
+						setActive(bestIdx);
+					} else {
+						// No good match (including empty query or truly no results) → no highlight
+						index = -1;
+					}
+				}
+
+				// ===== Events =====
+
+				$input.on('focus input', function () {
+					openList();
+					filterOptions(this.value);
+				});
+
+				$btn.on('click', function () {
+					if ($list.hasClass('saOpen')) {
+						closeList();
+					} else {
+						openList();
+						filterOptions($input.val());
+						$input.focus();
+					}
+				});
+
+				$input.on('keydown', function (e) {
+					switch (e.key) {
+						case 'ArrowDown':
+							e.preventDefault();
+							if (e.altKey) {
+								openList();
+							} else {
+								// If list not open yet, open + highlight best (or first)
+								if (!$list.hasClass('saOpen')) {
+									openList();
+									filterOptions($input.val());
+								}
+								setActive(index + 1);
+							}
+							break;
+
+						case 'ArrowUp':
+							e.preventDefault();
+							setActive(index - 1);
+							break;
+
+						case 'Enter':
+							e.preventDefault();
+							commitSelection();
+							break;
+
+						case 'Escape':
+							e.preventDefault();
+							closeList();
+							$input.focus();
+							break;
+
+						case 'Tab':
+							// Let tab happen naturally (close on blur via document click usually catches it)
+							// But we can force close if desired
+							closeList();
+							break;
+					}
+				});
+
+				$options.on('click', function () {
+					const $clicked = $(this);
+					$input.val($clicked.find('.saOptionText').text().trim());
+					closeList();
+				});
+
+				$(document).on('click', function (e) {
+					if (!$(e.target).closest('#dataType4-list, #dataType4, #btn4').length) {
 						closeList();
 					}
 				});
