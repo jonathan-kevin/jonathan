@@ -416,35 +416,11 @@
 													</a>
 												</li>
 												<li>
-													<button class="saOptionWrapper" tabindex="0" type="button" aria-expanded="false" aria-controls="contextMenuSub">
-														<div class="saOption"><i class="saIcon saOptionIcon" aria-hidden="true"></i>
-															<div class="saOptionText">Ice cream flavors</div>
-															<i class="far fa-angle-right saOptionIcon saOptionIconTrailing icon saIcon" aria-hidden="true"></i>
+													<a class="saOptionWrapper" tabindex="0" role="link">
+														<div class="saOption"><i class="far fa-crow icon saIcon saOptionIcon" aria-hidden="true"></i>
+															<div class="saOptionText">Crows</div>
 														</div>
-													</button>
-													<ul class="saContextMenu saContextMenuSub saEast" id="contextMenuSub">
-														<li>
-															<a class="saOptionWrapper" tabindex="0" role="link">
-																<div class="saOption"><i class="far fa-dog icon saIcon saOptionIcon" aria-hidden="true"></i>
-																	<div class="saOptionText">Dogs</div>
-																</div>
-															</a>
-														</li>
-														<li>
-															<a class="saOptionWrapper" tabindex="0" role="link">
-																<div class="saOption"><i class="far fa-dog icon saIcon saOptionIcon" aria-hidden="true"></i>
-																	<div class="saOptionText">Dogs</div>
-																</div>
-															</a>
-														</li>
-														<li>
-															<a class="saOptionWrapper" tabindex="0" role="link">
-																<div class="saOption"><i class="far fa-dog icon saIcon saOptionIcon" aria-hidden="true"></i>
-																	<div class="saOptionText">Dogs</div>
-																</div>
-															</a>
-														</li>
-													</ul>
+													</a>
 												</li>
 												<li><hr></li>
 												<li>
@@ -484,17 +460,46 @@
 				const menuWidth = 256;
 				const menuHeight = 196;
 				const directionClass = getDirectionClass($btn);
+				const gap = 4;
+				const round = Math.round;
+				const centerX = offset.left + btnWidth / 2;
+				const centerY = offset.top + btnHeight / 2;
 
 				const positionMap = {
-					'saNorthWest': { top: Math.round(offset.top - menuHeight - 4), left: Math.round(offset.left - menuWidth - 4) },
-					'saNorth': { top: Math.round(offset.top - menuHeight - 8), left: Math.round(offset.left + btnWidth / 2 - menuWidth / 2) },
-					'saNorthEast': { top: Math.round(offset.top - menuHeight - 4), left: Math.round(offset.left + btnWidth + 4) },
-					'saWest': { top: Math.round(offset.top + btnHeight / 2 - menuHeight / 2), left: Math.round(offset.left - menuWidth - 8) },
-					'saEast': { top: Math.round(offset.top + btnHeight / 2 - menuHeight / 2), left: Math.round(offset.left + btnWidth + 8) },
-					'saSouthWest': { top: Math.round(offset.top + btnHeight + 4), left: Math.round(offset.left - menuWidth - 4) },
-					'saSouth': { top: Math.round(offset.top + btnHeight + 8), left: Math.round(offset.left + btnWidth / 2 - menuWidth / 2) },
-					'saSouthEast': { top: Math.round(offset.top + btnHeight + 4), left: Math.round(offset.left + btnWidth + 4) }
+					saNorthWest: {
+						top:  round(offset.top - menuHeight + gap),
+						left: round(offset.left - menuWidth + gap)
+					},
+					saNorth: {
+						top:  round(offset.top - menuHeight - gap),
+						left: round(centerX - menuWidth / 2)
+					},
+					saNorthEast: {
+						top:  round(offset.top - menuHeight + gap),
+						left: round(offset.left + btnWidth - gap)
+					},
+					saWest: {
+						top:  round(centerY - menuHeight / 2),
+						left: round(offset.left - menuWidth - gap)
+					},
+					saEast: {
+						top:  round(centerY - menuHeight / 2),
+						left: round(offset.left + btnWidth + gap)
+					},
+					saSouthWest: {
+						top:  round(offset.top + btnHeight - gap),
+						left: round(offset.left - menuWidth + gap)
+					},
+					saSouth: {
+						top:  round(offset.top + btnHeight + gap),
+						left: round(centerX - menuWidth / 2)
+					},
+					saSouthEast: {
+						top:  round(offset.top + btnHeight - gap),
+						left: round(offset.left + btnWidth - gap)
+					}
 				};
+
 
 				$menu.css(positionMap[directionClass] || {});
 			}

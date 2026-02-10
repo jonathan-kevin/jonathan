@@ -1,0 +1,83 @@
+<html lang="sv-SE">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+	<script type="text/javascript" src="https://livejs.com/live.js"></script>
+	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+</head>
+
+
+<body id="ctl00_loginBody" class="saStandard saLogin saLargeScreen">
+	<div id="ctl00_MaintenanceWarnings" class="saMessageBannerHolderJs">
+		<div class="saMessageBanners"></div>
+	</div>
+	<div class="saLoginOuter">
+		<img id="CompanyLogotypeLarge" class="saCustomerLoginLogo" src="../src/img/logo.svg" alt="Namn logotyp" style="border-width:0px;">
+		<div class="saLoginInner">
+			<h1>Jonathan</h1>
+			<form name="LoginForm" method="post" action="./Login.aspx?languageid=1" id="LoginForm">
+				<div id="UsernameWrapper" class="saControlCol">
+					<label id="UsernameLabel" for="UsernameTextBox">Användarnamn</label>
+					<div class="saInputTextWrapper">
+						<input type="text" id="UsernameTextBox" tabindex="1" class="saInputText" autocomplete="username">
+					</div>
+				</div>
+				<div id="PasswordWrapper" class="saControlCol saPasswordWrapper">
+					<div class="saLabelWrapper">
+						<label id="PasswordLabel" for="PasswordTextBox">Lösenord</label>
+						<a id="ForgotPasswordLink" tabindex="6" class="saForgotPassword" href="#">Glömt lösenordet?</a>
+					</div>
+					<div class="saInputTextWrapper saHasTrailingIcons">
+						<input type="password" id="PasswordTextBox" tabindex="2" class="saInputText" autocomplete="current-password">
+						<div class="saTrailingIconsWrapper">
+							<button class="saIcon saActionIcon fas fa-eye-slash" tabindex="-1" type="button" aria-hidden="true"></button>
+						</div>
+					</div>
+				</div>
+				<button class="saButtonPrimary saLoginButton saLoginPageButton" type="submit" tabindex="3" disabled="">Logga in</button>
+
+			</form>
+			<div class="saButtonWrapper">
+				<div class="saLoginDivider">Eller</div>
+				<button class="saLoginPageButton saButtonSecondary" tabindex="5">
+					<span>Logga in med BankID</span>
+				</button>
+
+				<button class="saLoginPageButton saButtonSecondary" tabindex="5">
+					<span>Logga in med KattID</span>
+				</button>
+			</div>
+		</div>
+		<a href="https://www.softadmin.com/" target="_blank" class="saSoftadminLogo" rel="noopener noreferrer">
+			<img class="saLogo" src="../src/img/softadmin-logo-minimized.svg" aria-hidden="true">
+			<img class="saWordMark" src="../src/img/softadmin-logo-expanded.svg" alt="Softadmin logo">
+		</a>
+	</div>
+	<div class="saLoginCover"></div>
+<script>
+	$('.saActionIcon').click(function (e) {
+		e.preventDefault();
+		$(this).toggleClass('saActive');
+
+		if ($(this).hasClass('saActive')) {
+			$(this).removeClass('fa-eye-slash').addClass('fa-eye');
+		}
+
+		else {
+			$(this).removeClass('fa-eye').addClass('fa-eye-slash');
+		}
+	});
+</script>
+
+</body>
+
+
+</html>

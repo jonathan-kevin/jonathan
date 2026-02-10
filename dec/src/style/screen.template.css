@@ -10135,9 +10135,6 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   padding: 0 0.75rem;
   min-width: 2rem;
 }
-.saLogin .saInputTextWrapper .saTrailingIconsWrapper {
-  height: 2.5rem;
-}
 .saLogin .saInnerForm {
   display: flex;
   gap: 1.5rem;
@@ -10291,7 +10288,7 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   }
 }
 .saLogin a.saForgotPassword:active {
-  color: var(--Sa-Color-Primary500);
+  color: var(--Sa-Color-Primary700);
 }
 .saLogin a.saForgotPassword::after {
   content: '';
@@ -13783,35 +13780,23 @@ select.saInputText {
 .saInputTextWrapper.saEditableDropdown {
   margin-right: 0;
 }
+.saInputTextWrapper:has(.saListBox) {
+  flex-direction: unset;
+}
 .saInputTextWrapper.saHasLeadingIcon .saInputText {
   padding-left: 2rem;
-}
-.saSmallScreen .saInputTextWrapper.saHasLeadingIcon .saInputText {
-  padding-left: 2.75rem;
 }
 .saInputTextWrapper.saHasTrailingIcons .saInputText {
   padding-right: 2rem;
 }
-.saSmallScreen .saInputTextWrapper.saHasTrailingIcons .saInputText {
-  padding-right: 2.75rem;
-}
 .saInputTextWrapper .saLeadingIconWrapper {
   position: absolute;
   color: var(--Sa-Color-IconDark);
+  top: 0.1875rem;
   left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
   z-index: 1;
   font-size: 1.25rem;
   padding: 0 0.5rem 0 0.25rem;
-  height: 2rem;
-  min-width: 2rem;
-}
-.saSmallScreen .saInputTextWrapper .saLeadingIconWrapper {
-  height: 2.75rem;
-  min-width: 2.75rem;
 }
 .saInputTextWrapper .saTrailingIconsWrapper {
   display: flex;
@@ -13820,65 +13805,60 @@ select.saInputText {
   pointer-events: none;
   align-items: center;
   min-width: 2rem;
-}
-.saInputTextWrapper .saTrailingIconsWrapper .saIcon {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: auto;
-  transition-property: color, background-color, border-radius;
-  transition-duration: 0.2s;
-  transition-timing-function: ease;
   color: var(--Sa-Color-IconDark);
-  background-color: transparent;
+  gap: 0.25rem;
+  height: 100%;
+  aspect-ratio: 1;
+  justify-content: center;
+  box-sizing: border-box;
+  font-size: 1rem;
 }
-.saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled) {
+.saInputTextWrapper .saTrailingIconsWrapper .saActionIcon {
+  pointer-events: auto;
+  height: calc(100% - 0.5rem);
+  aspect-ratio: 1;
+  border-radius: 0.25rem;
+}
+.saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:enabled {
   cursor: pointer;
   pointer-events: auto;
-  background: transparent;
+  background-color: transparent;
   border: none;
   border-radius: 0.25rem;
+  color: var(--Sa-Color-Primary600);
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
 }
-.saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled) .saIcon {
-  color: var(--Sa-Color-Primary600);
+.saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:enabled::after {
+  content: '';
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  inset: 0 0 auto auto;
 }
 @media (pointer: fine) {
-  .saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled):hover {
-    background: var(--Sa-Color-Primary100);
-  }
-  .saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled):hover::after {
-    height: 0;
+  .saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:enabled:hover {
+    color: var(--Sa-Color-Primary700);
+    background-color: var(--Sa-Color-Primary100);
   }
 }
-.saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled):active {
-  background: var(--Sa-Color-Primary600);
-  transform: scale(0.96);
-  border-radius: 0.5rem;
+.saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:enabled:active {
+  color: var(--Sa-Color-Primary800);
+  background-color: var(--Sa-Color-Primary200);
+  border-radius: 0.375rem;
 }
-.saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled):active .saIcon {
-  color: var(--Sa-Color-InputFieldIconInverted);
+.saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:enabled.saActive {
+  color: #fff;
+  background-color: var(--Sa-Color-Primary600);
 }
-.saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled):active::after {
-  height: 0;
-}
-.saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled).saActive {
-  background: var(--Sa-Color-Primary600);
-  border-radius: 0.5rem;
-}
-.saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled).saActive .saIcon {
-  color: var(--Sa-Color-InputFieldIconInverted);
-}
-.saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:not(:disabled).saActive::after {
-  height: 0;
+.saInputTextWrapper .saIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
 }
 .saInputTextWrapper .saDropdown + .saTrailingIconsWrapper .saIcon {
   font-size: 0.875rem;
-}
-.saSmallScreen .saInputTextWrapper .saDropdown + .saTrailingIconsWrapper .saIcon {
-  font-size: 1rem;
 }
 .saInputTextWrapper .saInputText {
   max-width: 100%;
@@ -13890,22 +13870,24 @@ select.saInputText {
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
   width: 100%;
   box-sizing: border-box;
-  text-align: left;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+  height: 2rem;
+  border-radius: 0.5rem;
+  padding: 0 0.625rem;
+  min-width: 0;
+  font-size: 0.875rem;
+}
+.saInputTextWrapper .saInputText .saLeadingIconWrapper {
+  padding: 0 0.25rem;
+  top: 0.25rem;
+}
+.saSmallScreen .saInputTextWrapper .saInputText {
+  font-size: 1rem;
 }
 .saInputTextWrapper .saInputText::-webkit-calendar-picker-indicator {
   display: none;
-  color: transparent;
-}
-.saInputTextWrapper .saInputText::marker {
-  display: none;
-}
-.saTemporary .saInputTextWrapper .saInputText {
-  outline: 2px dashed var(--Sa-Color-InputFieldBorder);
-  outline-offset: -2px;
-  box-shadow: none;
 }
 .saInputTextWrapper .saInputText.saDropdown {
   appearance: none;
@@ -13913,6 +13895,9 @@ select.saInputText {
   -moz-appearance: none;
   text-overflow: ellipsis;
   padding-right: 2rem;
+}
+:not(.saLabeled).saInputTextWrapper .saInputText.saDropdown {
+  padding: 0 2rem 0 0.625rem;
 }
 .saInputTextWrapper .saInputText.saDropdown:disabled {
   opacity: 1;
@@ -13947,197 +13932,202 @@ select.saInputText {
   background: #eef1f5;
   color: #8fa5c0;
 }
-/* Style in standard mode for future use
-.saStandard .saInputTextWrapper,
-.saSmallScreen .saInputTextWrapper {
-	.saInputText {
-		height: 2.5rem;
-		border-radius: 0.5rem;
-		padding: 0 0.75rem;
-	}
-
-	.saTrailingIconsWrapper {
-		height: 2.5rem;
-		gap: 0.5rem;
-		padding: 0 0.75rem 0 0.5rem;
-
-		.saIcon {
-			font-size: 1.25rem;
-
-			&.saActionIcon:not(:disabled) {
-				padding-left: 0.5rem;
-				padding-right: 0.5rem;
-				margin-right: -0.5rem;
-				width: 2rem;
-				height: 2rem;
-			}
-		}
-	}
-}*/
-/*.saCompact*/
-.saInputTextWrapper .saInputText {
-  height: 2rem;
-  border-radius: 0.5rem;
-  padding: 0 0.625rem;
-  min-width: 0;
+.saInputTextWrapper .saInputText.saListBox {
+  box-shadow: none !important;
+  outline: 1px solid var(--Sa-Color-InputFieldBorder);
+  outline-offset: -1px;
+  border: 2px solid transparent;
+  height: unset;
+  padding: 0.5rem;
+  appearance: none;
+  border-radius: 0.75rem;
+}
+.saPc .saLabeled.saInputTextWrapper .saInputText.saListBox {
+  padding-top: 1.125rem;
+}
+.saPc .saInputTextWrapper .saInputText.saListBox {
+  line-height: 1.5rem;
+  height: unset;
+  overflow: auto;
+}
+.saPc .saInputTextWrapper .saInputText.saListBox + .saTrailingIconsWrapper {
+  display: none;
+}
+.saMobile .saLabeled.saInputTextWrapper .saInputText.saListBox {
+  padding-top: 0.75rem;
+}
+.saMobile .saInputTextWrapper .saInputText.saListBox {
+  padding: 0 1.5rem 0 1rem;
+  height: 2.75rem;
+}
+.saMobile .saInputTextWrapper .saInputText.saListBox + .saTrailingIconsWrapper .saIcon {
   font-size: 0.875rem;
 }
-.saInputTextWrapper .saTrailingIconsWrapper {
-  gap: 0.25rem;
-  height: 2rem;
-  min-width: 2rem;
-  justify-content: center;
-  padding: 0 0.5rem;
-  box-sizing: border-box;
+@media (pointer: fine) {
+  .saInputTextWrapper .saInputText.saListBox:enabled:hover {
+    outline: 2px solid var(--Sa-Color-Primary600);
+    outline-offset: -2px;
+  }
 }
-.saInputTextWrapper .saTrailingIconsWrapper .saActionIcon {
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-  margin-right: -0.25rem;
-  pointer-events: auto;
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 0.25rem;
+.saInputTextWrapper .saInputText.saListBox:enabled:focus {
+  outline: 2px solid var(--Sa-Color-Primary600);
+  outline-offset: -2px;
 }
-.saInputTextWrapper .saTrailingIconsWrapper .saActionIcon:active {
-  border-radius: 0.5rem;
+:not(.saHighlightFieldError, .saHighlightFieldWarning).saInputTextWrapper .saInputText.saListBox:enabled:focus option:enabled:checked {
+  color: #fff;
+  background: linear-gradient(var(--Sa-Color-Primary600), var(--Sa-Color-Primary600));
 }
-.saInputTextWrapper .saTrailingIconsWrapper .saIcon {
-  font-size: 1rem;
+.saHighlightFieldError.saInputTextWrapper .saInputText.saListBox:enabled {
+  outline: 2px solid #e0173e;
+  background-color: #fff7f7;
+  outline-offset: -2px;
 }
-.saSmallScreen .saInputTextWrapper .saTrailingIconsWrapper {
-  height: 2.75rem;
-  min-width: 2.75rem;
+@media (pointer: fine) {
+  .saHighlightFieldError.saInputTextWrapper .saInputText.saListBox:enabled:hover {
+    outline: 2px solid #bf0024;
+  }
 }
-.saSmallScreen .saInputTextWrapper .saTrailingIconsWrapper .saActionIcon {
-  width: 2.25rem;
-  height: 2.25rem;
+.saHighlightFieldError.saInputTextWrapper .saInputText.saListBox:enabled:focus {
+  outline: 2px solid #bf0024;
+  background-color: #ffe8e7;
 }
-.saSmallScreen .saInputTextWrapper .saTrailingIconsWrapper .saIcon {
-  font-size: 1.25rem;
+.saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox:enabled {
+  outline: 2px solid #f6ad00;
+  background-color: #fff8e7;
+  outline-offset: -2px;
 }
-.saInputTextWrapper .saLeadingIconWrapper {
-  padding: 0 0.25rem;
+@media (pointer: fine) {
+  .saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox:enabled:hover {
+    outline: 2px solid #da9600;
+  }
 }
-.saSmallScreen .saInputText {
-  font-size: 1rem;
-  height: 2.75rem;
-  padding: 0 1rem;
+.saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox:enabled:focus {
+  outline: 2px solid #da9600;
+  background-color: #ffecb7;
+}
+.saInputTextWrapper .saInputText.saListBox:disabled {
+  outline: none;
+  cursor: not-allowed;
+  opacity: 1;
+}
+.saInputTextWrapper .saInputText.saListBox:disabled option {
+  pointer-events: none;
+  color: #adbdd1;
+}
+.saInputTextWrapper .saInputText.saListBox:disabled option:checked {
+  color: #fff;
+  background-color: #adbdd1;
+}
+.saInputTextWrapper .saInputText.saListBox option {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  min-block-size: unset;
+  padding-block-start: 0;
+  padding-block-end: 0;
+  min-block-size: 0;
+  padding-inline: 0;
+  padding-inline-start: 0;
+  padding-inline-end: 0;
+  padding: 0.1875rem 0.5rem;
+  white-space: nowrap;
+  color: inherit;
+}
+.saInputTextWrapper .saInputText.saListBox option:first-child,
+.saInputTextWrapper .saInputText.saListBox option:not(:checked, :hover) + :checked,
+.saInputTextWrapper .saInputText.saListBox option:not(:checked, :hover) + :hover {
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+}
+.saInputTextWrapper .saInputText.saListBox option:checked:has( + :not(:checked, :hover)),
+.saInputTextWrapper .saInputText.saListBox option:hover:has( + :not(:checked, :hover)),
+.saInputTextWrapper .saInputText.saListBox option:last-child {
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+}
+.saInputTextWrapper .saInputText.saListBox:enabled option:checked {
+  color: var(--Sa-Color-Text);
+  background: linear-gradient(#ccd5e2, #ccd5e2);
+}
+@media (pointer: fine) {
+  .saInputTextWrapper .saInputText.saListBox:enabled option:checked:hover {
+    color: #fff;
+    background: linear-gradient(var(--Sa-Color-Primary700), var(--Sa-Color-Primary700));
+  }
+}
+.saInputTextWrapper .saInputText.saListBox:enabled option:checked:active {
+  color: #fff;
+  background: linear-gradient(var(--Sa-Color-Primary800), var(--Sa-Color-Primary800));
+}
+.saHighlightFieldError.saInputTextWrapper .saInputText.saListBox:enabled option:checked {
+  color: #fff;
+  background: linear-gradient(#e0173e, #e0173e);
+}
+@media (pointer: fine) {
+  .saHighlightFieldError.saInputTextWrapper .saInputText.saListBox:enabled option:checked:hover {
+    color: #fff;
+    background: linear-gradient(#bf0024, #bf0024);
+  }
+}
+.saHighlightFieldError.saInputTextWrapper .saInputText.saListBox:enabled option:checked:active {
+  color: #fff;
+  background: linear-gradient(#9b0002, #9b0002);
+}
+.saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox:enabled option:checked {
+  color: #fff;
+  background: linear-gradient(#9c6700, #9c6700);
+}
+@media (pointer: fine) {
+  .saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox:enabled option:checked:hover {
+    color: #fff;
+    background: linear-gradient(#825400, #825400);
+  }
+}
+.saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox:enabled option:checked:active {
+  color: #fff;
+  background: linear-gradient(#694300, #694300);
+}
+@media (pointer: fine) {
+  .saInputTextWrapper .saInputText.saListBox:enabled option:hover {
+    color: var(--Sa-Color-Primary800);
+    background: linear-gradient(var(--Sa-Color-Primary200), var(--Sa-Color-Primary200));
+  }
+}
+.saInputTextWrapper .saInputText.saListBox:enabled option:active {
+  color: var(--Sa-Color-Primary900);
+  background: linear-gradient(var(--Sa-Color-Primary300), var(--Sa-Color-Primary300));
+}
+.saHighlightFieldError.saInputTextWrapper .saInputText.saListBox:enabled option {
+  color: #790000;
+}
+@media (pointer: fine) {
+  .saHighlightFieldError.saInputTextWrapper .saInputText.saListBox:enabled option:hover {
+    color: #9b0002;
+    background: linear-gradient(#ffc6c5, #ffc6c5);
+  }
+}
+.saHighlightFieldError.saInputTextWrapper .saInputText.saListBox:enabled option:active {
+  color: #790000;
+  background: linear-gradient(#fba4a3, #fba4a3);
+}
+.saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox:enabled option {
+  color: #513200;
+}
+@media (pointer: fine) {
+  .saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox:enabled option:hover {
+    color: #694300;
+    background: linear-gradient(#ffcd5b, #ffcd5b);
+  }
+}
+.saHighlightFieldWarning.saInputTextWrapper .saInputText.saListBox:enabled option:active {
+  color: #513200;
+  background: linear-gradient(#f6ad00, #f6ad00);
 }
 .saSelectedValueWrapper .saTag {
   display: flex;
   align-items: center;
   font-size: 0.875rem;
   cursor: pointer;
-}
-.saOptionListWrapper {
-  z-index: 1005;
-  margin-top: 0.3125rem;
-  position: absolute;
-  background: #fff;
-  display: none;
-  flex-direction: column;
-  width: fit-content;
-  min-width: calc(100%);
-  max-width: 44.5rem;
-  flex: 2;
-  overscroll-behavior: contain;
-  padding: 0.25rem;
-  border-radius: 0.75rem;
-  overflow-y: auto;
-  overflow-x: hidden;
-  border: 1px solid #f8f9fb;
-  min-height: 2rem;
-  max-height: 28rem;
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07), 0 1rem 2rem rgba(49, 58, 68, 0.07), 0 2rem 4rem rgba(49, 58, 68, 0.07);
-}
-.saOptionListWrapper .saSearchSpinnerWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-}
-.saOptionListWrapper .saSearchSpinnerWrapper .saSpinner {
-  font-size: 1rem;
-  color: #7088a4;
-}
-.saOptionListWrapper.saListColumns {
-  max-width: 75rem;
-}
-.saSmallScreen .saOptionListWrapper {
-  padding: 0;
-  width: 95vw;
-}
-.saSmallScreen .saMultiRowField .saOptionListWrapper {
-  width: 75vw;
-}
-.saOptionListWrapper:focus {
-  outline: none;
-}
-.saOptionListWrapper ul {
-  display: table;
-  width: 100%;
-}
-.saOptionListWrapper li {
-  font-size: 0.875rem;
-  cursor: pointer;
-  list-style: none;
-  height: 2.5rem;
-  border-radius: 0.5rem;
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  color: var(--Sa-Color-Label);
-  display: table-row;
-  width: 100%;
-}
-@media (pointer: fine) {
-  .saOptionListWrapper li:hover {
-    background: #f8f9fb;
-  }
-  .saSmallScreen .saOptionListWrapper li:hover {
-    background: inherit;
-  }
-}
-.saOptionListWrapper li.saFocus {
-  background: #f8f9fb;
-  color: var(--Sa-Color-Primary600);
-}
-.saStandard .saOptionListWrapper li {
-  min-height: 2.5rem;
-}
-.saCompact .saOptionListWrapper li {
-  min-height: 2rem;
-  max-height: 2rem;
-  border-radius: 0.25rem;
-}
-.saOptionListWrapper li span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: table-cell;
-  line-height: 0.875rem;
-  padding: 0.75rem 0.5rem 0.5rem 0.5rem;
-}
-.saOptionListWrapper li span:not(:first-child) {
-  font-size: 0.75rem;
-}
-.saOptionListWrapper li span:last-child {
-  padding: 0;
-  width: 100%;
-}
-.saOptionListWrapper li.saNoResults {
-  gap: 0.5rem;
-  height: unset;
-  pointer-events: none;
-}
-.saOptionListWrapper li.saNoResults span {
-  padding: 0.5rem;
-}
-.saOptionListWrapper li.saNoResults .saIcon {
-  font-size: 1rem;
-  color: black;
 }
 .saMandatoryStar {
   margin-left: 0.25rem;
@@ -14293,12 +14283,12 @@ select.saInputText {
   background-color: #f8f9fb;
   line-height: 0.875rem;
   gap: 0.5rem;
-  padding: 0.5rem;
   height: 2rem;
   border-radius: 0.5rem;
   font-size: 0.875rem;
   overflow: hidden;
   justify-content: safe center;
+  padding: 0.5rem;
 }
 .saLabeledFieldButton .saButtonText {
   white-space: nowrap;
@@ -14421,7 +14411,7 @@ select.saInputText {
   line-height: 1rem;
 }
 .saValidationMessage .saIcon {
-  font-size: 1.25rem;
+  font-size: 1rem;
   position: relative;
 }
 .saValidationMessage.saError {
@@ -15498,7 +15488,7 @@ select.saInputText {
 }
 .saSmallScreen .saInputPageFooter .saFormButtonGroup {
   box-sizing: border-box;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
@@ -24853,9 +24843,6 @@ body.saMiniView {
   left: 0.5rem;
   width: 100%;
 }
-.saPdfTemplateEditor .saInputTextWrapper .saTrailingIconsWrapper {
-  height: 2.5rem;
-}
 .saPdfTemplateEditor .saInputTextWrapper .saInputText {
   height: 2.5rem;
   padding-top: 0.75rem;
@@ -33186,56 +33173,41 @@ pre.saCode {
   tab-size: 4;
 }
 /* Let this be the last import */
-.saLoogo {
-  display: grid;
-  grid-template-columns: repeat(5, 1rem);
-  grid-template-rows: repeat(4, 1rem);
-  width: fit-content;
-  gap: 0.5rem;
-}
-.saSquircle {
-  background-color: black;
-  border-radius: 25%;
-  height: 1rem;
-  width: 1rem;
-}
-.saSquircle:nth-child(2) {
-  grid-column: 5;
-}
-.saSquircle:nth-child(5) {
-  grid-column: 4;
-  background-color: blue;
-}
-.saSquircle:nth-child(1),
-.saSquircle:nth-child(3),
-.saSquircle:nth-child(7),
-.saSquircle:nth-child(12) {
-  background-color: red;
-}
-.saSquircle:nth-child(4),
-.saSquircle:nth-child(8),
-.saSquircle:nth-child(13) {
-  background-color: orange;
-}
-.saSquircle:nth-child(9),
-.saSquircle:nth-child(14) {
-  background-color: purple;
-}
-.saSquircle:nth-child(5),
-.saSquircle:nth-child(10),
-.saSquircle:nth-child(15) {
-  background-color: salmon;
-}
-.saSquircle:nth-child(2),
-.saSquircle:nth-child(6),
-.saSquircle:nth-child(11),
-.saSquircle:nth-child(16) {
-  background-color: green;
-}
 .relative {
   display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
   width: 100%;
+}
+.relative #contextMenu {
+  position: fixed;
+}
+.animation-test {
+  display: grid;
+  grid-template-columns: repeat(3, 2rem);
+  grid-template-rows: repeat(3, 2rem);
+}
+.animation-test button {
+  width: 2rem;
+  height: 2rem;
+  background-color: transparent;
+  border: none;
+  color: var(--Sa-Color-Icon);
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  border-radius: 0.5rem;
+}
+@media (pointer: fine) {
+  .animation-test button:hover {
+    color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
+  }
+}
+.animation-test button:active {
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+  border-radius: 0.75rem;
 }
 .menu-target-group {
   display: flex;
@@ -33290,6 +33262,7 @@ pre.saCode {
   outline: 1px solid #f8f9fb;
   outline-offset: -1px;
   transform-origin: top;
+  interpolate-size: allow-keywords;
 }
 .saContextMenu .saBadgeCount {
   display: flex;
@@ -33367,40 +33340,126 @@ pre.saCode {
   transform-origin: unset;
 }
 .saLargeScreen .saContextMenu.saOpen {
-  animation: openContextMenu 0.15s forwards;
+  animation: openContextMenuSouth 0.15s forwards;
 }
 .saLargeScreen .saContextMenu.saOpen.saNorth {
-  transform-origin: bottom;
+  animation-name: openContextMenuNorth;
 }
 .saLargeScreen .saContextMenu.saOpen.saNorthEast {
-  transform-origin: bottom left;
+  animation-name: openContextMenuNorthEast;
 }
 .saLargeScreen .saContextMenu.saOpen.saEast {
-  transform-origin: left;
+  animation-name: openContextMenuEast;
 }
 .saLargeScreen .saContextMenu.saOpen.saSouthEast {
-  transform-origin: top left;
+  animation-name: openContextMenuSouthEast;
 }
 .saLargeScreen .saContextMenu.saOpen.saSouth {
-  transform-origin: top;
+  animation-name: openContextMenuSouth;
 }
 .saLargeScreen .saContextMenu.saOpen.saSouthWest {
-  transform-origin: top right;
+  animation-name: openContextMenuSouthWest;
 }
 .saLargeScreen .saContextMenu.saOpen.saWest {
-  transform-origin: right;
+  animation-name: openContextMenuWest;
 }
 .saLargeScreen .saContextMenu.saOpen.saNorthWest {
-  transform-origin: bottom right;
+  animation-name: openContextMenuNorthWest;
 }
-@keyframes openContextMenu {
+@keyframes openContextMenuNorth {
   0% {
-    transform: scale(0);
-    opacity: 0.5;
+    opacity: 0;
+    transform: translateY(1rem);
+    pointer-events: none;
   }
   100% {
-    transform: scale(1);
     opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+}
+@keyframes openContextMenuNorthEast {
+  0% {
+    opacity: 0;
+    transform: translate(-1rem, 1rem);
+    pointer-events: none;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+    pointer-events: all;
+  }
+}
+@keyframes openContextMenuEast {
+  0% {
+    opacity: 0;
+    transform: translateX(-1rem);
+    pointer-events: none;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+}
+@keyframes openContextMenuSouthEast {
+  0% {
+    opacity: 0;
+    transform: translate(-1rem, -1rem);
+    pointer-events: none;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+    pointer-events: all;
+  }
+}
+@keyframes openContextMenuSouth {
+  0% {
+    opacity: 0;
+    transform: translateY(-1rem);
+    pointer-events: none;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+}
+@keyframes openContextMenuSouthWest {
+  0% {
+    opacity: 0;
+    transform: translate(1rem, -1rem);
+    pointer-events: none;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+    pointer-events: all;
+  }
+}
+@keyframes openContextMenuWest {
+  0% {
+    opacity: 0;
+    transform: translateX(1rem);
+    pointer-events: none;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+}
+@keyframes openContextMenuNorthWest {
+  0% {
+    opacity: 0;
+    transform: translate(1rem, 1rem);
+    pointer-events: none;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+    pointer-events: all;
   }
 }
 .saLargeScreen .saContextMenu.saOpen.saOptionColumns {
