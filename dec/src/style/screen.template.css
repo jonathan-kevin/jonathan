@@ -33177,8 +33177,13 @@ pre.saCode {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  gap: 1rem;
   height: 100%;
   width: 100%;
+}
+.relative .saInputTextWrapper {
+  width: 16rem;
 }
 .relative #contextMenu {
   position: fixed;
@@ -34076,4 +34081,204 @@ pre.saCode {
 .saInputTextWrapper .saInputText.saListBox option:last-child {
   border-bottom-left-radius: 0.375rem;
   border-bottom-right-radius: 0.375rem;
+}
+softadmin-treeeview {
+  display: block;
+  box-sizing: border-box;
+}
+softadmin-treeeview * {
+  box-sizing: border-box;
+}
+.saTreeeView ul[role='group'] {
+  position: relative;
+  padding-left: 1.5rem;
+}
+.saTreeeView ul[role='group']::after {
+  content: '';
+  position: absolute;
+  top: -0.5rem;
+  left: 0.75rem;
+  width: 1rem;
+  height: calc(100% - 1rem);
+  border-left: solid 1px #ccd5e2;
+  pointer-events: none;
+}
+.saTreeeView li[role='treeitem'][aria-expanded='false'] > ul[role='group'] {
+  display: none;
+}
+.saTreeeView > li[role='treeitem'] > .saTreeeRow::after {
+  display: none;
+}
+.saTreeeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  position: relative;
+}
+[aria-expanded] > .saTreeeRow {
+  cursor: pointer;
+}
+@media (pointer: fine) {
+  .saTreeeRow:hover {
+    background-color: var(--Sa-Color-Primary50);
+  }
+}
+.saTreeeRow:active {
+  background-color: var(--Sa-Color-Primary100);
+}
+.saTreeeRow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -0.75rem;
+  width: 1rem;
+  height: 1rem;
+  border-bottom: 1px solid #ccd5e2;
+  border-left: 1px solid #ccd5e2;
+  border-bottom-left-radius: 0.5rem;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.saTreeeLabel {
+  color: inherit;
+  text-decoration: none;
+  line-height: 1.5rem;
+  width: fit-content;
+}
+a.saTreeeLabel {
+  color: var(--Sa-Color-Primary600);
+  font-weight: 500;
+}
+@media (pointer: fine) {
+  a.saTreeeLabel:hover {
+    text-decoration: underline;
+  }
+}
+a.saTreeeLabel:active {
+  color: var(--Sa-Color-Primary900);
+}
+.saTreeeButtonGroup {
+  display: flex;
+  gap: 0.25rem;
+}
+.saTreeeButton {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  border-radius: 0.25rem;
+  padding: 0 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  max-width: 1.5rem;
+  min-width: 1.5rem;
+  font-size: 0.75rem;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+  border-radius: 0.375rem;
+}
+.saTreeeButton .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saTreeeButton .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saTreeeButton .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saTreeeButton:active {
+  border-radius: 0.75rem;
+}
+.saTreeeButton .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saTreeeButton .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .saTreeeButton:hover {
+    border-color: var(--Sa-Color-Primary600);
+    color: var(--Sa-Color-Primary600);
+  }
+  .saTreeeButton:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+  .saTreeeButton:hover .saBadge {
+    background-color: var(--Sa-Color-Primary600);
+  }
+}
+.saTreeeButton:active {
+  background: var(--Sa-Color-Primary100);
+}
+.saTreeeButton:active .saBadge {
+  color: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary100);
+}
+.saTreeeButton.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.saTreeeButton.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saTreeeButton.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saTreeeButton.saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saTreeeButton.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .saTreeeButton.saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saTreeeButton.saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saTreeeButton.saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saTreeeButton.saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saTreeeExpander {
+  height: 0.625rem;
+  width: 0.5rem;
+  transition: ease transform 0.2s;
+}
+[aria-expanded="false"] > .saTreeeRow .saTreeeExpander {
+  transform: rotate(90deg);
 }

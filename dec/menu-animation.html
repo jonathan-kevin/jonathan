@@ -377,12 +377,64 @@
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner saInputPage ">
 										<div class="relative">
+											<div class="saInputTextWrapper">
+												<input type="text" class="saInputText saDropdown saNorth" placeholder="North" aria-controls="contextMenu">
+												<div class="saTrailingIconsWrapper">
+													<i class="saIcon far fa-angle-down"></i>
+												</div>
+											</div>
+											<div class="saInputTextWrapper">
+												<input type="text" class="saInputText saDropdown saNorthEast" placeholder="North east" aria-controls="contextMenu">
+												<div class="saTrailingIconsWrapper">
+													<i class="saIcon far fa-angle-down"></i>
+												</div>
+											</div>
+
+											<div class="saInputTextWrapper">
+												<input type="text" class="saInputText saDropdown saEast" placeholder="East" aria-controls="contextMenu">
+												<div class="saTrailingIconsWrapper">
+													<i class="saIcon far fa-angle-down"></i>
+												</div>
+											</div>
+
+											<div class="saInputTextWrapper">
+												<input type="text" class="saInputText saDropdown saSouthEast" placeholder="South east" aria-controls="contextMenu">
+												<div class="saTrailingIconsWrapper">
+													<i class="saIcon far fa-angle-down"></i>
+												</div>
+											</div>
+											<div class="saInputTextWrapper">
+												<input type="text" class="saInputText saDropdown saSouth" placeholder="South" aria-controls="contextMenu">
+												<div class="saTrailingIconsWrapper">
+													<i class="saIcon far fa-angle-down"></i>
+												</div>
+											</div>
+
+											<div class="saInputTextWrapper">
+												<input type="text" class="saInputText saDropdown saSouthWest" placeholder="South west" aria-controls="contextMenu">
+												<div class="saTrailingIconsWrapper">
+													<i class="saIcon far fa-angle-down"></i>
+												</div>
+											</div>
+											<div class="saInputTextWrapper">
+												<input type="text" class="saInputText saDropdown saWest" placeholder="West" aria-controls="contextMenu">
+												<div class="saTrailingIconsWrapper">
+													<i class="saIcon far fa-angle-down"></i>
+												</div>
+											</div>
+
+											<div class="saInputTextWrapper">
+												<input type="text" class="saInputText saDropdown saNorthWest" placeholder="North west" aria-controls="contextMenu">
+												<div class="saTrailingIconsWrapper">
+													<i class="saIcon far fa-angle-down"></i>
+												</div>
+											</div>
 											<div class="animation-test">
 												<button aria-controls="contextMenu" type="button" class="far fa-arrow-up-left saNorthWest"></button>
 												<button aria-controls="contextMenu" type="button" class="far fa-arrow-up saNorth"></button>
 												<button aria-controls="contextMenu" type="button" class="far fa-arrow-up-right saNorthEast"></button>
 												<button aria-controls="contextMenu" type="button" class="far fa-arrow-left saWest"></button>
-												<button aria-controls="contextMenu" type="button" class="empty"></button>
+												<button aria-controls="contextMenu" type="button" class="empty" style="pointer-events: none; opacity: 0;" tabindex="-1"></button>
 												<button aria-controls="contextMenu" type="button" class="far fa-arrow-right saEast"></button>
 												<button aria-controls="contextMenu" type="button" class="far fa-arrow-down-left saSouthWest"></button>
 												<button aria-controls="contextMenu" type="button" class="far fa-arrow-down saSouth"></button>
@@ -445,7 +497,7 @@
 		$(document).ready(function () {
 
 			const $menu = $('#contextMenu');
-			const $buttons = $('button[aria-controls="contextMenu"]');
+			const $buttons = $('[aria-controls="contextMenu"]');
 
 			function getDirectionClass($element) {
 				return $element.attr('class').split(' ').find(cls =>
@@ -504,7 +556,21 @@
 				$menu.css(positionMap[directionClass] || {});
 			}
 
-			$buttons.on('click', function(e) {
+			$('button[aria-controls="contextMenu"]').on('click', function(e) {
+				e.stopPropagation();
+				const $btn = $(this);
+				const directionClass = getDirectionClass($btn);
+
+				$menu.removeClass('saNorthWest saNorth saNorthEast saWest saEast saSouthWest saSouth saSouthEast saOpen');
+				positionMenu($btn);
+
+				setTimeout(() => {
+					$menu.addClass(directionClass).addClass('saOpen');
+				}, 1);
+			});
+
+
+			$('input[aria-controls="contextMenu"]').on('focus', function(e) {
 				e.stopPropagation();
 				const $btn = $(this);
 				const directionClass = getDirectionClass($btn);
@@ -518,7 +584,7 @@
 			});
 
 			$(document).on('click', function(e) {
-				if (!$(e.target).closest('button[aria-controls="contextMenu"], #contextMenu').length) {
+				if (!$(e.target).closest('[aria-controls="contextMenu"], #contextMenu').length) {
 					$menu.removeClass('saOpen');
 					$buttons.attr('aria-expanded', 'false');
 				}
@@ -527,27 +593,6 @@
 			$(document).on('keydown', function(e) {
 				if (e.key === 'Escape') {
 					$menu.removeClass('saOpen');
-				}
-			});
-
-			const $subMenu = $('#contextMenuSub');
-			const $subMenuBtn = $('button[aria-controls="contextMenuSub"]');
-
-			$subMenuBtn.on('click', function(e) {
-				e.stopPropagation();
-				const isExpanded = $(this).attr('aria-expanded') === 'true';
-				$(this).attr('aria-expanded', !isExpanded);
-				$subMenu.toggleClass('saOpen saFocus');
-			});
-
-			$menu.on('click', function(e) {
-				e.stopPropagation();
-			});
-
-			$(document).on('click', function(e) {
-				if (!$(e.target).closest('button[aria-controls="contextMenuSub"], #contextMenuSub').length) {
-					$subMenu.removeClass('saOpen saFocus');
-					$subMenuBtn.attr('aria-expanded', 'false');
 				}
 			});
 		});
