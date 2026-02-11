@@ -98,8 +98,8 @@
 									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
 											data-sa-minimized-tooltip="Leveranser">
 											<div class="saItemInner">
-												<div class="saIconWrapper"><i class="far fa-crow icon saIcon"></i>
-												</div><span>Kråkor</span>
+												<div class="saIconWrapper"><i class="far fa-crow icon saIcon"></i></div>
+												<span>Kråkor</span>
 											</div>
 										</a></li>
 								</ul>
@@ -235,52 +235,191 @@
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner">
+										<div style="display: flex; flex-direction: row; gap: 0.5rem; padding-bottom: 0.5rem;">
+											<button type="button" class="saDefaultButtonSecondary grip">Toggle Grip dots</button>
+											<button type="button" class="saDefaultButtonSecondary button">Toggle Buttons</button>
+											<button type="button" class="saDefaultButtonSecondary lines">Toggle lines</button>
+											<button type="button" class="saDefaultButtonSecondary expander">Toggle invisible expander for nodes without children</button>
+										</div>
 										<softadmin-treeeview class="saTreeeViewWrapper">
 											<ul class="saTreeeView" role="tree" aria-label="Example tree">
 												<li role="treeitem" aria-expanded="true" tabindex="0">
 													<div class="saTreeeRow">
-														<img class="saTreeeExpander" src="./Presentation/img/triangle.svg">
-														<a href="#" class="saTreeeLabel">Birds</a>
+														<div class="saTreeeExpander"></div>
+														<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
 														<ul class="saTreeeButtonGroup">
 															<li>
 																<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
-																	<i class="far fa-bird icon saIcon" aria-hidden="true"></i>
+																	<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
 																</button>
 															</li>
 															<li>
 																<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
-																	<i class="far fa-xmark icon saIcon" aria-hidden="true"></i>
+																	<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
 																</button>
 															</li>
 														</ul>
+														<a href="#" class="saTreeeLabel" tabindex="-1">Birds</a>
 													</div>
 
 													<ul role="group">
 														<li role="treeitem" tabindex="-1" aria-expanded="true">
 															<div class="saTreeeRow">
-																<img class="saTreeeExpander" src="./Presentation/img/triangle.svg">
-																<a href="#" class="saTreeeLabel">Eagle</a>
-																<button class="saTreeeButton" type="button" aria-label="Do this thing to Eagle">
-																	<i class="far fa-bird icon saIcon" aria-hidden="true"></i>
-																</button>
+																<div class="saTreeeExpander"></div>
+																<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																<ul class="saTreeeButtonGroup">
+																	<li>
+																		<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																			<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																		</button>
+																	</li>
+																	<li>
+																		<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																			<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																		</button>
+																	</li>
+																</ul>
+																<a href="#" class="saTreeeLabel" tabindex="-1">Eagle</a>
 															</div>
 
 															<ul role="group">
-																<li role="treeitem" tabindex="-1">
+																<li role="treeitem" tabindex="-1" aria-expanded="true">
 																	<div class="saTreeeRow">
-																		<a href="#" class="saTreeeLabel">Bald Eagle</a>
-																		<button class="saTreeeButton" type="button" aria-label="Do this thing to Bald Eagle">
-																			<i class="far fa-bird icon saIcon" aria-hidden="true"></i>
-																		</button>
+																		<div class="saTreeeExpander"></div>
+																		<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																		<ul class="saTreeeButtonGroup">
+																			<li>
+																				<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																					<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																				</button>
+																			</li>
+																			<li>
+																				<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																					<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																				</button>
+																			</li>
+																		</ul>
+																		<a href="#" class="saTreeeLabel" tabindex="-1">Bald Eagle <span class="saBadgeCount">2</span></a>
 																	</div>
+																	<ul role="group">
+																		<li role="treeitem" tabindex="-1" aria-expanded="true">
+																			<div class="saTreeeRow">
+																				<div class="saTreeeExpander"></div>
+																				<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																				<ul class="saTreeeButtonGroup">
+																					<li>
+																						<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																							<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																						</button>
+																					</li>
+																					<li>
+																						<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																							<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																						</button>
+																					</li>
+																				</ul>
+																				<a href="#" class="saTreeeLabel" tabindex="-1">Northern</a>
+																			</div>
+																			<ul role="group">
+																				<li role="treeitem" tabindex="-1">
+																					<div class="saTreeeRow">
+																						<div class="saTreeeExpander"></div>
+																						<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																						<ul class="saTreeeButtonGroup">
+																							<li>
+																								<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																									<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																								</button>
+																							</li>
+																							<li>
+																								<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																									<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																								</button>
+																							</li>
+																						</ul>
+																						<a href="#" class="saTreeeLabel" tabindex="-1">Heavy</a>
+																					</div>
+																				</li>
+																				<li role="treeitem" tabindex="-1">
+																					<div class="saTreeeRow">
+																						<div class="saTreeeExpander"></div>
+																						<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																						<ul class="saTreeeButtonGroup">
+																							<li>
+																								<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																									<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																								</button>
+																							</li>
+																							<li>
+																								<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																									<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																								</button>
+																							</li>
+																						</ul>
+																						<a href="#" class="saTreeeLabel" tabindex="-1">Medium</a>
+																					</div>
+																				</li>
+																				<li role="treeitem" tabindex="-1">
+																					<div class="saTreeeRow">
+																						<div class="saTreeeExpander"></div>
+																						<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																						<ul class="saTreeeButtonGroup">
+																							<li>
+																								<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																									<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																								</button>
+																							</li>
+																							<li>
+																								<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																									<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																								</button>
+																							</li>
+																						</ul>
+																						<span class="saTreeeLabel">Light</span>
+																					</div>
+																				</li>
+																			</ul>
+																		</li>
+
+																		<li role="treeitem" tabindex="-1">
+																			<div class="saTreeeRow">
+																				<div class="saTreeeExpander"></div>
+																				<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																				<ul class="saTreeeButtonGroup">
+																					<li>
+																						<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																							<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																						</button>
+																					</li>
+																					<li>
+																						<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																							<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																						</button>
+																					</li>
+																				</ul>
+																				<span class="saTreeeLabel">Southern</span>
+																			</div>
+																		</li>
+																	</ul>
 																</li>
 
 																<li role="treeitem" tabindex="-1">
 																	<div class="saTreeeRow">
+																		<div class="saTreeeExpander"></div>
+																		<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																		<ul class="saTreeeButtonGroup">
+																			<li>
+																				<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																					<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																				</button>
+																			</li>
+																			<li>
+																				<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																					<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																				</button>
+																			</li>
+																		</ul>
 																		<span class="saTreeeLabel">Red Eagle</span>
-																		<button class="saTreeeButton" type="button" aria-label="Red Eagle">
-																			<i class="far fa-eye icon saIcon" aria-hidden="true"></i>
-																		</button>
 																	</div>
 																</li>
 															</ul>
@@ -288,10 +427,182 @@
 
 														<li role="treeitem" tabindex="-1">
 															<div class="saTreeeRow">
+																<div class="saTreeeExpander"></div>
+																<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																<ul class="saTreeeButtonGroup">
+																	<li>
+																		<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																			<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																		</button>
+																	</li>
+																	<li>
+																		<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																			<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																		</button>
+																	</li>
+																</ul>
 																<span class="saTreeeLabel">Penguin (no link)</span>
-																<button class="saTreeeButton" type="button" aria-label="Inspect Penguin">
-																	<i class="far fa-eye icon saIcon" aria-hidden="true"></i>
-																</button>
+															</div>
+														</li>
+														<li role="treeitem" tabindex="-1" aria-expanded="true">
+															<div class="saTreeeRow">
+																<div class="saTreeeExpander"></div>
+																<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																<ul class="saTreeeButtonGroup">
+																	<li>
+																		<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																			<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																		</button>
+																	</li>
+																	<li>
+																		<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																			<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																		</button>
+																	</li>
+																</ul>
+																<span class="saTreeeLabel">Crow <span class="saBadgeCount">3</span></span>
+															</div>
+															<ul role="group">
+																<li role="treeitem" tabindex="-1">
+																	<div class="saTreeeRow">
+																		<div class="saTreeeExpander"></div>
+																		<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																		<ul class="saTreeeButtonGroup">
+																			<li>
+																				<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																					<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																				</button>
+																			</li>
+																			<li>
+																				<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																					<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																				</button>
+																			</li>
+																		</ul>
+																		<a href="#" class="saTreeeLabel" tabindex="-1">Kråka</a>
+																	</div>
+																</li>
+
+																<li role="treeitem" tabindex="-1">
+																	<div class="saTreeeRow">
+																		<div class="saTreeeExpander"></div>
+																		<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																		<ul class="saTreeeButtonGroup">
+																			<li>
+																				<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																					<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																				</button>
+																			</li>
+																			<li>
+																				<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																					<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																				</button>
+																			</li>
+																		</ul>
+																		<span class="saTreeeLabel">Korp</span>
+																	</div>
+																</li>
+																<li role="treeitem" tabindex="-1" aria-expanded="true">
+																	<div class="saTreeeRow">
+																		<div class="saTreeeExpander"></div>
+																		<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																		<ul class="saTreeeButtonGroup">
+																			<li>
+																				<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																					<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																				</button>
+																			</li>
+																			<li>
+																				<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																					<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																				</button>
+																			</li>
+																		</ul>
+																		<span class="saTreeeLabel">Skata 1</span>
+																	</div>
+																	<ul role="group">
+																			<li role="treeitem" tabindex="-1" aria-expanded="true">
+																			<div class="saTreeeRow">
+																				<div class="saTreeeExpander"></div>
+																				<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																				<ul class="saTreeeButtonGroup">
+																					<li>
+																						<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																							<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																						</button>
+																					</li>
+																					<li>
+																						<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																							<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																						</button>
+																					</li>
+																				</ul>
+																				<span class="saTreeeLabel">Skata 2</span>
+																			</div>
+																			<ul role="group">
+																				<li role="treeitem" tabindex="-1" aria-expanded="true">
+																					<div class="saTreeeRow">
+																						<div class="saTreeeExpander"></div>
+																						<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																						<ul class="saTreeeButtonGroup">
+																							<li>
+																								<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																									<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																								</button>
+																							</li>
+																							<li>
+																								<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																									<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																								</button>
+																							</li>
+																						</ul>
+																						<span class="saTreeeLabel">Skata 3</span>
+																					</div>
+																					<ul role="group">
+																						<li role="treeitem" tabindex="-1">
+																							<div class="saTreeeRow">
+																								<div class="saTreeeExpander"></div>
+																								<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																								<ul class="saTreeeButtonGroup">
+																									<li>
+																										<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																											<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																										</button>
+																									</li>
+																									<li>
+																										<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																											<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																										</button>
+																									</li>
+																								</ul>
+																								<span class="saTreeeLabel">Skata 4</span>
+																							</div>
+																						</li>
+																					</ul>
+																				</li>
+																			</ul>
+																		</li>
+																	</ul>
+																</li>
+															</ul>
+														</li>
+														<li role="treeitem" tabindex="-1">
+															<div class="saTreeeRow">
+																<div class="saTreeeExpander"></div>
+																<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																<ul class="saTreeeButtonGroup">
+																	<li>
+																		<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																			<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																		</button>
+																	</li>
+																	<li>
+																		<button class="saTreeeButton" type="button" aria-label="Do this thing to Birds">
+																			<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																		</button>
+																	</li>
+																</ul>
+																<span class="saTreeeLabel">Monkey Parrot</span>
 															</div>
 														</li>
 													</ul>
@@ -309,6 +620,27 @@
 	</div>
 	<script>
 		$(document).ready(function () {
+			$('i.fa-grip-dots-vertical, ul.saTreeeButtonGroup').toggle();
+
+			$('.grip').click(function (e) {
+				e.preventDefault();
+					$('i.fa-grip-dots-vertical').toggle();
+			});
+
+			$('.button').click(function (e) {
+				e.preventDefault();
+					$('ul.saTreeeButtonGroup').toggle();
+			});
+
+			$('.lines').click(function (e) {
+				e.preventDefault();
+					$('.saTreeeViewWrapper').toggleClass('saNoLines');
+			});
+
+			$('.expander').click(function (e) {
+				e.preventDefault();
+					$('.saTreeeViewWrapper').toggleClass('saHideExpander');
+			});
 
 			const $tree = $('.saTreeeView');
 
@@ -324,16 +656,23 @@
 			$tree.on('click', '.saTreeeRow', function (e) {
 				const $item = $(this).closest('[role="treeitem"]');
 
-				// Ignore if clicking a button
-				if ($(e.target).is('button, button *')) {
+				// 1. If the user clicks a button or an actual link, let the browser handle it
+				if ($(e.target).closest('button, a').length) {
+					// If it's a link with an actual URL, we don't want to toggle the tree
 					return;
 				}
 
-				// toggle if has group
-				if ($item.children('[role="group"]').length) {
+				// 2. Prevent text selection if double-clicking
+				e.preventDefault();
+
+				// 3. Toggle expand/collapse
+				if ($item.attr('aria-expanded') !== undefined) {
 					const isExpanded = $item.attr('aria-expanded') === 'true';
 					$item.attr('aria-expanded', !isExpanded);
 				}
+
+				// 4. Focus the treeitem (Essential for WCAG/Screen Readers)
+				$item.focus();
 			});
 
 			// keyboard nav (APG style)
@@ -353,14 +692,22 @@
 						break;
 
 					case 'ArrowRight':
+						e.preventDefault();
 						if ($(this).attr('aria-expanded') === 'false') {
 							$(this).attr('aria-expanded', 'true');
+						} else if ($(this).attr('aria-expanded') === 'true') {
+							// Move focus to the first child node
+							$(this).find('[role="treeitem"]').first().focus();
 						}
 						break;
 
 					case 'ArrowLeft':
+						e.preventDefault();
 						if ($(this).attr('aria-expanded') === 'true') {
 							$(this).attr('aria-expanded', 'false');
+						} else {
+							// Move focus to the parent node
+							$(this).closest('[role="group"]').parent('[role="treeitem"]').focus();
 						}
 						break;
 

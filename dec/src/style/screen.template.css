@@ -33341,7 +33341,7 @@ pre.saCode {
   display: flex;
 }
 .saLargeScreen .saContextMenu.saOpen {
-  animation: openContextMenuSouth 0.15s forwards;
+  animation: openContextMenuSouth 0.125s forwards;
 }
 .saLargeScreen .saContextMenu.saOpen.saNorth {
   animation-name: openContextMenuNorth;
@@ -34090,33 +34090,87 @@ softadmin-treeeview {
 softadmin-treeeview * {
   box-sizing: border-box;
 }
-.saTreeeView ul[role='group'] {
-  position: relative;
-  padding-left: 1.5rem;
+:root {
+  interpolate-size: allow-keywords;
 }
-.saTreeeView ul[role='group']::after {
+.saTreeeView .saBadgeCount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1rem;
+  box-sizing: border-box;
+  min-width: 1rem;
+  color: var(--Sa-Color-BadgeCountText);
+  background-color: var(--Sa-Color-BadgeCountBackground);
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0.25rem;
+  transition: ease background-color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.saTreeeView .saBadgeCount.saUrgent {
+  color: #fff;
+  background-color: #e0173e;
+}
+.saTreeeView .saBadgeCount {
+  display: inline-flex;
+  width: fit-content;
+}
+.saTreeeView ul[role='group'] {
+  padding-left: 2rem;
+  transition: ease height 0.1s, ease visibility 0.1s;
+  overflow: hidden;
+}
+.saTreeeView li[role='treeitem'] {
+  position: relative;
+}
+.saTreeeView li[role='treeitem']::before {
   content: '';
-  position: absolute;
-  top: -0.5rem;
-  left: 0.75rem;
+  height: 100%;
   width: 1rem;
-  height: calc(100% - 1rem);
-  border-left: solid 1px #ccd5e2;
-  pointer-events: none;
+  position: absolute;
+  left: -1rem;
+  border-left: 0.0625rem solid #ccd5e2;
+}
+.saNoLines .saTreeeView li[role='treeitem']::before {
+  content: none;
+}
+.saTreeeView li[role='treeitem']:last-child::before {
+  content: none;
 }
 .saTreeeView li[role='treeitem'][aria-expanded='false'] > ul[role='group'] {
-  display: none;
+  height: 0;
+  visibility: hidden;
 }
-.saTreeeView > li[role='treeitem'] > .saTreeeRow::after {
-  display: none;
+.saTreeeView > li[role='treeitem'] > .saTreeeRow::before {
+  content: none;
 }
 .saTreeeRow {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+  padding: 0.25rem 0.25rem 0.25rem 0.75rem;
   border-radius: 0.5rem;
   position: relative;
+  transition: ease border-radius 0.2s;
+}
+.saTreeeRow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -1rem;
+  width: 1rem;
+  height: 1rem;
+  border-bottom: 0.0625rem solid #ccd5e2;
+  border-left: 0.0625rem solid #ccd5e2;
+  border-bottom-left-radius: 0.625rem;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.saNoLines .saTreeeRow::before {
+  content: none;
 }
 [aria-expanded] > .saTreeeRow {
   cursor: pointer;
@@ -34125,22 +34179,21 @@ softadmin-treeeview * {
   .saTreeeRow:hover {
     background-color: var(--Sa-Color-Primary50);
   }
+  .saTreeeRow:hover .saTreeeExpander {
+    border-left-color: var(--Sa-Color-Primary600);
+  }
 }
-.saTreeeRow:active {
+[aria-expanded] > .saTreeeRow:active {
   background-color: var(--Sa-Color-Primary100);
+  border-radius: 0.75rem;
 }
-.saTreeeRow::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -0.75rem;
-  width: 1rem;
-  height: 1rem;
-  border-bottom: 1px solid #ccd5e2;
-  border-left: 1px solid #ccd5e2;
-  border-bottom-left-radius: 0.5rem;
-  box-sizing: border-box;
-  pointer-events: none;
+[aria-expanded] > .saTreeeRow:active .saTreeeExpander {
+  border-left-color: var(--Sa-Color-Primary700);
+}
+.saTreeeRow .fa-grip-dots-vertical {
+  color: var(--Sa-Color-Icon);
+  font-size: 0.75rem;
+  cursor: grab;
 }
 .saTreeeLabel {
   color: inherit;
@@ -34276,10 +34329,21 @@ a.saTreeeLabel:active {
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
 }
 .saTreeeExpander {
-  height: 0.625rem;
-  width: 0.5rem;
+  width: 0;
+  height: 0;
+  border-top: 0.3125rem solid transparent;
+  border-bottom: 0.3125rem solid transparent;
+  border-left: 0.5rem solid var(--Sa-Color-IconDark);
   transition: ease transform 0.2s;
+  transform: rotate(90deg);
+  visibility: hidden;
+}
+.saHideExpander .saTreeeExpander:not([aria-expanded] > .saTreeeRow .saTreeeExpander) {
+  display: none;
+}
+[aria-expanded] > .saTreeeRow .saTreeeExpander {
+  visibility: visible;
 }
 [aria-expanded="false"] > .saTreeeRow .saTreeeExpander {
-  transform: rotate(90deg);
+  transform: rotate(0);
 }
