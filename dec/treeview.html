@@ -160,16 +160,15 @@
 										</button></li>
 								</ul>
 							</div>
-							<div class="saSideBarFooterSecondary"><a class="saSoftadminLogo" target="_blank"
-									rel="noopener noreferrer" tabindex="-1" aria-hidden="true"
-									href="https://www.multisoft.se/softadmin/"><img class="saLogo"
-										src="./Presentation/img/softadmin-logo-minimized.svg"><img class="saWordmark"
-										src="./Presentation/img/softadmin-logo-expanded.svg"></a><button
-									class="saExpander saDynamicTooltipJs" type="button" aria-label="Minimera menyn"
-									aria-expanded="true" data-sa-minimized-tooltip="Expandera menyn"
-									data-sa-expanded-tooltip="Minimera menyn" data-tooltip="Minimera menyn"
-									aria-describedby="TooltipScreenReader84"><i
-										class="far fa-angles-left saIcon"></i></button></div>
+							<div class="saSideBarFooterSecondary">
+								<a class="saSoftadminLogo" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true" href="https://www.multisoft.se/softadmin/">
+									<img class="saLogo" src="./Presentation/img/softadmin-logo-minimized.svg">
+									<img class="saWordmark" src="./Presentation/img/softadmin-logo-expanded.svg">
+								</a>
+								<button class="saExpander saDynamicTooltipJs" type="button" aria-label="Minimera menyn" aria-expanded="true">
+									<i class="far fa-angles-left saIcon"></i>
+								</button>
+							</div>
 						</section>
 					</nav>
 				</aside>
@@ -240,6 +239,7 @@
 											<button type="button" class="saDefaultButtonSecondary button">Toggle Buttons</button>
 											<button type="button" class="saDefaultButtonSecondary lines">Toggle lines</button>
 											<button type="button" class="saDefaultButtonSecondary expander">Toggle invisible expander for nodes without children</button>
+											<button type="button" class="saDefaultButtonSecondary bent">Bend it!</button>
 											<label>Selected: <input id="last_action" type="text" size="15" readonly=""></label>
 										</div>
 										<softadmin-treeeview class="saTreeeViewWrapper">
@@ -906,6 +906,10 @@
 					$('.saTreeeViewWrapper').toggleClass('saHideExpander');
 			});
 
+			$('.bent').click(function (e) {
+				e.preventDefault();
+					$('.saTreeeViewWrapper').toggleClass('saBent');
+			});
 
 			$(function () {
 				const KEY = {
