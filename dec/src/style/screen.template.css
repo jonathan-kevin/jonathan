@@ -34114,6 +34114,7 @@ pre.saCode {
 .saTreeeView .saBadgeCount {
   display: inline-flex;
   width: fit-content;
+  font-weight: 400;
 }
 .saSmallScreen .saTreeeView {
   padding: 1rem;
@@ -34252,12 +34253,12 @@ pre.saCode {
   content: '';
   height: 100%;
   width: 1rem;
+  min-width: 1rem;
   position: absolute;
   transform: translateX(2rem);
   border-left: 0.0625rem solid #ccd5e2;
   z-index: 9;
   box-sizing: border-box;
-  pointer-events: none;
 }
 .saNoLines .saTreeeView li[role='treeitem']::before {
   content: none;
@@ -34294,11 +34295,13 @@ pre.saCode {
   top: 0;
   transform: translateX(-1.5rem);
   width: 1rem;
+  min-width: 1rem;
   height: 1rem;
+  min-height: 1rem;
+  aspect-ratio: 1;
   border-bottom: 0.0625rem solid #ccd5e2;
   border-left: 0.0625rem solid #ccd5e2;
   box-sizing: border-box;
-  pointer-events: none;
   border-bottom-left-radius: 0.625rem;
 }
 .saSmallScreen .saTreeeRow::before {
@@ -34486,7 +34489,7 @@ a.saTreeeLabel:active {
   height: 0;
   border-top: 0.3125rem solid transparent;
   border-bottom: 0.3125rem solid transparent;
-  border-left: 0.5rem solid #313a44;
+  border-left: 0.5rem solid var(--Sa-Color-Icon);
   transition: ease transform 0.2s;
   transform: rotate(90deg);
   visibility: hidden;
@@ -34496,6 +34499,7 @@ a.saTreeeLabel:active {
 }
 [aria-expanded="false"] > .saTreeeRow .saTreeeExpander {
   transform: rotate(0);
+  border-left: 0.5rem solid var(--Sa-Color-Primary600);
 }
 .saTreeeeView {
   padding-bottom: 2rem;
@@ -34524,6 +34528,7 @@ a.saTreeeLabel:active {
 .saTreeeeView .saBadgeCount {
   display: inline-flex;
   width: fit-content;
+  font-weight: 400;
 }
 .saSmallScreen .saTreeeeView {
   padding: 1rem;
@@ -34662,6 +34667,7 @@ a.saTreeeLabel:active {
   height: calc(100% + 0.5rem);
   top: -0.5rem;
   width: 1rem;
+  min-width: 1rem;
   position: absolute;
   transform: translateX(2rem);
   border-left: 0.0625rem solid #ccd5e2;
@@ -34704,7 +34710,9 @@ a.saTreeeLabel:active {
   top: -0.5rem;
   transform: translateX(-0.625rem);
   width: 1.5rem;
+  min-width: 1.5rem;
   height: 1.5rem;
+  min-height: 1.5rem;
   border-bottom: 0.0625rem solid #ccd5e2;
   border-left: 0.0625rem solid #ccd5e2;
   box-sizing: border-box;
