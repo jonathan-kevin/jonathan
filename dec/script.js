@@ -53,15 +53,6 @@ $(document).ready(function () {
 		toggleClasses();
 	});
 
-	$('.saExpander').click(function (e) {
-		e.preventDefault();
-		$('.saExpanded').toggleClass('saMinimized');
-		// Toggle aria-expanded on the button
-		const $btn = $(this);
-		const expanded = $btn.attr('aria-expanded') === 'true';
-		$btn.attr('aria-expanded', !expanded);
-	});
-
 	// Toggle responsive classes on <body> based on screen width
 	function updateResponsiveClasses() {
 		const width = window.innerWidth;
