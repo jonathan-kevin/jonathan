@@ -238,7 +238,7 @@
 										<div class="saInputPage" style="display: flex; flex-direction: column;">
 										<div class="saFieldAndLabelWrapper">
 											<label class="saLabelCell" for="slider-">
-												<div class="saLabel"><span>Cat to dog ratio</span></div>
+												<div class="saLabel"><span>Bass to treble ratio</span></div>
 												<div class="saDescription">A test of the Multi-Autosearch control.</div>
 											</label>
 											<div class="saFieldCell">
@@ -248,12 +248,47 @@
 															<div class="saSliderValue" id="sliderVal">22</div>
 															<input class="saInputSlider" type="range" min="0" max="100" value="50" list="sliderList" id="slider-">
 															<datalist id="sliderList">
-																<option value="0" label="0"></option>
-																<option value="25" label="25"></option>
-																<option value="50" label="50"></option>
-																<option value="75" label="75"></option>
-																<option value="100" label="100"></option>
+																<option value="25"></option>
+																<option value="75"></option>
+																<option value="50"></option>
+																<option value="90"></option>
 															</datalist>
+															<div class="saTicks"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="saFieldAndLabelWrapper">
+											<label class="saLabelCell" id="sliderQuad">
+												<div class="saLabel"><span>Bass to treble ratio</span></div>
+												<div class="saDescription">A test of the Multi-Autosearch control.</div>
+											</label>
+											<div class="saFieldCell">
+												<div class="saInputWrapper mediumLong">
+													<div class="saInput">
+														<div class="saSliderWrapper">
+															<div class="saTrack" aria-hidden="true">
+																<div class="saRangeFill" id="fill1"></div>
+																<div class="saRangeFill saRangeSecond" id="fill2"></div>
+															</div>
+															<div role="group" aria-labelledby="sliderQuad">
+																<input type="range" min="0" max="100" value="10" aria-label="Range one start" list="sliderListQuad" class="saRangeFirst" id="a1">
+																<input type="range" min="0" max="100" value="35" aria-label="Range one stop"  list="sliderListQuad" class="saRangeFirst" id="a2">
+																<input type="range" min="0" max="100" value="55" aria-label="Range two start" list="sliderListQuad" class="saRangeSecond" id="b1">
+																<input type="range" min="0" max="100" value="82" aria-label="Range two stop"  list="sliderListQuad" class="saRangeSecond" id="b2">
+															</div>
+															<div class="values">
+																<span><strong>Interval 1:</strong> <span id="out1">10 – 35</span></span>
+																<span><strong>Interval 2:</strong> <span id="out2">55 – 82</span></span>
+															</div>
+															<datalist id="sliderListQuad">
+																<option value="25"></option>
+																<option value="75"></option>
+																<option value="50"></option>
+																<option value="90"></option>
+															</datalist>
+															<div class="saTicks"></div>
 														</div>
 													</div>
 												</div>
@@ -262,7 +297,7 @@
 
 										<div class="saFieldAndLabelWrapper">
 											<label class="saLabelCell" for="slider-2">
-												<div class="saLabel"><span>Cat to dog ratio</span></div>
+												<div class="saLabel"><span>Bass to treble ratio</span></div>
 												<div class="saDescription">A test of the Multi-Autosearch control.</div>
 											</label>
 											<div class="saFieldCell">
@@ -270,8 +305,8 @@
 													<div class="saInput">
 														<div class="saInputSlider2Wrapper" id="slider2">
 															<div class="saSliderLabelGroup">
-																<span class="saSliderLabel">Cat&nbsp;<span class="saSliderPercent" id="catPercent">50%</span></span>
-																<span class="saSliderLabel"><span class="saSliderPercent" id="dogPercent">50%</span>&nbsp;Dog</span>
+																<span class="saSliderLabel">Bass&nbsp;<span class="saSliderPercent" id="catPercent">50%</span></span>
+																<span class="saSliderLabel"><span class="saSliderPercent" id="dogPercent">50%</span>&nbsp;Treble</span>
 															</div>
 															<input class="saInputSlider2" type="range" min="0" max="100" value="50" list="sliderList2" id="slider-2">
 															<datalist id="sliderList2">
@@ -320,7 +355,12 @@
 	</div>
 	<script>
 		$(document).ready(function () {
-
+			document.querySelectorAll('#sliderList option').forEach(o => {
+				const span = document.createElement('span');
+				span.style.setProperty('--pos', o.value);
+				span.textContent = o.value;
+				document.querySelector('.saTicks').append(span);
+			});
 
 			$('.saFavoriteToggle').click(function () {
 				$(this).attr('aria-checked', function (i, attr) { return attr === 'true' ? 'false' : 'true'; });
@@ -346,7 +386,56 @@
 			input2.addEventListener('input', update);
 			input3.addEventListener('input', update);
 
-			 update();
+			update();
+
+
+			const a1 = document.getElementById('a1');
+			const a2 = document.getElementById('a2');
+			const b1 = document.getElementById('b1');
+			const b2 = document.getElementById('b2');
+
+			const fill1 = document.getElementById('fill1');
+			const fill2 = document.getElementById('fill2');
+			const out1  = document.getElementById('out1');
+			const out2  = document.getElementById('out2');
+
+			function updateSliders() {
+				// Get current values and sort them (in case user drags thumbs past each other)
+				let v1 = +a1.value;
+				let v2 = +a2.value;
+				let left1  = Math.min(v1, v2);
+				let right1 = Math.max(v1, v2);
+
+				let v3 = +b1.value;
+				let v4 = +b2.value;
+				let left2  = Math.min(v3, v4);
+				let right2 = Math.max(v3, v4);
+
+				// Update displayed text
+				out1.textContent = `${left1} – ${right1}`;
+				out2.textContent = `${left2} – ${right2}`;
+
+				// Update filled bars
+				fill1.style.left  = left1  + '%';
+				fill1.style.width = (right1 - left1) + '%';
+
+				fill2.style.left  = left2  + '%';
+				fill2.style.width = (right2 - left2) + '%';
+			}
+
+			// Listen to all four thumbs
+			[a1, a2, b1, b2].forEach(slider => {
+				slider.addEventListener('input', update);
+				slider.addEventListener('pointerdown', () => {
+					// Optional: bring active slider visually to front
+					document.querySelectorAll('input[type="range"]').forEach(el => {
+					el.style.zIndex = el === slider ? 10 : 2;
+					});
+				});
+			});
+
+			// Initial draw
+			updateSliders();
 		});
 	</script>
 </body>
