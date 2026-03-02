@@ -819,12 +819,18 @@
 																												</button>
 																											</div>
 																										</li>
-																										<li class="saFileWrapper saPending">
+																										<li class="saFileWrapper">
 																											<div class="saFile">
-																												<i class="saIcon fas fa-file-zipper" aria-hidden="true"></i>
+																												<div class="saFileIcon">
+																													<div class="saLoadingWrapper saLoadingDark">
+																														<svg class="saLoading" viewBox="0 0 24 24"><circle class="saLoadingCircle" cx="12" cy="12" r="12" fill="none"></circle><path class="saLoadingCheck" d="M6.29,12.58l3.14,3.19c.15,.15,.39,.15,.53,0l7.75-7.8" fill="none"></path></svg>
+																														<div class="saLoadingSpinner"></div>
+																													</div>
+																													<i class="saIcon fas fa-file-zipper" aria-hidden="true"></i>
+																												</div>
 																												<div class="saFileInner">
 																													<div class="saFileNameWrapper">
-																														<span class="saFileName">crow-feet.zip</span>
+																														<span class="saFileName">mong-kiwi.zip</span>
 																													</div>
 																													<div class="saFileSizeWrapper">
 																														<div class="saFileSizeRow">
@@ -835,15 +841,9 @@
 																													</div>
 																												</div>
 																											</div>
-																											<div class="saFileButtonGroup">
-																												<div class="saLoadingWrapper saLoadingDark">
-																													<svg class="saLoading" viewBox="0 0 24 24"><circle class="saLoadingCircle" cx="12" cy="12" r="12" fill="none"></circle><path class="saLoadingCheck" d="M6.29,12.58l3.14,3.19c.15,.15,.39,.15,.53,0l7.75-7.8" fill="none"></path></svg>
-																													<div class="saLoadingSpinner"></div>
-																												</div>
-																												<button class="saDeleteButton saDestructive" type="button" aria-label="Avbryt uppladdningen av fil Screenshot 2026-02-04 082450.png">
-																													<i class="saIcon far fa-ban"></i>
-																												</button>
-																											</div>
+																											<button class="saDeleteButton saDestructive" type="button" aria-label="Avbryt uppladdningen av fil Screenshot 2026-02-04 082450.png">
+																												<i class="saIcon far fa-ban"></i>
+																											</button>
 																										</li>
 																										<li class="saFileWrapper saPending">
 																											<div class="saFile">
@@ -973,20 +973,42 @@
 		</div>
 	</div>
 	<script>
-		$('#dragIT').click(function (e) {
-			e.preventDefault();
+		$(document).ready(function () {
+			$('button:has(.fa-ban, .fa-trash-alt)').click(function (e) {
+				const wrapper = this.closest('.saFileUploadAreaWrapper');
+				const file = this.closest('.saFileWrapper');
 
-			$('.saFileUploadArea:not(:has(:disabled))').toggleClass('saDragOver');
+				if (wrapper.classList.contains('saCompactFileArea') || wrapper.classList.contains('saFullSizeArea')) {
+								console.log(wrapper);
 
-		});
+					wrapper.classList.remove('saHasFiles', 'saDone', 'saError', 'saEmptyFile');
+				}
 
-		$('#hasFiles').click(function (e) {
-			e.preventDefault();
-			$('.saFileUploadAreaWrapper:not(:has(:disabled))').toggleClass('saHasFiles');
-		});
+				file.remove();
+			});
 
-		$('.saFavoriteToggle').click(function () {
-			$(this).attr('aria-checked', function (i, attr) { return attr === 'true' ? 'false' : 'true'; });
+			$('li.saFileWrapper').click(function (e) {
+				e.preventDefault();
+				$(this).toggleClass('saDone');
+				$(this).find('button .saIcon').toggleClass('fa-ban').toggleClass('fa-trash-alt');
+				$(this).find('.saFileUploadProgress').attr('value', function (i, val) { return val === '100' ? '24' : '100'; });
+				$(this).find('.saFileUploadProgressText').text(function (i, text) { return text === '100%' ? '24%' : '100%'; });
+			});
+
+			$('#dragIT').click(function (e) {
+				e.preventDefault();
+
+				$('.saFileUploadArea:not(:has(:disabled))').toggleClass('saDragOver');
+			});
+
+			$('#hasFiles').click(function (e) {
+				e.preventDefault();
+				$('.saFileUploadAreaWrapper:not(:has(:disabled))').toggleClass('saHasFiles');
+			});
+
+			$('.saFavoriteToggle').click(function () {
+				$(this).attr('aria-checked', function (i, attr) { return attr === 'true' ? 'false' : 'true'; });
+			});
 		});
 	</script>
 </body>
