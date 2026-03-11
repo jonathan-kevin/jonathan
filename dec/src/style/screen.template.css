@@ -18998,6 +18998,10 @@ legend + .saInputCardsWrapper {
   height: 1rem;
   width: 1rem;
   transition: ease transform 0.2s, ease width 0.2s;
+  box-sizing: border-box;
+}
+.saLoadingWrapper * {
+  box-sizing: border-box;
 }
 .saFileIconWrapper .saLoadingWrapper {
   position: absolute;
@@ -32191,6 +32195,14 @@ a.saTreeeeLabel:active {
 .saTreeXView > li[role='treeitem'] > .saTreeXRow::before {
   content: none;
 }
+.saTreeXView .saLoadingSpinnerWrapper {
+  display: flex;
+  gap: 0.5rem;
+}
+.saTreeXView .saLoadingProgress {
+  font-size: 0.75rem;
+  color: var(--Sa-Color-Gray700);
+}
 .saTreeXRow {
   display: flex;
   align-items: center;
@@ -32202,6 +32214,8 @@ a.saTreeeeLabel:active {
   user-select: none;
   cursor: pointer;
   letter-spacing: 0.0125rem;
+  outline: 0.125rem dashed transparent;
+  outline-offset: -0.125rem;
 }
 .saSmallScreen .saTreeXRow {
   padding: 0.75rem 1rem 0.75rem 1rem;
@@ -32234,6 +32248,23 @@ li[role='treeitem']:focus-visible > .saTreeXRow {
 }
 li[role='treeitem']:focus-visible > .saTreeXRow .saTreeXExpander,
 li[role='treeitem']:focus-visible > .saTreeXRow .saTreeXType {
+  color: inherit;
+}
+.saTreeXView.saFileDragging li[role='treeitem'].saFileNoDrop > .saTreeXRow {
+  color: #adbdd1;
+  pointer-events: none;
+}
+.saTreeXView.saFileDragging li[role='treeitem'].saFileNoDrop > .saTreeXRow .saTreeXExpander,
+.saTreeXView.saFileDragging li[role='treeitem'].saFileNoDrop > .saTreeXRow .saTreeXType {
+  color: inherit;
+}
+li[role='treeitem'].saFileDrop > .saTreeXRow {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+  outline-color: var(--Sa-Color-Primary600);
+}
+li[role='treeitem'].saFileDrop > .saTreeXRow .saTreeXExpander,
+li[role='treeitem'].saFileDrop > .saTreeXRow .saTreeXType {
   color: inherit;
 }
 li[aria-selected="true"] > .saTreeXRow {
@@ -32475,7 +32506,7 @@ a.saTreeXLabel:active {
   height: 0.75rem;
   transition: ease transform 0.2s;
   color: var(--Sa-Color-Icon);
-  transform: rotate(90deg) translateY(-2px);
+  transform: rotate(90deg) translateY(-0.125rem);
   visibility: hidden;
   position: relative;
 }
