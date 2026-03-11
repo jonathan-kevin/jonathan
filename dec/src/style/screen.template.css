@@ -8957,9 +8957,10 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   scroll-timeline: --headerScroll inline;
   mask-image: linear-gradient(to right, transparent, black var(--fade), black calc(100% - var(--fade)), transparent);
   mask-size: calc(100% + var(--fade) * 2) 100%;
-  mask-position: right center;
+  mask-position: right;
   animation: maskScroll linear both;
   animation-timeline: --headerScroll;
+  scroll-snap-type: x mandatory;
 }
 .saSmallScreen .saPageHeader .saHeaderWrapper::-webkit-scrollbar,
 .saSmallscreensidebar .saPageHeader .saHeaderWrapper::-webkit-scrollbar {
@@ -8967,10 +8968,10 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
 }
 @keyframes maskScroll {
   from {
-    mask-position: right center;
+    mask-position: right;
   }
   to {
-    mask-position: left center;
+    mask-position: left;
   }
 }
 .saSmallScreen .saPageHeader .saTitle,
@@ -8979,6 +8980,7 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   flex: 1;
   min-width: 0;
   gap: 0.5rem;
+  scroll-snap-align: start;
 }
 .saSmallScreen .saPageHeader .saTitle h1,
 .saSmallscreensidebar .saPageHeader .saTitle h1 {
