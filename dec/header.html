@@ -53,6 +53,7 @@
 										<div class="saTopRow">
 											<button class="saSmallScreenBackButton saButtonHeader" type="button"><i class="far fa-arrow-left saBack saIcon"></i></button>
 											<div class="saHeaderWrapper">
+
 												<div class="saTitle">
 													<h1 class="saHeaderText">Lorem ipsum dolor sit amet, consectetur adipisicing elit</h1>
 												</div>
@@ -85,4 +86,25 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	$(document).ready(function () {
+
+		$(document).on('click', '.saHeaderWrapper', function() {
+			var $element = $(this).find('.saTitle');
+			var $h1 = $element.find('h1');
+			var $wrapper = $(this);
+
+			console.log('h1 width: ' + $h1.width(), 'Wrapper width: '+ $wrapper.width(), 'Scrolled left: '+ $wrapper.scrollLeft())
+
+			// Check if h1 is wider than wrapper and wrapper hasn't been scrolled
+			if ($h1.width() >= $wrapper.width() && $wrapper.scrollLeft() === 0) {
+				$element.css('transform', 'translateX(-2.5rem)');
+				setTimeout(function() {
+					$element.css('transform', 'translateX(0)');
+				}, 300);
+			}
+		});
+
+	});
+	</script>
 </body>
