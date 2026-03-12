@@ -1,0 +1,70 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+	<link rel="stylesheet" href="../src/fontawesome/css/duotone-regular.min.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+	<script type="text/javascript" src="https://livejs.com/live.js"></script>
+	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+</head>
+
+<body id="loginBody" class="saStandard saLogin saLargeScreen">
+	<div id="MaintenanceWarnings" class="saMessageBannerHolderJs">
+		<div class="saMessageBanners"></div>
+	</div>
+	<div class="saLoginOuter">
+		<img id="CompanyLogotypeLarge" class="saCustomerLoginLogo" src="../src/img/softadmin-multisoft-logo-stacked.svg"
+			alt="Namn logotyp" style="border-width:0px;">
+		<div class="saLoginInner">
+			<div>
+				<h1 id="PageHeader">Namn</h1>
+				<p id="LoginDescription" class="saDescription"></p>
+			</div>
+
+			<div id="YesScript">
+
+				<div class="fldwrapper">
+					<form name="aspnetForm" method="post" action="./LoginVerification.aspx?languageid=1" id="ctl00">
+						<div id="instructions" class="saInstructions">En engångskod, giltig i tio minuter, har skickats till <b>ellioth.rosenberg@multisoft.se</b>. Mata in koden nedan för att logga in. Om du inte kan hitta brevet i din inkorg så kontrollera att det inte hamnat i mappen för skräppost.</div>
+						<div class="saControlCol">
+							<div class="saInputTextWrapper">
+								<label id="verificationCodeLabel" class="saVerificationCodeLabel">Engångskod</label>
+								<div class="saVerificationCodeBoxes">
+									<input id="verificationCode1" maxlength="1" size="1" autofocus class="saInputText saVerificationCodeBox" type="text" inputmode="numeric	pattern="[0-9]">
+									<input id="verificationCode2" maxlength="1" size="1"class="saInputText saVerificationCodeBox" type="text" inputmode="numeric" pattern="[0-9]">
+									<input id="verificationCode3" maxlength="1" size="1" class="saInputText saVerificationCodeBox" type="text" inputmode="numeric" pattern="[0-9]">
+									<input id="verificationCode4" maxlength="1" size="1" class="saInputText saVerificationCodeBox" type="text" inputmode="numeric" pattern="[0-9]">
+									<input id="verificationCode5" maxlength="1" size="1" class="saInputText saVerificationCodeBox" type="text" inputmode="numeric" pattern="[0-9]">
+									<input id="verificationCode6" maxlength="1" size="1" class="saInputText saVerificationCodeBox" type="text" inputmode="numeric" pattern="[0-9]">
+								</div>
+								<input name="ctl00$ContentPlaceHolder$verificationCode" type="hidden" id="verificationCode" autocomplete="one-time-code">
+							</div>
+						</div>
+						<div id="rememberDevice" class="saRememberDeviceWrapper saControlCol">
+							<div class="saRememberDeviceControl">
+								<input name="ctl00$ContentPlaceHolder$rememberDeviceCheckbox" type="checkbox" id="rememberDeviceCheckbox" class="saCheckbox" checked="checked">
+								<div class="saRememberDeviceControlLabel">
+									<label id="rememberDeviceLabel" for="rememberDeviceCheckbox">Kom ihåg den här datorn</label>
+									<span id="rememberDeviceDescription" class="saDescription">Vi ber inte om en ny kod på 7 dagar.</span>
+								</div>
+							</div>
+							<div id="cookieText">Ditt val kommer att sparas i en cookie.</div>
+						</div>
+						<button id="submit" class="saLoginPageButton saButtonPrimary" type="submit" disabled="">Logga in</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<a href="https://www.softadmin.com/" id="SoftadminLogotype" target="_blank" class="saSoftadminLogo" rel="noopener noreferrer">
+			<img class="saLogo" src="./Presentation/img/softadmin-logo-minimized.svg" aria-hidden="true">
+			<img class="saWordMark" src="./Presentation/img/softadmin-logo-expanded.svg" alt="Softadmin logo">
+		</a>
+	</div>
+	<div class="saLoginCover"></div>
+</body>

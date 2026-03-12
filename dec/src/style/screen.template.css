@@ -10247,7 +10247,9 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   color: #e0173e;
 }
 .saLogin .saInstructions {
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 .saLogin h1 {
   font-size: 1.5rem;
@@ -10257,6 +10259,9 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   color: var(--Sa-Color-Text);
   padding-bottom: 0;
 }
+.saSmallScreen.saLogin h1 {
+  text-align: center;
+}
 .saLogin .saInputTextWrapper {
   margin-right: 0;
 }
@@ -10265,6 +10270,14 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   border-radius: 0.5rem;
   padding: 0 0.75rem;
   min-width: 2rem;
+}
+.saLogin .saInputTextWrapper .saInputText.saVerificationCodeBox {
+  height: 3.5rem;
+  width: 3.5rem;
+  font-size: 2rem;
+}
+.saLogin .saInputTextWrapper .saTrailingIconsWrapper {
+  height: 2.5rem;
 }
 .saLogin .saInnerForm {
   display: flex;
@@ -10301,7 +10314,7 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
 }
 .saLogin .saControlCol label {
   font-size: 0.875rem;
-  font-weight: 700;
+  font-weight: 500;
   position: relative;
 }
 .saLogin .saControlRow {
@@ -10331,6 +10344,10 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   flex-grow: 1;
   padding: 1rem;
 }
+.saSmallScreen.saLogin .saLoginOuter {
+  flex-basis: 100%;
+  padding: 1.5rem 1rem 5rem 1rem;
+}
 .saLogin .saCustomerLoginLogo {
   max-width: 21.875rem;
   max-height: 6rem;
@@ -10339,11 +10356,14 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
 .saLogin .saLoginInner {
   width: 100%;
   min-width: 12.5rem;
-  max-width: 22.5rem;
+  max-width: 23.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   margin: 2rem;
+}
+.saSmallScreen.saLogin .saLoginInner {
+  margin: 1.5rem 0;
 }
 .saLogin .saLoginInner form {
   display: flex;
@@ -10423,7 +10443,7 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   }
 }
 .saLogin a.saForgotPassword:active {
-  color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary500);
 }
 .saLogin a.saForgotPassword::after {
   content: '';
@@ -10465,13 +10485,16 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
 }
 .saLogin .saLoginCover {
   flex-basis: 65%;
-  background: url(../img/body-bg/background.jpg);
+  background: url(../../../src/img/vertorama.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #eef1f5;
   border-radius: 1.5rem;
   margin: 1rem 1rem 1rem 0;
+}
+.saSmallScreen.saLogin .saLoginCover {
+  display: none;
 }
 .saLogin .saQrCodeWrapper {
   display: flex;
@@ -10484,21 +10507,56 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   height: 12.5rem;
   margin-top: 0.75rem;
 }
-.saSmallScreen.saLogin .saLoginOuter {
-  flex-basis: 100%;
-  padding: 1.5rem 1rem 5rem 1rem;
+.saLogin .saVerificationCodeLabel {
+  margin: 0.5rem 0;
 }
-.saSmallScreen.saLogin .saLoginOuter h1,
-.saSmallScreen.saLogin .saLoginOuter .saDescription,
-.saSmallScreen.saLogin .saLoginOuter .saInfoText {
+.saLogin .saRememberDeviceWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.saLogin .saRememberDeviceWrapper .saRememberDeviceControl {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.saLogin .saRememberDeviceWrapper .saCheckbox {
+  margin-top: 0.1875rem;
+}
+.saLogin .saRememberDeviceWrapper .saRememberDeviceControlLabel {
+  display: flex;
+  flex-direction: column;
+}
+.saLogin .saRememberDeviceWrapper .saRememberDeviceControlLabel .saLabel {
+  cursor: pointer;
+}
+.saLogin .saRememberDeviceWrapper .saRememberDeviceControlLabel .saDescription {
+  font-size: 0.875rem;
+  color: var(--Sa-Color-FieldDescription);
+  font-weight: 300;
+  line-height: 1.125rem;
+}
+.saLogin .saVerificationCodeBoxes {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+.saSmallScreen.saLogin .saVerificationCodeBoxes {
+  gap: 0.25rem;
+}
+.saLogin .saVerificationCodeBox {
+  width: 2.5rem;
+  height: 4rem;
   text-align: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  border: 1px solid #ccd5e2;
+  border-radius: 0.5rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.saSmallScreen.saLogin .saLoginInner {
-  max-width: 90%;
-  margin: 1.5rem 0;
-}
-.saSmallScreen.saLogin .saLoginCover {
-  display: none;
+.saLogin .saVerificationCodeLabel {
+  display: block;
+  margin-bottom: 0.5rem;
 }
 .saColumnManagerRoot {
   display: flex;
@@ -18966,7 +19024,8 @@ legend + .saInputCardsWrapper {
 .saDisabled .saFileSizeRow {
   color: #adbdd1;
 }
-.saCompactFileArea .saFileSizeRow {
+.saCompactFileArea .saFileSizeRow,
+.saTreeXRow .saFileSizeRow {
   width: fit-content;
   gap: 1rem;
   margin-top: 1px;
@@ -19003,6 +19062,9 @@ legend + .saInputCardsWrapper {
 .saLoadingWrapper * {
   box-sizing: border-box;
 }
+.saTreeXTypeWrapper .saLoadingWrapper {
+  position: absolute;
+}
 .saFileIconWrapper .saLoadingWrapper {
   position: absolute;
   height: 2rem;
@@ -19031,7 +19093,7 @@ legend + .saInputCardsWrapper {
   stroke: #fff;
   stroke-miterlimit: 10;
   box-shadow: inset 0 0 0 #29bb4e;
-  animation: saFiller 0.4s ease-in-out 0.4s forwards, saScaler 0.2s ease-in-out 0.8s both;
+  animation: saFiller 0.4s ease-in-out 0.4s forwards, saScaler 0.2s ease-in-out 0.8s both, saScalerDown 0.2s ease-in-out 1.2s forwards;
 }
 .saDone .saLoadingWrapper .saLoading {
   display: flex;
@@ -31184,6 +31246,14 @@ a.saKpiOuter:active {
   width: fit-content;
   font-weight: 400;
 }
+.saTreeeView .saLoadingSpinnerWrapper {
+  display: flex;
+  gap: 0.5rem;
+}
+.saTreeeView .saLoadingProgress {
+  font-size: 0.75rem;
+  color: var(--Sa-Color-Gray700);
+}
 .saSmallScreen .saTreeeView {
   padding: 1rem;
 }
@@ -31606,6 +31676,14 @@ a.saTreeeLabel:active {
 }
 .saSmallScreen .saMultiPartContent .saTreeeeView {
   padding: 0;
+}
+.saTreeeeView .saLoadingSpinnerWrapper {
+  display: flex;
+  gap: 0.5rem;
+}
+.saTreeeeView .saLoadingProgress {
+  font-size: 0.75rem;
+  color: var(--Sa-Color-Gray700);
 }
 .saTreeeeView ul[role='group'] {
   transition: ease height 0.1s, ease visibility 0.1s;
@@ -32323,14 +32401,30 @@ a.saTreeXLabel {
 a.saTreeXLabel:active {
   color: var(--Sa-Color-Primary900);
 }
+.saTreeXTypeWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  position: relative;
+}
 .saTreeXType {
   width: 1.125rem;
   min-width: 1.125rem;
+  height: 1.125rem;
   text-align: center;
   color: #7088a4;
   fill: currentColor;
   font-size: 1rem;
   --fa-secondary-opacity: 0.1;
+}
+.saLoading .saTreeXType {
+  transform: scale(0);
+}
+.saDone .saTreeXType {
+  transform: scale(1);
+  transition: ease transform 0.2s 1.2s;
 }
 .saTreeXType.fa-folder {
   color: #2d6ce1;
