@@ -10246,11 +10246,6 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
 .saLogin .saErrorText p {
   color: #e0173e;
 }
-.saLogin .saInstructions {
-  margin-bottom: 1rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
 .saLogin h1 {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -10260,6 +10255,18 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   padding-bottom: 0;
 }
 .saSmallScreen.saLogin h1 {
+  text-align: center;
+}
+.saSmallScreen.saLogin h1 + .saDescription {
+  text-align: center;
+}
+.saLogin .saInstructions {
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  overflow-wrap: anywhere;
+}
+.saSmallScreen.saLogin .saInstructions {
   text-align: center;
 }
 .saLogin .saInputTextWrapper {
@@ -10273,8 +10280,11 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
 }
 .saLogin .saInputTextWrapper .saInputText.saVerificationCodeBox {
   height: 3.5rem;
-  width: 3.5rem;
+  width: 100%;
+  max-width: 3.5rem;
   font-size: 2rem;
+  padding: 0 0 0.125rem 0;
+  text-align: center;
 }
 .saLogin .saInputTextWrapper .saTrailingIconsWrapper {
   height: 2.5rem;
@@ -10343,13 +10353,14 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   justify-content: center;
   flex-grow: 1;
   padding: 1rem;
+  font-size: 0.875rem;
 }
 .saSmallScreen.saLogin .saLoginOuter {
   flex-basis: 100%;
   padding: 1.5rem 1rem 5rem 1rem;
 }
 .saLogin .saCustomerLoginLogo {
-  max-width: 21.875rem;
+  max-width: 22rem;
   max-height: 6rem;
   min-height: 4rem;
 }
@@ -10531,7 +10542,6 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   cursor: pointer;
 }
 .saLogin .saRememberDeviceWrapper .saRememberDeviceControlLabel .saDescription {
-  font-size: 0.875rem;
   color: var(--Sa-Color-FieldDescription);
   font-weight: 300;
   line-height: 1.125rem;
@@ -10539,20 +10549,10 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
 .saLogin .saVerificationCodeBoxes {
   display: flex;
   gap: 0.5rem;
-  justify-content: center;
+  justify-content: space-between;
 }
 .saSmallScreen.saLogin .saVerificationCodeBoxes {
   gap: 0.25rem;
-}
-.saLogin .saVerificationCodeBox {
-  width: 2.5rem;
-  height: 4rem;
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: 500;
-  border: 1px solid #ccd5e2;
-  border-radius: 0.5rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .saLogin .saVerificationCodeLabel {
   display: block;
@@ -18880,6 +18880,9 @@ legend + .saInputCardsWrapper {
   visibility: hidden;
   opacity: 0;
 }
+.saTreeXView .saFileUploadProgressText {
+  min-width: 2rem;
+}
 .saFileUploadProgress {
   display: flex;
   appearance: none;
@@ -19020,6 +19023,7 @@ legend + .saInputCardsWrapper {
   font-size: 0.75rem;
   line-height: 0.75rem;
   color: var(--Sa-Color-TextSecondary);
+  font-variant-numeric: tabular-nums;
 }
 .saDisabled .saFileSizeRow {
   color: #adbdd1;
@@ -31063,8 +31067,7 @@ a.saKpiOuter:active {
   align-items: center;
   height: 1.5rem;
   min-width: 0.75rem;
-  font-size: 0.625rem;
-  font-weight: 900;
+  font-size: 1rem;
   color: #60748b;
 }
 @media (pointer: fine) {

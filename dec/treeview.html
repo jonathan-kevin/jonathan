@@ -1408,7 +1408,7 @@
 																		</div>
 																		<ul role="group">
 																			<li role="treeitem" tabindex="-1" aria-expanded="true">
-																				<div class="saTreeXRow saLoading" style="background-image: linear-gradient(to right, var(--Sa-Color-Primary100) 67%, var(--Sa-Color-Primary50) 67%);">
+																				<div class="saTreeXRow saLoading" style="background-image: linear-gradient(to right, var(--Sa-Color-Primary100) 67%, transparent 67%);">
 																					<i class="saTreeXExpander saIcon far fa-angle-right"></i>
 																					<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
 																					<div class="saTreeXTypeWrapper">
@@ -1789,870 +1789,308 @@
 		</div>
 	</div>
 	<script>
-		$(document).ready(function () {
+		$(function () {
 			$('.saNodeContent.saNodeExpand').on('click', function (e) {
-				// If the click happened on a link or a button, we might want to let that through
-				// otherwise, the whole row toggles the tree.
 				if ($(e.target).closest('a, button').length) return;
-
 				e.preventDefault();
-
-				var $label = $(this);
-				var $expander = $label.find('.saExpander:enabled');
-				var $childList = $label.siblings('ul'); // Find the child <ul>
-				var isExpanded = $expander.attr('aria-expanded') === 'true';
-
-				if (isExpanded) {
-					// Collapse
-					$expander
-						.attr('aria-expanded', 'false')
-						.removeClass('saMinus')
-						.prop('checked', false); // Use .prop for checkboxes
-
-					$childList.hide(); // Or .slideUp() for a smoother feel
-				} else {
-					// Expand
-					$expander
-						.attr('aria-expanded', 'true')
-						.addClass('saMinus')
-						.prop('checked', true);
-
-					$childList.show(); // Or .slideDown()
-				}
+				const $label = $(this);
+				const $expander = $label.find('.saExpander:enabled');
+				const $childList = $label.siblings('ul');
+				const isExpanded = $expander.attr('aria-expanded') === 'true';
+				$expander
+					.attr('aria-expanded', !isExpanded)
+					.toggleClass('saMinus', !isExpanded)
+					.prop('checked', !isExpanded);
+				isExpanded ? $childList.hide() : $childList.show();
 			});
+
+			// Hide controls initially
 			$('.fa-grip-dots-vertical, ul.saTreeeButtonGroup, ul.saTreeeeButtonGroup, ul.saTreeXButtonGroup, ul.saTreeYButtonGroup, .saTreeViewButton, .saCheckbox').hide();
 
-			$('.grip').click(function (e) {
+			// Toggle grip dots
+			$('.grip').on('click', function (e) {
 				e.preventDefault();
-					$('.fa-grip-dots-vertical').toggle();
+				$('.fa-grip-dots-vertical').toggle();
 			});
 
-			$('.button').click(function (e) {
+			// Toggle button groups
+			$('.button').on('click', function (e) {
 				e.preventDefault();
-					$('ul.saTreeeButtonGroup').toggle();
-					$('ul.saTreeeeButtonGroup').toggle();
-					$('ul.saTreeXButtonGroup').toggle();
-					$('ul.saTreeYButtonGroup').toggle();
-					$('.saTreeViewButton').toggle();
+				$('ul.saTreeeButtonGroup, ul.saTreeeeButtonGroup, ul.saTreeXButtonGroup, ul.saTreeYButtonGroup, .saTreeViewButton').toggle();
 			});
 
-			$('.lines').click(function (e) {
+			// Toggle lines
+			$('.lines').on('click', function (e) {
 				e.preventDefault();
-					$('.saTreeeViewWrapper, .saTreeeeViewWrapper, .saTreeXViewWrapper, .saTreeYViewWrapper').toggleClass('saNoLines');
+				$('.saTreeeViewWrapper, .saTreeeeViewWrapper, .saTreeXViewWrapper, .saTreeYViewWrapper').toggleClass('saNoLines');
 			});
 
-			$('.checkboxes').click(function (e) {
+			// Toggle checkboxes
+			$('.checkboxes').on('click', function (e) {
 				e.preventDefault();
-					$('.saCheckbox').toggle();
+				$('.saCheckbox').toggle();
 			});
 
-			$('.expander').click(function (e) {
+			// Toggle expander visibility
+			$('.expander').on('click', function (e) {
 				e.preventDefault();
-					$('.saTreeeViewWrapper, .saTreeeeViewWrapper, .saTreeXViewWrapper, .saTreeYViewWrapper').toggleClass('saHideExpander');
+				$('.saTreeeViewWrapper, .saTreeeeViewWrapper, .saTreeXViewWrapper, .saTreeYViewWrapper').toggleClass('saHideExpander');
 			});
 
-			$(function () {
-				const KEY = {
-					RETURN: 13, SPACE: 32, PAGEUP: 33, PAGEDOWN: 34,
-					END: 35, HOME: 36, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40
-				};
 
-				// --- TREE CONSTRUCTOR ---
-				var Tree = function ($node) {
+
+			// --- Tree Keyboard Navigation ---
+			const KEY = {
+				RETURN: 13, SPACE: 32, PAGEUP: 33, PAGEDOWN: 34,
+				END: 35, HOME: 36, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40
+			};
+
+			class Tree {
+				constructor($node) {
 					this.$domNode = $node;
 					this.treeitems = [];
 					this.firstChars = [];
 					this.firstTreeitem = null;
 					this.lastTreeitem = null;
 					this.selectedItem = null;
-				};
-
-				Tree.prototype.init = function () {
-					var self = this;
-					function findTreeitems($node, group) {
-						$node.children('li').each(function () {
-							var $li = $(this);
-							var ti = new Treeitem($li, self, group);
+				}
+				init() {
+					const findTreeitems = ($node, group) => {
+						$node.children('li').each((_, li) => {
+							const $li = $(li);
+							const ti = new Treeitem($li, this, group);
 							ti.init();
-							self.treeitems.push(ti);
-							self.firstChars.push(ti.label.substring(0, 1).toLowerCase());
-
-							var $childUl = $li.children('ul');
-							if ($childUl.length) {
-								findTreeitems($childUl, ti);
-							}
+							this.treeitems.push(ti);
+							this.firstChars.push(ti.label.substring(0, 1).toLowerCase());
+							const $childUl = $li.children('ul');
+							if ($childUl.length) findTreeitems($childUl, ti);
 						});
-					}
-
+					};
 					if (!this.$domNode.attr('role')) this.$domNode.attr('role', 'tree');
 					findTreeitems(this.$domNode, false);
 					this.updateVisibleTreeitems();
-
 					if (this.firstTreeitem) this.firstTreeitem.$domNode.attr('tabindex', 0);
-				};
-
-				Tree.prototype.setFocusToItem = function (ti) {
-					for (var i = 0; i < this.treeitems.length; i++) {
-						var item = this.treeitems[i];
-						if (item === ti) {
-							item.$domNode.attr('tabindex', 0).focus();
-						} else {
-							item.$domNode.attr('tabindex', -1);
-						}
-					}
-				};
-
-				Tree.prototype.setSelectedToItem = function (ti) {
+				}
+				setFocusToItem(ti) {
+					this.treeitems.forEach(item => {
+						item.$domNode.attr('tabindex', item === ti ? 0 : -1);
+						if (item === ti) item.$domNode.focus();
+					});
+				}
+				setSelectedToItem(ti) {
 					if (this.selectedItem) this.selectedItem.$domNode.attr('aria-selected', 'false');
 					ti.$domNode.attr('aria-selected', 'true');
 					this.selectedItem = ti;
-				};
-
-				// --- NAVIGATION LOGIC ---
-
-				Tree.prototype.setFocusToNextItem = function (currentItem) {
-					var nextItem = false;
-					for (var i = this.treeitems.indexOf(currentItem) + 1; i < this.treeitems.length; i++) {
-						if (this.treeitems[i].isVisible) {
-							nextItem = this.treeitems[i];
-							break;
-						}
-					}
+				}
+				setFocusToNextItem(currentItem) {
+					const nextItem = this.treeitems.slice(this.treeitems.indexOf(currentItem) + 1).find(item => item.isVisible);
 					if (nextItem) this.setFocusToItem(nextItem);
-				};
-
-				Tree.prototype.setFocusToPreviousItem = function (currentItem) {
-					var prevItem = false;
-					for (var i = this.treeitems.indexOf(currentItem) - 1; i >= 0; i--) {
-						if (this.treeitems[i].isVisible) {
-							prevItem = this.treeitems[i];
-							break;
-						}
-					}
+				}
+				setFocusToPreviousItem(currentItem) {
+					const prevItem = [...this.treeitems].reverse().slice(this.treeitems.length - this.treeitems.indexOf(currentItem)).find(item => item.isVisible);
 					if (prevItem) this.setFocusToItem(prevItem);
-				};
-
-				Tree.prototype.expandTreeitem = function (currentItem) {
+				}
+				expandTreeitem(currentItem) {
 					if (currentItem.isExpandable) {
 						currentItem.$domNode.attr('aria-expanded', 'true');
 						this.updateVisibleTreeitems();
 					}
-				};
-
-				Tree.prototype.collapseTreeitem = function (currentItem) {
-					var groupTreeitem = false;
-					if (currentItem.isExpanded()) {
-						groupTreeitem = currentItem;
-					} else {
-						groupTreeitem = currentItem.groupTreeitem;
-					}
-
+				}
+				collapseTreeitem(currentItem) {
+					const groupTreeitem = currentItem.isExpanded() ? currentItem : currentItem.groupTreeitem;
 					if (groupTreeitem) {
 						groupTreeitem.$domNode.attr('aria-expanded', 'false');
 						this.updateVisibleTreeitems();
 						this.setFocusToItem(groupTreeitem);
 					}
-				};
-
-				Tree.prototype.updateVisibleTreeitems = function () {
+				}
+				updateVisibleTreeitems() {
 					this.firstTreeitem = this.treeitems[0];
-					for (var i = 0; i < this.treeitems.length; i++) {
-						var ti = this.treeitems[i];
-						var isVisible = true;
-						// Check if any parent li has aria-expanded=false
+					this.treeitems.forEach(ti => {
+						let isVisible = true;
 						ti.$domNode.parentsUntil(this.$domNode, 'li').each(function () {
 							if ($(this).attr('aria-expanded') === 'false') isVisible = false;
 						});
 						ti.isVisible = isVisible;
 						if (isVisible) this.lastTreeitem = ti;
-					}
-				};
-
-				Tree.prototype.setFocusByFirstCharacter = function (currentItem, char) {
+					});
+				}
+				setFocusByFirstCharacter(currentItem, char) {
 					char = char.toLowerCase();
-					var start = this.treeitems.indexOf(currentItem) + 1;
-					if (start === this.treeitems.length) start = 0;
-					var index = this._getIndexFirstChars(start, char);
+					const start = (this.treeitems.indexOf(currentItem) + 1) % this.treeitems.length;
+					let index = this._getIndexFirstChars(start, char);
 					if (index === -1) index = this._getIndexFirstChars(0, char);
 					if (index > -1) this.setFocusToItem(this.treeitems[index]);
-				};
+				}
+				_getIndexFirstChars(startIndex, char) {
+					return this.treeitems.findIndex((ti, i) => i >= startIndex && ti.isVisible && char === this.firstChars[i]);
+				}
+			}
 
-				Tree.prototype._getIndexFirstChars = function (startIndex, char) {
-					for (var i = startIndex; i < this.firstChars.length; i++) {
-						if (this.treeitems[i].isVisible && char === this.firstChars[i]) return i;
-					}
-					return -1;
-				};
-
-				// --- TREEITEM CONSTRUCTOR ---
-				var Treeitem = function ($node, treeObj, group) {
+			class Treeitem {
+				constructor($node, treeObj, group) {
 					this.$domNode = $node;
 					this.tree = treeObj;
 					this.groupTreeitem = group;
-					this.label = ($node.attr('aria-label') || $node.find('.saTreeeeLabel').first().text() || $node.text()).trim();
+					this.label = ($node.attr('aria-label') || $node.find('.saTreeXLabel').first().text() || $node.text()).trim();
 					this.isExpandable = $node.children('ul').length > 0;
 					this.isVisible = false;
 					this.inGroup = !!group;
-				};
-
-				Treeitem.prototype.init = function () {
-					this.$domNode.attr({ 'role': 'treeitem', 'tabindex': -1 });
-					this.$domNode.on('keydown', this.handleKeydown.bind(this));
-					this.$domNode.on('click', this.handleClick.bind(this));
-					this.$domNode.on('focus', () => this.$domNode.find('.saTreeeeRow').first().addClass('focus'));
-					this.$domNode.on('blur', () => this.$domNode.find('.saTreeeeRow').first().removeClass('focus'));
-				};
-
-				Treeitem.prototype.isExpanded = function () {
+				}
+				init() {
+					this.$domNode.attr({ role: 'treeitem', tabindex: -1 });
+					this.$domNode.on('keydown', e => this.handleKeydown(e));
+					this.$domNode.on('click', e => this.handleClick(e));
+					this.$domNode.on('focus', () => this.$domNode.find('.saTreeXRow').first().addClass('saFocus'));
+					this.$domNode.on('blur', () => this.$domNode.find('.saTreeXRow').first().removeClass('saFocus'));
+				}
+				isExpanded() {
 					return this.$domNode.attr('aria-expanded') === 'true';
-				};
-
-				Treeitem.prototype.handleKeydown = function (e) {
-					var flag = false;
-					var char = e.key;
-
+				}
+				handleKeydown(e) {
 					if (e.altKey || e.ctrlKey || e.metaKey) return;
-
-					switch (e.keyCode) {
-						case KEY.RETURN:
-						case KEY.SPACE:
-							var $link = this.$domNode.find('a.saTreeeeLabel').first();
-							if ($link.length) $link[0].click();
-							else this.tree.setSelectedToItem(this);
-							flag = true;
-							break;
-						case KEY.UP:
-							this.tree.setFocusToPreviousItem(this);
-							flag = true;
-							break;
-						case KEY.DOWN:
-							this.tree.setFocusToNextItem(this);
-							flag = true;
-							break;
-						case KEY.RIGHT:
+					const handlers = {
+						[KEY.RETURN]: () => {
+							const $link = this.$domNode.find('a.saTreeXLabel').first();
+							$link.length ? $link[0].click() : this.tree.setSelectedToItem(this);
+						},
+						[KEY.UP]: () => this.tree.setFocusToPreviousItem(this),
+						[KEY.DOWN]: () => this.tree.setFocusToNextItem(this),
+						[KEY.RIGHT]: () => {
 							if (this.isExpandable) {
-								if (this.isExpanded()) this.tree.setFocusToNextItem(this);
-								else this.tree.expandTreeitem(this);
+								this.isExpanded() ? this.tree.setFocusToNextItem(this) : this.tree.expandTreeitem(this);
 							}
-							flag = true;
-							break;
-						case KEY.LEFT:
-							// --- ARROW LEFT LOGIC ---
+						},
+						[KEY.LEFT]: () => {
 							if (this.isExpandable && this.isExpanded()) {
-								// 1. If expanded, collapse the node
 								this.tree.collapseTreeitem(this);
-								flag = true;
 							} else if (this.inGroup) {
-								// 2. If collapsed or leaf, move focus to the parent node
 								this.tree.setFocusToItem(this.groupTreeitem);
-								flag = true;
 							}
-							break;
-						case KEY.HOME:
-							this.tree.setFocusToItem(this.tree.firstTreeitem);
-							flag = true;
-							break;
-						case KEY.END:
-							this.tree.setFocusToItem(this.tree.lastTreeitem);
-							flag = true;
-							break;
-						default:
-							if (char.length === 1 && char.match(/\S/)) {
-								this.tree.setFocusByFirstCharacter(this, char);
-								flag = true;
-							}
-							break;
-					}
-
-					if (flag) {
+						},
+						[KEY.HOME]: () => this.tree.setFocusToItem(this.tree.firstTreeitem),
+						[KEY.END]: () => this.tree.setFocusToItem(this.tree.lastTreeitem)
+					};
+					const defaultHandler = () => {
+						const char = e.key;
+						if (char.length === 1 && char.match(/\S/)) {
+							this.tree.setFocusByFirstCharacter(this, char);
+						}
+					};
+					if (handlers[e.keyCode]) {
+						handlers[e.keyCode]();
 						e.stopPropagation();
 						e.preventDefault();
-					}
-				};
-
-				Treeitem.prototype.handleClick = function (e) {
-					// 1. STOP the event from bubbling up to parent <li> elements
-					e.stopPropagation();
-
-					// 2. Ignore clicks on specific action buttons or links (except our main label)
-					if ($(e.target).closest('button, span').length) {
-						return;
-					}
-
-					// 3. Handle expansion/collapse ONLY for the clicked node
-					if (this.isExpandable) {
-						if (this.isExpanded()) {
-							this.tree.collapseTreeitem(this);
-						} else {
-							this.tree.expandTreeitem(this);
-						}
-					}
-
-					// 4. Always set focus and selection to the clicked node
-					this.tree.setFocusToItem(this);
-					this.tree.setSelectedToItem(this);
-				};
-
-				// Initialize
-				$('.saTreeeeView').each(function () {
-					var t = new Tree($(this));
-					t.init();
-				});
-			});
-
-			$(function () {
-				const KEY = {
-					RETURN: 13, SPACE: 32, PAGEUP: 33, PAGEDOWN: 34,
-					END: 35, HOME: 36, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40
-				};
-
-				// --- TREE CONSTRUCTOR ---
-				var Tree = function ($node) {
-					this.$domNode = $node;
-					this.treeitems = [];
-					this.firstChars = [];
-					this.firstTreeitem = null;
-					this.lastTreeitem = null;
-					this.selectedItem = null;
-				};
-
-				Tree.prototype.init = function () {
-					var self = this;
-					function findTreeitems($node, group) {
-						$node.children('li').each(function () {
-							var $li = $(this);
-							var ti = new Treeitem($li, self, group);
-							ti.init();
-							self.treeitems.push(ti);
-							self.firstChars.push(ti.label.substring(0, 1).toLowerCase());
-
-							var $childUl = $li.children('ul');
-							if ($childUl.length) {
-								findTreeitems($childUl, ti);
-							}
-						});
-					}
-
-					if (!this.$domNode.attr('role')) this.$domNode.attr('role', 'tree');
-					findTreeitems(this.$domNode, false);
-					this.updateVisibleTreeitems();
-
-					if (this.firstTreeitem) this.firstTreeitem.$domNode.attr('tabindex', 0);
-				};
-
-				Tree.prototype.setFocusToItem = function (ti) {
-					for (var i = 0; i < this.treeitems.length; i++) {
-						var item = this.treeitems[i];
-						if (item === ti) {
-							item.$domNode.attr('tabindex', 0).focus();
-						} else {
-							item.$domNode.attr('tabindex', -1);
-						}
-					}
-				};
-
-				Tree.prototype.setSelectedToItem = function (ti) {
-					if (this.selectedItem) this.selectedItem.$domNode.attr('aria-selected', 'false');
-					ti.$domNode.attr('aria-selected', 'true');
-					this.selectedItem = ti;
-				};
-
-				// --- NAVIGATION LOGIC ---
-
-				Tree.prototype.setFocusToNextItem = function (currentItem) {
-					var nextItem = false;
-					for (var i = this.treeitems.indexOf(currentItem) + 1; i < this.treeitems.length; i++) {
-						if (this.treeitems[i].isVisible) {
-							nextItem = this.treeitems[i];
-							break;
-						}
-					}
-					if (nextItem) this.setFocusToItem(nextItem);
-				};
-
-				Tree.prototype.setFocusToPreviousItem = function (currentItem) {
-					var prevItem = false;
-					for (var i = this.treeitems.indexOf(currentItem) - 1; i >= 0; i--) {
-						if (this.treeitems[i].isVisible) {
-							prevItem = this.treeitems[i];
-							break;
-						}
-					}
-					if (prevItem) this.setFocusToItem(prevItem);
-				};
-
-				Tree.prototype.expandTreeitem = function (currentItem) {
-					if (currentItem.isExpandable) {
-						currentItem.$domNode.attr('aria-expanded', 'true');
-						this.updateVisibleTreeitems();
-					}
-				};
-
-				Tree.prototype.collapseTreeitem = function (currentItem) {
-					var groupTreeitem = false;
-					if (currentItem.isExpanded()) {
-						groupTreeitem = currentItem;
 					} else {
-						groupTreeitem = currentItem.groupTreeitem;
+						defaultHandler();
 					}
-
-					if (groupTreeitem) {
-						groupTreeitem.$domNode.attr('aria-expanded', 'false');
-						this.updateVisibleTreeitems();
-						this.setFocusToItem(groupTreeitem);
-					}
-				};
-
-				Tree.prototype.updateVisibleTreeitems = function () {
-					this.firstTreeitem = this.treeitems[0];
-					for (var i = 0; i < this.treeitems.length; i++) {
-						var ti = this.treeitems[i];
-						var isVisible = true;
-						// Check if any parent li has aria-expanded=false
-						ti.$domNode.parentsUntil(this.$domNode, 'li').each(function () {
-							if ($(this).attr('aria-expanded') === 'false') isVisible = false;
-						});
-						ti.isVisible = isVisible;
-						if (isVisible) this.lastTreeitem = ti;
-					}
-				};
-
-				Tree.prototype.setFocusByFirstCharacter = function (currentItem, char) {
-					char = char.toLowerCase();
-					var start = this.treeitems.indexOf(currentItem) + 1;
-					if (start === this.treeitems.length) start = 0;
-					var index = this._getIndexFirstChars(start, char);
-					if (index === -1) index = this._getIndexFirstChars(0, char);
-					if (index > -1) this.setFocusToItem(this.treeitems[index]);
-				};
-
-				Tree.prototype._getIndexFirstChars = function (startIndex, char) {
-					for (var i = startIndex; i < this.firstChars.length; i++) {
-						if (this.treeitems[i].isVisible && char === this.firstChars[i]) return i;
-					}
-					return -1;
-				};
-
-				// --- TREEITEM CONSTRUCTOR ---
-				var Treeitem = function ($node, treeObj, group) {
-					this.$domNode = $node;
-					this.tree = treeObj;
-					this.groupTreeitem = group;
-					this.label = ($node.attr('aria-label') || $node.find('.saTreeeLabel').first().text() || $node.text()).trim();
-					this.isExpandable = $node.children('ul').length > 0;
-					this.isVisible = false;
-					this.inGroup = !!group;
-				};
-
-				Treeitem.prototype.init = function () {
-					this.$domNode.attr({ 'role': 'treeitem', 'tabindex': -1 });
-					this.$domNode.on('keydown', this.handleKeydown.bind(this));
-					this.$domNode.on('click', this.handleClick.bind(this));
-					this.$domNode.on('focus', () => this.$domNode.find('.saTreeeRow').first().addClass('focus'));
-					this.$domNode.on('blur', () => this.$domNode.find('.saTreeeRow').first().removeClass('focus'));
-				};
-
-				Treeitem.prototype.isExpanded = function () {
-					return this.$domNode.attr('aria-expanded') === 'true';
-				};
-
-				Treeitem.prototype.handleKeydown = function (e) {
-					var flag = false;
-					var char = e.key;
-
-					if (e.altKey || e.ctrlKey || e.metaKey) return;
-
-					switch (e.keyCode) {
-						case KEY.RETURN:
-						case KEY.SPACE:
-							var $link = this.$domNode.find('a.saTreeeLabel').first();
-							if ($link.length) $link[0].click();
-							else this.tree.setSelectedToItem(this);
-							flag = true;
-							break;
-						case KEY.UP:
-							this.tree.setFocusToPreviousItem(this);
-							flag = true;
-							break;
-						case KEY.DOWN:
-							this.tree.setFocusToNextItem(this);
-							flag = true;
-							break;
-						case KEY.RIGHT:
-							if (this.isExpandable) {
-								if (this.isExpanded()) this.tree.setFocusToNextItem(this);
-								else this.tree.expandTreeitem(this);
-							}
-							flag = true;
-							break;
-						case KEY.LEFT:
-							// --- ARROW LEFT LOGIC ---
-							if (this.isExpandable && this.isExpanded()) {
-								// 1. If expanded, collapse the node
-								this.tree.collapseTreeitem(this);
-								flag = true;
-							} else if (this.inGroup) {
-								// 2. If collapsed or leaf, move focus to the parent node
-								this.tree.setFocusToItem(this.groupTreeitem);
-								flag = true;
-							}
-							break;
-						case KEY.HOME:
-							this.tree.setFocusToItem(this.tree.firstTreeitem);
-							flag = true;
-							break;
-						case KEY.END:
-							this.tree.setFocusToItem(this.tree.lastTreeitem);
-							flag = true;
-							break;
-						default:
-							if (char.length === 1 && char.match(/\S/)) {
-								this.tree.setFocusByFirstCharacter(this, char);
-								flag = true;
-							}
-							break;
-					}
-
-					if (flag) {
-						e.stopPropagation();
-						e.preventDefault();
-					}
-				};
-
-				Treeitem.prototype.handleClick = function (e) {
-					// 1. STOP the event from bubbling up to parent <li> elements
+				}
+				handleClick(e) {
 					e.stopPropagation();
-
-					// 2. Ignore clicks on specific action buttons or links (except our main label)
-					if ($(e.target).closest('button, a').length && !$(e.target).closest('a').hasClass('saTreeeLabel')) {
-						return;
-					}
-
-					// 3. Handle expansion/collapse ONLY for the clicked node
+					if ($(e.target).closest('button, span').length) return;
 					if (this.isExpandable) {
-						if (this.isExpanded()) {
-							this.tree.collapseTreeitem(this);
-						} else {
-							this.tree.expandTreeitem(this);
-						}
+						this.isExpanded() ? this.tree.collapseTreeitem(this) : this.tree.expandTreeitem(this);
 					}
-
-					// 4. Always set focus and selection to the clicked node
 					this.tree.setFocusToItem(this);
 					this.tree.setSelectedToItem(this);
-				};
+				}
+			}
 
-				// Initialize
-				$('.saTreeeView').each(function () {
-					var t = new Tree($(this));
-					t.init();
-				});
+			$('.saTreeXView, .saTreeeView, .saTreeeeView').each(function () {
+				new Tree($(this)).init();
 			});
 
 
-
-
-
-			$(function () {
-				const KEY = {
-					RETURN: 13, SPACE: 32, PAGEUP: 33, PAGEDOWN: 34,
-					END: 35, HOME: 36, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40
-				};
-
-				// --- TREE CONSTRUCTOR ---
-				class Tree {
-					constructor($node) {
-						this.$domNode = $node;
-						this.treeitems = [];
-						this.firstChars = [];
-						this.firstTreeitem = null;
-						this.lastTreeitem = null;
-						this.selectedItem = null;
-					}
-
-					init() {
-						const findTreeitems = ($node, group) => {
-							$node.children('li').each((_, li) => {
-								const $li = $(li);
-								const ti = new Treeitem($li, this, group);
-								ti.init();
-								this.treeitems.push(ti);
-								this.firstChars.push(ti.label.substring(0, 1).toLowerCase());
-
-								const $childUl = $li.children('ul');
-								if ($childUl.length) findTreeitems($childUl, ti);
-							});
-						};
-
-						if (!this.$domNode.attr('role')) this.$domNode.attr('role', 'tree');
-						findTreeitems(this.$domNode, false);
-						this.updateVisibleTreeitems();
-
-						if (this.firstTreeitem) this.firstTreeitem.$domNode.attr('tabindex', 0);
-					}
-
-					setFocusToItem(ti) {
-						this.treeitems.forEach(item => {
-							item.$domNode.attr('tabindex', item === ti ? 0 : -1);
-							if (item === ti) item.$domNode.focus();
-						});
-					}
-
-					setSelectedToItem(ti) {
-						if (this.selectedItem) this.selectedItem.$domNode.attr('aria-selected', 'false');
-						ti.$domNode.attr('aria-selected', 'true');
-						this.selectedItem = ti;
-					}
-
-					setFocusToNextItem(currentItem) {
-						const nextItem = this.treeitems.slice(this.treeitems.indexOf(currentItem) + 1).find(item => item.isVisible);
-						if (nextItem) this.setFocusToItem(nextItem);
-					}
-
-					setFocusToPreviousItem(currentItem) {
-						const prevItem = [...this.treeitems].reverse().slice(this.treeitems.length - this.treeitems.indexOf(currentItem)).find(item => item.isVisible);
-						if (prevItem) this.setFocusToItem(prevItem);
-					}
-
-					expandTreeitem(currentItem) {
-						if (currentItem.isExpandable) {
-							currentItem.$domNode.attr('aria-expanded', 'true');
-							this.updateVisibleTreeitems();
-						}
-					}
-
-					collapseTreeitem(currentItem) {
-						const groupTreeitem = currentItem.isExpanded() ? currentItem : currentItem.groupTreeitem;
-						if (groupTreeitem) {
-							groupTreeitem.$domNode.attr('aria-expanded', 'false');
-							this.updateVisibleTreeitems();
-							this.setFocusToItem(groupTreeitem);
-						}
-					}
-
-					updateVisibleTreeitems() {
-						this.firstTreeitem = this.treeitems[0];
-						this.treeitems.forEach(ti => {
-							let isVisible = true;
-							ti.$domNode.parentsUntil(this.$domNode, 'li').each(function () {
-								if ($(this).attr('aria-expanded') === 'false') isVisible = false;
-							});
-							ti.isVisible = isVisible;
-							if (isVisible) this.lastTreeitem = ti;
-						});
-					}
-
-					setFocusByFirstCharacter(currentItem, char) {
-						char = char.toLowerCase();
-						const start = (this.treeitems.indexOf(currentItem) + 1) % this.treeitems.length;
-						let index = this._getIndexFirstChars(start, char);
-						if (index === -1) index = this._getIndexFirstChars(0, char);
-						if (index > -1) this.setFocusToItem(this.treeitems[index]);
-					}
-
-					_getIndexFirstChars(startIndex, char) {
-						return this.treeitems.findIndex((ti, i) => i >= startIndex && ti.isVisible && char === this.firstChars[i]);
-					}
-				}
-
-				// --- TREEITEM CONSTRUCTOR ---
-				class Treeitem {
-					constructor($node, treeObj, group) {
-						this.$domNode = $node;
-						this.tree = treeObj;
-						this.groupTreeitem = group;
-						this.label = ($node.attr('aria-label') || $node.find('.saTreeXLabel').first().text() || $node.text()).trim();
-						this.isExpandable = $node.children('ul').length > 0;
-						this.isVisible = false;
-						this.inGroup = !!group;
-					}
-
-					init() {
-						this.$domNode.attr({ role: 'treeitem', tabindex: -1 });
-						this.$domNode.on('keydown', e => this.handleKeydown(e));
-						this.$domNode.on('click', e => this.handleClick(e));
-						this.$domNode.on('focus', () => this.$domNode.find('.saTreeXRow').first().addClass('saFocus'));
-						this.$domNode.on('blur', () => this.$domNode.find('.saTreeXRow').first().removeClass('saFocus'));
-					}
-
-					isExpanded() {
-						return this.$domNode.attr('aria-expanded') === 'true';
-					}
-
-					handleKeydown(e) {
-						if (e.altKey || e.ctrlKey || e.metaKey) return;
-
-						const handlers = {
-							[KEY.RETURN]: () => {
-								const $link = this.$domNode.find('a.saTreeXLabel').first();
-								$link.length ? $link[0].click() : this.tree.setSelectedToItem(this);
-							},
-							[KEY.UP]: () => this.tree.setFocusToPreviousItem(this),
-							[KEY.DOWN]: () => this.tree.setFocusToNextItem(this),
-							[KEY.RIGHT]: () => {
-								if (this.isExpandable) {
-									this.isExpanded() ? this.tree.setFocusToNextItem(this) : this.tree.expandTreeitem(this);
-								}
-							},
-							[KEY.LEFT]: () => {
-								if (this.isExpandable && this.isExpanded()) {
-									this.tree.collapseTreeitem(this);
-								} else if (this.inGroup) {
-									this.tree.setFocusToItem(this.groupTreeitem);
-								}
-							},
-							[KEY.HOME]: () => this.tree.setFocusToItem(this.tree.firstTreeitem),
-							[KEY.END]: () => this.tree.setFocusToItem(this.tree.lastTreeitem)
-						};
-
-						const defaultHandler = () => {
-							const char = e.key;
-							if (char.length === 1 && char.match(/\S/)) {
-								this.tree.setFocusByFirstCharacter(this, char);
-							}
-						};
-
-						if (handlers[e.keyCode]) {
-							handlers[e.keyCode]();
-							e.stopPropagation();
-							e.preventDefault();
-						} else {
-							defaultHandler();
-						}
-					}
-
-					handleClick(e) {
-						e.stopPropagation();
-
-						const isExpanderClick = $(e.target).closest('.saTreeXExpander, .saTreeXType').length > 0;
-
-						if (isExpanderClick && this.isExpandable) {
-							this.isExpanded() ? this.tree.collapseTreeitem(this) : this.tree.expandTreeitem(this);
-						} else {
-							this.tree.setSelectedToItem(this);
-						}
-
-						this.tree.setFocusToItem(this);
-					}
-				}
-
-				// --- INITIALIZATION ---
-				$('.saTreeXView').each(function () {
-					new Tree($(this)).init();
+			// --- Drag & Drop ---
+			function setupDragDrop() {
+				$(document).on('dragenter dragover', function (e) {
+					e.preventDefault();
+					$('.saTreeXView').addClass('saFileDragging');
 				});
-
-				// --- DRAG & DROP ---
-				const setupDragDrop = () => {
-					$(document).on('dragenter dragover', function (e) {
-						e.preventDefault();
-						$('.saTreeXView').addClass('saFileDragging');
-					});
-
-					$(document).on('drop dragend', function (e) {
-						e.preventDefault();
-						$('.saTreeXView').removeClass('saFileDragging');
-					});
-
-					$('li[role="treeitem"]:not(.saFileNoDrop)').on('dragenter dragover', function (e) {
-						e.preventDefault();
-						e.stopPropagation();
-						$(this).addClass('saFileDrop');
-						$('.saTreeXView').addClass('saFileDragging');
-					});
-
-					$('li[role="treeitem"]:not(.saFileNoDrop)').on('dragleave drop', function (e) {
-						e.preventDefault();
-						e.stopPropagation();
-						$(this).removeClass('saFileDrop');
-					});
-
-					$('li[role="treeitem"]:not(.saFileNoDrop)').on('drop', function (e) {
-
-						const files = e.originalEvent.dataTransfer.files;
-						if (files.length) {
-							const $li = $(this);
-							const $ul = $li.children('ul').length ? $li.children('ul') : $('<ul></ul>').appendTo($li);
-
-							for (let i = 0; i < files.length; i++) {
-								const file = files[i];
-								const fileName = file.name;
-								const ext = fileName.split('.').pop().toLowerCase();
-
-								let iconClass = 'file-alt';
-								if (/^(jpg|jpeg|png|gif|svg|webp)$/.test(ext)) {
-									iconClass = 'image';
-								} else if (/^(mp3|wav|flac|aac)$/.test(ext)) {
-									iconClass = 'music';
-								} else if (/^(mp4|webm|avi|mov)$/.test(ext)) {
-									iconClass = 'video';
-								} else if (/^(zip|rar|7z|tar|gz)$/.test(ext)) {
-									iconClass = 'file-zipper';
-								} else if (/^(doc|docx)$/.test(ext)) {
-									iconClass = 'file-word';
-								} else if (/^(xls|xlsx)$/.test(ext)) {
-									iconClass = 'file-excel';
-								} else if (/^(ppt|pptx)$/.test(ext)) {
-									iconClass = 'file-powerpoint';
-								} else if (/^(pdf)$/.test(ext)) {
-									iconClass = 'file-pdf';
-								}
-
-								const fileSize = (file.size / 1024).toFixed(0);
-								let fileProgress = 0;
-
-								const $newLi = $(`
-									<li role="treeitem" tabindex="-1" class="saFileNoDrop saLoading">
-										<div class="saTreeXRow" style="background-image: linear-gradient(to right, var(--Sa-Color-Primary100) ${fileProgress}%, white ${fileProgress}%)">
-											<i class="saTreeXExpander saIcon far fa-angle-right"></i>
-											<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true" style="display: none;"></i>
-											<div class="saTreeXTypeWrapper">
-												<div class="saLoadingWrapper saLoadingExtraDark">
-													<svg class="saLoading" viewBox="0 0 24 24">
-														<circle class="saLoadingCircle" cx="12" cy="12" r="12" fill="none"></circle>
-														<path class="saLoadingCheck" d="M6.29,12.58l3.14,3.19c.15,.15,.39,.15,.53,0l7.75-7.8" fill="none"></path>
-													</svg>
-													<div class="saLoadingSpinner"></div>
-												</div>
-												<i class="saTreeXType saIcon fadr fa-${iconClass}"></i>
+				$(document).on('drop dragend', function (e) {
+					e.preventDefault();
+					$('.saTreeXView').removeClass('saFileDragging');
+				});
+				$('li[role="treeitem"]:not(.saFileNoDrop)').on('dragenter dragover', function (e) {
+					e.preventDefault();
+					e.stopPropagation();
+					$(this).addClass('saFileDrop');
+					$('.saTreeXView').addClass('saFileDragging');
+				});
+				$('li[role="treeitem"]:not(.saFileNoDrop)').on('dragleave drop', function (e) {
+					e.preventDefault();
+					e.stopPropagation();
+					$(this).removeClass('saFileDrop');
+				});
+				$('li[role="treeitem"]:not(.saFileNoDrop)').on('drop', function (e) {
+					const files = e.originalEvent.dataTransfer.files;
+					if (files.length) {
+						const $li = $(this);
+						const $ul = $li.children('ul').length ? $li.children('ul') : $('<ul></ul>').appendTo($li);
+						for (let i = 0; i < files.length; i++) {
+							const file = files[i];
+							const fileName = file.name;
+							const ext = fileName.split('.').pop().toLowerCase();
+							let iconClass = 'file-alt';
+							if (/^(jpg|jpeg|png|gif|svg|webp)$/.test(ext)) iconClass = 'image';
+							else if (/^(mp3|wav|flac|aac)$/.test(ext)) iconClass = 'music';
+							else if (/^(mp4|webm|avi|mov)$/.test(ext)) iconClass = 'video';
+							else if (/^(zip|rar|7z|tar|gz)$/.test(ext)) iconClass = 'file-zipper';
+							else if (/^(doc|docx)$/.test(ext)) iconClass = 'file-word';
+							else if (/^(xls|xlsx)$/.test(ext)) iconClass = 'file-excel';
+							else if (/^(ppt|pptx)$/.test(ext)) iconClass = 'file-powerpoint';
+							else if (/^(pdf)$/.test(ext)) iconClass = 'file-pdf';
+							const fileSize = (file.size / 1024).toFixed(0);
+							let fileProgress = 0;
+							const $newLi = $(`
+								<li role="treeitem" tabindex="-1" class="saFileNoDrop saLoading">
+									<div class="saTreeXRow" style="background-image: linear-gradient(to right, var(--Sa-Color-Primary100) ${fileProgress}%, transparent ${fileProgress}%)">
+										<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+										<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true" style="display: none;"></i>
+										<div class="saTreeXTypeWrapper">
+											<div class="saLoadingWrapper saLoadingExtraDark">
+												<svg class="saLoading" viewBox="0 0 24 24">
+													<circle class="saLoadingCircle" cx="12" cy="12" r="12" fill="none"></circle>
+													<path class="saLoadingCheck" d="M6.29,12.58l3.14,3.19c.15,.15,.39,.15,.53,0l7.75-7.8" fill="none"></path>
+												</svg>
+												<div class="saLoadingSpinner"></div>
 											</div>
-											<ul class="saTreeXButtonGroup" style="display: none;">
-												<li><button class="saTreeXButton" type="button" aria-label="Do this thing"><i class="far fa-cat icon saIcon" aria-hidden="true"></i></button></li>
-												<li><button class="saTreeXButton" type="button" aria-label="Do this thing"><i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i></button></li>
-											</ul>
-											<span class="saTreeXLabel">${fileName}</span>
-											<div class="saFileSizeRow"><span class="saFileSize">${fileSize} kB</span><span class="saFileUploadProgressText">${fileProgress}%</span></div>
+											<i class="saTreeXType saIcon fadr fa-${iconClass}"></i>
 										</div>
-									</li>
-								`);
-
-								$ul.append($newLi);
-
-								// Simulate progress
-								const interval = setInterval(() => {
-									fileProgress += Math.random() * 30;
-									if (fileProgress >= 100) {
-										fileProgress = 100;
-										clearInterval(interval);
-										$newLi.removeClass('saLoading').addClass('saDone');
-										$newLi.find('.saTreeXRow').css('background-image', 'none');
-									} else {
-										$newLi.find('.saTreeXRow').css('background-image', `linear-gradient(to right, var(--Sa-Color-Primary100) ${fileProgress}%, white ${fileProgress}%)`);
-									}
-									$newLi.find('.saFileUploadProgressText').text(Math.floor(fileProgress) + '%');
-
-								}, 500);
-							}
-
-							$li.attr('aria-expanded', 'true');
-							$('#last_action').val(`Dropped ${files.length} file(s) into ${$li.find('.saTreeXLabel').first().text()}`);
+										<ul class="saTreeXButtonGroup" style="display: none;">
+											<li><button class="saTreeXButton" type="button" aria-label="Do this thing"><i class="far fa-cat icon saIcon" aria-hidden="true"></i></button></li>
+											<li><button class="saTreeXButton" type="button" aria-label="Do this thing"><i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i></button></li>
+										</ul>
+										<span class="saTreeXLabel">${fileName}</span>
+										<div class="saFileSizeRow">
+											<span class="saFileSize">${fileSize} kB</span><span class="saFileUploadProgressText">${fileProgress}%</span>
+										</div>
+										<progress class="saScreenReaderOnly" max="100" value="${fileProgress}"></progress>
+									</div>
+								</li>
+							`);
+							$ul.append($newLi);
+							const interval = setInterval(() => {
+								fileProgress += Math.random() * 30;
+								if (fileProgress >= 100) {
+									fileProgress = 100;
+									clearInterval(interval);
+									$newLi.removeClass('saLoading').addClass('saDone');
+									$newLi.find('.saTreeXRow').css('background-image', 'none');
+								} else {
+									$newLi.find('.saTreeXRow').css('background-image', `linear-gradient(to right, var(--Sa-Color-Primary100) ${fileProgress}%, transparent ${fileProgress}%)`);
+								}
+								$newLi.find('.saFileUploadProgressText').text(Math.floor(fileProgress) + '%');
+								$newLi.find('progress').val(Math.floor(fileProgress));
+							}, 500);
 						}
-						$('.saTreeXView').removeClass('saFileDragging');
-
-					});
-				};
-
-				setupDragDrop();
-			});
+						$li.attr('aria-expanded', 'true');
+						$('#last_action').val(`Dropped ${files.length} file(s) into ${$li.find('.saTreeXLabel').first().text()}`);
+					}
+					$('.saTreeXView').removeClass('saFileDragging');
+				});
+			}
+			setupDragDrop();
 		});
 	</script>
 </body>
