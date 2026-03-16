@@ -353,7 +353,7 @@
 	<dialog class="saPopupOverlay interface" aria-modal="true" aria-labelledby="saDrawerTitle">
 		<div class="saDrawer" tabindex="-1">
 			<div class="saDrawerHeader">
-				<h2 id="saDrawerTitle">Notifieringar</h2>
+				<h2 id="saDrawerTitle">Drawer</h2>
 				<button class="saCloseModal" type="button" aria-label="Stäng popup" title="Stäng popup">
 					<i class="far fa-xmark saIcon" aria-hidden="true"></i>
 				</button>
@@ -577,8 +577,8 @@
 						</fieldset>
 						<fieldset class="saSectionWrapper saLastVisible">
 							<legend class="saSectionHeaderWrapper">
-								<button class="saSectionHeader saInputPageField" type="button" aria-expanded="false">
-									<div class="saSectionHeaderLabel">More fields</div><i class="far fa-angle-up saIcon saClosed"></i>
+								<button class="saSectionHeader saInputPageField" type="button" aria-expanded="true">
+									<div class="saSectionHeaderLabel">More fields</div><i class="far fa-angle-up saIcon"></i>
 								</button>
 							</legend>
 							<div class="saFieldAndLabelWrapper">
@@ -808,9 +808,9 @@
 			$('.saSectionHeader').on('click', function () {
 				const $button = $(this);
 				const expanded = $button.attr('aria-expanded') === 'true';
-				$button.attr('aria-expanded', !expanded);
+				$button.attr('aria-expanded', expanded ? 'false' : 'true');
 
-				const $icon = $button.find('.saClosed');
+				const $icon = $button.find('.saIcon');
 				$icon.toggleClass('saClosed', expanded);
 
 				const $fieldset = $button.closest('fieldset');
