@@ -1,6 +1,7 @@
 @charset "utf-8";
 :root {
   --Sa-Color-Link: #2d6ce1;
+  --Sa-Color-Link-Brightness80: #0f44a6;
   --Sa-Color-ControlVisibilityChangeBackground: #f0fcff;
   --Sa-Color-Icon: #7088a4;
   --Sa-Color-Label: #313a44;
@@ -3563,6 +3564,16 @@ datalist {
 .grid a:active .saMeterValue {
   text-decoration: underline;
 }
+@media (pointer: fine) {
+  .grid a:hover * {
+    color: var(--Sa-Color-Link);
+    text-decoration: underline;
+  }
+}
+.grid a:active * {
+  color: var(--Sa-Color-Link-Brightness80);
+  text-decoration: underline;
+}
 .grid .saUseAccessibilityMode {
   overflow: auto;
   padding-bottom: 0.25rem;
@@ -3621,10 +3632,7 @@ datalist {
 .saLargeScreen .saGridWrapper > .saPagination {
   display: none;
 }
-.saStandard .saGridWrapper:has(.saComponentContentLinks) .saGridHead {
-  top: 7.25rem;
-}
-.saCompact .saGridWrapper:has(.saComponentContentLinks) .saGridHead {
+.saGridWrapper:has(.saComponentContentLinks) .saGridHead {
   top: 6.75rem;
 }
 .saGridWrapper:has(.saComponentContentLinks) .saGridHead:not(:has(.saGridColumnGroupRow)) .saGridHeadingRow th {
@@ -4077,6 +4085,13 @@ datalist {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
   color: var(--Sa-Color-Primary600);
   background: transparent;
   position: relative;
@@ -4100,40 +4115,7 @@ datalist {
   align-items: center;
   justify-content: center;
 }
-.saStandard .saGridTop .saGridButton {
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  max-width: 2.5rem;
-  min-width: 2.5rem;
-  font-size: 1rem;
-}
-.saStandard .saGridTop .saGridButton:active {
-  border-radius: 0.75rem;
-}
-.saCompact .saGridTop .saGridButton {
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  width: 2rem;
-  height: 2rem;
-  max-width: 2rem;
-  min-width: 2rem;
-  font-size: 1rem;
-}
-.saCompact .saGridTop .saGridButton:active {
-  border-radius: 0.75rem;
-}
-.saSmallScreen .saGridTop .saGridButton {
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  max-width: 2.5rem;
-  min-width: 2.5rem;
-  font-size: 1rem;
-}
-.saSmallScreen .saGridTop .saGridButton:active {
+.saGridTop .saGridButton:active {
   border-radius: 0.75rem;
 }
 .saGridTop .saGridButton .saIcon {
@@ -4186,9 +4168,6 @@ datalist {
 .saGridTop .saGridButton:disabled .saIcon,
 .saGridTop .saGridButton.saDisabled .saIcon {
   color: #adbdd1;
-}
-.saStandard .saGridTop .saGridButton {
-  font-size: 1.25rem;
 }
 .saGridTop .saGridButton .saButtonBadge {
   top: 0.375rem;
@@ -4532,6 +4511,7 @@ datalist {
   justify-content: center;
 }
 .saGrid .saGridCell {
+  display: flex;
   align-items: center;
   box-sizing: border-box;
   text-overflow: ellipsis;
@@ -4628,6 +4608,33 @@ datalist {
 }
 .saGrid .saGridCell #map img {
   max-width: none;
+}
+.saGrid .saGridCellRow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-weight: 400;
+}
+.saGrid .saGridCellAvatar {
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 99rem;
+}
+.saGrid .saGridCellHeading {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: -0.125rem;
+}
+.saGrid .saGridCellDescription {
+  font-size: 0.75rem;
+  line-height: 0.875rem;
+  color: var(--Sa-Color-TextSecondary);
+  margin-top: -0.125rem;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .saGrid.saEditMode td:not(.saEditable) .saGridCell {
   opacity: 0.6;
@@ -4953,6 +4960,10 @@ datalist {
 .saGrid caption {
   position: absolute;
   left: -625rem;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .saEditable {
   transition: background ease 0.2s, box-shadow ease 0.2s;
@@ -4975,9 +4986,6 @@ datalist {
   position: sticky;
   z-index: 2;
   top: 3.75rem;
-}
-.saStandard .stickyheader .saGridHead {
-  top: 4.5rem;
 }
 .saGridHead th {
   color: var(--Sa-Color-GridHeadingText);
@@ -5084,6 +5092,13 @@ datalist {
   gap: 0.375rem;
   transition: color 0.1s ease, background-color 0.1s ease;
   overflow: hidden;
+}
+.saGridHead .saGridHeadingInner.saMissingLabel {
+  color: #bf0024 !important;
+  background-color: #ffe8e7 !important;
+}
+.saGridHead .saGridHeadingInner.saMissingLabel .saIcon {
+  color: #bf0024 !important;
 }
 .saGridHead th:has(.saSorted) {
   background-color: var(--Sa-Color-GridHeadSorted);
@@ -5620,7 +5635,7 @@ datalist {
   align-items: center;
   padding: 1rem 0 0.5rem 1rem;
   background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(0.5rem);
 }
 .saSmallScreen .saNotificationsWrapper .saNotificationsHeader {
   padding: 0.5rem 0.5rem 0.5rem 1rem;
@@ -8951,21 +8966,23 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding-right: 1rem;
-  --fade: 2rem;
-  scroll-timeline: --headerScroll inline;
-  mask-image: linear-gradient(to right, transparent, black var(--fade), black calc(100% - var(--fade)), transparent);
-  mask-size: calc(100% + var(--fade) * 2) 100%;
-  mask-position: right;
-  animation: maskScroll linear both;
-  animation-timeline: --headerScroll;
-  scroll-snap-type: x proximity;
 }
 .saSmallScreen .saPageHeader .saHeaderWrapper::-webkit-scrollbar,
 .saSmallscreensidebar .saPageHeader .saHeaderWrapper::-webkit-scrollbar {
   display: none;
 }
-@keyframes maskScroll {
+@supports (scroll-timeline: --headerScroll) {
+  .saSmallScreen .saPageHeader .saHeaderWrapper,
+  .saSmallscreensidebar .saPageHeader .saHeaderWrapper {
+    scroll-timeline: --headerScroll inline;
+    mask-image: linear-gradient(to right, transparent, black 2rem, black calc(100% - 2rem), transparent);
+    mask-size: calc(100% + 2rem * 2) 100%;
+    mask-position: right;
+    animation: saMaskScroll linear both;
+    animation-timeline: --headerScroll;
+  }
+}
+@keyframes saMaskScroll {
   from {
     mask-position: right;
   }
@@ -8979,8 +8996,6 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   flex: 1;
   min-width: 0;
   gap: 0.5rem;
-  scroll-snap-align: start;
-  transition: transform 0.2s ease;
 }
 .saSmallScreen .saPageHeader .saTitle h1,
 .saSmallscreensidebar .saPageHeader .saTitle h1 {
@@ -8992,7 +9007,13 @@ li:not(:first-child, :last-child, :only-child) .saToggleCompactWrapper {
   line-height: 2rem;
   font-weight: 600;
   text-align: left;
-  justify-content: flex-start;
+}
+.saSmallScreen .saPageHeader .saTitle h1::after,
+.saSmallscreensidebar .saPageHeader .saTitle h1::after {
+  content: '';
+  height: 1rem;
+  width: 2rem;
+  display: inline-flex;
 }
 .saSmallScreen .saPageHeader .saSmallScreenBackButton,
 .saSmallscreensidebar .saPageHeader .saSmallScreenBackButton {
@@ -15724,12 +15745,15 @@ select.saInputText {
   flex-grow: 1;
 }
 .saInputPageFooter {
-  background: #fff;
+  background-color: #fff;
   padding: 0.5rem 0;
   z-index: 5;
 }
 .saLargeScreen .saInputPageFooter {
   margin-top: 0.5rem;
+}
+.saDrawerWrapper .saLargeScreen .saInputPageFooter {
+  margin-top: 0;
 }
 @media (min-height: 500px) {
   .saInputPageFooter.saSearchFormFooter {
@@ -15839,11 +15863,6 @@ select.saInputText {
   min-width: fit-content;
   white-space: unset;
   text-overflow: unset;
-}
-.saCompact .saInputPageFooter .saFormButton {
-  padding: 0.5rem;
-  padding-right: 2rem;
-  height: 2rem;
 }
 .crowe {
   display: flex;
@@ -19024,6 +19043,9 @@ legend + .saInputCardsWrapper {
   line-height: 0.75rem;
   color: var(--Sa-Color-TextSecondary);
   font-variant-numeric: tabular-nums;
+}
+.saFileDragging .saFileNoDrop .saFileSizeRow {
+  color: #adbdd1;
 }
 .saDisabled .saFileSizeRow {
   color: #adbdd1;
@@ -25733,6 +25755,13 @@ body.saMiniView {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
   color: var(--Sa-Color-Primary600);
   background: transparent;
   position: relative;
@@ -25756,40 +25785,7 @@ body.saMiniView {
   align-items: center;
   justify-content: center;
 }
-.saStandard .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton {
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  max-width: 2.5rem;
-  min-width: 2.5rem;
-  font-size: 1rem;
-}
-.saStandard .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton:active {
-  border-radius: 0.75rem;
-}
-.saCompact .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton {
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  width: 2rem;
-  height: 2rem;
-  max-width: 2rem;
-  min-width: 2rem;
-  font-size: 1rem;
-}
-.saCompact .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton:active {
-  border-radius: 0.75rem;
-}
-.saSmallScreen .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton {
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  max-width: 2.5rem;
-  min-width: 2.5rem;
-  font-size: 1rem;
-}
-.saSmallScreen .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton:active {
+.saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton:active {
   border-radius: 0.75rem;
 }
 .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton .saIcon {
@@ -25842,9 +25838,6 @@ body.saMiniView {
 .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton:disabled .saIcon,
 .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saDisabled .saIcon {
   color: #adbdd1;
-}
-.saStandard .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton {
-  font-size: 1.25rem;
 }
 .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton .saButtonBadge {
   top: 0.375rem;
@@ -26173,6 +26166,10 @@ body.saMiniView {
 .saPivotGridWrapper caption {
   position: absolute;
   left: -625rem;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .saCompact .saPivotGridWrapper .saPivotGridHeadingInner,
 .saCompact .saPivotGridWrapper td span {
@@ -35877,4 +35874,159 @@ pre.saCode {
 .saInputTextWrapper .saInputText.saListBox option:last-child {
   border-bottom-left-radius: 0.375rem;
   border-bottom-right-radius: 0.375rem;
+}
+.saDrawer {
+  position: absolute;
+  inset: 0 0 auto auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 2rem rgba(49, 58, 68, 0.07);
+  background-color: #fff;
+  overflow: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
+  width: fit-content;
+  min-width: min(25rem, 100dvw);
+  max-width: calc(100dvw - 18rem);
+  transition: transform 0.2s ease;
+  z-index: 999;
+  @starting-style {
+    transform: translateX(100%);
+  }
+}
+.saDrawer * {
+  box-sizing: border-box;
+}
+@media (pointer: fine) {
+  .saLargeScreen .saDrawer {
+    scrollbar-gutter: stable;
+  }
+}
+.saDrawer .saDrawerHeader {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  font-weight: 500;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(0.5rem);
+}
+.saDrawer .saDrawerBody {
+  height: 200dvh;
+  padding: 1rem 0 0 1rem;
+}
+.saDrawer .saDrawerFooter {
+  position: sticky;
+  bottom: 0;
+  padding: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(0.5rem);
+}
+.saDrawer .saCloseModal {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  color: var(--Sa-Color-Primary600);
+  background: transparent;
+  font-size: 1rem;
+}
+.saDrawer .saCloseModal .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saDrawer .saCloseModal .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saDrawer .saCloseModal .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saDrawer .saCloseModal:active {
+  border-radius: 0.75rem;
+}
+.saDrawer .saCloseModal .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saDrawer .saCloseModal.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDrawer .saCloseModal.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saDrawer .saCloseModal.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saDrawer .saCloseModal.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saDrawer .saCloseModal.saDestructive:active {
+  color: #fff;
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDrawer .saCloseModal.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saDrawer .saCloseModal:hover {
+    background-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary600);
+  }
+  .saDrawer .saCloseModal:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+}
+.saDrawer .saCloseModal:active {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+}
+.saDrawer .saCloseModal:active .saIcon {
+  color: var(--Sa-Color-Primary700);
+}
+.saDrawer .saCloseModal:disabled,
+.saDrawer .saCloseModal.saDisabled {
+  color: #adbdd1;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saDrawer .saCloseModal:disabled .saIcon,
+.saDrawer .saCloseModal.saDisabled .saIcon {
+  color: #adbdd1;
+}
+.saDrawer .saCloseModal::after {
+  content: '';
+  height: 3rem;
+  width: 3rem;
+  position: absolute;
+  inset: 0 -1rem auto auto;
 }

@@ -82,7 +82,7 @@ $(document).ready(function () {
 			$(".saSideBarOuter").addClass("saClosed");
 			$(".saNavigator").removeClass("saActive");
 			$('.scrollcontent').css('overflow', 'auto');
-			$('.saPopupOverlay').hide();
+			//$('.saPopupOverlay').hide();
 		}
 	});
 
@@ -96,7 +96,7 @@ $(document).ready(function () {
 		} else {
 			$(".saNavBar").removeClass("saActive").addClass("saInactive");
 			$('.scrollcontent').css('overflow', 'auto');
-			$('.saPopupOverlay').hide();
+			//$('.saPopupOverlay').hide();
 		}
 	});
 });

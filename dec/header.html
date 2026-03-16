@@ -86,31 +86,4 @@
 			</div>
 		</div>
 	</div>
-	<script>
-	$(document).ready(function () {
-		var $wrapper = $('.saHeaderWrapper');
-		var $element = $wrapper.find('.saTitle');
-		var $h1 = $element.find('h1');
-
-		function cat() {
-			if ($h1.width() >= $wrapper.width() && $wrapper.scrollLeft() === 0) {
-				$element.css('transform', 'translateX(-2rem)');
-				setTimeout(function() {
-					$element.css('transform', 'translateX(0)');
-				}, 300);
-			}
-		};
-
-		$wrapper.click(function (e) {
-			cat();
-		});
-
-		setTimeout(() => {
-			cat();
-		}, 1000);
-
-	});
-
-
-	</script>
 </body>
