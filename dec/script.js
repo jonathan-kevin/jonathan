@@ -81,7 +81,7 @@ $(document).ready(function () {
 			!$(event.target).closest('.saNavigator').length) {
 			$(".saSideBarOuter").addClass("saClosed");
 			$(".saNavigator").removeClass("saActive");
-			$('.scrollcontent').css('overflow', 'auto');
+			$('.scrollcontent').css('');
 			//$('.saPopupOverlay').hide();
 		}
 	});
@@ -95,7 +95,7 @@ $(document).ready(function () {
 			$('.saPopupOverlay').show();
 		} else {
 			$(".saNavBar").removeClass("saActive").addClass("saInactive");
-			$('.scrollcontent').css('overflow', 'auto');
+			$('.scrollcontent').css('');
 			//$('.saPopupOverlay').hide();
 		}
 	});
