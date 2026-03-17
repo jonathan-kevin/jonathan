@@ -35898,6 +35898,11 @@ pre.saCode {
   border-bottom-left-radius: 0.375rem;
   border-bottom-right-radius: 0.375rem;
 }
+.saDrawerWrapper {
+  position: relative;
+  padding: 0;
+  border: none;
+}
 .saDrawer {
   position: absolute;
   inset: 0 0 auto auto;
@@ -35918,10 +35923,17 @@ pre.saCode {
     transform: translateX(25rem);
   }
 }
+.saDrawerWrapper .saDrawer {
+  position: relative;
+  inset: unset;
+  box-shadow: none;
+  border-left: 0.0625rem solid #ccd5e2;
+}
 .saDrawer * {
   box-sizing: border-box;
 }
-.saClosed.saDrawer {
+.saClosed.saDrawer,
+.saClosed .saDrawer {
   transform: translateX(100%);
 }
 @media (pointer: fine) {
