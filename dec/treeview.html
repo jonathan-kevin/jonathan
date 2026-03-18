@@ -1938,6 +1938,7 @@
 					this.isVisible = false;
 					this.inGroup = !!group;
 				}
+
 				init() {
 					this.$domNode.attr({ role: 'treeitem', tabindex: -1 });
 					this.$domNode.on('keydown', e => this.handleKeydown(e));
@@ -1945,9 +1946,11 @@
 					this.$domNode.on('focus', () => this.$domNode.find('.saTreeXRow').first().addClass('saFocus'));
 					this.$domNode.on('blur', () => this.$domNode.find('.saTreeXRow').first().removeClass('saFocus'));
 				}
+
 				isExpanded() {
 					return this.$domNode.attr('aria-expanded') === 'true';
 				}
+
 				handleKeydown(e) {
 					if (e.altKey || e.ctrlKey || e.metaKey) return;
 					const handlers = {
@@ -1986,14 +1989,29 @@
 						defaultHandler();
 					}
 				}
+
 				handleClick(e) {
 					e.stopPropagation();
-					if ($(e.target).closest('button, a').length) return;
-					if (this.isExpandable) {
-						this.isExpanded() ? this.tree.collapseTreeitem(this) : this.tree.expandTreeitem(this);
+
+					const $target = $(e.target);
+
+					if ($target.closest('button').length) return;
+
+					const clickedLabel = $target.closest('.saTreeXLabel').length > 0;
+
+					if (!clickedLabel && this.isExpandable) {
+						this.isExpanded()
+							? this.tree.collapseTreeitem(this)
+							: this.tree.expandTreeitem(this);
 					}
+
+					// Always move focus
 					this.tree.setFocusToItem(this);
-					this.tree.setSelectedToItem(this);
+
+					// Only select when clicking label
+					if (clickedLabel) {
+						this.tree.setSelectedToItem(this);
+					}
 				}
 			}
 
@@ -2008,21 +2026,25 @@
 					e.preventDefault();
 					$('.saTreeXView').addClass('saFileDragging');
 				});
+
 				$(document).on('drop dragend', function (e) {
 					e.preventDefault();
 					$('.saTreeXView').removeClass('saFileDragging');
 				});
+
 				$('li[role="treeitem"]:not(.saFileNoDrop)').on('dragenter dragover', function (e) {
 					e.preventDefault();
 					e.stopPropagation();
 					$(this).addClass('saFileDrop');
 					$('.saTreeXView').addClass('saFileDragging');
 				});
+
 				$('li[role="treeitem"]:not(.saFileNoDrop)').on('dragleave drop', function (e) {
 					e.preventDefault();
 					e.stopPropagation();
 					$(this).removeClass('saFileDrop');
 				});
+
 				$('li[role="treeitem"]:not(.saFileNoDrop)').on('drop', function (e) {
 					const files = e.originalEvent.dataTransfer.files;
 					if (files.length) {
