@@ -235,184 +235,129 @@
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner">
 										<div class="saInputC0lorShadeWrapper">
-											<fieldset class="saInputC0lorShade" id="family">
+											<button type="button" id="randomizeButton"><i class="saIcon far fa-shuffle"></i></button>
+											<fieldset class="saInputC0lorShade saGridz" id="family">
 												<legend>Color</legend>
-												<button type="button" id="randomizeButton" class="saButtonRandomize" style="grid-row: 10;"><i class="saIcon far fa-shuffle"></i></button>
 											</fieldset>
-											<fieldset class="saInputC0lorShade" id="bg">
-												<legend>Card background</legend>
-											</fieldset>
-											<fieldset class="saInputC0lorShade" id="text">
-												<legend>Text color</legend>
+											<fieldset class="saInputC0lorShade saGridz" id="text">
+												<legend>Text</legend>
 											</fieldset>
 										</div>
-										<div class="saC0lorGroup" id="preview">
-											<div class="saC0lor saBlueBg50 saBlue50">
-												<div class="saTextBlue600">Text</div>
-											</div>
+										<div class="saC0lor saBlue50" id="preview">
+											<div class="text saTextBlue600 ">Preview text <span id="contrast">4.5:1</span></div>
 										</div>
 										<script>
 											$(document).ready(function () {
-
-												/* -----------------------------------------------------
-												CONFIG
-												----------------------------------------------------- */
-
-												const families = ['Red', 'Orange', 'Yellow', 'Green', 'Sky', 'Blue', 'Purple', 'Pink', 'Gray'];
-												const shades = [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
-
-												// Strict high-contrast map
-												const highContrastMap = {
-													0:   [600, 700, 800, 900, 950],
-													50:  [600, 700, 800, 900, 950],
-													100: [700, 800, 900, 950],
-													200: [800, 900, 950],
-													300: [800, 900, 950],
-													400: [900, 950],
-													500: [950],
-													600: [0, 50],
-													700: [0, 50, 100],
-													800: [0, 50, 100, 200, 300],
-													900: [0, 50, 100, 200, 300, 400],
-													950: [0, 50, 100, 200, 300, 400, 500]
+												const CONFIG = {
+													families: ['Red', 'Orange', 'Yellow', 'Green', 'Sky', 'Blue', 'Purple', 'Pink', 'Gray'],
+													shades: [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
+													contrastMap: {
+														0: [600, 700, 800, 900, 950], 50: [600, 700, 800, 900, 950], 100: [700, 800, 900, 950],
+														200: [800, 900, 950], 300: [800, 900, 950], 400: [900, 950], 500: [950],
+														600: [0, 50], 700: [0, 50, 100], 800: [0, 50, 100, 200, 300],
+														900: [0, 50, 100, 200, 300, 400], 950: [0, 50, 100, 200, 300, 400, 500]
+													}
 												};
 
-												// DOM refs
-												const $family = $("#family");
-												const $bg = $("#bg");
-												const $text = $("#text");
+												const UI = {
+													$bgGrid: $('#family'),
+													$fgGrid: $('#text'),
+													$preview: $('#preview'),
+													$previewText: $('#preview .text'),
+													$randomBtn: $('#randomizeButton')
+												};
 
-												const $preview = $("#preview .saC0lor");
-												const $previewText = $preview.find("div");
+												const App = {
+													init() {
+														// Setup DOM
+														this.renderGrid(UI.$bgGrid, 'bgGroup');
+														this.renderGrid(UI.$fgGrid, 'fgGroup');
 
-												const $randomizeButton = $("#randomizeButton");
+														// Add Swap Button
+														this.$swapBtn = $('<button type="button" class="saButtonSwap">Swap</button>');
+														UI.$randomBtn.after(this.$swapBtn);
 
-												/* -----------------------------------------------------
-												GENERATE SWATCHES
-												----------------------------------------------------- */
+														this.bindEvents();
+														this.setDefault();
+													},
 
-												function generateSwatches() {
+													renderGrid($container, groupName) {
+														let html = '<legend>' + (groupName === 'bgGroup' ? 'Background' : 'Text') + '</legend>';
 
-													// Families
-													families.forEach(f => {
-														const label = $("<label>");
-														const input = $('<input type="radio" name="family">')
-															.val(f)
-															.attr("id", `family-${f}`)
-															.css("background-color", `var(--Sa-Color-${f})`);
-														label.append(input);
-														$family.append(label);
-													});
+														// 1. Column Headers (The "0" through "950" labels)
+														html += '<div class="grid-corner"></div>'; // Top-left empty cell
+														CONFIG.shades.forEach(s => html += `<div class="col-head">${s}</div>`);
 
-													// Background shades
-													shades.forEach(sh => {
-														const label = $("<label>");
-														const input = $('<input type="radio" name="bgShade">')
-															.val(sh)
-															.attr("id", `bg-${sh}`);
-														label.append(input);
-														$bg.append(label);
-													});
+														// 2. Rows: Row Header + Radio Inputs
+														CONFIG.families.forEach(f => {
+															html += `<div class="row-head">${f}</div>`;
+															CONFIG.shades.forEach(s => {
+																const family = (s === 0) ? 'Gray' : f;
+																html += `
+                        <label class="saSwatch">
+                            <input type="radio" name="${groupName}" value="${family}-${s}" class="sa${family}${s}">
+                        </label>`;
+															});
+														});
+														$container.html(html);
+													},
 
-													// Text shades
-													shades.forEach(sh => {
-														const label = $("<label>");
-														const input = $('<input type="radio" name="textShade">')
-															.val(sh)
-															.attr("id", `text-${sh}`);
-														label.append(input);
-														$text.append(label);
-													});
-												}
+													bindEvents() {
+														$('.saInputC0lorShadeWrapper').on('change', 'input', () => this.update());
+														UI.$randomBtn.on('click', () => this.randomize());
+														this.$swapBtn.on('click', () => this.swap());
+													},
 
-												/* -----------------------------------------------------
-												APPLY COLORS TO PREVIEW
-												----------------------------------------------------- */
+													update() {
+														const bgVal = UI.$bgGrid.find('input:checked').val();
+														const fgVal = UI.$fgGrid.find('input:checked').val();
+														if (!bgVal || !fgVal) return;
 
-												function applySelectedColors() {
-													const family = $family.find("input:checked").val() || "Blue";
-													const bgShade = $bg.find("input:checked").val() || "50";
-													const textShade = $text.find("input:checked").val() || "900";
+														const [bgF, bgS] = bgVal.split('-');
+														const [fgF, fgS] = fgVal.split('-');
 
-													// Apply background
-													$preview.attr("class", `saC0lor sa${family}${bgShade}`);
+														// Update Preview
+														UI.$preview.attr('class', `saC0lor sa${bgF}${bgS}`);
+														UI.$previewText.attr('class', `text saText${fgF}${fgS}`);
 
-													// Apply text
-													$previewText.attr("class", `saText${family}${textShade}`);
-												}
+														// Apply Contrast Masking to FG Grid
+														const allowed = CONFIG.contrastMap[parseInt(bgS)] || [];
+														UI.$fgGrid.find('input').each(function () {
+															const s = parseInt($(this).val().split('-')[1]);
+															const isOff = !allowed.includes(s);
+															$(this).prop('disabled', isOff).parent().toggleClass('is-disabled', isOff);
+														});
+													},
 
-												/* -----------------------------------------------------
-												CONTRAST LOGIC (text shade unlock)
-												----------------------------------------------------- */
+													swap() {
+														const bg = UI.$bgGrid.find('input:checked').val();
+														const fg = UI.$fgGrid.find('input:checked').val();
 
-												function updateContrast(bgShade) {
-													bgShade = parseInt(bgShade);
+														UI.$bgGrid.find(`input[value="${fg}"]`).prop('checked', true);
+														UI.$fgGrid.find(`input[value="${bg}"]`).prop('checked', true);
+														this.update();
+													},
 
-													const allowed = highContrastMap[bgShade] || [];
+													randomize() {
+														const f = () => CONFIG.families[Math.floor(Math.random() * CONFIG.families.length)];
+														const s = () => CONFIG.shades[Math.floor(Math.random() * CONFIG.shades.length)];
 
-													$text.find("input").each(function () {
-														const shade = parseInt($(this).val());
-														$(this).prop("disabled", !allowed.includes(shade));
-													});
-												}
+														const randBgS = s();
+														const allowedFg = CONFIG.contrastMap[randBgS];
 
-												/* -----------------------------------------------------
-												RANDOMIZER
-												----------------------------------------------------- */
+														UI.$bgGrid.find(`input[value="${f()}-${randBgS}"]`).prop('checked', true);
+														UI.$fgGrid.find(`input[value="${f()}-${allowedFg[Math.floor(Math.random() * allowedFg.length)]}"]`).prop('checked', true);
+														this.update();
+													},
 
-												function randomizeSelections() {
-													// Random family
-													const family = families[Math.floor(Math.random() * families.length)];
-													$family.find(`input[value="${family}"]`).prop("checked", true);
-
-													// Random background
-													const bgShade = shades[Math.floor(Math.random() * shades.length)];
-													$bg.find(`input[value="${bgShade}"]`).prop("checked", true);
-
-													// Valid text shades
-													const allowed = highContrastMap[bgShade] || [];
-													if (allowed.length > 0) {
-														const textShade = allowed[Math.floor(Math.random() * allowed.length)];
-														$text.find(`input[value="${textShade}"]`).prop("checked", true);
+													setDefault() {
+														UI.$bgGrid.find('input[value="Blue-500"]').prop('checked', true);
+														UI.$fgGrid.find('input[value="Gray-0"]').prop('checked', true);
+														this.update();
 													}
+												};
 
-													updateContrast(bgShade);
-													applySelectedColors();
-												}
-
-												/* -----------------------------------------------------
-												EVENT HANDLING
-												----------------------------------------------------- */
-
-												// Family changes text + BG classes
-												$family.on("change", "input[type='radio']", applySelectedColors);
-
-												// BG changes contrast + preview
-												$bg.on("change", "input[type='radio']", function () {
-													updateContrast($(this).val());
-													applySelectedColors();
-												});
-
-												// Text changes preview only
-												$text.on("change", "input[type='radio']", applySelectedColors);
-
-												// Randomize button
-												$randomizeButton.on("click", randomizeSelections);
-
-												/* -----------------------------------------------------
-												INIT
-												----------------------------------------------------- */
-
-												generateSwatches();
-
-												// Defaults
-												$family.find(`input[value="Blue"]`).prop("checked", true);
-												$bg.find(`input[value="50"]`).prop("checked", true);
-												$text.find(`input[value="900"]`).prop("checked", true);
-
-												updateContrast(50);
-												applySelectedColors();
-
+												App.init();
 											});
 										</script>
 									</div>

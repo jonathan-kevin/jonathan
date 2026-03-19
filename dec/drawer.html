@@ -37,7 +37,7 @@
 									<button class="saNotificationWrapper" type="button" aria-live="polite"
 										aria-expanded="false" aria-label="83 Notifieringar">
 										<i class="far fa-bell saIcon"></i>
-										<div class="saBadgeCount saUrgent">83</div>
+										<div class="saBadgeCount saNew saUrgent">83</div>
 									</button>
 									<button class="saNavigator" type="button" aria-label="Stäng meny"
 										data-tooltip="Stäng meny">
@@ -156,7 +156,7 @@
 											aria-live="polite" data-tooltip="Notifieringar" aria-expanded="true"
 											aria-describedby="TooltipScreenReader79">
 											<div class="saSidenavItem"><i class="far fa-bell saIcon"></i></div>
-											<div class="saBadgeCount saUrgent">83</div>
+											<div class="saBadgeCount saNew saUrgent">83</div>
 										</button></li>
 								</ul>
 							</div>
@@ -234,8 +234,7 @@
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner">
-										<button type="button" id="open">Open</button>
-										<button type="button" id="openModal">Open as modal</button>
+										<button type="button" class="open">Open drawer</button>
 
 										<softadmin-calendar class="calendar maincolbody saMenuItemRoot">
 											<div class="saCalendarSection saDesktopCalendar saWeekdaysCalendar">
@@ -276,9 +275,45 @@
 															<input class="saInputText saNumberInput" type="number" maxlength="2" value="12">
 														</label>
 														<button class="saTodayButton" type="button">Today</button>
-														<button class="saButton saDefaultButtonGhostIcon openModal" type="button">
+														<button class="saButton saDefaultButtonGhostIcon open" type="button">
+															<div class="saBadgeCount saNew">2</div>
 															<span class="saIcon far fa-search" aria-hidden="true"></span>
 														</button>
+													</div>
+													<div class="saComponentContentLinksWrapper">
+														<ul class="saComponentContentLinks" role="toolbar">
+															<li>
+																<label class="saToggleWrapper">
+																	<div class="saToggleLabelWrapper"><span class="saToggleLabel">Välj poster</span><span class="saToggleDescription" style="display: none;">0 valda</span></div>
+																	<input class="saToggle" type="checkbox">
+																</label>
+															</li>
+															<li class="saActionLink">
+																<button class="saComponentContentLinkButton saButtonSecondary open" type="button">
+																	<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																		<i class="far fa-search icon saIcon"></i>
+																	</div>
+																	<span class="saButtonText saOptionText">Search</span>
+																	<div class="saBadgeCount saNew">2</div>
+																</button>
+															</li>
+															<li class="saActionLink">
+																<button class="saComponentContentLinkButton saButtonSecondary saInactive" type="button" disabled>
+																	<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																		<i class="far fa-box icon saIcon"></i>
+																	</div>
+																	<span class="saButtonText saOptionText">Move</span>
+																</button>
+															</li>
+															<li class="saActionLink">
+																<button class="saComponentContentLinkButton saButtonSecondary saInactive" type="button" disabled>
+																	<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																		<i class="far fa-lock icon saIcon"></i>
+																	</div>
+																	<span class="saButtonText saOptionText">Lock</span>
+																</button>
+															</li>
+														</ul>
 													</div>
 												</div>
 												<div class="saCalendarSectionInner">
@@ -393,7 +428,7 @@
 															<div class="saCalendarInner" role="rowgroup">
 																<div class="saWeek" role="row">
 																	<time class="saWeekNumber" role="rowheader" datetime="2026-12">12</time>
-																	<div class="saDateX saClickable" role="cell" tabindex="0" style="height: 25rem;">
+																	<div class="saDateX saClickable saDateIsToday" role="cell" tabindex="0" style="height: 25rem;">
 																		<div class="saDateInner">
 																			<time class="saDateNumber" datetime="2026-03-16">16 mar</time>
 																			<ul class="saActivityGroup">
@@ -451,6 +486,226 @@
 												</div>
 											</div>
 										</softadmin-calendar>
+										<softadmin-planner>
+											<div class="saCalendarSection saDesktopCalendar saResourceCalendar saPlanner">
+												<div class="saCalendarHeader">
+													<div class="saCalendarHeaderInner">
+														<h2 class="saCalendarHeading">Onsdag 18 mars 2026</h2>
+														<div class="saPeriodButtons">
+															<button type="button"><i class="saIcon far fa-angle-left"></i></button>
+															<button type="button"><i class="saIcon far fa-angle-right"></i></button>
+														</div>
+														<label class="saInputTextWrapper saLabeled">
+															<span class="saLabeledLabel">Period</span>
+															<select class="saInputText saDropdown">
+																<optgroup label="Dagsvy">
+																	<option value="8">Day</option>
+																</optgroup>
+																<optgroup label="Veckovy">
+																	<option value="5">Month</option>
+																</optgroup>
+															</select>
+															<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
+														</label>
+														<label class="saInputTextWrapper saLabeled saDateField saHasTrailingIcons">
+															<span class="saLabeledLabel">Day</span>
+															<input type="hidden" name="undefined" value="2026-03-18">
+															<input class="saInputText saDate" name="undefined" id="planner_date_picker" value="2026-03-17">
+															<div class="saTrailingIconsWrapper">
+																<button class="saActionIcon" type="button" tabindex="-1">
+																	<i class="saIcon far fa-calendar"></i>
+																</button>
+															</div>
+														</label>
+														<button class="saTodayButton" type="button">Today</button>
+														<div class="saToggleGroup" role="group">
+															<label>
+																<input type="radio" value="1" name="_kdfet3bde4i2uel03y6y" checked>
+																<i class="fa-grid-4 saIcon fas"></i>
+															</label>
+															<label>
+																<input type="radio" value="2" name="_kdfet3bde4i2uel03y6y">
+																<i class="fa-grid-3 saIcon fas"></i>
+															</label>
+														</div>
+														<button class="saButton saDefaultButtonGhostIcon open" type="button">
+															<div class="saBadgeCount saNew">2</div>
+															<span class="saIcon far fa-search" aria-hidden="true"></span>
+														</button>
+													</div>
+													<div class="saComponentContentLinksWrapper">
+														<ul class="saComponentContentLinks" role="toolbar">
+															<li class="saActionLink">
+																<button class="saComponentContentLinkButton saButtonSecondary open" type="button">
+																	<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																		<i class="far fa-search icon saIcon"></i>
+																	</div>
+																	<span class="saButtonText saOptionText">Search</span>
+																	<div class="saBadgeCount saNew">2</div>
+																</button>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<div class="saCalendarSectionInner">
+													<div class="saCalendarSidebar">
+														<div class="saCalendarSidebarInner">
+															<div class="saCalendarSidebarSection saSidebarCalendar">
+																<div class="saDatePicker saDatePickerRoot saManyWeeks">
+																	<div class="saDatePickerMonthHeading">
+																		<span class="saCalendarSidebarHeading">March 2026</span>
+																		<div class="saMonthBrowser">
+																			<a tabindex="-1">
+																				<i class="saIcon far fa-angle-left"></i>
+																			</a>
+																			<a tabindex="-1">
+																				<i class="saIcon far fa-angle-right"></i>
+																			</a>
+																		</div>
+																	</div>
+																	<div class="saDayRow">
+																		<div class="saWeekNr saEmpty"></div>
+																		<div class="saDay">Mon</div>
+																		<div class="saDay">Tue</div>
+																		<div class="saDay">Wed</div>
+																		<div class="saDay">Thu</div>
+																		<div class="saDay">Fri</div>
+																		<div class="saDay">Sat</div>
+																		<div class="saDay">Sun</div>
+																	</div>
+																	<div class="saDateRow">
+																		<div class="saWeekNr">9</div>
+																		<div class="saDate saDateElement">23</div>
+																		<div class="saDate saDateElement">24</div>
+																		<div class="saDate saDateElement">25</div>
+																		<div class="saDate saDateElement">26</div>
+																		<div class="saDate saDateElement">27</div>
+																		<div class="saDate saDateElement">28</div>
+																		<div class="saDate saDateElement">1</div>
+																	</div>
+																	<div class="saDateRow">
+																		<div class="saWeekNr">10</div>
+																		<div class="saDate saDateElement">2</div>
+																		<div class="saDate saDateElement">3</div>
+																		<div class="saDate saDateElement">4</div>
+																		<div class="saDate saDateElement">5</div>
+																		<div class="saDate saDateElement">6</div>
+																		<div class="saDate saDateElement">7</div>
+																		<div class="saDate saDateElement">8</div>
+																	</div>
+																	<div class="saDateRow">
+																		<div class="saWeekNr">11</div>
+																		<div class="saDate saDateElement">9</div>
+																		<div class="saDate saDateElement">10</div>
+																		<div class="saDate saDateElement">11</div>
+																		<div class="saDate saDateElement">12</div>
+																		<div class="saDate saDateElement">13</div>
+																		<div class="saDate saDateElement">14</div>
+																		<div class="saDate saDateElement">15</div>
+																	</div>
+																	<div class="saDateRow">
+																		<div class="saWeekNr">12</div>
+																		<div class="saDate saDateElement">16</div>
+																		<div class="saDate saDateElement">17</div>
+																		<div
+																			class="saDate saDateElement saToday saMarked">
+																			18</div>
+																		<div class="saDate saDateElement">19</div>
+																		<div class="saDate saDateElement">20</div>
+																		<div class="saDate saDateElement">21</div>
+																		<div class="saDate saDateElement">22</div>
+																	</div>
+																	<div class="saDateRow">
+																		<div class="saWeekNr">13</div>
+																		<div class="saDate saDateElement">23</div>
+																		<div class="saDate saDateElement">24</div>
+																		<div class="saDate saDateElement">25</div>
+																		<div class="saDate saDateElement">26</div>
+																		<div class="saDate saDateElement">27</div>
+																		<div class="saDate saDateElement">28</div>
+																		<div class="saDate saDateElement">29</div>
+																	</div>
+																	<div class="saDateRow">
+																		<div class="saWeekNr">14</div>
+																		<div class="saDate saDateElement">30</div>
+																		<div class="saDate saDateElement">31</div>
+																		<div class="saDate saDateElement">1</div>
+																		<div class="saDate saDateElement">2</div>
+																		<div class="saDate saDateElement">3</div>
+																		<div class="saDate saDateElement">4</div>
+																		<div class="saDate saDateElement">5</div>
+																	</div>
+																</div>
+															</div>
+															<div class="saCalendarSidebarSection saSidebarFilters">
+																<label class="saInputTextWrapper saLabeled"><span
+																		class="saLabeledLabel">Filter</span><select
+																		class="saInputText saDropdown">
+																		<option value="0">All</option>
+																		<option value="1">Crab</option>
+																		<option value="2">Snail</option>
+																		<option value="3">Monkey</option>
+																		<option value="4">Snake</option>
+																		<option value="5">Cat</option>
+																	</select>
+																	<div class="saTrailingIconsWrapper">¨
+																		<i class="saIcon far fa-angle-down"></i>
+																	</div>
+																</label>
+															</div>
+														</div>
+													</div>
+													<div class="saUnbookedWrapper">
+														<div class="saUnbooked saUnbookedRow saWeek saClosed">
+															<div class="saPlannerCell">
+																<div class="saPlannerCellInner">
+																	<div class="saPlannerCellHeading" id="sa-planner-unbooked-row">
+																		Unbooked items
+																	</div>
+																</div>
+																<button class="saExpandButton" type="button"><i class="saIcon far fa-angle-down"></i></button>
+															</div>
+															<div class="saUnbookedItems saPlannerCell" style="height: calc(-1px + 5.225rem);"></div>
+															<div class="saPlannerCell saCounterCell"></div>
+														</div>
+													</div>
+													<div class="saCalendar" style="top: 42px; height: calc(100% - 44px);">
+														<div class="saStickyTop">
+															<div class="saWeek saUnbooked saClosed">
+																<div class="saRowSticky">
+																	<div class="saPlannerCell">
+																		<div class="saPlannerCellInner">
+																			<div class="saPlannerCellHeading" id="sa-planner-unbooked-day-row"> Unbooked day items</div>
+																		</div>
+																		<button class="saExpandButton" type="button"><i class="saIcon far fa-angle-down"></i></button>
+																	</div>
+																</div>
+																<div class="saPlannerCell saItemCell saDynamicWidthJs"
+																	style="height: calc(-1px + 5.225rem); width: 565px; min-width: 565px;">
+																</div>
+																<div class="saPlannerCell saCounterCell saDynamicWidthJs"
+																	style="width: 565px; min-width: 565px;"></div>
+															</div>
+															<div class="saWeek">
+																<div class="saRowSticky">
+																	<div class="saPlannerCell saDateRowHeading"><button
+																			type="button"
+																			class="saIcon far fa-angles-left saCalendarSidebarExpander "></button>
+																	</div>
+																</div>
+																<div class="saWeekDay saDynamicWidthJs saDateIsToday" id="sa-planner-col-0" style="width: 565px; min-width: 565px;">Onsdag<span class="saDateNumber">18 mar</span></div>
+															</div>
+														</div>
+														<div class="saWeek" style="min-height: calc(0px + 4.025rem);">
+															<div class="saRowSticky">
+																<div class="saPlannerCell saResourceHeadingCell"><span class="saPlannerCellHeading" id="sa-planner-resource-4">Cat</span></div>
+															</div>
+															<div class="saPlannerCell saBookedCellJs saDynamicWidthJs" style="width: 565px; min-width: 565px;"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</softadmin-planner>
 										<softadmin-grid class="grid saMenuItemRoot">
 											<div class="maincolbody listpage saNotUsingAccessibilityMode stickyheader">
 												<div class="saGridWrapper">
@@ -483,12 +738,13 @@
 																		<option value="2">2</option>
 																	</select>
 																</label>
-																<button class="saGridButton " type="button">
+																<button class="saGridButton" type="button">
 																	<span class="saIcon far fa-sliders" aria-hidden="true"></span>
 																	<div class="saButtonBadge" id="hasChanges"></div>
 																</button>
-																<button class="saGridButton " type="button" id="openDrawer">
+																<button class="saDefaultButtonGhostIcon open" type="button">
 																	<span class="saIcon far fa-search" aria-hidden="true"></span>
+																	<div class="saBadgeCount saNew">2</div>
 																</button>
 																<button class="saGridButton saExcel" type="button">
 																	<span class="saIcon far fa-file-excel" aria-hidden="true"></span>
@@ -497,6 +753,15 @@
 														</div>
 														<div class="saComponentContentLinksWrapper">
 															<ul class="saComponentContentLinks" role="toolbar">
+																<li class="saActionLink">
+																	<button class="saComponentContentLinkButton saButtonSecondary open" type="button" aria-disabled="true">
+																		<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																			<i class="far fa-search icon saIcon"></i>
+																		</div>
+																		<span class="saButtonText saOptionText">Search</span>
+																		<div class="saBadgeCount saNew">2</div>
+																	</button>
+																</li>
 																<li class="saActionLink">
 																	<button class="saComponentContentLinkButton saButtonSecondary saInactive" type="button" aria-disabled="true">
 																		<div class="saIconHolder saOptionIcon" aria-hidden="true">
@@ -639,548 +904,12 @@
 				</div>
 			</div>
 		</div>
-		<dialog class="saDrawerWrapper interface" aria-modal="false" aria-labelledby="saDrawerTitleF">
-			<form class="saDrawer" tabindex="-1" method="dialog" target="_top" autocomplete="off">
-				<div class="saDrawerHeader">
-					<h2 id="saDrawerTitleF">Search dates</h2>
-					<button class="saCloseModal" type="button" aria-label="Close">
-						<i class="far fa-xmark saIcon" aria-hidden="true"></i>
-					</button>
-				</div>
-				<div class="saDrawerBody saInputPage">
-					<div class="saFormRoot saLabelsAbove">
-						<div class="saFieldsColumn saLastVisible">
-							<fieldset class="saSectionWrapper">
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="searchTermF">
-										<div class="saLabel">
-											<span>Search</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField longest">
-													<input class="saInputText" name="searchTerm" id="searchTermF" type="search">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" id="cardcardF">
-										<div class="saLabel">
-											<span>Bird type</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper">
-											<div class="saInput">
-												<div class="saInputCardsWrapper saRadioCardsWrapper saInputPageField">
-													<fieldset class="saInputCards saRadioWrapperJs saMedium" aria-labelledby="cardcardF">
-														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
-															<input class="saRadioJs" name="cardcardF" type="radio" id="card1" value="1">
-															<div class="saInputCardIconWrapper systemicon">
-																<i class="far fa-kiwi-bird saIcon icon"></i>
-															</div>
-															<div class="saInputCardBody">
-																<div class="saInputCardHeading">Kiwi</div>
-																<div class="saInputCardDescription">Flightless, nocturnal, and surprisingly tough.</div>
-															</div>
-														</label>
-
-														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
-															<input class="saRadioJs" name="cardcardF" type="radio" id="card2" value="2">
-															<div class="saInputCardIconWrapper systemicon">
-																<i class="far fa-crow saIcon icon"></i>
-															</div>
-															<div class="saInputCardBody">
-																<div class="saInputCardHeading">Crow</div>
-																<div class="saInputCardDescription">Highly intelligent with a sharp memory.</div>
-															</div>
-														</label>
-
-														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
-															<input class="saRadioJs" name="cardcardF" type="radio" id="card3" value="3">
-															<div class="saInputCardIconWrapper systemicon">
-																<i class="far fa-hat-wizard saIcon icon"></i>
-															</div>
-															<div class="saInputCardBody">
-																<div class="saInputCardHeading">Wizard Owl</div>
-																<div class="saInputCardDescription">Silent hunter with an air of mystery.</div>
-															</div>
-														</label>
-
-														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
-															<input class="saRadioJs" name="cardcardF" type="radio" id="card4" value="4">
-															<div class="saInputCardIconWrapper systemicon">
-																<i class="far fa-dove saIcon icon"></i>
-															</div>
-															<div class="saInputCardBody">
-																<div class="saInputCardHeading">Dove</div>
-																<div class="saInputCardDescription">Calm, graceful, and symbolic of peace.</div>
-															</div>
-														</label>
-
-														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
-															<input class="saRadioJs" name="cardcardF" type="radio" id="card5" value="5">
-															<div class="saInputCardIconWrapper systemicon">
-																<i class="far fa-crosshairs saIcon icon"></i>
-															</div>
-															<div class="saInputCardBody">
-																<div class="saInputCardHeading">Destroyer Falcon</div>
-																<div class="saInputCardDescription">Fast, precise, and built for the chase.</div>
-															</div>
-														</label>
-
-														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
-															<input class="saRadioJs" name="cardcardF" type="radio" id="card6" value="6">
-															<div class="saInputCardIconWrapper systemicon">
-																<i class="far fa-egg saIcon icon"></i>
-															</div>
-															<div class="saInputCardBody">
-																<div class="saInputCardHeading">Penguin</div>
-																<div class="saInputCardDescription">Waddling swimmer adapted to icy seas.</div>
-															</div>
-														</label>
-													</fieldset>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saSiblingRow">
-									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="firstNameF">
-											<div class="saLabel">
-												<span>First name</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="firstName" id="firstNameF">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="lastNameF">
-											<div class="saLabel">
-												<span>Last name</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="lastName" id="lastNameF">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="DoBF">
-										<div class="saLabel">
-											<span>Date of birth</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper mediumLong">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField mediumLong">
-													<input class="saInputText" name="DoB" id="DoBF">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="employeeIdF">
-										<div class="saLabel">
-											<span>Employee ID</span>
-										</div>
-										<div class="saDescription">
-											<span>Unique identifier assigned to each employee within the organization. Used
-												to link the employee to records such as assignments, time reports, and
-												internal processes.</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper mediumShort">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField mediumShort">
-													<input class="saInputText" name="employeeId" id="employeeIdF"
-														placeholder="AU-20929z">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="shoeSizeF">
-										<div class="saLabel">
-											<span>Shoe size</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper shortest">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField shortest">
-													<input class="saInputText" name="shoeSize" id="shoeSizeF">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<!-- Dummy fields start -->
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="favoriteColorF">
-										<div class="saLabel">
-											<span>Favorite color</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<input class="saInputText" name="favoriteColor" id="favoriteColorF">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="petNameF">
-										<div class="saLabel">
-											<span>Pet name</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<input class="saInputText" name="petName" id="petNameF">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="hobbyF">
-										<div class="saLabel">
-											<span>Hobby</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<input class="saInputText" name="hobby" id="hobbyF">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="countryF">
-										<div class="saLabel">
-											<span>Country</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<input class="saInputText" name="country" id="countryF">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="emailF">
-										<div class="saLabel">
-											<span>Email</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<input class="saInputText" name="email" id="email" type="emailF">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</fieldset>
-							<fieldset class="saSectionWrapper">
-								<legend class="saSectionHeaderWrapper">
-									<button class="saSectionHeader saInputPageField" type="button" aria-expanded="true">
-										<div class="saSectionHeaderLabel">Address</div><i
-											class="far fa-angle-up saIcon"></i>
-									</button>
-								</legend>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="addressF">
-										<div class="saLabel">
-											<span>Address</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<input class="saInputText" name="address" id="addressF">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saSiblingRow">
-									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="zipcodeF">
-											<div class="saLabel">
-												<span>Zip code</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper short">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField short">
-														<input class="saInputText" name="zipcode" id="zipcodeF">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="cityF">
-											<div class="saLabel">
-												<span>City</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper mediumShort">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField mediumShort">
-														<input class="saInputText" name="city" id="cityF">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</fieldset>
-							<fieldset class="saSectionWrapper saLastVisible">
-								<legend class="saSectionHeaderWrapper">
-									<button class="saSectionHeader saInputPageField" type="button" aria-expanded="true">
-										<div class="saSectionHeaderLabel">More fields</div><i
-											class="far fa-angle-up saIcon"></i>
-									</button>
-								</legend>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="stateF">
-										<div class="saLabel">
-											<span>State/Province</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<input class="saInputText" name="state" id="stateF">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="phoneNumberF">
-										<div class="saLabel">
-											<span>Phone number</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<input class="saInputText" name="phoneNumber" id="phoneNumberF"
-														type="tel">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="departmentF">
-										<div class="saLabel">
-											<span>Department</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<input class="saInputText" name="department" id="departmentF">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="positionF">
-										<div class="saLabel">
-											<span>Position</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<input class="saInputText" name="position" id="positionF">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="startDate">
-										<div class="saLabel">
-											<span>Start date</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<input class="saInputText" name="startDate" id="startDateF" type="date">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="endDate">
-										<div class="saLabel">
-											<span>End date</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<input class="saInputText" name="endDate" id="endDateF" type="date">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="managerF">
-										<div class="saLabel">
-											<span>Manager</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<input class="saInputText" name="manager" id="managerF">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="salaryF">
-										<div class="saLabel">
-											<span>Salary</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<input class="saInputText" name="salary" id="salaryF" type="number"
-														step="0.01">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="sexF">
-										<div class="saLabel">
-											<span>Sex</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<select class="saInputText" name="sex" id="sexF">
-														<option value="">Select</option>
-														<option value="male">Man</option>
-														<option value="female">Woman</option>
-													</select>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="saFieldAndLabelWrapper">
-									<label class="saLabelCell" for="maritalStatusF">
-										<div class="saLabel">
-											<span>Marital status</span>
-										</div>
-									</label>
-									<div class="saFieldCell">
-										<div class="saInputWrapper long">
-											<div class="saInput">
-												<div class="saInputTextWrapper saInputPageField long">
-													<select class="saInputText" name="maritalStatus" id="maritalStatusF">
-														<option value="">Select</option>
-														<option value="single">Single</option>
-														<option value="married">Married</option>
-														<option value="divorced">Divorced</option>
-														<option value="widowed">Widowed</option>
-													</select>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</fieldset>
-							<!-- Dummy fields end -->
-						</div>
-					</div>
-				</div>
-				<div class="saInputPageFooter saSearchFormFooter saDrawerFooter">
-					<div class="saFormButtonGroup">
-						<button class="saFormButton saButtonPrimary" type="submit" id="saveF">
-							<i class="icon fas fa-spin fa-spinner saSpinner"></i>
-							Search
-						</button>
-						<button class="saFormButton saButtonSecondary" type="button" id="cancelF">
-							<i class="icon fas fa-spin fa-spinner saSpinner"></i>
-							Cancel
-						</button>
-					</div>
-				</div>
-			</form>
-		</dialog>
 	</div>
 	<dialog class="saPopupOverlay interface" aria-modal="true" aria-labelledby="saDrawerTitle">
 		<form class="saDrawer" tabindex="-1" method="dialog" target="_top" autocomplete="off">
 			<div class="saDrawerHeader">
 				<h2 id="saDrawerTitle">Search dates</h2>
-				<button class="saCloseModal" type="button" aria-label="Close">
+				<button class="saCloseModal close" type="button" aria-label="Close">
 					<i class="far fa-xmark saIcon" aria-hidden="true"></i>
 				</button>
 			</div>
@@ -1204,10 +933,12 @@
 									</div>
 								</div>
 							</div>
+						</fieldset>
+						<fieldset class="saSectionWrapper">
 							<div class="saFieldAndLabelWrapper">
 								<label class="saLabelCell" id="cardcard">
 									<div class="saLabel">
-										<span>Birdtype</span>
+										<span>Bird type</span>
 									</div>
 								</label>
 								<div class="saFieldCell">
@@ -1700,11 +1431,11 @@
 			</div>
 			<div class="saInputPageFooter saSearchFormFooter saDrawerFooter">
 				<div class="saFormButtonGroup">
-					<button class="saFormButton saButtonPrimary" type="submit" id="save">
+					<button class="saFormButton saButtonPrimary close" type="submit">
 						<i class="icon fas fa-spin fa-spinner saSpinner"></i>
-						Save
+						Search
 					</button>
-					<button class="saFormButton saButtonSecondary" type="button" id="cancel">
+					<button class="saFormButton saButtonSecondary close" type="button">
 						<i class="icon fas fa-spin fa-spinner saSpinner"></i>
 						Cancel
 					</button>
@@ -1715,43 +1446,30 @@
 
 	<script>
 		$(document).ready(function () {
-			const dialog = document.querySelector('dialog.saDrawerWrapper');
-			const dialogModal = document.querySelector('dialog.saPopupOverlay');
+			const dialog = document.querySelector('dialog.saPopupOverlay');
 			const drawer = document.querySelector('dialog .saDrawer');
-			const drawerModal = document.querySelector('dialog .saDrawer');
 			const root = document.querySelector('.saRootContentWrapper');
-			const open = document.querySelector('#modal');
-			const openModal = document.querySelector('#openModal');
+			const open = document.querySelector('.open');
 
 
-			$('#openDrawer, #open, .open').on('click', function (e) {
-				e.preventDefault();
-				openDialog();
-			});
-
-			$('li.saActivity.saClickable, #openModal, .openModal').on('click', function (e) {
+			$('li.saActivity.saClickable, .open, .close').on('click', function (e) {
 				e.preventDefault();
 				const title = $(this).find('.saActivityHeading').text();
 				if (title) {
 					$('#saDrawerTitle').text(title);
 				}
-				openDialogModal();
+				openDialog();
 			});
 
-			function openDialogModal() {
-				closeDialog();
-				dialogModal.classList.remove('saClosed');
-				drawerModal.classList.remove('saClosed');
-				root.setAttribute('aria-hidden', 'true');
-				dialogModal.showModal();
-			}
-
 			function openDialog() {
-				closeDialogModal();
-				dialog.classList.remove('saClosed');
-				drawer.classList.remove('saClosed');
-				root.setAttribute('aria-hidden', 'false');
-				dialog.show();
+				if (!dialog.open) {
+					root.setAttribute('aria-hidden', 'true');
+					dialog.showModal();
+
+					setTimeout(() => {
+						$('#searchTerm').focus();
+					}, 200);
+				}
 			}
 
 			function closeDialog() {
@@ -1766,37 +1484,23 @@
 						drawer.classList.remove('saClosed');
 					}, 200);
 				}
-			}
-			function closeDialogModal() {
-				if (dialogModal.open) {
-					dialogModal.classList.add('saClosed');
-					drawerModal.classList.add('saClosed');
-					root.setAttribute('aria-hidden', 'false');
 
-					setTimeout(() => {
-						dialogModal.close();
-						dialogModal.classList.remove('saClosed');
-						drawerModal.classList.remove('saClosed');
-					}, 200);
-				}
 			}
 
-			$('.saCloseModal, #save, #cancel, #saveF, #cancelF').on('click', function (e) {
+			$('.close').on('click', function (e) {
 				e.preventDefault();
 				closeDialog();
-				closeDialogModal();
 			});
 
 			$('.saPopupOverlay').on('click', function (e) {
 				if (e.target === this) {
-					closeDialogModal();
+					closeDialog();
 				}
 			});
 
 			document.addEventListener('keydown', (e) => {
 				if (e.key === 'Escape') {
 					e.preventDefault();
-					closeDialogModal();
 					closeDialog();
 				}
 			})
