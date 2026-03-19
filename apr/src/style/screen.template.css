@@ -34594,11 +34594,11 @@ lightbox-image {
   max-width: 100%;
 }
 :root {
-  --backdrop: 0.8;
+  --backdrop: 0.2;
 }
 lightbox-image {
   display: block;
-  cursor: zoom-in;
+  cursor: pointer;
   height: fit-content;
   width: fit-content;
   border-radius: 0.5rem;
@@ -34690,6 +34690,9 @@ lightbox-image {
   z-index: 1;
   -webkit-tap-highlight-color: transparent;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  @starting-style {
+    transform: translateY(-100%);
+  }
 }
 .saDialogButtonClose .saButtonText {
   white-space: nowrap;
@@ -34745,6 +34748,9 @@ lightbox-image {
 }
 .saSmallScreen .saDialogButtonClose:active {
   border-radius: 12px;
+}
+.saClosed .saDialogButtonClose {
+  transform: translateY(-100%);
 }
 .saDialogButtonClose::after {
   content: '';

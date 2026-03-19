@@ -272,54 +272,35 @@
 								<div class="scrollcontent-inner">
 									<div class="saLightboxGroup">
 										<lightbox-image data-dialog-id="lightbox">
-											<img crossorigin="anonymous" loading="lazy"
-												src='https://images.unsplash.com/photo-1444464666168-49d633b86797?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-												alt='Bird'>
+											<img crossorigin="anonymous" loading="lazy" src='https://images.unsplash.com/photo-1444464666168-49d633b86797?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' alt='Bird'>
 										</lightbox-image>
 
 										<lightbox-image data-dialog-id="lightbox">
-											<img crossorigin="anonymous" loading="lazy"
-												src='https://images.unsplash.com/photo-1491485880348-85d48a9e5312?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-												alt='Cat'>
+											<img crossorigin="anonymous" loading="lazy" src='https://images.unsplash.com/photo-1491485880348-85d48a9e5312?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' alt='Cat'>
 										</lightbox-image>
 
 										<lightbox-image data-dialog-id="lightbox">
-											<img crossorigin="anonymous" loading="lazy" src='../src/img/pretty.png'
-												alt='A very pretty dog'>
+											<img crossorigin="anonymous" loading="lazy" src='../src/img/pretty.png' alt='A very pretty dog'>
 										</lightbox-image>
 
 										<lightbox-image data-dialog-id="lightbox">
-											<img crossorigin="anonymous" loading="lazy" src='../src/img/the-cat.png'
-												alt='A very pretty cat'>
+											<img crossorigin="anonymous" loading="lazy" src='../src/img/the-cat.png' alt='A very pretty cat'>
 										</lightbox-image>
 										<lightbox-image data-dialog-id="lightbox">
-											<img crossorigin="anonymous" loading="lazy" src='../src/img/tall.png'
-												alt='A very tall image'>
+											<img crossorigin="anonymous" loading="lazy" src='../src/img/tall.png' alt='A very tall image'>
 										</lightbox-image>
 										<lightbox-image data-dialog-id="lightbox">
-											<img crossorigin="anonymous" loading="lazy" src='../src/img/wide.png'
-												alt='A very wide image'>
+											<img crossorigin="anonymous" loading="lazy" src='../src/img/wide.png' alt='A very wide image'>
 										</lightbox-image>
 
 										<lightbox-image data-dialog-id="lightbox">
-											<img crossorigin="anonymous" loading="lazy" src='../src/img/super-wide.png'
-												alt='A suuuper wide image'>
+											<img crossorigin="anonymous" loading="lazy" src='../src/img/super-wide.png' alt='A suuuper wide image'>
 										</lightbox-image>
 
 										<lightbox-image data-dialog-id="lightbox">
-											<img crossorigin="anonymous" loading="lazy" src='../src/img/softadmin-multisoft-logo-stacked.svg'
-												alt='Softadmin and Multisoft logos stacked'>
+											<img crossorigin="anonymous" loading="lazy" src='../src/img/softadmin-multisoft-logo-stacked.svg' alt='Softadmin and Multisoft logos stacked'>
 										</lightbox-image>
 									</div>
-
-									<dialog id="lightbox" class="saLightboxOverlay">
-										<form method="dialog">
-											<button autofocus class="saDialogButtonClose saDestructive"
-												aria-label="Close lightbox" data-tooltip="Close">
-												<i class="saIcon far fa-xmark"></i>
-											</button>
-										</form>
-									</dialog>
 								</div>
 							</div>
 						</main>
@@ -328,6 +309,14 @@
 			</div>
 		</div>
 	</div>
+	<dialog id="lightbox" class="saLightboxOverlay">
+		<form method="dialog">
+			<button autofocus class="saDialogButtonClose saDestructive"
+				aria-label="Close lightbox" data-tooltip="Close">
+				<i class="saIcon far fa-xmark"></i>
+			</button>
+		</form>
+	</dialog>
 	<script>
 
 		$(document).ready(function () {
@@ -435,6 +424,8 @@
 					try {
 						await transition.finished;
 						console.log("Transition finished");
+						$('body').removeClass('saClosed');
+
 					} finally {
 						$(this.image).css('viewTransitionName', '');
 					}
@@ -461,6 +452,7 @@
 
 				moveImageBack() {
 					$(this).append(this.image);
+					$('body').addClass('saClosed');
 					this.dialog.close();
 					$(this.dialog).removeClass('saZoomFull saLarger');
 					$(this.image).css('backgroundColor', '');
