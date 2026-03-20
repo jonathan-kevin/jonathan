@@ -14,7 +14,7 @@
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
 
-<body class="saRootBody saLargeScreen saPc saCompact">
+<body class="saRootBody saLargeScreen saPc saCompact saLargeScreenHasTopButtons">
 	<div class="saRootContentWrapper">
 		<div class="saSideBarOuter">
 			<form name="aspnetForm" method="post" action="./softadmin.aspx" id="aspnetForm">
@@ -25,30 +25,6 @@
 								<li><a tabindex="0">Gå till innehåll</a></li>
 								<li><a tabindex="0">Gå till meny</a></li>
 							</ul>
-						</div>
-						<div class="saPageHeader saSmallScreenHeader">
-							<div class="saHeader">
-								<div class="saTopRow">
-									<div class="saHeaderWrapper">
-										<div class="saTitle">
-											<h1>KOLL</h1>
-										</div>
-									</div>
-									<button class="saNotificationWrapper" type="button" aria-live="polite"
-										aria-expanded="false" aria-label="83 Notifieringar">
-										<i class="far fa-bell saIcon"></i>
-										<div class="saBadgeCount saNew saUrgent">83</div>
-									</button>
-									<button class="saNavigator" type="button" aria-label="Stäng meny"
-										data-tooltip="Stäng meny">
-										<div class="saNavBar">
-											<span class="saNavBarStripe"></span>
-											<span class="saNavBarStripe"></span>
-											<span class="saNavBarStripe"></span>
-										</div>
-									</button>
-								</div>
-							</div>
 						</div>
 						<section class="saSideBarSection saSideBarHeader saSideBarSectionJs">
 							<img class="saCustomerLogo" alt="KOLL logotyp"
@@ -194,7 +170,7 @@
 										</div>
 										<div class="saBottomRow">
 											<div class="saTitle">
-												<h1 class="saHeaderText">Test</h1>
+												<h1 class="saHeaderText">Drawer</h1>
 												<button class="saFavoriteToggle" type="button" tabindex="-1"
 													aria-checked="false" aria-label="Save as favorite">
 													<i aria-hidden="true" class="saIcon far fa-star"></i>
@@ -203,6 +179,38 @@
 												<ul class="saSpecialLinksWrapper"></ul>
 											</div>
 										</div>
+										<nav class="saNavigationBar">
+											<div class="saTopButtons">
+												<div class="saActionLinks">
+
+													<button class="saTopLink saActionLink saButtonPrimary" type="button">
+														<div class="saIconHolder saOptionIcon" aria-hidden="true">
+															<i class="far fa-plus icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Create new</span>
+													</button>
+
+													<button class="saTopLink saActionLink saButtonTertiary open" type="button">
+														<div class="saIconHolder saOptionIcon" aria-hidden="true">
+															<i class="far fa-sliders icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Filter</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button">
+														<div class="saIconHolder saOptionIcon" aria-hidden="true">
+															<i class="far fa-lock icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Lock</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button">
+														<div class="saIconHolder saOptionIcon" aria-hidden="true">
+															<i class="far fa-box icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Move</span>
+													</button>
+												</div>
+											</div>
+										</nav>
 									</div>
 								</div>
 							</div>
@@ -212,7 +220,7 @@
 										<div class="saTopRow">
 											<div class="saHeaderWrapper">
 												<div class="saTitle">
-													<h1 class="saHeaderText">Test</h1>
+													<h1 class="saHeaderText">Drawer</h1>
 												</div>
 											</div><button class="saNavigator" type="button">
 												<div class="saNavBar"><span class="saNavBarStripe"></span><span
@@ -234,8 +242,6 @@
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner">
-										<button type="button" class="open">Open drawer</button>
-
 										<softadmin-calendar class="calendar maincolbody saMenuItemRoot">
 											<div class="saCalendarSection saDesktopCalendar saWeekdaysCalendar">
 												<div class="saCalendarHeader">
@@ -276,7 +282,6 @@
 														</label>
 														<button class="saTodayButton" type="button">Today</button>
 														<button class="saButton saDefaultButtonGhostIcon open" type="button">
-															<div class="saBadgeCount saNew">2</div>
 															<span class="saIcon far fa-search" aria-hidden="true"></span>
 														</button>
 													</div>
@@ -289,20 +294,11 @@
 																</label>
 															</li>
 															<li class="saActionLink">
-																<button class="saComponentContentLinkButton saButtonSecondary open" type="button">
+																<button class="saComponentContentLinkButton saButtonTertiary open" type="button">
 																	<div class="saIconHolder saOptionIcon" aria-hidden="true">
-																		<i class="far fa-search icon saIcon"></i>
+																		<i class="far fa-sliders icon saIcon"></i>
 																	</div>
-																	<span class="saButtonText saOptionText">Search</span>
-																	<div class="saBadgeCount saNew">2</div>
-																</button>
-															</li>
-															<li class="saActionLink">
-																<button class="saComponentContentLinkButton saButtonSecondary saInactive" type="button" disabled>
-																	<div class="saIconHolder saOptionIcon" aria-hidden="true">
-																		<i class="far fa-box icon saIcon"></i>
-																	</div>
-																	<span class="saButtonText saOptionText">Move</span>
+																	<span class="saButtonText saOptionText">Filter</span>
 																</button>
 															</li>
 															<li class="saActionLink">
@@ -311,6 +307,14 @@
 																		<i class="far fa-lock icon saIcon"></i>
 																	</div>
 																	<span class="saButtonText saOptionText">Lock</span>
+																</button>
+															</li>
+															<li class="saActionLink">
+																<button class="saComponentContentLinkButton saButtonSecondary saInactive" type="button" disabled>
+																	<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																		<i class="far fa-box icon saIcon"></i>
+																	</div>
+																	<span class="saButtonText saOptionText">Move</span>
 																</button>
 															</li>
 														</ul>
@@ -529,19 +533,17 @@
 															</label>
 														</div>
 														<button class="saButton saDefaultButtonGhostIcon open" type="button">
-															<div class="saBadgeCount saNew">2</div>
 															<span class="saIcon far fa-search" aria-hidden="true"></span>
 														</button>
 													</div>
 													<div class="saComponentContentLinksWrapper">
 														<ul class="saComponentContentLinks" role="toolbar">
 															<li class="saActionLink">
-																<button class="saComponentContentLinkButton saButtonSecondary open" type="button">
+																<button class="saComponentContentLinkButton saButtonTertiary open" type="button">
 																	<div class="saIconHolder saOptionIcon" aria-hidden="true">
-																		<i class="far fa-search icon saIcon"></i>
+																		<i class="far fa-sliders icon saIcon"></i>
 																	</div>
-																	<span class="saButtonText saOptionText">Search</span>
-																	<div class="saBadgeCount saNew">2</div>
+																	<span class="saButtonText saOptionText">Filter</span>
 																</button>
 															</li>
 														</ul>
@@ -744,7 +746,6 @@
 																</button>
 																<button class="saDefaultButtonGhostIcon open" type="button">
 																	<span class="saIcon far fa-search" aria-hidden="true"></span>
-																	<div class="saBadgeCount saNew">2</div>
 																</button>
 																<button class="saGridButton saExcel" type="button">
 																	<span class="saIcon far fa-file-excel" aria-hidden="true"></span>
@@ -754,12 +755,11 @@
 														<div class="saComponentContentLinksWrapper">
 															<ul class="saComponentContentLinks" role="toolbar">
 																<li class="saActionLink">
-																	<button class="saComponentContentLinkButton saButtonSecondary open" type="button" aria-disabled="true">
+																	<button class="saComponentContentLinkButton saButtonTertiary open" type="button" aria-disabled="true">
 																		<div class="saIconHolder saOptionIcon" aria-hidden="true">
-																			<i class="far fa-search icon saIcon"></i>
+																			<i class="far fa-sliders icon saIcon"></i>
 																		</div>
-																		<span class="saButtonText saOptionText">Search</span>
-																		<div class="saBadgeCount saNew">2</div>
+																		<span class="saButtonText saOptionText">Filter</span>
 																	</button>
 																</li>
 																<li class="saActionLink">
@@ -908,7 +908,7 @@
 	<dialog class="saPopupOverlay interface" aria-modal="true" aria-labelledby="saDrawerTitle">
 		<form class="saDrawer" tabindex="-1" method="dialog" target="_top" autocomplete="off">
 			<div class="saDrawerHeader">
-				<h2 id="saDrawerTitle">Search dates</h2>
+				<h2 id="saDrawerTitle">Filter</h2>
 				<button class="saCloseModal close" type="button" aria-label="Close">
 					<i class="far fa-xmark saIcon" aria-hidden="true"></i>
 				</button>

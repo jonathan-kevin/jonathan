@@ -1949,6 +1949,11 @@
 				$(this).find('.saFileUploadProgressText').text(function (i, text) { return text === '100%' ? '24%' : '100%'; });
 			});
 
+			$('.saDeleteButton').click(function (e) {
+				e.preventDefault();
+				$(this).closest('li').remove();
+			});
+
 			// --- Tree Keyboard Navigation ---
 			const KEY = {
 				RETURN: 13, SPACE: 32, PAGEUP: 33, PAGEDOWN: 34,
