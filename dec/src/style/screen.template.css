@@ -10144,6 +10144,165 @@ datalist {
   font-size: 1.25rem;
   min-width: 1.625rem;
 }
+.saDefaultButtonTertiary {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  border: 0.0625rem solid #bbd6ff;
+  background-color: #f7faff;
+  color: #2d6ce1;
+  position: relative;
+}
+.saDefaultButtonTertiary .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saDefaultButtonTertiary .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultButtonTertiary .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultButtonTertiary .saIcon {
+  color: inherit;
+}
+.saDefaultButtonTertiary .saBadge {
+  color: #f7faff;
+  border: 0.125rem solid #f7faff;
+}
+@media (pointer: fine) {
+  .saDefaultButtonTertiary:hover {
+    background-color: #e5efff;
+    color: #1c57c6;
+    border-color: #2d6ce1;
+  }
+  .saDefaultButtonTertiary:hover .saIcon {
+    color: #1c57c6;
+  }
+  .saDefaultButtonTertiary:hover .saBadge {
+    background-color: #e5efff;
+  }
+}
+.saDefaultButtonTertiary:active {
+  background-color: #bbd6ff;
+  color: #0f44a6;
+  border-color: #1c57c6;
+}
+.saDefaultButtonTertiary:active .saIcon {
+  color: #0f44a6;
+}
+.saDefaultButtonTertiary:active .saBadge {
+  background-color: #0f44a6;
+}
+.saDefaultButtonTertiary.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.saDefaultButtonTertiary.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultButtonTertiary.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saDefaultButtonTertiary.saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saDefaultButtonTertiary.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .saDefaultButtonTertiary.saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saDefaultButtonTertiary.saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saDefaultButtonTertiary.saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saDefaultButtonTertiary.saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saStandard .saDefaultButtonTertiary {
+  gap: 0.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+}
+.saStandard .saDefaultButtonTertiary:has(.saIcon) {
+  padding-left: 0.75rem;
+}
+.saStandard .saDefaultButtonTertiary:active {
+  border-radius: 0.75rem;
+}
+.saStandard .saDefaultButtonTertiary .saIcon {
+  font-size: 1.25rem;
+  min-width: 1.625rem;
+}
+.saCompact .saDefaultButtonTertiary {
+  gap: 0.375rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+}
+.saCompact .saDefaultButtonTertiary:has(.saIcon) {
+  padding-left: 0.625rem;
+}
+.saCompact .saDefaultButtonTertiary:active {
+  border-radius: 0.75rem;
+}
+.saCompact .saDefaultButtonTertiary .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
+}
+.saSmallScreen .saDefaultButtonTertiary {
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  height: 2.5rem;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+.saSmallScreen .saDefaultButtonTertiary:has(.saIcon) {
+  padding-left: 0.75rem;
+}
+.saSmallScreen .saDefaultButtonTertiary:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saDefaultButtonTertiary .saIcon {
+  font-size: 1.25rem;
+  min-width: 1.625rem;
+}
 .saDefaultButtonGhostIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
@@ -36434,11 +36593,52 @@ pre.saCode {
 }
 .saPlaceHolderNation {
   border: #91e89b dashed 0.0625rem;
-  background-color: #f2fcf2;
-  height: calc(100% - 1.625rem);
+  background-image: linear-gradient(to bottom, #fff, #f2fcf2);
+  height: 200dvh;
   border-radius: 0.75rem;
 }
-.saButtonModal {
+.left {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  align-items: start;
+  padding: 0.5rem;
+  height: 100dvh;
+  width: 3rem;
+  background-color: #fff;
+  border-left: 0.0625rem solid #ccd5e2;
+  margin-left: 0.5rem;
+  fill: var(--Sa-Color-Icon);
+}
+.left .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.left .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.left .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.left i {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: 'Lexend', sans-serif;
@@ -36460,110 +36660,106 @@ pre.saCode {
   max-width: 2rem;
   min-width: 2rem;
   font-size: 1rem;
-  position: absolute;
-  z-index: 999;
-  inset: 0.5rem 0.5rem auto auto;
 }
-.saButtonModal .saButtonText {
+.left i .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.saButtonModal .saBadgedIcon {
+.left i .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saButtonModal .saIcon {
+.left i .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.saButtonModal .saIcon {
+.left i .saIcon {
   color: var(--Sa-Color-Icon);
 }
-.saButtonModal.saDestructive {
+.left i.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
-.saButtonModal.saDestructive .saIcon {
+.left i.saDestructive .saIcon {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
 @media (pointer: fine) {
-  .saButtonModal.saDestructive:hover {
+  .left i.saDestructive:hover {
     color: var(--Sa-Color-DestructiveButtonBackground);
     background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
   }
-  .saButtonModal.saDestructive:hover .saIcon {
+  .left i.saDestructive:hover .saIcon {
     color: var(--Sa-Color-DestructiveButtonBackground);
   }
 }
-.saButtonModal.saDestructive:active {
+.left i.saDestructive:active {
   color: #fff;
   background: var(--Sa-Color-DestructiveButtonBackground);
 }
-.saButtonModal.saDestructive:active > .saIcon {
+.left i.saDestructive:active > .saIcon {
   color: #fff;
 }
 @media (pointer: fine) {
-  .saButtonModal:hover {
+  .left i:hover {
     background-color: var(--Sa-Color-Primary50);
     color: var(--Sa-Color-Primary600);
   }
-  .saButtonModal:hover .saIcon {
+  .left i:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
 }
-.saButtonModal:active {
+.left i:active {
   background-color: var(--Sa-Color-Primary100);
   color: var(--Sa-Color-Primary700);
 }
-.saButtonModal:active .saIcon {
+.left i:active .saIcon {
   color: var(--Sa-Color-Primary700);
 }
-.saButtonModal:disabled,
-.saButtonModal.saDisabled {
+.left i:disabled,
+.left i.saDisabled {
   color: #adbdd1;
   background-color: transparent;
   cursor: not-allowed;
 }
-.saButtonModal:disabled .saIcon,
-.saButtonModal.saDisabled .saIcon {
+.left i:disabled .saIcon,
+.left i.saDisabled .saIcon {
   color: #adbdd1;
 }
-.saButtonModal:active {
+.left i:active {
   border-radius: 0.75rem;
 }
-.saTitle .saButtonModal {
-  position: static;
-  inset: auto;
-  margin-bottom: -0.25rem;
+.left i svg {
+  width: 1rem;
+  min-width: 1rem;
+  height: 0.75rem;
 }
-.saButtonModal::after {
-  content: '';
-  height: 3rem;
-  width: 3rem;
-  position: absolute;
-  top: -0.5rem;
-  right: -0.5rem;
+.left:hover {
+  fill: var(--Sa-Color-Primary600);
+}
+.left:active {
+  fill: var(--Sa-Color-Primary700);
 }
 .saDrawerWrapper {
   position: absolute;
   inset: 0 0 auto auto;
   height: 100%;
   display: flex;
-  transition: ease transform 0.2s;
+  transition: ease transform 0.4s;
   z-index: 999;
   pointer-events: all;
+  border-left: 0.0625rem solid #ccd5e2;
   @starting-style {
-    transform: translateX(calc(100% - 1rem));
+    transform: translateX(22rem);
   }
 }
 .saClosed .saDrawerWrapper {
-  transform: translateX(calc(100% - 1rem));
+  transform: translateX(calc(100% - 1.5rem));
 }
 .saDrawer {
   display: flex;
@@ -36577,17 +36773,16 @@ pre.saCode {
   width: fit-content;
   min-width: min(23rem, 100dvw);
   max-width: calc(100dvw - 18rem);
-  border-left: 0.0625rem solid #ccd5e2;
   scroll-padding: 3rem 0;
   transition: ease box-shadow 0.2s;
 }
+.saSmallScreen .saDrawer {
+  min-width: unset;
+  max-width: unset;
+  width: calc(100% - 3rem);
+}
 .saDrawer * {
   box-sizing: border-box;
-}
-.saClosed .saDrawer {
-  pointer-events: none;
-  overflow: hidden;
-  box-shadow: none;
 }
 .saShakeDrawer .saDrawer {
   animation: saShake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
@@ -36610,9 +36805,14 @@ pre.saCode {
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(0.5rem);
 }
+.saSmallScreen .saDrawer .saDrawerHeader {
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+}
 .saDrawer .saDrawerBody {
-  height: 200dvh;
   padding-left: 1rem;
+}
+.saSmallScreen .saDrawer .saDrawerBody {
+  padding: 0;
 }
 .saDrawer .saInputPageField {
   width: 100%;
@@ -36623,6 +36823,9 @@ pre.saCode {
   padding: 1rem;
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(0.5rem);
+}
+.saSmallScreen .saDrawer .saDrawerFooter {
+  padding: 0;
 }
 .saDrawer .saCloseModal {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -36643,9 +36846,11 @@ pre.saCode {
   height: 2rem;
   max-width: 2rem;
   min-width: 2rem;
+  font-size: 1rem;
   color: var(--Sa-Color-Primary600);
   background: transparent;
-  font-size: 1rem;
+  margin-left: auto;
+  position: relative;
 }
 .saDrawer .saCloseModal .saButtonText {
   white-space: nowrap;
@@ -36722,8 +36927,8 @@ pre.saCode {
 }
 .saDrawer .saCloseModal::after {
   content: '';
-  height: 3rem;
-  width: 3rem;
+  height: 2.75rem;
+  width: 2.75rem;
   position: absolute;
-  inset: 0 -1rem auto auto;
+  inset: -0.5rem -1rem auto auto;
 }

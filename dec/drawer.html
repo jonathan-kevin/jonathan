@@ -188,7 +188,7 @@
 													<i aria-hidden="true" class="saIcon far fa-star"></i>
 													<i aria-hidden="true" class="saIcon fas fa-star"></i>
 												</button>
-												<button type="button" class="saButtonModal open">
+												<button type="button" class="saDefaultButtonGhostIcon open" style="margin-bottom: -0.25rem; margin-left: -0.25rem;">
 													<i class="far fa-sliders saIcon"></i>
 												</button>
 												<ul class="saSpecialLinksWrapper"></ul>
@@ -237,16 +237,19 @@
 												<div class="saTitle">
 													<h1 class="saHeaderText">Drawer</h1>
 												</div>
-											</div><button class="saNavigator" type="button">
-												<div class="saNavBar"><span class="saNavBarStripe"></span><span
-														class="saNavBarStripe"></span><span
-														class="saNavBarStripe"></span>
-												</div>
+											</div>
+											<button class="saButtonHeader open" type="button">
+												<i class="far fa-sliders saIcon"></i>
 											</button>
+
 											<button class="saButtonHeader" type="button"
 												aria-live="polite">
 												<div><i class="far fa-bell saIcon"></i></div>
 												<div class="saNotificationBadge saEmpty" aria-hidden="true"></div>
+											</button>
+
+											<button class="saButtonHeader" type="button">
+												<i class="far fa-bars saIcon"></i>
 											</button>
 										</div>
 									</div>
@@ -258,6 +261,12 @@
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner">
+										<button class="saDefaultButtonTertiary open" type="button" style="margin-bottom: 1rem;">
+											<div class="saIconHolder saOptionIcon" aria-hidden="true">
+												<i class="fadr fa-sliders-up icon saIcon"></i>
+											</div>
+											<span class="saButtonText saOptionText">Filter</span>
+										</button>
 										<div class="saPlaceHolderNation"></div>
 									</div>
 								</div>
@@ -267,10 +276,15 @@
 				</div>
 			</div>
 		</div>
+		<button type="button" class="open left">
+			<i class="saIcon">
+				<svg viewBox="0 0 16 12" xmlns="http://www.w3.org/2000/svg">
+					<path d="M6.5 8.38797C6.2167 8.69014 5.74206 8.70544 5.43988 8.42215L3.43988 6.54715C3.28865 6.40537 3.20285 6.2073 3.20285 6C3.20285 5.7927 3.28865 5.59463 3.43988 5.45285L5.43988 3.57785C5.74206 3.29456 6.2167 3.30986 6.5 3.61203C6.78329 3.91421 6.76799 4.38885 6.46582 4.67215L5.04947 6L6.46582 7.32785C6.76799 7.61115 6.78329 8.08579 6.5 8.38797Z"/>
+					<path fill-rule="evenodd" clip-rule="evenodd" d="M14 0C15.1031 0 16 0.89688 16 2V10C16 11.1031 15.1031 12 14 12H2C0.896875 12 0 11.1031 0 10V2C5.68604e-06 0.89688 0.896878 0 2 0H14ZM2 1.5C1.725 1.5 1.50001 1.725 1.5 2V10C1.5 10.275 1.725 10.5 2 10.5H9V1.5H2ZM10.5 10.5H14C14.275 10.5 14.5 10.275 14.5 10V2C14.5 1.725 14.275 1.5 14 1.5H10.5V10.5Z"/>
+				</svg>
+			</i>
+		</button>
 	</div>
-	<button type="button" class="saButtonModal open">
-		<i class="far fa-sliders saIcon"></i>
-	</button>
 	<dialog class="saPopupOverlay interface" aria-modal="true" aria-labelledby="saDrawerTitle">
 		<div class="saDrawerWrapper">
 			<form class="saDrawer" tabindex="-1" method="dialog" target="_top" autocomplete="off">
@@ -823,46 +837,39 @@
 			const drawer = document.querySelector('.saPopupOverlay .saDrawer');
 			const root = document.querySelector('.saRootContentWrapper');
 			const body = document.querySelector('body');
-			const btnIcon = document.querySelector('.saButtonModal i.saIcon');
+
 
 			$('.saExpander').click(function (e) {
 				e.preventDefault();
 				$('#SideBar').toggleClass('saExpanded saMinimized');
 			});
 
-			$('.saButtonModal').click(function (e) {
-				e.preventDefault();
-
-				if($(dialog).hasClass('saOpen')) {
-					 closeDialog();
-				}
-				else if ($(dialog).hasClass('saClosed')) {
-					openDialog();
-				}
-			});
-
 			function openDialog() {
-				root.setAttribute('aria-hidden', 'true');
-				body.style.overflow = 'hidden';
-				dialog.classList.remove('saClosed');
-				dialog.showModal();
-				dialog.setAttribute('aria-modal', 'true');
+				if (!dialog.open) {
+					root.setAttribute('aria-hidden', 'true');
+					body.style.overflow = 'hidden';
+					dialog.classList.remove('saClosed');
+					dialog.showModal();
+					dialog.setAttribute('aria-modal', 'true');
 
-				setTimeout(() => {
-					$('#searchTerm').focus();
-				}, 200);
+					setTimeout(() => {
+						$('#searchTerm').focus();
+					}, 200);
+				}
 			}
 
 			function closeDialog() {
-				root.setAttribute('aria-hidden', 'false');
-				body.style.overflow = 'unset';
-				dialog.classList.add('saClosed');
+				if (dialog.open) {
+					root.setAttribute('aria-hidden', 'false');
+					body.style.overflow = 'unset';
+					dialog.classList.add('saClosed');
 
-				setTimeout(() => {
-					dialog.close();
-					dialog.setAttribute('aria-modal', 'false');
-					dialog.classList.remove('saClosed');
-				}, 200);
+					setTimeout(() => {
+						dialog.close();
+						dialog.setAttribute('aria-modal', 'false');
+						dialog.classList.remove('saClosed');
+					}, 200);
+				}
 			}
 
 			$('.open').on('click', function (e) {
