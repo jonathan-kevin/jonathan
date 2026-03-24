@@ -166,11 +166,30 @@
 										</div>
 										<div class="saBottomRow">
 											<div class="saTitle">
+												<!-- <div class="saToolbox saNoSpinner saOpen">
+													<ul>
+														<li class="saAdminTopLink"><button class="saToolboxButton" type="button"><i class="far fa-file-code icon saIcon"></i></button></li>
+														<li class="saAdminTopLink"><button class="saToolboxButton" type="button"><i class="far fa-pen icon saIcon"></i></button></li>
+														<li class="saAdminTopLink"><button class="saToolboxButton" type="button"><i class="far fa-input-pipe icon saIcon"></i></button></li>
+														<li class="saAdminTopLink"><button class="saToolboxButton" type="button"><i class="far fa-filter icon saIcon"></i></button></li>
+														<li class="saAdminTopLink"><button class="saToolboxButton" type="button"><i class="far fa-link icon saIcon"></i></button></li>
+														<li class="saAdminTopLink"><button class="saToolboxButton" type="button"><i class="far fa-triangle-exclamation icon saIcon"></i></button></li>
+														<li class="saAdminTopLink"><button class="saToolboxButton" type="button"><i class="far fa-book icon saIcon"></i></button></li>
+														<li class="saAdminTopLink"><button class="saToolboxButton" type="button"><i class="far fa-calendar-clock icon saIcon"></i></button></li>
+														<li class="saAdminTopLink"><button class="saToolboxButton" type="button"><i class="far fa-square-arrow-up-right icon saIcon"></i></button></li>
+														<li class="saAdminTopLink"><button class="saToolboxButton" type="button"><i class="far fa-wand-magic-sparkles icon saIcon"></i></button></li>
+														<li class="saDebug"><button class="saToolboxButton" type="button"><i class="fas fa-bug saIcon"></i></button></li>
+													</ul>
+													<button class="saExpandButton saToolboxButton" type="button" tabindex="-1"><span></span><span></span><span></span><span></span></button>
+												</div> -->
 												<h1 class="saHeaderText">Drawer</h1>
 												<button class="saFavoriteToggle" type="button" tabindex="-1"
 													aria-checked="false" aria-label="Save as favorite">
 													<i aria-hidden="true" class="saIcon far fa-star"></i>
 													<i aria-hidden="true" class="saIcon fas fa-star"></i>
+												</button>
+												<button type="button" class="saButtonModal open">
+													<i class="far fa-sliders saIcon"></i>
 												</button>
 												<ul class="saSpecialLinksWrapper"></ul>
 											</div>
@@ -249,552 +268,555 @@
 			</div>
 		</div>
 	</div>
-		<div role="dialog" class="saPopupOverlay interface saOpen" aria-modal="true" aria-labelledby="saDrawerTitle">
-			<div class="saDrawerWrapper">
-				<button type="button" class="saButtonModal">
-					<i class="far fa-arrow-right-from-line saIcon"></i>
-				</button>
-				<form class="saDrawer" tabindex="-1" method="dialog" target="_top" autocomplete="off">
-					<div class="saDrawerHeader">
-						<h2 id="saDrawerTitle">Filter</h2>
-					</div>
-					<div class="saDrawerBody saInputPage">
-						<div class="saFormRoot saLabelsAbove">
-							<div class="saFieldsColumn saLastVisible">
-								<fieldset class="saSectionWrapper">
-									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="searchTerm">
-											<div class="saLabel">
-												<span>Search</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField longest">
-														<input class="saInputText" name="searchTerm" id="searchTerm" type="search">
-													</div>
+	<button type="button" class="saButtonModal open">
+		<i class="far fa-sliders saIcon"></i>
+	</button>
+	<dialog class="saPopupOverlay interface" aria-modal="true" aria-labelledby="saDrawerTitle">
+		<div class="saDrawerWrapper">
+			<form class="saDrawer" tabindex="-1" method="dialog" target="_top" autocomplete="off">
+				<div class="saDrawerHeader">
+					<h2 id="saDrawerTitle">Filter</h2>
+					<button class="saCloseModal close" type="button" aria-label="Close">
+						<i class="far fa-xmark saIcon" aria-hidden="true"></i>
+					</button>
+				</div>
+				<div class="saDrawerBody saInputPage">
+					<div class="saFormRoot saLabelsAbove">
+						<div class="saFieldsColumn saLastVisible">
+							<fieldset class="saSectionWrapper">
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="searchTerm">
+										<div class="saLabel">
+											<span>Search</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField longest">
+													<input class="saInputText" name="searchTerm" id="searchTerm" type="search">
 												</div>
 											</div>
 										</div>
 									</div>
-								</fieldset>
-								<fieldset class="saSectionWrapper">
-									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" id="cardcard">
-											<div class="saLabel">
-												<span>Bird type</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper">
-												<div class="saInput">
-													<div class="saInputCardsWrapper saRadioCardsWrapper saInputPageField">
-														<fieldset class="saInputCards saRadioWrapperJs saMedium" aria-labelledby="cardcard">
-															<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
-																<input class="saRadioJs" name="cardcard" type="radio" id="card1" value="1">
-																<div class="saInputCardIconWrapper systemicon">
-																	<i class="far fa-kiwi-bird saIcon icon"></i>
-																</div>
-																<div class="saInputCardBody">
-																	<div class="saInputCardHeading">Kiwi</div>
-																	<div class="saInputCardDescription">Flightless, nocturnal, and surprisingly tough.</div>
-																</div>
-															</label>
+								</div>
+							</fieldset>
+							<fieldset class="saSectionWrapper">
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" id="cardcard">
+										<div class="saLabel">
+											<span>Bird type</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper">
+											<div class="saInput">
+												<div class="saInputCardsWrapper saRadioCardsWrapper saInputPageField">
+													<fieldset class="saInputCards saRadioWrapperJs saMedium" aria-labelledby="cardcard">
+														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
+															<input class="saRadioJs" name="cardcard" type="radio" id="card1" value="1">
+															<div class="saInputCardIconWrapper systemicon">
+																<i class="far fa-kiwi-bird saIcon icon"></i>
+															</div>
+															<div class="saInputCardBody">
+																<div class="saInputCardHeading">Kiwi</div>
+																<div class="saInputCardDescription">Flightless, nocturnal, and surprisingly tough.</div>
+															</div>
+														</label>
 
-															<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
-																<input class="saRadioJs" name="cardcard" type="radio" id="card2" value="2">
-																<div class="saInputCardIconWrapper systemicon">
-																	<i class="far fa-crow saIcon icon"></i>
-																</div>
-																<div class="saInputCardBody">
-																	<div class="saInputCardHeading">Crow</div>
-																	<div class="saInputCardDescription">Highly intelligent with a sharp memory.</div>
-																</div>
-															</label>
+														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
+															<input class="saRadioJs" name="cardcard" type="radio" id="card2" value="2">
+															<div class="saInputCardIconWrapper systemicon">
+																<i class="far fa-crow saIcon icon"></i>
+															</div>
+															<div class="saInputCardBody">
+																<div class="saInputCardHeading">Crow</div>
+																<div class="saInputCardDescription">Highly intelligent with a sharp memory.</div>
+															</div>
+														</label>
 
-															<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
-																<input class="saRadioJs" name="cardcard" type="radio" id="card3" value="3">
-																<div class="saInputCardIconWrapper systemicon">
-																	<i class="far fa-hat-wizard saIcon icon"></i>
-																</div>
-																<div class="saInputCardBody">
-																	<div class="saInputCardHeading">Wizard Owl</div>
-																	<div class="saInputCardDescription">Silent hunter with an air of mystery.</div>
-																</div>
-															</label>
+														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
+															<input class="saRadioJs" name="cardcard" type="radio" id="card3" value="3">
+															<div class="saInputCardIconWrapper systemicon">
+																<i class="far fa-hat-wizard saIcon icon"></i>
+															</div>
+															<div class="saInputCardBody">
+																<div class="saInputCardHeading">Wizard Owl</div>
+																<div class="saInputCardDescription">Silent hunter with an air of mystery.</div>
+															</div>
+														</label>
 
-															<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
-																<input class="saRadioJs" name="cardcard" type="radio" id="card4" value="4">
-																<div class="saInputCardIconWrapper systemicon">
-																	<i class="far fa-dove saIcon icon"></i>
-																</div>
-																<div class="saInputCardBody">
-																	<div class="saInputCardHeading">Dove</div>
-																	<div class="saInputCardDescription">Calm, graceful, and symbolic of peace.</div>
-																</div>
-															</label>
+														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
+															<input class="saRadioJs" name="cardcard" type="radio" id="card4" value="4">
+															<div class="saInputCardIconWrapper systemicon">
+																<i class="far fa-dove saIcon icon"></i>
+															</div>
+															<div class="saInputCardBody">
+																<div class="saInputCardHeading">Dove</div>
+																<div class="saInputCardDescription">Calm, graceful, and symbolic of peace.</div>
+															</div>
+														</label>
 
-															<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
-																<input class="saRadioJs" name="cardcard" type="radio" id="card5" value="5">
-																<div class="saInputCardIconWrapper systemicon">
-																	<i class="far fa-crosshairs saIcon icon"></i>
-																</div>
-																<div class="saInputCardBody">
-																	<div class="saInputCardHeading">Destroyer Falcon</div>
-																	<div class="saInputCardDescription">Fast, precise, and built for the chase.</div>
-																</div>
-															</label>
+														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
+															<input class="saRadioJs" name="cardcard" type="radio" id="card5" value="5">
+															<div class="saInputCardIconWrapper systemicon">
+																<i class="far fa-crosshairs saIcon icon"></i>
+															</div>
+															<div class="saInputCardBody">
+																<div class="saInputCardHeading">Destroyer Falcon</div>
+																<div class="saInputCardDescription">Fast, precise, and built for the chase.</div>
+															</div>
+														</label>
 
-															<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
-																<input class="saRadioJs" name="cardcard" type="radio" id="card6" value="6">
-																<div class="saInputCardIconWrapper systemicon">
-																	<i class="far fa-egg saIcon icon"></i>
-																</div>
-																<div class="saInputCardBody">
-																	<div class="saInputCardHeading">Penguin</div>
-																	<div class="saInputCardDescription">Waddling swimmer adapted to icy seas.</div>
-																</div>
-															</label>
-														</fieldset>
-													</div>
+														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
+															<input class="saRadioJs" name="cardcard" type="radio" id="card6" value="6">
+															<div class="saInputCardIconWrapper systemicon">
+																<i class="far fa-egg saIcon icon"></i>
+															</div>
+															<div class="saInputCardBody">
+																<div class="saInputCardHeading">Penguin</div>
+																<div class="saInputCardDescription">Waddling swimmer adapted to icy seas.</div>
+															</div>
+														</label>
+													</fieldset>
 												</div>
 											</div>
 										</div>
 									</div>
-									<div class="saSiblingRow">
-										<div class="saFieldAndLabelWrapper">
-											<label class="saLabelCell" for="firstName">
-												<div class="saLabel">
-													<span>First name</span>
-												</div>
-											</label>
-											<div class="saFieldCell">
-												<div class="saInputWrapper mediumLong">
-													<div class="saInput">
-														<div class="saInputTextWrapper saInputPageField mediumLong">
-															<input class="saInputText" name="firstName" id="firstName">
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="saFieldAndLabelWrapper">
-											<label class="saLabelCell" for="lastName">
-												<div class="saLabel">
-													<span>Last name</span>
-												</div>
-											</label>
-											<div class="saFieldCell">
-												<div class="saInputWrapper mediumLong">
-													<div class="saInput">
-														<div class="saInputTextWrapper saInputPageField mediumLong">
-															<input class="saInputText" name="lastName" id="lastName">
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
+								</div>
+								<div class="saSiblingRow">
 									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="DoB">
+										<label class="saLabelCell" for="firstName">
 											<div class="saLabel">
-												<span>Date of birth</span>
+												<span>First name</span>
 											</div>
 										</label>
 										<div class="saFieldCell">
 											<div class="saInputWrapper mediumLong">
 												<div class="saInput">
 													<div class="saInputTextWrapper saInputPageField mediumLong">
-														<input class="saInputText" name="DoB" id="DoB">
+														<input class="saInputText" name="firstName" id="firstName">
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="employeeId">
+										<label class="saLabelCell" for="lastName">
 											<div class="saLabel">
-												<span>Employee ID</span>
+												<span>Last name</span>
 											</div>
-											<div class="saDescription">
-												<span>Unique identifier assigned to each employee within the organization. Used
-													to link the employee to records such as assignments, time reports, and
-													internal processes.</span>
+										</label>
+										<div class="saFieldCell">
+											<div class="saInputWrapper mediumLong">
+												<div class="saInput">
+													<div class="saInputTextWrapper saInputPageField mediumLong">
+														<input class="saInputText" name="lastName" id="lastName">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="DoB">
+										<div class="saLabel">
+											<span>Date of birth</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper mediumLong">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField mediumLong">
+													<input class="saInputText" name="DoB" id="DoB">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="employeeId">
+										<div class="saLabel">
+											<span>Employee ID</span>
+										</div>
+										<div class="saDescription">
+											<span>Unique identifier assigned to each employee within the organization. Used
+												to link the employee to records such as assignments, time reports, and
+												internal processes.</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper mediumShort">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField mediumShort">
+													<input class="saInputText" name="employeeId" id="employeeId"
+														placeholder="AU-20929z">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="shoeSize">
+										<div class="saLabel">
+											<span>Shoe size</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper shortest">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField shortest">
+													<input class="saInputText" name="shoeSize" id="shoeSize">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Dummy fields start -->
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="favoriteColor">
+										<div class="saLabel">
+											<span>Favorite color</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="favoriteColor" id="favoriteColor">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="petName">
+										<div class="saLabel">
+											<span>Pet name</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="petName" id="petName">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="hobby">
+										<div class="saLabel">
+											<span>Hobby</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="hobby" id="hobby">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="country">
+										<div class="saLabel">
+											<span>Country</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="country" id="country">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="email">
+										<div class="saLabel">
+											<span>Email</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="email" id="email" type="email">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+							<fieldset class="saSectionWrapper">
+								<legend class="saSectionHeaderWrapper">
+									<button class="saSectionHeader saInputPageField" type="button" aria-expanded="false">
+										<div class="saSectionHeaderLabel">Address</div><i
+											class="far fa-angle-up saIcon saClosed"></i>
+									</button>
+								</legend>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="address">
+										<div class="saLabel">
+											<span>Address</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="address" id="address">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saSiblingRow" style="display: none;">
+									<div class="saFieldAndLabelWrapper">
+										<label class="saLabelCell" for="zipcode">
+											<div class="saLabel">
+												<span>Zip code</span>
+											</div>
+										</label>
+										<div class="saFieldCell">
+											<div class="saInputWrapper short">
+												<div class="saInput">
+													<div class="saInputTextWrapper saInputPageField short">
+														<input class="saInputText" name="zipcode" id="zipcode">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="saFieldAndLabelWrapper" style="display: none;">
+										<label class="saLabelCell" for="city">
+											<div class="saLabel">
+												<span>City</span>
 											</div>
 										</label>
 										<div class="saFieldCell">
 											<div class="saInputWrapper mediumShort">
 												<div class="saInput">
 													<div class="saInputTextWrapper saInputPageField mediumShort">
-														<input class="saInputText" name="employeeId" id="employeeId"
-															placeholder="AU-20929z">
+														<input class="saInputText" name="city" id="city">
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="shoeSize">
-											<div class="saLabel">
-												<span>Shoe size</span>
+								</div>
+							</fieldset>
+							<fieldset class="saSectionWrapper saLastVisible">
+								<legend class="saSectionHeaderWrapper">
+									<button class="saSectionHeader saInputPageField" type="button" aria-expanded="false">
+										<div class="saSectionHeaderLabel">More fields</div><i
+											class="far fa-angle-up saIcon saClosed"></i>
+									</button>
+								</legend>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="state">
+										<div class="saLabel">
+											<span>State/Province</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="state" id="state">
+												</div>
 											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper shortest">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField shortest">
-														<input class="saInputText" name="shoeSize" id="shoeSize">
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="phoneNumber">
+										<div class="saLabel">
+											<span>Phone number</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="phoneNumber" id="phoneNumber"
+														type="tel">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="department">
+										<div class="saLabel">
+											<span>Department</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="department" id="department">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="position">
+										<div class="saLabel">
+											<span>Position</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="position" id="position">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="startDate">
+										<div class="saLabel">
+											<span>Start date</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="startDate" id="startDate" type="date">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="endDate">
+										<div class="saLabel">
+											<span>End date</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="endDate" id="endDate" type="date">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="manager">
+										<div class="saLabel">
+											<span>Manager</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="manager" id="manager">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="salary">
+										<div class="saLabel">
+											<span>Salary</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="salary" id="salary" type="number"
+														step="0.01">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="sex">
+										<div class="saLabel">
+											<span>Sex</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<select class="saInputText saDropdown" name="sex" id="sex">
+														<option value="">(Select)</option>
+														<option value="male">Man</option>
+														<option value="female">Woman</option>
+													</select>
+													<div class="saTrailingIconsWrapper">
+														<i class="far fa-angle-down"></i>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-									<!-- Dummy fields start -->
-									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="favoriteColor">
-											<div class="saLabel">
-												<span>Favorite color</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="favoriteColor" id="favoriteColor">
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="maritalStatus">
+										<div class="saLabel">
+											<span>Marital status</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<select class="saInputText saDropdown" name="maritalStatus" id="maritalStatus">
+														<option value="">(Select)</option>
+														<option value="single">Single</option>
+														<option value="married">Married</option>
+														<option value="divorced">Divorced</option>
+														<option value="widowed">Widowed</option>
+													</select>
+													<div class="saTrailingIconsWrapper">
+														<i class="far fa-angle-down"></i>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="petName">
-											<div class="saLabel">
-												<span>Pet name</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="petName" id="petName">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="hobby">
-											<div class="saLabel">
-												<span>Hobby</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="hobby" id="hobby">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="country">
-											<div class="saLabel">
-												<span>Country</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="country" id="country">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper">
-										<label class="saLabelCell" for="email">
-											<div class="saLabel">
-												<span>Email</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="email" id="email" type="email">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</fieldset>
-								<fieldset class="saSectionWrapper">
-									<legend class="saSectionHeaderWrapper">
-										<button class="saSectionHeader saInputPageField" type="button" aria-expanded="false">
-											<div class="saSectionHeaderLabel">Address</div><i
-												class="far fa-angle-up saIcon saClosed"></i>
-										</button>
-									</legend>
-									<div class="saFieldAndLabelWrapper" style="display: none;">
-										<label class="saLabelCell" for="address">
-											<div class="saLabel">
-												<span>Address</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="address" id="address">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saSiblingRow" style="display: none;">
-										<div class="saFieldAndLabelWrapper">
-											<label class="saLabelCell" for="zipcode">
-												<div class="saLabel">
-													<span>Zip code</span>
-												</div>
-											</label>
-											<div class="saFieldCell">
-												<div class="saInputWrapper short">
-													<div class="saInput">
-														<div class="saInputTextWrapper saInputPageField short">
-															<input class="saInputText" name="zipcode" id="zipcode">
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="saFieldAndLabelWrapper" style="display: none;">
-											<label class="saLabelCell" for="city">
-												<div class="saLabel">
-													<span>City</span>
-												</div>
-											</label>
-											<div class="saFieldCell">
-												<div class="saInputWrapper mediumShort">
-													<div class="saInput">
-														<div class="saInputTextWrapper saInputPageField mediumShort">
-															<input class="saInputText" name="city" id="city">
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</fieldset>
-								<fieldset class="saSectionWrapper saLastVisible">
-									<legend class="saSectionHeaderWrapper">
-										<button class="saSectionHeader saInputPageField" type="button" aria-expanded="false">
-											<div class="saSectionHeaderLabel">More fields</div><i
-												class="far fa-angle-up saIcon saClosed"></i>
-										</button>
-									</legend>
-									<div class="saFieldAndLabelWrapper" style="display: none;">
-										<label class="saLabelCell" for="state">
-											<div class="saLabel">
-												<span>State/Province</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="state" id="state">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper" style="display: none;">
-										<label class="saLabelCell" for="phoneNumber">
-											<div class="saLabel">
-												<span>Phone number</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="phoneNumber" id="phoneNumber"
-															type="tel">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper" style="display: none;">
-										<label class="saLabelCell" for="department">
-											<div class="saLabel">
-												<span>Department</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="department" id="department">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper" style="display: none;">
-										<label class="saLabelCell" for="position">
-											<div class="saLabel">
-												<span>Position</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="position" id="position">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper" style="display: none;">
-										<label class="saLabelCell" for="startDate">
-											<div class="saLabel">
-												<span>Start date</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="startDate" id="startDate" type="date">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper" style="display: none;">
-										<label class="saLabelCell" for="endDate">
-											<div class="saLabel">
-												<span>End date</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="endDate" id="endDate" type="date">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper" style="display: none;">
-										<label class="saLabelCell" for="manager">
-											<div class="saLabel">
-												<span>Manager</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="manager" id="manager">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper" style="display: none;">
-										<label class="saLabelCell" for="salary">
-											<div class="saLabel">
-												<span>Salary</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<input class="saInputText" name="salary" id="salary" type="number"
-															step="0.01">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper" style="display: none;">
-										<label class="saLabelCell" for="sex">
-											<div class="saLabel">
-												<span>Sex</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<select class="saInputText saDropdown" name="sex" id="sex">
-															<option value="">(Select)</option>
-															<option value="male">Man</option>
-															<option value="female">Woman</option>
-														</select>
-														<div class="saTrailingIconsWrapper">
-															<i class="far fa-angle-down"></i>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="saFieldAndLabelWrapper" style="display: none;">
-										<label class="saLabelCell" for="maritalStatus">
-											<div class="saLabel">
-												<span>Marital status</span>
-											</div>
-										</label>
-										<div class="saFieldCell">
-											<div class="saInputWrapper long">
-												<div class="saInput">
-													<div class="saInputTextWrapper saInputPageField long">
-														<select class="saInputText saDropdown" name="maritalStatus" id="maritalStatus">
-															<option value="">(Select)</option>
-															<option value="single">Single</option>
-															<option value="married">Married</option>
-															<option value="divorced">Divorced</option>
-															<option value="widowed">Widowed</option>
-														</select>
-														<div class="saTrailingIconsWrapper">
-															<i class="far fa-angle-down"></i>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</fieldset>
-								<!-- Dummy fields end -->
-							</div>
+								</div>
+							</fieldset>
+							<!-- Dummy fields end -->
 						</div>
 					</div>
-					<div class="saInputPageFooter saSearchFormFooter saDrawerFooter">
-						<div class="saFormButtonGroup">
-							<button class="saFormButton saButtonPrimary close" type="submit">
-								<i class="icon fas fa-spin fa-spinner saSpinner"></i>
-								Apply
-							</button>
-							<button class="saFormButton saButtonSecondary close" type="button">
-								<i class="icon fas fa-spin fa-spinner saSpinner"></i>
-								Cancel
-							</button>
-						</div>
+				</div>
+				<div class="saInputPageFooter saSearchFormFooter saDrawerFooter">
+					<div class="saFormButtonGroup">
+						<button class="saFormButton saButtonPrimary close" type="submit">
+							<i class="icon fas fa-spin fa-spinner saSpinner"></i>
+							Apply
+						</button>
+						<button class="saFormButton saButtonSecondary close" type="button">
+							<i class="icon fas fa-spin fa-spinner saSpinner"></i>
+							Cancel
+						</button>
 					</div>
-				</form>
-			</div>
+				</div>
+			</form>
 		</div>
+	</dialog>
 	<script>
 		$(document).ready(function () {
 			const dialog = document.querySelector('.saPopupOverlay');
@@ -823,10 +845,8 @@
 				root.setAttribute('aria-hidden', 'true');
 				body.style.overflow = 'hidden';
 				dialog.classList.remove('saClosed');
-				dialog.classList.add('saOpen');
+				dialog.showModal();
 				dialog.setAttribute('aria-modal', 'true');
-				btnIcon.classList.remove('fa-arrow-left-from-line');
-				btnIcon.classList.add('fa-arrow-right-from-line');
 
 				setTimeout(() => {
 					$('#searchTerm').focus();
@@ -836,11 +856,13 @@
 			function closeDialog() {
 				root.setAttribute('aria-hidden', 'false');
 				body.style.overflow = 'unset';
-				dialog.classList.remove('saOpen');
 				dialog.classList.add('saClosed');
-				dialog.setAttribute('aria-modal', 'false');
-				btnIcon.classList.remove('fa-arrow-right-from-line');
-				btnIcon.classList.add('fa-arrow-left-from-line');
+
+				setTimeout(() => {
+					dialog.close();
+					dialog.setAttribute('aria-modal', 'false');
+					dialog.classList.remove('saClosed');
+				}, 200);
 			}
 
 			$('.open').on('click', function (e) {
