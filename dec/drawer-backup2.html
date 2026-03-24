@@ -1,0 +1,888 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Drawer</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+	<link rel="stylesheet" href="../src/fontawesome/css/duotone-regular.min.css">
+
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+	<script type="text/javascript" src="https://livejs.com/live.js"></script>
+	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+</head>
+
+<body class="saRootBody saLargeScreen saPc saCompact saLargeScreenHasTopButtons">
+	<div class="saRootContentWrapper">
+		<div class="saSideBarOuter">
+			<form name="aspnetForm" method="post" action="./softadmin.aspx" id="aspnetForm">
+				<aside class="saAside">
+					<nav id="SideBar" class="saSideBar saSideBarJs saExpanded" aria-label="Sidomeny">
+						<div class="saAccessibilityBannerHolderJs">
+							<ul class="saAccessibilityBanner">
+								<li><a tabindex="0">Gå till innehåll</a></li>
+								<li><a tabindex="0">Gå till meny</a></li>
+							</ul>
+						</div>
+						<section class="saSideBarSection saSideBarHeader saSideBarSectionJs">
+							<img class="saCustomerLogo" alt="Softadmin logotyp"
+								src="../src/img/logo.svg">
+							<ul class="saSideBarInputGroup">
+								<li>
+									<a class="saSideBarSearchLink" tabindex="0">
+										<div><i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i></div>
+									</a>
+									<label class="saSideBarSearch">
+										<input id="SideBarSearchInput" class="saSearchInput saInputText" type="search"
+											placeholder="Sök...">
+										<i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i>
+									</label>
+								</li>
+							</ul>
+						</section>
+						<section class="saSideBarSection saSideBarBody saSideBarSectionJs">
+							<div class="saSideBarGroup saSideBarFavorites">
+								<div class="saSideBarFavoritesHeader">
+									<button class="saButtonFavorites" type="button"
+										aria-expanded="true"><span>Favoriter</span>
+										<i class="saIcon saIcon far fa-angle-down" aria-hidden="true"></i>
+									</button>
+									<button class="saButtonFavoritesMinimized" type="button" aria-expanded="true"
+										data-tooltip="Dölj favoriter">
+										<i class="saIcon saIcon far fa-angle-down" aria-hidden="true"></i>
+									</button>
+									<button type="button" class="saButtonFavoritesEdit">Redigera</button>
+								</div>
+								<ul class="saItemList">
+									<li>
+										<a class="saItem saFavorite" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-cat icon saIcon"></i></div>
+												<span>Kattsport</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saFavorite" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-crow icon saIcon"></i></div>
+												<span>Kråkor</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Meny</h3>
+								<ul class="saItemList">
+									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Startsida">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i
+														class="far fa-house-window icon saIcon"></i></div>
+												<span>Startsida</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Min Sida">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i
+														class="far fa-circle-user icon saIcon"></i></div><span>Min
+													Sida</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Infobanken">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="fab fa-leanpub icon saIcon"></i>
+												</div><span>Infobanken</span>
+											</div>
+										</a></li>
+								</ul>
+							</div>
+						</section>
+						<section class="saSideBarSection saSideBarFooter saSideBarSectionJs">
+							<div class="saSideBarFooterPrimary">
+								<div class="saListItem"><button class="saAccountDropdown" type="button"
+										aria-expanded="false"><img
+											src="../src/img/avatar2.png"
+											aria-hidden="true" class="saAccountAvatar"><span
+											class="saAccountName">Name Lastname</span><i
+											class="far fa-angle-down saIcon"></i></button></div>
+								<ul class="saSideBarToolbar">
+									<li><button data-tooltip="Starta ytterligare en session">
+											<div class="saIconWrapper"><i class="far fa-window-restore icon saIcon"></i>
+											</div><span>Ny flik</span>
+										</button></li>
+									<li><button data-tooltip="Visa hjälpsida - Redigera hjälpsida">
+											<div class="saIconWrapper"><i
+													class="far fa-circle-question icon saIcon"></i></div><span>Visa
+												hjälpsida - Redigera hjälpsida</span>
+										</button></li>
+									<li class="saNotificationsItem" aria-expanded="false">
+										<button id="largeScreenNotifications" type="button" aria-live="polite" aria-expanded="false">
+											<div class="saSidenavItem"><i class="far fa-bell saIcon"></i></div>
+										</button>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarFooterSecondary"><a class="saSoftadminLogo" target="_blank"
+									rel="noopener noreferrer" tabindex="-1" aria-hidden="true"
+									href="https://www.multisoft.se/softadmin/"><img class="saLogo"
+										src="./Presentation/img/softadmin-logo-minimized.svg"><img class="saWordmark"
+										src="./Presentation/img/softadmin-logo-expanded.svg"></a><button
+									class="saExpander saDynamicTooltipJs" type="button" aria-label="Minimera menyn"
+									aria-expanded="true" data-sa-minimized-tooltip="Expandera menyn"
+									data-sa-expanded-tooltip="Minimera menyn" data-tooltip="Minimera menyn"
+									aria-describedby="TooltipScreenReader84"><i
+										class="far fa-angles-left saIcon"></i></button></div>
+						</section>
+					</nav>
+				</aside>
+			</form>
+		</div>
+		<div class="saRightFrameRoot">
+			<div class="right standardview saPc saLargeScreen saCompact">
+				<div class="pagecontentframe">
+					<form class="interface">
+						<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs">
+												<div class="saBackButtonWrapper">
+													<button class="saBackButton" type="button" aria-label="Ändra sökvillkoren">
+														<i class="far fa-arrow-left saBack saIcon"></i>
+													</button>
+												</div>
+												<span class="saBreadcrumb"><a tabindex="0">Home</a></span>
+												<span class="saBreadcrumbSeparator" aria-hidden="true">&gt;</span>
+												<span class="saBreadcrumb saParameterPageCrumb"><a tabindex="0" class="open"><i class="far fa-magnifying-glass"></i></a></span>
+											</nav>
+										</div>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Drawer</h1>
+												<button class="saFavoriteToggle" type="button" tabindex="-1"
+													aria-checked="false" aria-label="Save as favorite">
+													<i aria-hidden="true" class="saIcon far fa-star"></i>
+													<i aria-hidden="true" class="saIcon fas fa-star"></i>
+												</button>
+												<ul class="saSpecialLinksWrapper"></ul>
+											</div>
+										</div>
+										<nav class="saNavigationBar">
+											<div class="saTopButtons">
+												<div class="saActionLinks">
+
+													<button class="saTopLink saActionLink saButtonPrimary" type="button">
+														<div class="saIconHolder saOptionIcon" aria-hidden="true">
+															<i class="far fa-plus icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Create new</span>
+													</button>
+
+													<button class="saTopLink saActionLink saButtonTertiary open" type="button">
+														<div class="saIconHolder saOptionIcon" aria-hidden="true">
+															<i class="fadr fa-sliders-up icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Filter</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button">
+														<div class="saIconHolder saOptionIcon" aria-hidden="true">
+															<i class="far fa-lock icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Lock</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button">
+														<div class="saIconHolder saOptionIcon" aria-hidden="true">
+															<i class="far fa-box icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Move</span>
+													</button>
+												</div>
+												<button type="button" class="saButtonModal open">
+													<i class="far fa-sidebar-flip saIcon"></i>
+												</button>
+											</div>
+										</nav>
+									</div>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+													<h1 class="saHeaderText">Drawer</h1>
+												</div>
+											</div><button class="saNavigator" type="button">
+												<div class="saNavBar"><span class="saNavBarStripe"></span><span
+														class="saNavBarStripe"></span><span
+														class="saNavBarStripe"></span>
+												</div>
+											</button>
+											<button class="saButtonHeader" type="button"
+												aria-live="polite">
+												<div><i class="far fa-bell saIcon"></i></div>
+												<div class="saNotificationBadge saEmpty" aria-hidden="true"></div>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</header>
+						<div class="maincolinner gradients">
+							<main id="MI_M" class="menuitem pagecontentframe">
+								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
+									<div class="scrollcontent-inner">
+										<div class="saPlaceHolderNation"></div>
+									</div>
+								</div>
+							</main>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<dialog class="saPopupOverlay interface" aria-modal="true" aria-labelledby="saDrawerTitle">
+		<div class="saDrawerWrapper">
+			<form class="saDrawer" tabindex="-1" method="dialog" target="_top" autocomplete="off">
+				<div class="saDrawerHeader">
+					<h2 id="saDrawerTitle">Filter</h2>
+					<button class="saCloseModal close" type="button" aria-label="Close">
+						<i class="far fa-xmark saIcon" aria-hidden="true"></i>
+					</button>
+				</div>
+				<div class="saDrawerBody saInputPage">
+					<div class="saFormRoot saLabelsAbove">
+						<div class="saFieldsColumn saLastVisible">
+							<fieldset class="saSectionWrapper">
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="searchTerm">
+										<div class="saLabel">
+											<span>Search</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField longest">
+													<input class="saInputText" name="searchTerm" id="searchTerm" type="search">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+							<fieldset class="saSectionWrapper">
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" id="cardcard">
+										<div class="saLabel">
+											<span>Bird type</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper">
+											<div class="saInput">
+												<div class="saInputCardsWrapper saRadioCardsWrapper saInputPageField">
+													<fieldset class="saInputCards saRadioWrapperJs saMedium" aria-labelledby="cardcard">
+														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
+															<input class="saRadioJs" name="cardcard" type="radio" id="card1" value="1">
+															<div class="saInputCardIconWrapper systemicon">
+																<i class="far fa-kiwi-bird saIcon icon"></i>
+															</div>
+															<div class="saInputCardBody">
+																<div class="saInputCardHeading">Kiwi</div>
+																<div class="saInputCardDescription">Flightless, nocturnal, and surprisingly tough.</div>
+															</div>
+														</label>
+
+														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
+															<input class="saRadioJs" name="cardcard" type="radio" id="card2" value="2">
+															<div class="saInputCardIconWrapper systemicon">
+																<i class="far fa-crow saIcon icon"></i>
+															</div>
+															<div class="saInputCardBody">
+																<div class="saInputCardHeading">Crow</div>
+																<div class="saInputCardDescription">Highly intelligent with a sharp memory.</div>
+															</div>
+														</label>
+
+														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
+															<input class="saRadioJs" name="cardcard" type="radio" id="card3" value="3">
+															<div class="saInputCardIconWrapper systemicon">
+																<i class="far fa-hat-wizard saIcon icon"></i>
+															</div>
+															<div class="saInputCardBody">
+																<div class="saInputCardHeading">Wizard Owl</div>
+																<div class="saInputCardDescription">Silent hunter with an air of mystery.</div>
+															</div>
+														</label>
+
+														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
+															<input class="saRadioJs" name="cardcard" type="radio" id="card4" value="4">
+															<div class="saInputCardIconWrapper systemicon">
+																<i class="far fa-dove saIcon icon"></i>
+															</div>
+															<div class="saInputCardBody">
+																<div class="saInputCardHeading">Dove</div>
+																<div class="saInputCardDescription">Calm, graceful, and symbolic of peace.</div>
+															</div>
+														</label>
+
+														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
+															<input class="saRadioJs" name="cardcard" type="radio" id="card5" value="5">
+															<div class="saInputCardIconWrapper systemicon">
+																<i class="far fa-crosshairs saIcon icon"></i>
+															</div>
+															<div class="saInputCardBody">
+																<div class="saInputCardHeading">Destroyer Falcon</div>
+																<div class="saInputCardDescription">Fast, precise, and built for the chase.</div>
+															</div>
+														</label>
+
+														<label class="saInputCardWrapper saRadioCard saActive saNoHeading saMedium">
+															<input class="saRadioJs" name="cardcard" type="radio" id="card6" value="6">
+															<div class="saInputCardIconWrapper systemicon">
+																<i class="far fa-egg saIcon icon"></i>
+															</div>
+															<div class="saInputCardBody">
+																<div class="saInputCardHeading">Penguin</div>
+																<div class="saInputCardDescription">Waddling swimmer adapted to icy seas.</div>
+															</div>
+														</label>
+													</fieldset>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saSiblingRow">
+									<div class="saFieldAndLabelWrapper">
+										<label class="saLabelCell" for="firstName">
+											<div class="saLabel">
+												<span>First name</span>
+											</div>
+										</label>
+										<div class="saFieldCell">
+											<div class="saInputWrapper mediumLong">
+												<div class="saInput">
+													<div class="saInputTextWrapper saInputPageField mediumLong">
+														<input class="saInputText" name="firstName" id="firstName">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="saFieldAndLabelWrapper">
+										<label class="saLabelCell" for="lastName">
+											<div class="saLabel">
+												<span>Last name</span>
+											</div>
+										</label>
+										<div class="saFieldCell">
+											<div class="saInputWrapper mediumLong">
+												<div class="saInput">
+													<div class="saInputTextWrapper saInputPageField mediumLong">
+														<input class="saInputText" name="lastName" id="lastName">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="DoB">
+										<div class="saLabel">
+											<span>Date of birth</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper mediumLong">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField mediumLong">
+													<input class="saInputText" name="DoB" id="DoB">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="employeeId">
+										<div class="saLabel">
+											<span>Employee ID</span>
+										</div>
+										<div class="saDescription">
+											<span>Unique identifier assigned to each employee within the organization. Used
+												to link the employee to records such as assignments, time reports, and
+												internal processes.</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper mediumShort">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField mediumShort">
+													<input class="saInputText" name="employeeId" id="employeeId"
+														placeholder="AU-20929z">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="shoeSize">
+										<div class="saLabel">
+											<span>Shoe size</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper shortest">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField shortest">
+													<input class="saInputText" name="shoeSize" id="shoeSize">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Dummy fields start -->
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="favoriteColor">
+										<div class="saLabel">
+											<span>Favorite color</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="favoriteColor" id="favoriteColor">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="petName">
+										<div class="saLabel">
+											<span>Pet name</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="petName" id="petName">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="hobby">
+										<div class="saLabel">
+											<span>Hobby</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="hobby" id="hobby">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="country">
+										<div class="saLabel">
+											<span>Country</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="country" id="country">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper">
+									<label class="saLabelCell" for="email">
+										<div class="saLabel">
+											<span>Email</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="email" id="email" type="email">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+							<fieldset class="saSectionWrapper">
+								<legend class="saSectionHeaderWrapper">
+									<button class="saSectionHeader saInputPageField" type="button" aria-expanded="false">
+										<div class="saSectionHeaderLabel">Address</div><i
+											class="far fa-angle-up saIcon saClosed"></i>
+									</button>
+								</legend>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="address">
+										<div class="saLabel">
+											<span>Address</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="address" id="address">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saSiblingRow" style="display: none;">
+									<div class="saFieldAndLabelWrapper">
+										<label class="saLabelCell" for="zipcode">
+											<div class="saLabel">
+												<span>Zip code</span>
+											</div>
+										</label>
+										<div class="saFieldCell">
+											<div class="saInputWrapper short">
+												<div class="saInput">
+													<div class="saInputTextWrapper saInputPageField short">
+														<input class="saInputText" name="zipcode" id="zipcode">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="saFieldAndLabelWrapper" style="display: none;">
+										<label class="saLabelCell" for="city">
+											<div class="saLabel">
+												<span>City</span>
+											</div>
+										</label>
+										<div class="saFieldCell">
+											<div class="saInputWrapper mediumShort">
+												<div class="saInput">
+													<div class="saInputTextWrapper saInputPageField mediumShort">
+														<input class="saInputText" name="city" id="city">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+							<fieldset class="saSectionWrapper saLastVisible">
+								<legend class="saSectionHeaderWrapper">
+									<button class="saSectionHeader saInputPageField" type="button" aria-expanded="false">
+										<div class="saSectionHeaderLabel">More fields</div><i
+											class="far fa-angle-up saIcon saClosed"></i>
+									</button>
+								</legend>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="state">
+										<div class="saLabel">
+											<span>State/Province</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="state" id="state">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="phoneNumber">
+										<div class="saLabel">
+											<span>Phone number</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="phoneNumber" id="phoneNumber"
+														type="tel">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="department">
+										<div class="saLabel">
+											<span>Department</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="department" id="department">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="position">
+										<div class="saLabel">
+											<span>Position</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="position" id="position">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="startDate">
+										<div class="saLabel">
+											<span>Start date</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="startDate" id="startDate" type="date">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="endDate">
+										<div class="saLabel">
+											<span>End date</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="endDate" id="endDate" type="date">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="manager">
+										<div class="saLabel">
+											<span>Manager</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="manager" id="manager">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="salary">
+										<div class="saLabel">
+											<span>Salary</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<input class="saInputText" name="salary" id="salary" type="number"
+														step="0.01">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="sex">
+										<div class="saLabel">
+											<span>Sex</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<select class="saInputText saDropdown" name="sex" id="sex">
+														<option value="">(Select)</option>
+														<option value="male">Man</option>
+														<option value="female">Woman</option>
+													</select>
+													<div class="saTrailingIconsWrapper">
+														<i class="far fa-angle-down"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="saFieldAndLabelWrapper" style="display: none;">
+									<label class="saLabelCell" for="maritalStatus">
+										<div class="saLabel">
+											<span>Marital status</span>
+										</div>
+									</label>
+									<div class="saFieldCell">
+										<div class="saInputWrapper long">
+											<div class="saInput">
+												<div class="saInputTextWrapper saInputPageField long">
+													<select class="saInputText saDropdown" name="maritalStatus" id="maritalStatus">
+														<option value="">(Select)</option>
+														<option value="single">Single</option>
+														<option value="married">Married</option>
+														<option value="divorced">Divorced</option>
+														<option value="widowed">Widowed</option>
+													</select>
+													<div class="saTrailingIconsWrapper">
+														<i class="far fa-angle-down"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+							<!-- Dummy fields end -->
+						</div>
+					</div>
+				</div>
+				<div class="saInputPageFooter saSearchFormFooter saDrawerFooter">
+					<div class="saFormButtonGroup">
+						<button class="saFormButton saButtonPrimary close" type="submit">
+							<i class="icon fas fa-spin fa-spinner saSpinner"></i>
+							Apply
+						</button>
+						<button class="saFormButton saButtonSecondary close" type="button">
+							<i class="icon fas fa-spin fa-spinner saSpinner"></i>
+							Cancel
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</dialog>
+
+	<script>
+		$(document).ready(function () {
+			const dialog = document.querySelector('dialog.saPopupOverlay');
+			const drawer = document.querySelector('dialog .saDrawer');
+			const root = document.querySelector('.saRootContentWrapper');
+			const body = document.querySelector('body');
+			const open = document.querySelector('.open')
+
+
+			$('li.saActivity.saClickable, .open').on('click', function (e) {
+				e.preventDefault();
+				const title = $(this).find('.saActivityHeading').text();
+				if (title) {
+					$('#saDrawerTitle').text(title);
+				}
+				openDialog();
+			});
+
+			function openDialog() {
+				if (!dialog.open) {
+					root.setAttribute('aria-hidden', 'true');
+					body.style.overflow = 'hidden';
+					dialog.showModal();
+					dialog.setAttribute('aria-modal', 'true');
+
+					setTimeout(() => {
+						$('#searchTerm').focus();
+					}, 200);
+				}
+			}
+
+			function closeDialog() {
+				if (dialog.open) {
+					dialog.classList.add('saClosed');
+					root.setAttribute('aria-hidden', 'false');
+
+					setTimeout(() => {
+						dialog.close();
+						dialog.classList.remove('saClosed')
+						body.style.overflow = 'unset';
+					}, 200);
+				}
+			}
+
+			$('.close').on('click', function (e) {
+				e.preventDefault();
+				closeDialog();
+			});
+
+			$('.saPopupOverlay').on('click', function (e) {
+				if (e.target === this) {
+					closeDialog();
+				}
+			});
+
+			document.addEventListener('keydown', (e) => {
+				if (e.key === 'Escape') {
+					e.preventDefault();
+					closeDialog();
+				}
+			})
+
+			$('.saSectionHeader').on('click', function () {
+				const $button = $(this);
+				const expanded = $button.attr('aria-expanded') === 'true';
+				$button.attr('aria-expanded', expanded ? 'false' : 'true');
+
+				const $icon = $button.find('.saIcon');
+				$icon.toggleClass('saClosed', expanded);
+
+				const $fieldset = $button.closest('fieldset');
+				// Hide/show all fields after the legend inside this fieldset
+				const $fields = $fieldset.children('.saFieldAndLabelWrapper, .saSiblingRow');
+				if (expanded) {
+					$fields.hide();
+				} else {
+					$fields.show();
+				}
+			});
+
+			$('.saFavoriteToggle').click(function () {
+				$(this).attr('aria-checked', function (i, attr) { return attr === 'true' ? 'false' : 'true'; });
+			});
+		});
+
+	</script>
+</body>

@@ -2050,6 +2050,11 @@ div.saPopupOverlay {
   left: 0;
   z-index: 100000;
   background-color: rgba(49, 58, 68, 0.2);
+  transition: ease background-color 0.2s;
+}
+div.saPopupOverlay.saClosed {
+  background-color: transparent;
+  pointer-events: none;
 }
 .saPopup .saPopupOverlay::backdrop {
   border-radius: 0.5rem 0.5rem 0 0;
@@ -36445,11 +36450,150 @@ pre.saCode {
   height: calc(100% - 1.625rem);
   border-radius: 0.75rem;
 }
-.saDrawer {
+.saButtonModal {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+  position: absolute;
+  z-index: 999;
+  inset: 0.5rem auto auto 1rem;
+  transition: ease all 0.2s;
+}
+.saButtonModal .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saButtonModal .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saButtonModal .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saButtonModal .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saButtonModal .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .saButtonModal:hover {
+    border-color: var(--Sa-Color-Primary600);
+    color: var(--Sa-Color-Primary600);
+  }
+  .saButtonModal:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+  .saButtonModal:hover .saBadge {
+    background-color: var(--Sa-Color-Primary600);
+  }
+}
+.saButtonModal:active {
+  background: var(--Sa-Color-Primary100);
+}
+.saButtonModal:active .saBadge {
+  color: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary100);
+}
+.saButtonModal.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.saButtonModal.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saButtonModal.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saButtonModal.saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saButtonModal.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .saButtonModal.saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saButtonModal.saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saButtonModal.saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saButtonModal.saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saButtonModal:active {
+  border-radius: 0.75rem;
+}
+.saButtonModal::after {
+  content: '';
+  height: 3rem;
+  width: 3rem;
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+}
+.saClosed .saButtonModal {
+  inset: 0.5rem auto auto -1.5rem;
+}
+.saDrawerWrapper {
   position: absolute;
   inset: 0 0 auto auto;
   height: 100%;
   display: flex;
+  transition: ease transform 0.2s;
+  z-index: 999;
+  pointer-events: all;
+  @starting-style {
+    transform: translateX(calc(100% - 1rem));
+  }
+}
+.saClosed .saDrawerWrapper {
+  transform: translateX(calc(100% - 1rem));
+}
+.saDrawer {
+  display: flex;
+  height: 100%;
   flex-direction: column;
   box-shadow: 0 0 2rem rgba(49, 58, 68, 0.07);
   background-color: #fff;
@@ -36459,18 +36603,17 @@ pre.saCode {
   width: fit-content;
   min-width: min(23rem, 100dvw);
   max-width: calc(100dvw - 18rem);
-  transition: ease transform 0.2s, ease inset 0.2s;
-  z-index: 999;
+  border-left: 0.0625rem solid #ccd5e2;
   scroll-padding: 3rem 0;
-  @starting-style {
-    transform: translateX(25rem);
-  }
+  transition: ease box-shadow 0.2s;
 }
 .saDrawer * {
   box-sizing: border-box;
 }
 .saClosed .saDrawer {
-  transform: translateX(100%);
+  pointer-events: none;
+  overflow: hidden;
+  box-shadow: none;
 }
 .saShakeDrawer .saDrawer {
   animation: saShake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
@@ -36489,9 +36632,10 @@ pre.saCode {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0 0.5rem 1rem;
+  padding: 0.5rem 0 0.5rem 3.5rem;
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(0.5rem);
+  min-height: 3rem;
 }
 .saDrawer .saDrawerBody {
   height: 200dvh;
