@@ -35361,7 +35361,176 @@ pre.saCode {
   height: 200dvh;
   border-radius: 0.75rem;
 }
-.left {
+.direction {
+  display: grid;
+  grid-template-columns: repeat(3, 2rem);
+  width: fit-content;
+  gap: 0.25rem;
+  padding: 2rem;
+}
+.direction button {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+}
+.direction button .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.direction button .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.direction button .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.direction button .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.direction button .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .direction button:hover {
+    border-color: var(--Sa-Color-Primary600);
+    color: var(--Sa-Color-Primary600);
+  }
+  .direction button:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+  .direction button:hover .saBadge {
+    background-color: var(--Sa-Color-Primary600);
+  }
+}
+.direction button:active {
+  background: var(--Sa-Color-Primary100);
+}
+.direction button:active .saBadge {
+  color: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary100);
+}
+.direction button.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.direction button.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.direction button.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .direction button.saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .direction button.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .direction button.saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.direction button.saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.direction button.saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.direction button.saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.direction button:active {
+  border-radius: 0.75rem;
+}
+.erka {
+  display: flex;
+  align-items: center;
+  height: 100dvh;
+  width: 2rem;
+  border-left: 1px solid #ccd5e2;
+  position: absolute;
+  left: 3.75rem;
+  z-index: 999;
+}
+body:has(.saExpanded) .erka {
+  left: 17.25rem;
+}
+.erka button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: -0.5rem;
+  height: 2rem;
+  width: 1rem;
+  border-radius: 99rem;
+  background-color: #f8f9fb;
+  border: 0.0625rem solid #ccd5e2;
+  color: #60748b;
+}
+.saPill {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+  padding: 0 0.75rem;
+  border-radius: 99rem;
+  line-height: 1rem;
+  box-shadow: inset 0 0 0 1px #ccd5e2;
+  background-color: #f8f9fb;
+  color: inherit;
+  position: sticky;
+  margin: 1rem auto;
+  font-size: 0.75rem;
+}
+.saPill.saStickyTop {
+  top: 0.5rem;
+}
+.saPill.saStickyBottom {
+  bottom: 0.5rem;
+}
+.saPill .saIcon {
+  color: var(--Sa-Color-Icon);
+  margin-right: 0.375rem;
+}
+.er {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: 'Lexend', sans-serif;
@@ -35386,99 +35555,141 @@ pre.saCode {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
+  background-color: transparent;
 }
-.left .saButtonText {
+.er .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.left .saBadgedIcon {
+.er .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.left .saIcon {
+.er .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.left .saIcon {
+.er .saIcon {
   color: var(--Sa-Color-Icon);
 }
-.left.saDestructive {
+.er.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
-.left.saDestructive .saIcon {
+.er.saDestructive .saIcon {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
 @media (pointer: fine) {
-  .left.saDestructive:hover {
+  .er.saDestructive:hover {
     color: var(--Sa-Color-DestructiveButtonBackground);
     background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
   }
-  .left.saDestructive:hover .saIcon {
+  .er.saDestructive:hover .saIcon {
     color: var(--Sa-Color-DestructiveButtonBackground);
   }
 }
-.left.saDestructive:active {
+.er.saDestructive:active {
   color: #fff;
   background: var(--Sa-Color-DestructiveButtonBackground);
 }
-.left.saDestructive:active > .saIcon {
+.er.saDestructive:active > .saIcon {
   color: #fff;
 }
 @media (pointer: fine) {
-  .left:hover {
+  .er:hover {
     background-color: var(--Sa-Color-Primary50);
     color: var(--Sa-Color-Primary600);
   }
-  .left:hover .saIcon {
+  .er:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
 }
-.left:active {
+.er:active {
   background-color: var(--Sa-Color-Primary100);
   color: var(--Sa-Color-Primary700);
 }
-.left:active .saIcon {
+.er:active .saIcon {
   color: var(--Sa-Color-Primary700);
 }
-.left:disabled,
-.left.saDisabled {
+.er:disabled,
+.er.saDisabled {
   color: #adbdd1;
   background-color: transparent;
   cursor: not-allowed;
 }
-.left:disabled .saIcon,
-.left.saDisabled .saIcon {
+.er:disabled .saIcon,
+.er.saDisabled .saIcon {
   color: #adbdd1;
 }
-.left:active {
+.er:active {
   border-radius: 0.75rem;
 }
-.saSmallScreen .left {
+.saSmallScreen .er {
   display: none;
 }
 .saDrawerWrapper {
   position: absolute;
   inset: 0 0 auto auto;
   height: 100%;
-  display: flex;
   transition: ease transform 0.2s;
   z-index: 999;
   pointer-events: all;
   border-left: 0.0625rem solid #ccd5e2;
   justify-content: flex-end;
-  @starting-style {
-    transform: translateX(22rem);
-  }
 }
 .saClosed .saDrawerWrapper {
   transform: translateX(calc(100% - 1.5rem));
+}
+.saClosed.saUp .saDrawerWrapper {
+  transform: translateY(100dvh);
+}
+.saClosed.saRight .saDrawerWrapper {
+  transform: translateX(calc(-100% + 1.5rem));
+}
+.saClosed.saDown .saDrawerWrapper {
+  transform: translateY(-100dvh);
+}
+.saUp .saDrawerWrapper {
+  inset: unset;
+  bottom: 0;
+  height: unset;
+  width: 100%;
+  border-left: none;
+  border-top: 0.0625rem solid #ccd5e2;
+}
+.saRight .saDrawerWrapper {
+  inset: unset;
+  left: 0;
+  border-left: none;
+  border-right: 0.0625rem solid #ccd5e2;
+}
+.saDown .saDrawerWrapper {
+  inset: unset;
+  top: 0;
+  height: unset;
+  width: 100%;
+  border-left: none;
+  border-bottom: 0.0625rem solid #ccd5e2;
+}
+@starting-style {
+  .saDrawerWrapper {
+    transform: translateX(22rem);
+  }
+  .saUp .saDrawerWrapper {
+    transform: translateY(100dvh);
+  }
+  .saRight .saDrawerWrapper {
+    transform: translateX(-22rem);
+  }
+  .saDown .saDrawerWrapper {
+    transform: translateY(-100dvh);
+  }
 }
 .saDrawer {
   display: flex;
@@ -35494,6 +35705,14 @@ pre.saCode {
   max-width: calc(100dvw - 18rem);
   scroll-padding: 3rem 0;
   transition: ease box-shadow 0.2s;
+}
+.saUp .saDrawer,
+.saDown .saDrawer {
+  min-width: unset;
+  max-width: unset;
+  width: 100dvw;
+  height: unset;
+  max-height: calc(100dvh - 4rem);
 }
 .saSmallScreen .saDrawer {
   min-width: unset;
@@ -35540,6 +35759,7 @@ pre.saCode {
   position: sticky;
   bottom: 0;
   padding: 1rem;
+  margin-top: auto;
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(0.5rem);
 }
