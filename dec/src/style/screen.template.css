@@ -6136,7 +6136,7 @@ datalist {
   top: 0;
   z-index: 10;
   background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(0.25rem);
 }
 .saSideBarSection.saSideBarHeaderSmallScreen .saButtonHeader {
   margin-left: auto;
@@ -9866,6 +9866,266 @@ datalist {
 .saButtonGhost.saDisabled .saIcon {
   color: #adbdd1;
 }
+.saDefaultButtonGhost {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: var(--Sa-Color-Primary600);
+  background: transparent;
+}
+.saDefaultButtonGhost .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saDefaultButtonGhost .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultButtonGhost .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultButtonGhost .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saDefaultButtonGhost.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultButtonGhost.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saDefaultButtonGhost.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saDefaultButtonGhost.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saDefaultButtonGhost.saDestructive:active {
+  color: #fff;
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultButtonGhost.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saDefaultButtonGhost:hover {
+    background-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary600);
+  }
+  .saDefaultButtonGhost:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+}
+.saDefaultButtonGhost:active {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+}
+.saDefaultButtonGhost:active .saIcon {
+  color: var(--Sa-Color-Primary700);
+}
+.saDefaultButtonGhost:disabled,
+.saDefaultButtonGhost.saDisabled {
+  color: #adbdd1;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saDefaultButtonGhost:disabled .saIcon,
+.saDefaultButtonGhost.saDisabled .saIcon {
+  color: #adbdd1;
+}
+.saStandard .saDefaultButtonGhost {
+  gap: 0.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+}
+.saStandard .saDefaultButtonGhost:has(.saIcon) {
+  padding-left: 0.75rem;
+}
+.saStandard .saDefaultButtonGhost:active {
+  border-radius: 0.75rem;
+}
+.saStandard .saDefaultButtonGhost .saIcon {
+  font-size: 1.25rem;
+  min-width: 1.625rem;
+}
+.saCompact .saDefaultButtonGhost {
+  gap: 0.375rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+}
+.saCompact .saDefaultButtonGhost:has(.saIcon) {
+  padding-left: 0.625rem;
+}
+.saCompact .saDefaultButtonGhost:active {
+  border-radius: 0.75rem;
+}
+.saCompact .saDefaultButtonGhost .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
+}
+.saSmallScreen .saDefaultButtonGhost {
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  height: 2.5rem;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+.saSmallScreen .saDefaultButtonGhost:has(.saIcon) {
+  padding-left: 0.75rem;
+}
+.saSmallScreen .saDefaultButtonGhost:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saDefaultButtonGhost .saIcon {
+  font-size: 1.25rem;
+  min-width: 1.625rem;
+}
+.saDefaultButtonGhostIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: var(--Sa-Color-Primary600);
+  background: transparent;
+}
+.saDefaultButtonGhostIcon .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saDefaultButtonGhostIcon .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultButtonGhostIcon .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultButtonGhostIcon .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saDefaultButtonGhostIcon.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultButtonGhostIcon.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saDefaultButtonGhostIcon.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saDefaultButtonGhostIcon.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saDefaultButtonGhostIcon.saDestructive:active {
+  color: #fff;
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultButtonGhostIcon.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saDefaultButtonGhostIcon:hover {
+    background-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary600);
+  }
+  .saDefaultButtonGhostIcon:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+}
+.saDefaultButtonGhostIcon:active {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+}
+.saDefaultButtonGhostIcon:active .saIcon {
+  color: var(--Sa-Color-Primary700);
+}
+.saDefaultButtonGhostIcon:disabled,
+.saDefaultButtonGhostIcon.saDisabled {
+  color: #adbdd1;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saDefaultButtonGhostIcon:disabled .saIcon,
+.saDefaultButtonGhostIcon.saDisabled .saIcon {
+  color: #adbdd1;
+}
+.saStandard .saDefaultButtonGhostIcon {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+}
+.saStandard .saDefaultButtonGhostIcon:active {
+  border-radius: 0.75rem;
+}
+.saCompact .saDefaultButtonGhostIcon {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+}
+.saCompact .saDefaultButtonGhostIcon:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saDefaultButtonGhostIcon {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+}
+.saSmallScreen .saDefaultButtonGhostIcon:active {
+  border-radius: 0.75rem;
+}
 .saDefaultButtonPrimary {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
@@ -10144,6 +10404,143 @@ datalist {
   font-size: 1.25rem;
   min-width: 1.625rem;
 }
+.saDefaultButtonSecondaryIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+}
+.saDefaultButtonSecondaryIcon .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saDefaultButtonSecondaryIcon .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultButtonSecondaryIcon .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultButtonSecondaryIcon .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saDefaultButtonSecondaryIcon .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .saDefaultButtonSecondaryIcon:hover {
+    border-color: var(--Sa-Color-Primary600);
+    color: var(--Sa-Color-Primary600);
+  }
+  .saDefaultButtonSecondaryIcon:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+  .saDefaultButtonSecondaryIcon:hover .saBadge {
+    background-color: var(--Sa-Color-Primary600);
+  }
+}
+.saDefaultButtonSecondaryIcon:active {
+  background: var(--Sa-Color-Primary100);
+}
+.saDefaultButtonSecondaryIcon:active .saBadge {
+  color: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary100);
+}
+.saDefaultButtonSecondaryIcon.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.saDefaultButtonSecondaryIcon.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultButtonSecondaryIcon.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saDefaultButtonSecondaryIcon.saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saDefaultButtonSecondaryIcon.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .saDefaultButtonSecondaryIcon.saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saDefaultButtonSecondaryIcon.saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saDefaultButtonSecondaryIcon.saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saDefaultButtonSecondaryIcon.saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saStandard .saDefaultButtonSecondaryIcon {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+}
+.saStandard .saDefaultButtonSecondaryIcon:active {
+  border-radius: 0.75rem;
+}
+.saCompact .saDefaultButtonSecondaryIcon {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+}
+.saCompact .saDefaultButtonSecondaryIcon:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saDefaultButtonSecondaryIcon {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+}
+.saSmallScreen .saDefaultButtonSecondaryIcon:active {
+  border-radius: 0.75rem;
+}
 .saDefaultButtonTertiary {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
@@ -10303,7 +10700,7 @@ datalist {
   font-size: 1.25rem;
   min-width: 1.625rem;
 }
-.saDefaultButtonGhostIcon {
+.saDefaultButtonTertiaryIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: 'Lexend', sans-serif;
@@ -10316,93 +10713,10 @@ datalist {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  color: var(--Sa-Color-Primary600);
-  background: transparent;
+  border: 0.0625rem solid #bbd6ff;
+  background-color: #f7faff;
+  color: #2d6ce1;
   position: relative;
-}
-.saDefaultButtonGhostIcon .saButtonText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.5;
-}
-.saDefaultButtonGhostIcon .saBadgedIcon {
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
-.saDefaultButtonGhostIcon .saIcon {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.saDefaultButtonGhostIcon .saIcon {
-  color: var(--Sa-Color-Icon);
-}
-.saDefaultButtonGhostIcon.saDestructive {
-  color: var(--Sa-Color-DestructiveButtonBackground);
-}
-.saDefaultButtonGhostIcon.saDestructive .saIcon {
-  color: var(--Sa-Color-DestructiveButtonBackground);
-}
-@media (pointer: fine) {
-  .saDefaultButtonGhostIcon.saDestructive:hover {
-    color: var(--Sa-Color-DestructiveButtonBackground);
-    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
-  }
-  .saDefaultButtonGhostIcon.saDestructive:hover .saIcon {
-    color: var(--Sa-Color-DestructiveButtonBackground);
-  }
-}
-.saDefaultButtonGhostIcon.saDestructive:active {
-  color: #fff;
-  background: var(--Sa-Color-DestructiveButtonBackground);
-}
-.saDefaultButtonGhostIcon.saDestructive:active > .saIcon {
-  color: #fff;
-}
-@media (pointer: fine) {
-  .saDefaultButtonGhostIcon:hover {
-    background-color: var(--Sa-Color-Primary50);
-    color: var(--Sa-Color-Primary600);
-  }
-  .saDefaultButtonGhostIcon:hover .saIcon {
-    color: var(--Sa-Color-Primary600);
-  }
-}
-.saDefaultButtonGhostIcon:active {
-  background-color: var(--Sa-Color-Primary100);
-  color: var(--Sa-Color-Primary700);
-}
-.saDefaultButtonGhostIcon:active .saIcon {
-  color: var(--Sa-Color-Primary700);
-}
-.saDefaultButtonGhostIcon:disabled,
-.saDefaultButtonGhostIcon.saDisabled {
-  color: #adbdd1;
-  background-color: transparent;
-  cursor: not-allowed;
-}
-.saDefaultButtonGhostIcon:disabled .saIcon,
-.saDefaultButtonGhostIcon.saDisabled .saIcon {
-  color: #adbdd1;
-}
-.saStandard .saDefaultButtonGhostIcon {
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  max-width: 2.5rem;
-  min-width: 2.5rem;
-  font-size: 1rem;
-}
-.saStandard .saDefaultButtonGhostIcon:active {
-  border-radius: 0.75rem;
-}
-.saCompact .saDefaultButtonGhostIcon {
   border-radius: 0.5rem;
   padding: 0 0.5rem;
   width: 2rem;
@@ -10411,51 +10725,97 @@ datalist {
   min-width: 2rem;
   font-size: 1rem;
 }
-.saCompact .saDefaultButtonGhostIcon:active {
-  border-radius: 0.75rem;
+.saDefaultButtonTertiaryIcon .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
 }
-.saSmallScreen .saDefaultButtonGhostIcon {
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  max-width: 2.5rem;
-  min-width: 2.5rem;
-  font-size: 1rem;
+.saDefaultButtonTertiaryIcon .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
 }
-.saSmallScreen .saDefaultButtonGhostIcon:active {
-  border-radius: 0.75rem;
-}
-.saDefaultButtonGhostIcon .saBadgeCount {
+.saDefaultButtonTertiaryIcon .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 1rem;
-  box-sizing: border-box;
-  min-width: 1rem;
-  color: var(--Sa-Color-BadgeCountText);
-  background-color: var(--Sa-Color-BadgeCountBackground);
+}
+.saDefaultButtonTertiaryIcon .saIcon {
+  color: inherit;
+}
+.saDefaultButtonTertiaryIcon .saBadge {
+  color: #f7faff;
+  border: 0.125rem solid #f7faff;
+}
+@media (pointer: fine) {
+  .saDefaultButtonTertiaryIcon:hover {
+    background-color: #e5efff;
+    color: #1c57c6;
+    border-color: #2d6ce1;
+  }
+  .saDefaultButtonTertiaryIcon:hover .saIcon {
+    color: #1c57c6;
+  }
+  .saDefaultButtonTertiaryIcon:hover .saBadge {
+    background-color: #e5efff;
+  }
+}
+.saDefaultButtonTertiaryIcon:active {
+  background-color: #bbd6ff;
+  color: #0f44a6;
+  border-color: #1c57c6;
+}
+.saDefaultButtonTertiaryIcon:active .saIcon {
+  color: #0f44a6;
+}
+.saDefaultButtonTertiaryIcon:active .saBadge {
+  background-color: #0f44a6;
+}
+.saDefaultButtonTertiaryIcon.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.saDefaultButtonTertiaryIcon.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultButtonTertiaryIcon.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saDefaultButtonTertiaryIcon.saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saDefaultButtonTertiaryIcon.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .saDefaultButtonTertiaryIcon.saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saDefaultButtonTertiaryIcon.saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saDefaultButtonTertiaryIcon.saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saDefaultButtonTertiaryIcon.saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saDefaultButtonTertiaryIcon:active {
   border-radius: 0.75rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  padding: 0.25rem;
-  transition: ease background-color 0.2s;
-  white-space: nowrap;
-  flex-shrink: 0;
-  font-weight: 300;
-  text-align: center;
-}
-.saDefaultButtonGhostIcon .saBadgeCount.saUrgent {
-  color: #fff;
-  background-color: #e0173e;
-}
-.saDefaultButtonGhostIcon .saBadgeCount.saNew {
-  color: #fff;
-  background-color: var(--Sa-Color-Primary600);
-}
-.saDefaultButtonGhostIcon .saBadgeCount {
-  position: absolute;
-  inset: 0 0 auto auto;
 }
 .ButtonPrimary {
   background-color: var(--Sa-Color-Primary600);
@@ -31166,25 +31526,7 @@ a.saKpiOuter:active {
   text-decoration: none;
   pointer-events: none;
 }
-.saTreeViewWrapper {
-  display: block;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.saTreeViewWrapper .saTreeView > li:has(ul):first-child:after {
-  top: 1rem;
-  z-index: 1;
-}
-.saTreeViewWrapper .saTreeView > li:has(ul) > label::after {
-  border-width: 0 0 1px 1px;
-  border-color: rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) #ccd5e2 rgba(255, 255, 255, 0);
-  z-index: 1;
-}
-.saTreeViewWrapper .saFileDropDescription {
+.saFileDropDescription {
   width: fit-content;
   background: var(--Sa-Color-Primary50);
   border-radius: 0.75rem;
@@ -31197,7 +31539,7 @@ a.saKpiOuter:active {
   box-sizing: border-box;
   margin-bottom: 0.5rem;
 }
-.saTreeViewWrapper .saFileDropDescription .saIcon {
+.saFileDropDescription .saIcon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31208,1595 +31550,8 @@ a.saKpiOuter:active {
   height: 2rem;
   width: 2rem;
 }
-.saTreeViewWrapper .saTreeView.saRoot > li:first-child:after {
-  display: none;
-}
-.saTreeViewWrapper .saTreeView.saRoot > li > label::after {
-  display: none;
-}
-.saTreeViewWrapper .saTreeView {
-  display: flex;
-  flex-direction: column;
-  min-height: 2rem;
-}
-.saTreeViewWrapper .saTreeView .saLoadingSpinnerWrapper {
-  display: flex;
-  gap: 0.5rem;
-}
-.saTreeViewWrapper .saTreeView .saLoadingSpinnerWrapper .saLoadingSpinner,
-.saTreeViewWrapper .saTreeView .saLoadingSpinnerWrapper .saLoadingSpinner::after {
-  height: 1rem;
-  width: 1rem;
-}
-.saTreeViewWrapper .saTreeView .saLoadingSpinnerWrapper.saDone .saLoading {
-  display: flex;
-}
-.saTreeViewWrapper .saTreeView .saLoadingSpinnerWrapper.saDone .saLoadingSpinner {
-  opacity: 0;
-  border-top-color: rgba(41, 187, 78, 0.2);
-  border-right-color: rgba(41, 187, 78, 0.2);
-  border-bottom-color: rgba(41, 187, 78, 0.2);
-  border-left-color: #29bb4e;
-  animation: saLoadingSpinner 0.8s infinite linear, saLoadingSpinnerDone 0.8s forwards linear;
-}
-.saTreeViewWrapper .saTreeView .saLoadingProgress {
-  font-size: 0.75rem;
-  color: #60748b;
-}
-.saTreeViewWrapper .saTreeView.saDraggingFile .saNodeContent * {
-  pointer-events: none;
-}
-.saTreeViewWrapper .saTreeView.saDraggingFile .saCanNotDropFile,
-.saTreeViewWrapper .saTreeView.saDraggingFile.saNoDrop {
-  color: #ccd5e2;
-}
-.saTreeViewWrapper .saTreeView.saDraggingFile .saCanNotDropFile .saExpander,
-.saTreeViewWrapper .saTreeView.saDraggingFile.saNoDrop .saExpander {
-  background-color: #ccd5e2;
-}
-.saTreeViewWrapper .saTreeView.saDraggingFile .saCanNotDropFile i,
-.saTreeViewWrapper .saTreeView.saDraggingFile.saNoDrop i,
-.saTreeViewWrapper .saTreeView.saDraggingFile .saCanNotDropFile .saDragHandle,
-.saTreeViewWrapper .saTreeView.saDraggingFile.saNoDrop .saDragHandle,
-.saTreeViewWrapper .saTreeView.saDraggingFile .saCanNotDropFile span,
-.saTreeViewWrapper .saTreeView.saDraggingFile.saNoDrop span {
-  color: #ccd5e2;
-}
-.saTreeViewWrapper .saTreeView.saDraggingFile .saFileDrop {
-  background: var(--Sa-Color-Primary100);
-  outline-color: var(--Sa-Color-Primary600);
-}
-.saTreeViewWrapper .saTreeView ul {
-  flex-direction: column;
-  width: 100%;
-  flex: 1;
-}
-.saTreeViewWrapper .saTreeView li {
-  display: flex;
-  flex-direction: column;
-  overflow: visible;
-  position: relative;
-}
-.saTreeViewWrapper .saTreeView li::after {
-  content: '';
-  position: absolute;
-  height: calc(100% + 1.25rem);
-  width: 1px;
-  background: #ccd5e2;
-  top: -1rem;
-  left: 0.5rem;
-  transition: ease all 0.2s;
-}
-.saTreeViewWrapper .saTreeView li.saDragged {
-  border: none;
-  background: inherit;
-}
-.saTreeViewWrapper .saTreeView li.saDragged > label {
-  background: #fff;
-  outline: 1px solid var(--Sa-Color-Primary600);
-  outline-offset: -1px;
-}
-.saTreeViewWrapper .saTreeView li.saDropOn {
-  border: none;
-  background: inherit;
-}
-.saTreeViewWrapper .saTreeView li.saDropOn > label {
-  background: var(--Sa-Color-Primary100);
-  outline-color: var(--Sa-Color-Primary600);
-}
-.saTreeViewWrapper .saTreeView > li::after {
-  top: 0.5rem;
-  height: 100%;
-}
-.saTreeViewWrapper .saTreeView > li label::after {
-  height: 0.5rem;
-}
-.saTreeViewWrapper .saTreeView li:last-child::after {
-  background: transparent;
-}
-.saTreeViewWrapper .saTreeView li:only-child::after {
-  background: #ccd5e2;
-  height: 1.5rem;
-}
-.saTreeViewWrapper .saTreeView input.saExpander {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  height: 1rem;
-  width: 1rem;
-  min-width: 1rem;
-  background: var(--Sa-Color-Primary600);
-  color: #fff;
-  border-radius: 0.25rem;
-  z-index: 2;
-  border: none;
-  position: relative;
-  cursor: pointer;
-  transition: ease background-color 0.2s, ease border-radius 0.2s;
-  visibility: hidden;
-}
-.saTreeViewWrapper .saTreeView input.saExpander::after {
-  content: '';
-  height: 2rem;
-  width: 2rem;
-  position: absolute;
-}
-.saTreeViewWrapper .saTreeView input.saExpander::before {
-  content: '';
-  clip-path: polygon(39% 4%, 61% 4%, 61% 39%, 96% 39%, 96% 56%, 61% 56%, 61% 96%, 39% 96%, 39% 56%, 4% 56%, 4% 39%, 39% 39%);
-  cursor: default;
-  background: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 0.625rem;
-  width: 0.625rem;
-  position: absolute;
-  inset: 0.1875rem;
-  transition: ease all 0.2s;
-}
-.saTreeViewWrapper .saTreeView input.saExpander.saMinus:checked::before {
-  clip-path: polygon(39% 39%, 61% 39%, 61% 39%, 96% 39%, 96% 56%, 61% 56%, 61% 56%, 39% 56%, 39% 56%, 4% 56%, 4% 39%, 39% 39%);
-}
-@media (pointer: fine) {
-  .saTreeViewWrapper .saTreeView input.saExpander:hover {
-    background: var(--Sa-Color-Primary700);
-  }
-}
-.saTreeViewWrapper .saTreeView input.saExpander:active {
-  background: var(--Sa-Color-Primary800);
-  border-radius: 0.375rem;
-}
-.saTreeViewWrapper .saTreeView .saExpandIconDiv {
-  background: #8fa5c0;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 0.25rem;
-  position: relative;
-  margin: 0.1875rem 0.1875rem 0.1875rem 0.2813rem;
-  width: 1rem;
-  height: 1rem;
-  z-index: 2;
-  cursor: wait;
-  visibility: hidden;
-}
-.saTreeViewWrapper .saTreeView .saExpandIcon {
-  position: absolute;
-  font-size: 0.75rem;
-}
-.saTreeViewWrapper .saTreeView label.saNodeExpand .saExpander {
-  visibility: visible;
-}
-.saTreeViewWrapper .saTreeView label.saNodeExpand .saExpander:disabled {
-  background: #8fa5c0;
-  cursor: default;
-}
-.saTreeViewWrapper .saTreeView li label {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  padding-left: 0.5rem;
-  min-height: 2rem;
-  position: relative;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  white-space: break-spaces;
-  overflow-wrap: break-word;
-  border-radius: 0.5rem;
-  padding-right: 0.5rem;
-  transition: ease border-radius 0.2s;
-  outline: 2px dashed transparent;
-  outline-offset: -2px;
-}
-.saTreeViewWrapper .saTreeView li label.saNodeExpand {
-  cursor: pointer;
-}
-.saTreeViewWrapper .saTreeView li label a {
-  min-height: 2rem;
-  width: 100%;
-  text-decoration: none;
-  color: var(--Sa-Color-Link);
-  font-weight: 500;
-}
-@media (pointer: fine) {
-  .saTreeViewWrapper .saTreeView li label a:hover {
-    text-decoration: underline;
-  }
-}
-.saTreeViewWrapper .saTreeView li label a:focus-visible {
-  box-shadow: 0 0 0 1px black;
-}
-.saTreeViewWrapper .saTreeView li label .saCustomColor a {
-  color: unset;
-}
-.saTreeViewWrapper .saTreeView li label label {
-  display: flex;
-  gap: 0.5rem;
-  width: 100%;
-  cursor: pointer;
-}
-.saTreeViewWrapper .saTreeView li label::after {
-  content: '';
-  position: absolute;
-  height: 1rem;
-  width: 1.4375rem;
-  margin-left: -1px;
-  border: 1px solid #ccd5e2;
-  z-index: 1;
-  border-width: 0 0 1px 1px;
-  transform: translate(-0.25rem, -0.5rem);
-  transition: ease all 0.2s;
-}
-@media (pointer: fine) {
-  .saTreeViewWrapper .saTreeView li:not(.saDragged) > label:hover {
-    background: #eef1f5;
-  }
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 49.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 49.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 48.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 48.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 47.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 47.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 46.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 46.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 45.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 45.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 44.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 44.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 43.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 43.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 42.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 42.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 41.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 41.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 40.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 40.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 39.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 39.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 38.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 38.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 37.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 37.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 36.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 36.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 35.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 35.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 34.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 34.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 33.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 33.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 32.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 32.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 31.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 31.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 30.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 30.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 29.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 29.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 28.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 28.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 27.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 27.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 26.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 26.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 25.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 25.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 24.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 24.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 23.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 23.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 22.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 22.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 21.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 21.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li::after {
-  left: 20.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 20.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li::after {
-  left: 19.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 19.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li::after {
-  left: 18.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li li label {
-  padding-left: 18.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li::after {
-  left: 17.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li li label {
-  padding-left: 17.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li::after {
-  left: 16.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li li label {
-  padding-left: 16.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li::after {
-  left: 15.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li li label {
-  padding-left: 15.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li::after {
-  left: 14.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li li label {
-  padding-left: 14.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li::after {
-  left: 13.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li li label {
-  padding-left: 13.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li::after {
-  left: 12.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li li label {
-  padding-left: 12.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li::after {
-  left: 11.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li li label {
-  padding-left: 11.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li::after {
-  left: 10.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li li label {
-  padding-left: 10.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li::after {
-  left: 9.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li li label {
-  padding-left: 9.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li::after {
-  left: 8.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li li label {
-  padding-left: 8.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li::after {
-  left: 7.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li li label {
-  padding-left: 7.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li::after {
-  left: 6.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li li label {
-  padding-left: 6.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li::after {
-  left: 5.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li li label {
-  padding-left: 5.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li::after {
-  left: 4.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li li label {
-  padding-left: 4.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li::after {
-  left: 3.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li li label {
-  padding-left: 3.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li::after {
-  left: 2.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li li label {
-  padding-left: 2.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li li::after {
-  left: 1.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li li label {
-  padding-left: 1.5rem;
-}
-.saTreeViewWrapper ul.saTreeView li::after {
-  left: 0.1875rem;
-}
-.saTreeViewWrapper ul.saTreeView li label {
-  padding-left: 0.5rem;
-}
-.saTreeViewWrapper .saTreeViewButtons {
-  display: flex;
-  gap: 0.5rem;
-  justify-self: flex-end;
-}
-.saTreeViewWrapper .saDragHandle {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 1.5rem;
-  min-width: 0.75rem;
-  font-size: 1rem;
-  color: #60748b;
-}
-@media (pointer: fine) {
-  .saTreeViewWrapper .saDragHandle:hover {
-    cursor: grab;
-  }
-}
-.saTreeViewWrapper .saDragHandle:active {
-  cursor: grabbing;
-}
-.saTreeViewWrapper button.saTreeViewButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: solid 1px #ccd5e2;
-  background-color: var(--Sa-Color-SecondaryButtonBackground);
-  color: var(--Sa-Color-Label);
-  border-radius: 0.25rem;
-  height: 1.5rem;
-  width: 1.5rem;
-  min-width: 1.5rem;
-  cursor: pointer;
-  text-align: center;
-  font-size: 0.875rem;
-  line-height: 0.875rem;
-  transition: ease background 0.2s, ease border 0.2s, ease border-radius 0.2s, ease color 0.2s;
-}
-.saTreeViewWrapper button.saTreeViewButton .saIcon {
-  color: var(--Sa-Color-Icon);
-}
-.saTreeViewWrapper button.saTreeViewButton .saBadge {
-  color: var(--Sa-Color-SecondaryButtonBackground);
-  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
-}
-@media (pointer: fine) {
-  .saTreeViewWrapper button.saTreeViewButton:hover {
-    border-color: var(--Sa-Color-Primary600);
-    color: var(--Sa-Color-Primary600);
-  }
-  .saTreeViewWrapper button.saTreeViewButton:hover .saIcon {
-    color: var(--Sa-Color-Primary600);
-  }
-  .saTreeViewWrapper button.saTreeViewButton:hover .saBadge {
-    background-color: var(--Sa-Color-Primary600);
-  }
-}
-.saTreeViewWrapper button.saTreeViewButton:active {
-  background: var(--Sa-Color-Primary100);
-}
-.saTreeViewWrapper button.saTreeViewButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
-  border-color: var(--Sa-Color-Primary100);
-}
-.saTreeViewWrapper button.saTreeViewButton.saDestructive {
-  color: var(--Sa-Color-DestructiveButtonBackground);
-  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
-}
-.saTreeViewWrapper button.saTreeViewButton.saDestructive .saIcon {
-  color: var(--Sa-Color-DestructiveButtonBackground);
-}
-.saTreeViewWrapper button.saTreeViewButton.saDestructive .saBadge {
-  background-color: var(--Sa-Color-DestructiveButtonBackground);
-}
-@media (pointer: fine) {
-  .saTreeViewWrapper button.saTreeViewButton.saDestructive:hover {
-    color: var(--Sa-Color-SecondaryButtonBackground);
-    background: var(--Sa-Color-DestructiveButtonBackground);
-    border-color: transparent;
-  }
-  .saTreeViewWrapper button.saTreeViewButton.saDestructive:hover .saIcon {
-    color: var(--Sa-Color-SecondaryButtonBackground);
-  }
-  .saTreeViewWrapper button.saTreeViewButton.saDestructive:hover .saBadge {
-    background-color: var(--Sa-Color-SecondaryButtonBackground);
-    color: var(--Sa-Color-DestructiveButtonBackground);
-    border-color: var(--Sa-Color-DestructiveButtonBackground);
-  }
-}
-.saTreeViewWrapper button.saTreeViewButton.saDestructive:active {
-  color: var(--Sa-Color-SecondaryButtonBackground);
-  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-  border-color: transparent;
-}
-.saTreeViewWrapper button.saTreeViewButton.saDestructive:active .saIcon {
-  color: var(--Sa-Color-SecondaryButtonBackground);
-  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saTreeViewWrapper button.saTreeViewButton.saDestructive:active .saBadge {
-  background-color: var(--Sa-Color-SecondaryButtonBackground);
-  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saTreeViewWrapper button.saTreeViewButton:active {
-  border-radius: 0.5rem;
-}
-.saTreeViewWrapper button.saTreeViewButton::after {
-  content: '';
-  height: 2rem;
-  width: 2rem;
-  position: absolute;
-}
-.saTreeViewWrapper .saSortable li:active::after {
-  background: transparent;
-}
-.saTreeViewWrapper .saSortable label:active::after {
-  border: transparent;
-}
-.saSmallScreen .saMultiPartContent .saTreeViewWrapper {
-  padding: 0;
-}
-.saSmallScreen .saTreeViewWrapper {
-  padding: 1rem 1rem 1rem 0.5rem;
-}
-.saSmallScreen .saTreeViewWrapper ul.saTreeView > li[aria-expanded]:first-child:after {
-  top: 1.5rem;
-}
-.saSmallScreen .saTreeViewWrapper ul.saTreeView li label::after {
-  height: 3rem;
-  transform: translate(-0.25rem, -1.5rem);
-}
-.saSmallScreen .saTreeViewWrapper ul.saTreeView li label {
-  min-height: 3rem;
-  gap: 0.75rem;
-  overflow-wrap: anywhere;
-}
-.saSmallScreen .saTreeViewWrapper ul.saTreeView li label a {
-  min-height: 3rem;
-  line-height: 3rem;
-}
-.saSmallScreen .saTreeViewWrapper .saTreeViewPlaceholder {
-  min-height: 3rem;
-}
-.saSmallScreen .saTreeViewWrapper button.saTreeViewButton {
-  border-radius: 0.5rem;
-  height: 2rem;
-  min-width: 2rem;
-  font-size: 1rem;
-  line-height: 1rem;
-  transition: ease all 0.2s;
-}
-.saSmallScreen .saTreeViewWrapper button.saTreeViewButton:active {
-  border-radius: 0.75rem;
-}
-.saSmallScreen .saTreeViewWrapper button.saTreeViewButton::after {
-  content: '';
-  height: 3rem;
-  width: 3rem;
-  position: absolute;
-}
 :root {
   interpolate-size: allow-keywords;
-}
-.saTreeZView {
-  padding-bottom: 2rem;
-}
-.saTreeZView .saBadgeCount {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 1rem;
-  box-sizing: border-box;
-  min-width: 1rem;
-  color: var(--Sa-Color-BadgeCountText);
-  background-color: var(--Sa-Color-BadgeCountBackground);
-  border-radius: 0.75rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  padding: 0.25rem;
-  transition: ease background-color 0.2s;
-  white-space: nowrap;
-  flex-shrink: 0;
-  font-weight: 300;
-  text-align: center;
-}
-.saTreeZView .saBadgeCount.saUrgent {
-  color: #fff;
-  background-color: #e0173e;
-}
-.saTreeZView .saBadgeCount.saNew {
-  color: #fff;
-  background-color: var(--Sa-Color-Primary600);
-}
-.saTreeZView .saBadgeCount {
-  display: inline-flex;
-  width: fit-content;
-  font-weight: 400;
-}
-.saTreeZView .saLoadingSpinnerWrapper {
-  display: flex;
-  gap: 0.5rem;
-}
-.saTreeZView .saLoadingProgress {
-  font-size: 0.75rem;
-  color: var(--Sa-Color-Gray700);
-}
-.saSmallScreen .saTreeZView {
-  padding: 1rem;
-}
-.saSmallScreen .saMultiPartContent .saTreeZView {
-  padding: 0;
-}
-.saTreeZView ul[role='group'] {
-  transition: ease height 0.125s, ease visibility 0.125s;
-  overflow: hidden;
-}
-.saTreeZView ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(1.25rem);
-}
-.saTreeZView ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 2.75rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(3rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 4.5rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(4.75rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 6.25rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(6.5rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 8rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(8.25rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 9.75rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(10rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 11.5rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(11.75rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 13.25rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(13.5rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 15rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(15.25rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 16.75rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(17rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 18.5rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(18.75rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 20.25rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(20.5rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 22rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(22.25rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 23.75rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(24rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 25.5rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(25.75rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 27.25rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(27.5rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 29rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(29.25rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 30.75rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(31rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 32.5rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(32.75rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 34.25rem;
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(34.5rem);
-}
-.saTreeZView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeZRow {
-  padding-left: 36rem;
-}
-.saTreeZView li[role='treeitem'] {
-  position: relative;
-}
-.saTreeZView li[role='treeitem']::before {
-  content: '';
-  height: 100%;
-  width: 1rem;
-  min-width: 1rem;
-  position: absolute;
-  transform: translateX(2rem);
-  border-left: 0.0625rem solid #ccd5e2;
-  z-index: 9;
-  box-sizing: border-box;
-  pointer-events: none;
-}
-.saNoLines .saTreeZView li[role='treeitem']::before {
-  content: none;
-}
-.saTreeZView li[role='treeitem']:last-child::before {
-  content: none;
-}
-.saTreeZView li[role='treeitem']:focus-visible {
-  outline: none;
-}
-.saTreeZView li[role='treeitem'][aria-expanded='false'] > ul[role='group'] {
-  height: 0;
-  visibility: hidden;
-}
-.saTreeZView > li[role='treeitem'] > .saTreeZRow::before {
-  content: none;
-}
-.saTreeZRow {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.5rem 0.25rem 1rem;
-  border-radius: 0.5rem;
-  position: relative;
-  transition: ease border-radius 0.2s;
-  user-select: none;
-}
-.saSmallScreen .saTreeZRow {
-  padding: 0.75rem 1rem 0.75rem 1rem;
-}
-.saTreeZRow::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  transform: translateX(-1.5rem);
-  width: 1rem;
-  min-width: 1rem;
-  height: 1rem;
-  min-height: 1rem;
-  aspect-ratio: 1;
-  border-bottom: 0.0625rem solid #ccd5e2;
-  border-left: 0.0625rem solid #ccd5e2;
-  box-sizing: border-box;
-  pointer-events: none;
-  border-bottom-left-radius: 0.625rem;
-}
-.saSmallScreen .saTreeZRow::before {
-  height: 1.5rem;
-}
-.saNoLines .saTreeZRow::before {
-  content: none;
-}
-[aria-expanded] > .saTreeZRow {
-  cursor: pointer;
-}
-li[role='treeitem']:focus-visible > .saTreeZRow {
-  background-color: var(--Sa-Color-Primary100);
-  color: var(--Sa-Color-Primary700);
-}
-li[role='treeitem']:focus-visible > .saTreeZRow .saTreeZExpander {
-  border-left-color: var(--Sa-Color-Primary700);
-}
-@media (pointer: fine) {
-  .saTreeZRow:hover {
-    background-color: var(--Sa-Color-Primary50);
-  }
-  .saTreeZRow:hover .saTreeZExpander {
-    border-left-color: var(--Sa-Color-Primary600);
-  }
-}
-@media (pointer: fine) {
-  [aria-expanded] > .saTreeZRow:hover {
-    color: var(--Sa-Color-Primary600);
-    background-color: var(--Sa-Color-Primary50);
-  }
-}
-[aria-expanded] > .saTreeZRow:active {
-  color: var(--Sa-Color-Primary700);
-  background-color: var(--Sa-Color-Primary100);
-  border-radius: 0.75rem;
-}
-[aria-expanded] > .saTreeZRow:active .saTreeZExpander {
-  border-left-color: var(--Sa-Color-Primary700);
-}
-.saTreeZRow .fa-grip-dots-vertical {
-  color: var(--Sa-Color-Icon);
-  font-size: 0.875rem;
-  font-weight: 900;
-  cursor: grab;
-}
-.saTreeZRow .fa-grip-dots-vertical:active {
-  cursor: grabbing;
-}
-.saTreeZLabel {
-  color: inherit;
-  text-decoration: none;
-  line-height: 1.5rem;
-  width: fit-content;
-}
-a.saTreeZLabel {
-  color: var(--Sa-Color-Primary600);
-  font-weight: 500;
-}
-@media (pointer: fine) {
-  a.saTreeZLabel:hover {
-    text-decoration: underline;
-  }
-}
-a.saTreeZLabel:active {
-  color: var(--Sa-Color-Primary900);
-}
-.saTreeZButtonGroup {
-  display: flex;
-  gap: 0.25rem;
-}
-.saTreeZButton {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
-  white-space: nowrap;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  max-width: 100%;
-  flex-shrink: 0;
-  font-weight: 500;
-  border-radius: 0.25rem;
-  padding: 0 0.5rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  max-width: 1.5rem;
-  min-width: 1.5rem;
-  font-size: 0.75rem;
-  border: solid 1px #ccd5e2;
-  background-color: var(--Sa-Color-SecondaryButtonBackground);
-  color: var(--Sa-Color-Label);
-  border-radius: 0.375rem;
-}
-.saTreeZButton .saButtonText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.5;
-}
-.saTreeZButton .saBadgedIcon {
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
-.saTreeZButton .saIcon {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.saTreeZButton:active {
-  border-radius: 0.75rem;
-}
-.saTreeZButton .saIcon {
-  color: var(--Sa-Color-Icon);
-}
-.saTreeZButton .saBadge {
-  color: var(--Sa-Color-SecondaryButtonBackground);
-  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
-}
-@media (pointer: fine) {
-  .saTreeZButton:hover {
-    border-color: var(--Sa-Color-Primary600);
-    color: var(--Sa-Color-Primary600);
-  }
-  .saTreeZButton:hover .saIcon {
-    color: var(--Sa-Color-Primary600);
-  }
-  .saTreeZButton:hover .saBadge {
-    background-color: var(--Sa-Color-Primary600);
-  }
-}
-.saTreeZButton:active {
-  background: var(--Sa-Color-Primary100);
-}
-.saTreeZButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
-  border-color: var(--Sa-Color-Primary100);
-}
-.saTreeZButton.saDestructive {
-  color: var(--Sa-Color-DestructiveButtonBackground);
-  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
-}
-.saTreeZButton.saDestructive .saIcon {
-  color: var(--Sa-Color-DestructiveButtonBackground);
-}
-.saTreeZButton.saDestructive .saBadge {
-  background-color: var(--Sa-Color-DestructiveButtonBackground);
-}
-@media (pointer: fine) {
-  .saTreeZButton.saDestructive:hover {
-    color: var(--Sa-Color-SecondaryButtonBackground);
-    background: var(--Sa-Color-DestructiveButtonBackground);
-    border-color: transparent;
-  }
-  .saTreeZButton.saDestructive:hover .saIcon {
-    color: var(--Sa-Color-SecondaryButtonBackground);
-  }
-  .saTreeZButton.saDestructive:hover .saBadge {
-    background-color: var(--Sa-Color-SecondaryButtonBackground);
-    color: var(--Sa-Color-DestructiveButtonBackground);
-    border-color: var(--Sa-Color-DestructiveButtonBackground);
-  }
-}
-.saTreeZButton.saDestructive:active {
-  color: var(--Sa-Color-SecondaryButtonBackground);
-  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-  border-color: transparent;
-}
-.saTreeZButton.saDestructive:active .saIcon {
-  color: var(--Sa-Color-SecondaryButtonBackground);
-  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saTreeZButton.saDestructive:active .saBadge {
-  background-color: var(--Sa-Color-SecondaryButtonBackground);
-  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saTreeZExpander {
-  width: 0;
-  height: 0;
-  border-top: 0.3125rem solid transparent;
-  border-bottom: 0.3125rem solid transparent;
-  border-left: 0.5rem solid var(--Sa-Color-Icon);
-  transition: ease transform 0.2s;
-  transform: rotate(90deg);
-  visibility: hidden;
-}
-[aria-expanded] > .saTreeZRow .saTreeZExpander {
-  visibility: visible;
-}
-[aria-expanded="false"] > .saTreeZRow .saTreeZExpander {
-  transform: rotate(0);
-  border-left: 0.5rem solid var(--Sa-Color-Primary600);
-}
-.saTreeYView {
-  padding-bottom: 2rem;
-}
-.saTreeYView .saBadgeCount {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 1rem;
-  box-sizing: border-box;
-  min-width: 1rem;
-  color: var(--Sa-Color-BadgeCountText);
-  background-color: var(--Sa-Color-BadgeCountBackground);
-  border-radius: 0.75rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  padding: 0.25rem;
-  transition: ease background-color 0.2s;
-  white-space: nowrap;
-  flex-shrink: 0;
-  font-weight: 300;
-  text-align: center;
-}
-.saTreeYView .saBadgeCount.saUrgent {
-  color: #fff;
-  background-color: #e0173e;
-}
-.saTreeYView .saBadgeCount.saNew {
-  color: #fff;
-  background-color: var(--Sa-Color-Primary600);
-}
-.saTreeYView .saBadgeCount {
-  display: inline-flex;
-  width: fit-content;
-  font-weight: 400;
-}
-.saSmallScreen .saTreeYView {
-  padding: 1rem;
-}
-.saSmallScreen .saMultiPartContent .saTreeYView {
-  padding: 0;
-}
-.saTreeYView .saLoadingSpinnerWrapper {
-  display: flex;
-  gap: 0.5rem;
-}
-.saTreeYView .saLoadingProgress {
-  font-size: 0.75rem;
-  color: var(--Sa-Color-Gray700);
-}
-.saTreeYView ul[role='group'] {
-  transition: ease height 0.1s, ease visibility 0.1s;
-}
-.saTreeYView ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(1.125rem);
-}
-.saTreeYView ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 1.75rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(2.375rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 3rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(3.625rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 4.25rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(4.875rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 5.5rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(6.125rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 6.75rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(7.375rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 8rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(8.625rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 9.25rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(9.875rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 10.5rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(11.125rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 11.75rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(12.375rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 13rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(13.625rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 14.25rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(14.875rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 15.5rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(16.125rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 16.75rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(17.375rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 18rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(18.625rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 19.25rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(19.875rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 20.5rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(21.125rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 21.75rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(22.375rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 23rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(23.625rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 24.25rem;
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
-  transform: translateX(24.875rem);
-}
-.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
-  padding-left: 25.5rem;
-}
-.saTreeYView li[role='treeitem'] {
-  position: relative;
-}
-.saTreeYView li[role='treeitem']::before {
-  content: '';
-  height: calc(100% + 0.5rem);
-  top: -0.5rem;
-  width: 1rem;
-  min-width: 1rem;
-  position: absolute;
-  transform: translateX(2rem);
-  border-left: 0.0625rem solid #ccd5e2;
-  z-index: 1;
-  box-sizing: border-box;
-  pointer-events: none;
-}
-.saNoLines .saTreeYView li[role='treeitem']::before {
-  content: none;
-}
-.saTreeYView li[role='treeitem']:last-child::before {
-  content: none;
-}
-.saTreeYView li[role='treeitem']:focus-visible {
-  outline: none;
-}
-.saTreeYView li[role='treeitem'][aria-expanded='false'] > ul[role='group'] {
-  height: 0;
-  visibility: hidden;
-  overflow: hidden;
-}
-.saTreeYView > li[role='treeitem'] > .saTreeYRow::before {
-  content: none;
-}
-.saTreeYRow {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
-  border-radius: 0.5rem;
-  position: relative;
-  transition: ease border-radius 0.2s;
-}
-.saSmallScreen .saTreeYRow {
-  padding: 0.75rem 1rem 0.75rem 1rem;
-}
-.saTreeYRow::before {
-  content: '';
-  position: absolute;
-  top: -0.5rem;
-  transform: translateX(-0.625rem);
-  width: 1.5rem;
-  min-width: 1.5rem;
-  height: 1.5rem;
-  min-height: 1.5rem;
-  border-bottom: 0.0625rem solid #ccd5e2;
-  border-left: 0.0625rem solid #ccd5e2;
-  border-bottom-left-radius: 0.25rem;
-  box-sizing: border-box;
-  pointer-events: none;
-}
-.saSmallScreen .saTreeYRow::before {
-  height: 1.5rem;
-}
-.saNoLines .saTreeYRow::before {
-  content: none;
-}
-[aria-expanded] > .saTreeYRow {
-  cursor: pointer;
-}
-li[role='treeitem']:focus-visible > .saTreeYRow {
-  background-color: var(--Sa-Color-Primary100);
-  color: var(--Sa-Color-Primary700);
-}
-li[role='treeitem']:focus-visible > .saTreeYRow .saTreeYExpander {
-  border-left-color: var(--Sa-Color-Primary700);
-}
-@media (pointer: fine) {
-  .saTreeYRow:hover {
-    background-color: var(--Sa-Color-Primary50);
-  }
-  .saTreeYRow:hover .saTreeYExpander {
-    border-left-color: var(--Sa-Color-Primary600);
-  }
-}
-@media (pointer: fine) {
-  [aria-expanded] > .saTreeYRow:hover {
-    color: var(--Sa-Color-Primary600);
-    background-color: var(--Sa-Color-Primary50);
-  }
-}
-[aria-expanded] > .saTreeYRow:active {
-  color: var(--Sa-Color-Primary700);
-  background-color: var(--Sa-Color-Primary100);
-  border-radius: 0.75rem;
-}
-[aria-expanded] > .saTreeYRow:active .saTreeYExpander {
-  border-left-color: var(--Sa-Color-Primary700);
-}
-.saTreeYRow .fa-grip-dots-vertical {
-  color: var(--Sa-Color-Icon);
-  font-size: 0.875rem;
-  font-weight: 900;
-  cursor: grab;
-}
-.saTreeYRow .fa-grip-dots-vertical:active {
-  cursor: grabbing;
-}
-.saTreeYLabel {
-  color: inherit;
-  text-decoration: none;
-  line-height: 1.5rem;
-  width: fit-content;
-}
-a.saTreeYLabel {
-  color: var(--Sa-Color-Primary600);
-  font-weight: 500;
-}
-@media (pointer: fine) {
-  a.saTreeYLabel:hover {
-    text-decoration: underline;
-  }
-}
-a.saTreeYLabel:active {
-  color: var(--Sa-Color-Primary900);
-}
-.saTreeYButtonGroup {
-  display: flex;
-  gap: 0.25rem;
-}
-.saTreeYButton {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
-  white-space: nowrap;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  max-width: 100%;
-  flex-shrink: 0;
-  font-weight: 500;
-  border-radius: 0.25rem;
-  padding: 0 0.5rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  max-width: 1.5rem;
-  min-width: 1.5rem;
-  font-size: 0.75rem;
-  border: solid 1px #ccd5e2;
-  background-color: var(--Sa-Color-SecondaryButtonBackground);
-  color: var(--Sa-Color-Label);
-  border-radius: 0.375rem;
-}
-.saTreeYButton .saButtonText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.5;
-}
-.saTreeYButton .saBadgedIcon {
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
-.saTreeYButton .saIcon {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.saTreeYButton:active {
-  border-radius: 0.75rem;
-}
-.saTreeYButton .saIcon {
-  color: var(--Sa-Color-Icon);
-}
-.saTreeYButton .saBadge {
-  color: var(--Sa-Color-SecondaryButtonBackground);
-  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
-}
-@media (pointer: fine) {
-  .saTreeYButton:hover {
-    border-color: var(--Sa-Color-Primary600);
-    color: var(--Sa-Color-Primary600);
-  }
-  .saTreeYButton:hover .saIcon {
-    color: var(--Sa-Color-Primary600);
-  }
-  .saTreeYButton:hover .saBadge {
-    background-color: var(--Sa-Color-Primary600);
-  }
-}
-.saTreeYButton:active {
-  background: var(--Sa-Color-Primary100);
-}
-.saTreeYButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
-  border-color: var(--Sa-Color-Primary100);
-}
-.saTreeYButton.saDestructive {
-  color: var(--Sa-Color-DestructiveButtonBackground);
-  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
-}
-.saTreeYButton.saDestructive .saIcon {
-  color: var(--Sa-Color-DestructiveButtonBackground);
-}
-.saTreeYButton.saDestructive .saBadge {
-  background-color: var(--Sa-Color-DestructiveButtonBackground);
-}
-@media (pointer: fine) {
-  .saTreeYButton.saDestructive:hover {
-    color: var(--Sa-Color-SecondaryButtonBackground);
-    background: var(--Sa-Color-DestructiveButtonBackground);
-    border-color: transparent;
-  }
-  .saTreeYButton.saDestructive:hover .saIcon {
-    color: var(--Sa-Color-SecondaryButtonBackground);
-  }
-  .saTreeYButton.saDestructive:hover .saBadge {
-    background-color: var(--Sa-Color-SecondaryButtonBackground);
-    color: var(--Sa-Color-DestructiveButtonBackground);
-    border-color: var(--Sa-Color-DestructiveButtonBackground);
-  }
-}
-.saTreeYButton.saDestructive:active {
-  color: var(--Sa-Color-SecondaryButtonBackground);
-  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-  border-color: transparent;
-}
-.saTreeYButton.saDestructive:active .saIcon {
-  color: var(--Sa-Color-SecondaryButtonBackground);
-  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saTreeYButton.saDestructive:active .saBadge {
-  background-color: var(--Sa-Color-SecondaryButtonBackground);
-  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saTreeYExpander {
-  width: 1.25rem;
-  height: 1.25rem;
-  visibility: hidden;
-  transition: ease background-color 0.2s, ease border-radius 0.2s;
-  border-radius: 0.375rem;
-  position: relative;
-  outline: 0.0625rem solid var(--Sa-Color-Primary200);
-  outline-offset: -0.0625rem;
-  background-color: var(--Sa-Color-Primary100);
-  fill: var(--Sa-Color-Primary600);
-  z-index: 2;
-}
-.saTreeYExpander .saPlus {
-  display: none;
-}
-.saTreeYExpander .saMinus {
-  display: block;
-}
-[aria-expanded] > .saTreeYRow .saTreeYExpander {
-  visibility: visible;
-}
-[aria-expanded="false"] > .saTreeYRow .saTreeYExpander {
-  background-color: var(--Sa-Color-Primary600);
-  fill: #fff;
-  outline-color: transparent;
-}
-[aria-expanded="false"] > .saTreeYRow .saTreeYExpander .saPlus {
-  display: block;
-}
-[aria-expanded="false"] > .saTreeYRow .saTreeYExpander .saMinus {
-  display: none;
 }
 .saTreeXView {
   padding-bottom: 2rem;
@@ -33068,15 +31823,10 @@ li[role='treeitem'].saFileDrop > .saTreeXRow .saTreeXExpander,
 li[role='treeitem'].saFileDrop > .saTreeXRow .saTreeXType {
   color: inherit;
 }
-li[aria-selected="true"] > .saTreeXRow {
+li[aria-checked="true"] > .saTreeXRow {
   font-weight: 500;
   letter-spacing: 0;
   color: var(--Sa-Color-Primary600);
-  background-color: var(--Sa-Color-Primary50);
-}
-li[aria-selected="true"] > .saTreeXRow .saTreeXExpander,
-li[aria-selected="true"] > .saTreeXRow .saTreeXType {
-  color: inherit;
 }
 @media (pointer: fine) {
   .saTreeXRow:hover {
@@ -33132,6 +31882,17 @@ a.saTreeXLabel:active {
   height: 1.125rem;
   position: relative;
 }
+i.saTreeXCheck {
+  color: var(--Sa-Color-Primary600);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) scale(0);
+  font-size: 1rem;
+}
+li[aria-checked="true"] i.saTreeXCheck {
+  transform: translateY(-50%) scale(1);
+  transition: ease transform 0.2s;
+}
 .saTreeXType {
   width: 1.125rem;
   min-width: 1.125rem;
@@ -33148,6 +31909,9 @@ a.saTreeXLabel:active {
 .saDone .saTreeXType {
   transform: scale(1);
   transition: ease transform 0.2s 1.2s;
+}
+li[aria-checked="true"] .saTreeXType {
+  display: none;
 }
 .saTreeXType.fa-folder {
   color: #2d6ce1;
@@ -36592,53 +35356,12 @@ pre.saCode {
   border-bottom-right-radius: 0.375rem;
 }
 .saPlaceHolderNation {
-  border: #91e89b dashed 0.0625rem;
-  background-image: linear-gradient(to bottom, #fff, #f2fcf2);
+  border: #ccd5e2 dashed 0.0625rem;
+  background-image: linear-gradient(to bottom, #f8f9fb, #ccd5e2);
   height: 200dvh;
   border-radius: 0.75rem;
 }
 .left {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
-  white-space: nowrap;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  max-width: 100%;
-  flex-shrink: 0;
-  font-weight: 500;
-  align-items: start;
-  padding: 0.5rem;
-  height: 100dvh;
-  width: 3rem;
-  background-color: #fff;
-  border-left: 0.0625rem solid #ccd5e2;
-  margin-left: 0.5rem;
-  fill: var(--Sa-Color-Icon);
-}
-.left .saButtonText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.5;
-}
-.left .saBadgedIcon {
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-}
-.left .saIcon {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.left i {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: 'Lexend', sans-serif;
@@ -36660,100 +35383,96 @@ pre.saCode {
   max-width: 2rem;
   min-width: 2rem;
   font-size: 1rem;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
 }
-.left i .saButtonText {
+.left .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.left i .saBadgedIcon {
+.left .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.left i .saIcon {
+.left .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.left i .saIcon {
+.left .saIcon {
   color: var(--Sa-Color-Icon);
 }
-.left i.saDestructive {
+.left.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
-.left i.saDestructive .saIcon {
+.left.saDestructive .saIcon {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
 @media (pointer: fine) {
-  .left i.saDestructive:hover {
+  .left.saDestructive:hover {
     color: var(--Sa-Color-DestructiveButtonBackground);
     background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
   }
-  .left i.saDestructive:hover .saIcon {
+  .left.saDestructive:hover .saIcon {
     color: var(--Sa-Color-DestructiveButtonBackground);
   }
 }
-.left i.saDestructive:active {
+.left.saDestructive:active {
   color: #fff;
   background: var(--Sa-Color-DestructiveButtonBackground);
 }
-.left i.saDestructive:active > .saIcon {
+.left.saDestructive:active > .saIcon {
   color: #fff;
 }
 @media (pointer: fine) {
-  .left i:hover {
+  .left:hover {
     background-color: var(--Sa-Color-Primary50);
     color: var(--Sa-Color-Primary600);
   }
-  .left i:hover .saIcon {
+  .left:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
 }
-.left i:active {
+.left:active {
   background-color: var(--Sa-Color-Primary100);
   color: var(--Sa-Color-Primary700);
 }
-.left i:active .saIcon {
+.left:active .saIcon {
   color: var(--Sa-Color-Primary700);
 }
-.left i:disabled,
-.left i.saDisabled {
+.left:disabled,
+.left.saDisabled {
   color: #adbdd1;
   background-color: transparent;
   cursor: not-allowed;
 }
-.left i:disabled .saIcon,
-.left i.saDisabled .saIcon {
+.left:disabled .saIcon,
+.left.saDisabled .saIcon {
   color: #adbdd1;
 }
-.left i:active {
+.left:active {
   border-radius: 0.75rem;
 }
-.left i svg {
-  width: 1rem;
-  min-width: 1rem;
-  height: 0.75rem;
-}
-.left:hover {
-  fill: var(--Sa-Color-Primary600);
-}
-.left:active {
-  fill: var(--Sa-Color-Primary700);
+.saSmallScreen .left {
+  display: none;
 }
 .saDrawerWrapper {
   position: absolute;
   inset: 0 0 auto auto;
   height: 100%;
   display: flex;
-  transition: ease transform 0.4s;
+  transition: ease transform 0.2s;
   z-index: 999;
   pointer-events: all;
   border-left: 0.0625rem solid #ccd5e2;
+  justify-content: flex-end;
   @starting-style {
     transform: translateX(22rem);
   }

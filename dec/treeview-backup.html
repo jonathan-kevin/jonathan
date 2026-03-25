@@ -1,0 +1,2283 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Treeview</title>
+	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+	<link rel="stylesheet" href="../src/fontawesome/css/duotone-regular.min.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
+	<script type="text/javascript" src="https://livejs.com/live.js"></script>
+	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+</head>
+
+<body class="saRootBody saLargeScreen saPc saCompact">
+	<div class="saRootContentWrapper">
+		<div class="saSideBarOuter">
+			<form name="aspnetForm" method="post" action="./softadmin.aspx" id="aspnetForm">
+				<aside class="saAside">
+					<nav id="SideBar" class="saSideBar saSideBarJs saExpanded" aria-label="Sidomeny">
+						<div class="saAccessibilityBannerHolderJs">
+							<ul class="saAccessibilityBanner">
+								<li><a tabindex="0">Gå till innehåll</a></li>
+								<li><a tabindex="0">Gå till meny</a></li>
+							</ul>
+						</div>
+						<div class="saPageHeader saSmallScreenHeader">
+							<div class="saHeader">
+								<div class="saTopRow">
+									<div class="saHeaderWrapper">
+										<div class="saTitle">
+											<h1>Treeview</h1>
+										</div>
+									</div>
+									<button class="saNotificationWrapper" type="button" aria-live="polite"
+										aria-expanded="false" aria-label="83 Notifieringar">
+										<i class="far fa-bell saIcon"></i>
+										<div class="saBadgeCount saUrgent">83</div>
+									</button>
+									<button class="saNavigator" type="button" aria-label="Stäng meny"
+										data-tooltip="Stäng meny">
+										<div class="saNavBar">
+											<span class="saNavBarStripe"></span>
+											<span class="saNavBarStripe"></span>
+											<span class="saNavBarStripe"></span>
+										</div>
+									</button>
+								</div>
+							</div>
+						</div>
+						<section class="saSideBarSection saSideBarHeader saSideBarSectionJs">
+							<img class="saCustomerLogo" alt="KOLL logotyp"
+								src="../Content.ashx?h=1wvgjNzlYUjYTnoIZyOXkI2qOf8">
+							<ul class="saSideBarInputGroup">
+								<li>
+									<a class="saSideBarSearchLink" tabindex="0">
+										<div><i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i></div>
+									</a>
+									<label class="saSideBarSearch">
+										<input id="SideBarSearchInput" class="saSearchInput saInputText" type="search"
+											placeholder="Sök...">
+										<i class="far fa-magnifying-glass saIcon" aria-hidden="true"></i>
+									</label>
+								</li>
+								<li class="saMenuDropdowns">
+									<div class="saMenuDropdown saInputTextWrapper">
+										<span class="saFirstLetter">U</span>
+										<select class="saInputText saDropdown">
+											<option value="8687" selected="">UP 8888 (Softadmin)</option>
+										</select>
+										<i class="saIcon far fa-angle-down saTrailing"></i>
+									</div>
+								</li>
+							</ul>
+						</section>
+						<section class="saSideBarSection saSideBarBody saSideBarSectionJs">
+							<div class="saSideBarGroup saSideBarFavorites">
+								<div class="saSideBarFavoritesHeader">
+									<button class="saButtonFavorites" type="button"
+										aria-expanded="true"><span>Favoriter</span>
+										<i class="saIcon saIcon far fa-angle-down" aria-hidden="true"></i>
+									</button>
+									<button class="saButtonFavoritesMinimized" type="button" aria-expanded="true"
+										data-tooltip="Dölj favoriter">
+										<i class="saIcon saIcon far fa-angle-down" aria-hidden="true"></i>
+									</button>
+									<button class="saButtonFavoritesEdit">Redigera</button>
+								</div>
+								<ul class="saItemList">
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-cat icon saIcon"></i></div>
+												<span>Kattsport</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Leveranser">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-crow icon saIcon"></i></div>
+												<span>Kråkor</span>
+											</div>
+										</a></li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Meny</h3>
+								<ul class="saItemList">
+									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Startsida">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i
+														class="far fa-house-window icon saIcon"></i></div>
+												<span>Startsida</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Min Sida">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i
+														class="far fa-circle-user icon saIcon"></i></div><span>Min
+													Sida</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saDynamicTooltipJs" tabindex="0">
+										<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-ellipsis-vertical icon saIcon"></i>
+												</div><span>Kattbanken</span>
+											</div>
+										</a></li>
+								</ul>
+							</div>
+						</section>
+						<section class="saSideBarSection saSideBarFooter saSideBarSectionJs">
+							<div class="saSideBarFooterPrimary">
+								<div class="saListItem"><button class="saAccountDropdown" type="button"
+										aria-expanded="false"><img
+											src="/UserPhoto.ashx?id=140d3c0e-1376-4f95-9ced-174c03915ac7"
+											aria-hidden="true" class="saAccountAvatar"><span
+											class="saAccountName">Jonathan Kevin</span><i
+											class="far fa-angle-down saIcon"></i></button></div>
+								<ul class="saSideBarToolbar">
+									<li><button data-tooltip="Starta ytterligare en session">
+											<div class="saIconWrapper"><i class="far fa-window-restore icon saIcon"></i>
+											</div><span>Ny flik</span>
+										</button></li>
+									<li><button data-tooltip="Visa hjälpsida - Redigera hjälpsida">
+											<div class="saIconWrapper"><i
+													class="far fa-circle-question icon saIcon"></i></div><span>Visa
+												hjälpsida - Redigera hjälpsida</span>
+										</button></li>
+									<li class="saNotificationsItem" aria-expanded="false"><button
+											id="largeScreenNotifications" type="button" aria-label="83 Notifieringar"
+											aria-live="polite" data-tooltip="Notifieringar" aria-expanded="true"
+											aria-describedby="TooltipScreenReader79">
+											<div class="saSidenavItem"><i class="far fa-bell saIcon"></i></div>
+											<div class="saBadgeCount saUrgent">83</div>
+										</button></li>
+								</ul>
+							</div>
+							<div class="saSideBarFooterSecondary">
+								<a class="saSoftadminLogo" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true" href="https://www.multisoft.se/softadmin/">
+									<img class="saLogo" src="./Presentation/img/softadmin-logo-minimized.svg">
+									<img class="saWordmark" src="./Presentation/img/softadmin-logo-expanded.svg">
+								</a>
+								<button class="saExpander saDynamicTooltipJs" type="button" aria-label="Minimera menyn" aria-expanded="true">
+									<i class="far fa-angles-left saIcon"></i>
+								</button>
+							</div>
+						</section>
+					</nav>
+				</aside>
+			</form>
+		</div>
+		<div class="saRightFrameRoot">
+			<div class="right standardview saPc saLargeScreen saCompact">
+				<div class="pagecontentframe">
+					<form class="interface">
+						<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs">
+												<div class="saBackButtonWrapper">
+													<button class="saBackButton" type="button" disabled="">
+														<i class="fa-arrow-left far saBack saIcon"></i>
+													</button>
+												</div>
+											</nav>
+										</div>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Treeview</h1>
+												<button class="saFavoriteToggle" type="button" tabindex="-1"
+													aria-checked="false" aria-label="Save as favorite">
+													<i aria-hidden="true" class="saIcon far fa-star"></i>
+													<i aria-hidden="true" class="saIcon fas fa-star"></i>
+												</button>
+												<ul class="saSpecialLinksWrapper"></ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<button class="saSmallScreenBackButton saButtonHeader" type="button"><i class="far fa-arrow-left saBack saIcon"></i></button>
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+													<h1 class="saHeaderText">Lorem ipsum dolor sit amet, consectetur adipisicing elit</h1>
+												</div>
+											</div>
+											<button class="saNotifications saButtonHeader" type="button" aria-live="polite" aria-expanded="false" aria-label="Notifieringar">
+												<i class="far fa-bell saIcon"></i><div class="saBadgeCount saUrgent saEmpty">0</div>
+											</button>
+											<button class="saNavigator saButtonHeader" type="button" aria-label="Öppna meny">
+												<div class="saNavBar saActive">
+													<i class="saIcon far fa-bars"></i>
+												</div>
+											</button>
+										</div>
+									</div>
+									<nav class="saBottomRow saActionLinkBar" style="display: none;"></nav>
+								</div>
+							</div>
+						</header>
+						<div class="maincolinner gradients">
+							<main id="MI_M" class="menuitem pagecontentframe">
+								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
+									<div class="scrollcontent-inner">
+										<div style="display: flex; flex-direction: row; gap: 0.5rem; padding-bottom: 2rem;">
+											<button type="button" class="saDefaultButtonSecondary grip">Toggle Grip dots</button>
+											<button type="button" class="saDefaultButtonSecondary button">Toggle Buttons</button>
+											<button type="button" class="saDefaultButtonSecondary lines">Toggle lines</button>
+											<button type="button" class="saDefaultButtonSecondary checkboxes">Toggle checkboxes</button>
+											<label>Selected: <input id="last_action" type="text" size="15" readonly=""></label>
+										</div>
+
+										<softadmin-Treeview class="saTreeViewWrapper">
+											<div class="saFileDropDescription">
+												<i class="saIcon far fa-arrow-pointer"></i>
+												Du kan släppa filer nedan.
+											</div>
+										</softadmin-Treeview>
+										<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+											<softadmin-TreeXview class="saTreeXViewWrapper">
+												<ul class="saTreeXView" role="tree" aria-label="Explore birds">
+													<li role="treeitem" aria-expanded="true" tabindex="0" class="saFileNoDrop">
+														<div class="saTreeXRow">
+															<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+															<div class="saTreeXTypeWrapper">
+																<i class="saTreeXType saIcon fadr fa-folder"></i>
+																<svg width="17" height="14" viewBox="0 0 17 14" fill="none" class="saTreeXType saIcon fadr fa-folder-open"><path opacity="var(--fa-secondary-opacity)" d="M2.04004 12.5L3.60254 7.5H15.4588L13.8963 12.5H2.04004Z"/><path d="M6.125 0C6.71875 0 7.28125 0.25 7.71875 0.6875L9.03125 2H14C15.0938 2 16 2.90625 16 4H14.5C14.5 3.75 14.25 3.5 14 3.5H8.9375C8.625 3.5 8.28125 3.375 8.0625 3.15625L6.65625 1.71875C6.5 1.59375 6.3125 1.5 6.125 1.5H2C1.71875 1.5 1.5 1.75 1.5 2V9.2002L2.1748 7.05273C2.36864 6.42477 2.9503 6 3.60645 6H15.4629C16.4752 6.00023 17.1966 6.98175 16.8936 7.94727L15.3311 12.9473C15.1471 13.543 14.6145 13.9544 14 13.9951V14H2C0.875 14 0 13.125 0 12V2C0 0.90625 0.875 0 2 0H6.125ZM2.04102 12.5H13.8965L15.459 7.5H3.60352L2.04102 12.5Z"/></svg>
+																<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+															</div>
+															<ul class="saTreeXButtonGroup">
+																<li>
+																	<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																		<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																	</button>
+																</li>
+																<li>
+																	<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																		<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																	</button>
+																</li>
+															</ul>
+															<span class="saTreeXLabel" tabindex="-1">Files</span>
+														</div>
+
+														<ul role="group">
+															<li role="treeitem" tabindex="-1" aria-expanded="true" class="saFileNoDrop">
+																<div class="saTreeXRow">
+																	<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																	<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																	<div class="saTreeXTypeWrapper">
+																		<i class="saTreeXType saIcon fadr fa-folder"></i>
+																		<svg width="17" height="14" viewBox="0 0 17 14" fill="none" class="saTreeXType saIcon fadr fa-folder-open">
+																			<path opacity="var(--fa-secondary-opacity)" d="M2.04004 12.5L3.60254 7.5H15.4588L13.8963 12.5H2.04004Z"/>
+																			<path d="M6.125 0C6.71875 0 7.28125 0.25 7.71875 0.6875L9.03125 2H14C15.0938 2 16 2.90625 16 4H14.5C14.5 3.75 14.25 3.5 14 3.5H8.9375C8.625 3.5 8.28125 3.375 8.0625 3.15625L6.65625 1.71875C6.5 1.59375 6.3125 1.5 6.125 1.5H2C1.71875 1.5 1.5 1.75 1.5 2V9.2002L2.1748 7.05273C2.36864 6.42477 2.9503 6 3.60645 6H15.4629C16.4752 6.00023 17.1966 6.98175 16.8936 7.94727L15.3311 12.9473C15.1471 13.543 14.6145 13.9544 14 13.9951V14H2C0.875 14 0 13.125 0 12V2C0 0.90625 0.875 0 2 0H6.125ZM2.04102 12.5H13.8965L15.459 7.5H3.60352L2.04102 12.5Z"/>
+																		</svg>
+																		<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																	</div>
+																	<ul class="saTreeXButtonGroup">
+																		<li>
+																			<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																		<li>
+																			<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																	</ul>
+																	<span class="saTreeXLabel">Eagle</span>
+																</div>
+
+																<ul role="group">
+																	<li role="treeitem" tabindex="-1" aria-expanded="true" class="saFileNoDrop">
+																		<div class="saTreeXRow">
+																			<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																			<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																			<div class="saTreeXTypeWrapper">
+																				<i class="saTreeXType saIcon fadr fa-folder"></i>
+																				<svg width="17" height="14" viewBox="0 0 17 14" fill="none" class="saTreeXType saIcon fadr fa-folder-open">
+																					<path opacity="var(--fa-secondary-opacity)" d="M2.04004 12.5L3.60254 7.5H15.4588L13.8963 12.5H2.04004Z"/>
+																					<path d="M6.125 0C6.71875 0 7.28125 0.25 7.71875 0.6875L9.03125 2H14C15.0938 2 16 2.90625 16 4H14.5C14.5 3.75 14.25 3.5 14 3.5H8.9375C8.625 3.5 8.28125 3.375 8.0625 3.15625L6.65625 1.71875C6.5 1.59375 6.3125 1.5 6.125 1.5H2C1.71875 1.5 1.5 1.75 1.5 2V9.2002L2.1748 7.05273C2.36864 6.42477 2.9503 6 3.60645 6H15.4629C16.4752 6.00023 17.1966 6.98175 16.8936 7.94727L15.3311 12.9473C15.1471 13.543 14.6145 13.9544 14 13.9951V14H2C0.875 14 0 13.125 0 12V2C0 0.90625 0.875 0 2 0H6.125ZM2.04102 12.5H13.8965L15.459 7.5H3.60352L2.04102 12.5Z"/>
+																				</svg>
+																				<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																			</div>
+																			<ul class="saTreeXButtonGroup">
+																				<li>
+																					<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																				<li>
+																					<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																			</ul>
+																			<span class="saTreeXLabel" tabindex="-1">Bald Eagle <span class="saBadgeCount saUrgent">2</span></span>
+																		</div>
+																		<ul role="group">
+																			<li role="treeitem" tabindex="-1" aria-expanded="true">
+																				<div class="saTreeXRow">
+																					<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																					<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																					<div class="saTreeXTypeWrapper">
+																						<i class="saTreeXType saIcon fadr fa-folder"></i>
+																						<svg width="17" height="14" viewBox="0 0 17 14" fill="none" class="saTreeXType saIcon fadr fa-folder-open">
+																							<path opacity="var(--fa-secondary-opacity)" d="M2.04004 12.5L3.60254 7.5H15.4588L13.8963 12.5H2.04004Z"/>
+																							<path d="M6.125 0C6.71875 0 7.28125 0.25 7.71875 0.6875L9.03125 2H14C15.0938 2 16 2.90625 16 4H14.5C14.5 3.75 14.25 3.5 14 3.5H8.9375C8.625 3.5 8.28125 3.375 8.0625 3.15625L6.65625 1.71875C6.5 1.59375 6.3125 1.5 6.125 1.5H2C1.71875 1.5 1.5 1.75 1.5 2V9.2002L2.1748 7.05273C2.36864 6.42477 2.9503 6 3.60645 6H15.4629C16.4752 6.00023 17.1966 6.98175 16.8936 7.94727L15.3311 12.9473C15.1471 13.543 14.6145 13.9544 14 13.9951V14H2C0.875 14 0 13.125 0 12V2C0 0.90625 0.875 0 2 0H6.125ZM2.04102 12.5H13.8965L15.459 7.5H3.60352L2.04102 12.5Z"/>
+																						</svg>
+																						<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																					</div>
+																					<ul class="saTreeXButtonGroup">
+																						<li>
+																							<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																								<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																							</button>
+																						</li>
+																						<li>
+																							<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																								<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																							</button>
+																						</li>
+																					</ul>
+																					<span class="saTreeXLabel" tabindex="-1">Northern</span>
+																				</div>
+																				<ul role="group">
+																					<li role="treeitem" tabindex="-1" class="saTreeXItem saFileNoDrop">
+																						<div class="saTreeXRow">
+																							<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																							<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																							<div class="saTreeXTypeWrapper">
+																								<i class="saTreeXType saIcon fadr fa-file-alt"></i>
+																								<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																							</div>
+																							<ul class="saTreeXButtonGroup">
+																								<li>
+																									<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																								<li>
+																									<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																							</ul>
+																							<span class="saTreeXLabel" tabindex="-1">Extra-heavy.txt</span>
+																						</div>
+																					</li>
+																					<li role="treeitem" tabindex="-1" class="saTreeXItem saFileNoDrop">
+																						<div class="saTreeXRow">
+																							<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																							<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																							<div class="saTreeXTypeWrapper">
+																								<i class="saTreeXType saIcon fadr fa-file-word"></i>
+																								<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																							</div>
+																							<ul class="saTreeXButtonGroup">
+																								<li>
+																									<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																								<li>
+																									<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																							</ul>
+																							<span class="saTreeXLabel" tabindex="-1">Heavy.doc</span>
+																						</div>
+																					</li>
+																					<li role="treeitem" tabindex="-1" class="saTreeXItem saFileNoDrop">
+																						<div class="saTreeXRow">
+																							<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																							<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																							<div class="saTreeXTypeWrapper">
+																								<i class="saTreeXType saIcon fadr fa-file-zipper"></i>
+																								<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																							</div>
+																							<ul class="saTreeXButtonGroup">
+																								<li>
+																									<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																								<li>
+																									<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																							</ul>
+																							<span class="saTreeXLabel" tabindex="-1">medium-medium.zip</span>
+																						</div>
+																					</li>
+																					<li role="treeitem" tabindex="-1" class="saTreeXItem saFileNoDrop">
+																						<div class="saTreeXRow">
+																							<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																							<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																							<div class="saTreeXTypeWrapper">
+																								<i class="saTreeXType saIcon fadr fa-music"></i>
+																								<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																							</div>
+																							<ul class="saTreeXButtonGroup">
+																								<li>
+																									<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																								<li>
+																									<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																							</ul>
+																							<span class="saTreeXLabel">light.mp3</span>
+																						</div>
+																					</li>
+																					<li role="treeitem" tabindex="-1" class="saTreeXItem saFileNoDrop">
+																						<div class="saTreeXRow">
+																							<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																							<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																							<div class="saTreeXTypeWrapper">
+																								<i class="saTreeXType saIcon fadr fa-video"></i>
+																								<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																							</div>
+																							<ul class="saTreeXButtonGroup">
+																								<li>
+																									<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																								<li>
+																									<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																							</ul>
+																							<span class="saTreeXLabel">flight-test-october.mp4</span>
+																						</div>
+																					</li><li role="treeitem" tabindex="-1" class="saTreeXItem saFileNoDrop">
+																						<div class="saTreeXRow">
+																							<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																							<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																							<div class="saTreeXTypeWrapper">
+																								<i class="saTreeXType saIcon fadr fa-video"></i>
+																								<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																							</div>
+																							<ul class="saTreeXButtonGroup">
+																								<li>
+																									<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																								<li>
+																									<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																							</ul>
+																							<span class="saTreeXLabel">flight-test-december.mp4</span>
+																						</div>
+																					</li>
+																				</ul>
+																			</li>
+
+																			<li role="treeitem" tabindex="-1" class="saTreeXItem saFileNoDrop">
+																				<div class="saTreeXRow">
+																					<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																					<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																					<div class="saTreeXTypeWrapper">
+																						<i class="saTreeXType saIcon fadr fa-image"></i>
+																						<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																					</div>
+																					<ul class="saTreeXButtonGroup">
+																						<li>
+																							<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																								<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																							</button>
+																						</li>
+																						<li>
+																							<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																								<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																							</button>
+																						</li>
+																					</ul>
+																					<span class="saTreeXLabel">southern.jpg</span>
+																				</div>
+																			</li>
+																		</ul>
+																	</li>
+
+																	<li role="treeitem" tabindex="-1" class="saTreeXItem saFileNoDrop">
+																		<div class="saTreeXRow">
+																			<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																			<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																			<div class="saTreeXTypeWrapper">
+																				<i class="saTreeXType saIcon fadr fa-draw-square "></i>
+																				<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																			</div>
+																			<ul class="saTreeXButtonGroup">
+																				<li>
+																					<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																				<li>
+																					<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																			</ul>
+																			<span class="saTreeXLabel">red-eagle.svg</span>
+																		</div>
+																	</li>
+																</ul>
+															</li>
+
+															<li role="treeitem" tabindex="-1" class="saTreeXItem saFileNoDrop">
+																<div class="saTreeXRow">
+																	<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																	<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																	<div class="saTreeXTypeWrapper">
+																		<i class="saTreeXType saIcon fadr fa-image"></i>
+																		<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																	</div>
+																	<ul class="saTreeXButtonGroup">
+																		<li>
+																			<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																		<li>
+																			<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																	</ul>
+																	<span class="saTreeXLabel">penguin.png</span>
+																</div>
+															</li>
+															<li role="treeitem" tabindex="-1" aria-expanded="true">
+																<div class="saTreeXRow">
+																	<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																	<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																	<div class="saTreeXTypeWrapper">
+																		<i class="saTreeXType saIcon fadr fa-folder"></i>
+																		<svg width="17" height="14" viewBox="0 0 17 14" fill="none" class="saTreeXType saIcon fadr fa-folder-open">
+																			<path opacity="var(--fa-secondary-opacity)" d="M2.04004 12.5L3.60254 7.5H15.4588L13.8963 12.5H2.04004Z"/>
+																			<path d="M6.125 0C6.71875 0 7.28125 0.25 7.71875 0.6875L9.03125 2H14C15.0938 2 16 2.90625 16 4H14.5C14.5 3.75 14.25 3.5 14 3.5H8.9375C8.625 3.5 8.28125 3.375 8.0625 3.15625L6.65625 1.71875C6.5 1.59375 6.3125 1.5 6.125 1.5H2C1.71875 1.5 1.5 1.75 1.5 2V9.2002L2.1748 7.05273C2.36864 6.42477 2.9503 6 3.60645 6H15.4629C16.4752 6.00023 17.1966 6.98175 16.8936 7.94727L15.3311 12.9473C15.1471 13.543 14.6145 13.9544 14 13.9951V14H2C0.875 14 0 13.125 0 12V2C0 0.90625 0.875 0 2 0H6.125ZM2.04102 12.5H13.8965L15.459 7.5H3.60352L2.04102 12.5Z"/>
+																		</svg>
+																		<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																	</div>
+																	<ul class="saTreeXButtonGroup">
+																		<li>
+																			<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																		<li>
+																			<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																	</ul>
+																	<span class="saTreeXLabel">Crow <span class="saBadgeCount">3</span></span>
+																</div>
+																<ul role="group">
+																	<li role="treeitem" tabindex="-1" class="saTreeXItem saFileNoDrop">
+																		<div class="saTreeXRow">
+																			<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																			<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																			<div class="saTreeXTypeWrapper">
+																				<i class="saTreeXType saIcon fadr fa-brackets-square"></i>
+																				<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																			</div>
+																			<ul class="saTreeXButtonGroup">
+																				<li>
+																					<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																				<li>
+																					<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																			</ul>
+																			<span class="saTreeXLabel" tabindex="-1">kraaka.json</span>
+																		</div>
+																	</li>
+																	<li role="treeitem" tabindex="-1" class="saTreeXItem saFileNoDrop">
+																		<div class="saTreeXRow">
+																			<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																			<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																			<div class="saTreeXTypeWrapper">
+																				<i class="saTreeXType saIcon fadr fa-draw-square"></i>
+																				<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																			</div>
+																			<ul class="saTreeXButtonGroup">
+																				<li>
+																					<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																				<li>
+																					<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																			</ul>
+																			<span class="saTreeXLabel">korpar.svg</span>
+																		</div>
+																	</li>
+																	<li role="treeitem" tabindex="-1" aria-expanded="true">
+																		<div class="saTreeXRow">
+																			<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																			<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+
+																			<div class="saTreeXTypeWrapper">
+																				<i class="saTreeXType saIcon fadr fa-folder"></i>
+																				<svg width="17" height="14" viewBox="0 0 17 14" fill="none" class="saTreeXType saIcon fadr fa-folder-open"><path opacity="var(--fa-secondary-opacity)" d="M2.04004 12.5L3.60254 7.5H15.4588L13.8963 12.5H2.04004Z"/><path d="M6.125 0C6.71875 0 7.28125 0.25 7.71875 0.6875L9.03125 2H14C15.0938 2 16 2.90625 16 4H14.5C14.5 3.75 14.25 3.5 14 3.5H8.9375C8.625 3.5 8.28125 3.375 8.0625 3.15625L6.65625 1.71875C6.5 1.59375 6.3125 1.5 6.125 1.5H2C1.71875 1.5 1.5 1.75 1.5 2V9.2002L2.1748 7.05273C2.36864 6.42477 2.9503 6 3.60645 6H15.4629C16.4752 6.00023 17.1966 6.98175 16.8936 7.94727L15.3311 12.9473C15.1471 13.543 14.6145 13.9544 14 13.9951V14H2C0.875 14 0 13.125 0 12V2C0 0.90625 0.875 0 2 0H6.125ZM2.04102 12.5H13.8965L15.459 7.5H3.60352L2.04102 12.5Z"/></svg>
+																				<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																			</div>
+																			<ul class="saTreeXButtonGroup">
+																				<li>
+																					<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																				<li>
+																					<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																			</ul>
+																			<span class="saTreeXLabel">Skata 1</span>
+																		</div>
+																		<ul role="group">
+																			<li role="treeitem" tabindex="-1" aria-expanded="true">
+																				<div class="saTreeXRow saLoading" style="background-image: linear-gradient(to right, var(--Sa-Color-Primary100) 67%, transparent 67%);">
+																					<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																					<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																					<div class="saTreeXTypeWrapper">
+																						<div class="saLoadingWrapper saLoadingExtraDark">
+																								<svg class="saLoading" viewBox="0 0 24 24">
+																									<circle class="saLoadingCircle" cx="12" cy="12" r="12" fill="none"></circle>
+																									<path class="saLoadingCheck" d="M6.29,12.58l3.14,3.19c.15,.15,.39,.15,.53,0l7.75-7.8" fill="none"></path>
+																								</svg>
+																								<div class="saLoadingSpinner"></div>
+																							</div>
+																						<i class="saTreeXType saIcon fadr fa-folder"></i>
+																						<svg width="17" height="14" viewBox="0 0 17 14" fill="none" class="saTreeXType saIcon fadr fa-folder-open"><path opacity="var(--fa-secondary-opacity)" d="M2.04004 12.5L3.60254 7.5H15.4588L13.8963 12.5H2.04004Z"/><path d="M6.125 0C6.71875 0 7.28125 0.25 7.71875 0.6875L9.03125 2H14C15.0938 2 16 2.90625 16 4H14.5C14.5 3.75 14.25 3.5 14 3.5H8.9375C8.625 3.5 8.28125 3.375 8.0625 3.15625L6.65625 1.71875C6.5 1.59375 6.3125 1.5 6.125 1.5H2C1.71875 1.5 1.5 1.75 1.5 2V9.2002L2.1748 7.05273C2.36864 6.42477 2.9503 6 3.60645 6H15.4629C16.4752 6.00023 17.1966 6.98175 16.8936 7.94727L15.3311 12.9473C15.1471 13.543 14.6145 13.9544 14 13.9951V14H2C0.875 14 0 13.125 0 12V2C0 0.90625 0.875 0 2 0H6.125ZM2.04102 12.5H13.8965L15.459 7.5H3.60352L2.04102 12.5Z"/></svg>
+																						<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																					</div>
+																					<ul class="saTreeXButtonGroup">
+																						<li>
+																							<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																								<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																							</button>
+																						</li>
+																						<li>
+																							<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																								<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																							</button>
+																						</li>
+																					</ul>
+																					<span class="saTreeXLabel">Skata 2</span>
+																					<span class="saLoadingProgress">67%</span>
+																				</div>
+																				<ul role="group">
+																					<li role="treeitem" tabindex="-1" aria-expanded="false">
+																						<div class="saTreeXRow">
+																							<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																							<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																							<div class="saTreeXTypeWrapper">
+																								<i class="saTreeXType saIcon fadr fa-folder"></i>
+																								<svg width="17" height="14" viewBox="0 0 17 14" fill="none" class="saTreeXType saIcon fadr fa-folder-open"><path opacity="var(--fa-secondary-opacity)" d="M2.04004 12.5L3.60254 7.5H15.4588L13.8963 12.5H2.04004Z"/><path d="M6.125 0C6.71875 0 7.28125 0.25 7.71875 0.6875L9.03125 2H14C15.0938 2 16 2.90625 16 4H14.5C14.5 3.75 14.25 3.5 14 3.5H8.9375C8.625 3.5 8.28125 3.375 8.0625 3.15625L6.65625 1.71875C6.5 1.59375 6.3125 1.5 6.125 1.5H2C1.71875 1.5 1.5 1.75 1.5 2V9.2002L2.1748 7.05273C2.36864 6.42477 2.9503 6 3.60645 6H15.4629C16.4752 6.00023 17.1966 6.98175 16.8936 7.94727L15.3311 12.9473C15.1471 13.543 14.6145 13.9544 14 13.9951V14H2C0.875 14 0 13.125 0 12V2C0 0.90625 0.875 0 2 0H6.125ZM2.04102 12.5H13.8965L15.459 7.5H3.60352L2.04102 12.5Z"/></svg>
+																								<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																							</div>
+																							<ul class="saTreeXButtonGroup">
+																								<li>
+																									<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																								<li>
+																									<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																							</ul>
+																							<span class="saTreeXLabel">Skata 3</span>
+																						</div>
+																						<ul role="group">
+																							<li role="treeitem" tabindex="-1" class="saTreeXItem saFileNoDrop">
+																								<div class="saTreeXRow">
+																									<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																									<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																									<div class="saTreeXTypeWrapper">
+																										<i class="saTreeXType saIcon fadr fa-file-alt"></i>
+																										<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																									</div>
+																									<ul class="saTreeXButtonGroup">
+																										<li>
+																											<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																												<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																											</button>
+																										</li>
+																										<li>
+																											<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																												<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																											</button>
+																										</li>
+																									</ul>
+																									<span class="saTreeXLabel">skata-4.docx</span>
+																								</div>
+																							</li>
+																							<li role="treeitem" tabindex="-1" class="saTreeXItem saFileNoDrop">
+																								<div class="saTreeXRow">
+																									<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+																									<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																									<div class="saTreeXTypeWrapper">
+																										<i class="saTreeXType saIcon fadr fa-file-powerpoint"></i>
+																										<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+																									</div>
+																									<ul class="saTreeXButtonGroup">
+																										<li>
+																											<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																												<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																											</button>
+																										</li>
+																										<li>
+																											<button class="saTreeXButton" type="button" aria-label="Do this thing">
+																												<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																											</button>
+																										</li>
+																									</ul>
+																									<span class="saTreeXLabel">skata-4-1.ppt</span>
+																								</div>
+																							</li>
+																						</ul>
+																					</li>
+																				</ul>
+																			</li>
+																		</ul>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</softadmin-TreeXview>
+											<softadmin-TreeYview class="saTreeYViewWrapper">
+												<ul class="saTreeYView" role="tree" aria-label="Explore birds">
+													<li role="treeitem" aria-expanded="true" tabindex="0">
+														<div class="saTreeYRow">
+															<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+															</svg>
+															<ul class="saTreeYButtonGroup">
+																<li>
+																	<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																		<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																	</button>
+																</li>
+																<li>
+																	<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																		<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																	</button>
+																</li>
+															</ul>
+															<input type="checkbox" name="Birds" class="saCheckbox">
+															<a href="#" class="saTreeYLabel" tabindex="-1">Birds</a>
+														</div>
+
+														<ul role="group">
+															<li role="treeitem" tabindex="-1" aria-expanded="true">
+																<div class="saTreeYRow">
+																	<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																		<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																		<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																	</svg>
+																	<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																	<ul class="saTreeYButtonGroup">
+																		<li>
+																			<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																		<li>
+																			<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																	</ul>
+																	<input type="checkbox" name="Birds" class="saCheckbox">
+																	<a href="#" class="saTreeYLabel" tabindex="-1">Eagle</a>
+																</div>
+
+																<ul role="group">
+																	<li role="treeitem" tabindex="-1" aria-expanded="true">
+																		<div class="saTreeYRow">
+																			<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																				<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																				<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																			</svg>
+																			<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																			<ul class="saTreeYButtonGroup">
+																				<li>
+																					<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																				<li>
+																					<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																			</ul>
+																			<input type="checkbox" name="Birds" class="saCheckbox">
+																			<a href="#" class="saTreeYLabel" tabindex="-1">Bald Eagle <span class="saBadgeCount saUrgent">2</span></a>
+																		</div>
+																		<ul role="group">
+																			<li role="treeitem" tabindex="-1" aria-expanded="true">
+																				<div class="saTreeYRow">
+																					<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																						<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																						<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																					</svg>
+																					<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																					<ul class="saTreeYButtonGroup">
+																						<li>
+																							<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																								<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																							</button>
+																						</li>
+																						<li>
+																							<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																								<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																							</button>
+																						</li>
+																					</ul>
+																					<input type="checkbox" name="Birds" class="saCheckbox">
+																					<a href="#" class="saTreeYLabel" tabindex="-1">Northern</a>
+																				</div>
+																				<ul role="group">
+																					<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																						<div class="saTreeYRow">
+																							<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																								<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																								<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																							</svg>
+																							<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																							<ul class="saTreeYButtonGroup">
+																								<li>
+																									<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																								<li>
+																									<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																							</ul>
+																							<input type="checkbox" name="Birds" class="saCheckbox">
+																							<a href="#" class="saTreeYLabel" tabindex="-1">Heavy</a>
+																						</div>
+																					</li>
+																					<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																						<div class="saTreeYRow">
+																							<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																								<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																								<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																							</svg>
+																							<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																							<ul class="saTreeYButtonGroup">
+																								<li>
+																									<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																								<li>
+																									<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																							</ul>
+																							<input type="checkbox" name="Birds" class="saCheckbox">
+																							<a href="#" class="saTreeYLabel" tabindex="-1">Medium</a>
+																						</div>
+																					</li>
+																					<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																						<div class="saTreeYRow">
+																							<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																								<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																								<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																							</svg>
+																							<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																							<ul class="saTreeYButtonGroup">
+																								<li>
+																									<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																								<li>
+																									<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																							</ul>
+																							<span class="saTreeYLabel">Light</span>
+																						</div>
+																					</li>
+																				</ul>
+																			</li>
+
+																			<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																				<div class="saTreeYRow">
+																					<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																						<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																						<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																					</svg>
+																					<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																					<ul class="saTreeYButtonGroup">
+																						<li>
+																							<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																								<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																							</button>
+																						</li>
+																						<li>
+																							<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																								<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																							</button>
+																						</li>
+																					</ul>
+																					<input type="checkbox" name="Birds" class="saCheckbox">
+																					<span class="saTreeYLabel">Southern</span>
+																				</div>
+																			</li>
+																		</ul>
+																	</li>
+
+																	<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																		<div class="saTreeYRow">
+																			<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																				<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																				<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																			</svg>
+																			<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																			<ul class="saTreeYButtonGroup">
+																				<li>
+																					<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																				<li>
+																					<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																			</ul>
+																			<input type="checkbox" name="Birds" class="saCheckbox">
+																			<span class="saTreeYLabel">Red Eagle</span>
+																		</div>
+																	</li>
+																</ul>
+															</li>
+
+															<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																<div class="saTreeYRow">
+																	<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																		<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																		<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																	</svg>
+																	<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																	<ul class="saTreeYButtonGroup">
+																		<li>
+																			<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																		<li>
+																			<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																	</ul>
+																	<input type="checkbox" name="Birds" class="saCheckbox">
+																	<span class="saTreeYLabel">Penguin</span>
+																</div>
+															</li>
+															<li role="treeitem" tabindex="-1" aria-expanded="true">
+																<div class="saTreeYRow">
+																	<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																		<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																		<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																	</svg>
+																	<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																	<ul class="saTreeYButtonGroup">
+																		<li>
+																			<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																		<li>
+																			<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																	</ul>
+
+																	<input type="checkbox" name="Birds" class="saCheckbox">
+																	<span class="saTreeYLabel">Crow <span class="saBadgeCount">3</span></span>
+																</div>
+																<ul role="group">
+																	<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																		<div class="saTreeYRow">
+																			<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																				<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																				<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																			</svg>
+																			<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																			<ul class="saTreeYButtonGroup">
+																				<li>
+																					<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																				<li>
+																					<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																			</ul>
+																			<input type="checkbox" name="Birds" class="saCheckbox">
+																			<a href="#" class="saTreeYLabel" tabindex="-1">Kråka</a>
+																		</div>
+																	</li>
+																	<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																		<div class="saTreeYRow">
+																			<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																				<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																				<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																			</svg>
+																			<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																			<ul class="saTreeYButtonGroup">
+																				<li>
+																					<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																				<li>
+																					<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																			</ul>
+																			<input type="checkbox" name="Birds" class="saCheckbox">
+																			<span class="saTreeYLabel">Korp</span>
+																		</div>
+																	</li>
+																	<li role="treeitem" tabindex="-1" aria-expanded="true">
+																		<div class="saTreeYRow">
+																			<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																				<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																				<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																			</svg>
+																			<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																			<ul class="saTreeYButtonGroup">
+																				<li>
+																					<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																				<li>
+																					<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																			</ul>
+																			<input type="checkbox" name="Birds" class="saCheckbox">
+																			<span class="saTreeYLabel">Skata 1</span>
+																		</div>
+																		<ul role="group">
+																				<li role="treeitem" tabindex="-1" aria-expanded="true">
+																					<div class="saTreeYRow">
+																						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																							<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																							<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																						</svg>
+																						<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																						<ul class="saTreeYButtonGroup">
+																							<li>
+																								<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																									<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																								</button>
+																							</li>
+																							<li>
+																								<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																									<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																								</button>
+																							</li>
+																						</ul>
+																						<input type="checkbox" name="Birds" class="saCheckbox">
+																						<span class="saTreeYLabel">Skata 2</span>
+																						<div class="saLoadingSpinnerWrapper">
+																							<div class="saLoadingWrapper saLoadingExtraDark">
+																								<svg class="saLoading" viewBox="0 0 24 24">
+																									<circle class="saLoadingCircle" cx="12" cy="12" r="12" fill="none"></circle>
+																									<path class="saLoadingCheck" d="M6.29,12.58l3.14,3.19c.15,.15,.39,.15,.53,0l7.75-7.8" fill="none"></path>
+																								</svg>
+																								<div class="saLoadingSpinner"></div>
+																							</div>
+																							<span class="saLoadingProgress">67%</span>
+																						</div>
+																					</div>
+																				<ul role="group">
+																					<li role="treeitem" tabindex="-1" aria-expanded="false">
+																						<div class="saTreeYRow">
+																							<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																								<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																								<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																							</svg>
+																							<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																							<ul class="saTreeYButtonGroup">
+																								<li>
+																									<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																								<li>
+																									<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																							</ul>
+																							<input type="checkbox" name="Birds" class="saCheckbox">
+																							<span class="saTreeYLabel">Skata 3</span>
+																						</div>
+																						<ul role="group">
+																							<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																								<div class="saTreeYRow">
+																									<svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="saTreeYExpander">
+																										<path class="saMinus" d="M6 11C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9L14 9C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11L6 11Z" />
+																										<path class="saPlus" d="M10 5C10.5523 5 11 5.44772 11 6V9H14C14.5523 9 15 9.44772 15 10C15 10.5523 14.5523 11 14 11H11V14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14V11H6C5.44772 11 5 10.5523 5 10C5 9.44772 5.44772 9 6 9H9V6C9 5.44772 9.44772 5 10 5Z" />
+																									</svg>
+																									<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																									<ul class="saTreeYButtonGroup">
+																										<li>
+																											<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																												<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																											</button>
+																										</li>
+																										<li>
+																											<button class="saTreeYButton" type="button" aria-label="Do this thing">
+																												<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																											</button>
+																										</li>
+																									</ul>
+																									<input type="checkbox" name="Birds" class="saCheckbox">
+																									<span class="saTreeYLabel">Skata 4</span>
+																								</div>
+																							</li>
+																						</ul>
+																					</li>
+																				</ul>
+																			</li>
+																		</ul>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</softadmin-TreeYview>
+											<softadmin-TreeZview class="saTreeZViewWrapper">
+												<ul class="saTreeZView" role="tree" aria-label="Explore birds">
+													<li role="treeitem" aria-expanded="true" tabindex="0">
+														<div class="saTreeZRow">
+															<div class="saTreeZExpander"></div>
+
+															<ul class="saTreeZButtonGroup">
+																<li>
+																	<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																		<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																	</button>
+																</li>
+																<li>
+																	<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																		<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																	</button>
+																</li>
+															</ul>
+															<a href="#" class="saTreeZLabel" tabindex="-1">Birds</a>
+														</div>
+
+														<ul role="group">
+															<li role="treeitem" tabindex="-1" aria-expanded="true">
+																<div class="saTreeZRow">
+																	<div class="saTreeZExpander"></div>
+																	<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																	<ul class="saTreeZButtonGroup">
+																		<li>
+																			<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																		<li>
+																			<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																	</ul>
+																	<a href="#" class="saTreeZLabel" tabindex="-1">Eagle</a>
+																</div>
+
+																<ul role="group">
+																	<li role="treeitem" tabindex="-1" aria-expanded="true">
+																		<div class="saTreeZRow">
+																			<div class="saTreeZExpander"></div>
+																			<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																			<ul class="saTreeZButtonGroup">
+																				<li>
+																					<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																				<li>
+																					<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																			</ul>
+																			<a href="#" class="saTreeZLabel" tabindex="-1">Bald Eagle <span class="saBadgeCount saUrgent">2</span></a>
+																		</div>
+																		<ul role="group">
+																			<li role="treeitem" tabindex="-1" aria-expanded="true">
+																				<div class="saTreeZRow">
+																					<div class="saTreeZExpander"></div>
+																					<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																					<ul class="saTreeZButtonGroup">
+																						<li>
+																							<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																								<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																							</button>
+																						</li>
+																						<li>
+																							<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																								<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																							</button>
+																						</li>
+																					</ul>
+																					<a href="#" class="saTreeZLabel" tabindex="-1">Northern</a>
+																				</div>
+																				<ul role="group">
+																					<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																						<div class="saTreeZRow">
+																							<div class="saTreeZExpander"></div>
+																							<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																							<ul class="saTreeZButtonGroup">
+																								<li>
+																									<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																								<li>
+																									<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																							</ul>
+																							<a href="#" class="saTreeZLabel" tabindex="-1">Heavy</a>
+																						</div>
+																					</li>
+																					<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																						<div class="saTreeZRow">
+																							<div class="saTreeZExpander"></div>
+																							<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																							<ul class="saTreeZButtonGroup">
+																								<li>
+																									<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																								<li>
+																									<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																							</ul>
+																							<a href="#" class="saTreeZLabel" tabindex="-1">Medium</a>
+																						</div>
+																					</li>
+																					<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																						<div class="saTreeZRow">
+																							<div class="saTreeZExpander"></div>
+																							<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																							<ul class="saTreeZButtonGroup">
+																								<li>
+																									<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																								<li>
+																									<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																							</ul>
+																							<span class="saTreeZLabel">Light</span>
+																						</div>
+																					</li>
+																				</ul>
+																			</li>
+
+																			<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																				<div class="saTreeZRow">
+																					<div class="saTreeZExpander"></div>
+																					<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																					<ul class="saTreeZButtonGroup">
+																						<li>
+																							<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																								<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																							</button>
+																						</li>
+																						<li>
+																							<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																								<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																							</button>
+																						</li>
+																					</ul>
+																					<span class="saTreeZLabel">Southern</span>
+																				</div>
+																			</li>
+																		</ul>
+																	</li>
+
+																	<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																		<div class="saTreeZRow">
+																			<div class="saTreeZExpander"></div>
+																			<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																			<ul class="saTreeZButtonGroup">
+																				<li>
+																					<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																				<li>
+																					<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																			</ul>
+																			<span class="saTreeZLabel">Red Eagle</span>
+																		</div>
+																	</li>
+																</ul>
+															</li>
+
+															<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																<div class="saTreeZRow">
+																	<div class="saTreeZExpander"></div>
+																	<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																	<ul class="saTreeZButtonGroup">
+																		<li>
+																			<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																		<li>
+																			<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																	</ul>
+																	<span class="saTreeZLabel">Penguin</span>
+																</div>
+															</li>
+															<li role="treeitem" tabindex="-1" aria-expanded="true">
+																<div class="saTreeZRow">
+																	<div class="saTreeZExpander"></div>
+																	<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																	<ul class="saTreeZButtonGroup">
+																		<li>
+																			<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																		<li>
+																			<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																			</button>
+																		</li>
+																	</ul>
+																	<span class="saTreeZLabel">Crow <span class="saBadgeCount">3</span></span>
+																</div>
+																<ul role="group">
+																	<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																		<div class="saTreeZRow">
+																			<div class="saTreeZExpander"></div>
+																			<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																			<ul class="saTreeZButtonGroup">
+																				<li>
+																					<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																				<li>
+																					<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																			</ul>
+																			<a href="#" class="saTreeZLabel" tabindex="-1">Kråka</a>
+																		</div>
+																	</li>
+																	<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																		<div class="saTreeZRow">
+																			<div class="saTreeZExpander"></div>
+																			<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																			<ul class="saTreeZButtonGroup">
+																				<li>
+																					<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																				<li>
+																					<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																			</ul>
+																			<span class="saTreeZLabel">Korp</span>
+																		</div>
+																	</li>
+																	<li role="treeitem" tabindex="-1" aria-expanded="true">
+																		<div class="saTreeZRow">
+																			<div class="saTreeZExpander"></div>
+																			<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																			<ul class="saTreeZButtonGroup">
+																				<li>
+																					<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																				<li>
+																					<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																						<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																					</button>
+																				</li>
+																			</ul>
+																			<span class="saTreeZLabel">Skata 1</span>
+																		</div>
+																		<ul role="group">
+																				<li role="treeitem" tabindex="-1" aria-expanded="true">
+																					<div class="saTreeZRow">
+																						<div class="saTreeZExpander"></div>
+																						<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																						<ul class="saTreeZButtonGroup">
+																							<li>
+																								<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																									<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																								</button>
+																							</li>
+																							<li>
+																								<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																									<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																								</button>
+																							</li>
+																						</ul>
+																						<span class="saTreeZLabel">Skata 2</span>
+																						<div class="saLoadingSpinnerWrapper">
+																							<div class="saLoadingWrapper saLoadingExtraDark">
+																								<svg class="saLoading" viewBox="0 0 24 24">
+																									<circle class="saLoadingCircle" cx="12" cy="12" r="12" fill="none"></circle>
+																									<path class="saLoadingCheck" d="M6.29,12.58l3.14,3.19c.15,.15,.39,.15,.53,0l7.75-7.8" fill="none"></path>
+																								</svg>
+																								<div class="saLoadingSpinner"></div>
+																							</div>
+																							<span class="saLoadingProgress">67%</span>
+																						</div>
+																					</div>
+																				<ul role="group">
+																					<li role="treeitem" tabindex="-1" aria-expanded="false">
+																						<div class="saTreeZRow">
+																							<div class="saTreeZExpander"></div>
+																							<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																							<ul class="saTreeZButtonGroup">
+																								<li>
+																									<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																								<li>
+																									<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																										<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																									</button>
+																								</li>
+																							</ul>
+																							<span class="saTreeZLabel">Skata 3</span>
+																						</div>
+																						<ul role="group">
+																							<li role="treeitem" tabindex="-1" class="saTreeXItem">
+																								<div class="saTreeZRow">
+																									<div class="saTreeZExpander"></div>
+																									<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
+																									<ul class="saTreeZButtonGroup">
+																										<li>
+																											<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																												<i class="far fa-cat icon saIcon" aria-hidden="true"></i>
+																											</button>
+																										</li>
+																										<li>
+																											<button class="saTreeZButton" type="button" aria-label="Do this thing">
+																												<i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i>
+																											</button>
+																										</li>
+																									</ul>
+																									<span class="saTreeZLabel">Skata 4</span>
+																								</div>
+																							</li>
+																						</ul>
+																					</li>
+																				</ul>
+																			</li>
+																		</ul>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</softadmin-TreeZview>
+											<softadmin-treeview class="saTreeViewWrapper indicatedragdrop">
+												<ul class="saTreeView saRoot">
+													<li class="saNode" data-nodeid="101">
+													<label class="saNodeContent saNodeExpand">
+														<div class="saExpandIconDiv">
+															<input class="saExpander saMinus" type="checkbox" aria-expanded="true" checked>
+														</div>
+														<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+															<i class="far fa-cat icon saIcon"></i>
+														</button>
+														<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+															<i class="far fa-ellipsis-vertical icon saIcon"></i>
+														</button>
+														<span>Birds</span>
+													</label>
+														<ul>
+															<li class="saNode" data-nodeid="102">
+															<label class="saNodeContent saNodeExpand">
+																<div class="saExpandIconDiv">
+																<input class="saExpander saMinus" type="checkbox" aria-expanded="true" checked>
+																</div>
+																<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+																<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																	<i class="far fa-cat icon saIcon"></i>
+																</button>
+																<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																	<i class="far fa-ellipsis-vertical icon saIcon"></i>
+																</button>
+																<span><a class="saNodeLinkJs" tabindex="0" href="#">Eagle</a></span>
+															</label>
+
+															<ul>
+																<li class="saNode" data-nodeid="103">
+																<label class="saNodeContent saNodeExpand">
+																	<div class="saExpandIconDiv"><input class="saExpander saMinus" type="checkbox" aria-expanded="true" checked></div>
+																	<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+																	<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																		<i class="far fa-cat icon saIcon"></i>
+																	</button>
+																	<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																		<i class="far fa-ellipsis-vertical icon saIcon"></i>
+																	</button>
+																	<span><a class="saNodeLinkJs" tabindex="0" href="#">Bald Eagle (2)</a></span>
+																</label>
+
+																<ul>
+																	<li class="saNode" data-nodeid="104">
+																	<label class="saNodeContent saNodeExpand">
+																		<div class="saExpandIconDiv">
+																		<input class="saExpander saMinus" type="checkbox" aria-expanded="true" checked>
+																		</div>
+																		<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-cat icon saIcon"></i>
+															</button>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-ellipsis-vertical icon saIcon"></i>
+															</button>
+																		<span><a class="saNodeLinkJs" tabindex="0" href="#">Northern</a></span>
+																	</label>
+																	<ul>
+																		<li class="saNode" data-nodeid="105">
+																		<label class="saNodeContent">
+																			<div class="saExpandIconDiv"><input class="saExpander" type="checkbox" disabled></div>
+																			<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-cat icon saIcon"></i>
+															</button>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-ellipsis-vertical icon saIcon"></i>
+															</button>
+																			<span><a class="saNodeLinkJs" tabindex="0" href="#">Heavy</a></span>
+																		</label>
+																		</li>
+																		<li class="saNode" data-nodeid="106">
+																		<label class="saNodeContent">
+																			<div class="saExpandIconDiv"><input class="saExpander" type="checkbox" disabled></div>
+																			<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-cat icon saIcon"></i>
+															</button>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-ellipsis-vertical icon saIcon"></i>
+															</button>
+																			<span><a class="saNodeLinkJs" tabindex="0" href="#">Medium</a></span>
+																		</label>
+																		</li>
+																		<li class="saNode" data-nodeid="107">
+																		<label class="saNodeContent">
+																			<div class="saExpandIconDiv"><input class="saExpander" type="checkbox" disabled></div>
+																			<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-cat icon saIcon"></i>
+															</button>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-ellipsis-vertical icon saIcon"></i>
+															</button>
+																			<span>Light</span>
+																		</label>
+																		</li>
+																	</ul>
+																	</li>
+																	<li class="saNode" data-nodeid="108">
+																	<label class="saNodeContent">
+																		<div class="saExpandIconDiv"><input class="saExpander" type="checkbox" disabled></div>
+																		<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-cat icon saIcon"></i>
+															</button>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-ellipsis-vertical icon saIcon"></i>
+															</button>
+																		<span>Southern</span>
+																	</label>
+																	</li>
+																</ul>
+																</li>
+																<li class="saNode" data-nodeid="109">
+																<label class="saNodeContent">
+																	<div class="saExpandIconDiv"><input class="saExpander" type="checkbox" disabled></div>
+																	<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-cat icon saIcon"></i>
+															</button>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-ellipsis-vertical icon saIcon"></i>
+															</button>
+																	<span>Red Eagle</span>
+																</label>
+																</li>
+															</ul>
+															</li>
+
+															<li class="saNode" data-nodeid="110">
+															<label class="saNodeContent">
+																<div class="saExpandIconDiv"><input class="saExpander" type="checkbox" disabled></div>
+																<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-cat icon saIcon"></i>
+															</button>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-ellipsis-vertical icon saIcon"></i>
+															</button>
+																<span>Penguin</span>
+															</label>
+															</li>
+
+															<li class="saNode" data-nodeid="111">
+															<label class="saNodeContent saNodeExpand">
+																<div class="saExpandIconDiv"><input class="saExpander saMinus" type="checkbox" aria-expanded="true" checked></div>
+																<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-cat icon saIcon"></i>
+															</button>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-ellipsis-vertical icon saIcon"></i>
+															</button>
+																<span>Crow (3)</span>
+															</label>
+															<ul>
+																<li class="saNode" data-nodeid="112">
+																<label class="saNodeContent">
+																	<div class="saExpandIconDiv"><input class="saExpander" type="checkbox" disabled></div>
+																	<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-cat icon saIcon"></i>
+															</button>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-ellipsis-vertical icon saIcon"></i>
+															</button>
+																	<span><a class="saNodeLinkJs" tabindex="0" href="#">Kråka</a></span>
+																</label>
+																</li>
+																<li class="saNode" data-nodeid="113">
+																<label class="saNodeContent">
+																	<div class="saExpandIconDiv"><input class="saExpander" type="checkbox" disabled></div>
+																	<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-cat icon saIcon"></i>
+															</button>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-ellipsis-vertical icon saIcon"></i>
+															</button>
+																	<span>Korp</span>
+																</label>
+																</li>
+																<li class="saNode" data-nodeid="114">
+																<label class="saNodeContent saNodeExpand">
+																	<div class="saExpandIconDiv"><input class="saExpander saMinus" type="checkbox" aria-expanded="true" checked></div>
+																	<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-cat icon saIcon"></i>
+															</button>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-ellipsis-vertical icon saIcon"></i>
+															</button>
+																	<span>Skata 1</span>
+																</label>
+																<ul>
+																	<li class="saNode" data-nodeid="115">
+																	<label class="saNodeContent saNodeExpand">
+																		<div class="saExpandIconDiv"><input class="saExpander saMinus" type="checkbox" aria-expanded="true" checked></div>
+																		<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-cat icon saIcon"></i>
+															</button>
+															<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																<i class="far fa-ellipsis-vertical icon saIcon"></i>
+															</button>
+																		<span>Skata 2</span>
+																		<div class="saLoadingSpinnerWrapper">
+																			<div class="saLoadingWrapper saLoadingExtraDark">
+																				<svg class="saLoading" viewBox="0 0 24 24">
+																					<circle class="saLoadingCircle" cx="12" cy="12" r="12" fill="none"></circle>
+																					<path class="saLoadingCheck" d="M6.29,12.58l3.14,3.19c.15,.15,.39,.15,.53,0l7.75-7.8" fill="none"></path>
+																				</svg>
+																				<div class="saLoadingSpinner"></div>
+																			</div>
+																			<span class="saLoadingProgress">67%</span>
+																		</div>
+																	</label>
+																	<ul>
+																		<li class="saNode" data-nodeid="116">
+																		<label class="saNodeContent saNodeExpand">
+																			<div class="saExpandIconDiv"><input class="saExpander saMinus" type="checkbox" aria-expanded="false"></div>
+																			<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+																			<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-cat icon saIcon"></i>
+																			</button>
+																			<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																				<i class="far fa-ellipsis-vertical icon saIcon"></i>
+																			</button>
+																			<span>Skata 3</span>
+																		</label>
+																		<ul style="display: none;">
+																			<li class="saNode" data-nodeid="117">
+																			<label class="saNodeContent">
+																				<div class="saExpandIconDiv"><input class="saExpander" type="checkbox" disabled></div>
+																				<div class="saDragHandle far fa-grip-dots-vertical" data-sa-isdraghandle="1" draggable="true" aria-hidden="true"></div>
+																				<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																					<i class="far fa-cat icon saIcon"></i>
+																				</button>
+																				<button class="saTreeViewButton" type="button" aria-label="Do this thing">
+																					<i class="far fa-ellipsis-vertical icon saIcon"></i>
+																				</button>
+																				<span>Skata 4</span>
+																			</label>
+																			</li>
+																		</ul>
+																		</li>
+																	</ul>
+																	</li>
+																</ul>
+																</li>
+															</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</softadmin-treeview>
+										</div>
+									</div>
+									<div class="saFileUploadAreaWrapper saMultipleFilesArea saStandAlone" open aria-modal="false">
+											<ul class="saFileGroup">
+												<li class="saFileWrapper">
+													<div class="saFileIconWrapper">
+														<div class="saLoadingWrapper saLoadingDark">
+														<svg class="saLoading" viewBox="0 0 24 24">
+															<circle class="saLoadingCircle" cx="12" cy="12" r="12" fill="none"></circle>
+															<path class="saLoadingCheck" d="M6.29,12.58l3.14,3.19c.15,.15,.39,.15,.53,0l7.75-7.8" fill="none"></path>
+														</svg>
+														<div class="saLoadingSpinner"></div>
+														</div>
+														<i class="saFileIcon saIcon fas fa-video" aria-hidden="true"></i>
+													</div>
+													<div class="saFile">
+														<div class="saFileNameWrapper">
+														<span class="saFileName">Screenshot-2026-02-04.mp4</span>
+														</div>
+														<div class="saFileSizeWrapper">
+														<div class="saFileSizeRow">
+															<span class="saFileSize">152 kB</span>
+															<span class="saFileUploadProgressText">0%</span>
+														</div>
+														<progress class="saFileUploadProgress" max="100" value="0"></progress>
+														</div>
+													</div>
+													<button class="saDeleteButton saDestructive" type="button" aria-label="Avbryt uppladdningen av fil Screenshot-2026-02-04.mp4">
+														<i class="saIcon far fa-ban"></i>
+													</button>
+												</li>
+
+												<li class="saFileWrapper saPending">
+													<div class="saFileIconWrapper">
+														<div class="saLoadingWrapper saLoadingDark">
+															<svg class="saLoading" viewBox="0 0 24 24">
+																<circle class="saLoadingCircle" cx="12" cy="12" r="12" fill="none"></circle>
+																<path class="saLoadingCheck" d="M6.29,12.58l3.14,3.19c.15,.15,.39,.15,.53,0l7.75-7.8" fill="none"></path>
+															</svg>
+															<div class="saLoadingSpinner"></div>
+														</div>
+														<i class="saFileIcon saIcon fas fa-music" aria-hidden="true"></i>
+													</div>
+													<div class="saFile">
+														<div class="saFileNameWrapper">
+															<span class="saFileName">da-remix-da-track-da-masta3.mp3</span>
+														</div>
+														<div class="saFileSizeWrapper">
+															<div class="saFileSizeRow">
+																<span class="saFileSize">3 kB</span>
+																<span class="saFileUploadProgressText">0%</span>
+															</div>
+															<progress class="saFileUploadProgress" max="100" value="0"></progress>
+														</div>
+													</div>
+													<button class="saDeleteButton saDestructive" type="button" data-tooltip="Ta bort fil" aria-label="Ta bort fil DRIBBBLE-SOFTADMIN-INSPO.mp4">
+														<i class="saIcon far fa-ban"></i>
+													</button>
+												</li>
+
+												<li class="saFileWrapper saError saDone">
+													<div class="saFileIconWrapper">
+														<i class="saFileIcon saIcon far fa-xmark"></i>
+													</div>
+													<div class="saFile">
+														<div class="saFileNameWrapper">
+														<span class="saFileName">DRIBBBLE-SOFTADMIN-INSPO.mp4</span>
+														</div>
+														<div class="saFileSizeWrapper">
+														<div class="saFileSizeRow">
+															<span class="saFileSize">7 MB</span>
+															<span class="saFileUploadProgressText">0%</span>
+														</div>
+														<progress class="saFileUploadProgress" max="100" value="0"></progress>
+														<span class="saFileErrorMessage" role="alert">Filen är för stor. Max tillåtna storlek är 3 MB.</span>
+														</div>
+													</div>
+													<button class="saDeleteButton saDestructive" type="button" data-tooltip="Ta bort fil" aria-label="Ta bort fil DRIBBBLE-SOFTADMIN-INSPO.mp4">
+													<i class="saIcon far fa-trash-alt"></i>
+													</button>
+												</li>
+
+												<li class="saFileWrapper saEmptyFile saDone">
+													<div class="saFileIconWrapper">
+														<i class="saFileIcon saIcon far fa-question"></i>
+													</div>
+													<div class="saFile">
+														<div class="saFileNameWrapper">
+														<span class="saFileName">DRIBBBLE-SOFTADMIN-INSPO.mp4</span>
+														</div>
+														<div class="saFileSizeWrapper">
+														<div class="saFileSizeRow">
+															<span class="saFileSize">7 MB</span>
+															<span class="saFileUploadProgressText">0%</span>
+														</div>
+														<progress class="saFileUploadProgress" max="100" value="0"></progress>
+														<span class="saFileErrorMessage" role="alert">Den här filen är tom!</span>
+														</div>
+													</div>
+													<button class="saDeleteButton saDestructive" type="button" data-tooltip="Ta bort fil" aria-label="Ta bort fil DRIBBBLE-SOFTADMIN-INSPO.mp4">
+													<i class="saIcon far fa-trash-alt"></i>
+													</button>
+												</li>
+											</ul>
+										</div>
+								</div>
+							</main>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(function () {
+
+			$('.saNodeContent.saNodeExpand').on('click', function (e) {
+				if ($(e.target).closest('a, button').length) return;
+				e.preventDefault();
+				const $label = $(this);
+				const $expander = $label.find('.saExpander:enabled');
+				const $childList = $label.siblings('ul');
+				const isExpanded = $expander.attr('aria-expanded') === 'true';
+				$expander
+					.attr('aria-expanded', !isExpanded)
+					.toggleClass('saMinus', !isExpanded)
+					.prop('checked', !isExpanded);
+				isExpanded ? $childList.hide() : $childList.show();
+			});
+
+			// Hide controls initially
+			$('.fa-grip-dots-vertical, ul.saTreeZButtonGroup, ul.saTreeYButtonGroup, ul.saTreeXButtonGroup, ul.saTreeYButtonGroup, .saTreeViewButton, .saCheckbox').hide();
+
+			// Toggle grip dots
+			$('.grip').on('click', function (e) {
+				e.preventDefault();
+				$('.fa-grip-dots-vertical').toggle();
+			});
+
+			// Toggle button groups
+			$('.button').on('click', function (e) {
+				e.preventDefault();
+				$('ul.saTreeZButtonGroup, ul.saTreeYButtonGroup, ul.saTreeXButtonGroup, ul.saTreeYButtonGroup, .saTreeViewButton').toggle();
+			});
+
+			// Toggle lines
+			$('.lines').on('click', function (e) {
+				e.preventDefault();
+				$('.saTreeZViewWrapper, .saTreeYViewWrapper, .saTreeXViewWrapper, .saTreeYViewWrapper').toggleClass('saNoLines');
+			});
+
+			// Toggle checkboxes
+			$('.checkboxes').on('click', function (e) {
+				e.preventDefault();
+				$('.saCheckbox').toggle();
+			});
+
+			// Toggle expander visibility
+			$('.expander').on('click', function (e) {
+				e.preventDefault();
+				$('.saTreeZViewWrapper, .saTreeYViewWrapper, .saTreeXViewWrapper, .saTreeYViewWrapper').toggleClass('saHideExpander');
+			});
+
+
+			$('li.saFileWrapper:not(.saSkipAnimation)').click(function (e) {
+				e.preventDefault();
+				$(this).toggleClass('saDone');
+				$(this).find('button .saIcon').toggleClass('fa-ban').toggleClass('fa-trash-alt');
+				$(this).find('.saFileUploadProgress').attr('value', function (i, val) { return val === '100' ? '24' : '100'; });
+				$(this).find('.saFileUploadProgressText').text(function (i, text) { return text === '100%' ? '24%' : '100%'; });
+			});
+
+			$('.saDeleteButton').click(function (e) {
+				e.preventDefault();
+				$(this).closest('li').remove();
+			});
+
+			// --- Tree Keyboard Navigation ---
+			const KEY = {
+				RETURN: 13, SPACE: 32, PAGEUP: 33, PAGEDOWN: 34,
+				END: 35, HOME: 36, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40
+			};
+
+			class Tree {
+				constructor($node) {
+					this.$domNode = $node;
+					this.treeitems = [];
+					this.firstChars = [];
+					this.firstTreeitem = null;
+					this.lastTreeitem = null;
+					this.selectedItem = null;
+				}
+				init() {
+					const findTreeitems = ($node, group) => {
+						$node.children('li').each((_, li) => {
+							const $li = $(li);
+							const ti = new Treeitem($li, this, group);
+							ti.init();
+							this.treeitems.push(ti);
+							this.firstChars.push(ti.label.substring(0, 1).toLowerCase());
+							const $childUl = $li.children('ul');
+							if ($childUl.length) findTreeitems($childUl, ti);
+						});
+					};
+					if (!this.$domNode.attr('role')) this.$domNode.attr('role', 'tree');
+					findTreeitems(this.$domNode, false);
+					this.updateVisibleTreeitems();
+					if (this.firstTreeitem) this.firstTreeitem.$domNode.attr('tabindex', 0);
+				}
+				setFocusToItem(ti) {
+					this.treeitems.forEach(item => {
+						item.$domNode.attr('tabindex', item === ti ? 0 : -1);
+						if (item === ti) item.$domNode.focus();
+					});
+				}
+				setSelectedToItem(ti) {
+					if (this.selectedItem) this.selectedItem.$domNode.attr('aria-selected', 'false');
+					ti.$domNode.attr('aria-selected', 'true');
+					this.selectedItem = ti;
+				}
+				setFocusToNextItem(currentItem) {
+					const nextItem = this.treeitems.slice(this.treeitems.indexOf(currentItem) + 1).find(item => item.isVisible);
+					if (nextItem) this.setFocusToItem(nextItem);
+				}
+				setFocusToPreviousItem(currentItem) {
+					const prevItem = [...this.treeitems].reverse().slice(this.treeitems.length - this.treeitems.indexOf(currentItem)).find(item => item.isVisible);
+					if (prevItem) this.setFocusToItem(prevItem);
+				}
+				expandTreeitem(currentItem) {
+					if (currentItem.isExpandable) {
+						currentItem.$domNode.attr('aria-expanded', 'true');
+						this.updateVisibleTreeitems();
+					}
+				}
+				collapseTreeitem(currentItem) {
+					const groupTreeitem = currentItem.isExpanded() ? currentItem : currentItem.groupTreeitem;
+					if (groupTreeitem) {
+						groupTreeitem.$domNode.attr('aria-expanded', 'false');
+						this.updateVisibleTreeitems();
+						this.setFocusToItem(groupTreeitem);
+					}
+				}
+				updateVisibleTreeitems() {
+					this.firstTreeitem = this.treeitems[0];
+					this.treeitems.forEach(ti => {
+						let isVisible = true;
+						ti.$domNode.parentsUntil(this.$domNode, 'li').each(function () {
+							if ($(this).attr('aria-expanded') === 'false') isVisible = false;
+						});
+						ti.isVisible = isVisible;
+						if (isVisible) this.lastTreeitem = ti;
+					});
+				}
+				setFocusByFirstCharacter(currentItem, char) {
+					char = char.toLowerCase();
+					const start = (this.treeitems.indexOf(currentItem) + 1) % this.treeitems.length;
+					let index = this._getIndexFirstChars(start, char);
+					if (index === -1) index = this._getIndexFirstChars(0, char);
+					if (index > -1) this.setFocusToItem(this.treeitems[index]);
+				}
+				_getIndexFirstChars(startIndex, char) {
+					return this.treeitems.findIndex((ti, i) => i >= startIndex && ti.isVisible && char === this.firstChars[i]);
+				}
+			}
+
+			class Treeitem {
+				constructor($node, treeObj, group) {
+					this.$domNode = $node;
+					this.tree = treeObj;
+					this.groupTreeitem = group;
+					this.label = ($node.attr('aria-label') || $node.find('.saTreeXLabel').first().text() || $node.text()).trim();
+					this.isExpandable = $node.children('ul').length > 0;
+					this.isVisible = false;
+					this.inGroup = !!group;
+				}
+
+				init() {
+					this.$domNode.attr({ role: 'treeitem', tabindex: -1 });
+					this.$domNode.on('keydown', e => this.handleKeydown(e));
+					this.$domNode.on('click', e => this.handleClick(e));
+					this.$domNode.on('focus', () => this.$domNode.find('.saTreeXRow').first().addClass('saFocus'));
+					this.$domNode.on('blur', () => this.$domNode.find('.saTreeXRow').first().removeClass('saFocus'));
+				}
+
+				isExpanded() {
+					return this.$domNode.attr('aria-expanded') === 'true';
+				}
+
+				handleKeydown(e) {
+					if (e.altKey || e.ctrlKey || e.metaKey) return;
+					const handlers = {
+						[KEY.RETURN]: () => {
+							const $link = this.$domNode.find('a.saTreeXLabel').first();
+							$link.length ? $link[0].click() : this.tree.setSelectedToItem(this);
+						},
+						[KEY.UP]: () => this.tree.setFocusToPreviousItem(this),
+						[KEY.DOWN]: () => this.tree.setFocusToNextItem(this),
+						[KEY.RIGHT]: () => {
+							if (this.isExpandable) {
+								this.isExpanded() ? this.tree.setFocusToNextItem(this) : this.tree.expandTreeitem(this);
+							}
+						},
+						[KEY.LEFT]: () => {
+							if (this.isExpandable && this.isExpanded()) {
+								this.tree.collapseTreeitem(this);
+							} else if (this.inGroup) {
+								this.tree.setFocusToItem(this.groupTreeitem);
+							}
+						},
+						[KEY.HOME]: () => this.tree.setFocusToItem(this.tree.firstTreeitem),
+						[KEY.END]: () => this.tree.setFocusToItem(this.tree.lastTreeitem)
+					};
+					const defaultHandler = () => {
+						const char = e.key;
+						if (char.length === 1 && char.match(/\S/)) {
+							this.tree.setFocusByFirstCharacter(this, char);
+						}
+					};
+					if (handlers[e.keyCode]) {
+						handlers[e.keyCode]();
+						e.stopPropagation();
+						e.preventDefault();
+					} else {
+						defaultHandler();
+					}
+				}
+
+				handleClick(e) {
+					e.stopPropagation();
+
+					const $target = $(e.target);
+
+					if ($target.closest('button').length) return;
+
+					const clickedLabel = $target.closest('.saTreeXLabel').length > 0;
+
+					if (!clickedLabel && this.isExpandable) {
+						this.isExpanded()
+							? this.tree.collapseTreeitem(this)
+							: this.tree.expandTreeitem(this);
+					}
+
+					// Always move focus
+					this.tree.setFocusToItem(this);
+
+					// Only select when clicking label
+					if (clickedLabel) {
+						this.tree.setSelectedToItem(this);
+					}
+				}
+			}
+
+			$('.saTreeXView, .saTreeZView, .saTreeYView').each(function () {
+				new Tree($(this)).init();
+			});
+
+
+			// --- Drag & Drop ---
+			function setupDragDrop() {
+				$(document).on('dragenter dragover', function (e) {
+					e.preventDefault();
+					$('.saTreeXView').addClass('saFileDragging');
+				});
+
+				$(document).on('drop dragend', function (e) {
+					e.preventDefault();
+					$('.saTreeXView').removeClass('saFileDragging');
+				});
+
+				$('li[role="treeitem"]:not(.saFileNoDrop)').on('dragenter dragover', function (e) {
+					e.preventDefault();
+					e.stopPropagation();
+					$(this).addClass('saFileDrop');
+					$('.saTreeXView').addClass('saFileDragging');
+				});
+
+				$('li[role="treeitem"]:not(.saFileNoDrop)').on('dragleave drop', function (e) {
+					e.preventDefault();
+					e.stopPropagation();
+					$(this).removeClass('saFileDrop');
+				});
+
+				$('li[role="treeitem"]:not(.saFileNoDrop)').on('drop', function (e) {
+					const files = e.originalEvent.dataTransfer.files;
+					if (files.length) {
+						const $li = $(this);
+						const $ul = $li.children('ul').length ? $li.children('ul') : $('<ul></ul>').appendTo($li);
+						for (let i = 0; i < files.length; i++) {
+							const file = files[i];
+							const fileName = file.name;
+							const ext = fileName.split('.').pop().toLowerCase();
+							let iconClass = 'file-alt';
+							if (/^(jpg|jpeg|png|gif|svg|webp)$/.test(ext)) iconClass = 'image';
+							else if (/^(mp3|wav|flac|aac)$/.test(ext)) iconClass = 'music';
+							else if (/^(mp4|webm|avi|mov)$/.test(ext)) iconClass = 'video';
+							else if (/^(zip|rar|7z|tar|gz)$/.test(ext)) iconClass = 'file-zipper';
+							else if (/^(doc|docx)$/.test(ext)) iconClass = 'file-word';
+							else if (/^(xls|xlsx)$/.test(ext)) iconClass = 'file-excel';
+							else if (/^(ppt|pptx)$/.test(ext)) iconClass = 'file-powerpoint';
+							else if (/^(less|css|html)$/.test(ext)) iconClass = 'code';
+							else if (/^(pdf)$/.test(ext)) iconClass = 'file-pdf';
+							const fileSize = (file.size / 1024).toFixed(0);
+							let fileProgress = 0;
+							const $newLi = $(`
+								<li role="treeitem" tabindex="-1" class="saFileNoDrop saLoading">
+									<div class="saTreeXRow" style="background-image: linear-gradient(to right, var(--Sa-Color-Primary100) ${fileProgress}%, transparent ${fileProgress}%)">
+										<i class="saTreeXExpander saIcon far fa-angle-right"></i>
+										<i class="saIcon far fa-grip-dots-vertical" aria-hidden="true" style="display: none;"></i>
+										<div class="saTreeXTypeWrapper">
+											<div class="saLoadingWrapper saLoadingExtraDark">
+												<svg class="saLoading" viewBox="0 0 24 24">
+													<circle class="saLoadingCircle" cx="12" cy="12" r="12" fill="none"></circle>
+													<path class="saLoadingCheck" d="M6.29,12.58l3.14,3.19c.15,.15,.39,.15,.53,0l7.75-7.8" fill="none"></path>
+												</svg>
+												<div class="saLoadingSpinner"></div>
+											</div>
+											<i class="saTreeXType saIcon fadr fa-${iconClass}"></i>
+											<i class="saTreeXCheck saIcon fas fa-circle-check"></i>
+										</div>
+										<ul class="saTreeXButtonGroup" style="display: none;">
+											<li><button class="saTreeXButton" type="button" aria-label="Do this thing"><i class="far fa-cat icon saIcon" aria-hidden="true"></i></button></li>
+											<li><button class="saTreeXButton" type="button" aria-label="Do this thing"><i class="far fa-ellipsis-vertical icon saIcon" aria-hidden="true"></i></button></li>
+										</ul>
+										<span class="saTreeXLabel">${fileName}</span>
+										<div class="saFileSizeRow">
+											<span class="saFileSize">${fileSize} kB</span><span class="saFileUploadProgressText">${fileProgress}%</span>
+										</div>
+										<progress class="saScreenReaderOnly" max="100" value="${fileProgress}"></progress>
+									</div>
+								</li>
+							`);
+							$ul.append($newLi);
+							const interval = setInterval(() => {
+								fileProgress += Math.random() * 30;
+								if (fileProgress >= 100) {
+									fileProgress = 100;
+									clearInterval(interval);
+									$newLi.removeClass('saLoading').addClass('saDone');
+									$newLi.find('.saTreeXRow').css('background-image', 'none');
+								} else {
+									$newLi.find('.saTreeXRow').css('background-image', `linear-gradient(to right, var(--Sa-Color-Primary100) ${fileProgress}%, transparent ${fileProgress}%)`);
+								}
+								$newLi.find('.saFileUploadProgressText').text(Math.floor(fileProgress) + '%');
+								$newLi.find('progress').val(Math.floor(fileProgress));
+							}, 500);
+						}
+						$li.attr('aria-expanded', 'true');
+						$('#last_action').val(`Dropped ${files.length} file(s) into ${$li.find('.saTreeXLabel').first().text()}`);
+					}
+					$('.saTreeXView').removeClass('saFileDragging');
+				});
+			}
+			setupDragDrop();
+		});
+	</script>
+</body>
