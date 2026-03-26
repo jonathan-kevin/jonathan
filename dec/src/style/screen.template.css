@@ -31823,10 +31823,23 @@ li[role='treeitem'].saFileDrop > .saTreeXRow .saTreeXExpander,
 li[role='treeitem'].saFileDrop > .saTreeXRow .saTreeXType {
   color: inherit;
 }
-li[aria-checked="true"] > .saTreeXRow {
+li[aria-checked="true"] > .saTreeXRow,
+li[aria-checked="mixed"] > .saTreeXRow {
   font-weight: 500;
   letter-spacing: 0;
   color: var(--Sa-Color-Primary600);
+}
+li[aria-checked="true"] > .saTreeXRow .saTreeXType,
+li[aria-checked="mixed"] > .saTreeXRow .saTreeXType {
+  display: none;
+}
+li[aria-checked="true"] > .saTreeXRow .saTreeXCheck {
+  transform: translateY(-50%) scale(1);
+  transition: ease transform 0.2s;
+}
+li[aria-checked="mixed"] > .saTreeXRow .saTreeXIndeterminate {
+  transform: translateY(-50%) scale(1);
+  transition: ease transform 0.2s;
 }
 @media (pointer: fine) {
   .saTreeXRow:hover {
@@ -31889,9 +31902,12 @@ i.saTreeXCheck {
   transform: translateY(-50%) scale(0);
   font-size: 1rem;
 }
-li[aria-checked="true"] i.saTreeXCheck {
-  transform: translateY(-50%) scale(1);
-  transition: ease transform 0.2s;
+i.saTreeXIndeterminate {
+  color: var(--Sa-Color-Primary600);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) scale(0);
+  font-size: 1rem;
 }
 .saTreeXType {
   width: 1.125rem;
@@ -31909,9 +31925,6 @@ li[aria-checked="true"] i.saTreeXCheck {
 .saDone .saTreeXType {
   transform: scale(1);
   transition: ease transform 0.2s 1.2s;
-}
-li[aria-checked="true"] .saTreeXType {
-  display: none;
 }
 .saTreeXType.fa-folder {
   color: #2d6ce1;
