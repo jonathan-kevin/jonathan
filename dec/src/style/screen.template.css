@@ -19826,7 +19826,8 @@ legend + .saInputCardsWrapper {
   visibility: hidden;
   opacity: 0;
 }
-.saTreeXView .saFileUploadProgressText {
+.saTreeXView .saFileUploadProgressText,
+.saTreeYView .saFileUploadProgressText {
   min-width: 2rem;
 }
 .saFileUploadProgress {
@@ -19978,7 +19979,8 @@ legend + .saInputCardsWrapper {
   color: #adbdd1;
 }
 .saCompactFileArea .saFileSizeRow,
-.saTreeXRow .saFileSizeRow {
+.saTreeXRow .saFileSizeRow,
+.saTreeYRow .saFileSizeRow {
   width: fit-content;
   gap: 1rem;
   margin-top: 1px;
@@ -20015,7 +20017,8 @@ legend + .saInputCardsWrapper {
 .saLoadingWrapper * {
   box-sizing: border-box;
 }
-.saTreeXTypeWrapper .saLoadingWrapper {
+.saTreeXTypeWrapper .saLoadingWrapper,
+.saTreeYTypeWrapper .saLoadingWrapper {
   position: absolute;
 }
 .saFileIconWrapper .saLoadingWrapper {
@@ -31764,7 +31767,7 @@ a.saKpiOuter:active {
   align-items: center;
   gap: 0.5rem;
   padding: 0.25rem 0.5rem 0.25rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   position: relative;
   transition: ease border-radius 0.2s;
   user-select: none;
@@ -31823,28 +31826,36 @@ li[role='treeitem'].saFileDrop > .saTreeXRow .saTreeXExpander,
 li[role='treeitem'].saFileDrop > .saTreeXRow .saTreeXType {
   color: inherit;
 }
+li[role='treeitem'].saNext > .saTreeXRow {
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+li[role='treeitem'].saPrev > .saTreeXRow {
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+li[role='treeitem'].saPrev.saNext > .saTreeXRow {
+  border-radius: 0;
+}
 li[aria-checked="true"] > .saTreeXRow,
 li[aria-checked="mixed"] > .saTreeXRow {
   font-weight: 500;
   letter-spacing: 0;
-  color: var(--Sa-Color-Primary600);
 }
 li[aria-checked="true"] > .saTreeXRow .saTreeXType,
 li[aria-checked="mixed"] > .saTreeXRow .saTreeXType {
   display: none;
 }
-li[aria-checked="true"] > .saTreeXRow .saTreeXCheck {
-  transform: translateY(-50%) scale(1);
-  transition: ease transform 0.2s;
-}
-li[aria-checked="mixed"] > .saTreeXRow .saTreeXIndeterminate {
-  transform: translateY(-50%) scale(1);
-  transition: ease transform 0.2s;
+li[aria-checked="true"] > .saTreeXRow {
+  background-color: var(--Sa-Color-Primary50);
+  color: #2d6ce1;
 }
 @media (pointer: fine) {
   .saTreeXRow:hover {
     color: var(--Sa-Color-Primary600);
     background-color: var(--Sa-Color-Primary50);
+  }
+  li[aria-checked="true"] > .saTreeXRow:hover,
+  li[aria-checked="mixed"] > .saTreeXRow:hover {
+    background-color: #e5efff;
   }
   .saTreeXRow:hover .saTreeXExpander,
   .saTreeXRow:hover .saTreeXType {
@@ -31895,12 +31906,52 @@ a.saTreeXLabel:active {
   height: 1.125rem;
   position: relative;
 }
-i.saTreeXCheck {
-  color: var(--Sa-Color-Primary600);
+.saTreeXCheck {
+  position: absolute;
+  appearance: none;
+  height: 1rem;
+  width: 1rem;
+  background-color: #fff;
+  border-radius: 0.25rem;
+  box-shadow: inset 0 0 0 2px #adbdd1;
+  transition: ease background-color 0.2s, ease box-shadow 0.2s;
+  display: none;
+}
+.saTreeXCheck::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.1s ease;
+  background-color: #fff;
+  transform-origin: center;
+  clip-path: polygon(78.5% 38.5%, 46.5% 70.5%, 46.5% 70.5%, 46.172% 70.799%, 45.792% 71.092%, 45.371% 71.373%, 44.916% 71.636%, 44.438% 71.875%, 43.944% 72.084%, 43.445% 72.257%, 42.948% 72.388%, 42.464% 72.471%, 42% 72.5%, 42% 72.5%, 41.537% 72.485%, 41.052% 72.436%, 40.556% 72.352%, 40.056% 72.228%, 39.563% 72.063%, 39.084% 71.852%, 38.63% 71.594%, 38.208% 71.284%, 37.829% 70.921%, 37.5% 70.5%, 21.5% 54.5%, 21.5% 54.5%, 20.825% 53.708%, 20.3% 52.844%, 19.925% 51.926%, 19.7% 50.972%, 19.625% 50%, 19.7% 49.028%, 19.925% 48.074%, 20.3% 47.156%, 20.825% 46.292%, 21.5% 45.5%, 21.5% 45.5%, 22.292% 44.825%, 23.156% 44.3%, 24.074% 43.925%, 25.028% 43.7%, 26% 43.625%, 26.972% 43.7%, 27.926% 43.925%, 28.844% 44.3%, 29.708% 44.825%, 30.5% 45.5%, 42% 57%, 69.5% 29.5%, 69.5% 29.5%, 70.292% 28.825%, 71.156% 28.3%, 72.074% 27.925%, 73.028% 27.7%, 74% 27.625%, 74.972% 27.7%, 75.926% 27.925%, 76.844% 28.3%, 77.708% 28.825%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 79.175% 30.292%, 79.7% 31.156%, 80.075% 32.074%, 80.3% 33.028%, 80.375% 34%, 80.3% 34.972%, 80.075% 35.926%, 79.7% 36.844%, 79.175% 37.708%, 78.5% 38.5%);
+  transform: scale(0);
+  transform: translate(-50%, -50%) scale(0);
   position: absolute;
   top: 50%;
-  transform: translateY(-50%) scale(0);
-  font-size: 1rem;
+  left: 50%;
+}
+li[aria-checked='true'] > .saTreeXRow .saTreeXCheck {
+  display: flex;
+  background-color: #2d6ce1;
+  box-shadow: none;
+}
+li[aria-checked='true'] > .saTreeXRow .saTreeXCheck::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+li[aria-checked='mixed'] > .saTreeXRow .saTreeXCheck {
+  display: flex;
+  background-color: #6ea3ff;
+  box-shadow: none;
+}
+li[aria-checked='mixed'] > .saTreeXRow .saTreeXCheck::before {
+  width: 0.625rem;
+  height: 0.1875rem;
+  border-radius: 1px;
+  transition: transform 0.1s;
+  background-color: #fff;
+  clip-path: none;
+  transform: translate(-50%, -50%) scale(1);
 }
 i.saTreeXIndeterminate {
   color: var(--Sa-Color-Primary600);
@@ -32115,6 +32166,604 @@ i.saTreeXIndeterminate {
   visibility: visible;
 }
 [aria-expanded="false"] > .saTreeXRow .saTreeXExpander {
+  transform: rotate(0);
+}
+.saTreeYView {
+  padding-bottom: 2rem;
+  --fa-primary-opacity: 1;
+  --fa-secondary-opacity: 0.2;
+}
+.saTreeYView .saBadgeCount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1rem;
+  box-sizing: border-box;
+  min-width: 1rem;
+  color: var(--Sa-Color-BadgeCountText);
+  background-color: var(--Sa-Color-BadgeCountBackground);
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0.25rem;
+  transition: ease background-color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-weight: 300;
+  text-align: center;
+}
+.saTreeYView .saBadgeCount.saUrgent {
+  color: #fff;
+  background-color: #e0173e;
+}
+.saTreeYView .saBadgeCount.saNew {
+  color: #fff;
+  background-color: var(--Sa-Color-Primary600);
+}
+.saTreeYView .saBadgeCount {
+  display: inline-flex;
+  width: fit-content;
+  font-weight: 400;
+}
+.saSmallScreen .saTreeYView {
+  padding: 1rem;
+}
+.saSmallScreen .saMultiPartContent .saTreeYView {
+  padding: 0;
+}
+.saTreeYView ul[role='group'] {
+  transition: ease height 0.125s, ease visibility 0.125s;
+  overflow: hidden;
+}
+.saTreeYView ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(3rem);
+}
+.saTreeYView ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 4.5rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(4.75rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 6.25rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(6.5rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 8rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(8.25rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 9.75rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(10rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 11.5rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(11.75rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 13.25rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(13.5rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 15rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(15.25rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 16.75rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(17rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 18.5rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(18.75rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 20.25rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(20.5rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 22rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(22.25rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 23.75rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(24rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 25.5rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(25.75rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 27.25rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(27.5rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 29rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(29.25rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 30.75rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(31rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 32.5rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(32.75rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 34.25rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(34.5rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 36rem;
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem']::before {
+  transform: translateX(36.25rem);
+}
+.saTreeYView ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] ul[role='group'] li[role='treeitem'] .saTreeYRow {
+  padding-left: 37.75rem;
+}
+.saTreeYView li[role='treeitem'] {
+  position: relative;
+}
+.saTreeYView li[role='treeitem']::before {
+  content: '';
+  height: 100%;
+  width: 1rem;
+  min-width: 1rem;
+  position: absolute;
+  transform: translateX(2rem);
+  border-left: 0.0625rem solid #ccd5e2;
+  z-index: 9;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.saNoLines .saTreeYView li[role='treeitem']::before {
+  content: none;
+}
+.saTreeYView li[role='treeitem']:last-child::before {
+  content: none;
+}
+.saTreeYView li[role='treeitem']:focus-visible {
+  outline: none;
+}
+.saTreeYView li[role='treeitem'][aria-expanded='false'] > ul[role='group'] {
+  height: 0;
+  visibility: hidden;
+}
+.saTreeYView > li[role='treeitem'] > .saTreeYRow::before {
+  content: none;
+}
+.saTreeYView .saLoadingSpinnerWrapper {
+  display: flex;
+  gap: 0.5rem;
+}
+.saTreeYView .saLoadingProgress {
+  font-size: 0.75rem;
+  color: var(--Sa-Color-Gray700);
+}
+.saTreeYRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem 0.25rem 2.5rem;
+  border-radius: 0.75rem;
+  position: relative;
+  transition: ease border-radius 0.2s;
+  user-select: none;
+  cursor: pointer;
+  letter-spacing: 0.0125rem;
+  outline: 0.125rem dashed transparent;
+  outline-offset: -0.125rem;
+}
+.saSmallScreen .saTreeYRow {
+  padding: 0.75rem 1rem 0.75rem 1rem;
+}
+.saTreeYRow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  transform: translateX(-1.5rem);
+  width: 1rem;
+  min-width: 1rem;
+  height: 1rem;
+  min-height: 1rem;
+  aspect-ratio: 1;
+  border-bottom: 0.0625rem solid #ccd5e2;
+  border-left: 0.0625rem solid #ccd5e2;
+  box-sizing: border-box;
+  pointer-events: none;
+  border-bottom-left-radius: 0.625rem;
+}
+.saSmallScreen .saTreeYRow::before {
+  height: 1.5rem;
+}
+.saNoLines .saTreeYRow::before {
+  content: none;
+}
+li[role='treeitem']:focus-visible > .saTreeYRow {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+}
+li[role='treeitem']:focus-visible > .saTreeYRow .saTreeYExpander,
+li[role='treeitem']:focus-visible > .saTreeYRow .saTreeYType {
+  color: inherit;
+}
+.saTreeYView.saFileDragging li[role='treeitem'].saFileNoDrop > .saTreeYRow {
+  color: #adbdd1;
+  pointer-events: none;
+}
+.saTreeYView.saFileDragging li[role='treeitem'].saFileNoDrop > .saTreeYRow .saTreeYExpander,
+.saTreeYView.saFileDragging li[role='treeitem'].saFileNoDrop > .saTreeYRow .saTreeYType {
+  color: inherit;
+}
+li[role='treeitem'].saFileDrop > .saTreeYRow {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+  outline-color: var(--Sa-Color-Primary600);
+}
+li[role='treeitem'].saFileDrop > .saTreeYRow .saTreeYExpander,
+li[role='treeitem'].saFileDrop > .saTreeYRow .saTreeYType {
+  color: inherit;
+}
+li[role='treeitem'].saNext > .saTreeYRow {
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+li[role='treeitem'].saPrev > .saTreeYRow {
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+li[role='treeitem'].saPrev.saNext > .saTreeYRow {
+  border-radius: 0;
+}
+li[aria-checked="true"] > .saTreeYRow {
+  background-color: var(--Sa-Color-Primary50);
+  color: #2d6ce1;
+}
+li[aria-checked="mixed"] > .saTreeYRow .saTreeYIndeterminate {
+  transform: translateY(-50%) scale(1);
+  transition: ease transform 0.2s;
+}
+@media (pointer: fine) {
+  .saTreeYRow:hover {
+    color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
+  }
+  .saTreeYRow:hover .saTreeYExpander,
+  .saTreeYRow:hover .saTreeYType {
+    color: inherit;
+  }
+  li[aria-checked="true"] > .saTreeYRow:hover,
+  li[aria-checked="mixed"] > .saTreeYRow:hover {
+    background-color: #e5efff;
+  }
+}
+.saTreeYRow:active {
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+  border-radius: 0.75rem;
+}
+.saTreeYRow:active .saTreeYExpander,
+.saTreeYRow:active .saTreeYType {
+  color: inherit;
+}
+.saTreeYRow .fa-grip-dots-vertical {
+  color: var(--Sa-Color-Icon);
+  font-size: 0.875rem;
+  font-weight: 900;
+  cursor: grab;
+}
+.saTreeYRow .fa-grip-dots-vertical:active {
+  cursor: grabbing;
+}
+.saTreeYLabel {
+  color: inherit;
+  text-decoration: none;
+  line-height: 1.5rem;
+  width: fit-content;
+}
+a.saTreeYLabel {
+  color: var(--Sa-Color-Primary600);
+  font-weight: 500;
+}
+@media (pointer: fine) {
+  a.saTreeYLabel:hover {
+    text-decoration: underline;
+  }
+}
+a.saTreeYLabel:active {
+  color: var(--Sa-Color-Primary900);
+}
+.saTreeYTypeWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  position: relative;
+}
+.saTreeYCheck {
+  position: absolute;
+  left: 0.375rem;
+  appearance: none;
+  height: 1.25rem;
+  width: 1.25rem;
+  background-color: #fff;
+  border-radius: 0.375rem;
+  box-shadow: inset 0 0 0 2px #adbdd1;
+  transition: ease background-color 0.2s, ease box-shadow 0.2s;
+}
+.saTreeYCheck::before {
+  content: "";
+  width: 1.125rem;
+  height: 1.125rem;
+  transition: transform 0.1s ease;
+  background-color: #fff;
+  transform-origin: center;
+  clip-path: polygon(78.5% 38.5%, 46.5% 70.5%, 46.5% 70.5%, 46.172% 70.799%, 45.792% 71.092%, 45.371% 71.373%, 44.916% 71.636%, 44.438% 71.875%, 43.944% 72.084%, 43.445% 72.257%, 42.948% 72.388%, 42.464% 72.471%, 42% 72.5%, 42% 72.5%, 41.537% 72.485%, 41.052% 72.436%, 40.556% 72.352%, 40.056% 72.228%, 39.563% 72.063%, 39.084% 71.852%, 38.63% 71.594%, 38.208% 71.284%, 37.829% 70.921%, 37.5% 70.5%, 21.5% 54.5%, 21.5% 54.5%, 20.825% 53.708%, 20.3% 52.844%, 19.925% 51.926%, 19.7% 50.972%, 19.625% 50%, 19.7% 49.028%, 19.925% 48.074%, 20.3% 47.156%, 20.825% 46.292%, 21.5% 45.5%, 21.5% 45.5%, 22.292% 44.825%, 23.156% 44.3%, 24.074% 43.925%, 25.028% 43.7%, 26% 43.625%, 26.972% 43.7%, 27.926% 43.925%, 28.844% 44.3%, 29.708% 44.825%, 30.5% 45.5%, 42% 57%, 69.5% 29.5%, 69.5% 29.5%, 70.292% 28.825%, 71.156% 28.3%, 72.074% 27.925%, 73.028% 27.7%, 74% 27.625%, 74.972% 27.7%, 75.926% 27.925%, 76.844% 28.3%, 77.708% 28.825%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 79.175% 30.292%, 79.7% 31.156%, 80.075% 32.074%, 80.3% 33.028%, 80.375% 34%, 80.3% 34.972%, 80.075% 35.926%, 79.7% 36.844%, 79.175% 37.708%, 78.5% 38.5%);
+  transform: scale(0);
+  transform: translate(-50%, -50%) scale(0);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+li[aria-checked='true'] > .saTreeYRow .saTreeYCheck {
+  background-color: #2d6ce1;
+  box-shadow: none;
+}
+li[aria-checked='true'] > .saTreeYRow .saTreeYCheck::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+li[aria-checked='mixed'] > .saTreeYRow .saTreeYCheck {
+  background-color: #6ea3ff;
+  box-shadow: none;
+}
+li[aria-checked='mixed'] > .saTreeYRow .saTreeYCheck::before {
+  width: 0.625rem;
+  height: 0.1875rem;
+  border-radius: 1px;
+  transition: transform 0.1s;
+  background-color: #fff;
+  clip-path: none;
+  transform: translate(-50%, -50%) scale(1);
+}
+.saTreeYType {
+  width: 1.125rem;
+  min-width: 1.125rem;
+  height: 1.125rem;
+  text-align: center;
+  color: #7088a4;
+  fill: currentColor;
+  font-size: 1rem;
+  --fa-secondary-opacity: 0.1;
+}
+.saLoading .saTreeYType {
+  transform: scale(0);
+}
+.saDone .saTreeYType {
+  transform: scale(1);
+  transition: ease transform 0.2s 1.2s;
+}
+.saTreeYType.fa-folder {
+  color: #2d6ce1;
+  --fa-secondary-opacity: 0.4;
+}
+[aria-expanded="true"] > .saTreeYRow .saTreeYType.fa-folder {
+  display: none;
+}
+.saTreeYType.fa-folder-open {
+  color: #2d6ce1;
+}
+[aria-expanded="false"] > .saTreeYRow .saTreeYType.fa-folder-open {
+  display: none;
+}
+.saTreeYType.fa-file-alt,
+.saTreeYType.fa-file,
+.saTreeYType.fa-draw-square,
+.saTreeYType.fa-brackets-square {
+  color: #8b4af1;
+}
+.saTreeYType.fa-file-word {
+  color: #2d6ce1;
+}
+.saTreeYType.fa-code {
+  color: #506072;
+}
+.saTreeYType.fa-file-zipper {
+  color: #3591a8;
+}
+.saTreeYType.fa-music {
+  color: #b67a00;
+}
+.saTreeYType.fa-video {
+  color: #ca6d34;
+}
+.saTreeYType.fa-file-excel {
+  color: #009b36;
+}
+.saTreeYType.fa-file-pdf {
+  color: #e0173e;
+}
+.saTreeYType.fa-file-powerpoint {
+  color: #ea4f5b;
+}
+.saTreeYType.fa-image {
+  color: #e641b2;
+}
+.saTreeYType.fa-xmark {
+  color: #e0173e;
+}
+.saTreeYType.fa-question {
+  color: #f6ad00;
+}
+.saTreeYButtonGroup {
+  display: flex;
+  gap: 0.25rem;
+}
+.saTreeYButton {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  border-radius: 0.25rem;
+  padding: 0 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  max-width: 1.5rem;
+  min-width: 1.5rem;
+  font-size: 0.75rem;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+  border-radius: 0.375rem;
+}
+.saTreeYButton .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saTreeYButton .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saTreeYButton .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saTreeYButton:active {
+  border-radius: 0.75rem;
+}
+.saTreeYButton .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saTreeYButton .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .saTreeYButton:hover {
+    border-color: var(--Sa-Color-Primary600);
+    color: var(--Sa-Color-Primary600);
+  }
+  .saTreeYButton:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+  .saTreeYButton:hover .saBadge {
+    background-color: var(--Sa-Color-Primary600);
+  }
+}
+.saTreeYButton:active {
+  background: var(--Sa-Color-Primary100);
+}
+.saTreeYButton:active .saBadge {
+  color: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary100);
+}
+.saTreeYButton.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.saTreeYButton.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saTreeYButton.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saTreeYButton.saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saTreeYButton.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .saTreeYButton.saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saTreeYButton.saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saTreeYButton.saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saTreeYButton.saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saTreeYExpander {
+  width: 0.75rem;
+  max-width: 0.75rem;
+  height: 0.75rem;
+  transition: ease transform 0.2s;
+  color: var(--Sa-Color-Icon);
+  transform: rotate(90deg) translateY(-0.125rem);
+  visibility: hidden;
+  position: relative;
+}
+.saTreeYExpander::after {
+  content: '';
+  height: 2rem;
+  width: 2rem;
+  position: absolute;
+  inset: -0.625rem -0.5rem auto auto;
+}
+[aria-expanded] > .saTreeYRow .saTreeYExpander {
+  visibility: visible;
+}
+[aria-expanded="false"] > .saTreeYRow .saTreeYExpander {
   transform: rotate(0);
 }
 .saSmallScreen .saToolbox {
