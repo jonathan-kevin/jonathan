@@ -1,0 +1,72 @@
+.saErrorSummaryWrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding: 1rem;
+	background-color: @ColorWhite;
+	margin-bottom: 0.5rem;
+	border-radius: 1rem;
+	border: 1px @ColorGray150 solid;
+	position: relative;
+
+	.saSmallScreen & {
+		margin: 1rem;
+	}
+
+	.saErrorSummaryCloseButton {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.5rem;
+		.Button();
+		.ButtonGhost();
+		.IconButtonSizeModeDependent();
+	}
+
+	.saErrorSummaryHeadingWrapper {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding-right: 2.5rem;
+
+		.saIcon {
+			color: @ColorRed600;
+			font-size: 1.25rem;
+		}
+	}
+
+	.saErrorSummary {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		list-style-type: disc;
+		margin-inline-start: 0.5rem;
+
+		li {
+			margin-inline-start: 1rem;
+
+			&::marker {
+				color: @ColorRed600;
+			}
+		}
+
+		.saErrorMessage {
+			color: @ColorRed600;
+			transition: ease color .2s;
+			text-decoration: underline;
+			cursor: pointer;
+
+			.Hover({
+				color: @ColorRed700;
+			});
+
+			&:active {
+				color: @ColorRed800;
+			}
+		}
+
+		span.saErrorMessage {
+			text-decoration: none;
+			pointer-events: none;
+		}
+	}
+}

@@ -1,0 +1,26 @@
+// The Info Text and Uneditable Text controls.
+.saUneditableText {
+	.RestrictedUserHtmlContent();
+
+	padding-top: 0.4375rem;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	word-break: break-word;
+	min-height: 1.1875rem;
+
+	.saMultiRow & {
+		width: auto !important;
+		padding-top: 0.25rem;
+	}
+
+	// Prevent an empty uneditable from occupying too much height in labels-above layout.
+	&:empty {
+		min-height: 0;
+	}
+
+	@keyframes clip {
+		to {
+			background-position: -200% center;
+		}
+	}
+}

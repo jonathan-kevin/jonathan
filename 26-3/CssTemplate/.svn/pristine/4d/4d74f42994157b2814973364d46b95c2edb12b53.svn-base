@@ -1,0 +1,275 @@
+@media screen and (max-width:1100px) {
+	.saLoginCover {
+		display: none;
+	}
+}
+
+.saLogin {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	min-height: 100vh;
+	flex-wrap: wrap;
+	color: var(--Sa-Color-Text);
+	line-height: normal; // Override from screen.css.
+
+	* {
+		box-sizing: border-box;
+	}
+
+	.saErrorText p {
+		color: @ColorRed600;
+	}
+
+	.saInstructions {
+		margin-bottom: 0.5rem;
+	}
+
+	h1 {
+		font-size: 1.5rem;
+		line-height: 2rem;
+		font-weight: 600;
+		word-break: break-word;
+		color: var(--Sa-Color-Text); // Override from screen.css.
+		padding-bottom: 0; // Override from screen.css.
+	}
+
+	.saInputTextWrapper {
+		margin-right: 0;
+
+		.saInputText {
+			height: 2.5rem;
+			border-radius: 0.5rem;
+			padding: 0 0.75rem;
+			min-width: 2rem;
+		}
+
+		.saTrailingIconsWrapper {
+			height: 2.5rem;
+		}
+	}
+
+	.saInnerForm {
+		display: flex;
+		gap: 1.5rem;
+		flex-direction: column;
+	}
+
+	.saButtonIcon {
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+
+	.saBankIdLogo {
+		background: url(../img/bankid.svg) top center no-repeat;
+	}
+
+	.saMicrosoft {
+		background: url(../img/microsoft.svg) top center no-repeat;
+	}
+
+	.saSoftadminLogo {
+		display: flex;
+		min-width: 10rem;
+	}
+
+	.saWordMark {
+		height: 2rem;
+		position: relative;
+	}
+
+	.saLogo {
+		width: 2rem;
+		height: 2rem;
+	}
+
+	.saControlCol {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		margin-bottom: 1.5rem;
+
+		label {
+			font-size: 0.875rem;
+			font-weight: 700;
+			position: relative;
+		}
+	}
+
+	.saControlRow {
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.saLabelWrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.saControlInner {
+		display: flex;
+		gap: 1rem;
+		flex-direction: column;
+	}
+
+	.saLoginOuter {
+		flex-basis: 30%;
+		background: @ColorWhite;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		flex-grow: 1;
+		padding: 1rem;
+	}
+
+	.saCustomerLoginLogo {
+		max-width: 21.875rem;
+		max-height: 6rem;
+		min-height: 4rem;
+	}
+
+	.saLoginInner {
+		width: 100%;
+		min-width: 12.5rem;
+		max-width: 22.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		margin: 2rem;
+
+		form {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.saLoginPageButton {
+			.Button();
+			.ButtonSizeStandard();
+			max-width: 100%;
+			width: 100%;
+		}
+	}
+
+	.saLoginInner a {
+		color: var(--Sa-Color-Primary600);
+
+		.Hover({
+			text-decoration: underline;
+		});
+	}
+
+	.saStatus {
+		margin-bottom: 0.5rem;
+	}
+
+	a.saForgotPassword {
+		font-weight: 400;
+		font-size: 0.875rem;
+		position: relative;
+		text-decoration: none;
+		color: var(--Sa-Color-Primary600);
+		transition: ease .2s all;
+
+		.Hover({
+			text-decoration: underline;
+		});
+
+		&:active {
+			color: var(--Sa-Color-Primary500);
+		}
+
+		&::after {
+			content: '';
+			height: 2rem;
+			width: 100%;
+			opacity: 0;
+			position: absolute;
+			right: 0;
+			top: -0.5rem;
+		}
+	}
+
+	.saLoginDivider {
+		display: inline-flex;
+		align-items: center;
+		position: relative;
+		gap: 1.5rem;
+		color: @ColorGray600;
+
+		&::before,
+		&::after {
+			content: '';
+			height: 1px;
+			width: 100%;
+			border-radius: 1px;
+			position: relative;
+			background: @ColorGray200;
+		}
+	}
+
+	.saButtonWrapper {
+		margin-top: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		position: relative;
+	}
+
+	.saSaLogo {
+		bottom: 1.5rem;
+		left: 1.5rem;
+		height: 1.5rem;
+		pointer-events: none;
+	}
+
+	.saLoginCover {
+		flex-basis: 65%;
+		background: url(../img/body-bg/background.jpg);
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-color: @ColorGray100;
+		border-radius: 1.5rem;
+		margin: 1rem 1rem 1rem 0;
+	}
+
+	.saQrCodeWrapper {
+		display: flex;
+		justify-content: center;
+		margin-top: 1rem;
+	}
+
+	.saBankIdAppInstructions {
+		background: url(../img/desktop-phone.svg) top center no-repeat;
+		width: 12.5rem;
+		height: 12.5rem;
+		margin-top: 0.75rem;
+	}
+}
+
+.saSmallScreen.saLogin {
+	.saLoginOuter {
+		flex-basis: 100%;
+		padding: 1.5rem 1rem 5rem 1rem;
+
+		h1,
+		.saDescription,
+		.saInfoText {
+			text-align: center;
+		}
+	}
+
+	.saLoginInner {
+		max-width: 90%;
+		margin: 1.5rem 0;
+	}
+
+	.saLoginCover {
+		display: none;
+	}
+}

@@ -1,0 +1,93 @@
+.saNumberStepper {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 2.5rem;
+	width: fit-content;
+
+	input {
+		height: 2.5rem;
+		width: 2.5rem;
+		border: none;
+		box-shadow: inset 0 0 0 1px @ColorGray200;
+		font-family: 'Lexend', sans-serif;
+		color: var(--Sa-Color-Text);
+		padding: 0;
+		text-align: center;
+		transition: ease background .2s, ease box-shadow .2s, ease border-radius .2s;
+
+		&[type="number"]::-webkit-inner-spin-button {
+			display: none;
+		}
+
+		&[type="number"] {
+			appearance: textfield;
+			-moz-appearance: textfield;
+			-webkit-appearance: textfield;
+		}
+
+		&:hover {
+			box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600);
+			z-index: 1;
+		}
+
+		&:focus,
+		&:focus-within,
+		&:active {
+			z-index: 1;
+		}
+	}
+
+	button {
+		height: 2.5rem;
+		width: 2.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: @ColorWhite;
+		box-shadow: inset 0 0 0 1px @ColorGray200;
+		color: var(--Sa-Color-Icon);
+		transition: ease color .2s, ease background .2s, ease border-radius .2s;
+		cursor: pointer;
+		border: none;
+		transition: ease background .2s, ease box-shadow .2s, ease border-radius .2s;
+
+		&.saDecreaseButton {
+			border-radius: 0.5rem 0 0 0.5rem;
+			margin-right: -1px;
+		}
+
+		&.saIncreaseButton {
+			border-radius: 0 0.5rem 0.5rem 0;
+			margin-left: -1px;
+		}
+
+		.Hover({
+			border-color: var(--Sa-Color-Primary600);
+			color: var(--Sa-Color-Primary600);
+			background: @ColorGray50;
+			box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600);
+			z-index: 1;
+		});
+
+		&:active {
+			border-color: var(--Sa-Color-Primary600);
+			color: var(--Sa-Color-Primary700);
+			background: @ColorGray100;
+			z-index: 1;
+
+			&.saDecreaseButton {
+				border-radius: 0.75rem 0 0 0.75rem;
+			}
+
+			&.saIncreaseButton {
+				border-radius: 0 0.75rem 0.75rem 0;
+			}
+		}
+
+
+		&:focus {
+			z-index: 1;
+		}
+	}
+}
