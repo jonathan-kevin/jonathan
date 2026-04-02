@@ -28,6 +28,10 @@
   --Sa-Color-InputFieldIconInverted: #fff;
   --Sa-Color-InfoBoxLabel: #60748b;
   --Sa-Color-DestructiveButtonBackground: #e0173e;
+  --Sa-Color-DestructiveButtonBackground-Brightness85: #9b0002;
+  --Sa-Color-DestructiveButtonBackground-Brightness90: #bf0024;
+  --Sa-Color-DestructiveButtonBackground-Brightness182: #ffc6c5;
+  --Sa-Color-DestructiveButtonBackground-Brightness187: #fff7f7;
   --Sa-Color-PositiveTrend: #008429;
   --Sa-Color-NegativeTrend: #e0173e;
   --Sa-Color-NeutralTrend: #60748b;
@@ -188,6 +192,34 @@ h6 {
   font-family: "Lexend";
   src: url(../Fonts/Lexend-VariableFont_wght.ttf) format("truetype");
   font-weight: 100 900;
+}
+.jkControl {
+  padding-bottom: 2rem;
+}
+:root {
+  color-scheme: light dark;
+}
+[data-theme="light"] {
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+#theme-select {
+  display: flex;
+  position: fixed;
+  inset: 1rem 1rem auto auto;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  font: inherit;
+  line-height: 2rem;
+  color: inherit;
+  padding: 0 0.5rem;
+  margin: 0;
+  border-radius: 0.75rem;
+  border-color: #ccd5e2;
+  color: #506072;
 }
 a,
 button,
@@ -814,16 +846,16 @@ button.saFormButton:not(.busy) .icon {
 }
 .btnfield .saFormButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .btnfield .saFormButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saStandard .btnfield .saFormButton {
   gap: 0.5rem;
@@ -1771,7 +1803,7 @@ body.saPc *::-webkit-scrollbar-thumb:hover {
 }
 body.saPc::-webkit-scrollbar-thumb:active,
 body.saPc *::-webkit-scrollbar-thumb:active {
-  background-color: #313a44;
+  background-color: light-dark(#313a44, #ccd5e2);
 }
 body.saPc::-webkit-scrollbar-corner,
 body.saPc *::-webkit-scrollbar-corner {
@@ -2005,6 +2037,13 @@ body.saPc *::-webkit-scrollbar-corner {
   padding: 1rem;
   color: var(--Sa-Color-Text);
 }
+.grid .saEmptyState {
+  padding: 2rem 1rem;
+}
+.saListGrid .saEmptyState {
+  position: relative;
+  top: 25%;
+}
 .saEmptyState .saEmptyStateIcon {
   display: flex;
   justify-content: center;
@@ -2048,7 +2087,7 @@ body.saPc *::-webkit-scrollbar-corner {
   align-items: center;
   width: 100vw;
   height: 0;
-  background: #313a44;
+  background: light-dark(#313a44, #ccd5e2);
   position: fixed;
   opacity: 0;
   top: 0;
@@ -2081,7 +2120,7 @@ body.saPc *::-webkit-scrollbar-corner {
   z-index: 9999;
   top: -12.5rem;
   transition: none;
-  background: #313a44;
+  background: light-dark(#313a44, #ccd5e2);
 }
 .saAccessibilityBanner a:hover {
   text-decoration: underline;
@@ -2505,16 +2544,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saInfoBoxArea .saExpandButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saInfoBoxArea .saExpandButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saInfoBoxArea .saExpandButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -2754,16 +2793,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saInfoArea .saWarningBox .saWarningButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saInfoArea .saWarningBox .saWarningButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saInfoArea .saWarningBox .saWarningButton:active {
   border-radius: 0.75rem;
@@ -3029,16 +3068,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saPagination button .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saPagination button .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saPagination button .saIcon {
   color: var(--Sa-Color-Icon);
@@ -3364,17 +3403,17 @@ body.saPc *::-webkit-scrollbar-corner {
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton .saBadgedIcon,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton .saIcon,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton .saIcon,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton .saIcon {
@@ -3390,6 +3429,7 @@ body.saPc *::-webkit-scrollbar-corner {
   .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:hover .saIcon,
   .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:hover .saIcon {
@@ -3397,17 +3437,26 @@ body.saPc *::-webkit-scrollbar-corner {
   }
   .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:hover .saBadge,
   .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:active,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:active .saIcon,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:active .saBadge,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saDestructive,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saDestructive {
@@ -3457,20 +3506,6 @@ body.saPc *::-webkit-scrollbar-corner {
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
 }
-.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:disabled,
-.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:disabled,
-.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saDisabled,
-.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:disabled .saIcon,
-.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:disabled .saIcon,
-.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saDisabled .saIcon,
-.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saDisabled .saIcon {
-  color: #adbdd1;
-}
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:has(.saIcon),
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:has(.saIcon) {
   padding-left: 0.625rem;
@@ -3511,7 +3546,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonPrimary .saBadge,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonPrimary .saBadge {
   color: var(--Sa-Color-Primary600);
-  background: var(--Sa-Color-PrimaryButtonIcon);
+  background-color: var(--Sa-Color-PrimaryButtonIcon);
   border-color: var(--Sa-Color-Primary600);
 }
 @media (pointer: fine) {
@@ -3653,16 +3688,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saGridTop .saGridButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saGridTop .saGridButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saGridTop .saGridButton:active {
   border-radius: 0.75rem;
@@ -3738,22 +3773,23 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 #IFDEF GreenExcelButton .saGridTop .saGridButton.saExcel {
   color: #009b36;
-  background: transparent;
+  background-color: transparent;
 }
 #IFDEF GreenExcelButton .saGridTop .saGridButton.saExcel .saIcon {
   color: #009b36;
 }
 @media (pointer: fine) {
   #IFDEF GreenExcelButton .saGridTop .saGridButton.saExcel:hover {
-    background: #d6f7d9;
-    color: #008429;
+    background-color: #d6f7d9;
   }
   #IFDEF GreenExcelButton .saGridTop .saGridButton.saExcel:hover .saIcon {
-    color: #009b36;
+    color: #008429;
   }
 }
 #IFDEF GreenExcelButton .saGridTop .saGridButton.saExcel:active {
-  background: #91e89b;
+  background-color: #91e89b;
+}
+#IFDEF GreenExcelButton .saGridTop .saGridButton.saExcel:active .saIcon {
   color: #006d1e;
 }
 .saGridTop .saEditCellsToggle {
@@ -4322,17 +4358,17 @@ body.saPc *::-webkit-scrollbar-corner {
 .saGrid .saGridRowButton .saBadgedIcon,
 .saGrid .saGridExpandAllButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saGrid .saGridRowButton .saIcon,
 .saGrid .saGridExpandAllButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saGrid .saGridRowButton:active,
 .saGrid .saGridExpandAllButton:active {
@@ -4710,10 +4746,10 @@ body.saPc *::-webkit-scrollbar-corner {
   border-color: var(--Sa-Color-DestructiveButtonBackground);
 }
 .saGridCell .saIcon + .saBadge {
-  border: 2px solid #313a44;
+  border: 2px solid light-dark(#313a44, #ccd5e2);
   border-radius: 50%;
   color: #fff;
-  background: #313a44;
+  background: light-dark(#313a44, #ccd5e2);
   font-size: 0.75rem;
   width: 0.625rem;
   height: 0.625rem;
@@ -4731,10 +4767,10 @@ body.saPc *::-webkit-scrollbar-corner {
   width: 100%;
 }
 .saListGrid .saListGridInner {
-  height: 100%;
+  height: calc(100dvh - 3.75rem);
 }
 .saSmallScreenHasTopButtons .saListGrid .saListGridInner {
-  height: calc(100% - 6.8125rem);
+  height: calc(100dvh - 3rem - 2.5rem - 3.75rem);
 }
 .saListGrid .saGroupHead {
   color: var(--Sa-Color-Text);
@@ -4964,16 +5000,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saListGrid .saActionRow button .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saListGrid .saActionRow button .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saListGrid .saActionRow button .saIcon {
   color: var(--Sa-Color-Icon);
@@ -4986,20 +5022,29 @@ body.saPc *::-webkit-scrollbar-corner {
   .saListGrid .saActionRow button:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saListGrid .saActionRow button:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saListGrid .saActionRow button:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saListGrid .saActionRow button:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saListGrid .saActionRow button:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saListGrid .saActionRow button:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saListGrid .saActionRow button.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -5039,16 +5084,6 @@ body.saPc *::-webkit-scrollbar-corner {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saListGrid .saActionRow button:disabled,
-.saListGrid .saActionRow button.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saListGrid .saActionRow button:disabled .saIcon,
-.saListGrid .saActionRow button.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saListGrid .saActionRow button.saListGridMoreButton {
   border-radius: 0.5rem;
@@ -5205,16 +5240,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saNotificationsWrapper .saCloseModal .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saNotificationsWrapper .saCloseModal .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saNotificationsWrapper .saCloseModal:active {
   border-radius: 0.75rem;
@@ -5312,16 +5347,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saNotificationsWrapper .saClearAll .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saNotificationsWrapper .saClearAll .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saNotificationsWrapper .saClearAll .saIcon {
   color: var(--Sa-Color-Icon);
@@ -5868,16 +5903,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saSideBar .saButtonFavoritesEdit .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saSideBar .saButtonFavoritesEdit .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saSideBar .saButtonFavoritesEdit .saIcon {
   color: var(--Sa-Color-Icon);
@@ -6135,16 +6170,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saSideBar ul.saSideBarToolbar button .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saSideBar ul.saSideBarToolbar button .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saSideBar ul.saSideBarToolbar button .saIcon {
   color: var(--Sa-Color-Icon);
@@ -6414,16 +6449,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saSideBar .saExpander .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saSideBar .saExpander .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saSideBar .saExpander .saIcon {
   color: var(--Sa-Color-Icon);
@@ -6436,20 +6471,29 @@ body.saPc *::-webkit-scrollbar-corner {
   .saSideBar .saExpander:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saSideBar .saExpander:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saSideBar .saExpander:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saSideBar .saExpander:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saSideBar .saExpander:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saSideBar .saExpander:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saSideBar .saExpander.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -6489,16 +6533,6 @@ body.saPc *::-webkit-scrollbar-corner {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saSideBar .saExpander:disabled,
-.saSideBar .saExpander.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saSideBar .saExpander:disabled .saIcon,
-.saSideBar .saExpander.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saSideBar .saExpander:active {
   border-radius: 0.75rem;
@@ -6976,7 +7010,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPartHeader .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button,
 .saPartButtons .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button {
   color: #009b36;
-  background: transparent;
+  background-color: transparent;
 }
 .saPageHeader .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button .saIcon,
 .saPartHeader .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button .saIcon,
@@ -6987,19 +7021,22 @@ body.saPc *::-webkit-scrollbar-corner {
   .saPageHeader .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button:hover,
   .saPartHeader .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button:hover,
   .saPartButtons .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button:hover {
-    background: #d6f7d9;
-    color: #008429;
+    background-color: #d6f7d9;
   }
   .saPageHeader .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button:hover .saIcon,
   .saPartHeader .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button:hover .saIcon,
   .saPartButtons .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button:hover .saIcon {
-    color: #009b36;
+    color: #008429;
   }
 }
 .saPageHeader .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button:active,
 .saPartHeader .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button:active,
 .saPartButtons .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button:active {
-  background: #91e89b;
+  background-color: #91e89b;
+}
+.saPageHeader .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button:active .saIcon,
+.saPartHeader .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button:active .saIcon,
+.saPartButtons .saSpecialLinksWrapper #IFDEF GreenExcelButton .saExcel button:active .saIcon {
   color: #006d1e;
 }
 .saPageHeader .saSpecialLinksWrapper button,
@@ -7039,9 +7076,9 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPartHeader .saSpecialLinksWrapper button .saBadgedIcon,
 .saPartButtons .saSpecialLinksWrapper button .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saPageHeader .saSpecialLinksWrapper button .saIcon,
 .saPartHeader .saSpecialLinksWrapper button .saIcon,
@@ -7049,8 +7086,8 @@ body.saPc *::-webkit-scrollbar-corner {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saPageHeader .saSpecialLinksWrapper button .saIcon,
 .saPartHeader .saSpecialLinksWrapper button .saIcon,
@@ -7229,17 +7266,17 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPageHeader .saActionLinks .saMoreButton .saBadgedIcon,
 .saPartButtons .saActionLinks .saMoreButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saPageHeader .saActionLinks .saMoreButton .saIcon,
 .saPartButtons .saActionLinks .saMoreButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saPageHeader .saActionLinks .saMoreButton .saIcon,
 .saPartButtons .saActionLinks .saMoreButton .saIcon {
@@ -7255,6 +7292,7 @@ body.saPc *::-webkit-scrollbar-corner {
   .saPartButtons .saActionLinks .saMoreButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saPageHeader .saActionLinks .saMoreButton:hover .saIcon,
   .saPartButtons .saActionLinks .saMoreButton:hover .saIcon {
@@ -7262,17 +7300,26 @@ body.saPc *::-webkit-scrollbar-corner {
   }
   .saPageHeader .saActionLinks .saMoreButton:hover .saBadge,
   .saPartButtons .saActionLinks .saMoreButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saPageHeader .saActionLinks .saMoreButton:active,
 .saPartButtons .saActionLinks .saMoreButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saPageHeader .saActionLinks .saMoreButton:active .saIcon,
+.saPartButtons .saActionLinks .saMoreButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saPageHeader .saActionLinks .saMoreButton:active .saBadge,
 .saPartButtons .saActionLinks .saMoreButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saPageHeader .saActionLinks .saMoreButton.saDestructive,
 .saPartButtons .saActionLinks .saMoreButton.saDestructive {
@@ -7321,20 +7368,6 @@ body.saPc *::-webkit-scrollbar-corner {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saPageHeader .saActionLinks .saMoreButton:disabled,
-.saPartButtons .saActionLinks .saMoreButton:disabled,
-.saPageHeader .saActionLinks .saMoreButton.saDisabled,
-.saPartButtons .saActionLinks .saMoreButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saPageHeader .saActionLinks .saMoreButton:disabled .saIcon,
-.saPartButtons .saActionLinks .saMoreButton:disabled .saIcon,
-.saPageHeader .saActionLinks .saMoreButton.saDisabled .saIcon,
-.saPartButtons .saActionLinks .saMoreButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saPageHeader .saActionLinks .saMoreButton:active,
 .saPartButtons .saActionLinks .saMoreButton:active {
@@ -7386,17 +7419,17 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPageHeader .saActionLinks .saActionLink .saBadgedIcon,
 .saPartButtons .saActionLinks .saActionLink .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saPageHeader .saActionLinks .saActionLink .saIcon,
 .saPartButtons .saActionLinks .saActionLink .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saPageHeader .saActionLinks .saActionLink:has(.saIcon),
 .saPartButtons .saActionLinks .saActionLink:has(.saIcon) {
@@ -7482,17 +7515,17 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPageHeader .saNavigationLinks .saMoreButton .saBadgedIcon,
 .saPartButtons .saNavigationLinks .saMoreButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saPageHeader .saNavigationLinks .saMoreButton .saIcon,
 .saPartButtons .saNavigationLinks .saMoreButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saPageHeader .saNavigationLinks .saMoreButton:active,
 .saPartButtons .saNavigationLinks .saMoreButton:active {
@@ -7619,17 +7652,17 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPageHeader .saNavigationLinks .saNavigationLink .saBadgedIcon,
 .saPartButtons .saNavigationLinks .saNavigationLink .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saPageHeader .saNavigationLinks .saNavigationLink .saIcon,
 .saPartButtons .saNavigationLinks .saNavigationLink .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saPageHeader .saNavigationLinks .saNavigationLink:has(.saIcon),
 .saPartButtons .saNavigationLinks .saNavigationLink:has(.saIcon) {
@@ -7776,17 +7809,17 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPageHeader .saBrowseButtons .saBrowseButton .saBadgedIcon,
 .saPartButtons .saBrowseButtons .saBrowseButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saPageHeader .saBrowseButtons .saBrowseButton .saIcon,
 .saPartButtons .saBrowseButtons .saBrowseButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saPageHeader .saBrowseButtons .saBrowseButton .saIcon,
 .saPartButtons .saBrowseButtons .saBrowseButton .saIcon {
@@ -7802,6 +7835,7 @@ body.saPc *::-webkit-scrollbar-corner {
   .saPartButtons .saBrowseButtons .saBrowseButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saPageHeader .saBrowseButtons .saBrowseButton:hover .saIcon,
   .saPartButtons .saBrowseButtons .saBrowseButton:hover .saIcon {
@@ -7809,17 +7843,26 @@ body.saPc *::-webkit-scrollbar-corner {
   }
   .saPageHeader .saBrowseButtons .saBrowseButton:hover .saBadge,
   .saPartButtons .saBrowseButtons .saBrowseButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saPageHeader .saBrowseButtons .saBrowseButton:active,
 .saPartButtons .saBrowseButtons .saBrowseButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saPageHeader .saBrowseButtons .saBrowseButton:active .saIcon,
+.saPartButtons .saBrowseButtons .saBrowseButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saPageHeader .saBrowseButtons .saBrowseButton:active .saBadge,
 .saPartButtons .saBrowseButtons .saBrowseButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saPageHeader .saBrowseButtons .saBrowseButton.saDestructive,
 .saPartButtons .saBrowseButtons .saBrowseButton.saDestructive {
@@ -7868,20 +7911,6 @@ body.saPc *::-webkit-scrollbar-corner {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saPageHeader .saBrowseButtons .saBrowseButton:disabled,
-.saPartButtons .saBrowseButtons .saBrowseButton:disabled,
-.saPageHeader .saBrowseButtons .saBrowseButton.saDisabled,
-.saPartButtons .saBrowseButtons .saBrowseButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saPageHeader .saBrowseButtons .saBrowseButton:disabled .saIcon,
-.saPartButtons .saBrowseButtons .saBrowseButton:disabled .saIcon,
-.saPageHeader .saBrowseButtons .saBrowseButton.saDisabled .saIcon,
-.saPartButtons .saBrowseButtons .saBrowseButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saPageHeader .saBrowseButtons .saBrowseButton:active,
 .saPartButtons .saBrowseButtons .saBrowseButton:active {
@@ -8085,16 +8114,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saPageHeader .saBackButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saPageHeader .saBackButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saLargeScreen .saPageHeader .saBackButton {
   color: var(--Sa-Color-Primary600);
@@ -8457,16 +8486,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saButtonHeader .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saButtonHeader .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saButtonHeader:active {
   border-radius: 0.75rem;
@@ -8583,16 +8612,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saSmallScreen .saExpandWrapper .saExpand .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saSmallScreen .saExpandWrapper .saExpand .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saSmallScreen .saExpandWrapper .saExpand:active {
   border-radius: 0.75rem;
@@ -8790,16 +8819,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saAlert .saAlertButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saAlert .saAlertButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saStandard .saAlert .saAlertButton {
   gap: 0.5rem;
@@ -8912,7 +8941,7 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saButtonPrimary .saBadge {
   color: var(--Sa-Color-Primary600);
-  background: var(--Sa-Color-PrimaryButtonIcon);
+  background-color: var(--Sa-Color-PrimaryButtonIcon);
   border-color: var(--Sa-Color-Primary600);
 }
 @media (pointer: fine) {
@@ -8961,20 +8990,29 @@ body.saPc *::-webkit-scrollbar-corner {
   .saButtonSecondary:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saButtonSecondary:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saButtonSecondary:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saButtonSecondary:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saButtonSecondary:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saButtonSecondary:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saButtonSecondary.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -9014,16 +9052,6 @@ body.saPc *::-webkit-scrollbar-corner {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saButtonSecondary:disabled,
-.saButtonSecondary.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saButtonSecondary:disabled .saIcon,
-.saButtonSecondary.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saButtonGhost {
   color: var(--Sa-Color-Primary600);
@@ -9104,23 +9132,23 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saDefaultButtonPrimary .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saDefaultButtonPrimary .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saDefaultButtonPrimary .saIcon {
   color: var(--Sa-Color-PrimaryButtonIcon);
 }
 .saDefaultButtonPrimary .saBadge {
   color: var(--Sa-Color-Primary600);
-  background: var(--Sa-Color-PrimaryButtonIcon);
+  background-color: var(--Sa-Color-PrimaryButtonIcon);
   border-color: var(--Sa-Color-Primary600);
 }
 @media (pointer: fine) {
@@ -9230,16 +9258,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saDefaultButtonSecondary .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saDefaultButtonSecondary .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saDefaultButtonSecondary .saIcon {
   color: var(--Sa-Color-Icon);
@@ -9252,20 +9280,29 @@ body.saPc *::-webkit-scrollbar-corner {
   .saDefaultButtonSecondary:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saDefaultButtonSecondary:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saDefaultButtonSecondary:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saDefaultButtonSecondary:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saDefaultButtonSecondary:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saDefaultButtonSecondary:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saDefaultButtonSecondary.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -9305,16 +9342,6 @@ body.saPc *::-webkit-scrollbar-corner {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saDefaultButtonSecondary:disabled,
-.saDefaultButtonSecondary.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saDefaultButtonSecondary:disabled .saIcon,
-.saDefaultButtonSecondary.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saStandard .saDefaultButtonSecondary {
   gap: 0.5rem;
@@ -9368,6 +9395,521 @@ body.saPc *::-webkit-scrollbar-corner {
   font-size: 1.25rem;
   min-width: 1.625rem;
 }
+.saDefaultButtonGhost {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: var(--Sa-Color-Primary600);
+  background: transparent;
+}
+.saDefaultButtonGhost .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saDefaultButtonGhost .saBadgedIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.saDefaultButtonGhost .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.saDefaultButtonGhost .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saDefaultButtonGhost.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultButtonGhost.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saDefaultButtonGhost.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saDefaultButtonGhost.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saDefaultButtonGhost.saDestructive:active {
+  color: #fff;
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultButtonGhost.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saDefaultButtonGhost:hover {
+    background-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary600);
+  }
+  .saDefaultButtonGhost:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+}
+.saDefaultButtonGhost:active {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+}
+.saDefaultButtonGhost:active .saIcon {
+  color: var(--Sa-Color-Primary700);
+}
+.saDefaultButtonGhost:disabled,
+.saDefaultButtonGhost.saDisabled {
+  color: #adbdd1;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saDefaultButtonGhost:disabled .saIcon,
+.saDefaultButtonGhost.saDisabled .saIcon {
+  color: #adbdd1;
+}
+.saStandard .saDefaultButtonGhost {
+  gap: 0.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+}
+.saStandard .saDefaultButtonGhost:has(.saIcon) {
+  padding-left: 0.75rem;
+}
+.saStandard .saDefaultButtonGhost:active {
+  border-radius: 0.75rem;
+}
+.saStandard .saDefaultButtonGhost .saIcon {
+  font-size: 1.25rem;
+  min-width: 1.625rem;
+}
+.saCompact .saDefaultButtonGhost {
+  gap: 0.375rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+}
+.saCompact .saDefaultButtonGhost:has(.saIcon) {
+  padding-left: 0.625rem;
+}
+.saCompact .saDefaultButtonGhost:active {
+  border-radius: 0.75rem;
+}
+.saCompact .saDefaultButtonGhost .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
+}
+.saSmallScreen .saDefaultButtonGhost {
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  height: 2.5rem;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+.saSmallScreen .saDefaultButtonGhost:has(.saIcon) {
+  padding-left: 0.75rem;
+}
+.saSmallScreen .saDefaultButtonGhost:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saDefaultButtonGhost .saIcon {
+  font-size: 1.25rem;
+  min-width: 1.625rem;
+}
+.saDefaultButtonPrimaryIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  background-color: var(--Sa-Color-Primary600);
+  color: var(--Sa-Color-PrimaryButtonLabel);
+}
+.saDefaultButtonPrimaryIcon .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saDefaultButtonPrimaryIcon .saBadgedIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.saDefaultButtonPrimaryIcon .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.saDefaultButtonPrimaryIcon .saIcon {
+  color: var(--Sa-Color-PrimaryButtonIcon);
+}
+.saDefaultButtonPrimaryIcon .saBadge {
+  color: var(--Sa-Color-Primary600);
+  background-color: var(--Sa-Color-PrimaryButtonIcon);
+  border-color: var(--Sa-Color-Primary600);
+}
+@media (pointer: fine) {
+  .saDefaultButtonPrimaryIcon:hover {
+    background-color: var(--Sa-Color-Primary700);
+  }
+  .saDefaultButtonPrimaryIcon:hover .saBadge {
+    background-color: var(--Sa-Color-PrimaryButtonIcon);
+    border-color: var(--Sa-Color-Primary700);
+  }
+}
+.saDefaultButtonPrimaryIcon:active {
+  background-color: var(--Sa-Color-Primary800);
+}
+.saDefaultButtonPrimaryIcon:active .saBadge {
+  color: var(--Sa-Color-Primary800);
+  border-color: 2px solid var(--Sa-Color-Primary800);
+}
+.saDefaultButtonPrimaryIcon:disabled {
+  background: var(--Sa-Color-Primary200);
+  pointer-events: none;
+}
+.saDefaultButtonPrimaryIcon.saDestructive {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+  color: #fff;
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+@media (pointer: fine) {
+  .saDefaultButtonPrimaryIcon.saDestructive:hover {
+    background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness90);
+  }
+}
+.saStandard .saDefaultButtonPrimaryIcon {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+}
+.saStandard .saDefaultButtonPrimaryIcon:active {
+  border-radius: 0.75rem;
+}
+.saCompact .saDefaultButtonPrimaryIcon {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+}
+.saCompact .saDefaultButtonPrimaryIcon:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saDefaultButtonPrimaryIcon {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+}
+.saSmallScreen .saDefaultButtonPrimaryIcon:active {
+  border-radius: 0.75rem;
+}
+.saDefaultButtonSecondaryIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+}
+.saDefaultButtonSecondaryIcon .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saDefaultButtonSecondaryIcon .saBadgedIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.saDefaultButtonSecondaryIcon .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.saDefaultButtonSecondaryIcon .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saDefaultButtonSecondaryIcon .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .saDefaultButtonSecondaryIcon:hover {
+    border-color: var(--Sa-Color-Primary600);
+    color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
+  }
+  .saDefaultButtonSecondaryIcon:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+  .saDefaultButtonSecondaryIcon:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
+    background-color: var(--Sa-Color-Primary600);
+  }
+}
+.saDefaultButtonSecondaryIcon:active {
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saDefaultButtonSecondaryIcon:active .saIcon {
+  color: var(--Sa-Color-Primary700);
+}
+.saDefaultButtonSecondaryIcon:active .saBadge {
+  border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
+}
+.saDefaultButtonSecondaryIcon.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.saDefaultButtonSecondaryIcon.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultButtonSecondaryIcon.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saDefaultButtonSecondaryIcon.saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saDefaultButtonSecondaryIcon.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .saDefaultButtonSecondaryIcon.saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saDefaultButtonSecondaryIcon.saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saDefaultButtonSecondaryIcon.saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saDefaultButtonSecondaryIcon.saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saStandard .saDefaultButtonSecondaryIcon {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+}
+.saStandard .saDefaultButtonSecondaryIcon:active {
+  border-radius: 0.75rem;
+}
+.saCompact .saDefaultButtonSecondaryIcon {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+}
+.saCompact .saDefaultButtonSecondaryIcon:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saDefaultButtonSecondaryIcon {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+}
+.saSmallScreen .saDefaultButtonSecondaryIcon:active {
+  border-radius: 0.75rem;
+}
+.saDefaultButtonGhostIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: var(--Sa-Color-Primary600);
+  background: transparent;
+}
+.saDefaultButtonGhostIcon .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saDefaultButtonGhostIcon .saBadgedIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.saDefaultButtonGhostIcon .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.saDefaultButtonGhostIcon .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saDefaultButtonGhostIcon.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultButtonGhostIcon.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saDefaultButtonGhostIcon.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saDefaultButtonGhostIcon.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saDefaultButtonGhostIcon.saDestructive:active {
+  color: #fff;
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultButtonGhostIcon.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saDefaultButtonGhostIcon:hover {
+    background-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary600);
+  }
+  .saDefaultButtonGhostIcon:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+}
+.saDefaultButtonGhostIcon:active {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+}
+.saDefaultButtonGhostIcon:active .saIcon {
+  color: var(--Sa-Color-Primary700);
+}
+.saDefaultButtonGhostIcon:disabled,
+.saDefaultButtonGhostIcon.saDisabled {
+  color: #adbdd1;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saDefaultButtonGhostIcon:disabled .saIcon,
+.saDefaultButtonGhostIcon.saDisabled .saIcon {
+  color: #adbdd1;
+}
+.saStandard .saDefaultButtonGhostIcon {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+}
+.saStandard .saDefaultButtonGhostIcon:active {
+  border-radius: 0.75rem;
+}
+.saCompact .saDefaultButtonGhostIcon {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+}
+.saCompact .saDefaultButtonGhostIcon:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saDefaultButtonGhostIcon {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+}
+.saSmallScreen .saDefaultButtonGhostIcon:active {
+  border-radius: 0.75rem;
+}
 .ButtonPrimary {
   background-color: var(--Sa-Color-Primary600);
   color: var(--Sa-Color-PrimaryButtonLabel);
@@ -9377,7 +9919,7 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .ButtonPrimary .saBadge {
   color: var(--Sa-Color-Primary600);
-  background: var(--Sa-Color-PrimaryButtonIcon);
+  background-color: var(--Sa-Color-PrimaryButtonIcon);
   border-color: var(--Sa-Color-Primary600);
 }
 @media (pointer: fine) {
@@ -9423,7 +9965,7 @@ body.saPc *::-webkit-scrollbar-corner {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  background-color: #313a44;
+  background-color: light-dark(#313a44, #ccd5e2);
   color: #fff;
   position: absolute;
   right: 0;
@@ -9436,16 +9978,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saClosePopupButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saClosePopupButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saStandard .saClosePopupButton {
   gap: 0.5rem;
@@ -9583,7 +10125,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saErrorView .saErrorViewContent .saErrorViewContentInner section p {
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: #313a44;
+  color: light-dark(#313a44, #ccd5e2);
   word-break: break-all;
 }
 .saErrorView .saErrorViewButton {
@@ -9610,16 +10152,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saErrorView .saErrorViewButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saErrorView .saErrorViewButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saStandard .saErrorView .saErrorViewButton {
   gap: 0.5rem;
@@ -9855,16 +10397,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saLogin .saLoginInner .saLoginPageButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saLogin .saLoginInner .saLoginPageButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saLogin .saLoginInner .saLoginPageButton:has(.saIcon) {
   padding-left: 0.75rem;
@@ -10232,16 +10774,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saColumnManager .saCloseColumnManager .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saColumnManager .saCloseColumnManager .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saColumnManager .saCloseColumnManager:active {
   border-radius: 0.75rem;
@@ -10533,20 +11075,29 @@ body.saPc *::-webkit-scrollbar-corner {
   .saColumnManager .saRemoveColumnButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saColumnManager .saRemoveColumnButton:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saColumnManager .saRemoveColumnButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saColumnManager .saRemoveColumnButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saColumnManager .saRemoveColumnButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saColumnManager .saRemoveColumnButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saColumnManager .saRemoveColumnButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -10586,16 +11137,6 @@ body.saPc *::-webkit-scrollbar-corner {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saColumnManager .saRemoveColumnButton:disabled,
-.saColumnManager .saRemoveColumnButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saColumnManager .saRemoveColumnButton:disabled .saIcon,
-.saColumnManager .saRemoveColumnButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saStandard .saColumnManager .saRemoveColumnButton {
   border-radius: 0.5rem;
@@ -11157,16 +11698,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saGalleryWrapper .saGalleryItem .saMoreButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saGalleryWrapper .saGalleryItem .saMoreButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saGalleryWrapper .saGalleryItem .saMoreButton:active {
   border-radius: 0.75rem;
@@ -11182,20 +11723,29 @@ body.saPc *::-webkit-scrollbar-corner {
   .saGalleryWrapper .saGalleryItem .saMoreButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saGalleryWrapper .saGalleryItem .saMoreButton:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saGalleryWrapper .saGalleryItem .saMoreButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saGalleryWrapper .saGalleryItem .saMoreButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saGalleryWrapper .saGalleryItem .saMoreButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saGalleryWrapper .saGalleryItem .saMoreButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saGalleryWrapper .saGalleryItem .saMoreButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -11235,16 +11785,6 @@ body.saPc *::-webkit-scrollbar-corner {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saGalleryWrapper .saGalleryItem .saMoreButton:disabled,
-.saGalleryWrapper .saGalleryItem .saMoreButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saGalleryWrapper .saGalleryItem .saMoreButton:disabled .saIcon,
-.saGalleryWrapper .saGalleryItem .saMoreButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saGalleryWrapper .saGalleryItem .saMoreButton .saIcon {
   font-size: 1rem;
@@ -11447,16 +11987,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saImageCarouselWrapper .saCarouselInfoButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saImageCarouselWrapper .saCarouselInfoButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saStandard .saImageCarouselWrapper .saCarouselInfoButton {
   border-radius: 0.5rem;
@@ -11505,20 +12045,29 @@ body.saPc *::-webkit-scrollbar-corner {
   .saImageCarouselWrapper .saCarouselInfoButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saImageCarouselWrapper .saCarouselInfoButton:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saImageCarouselWrapper .saCarouselInfoButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saImageCarouselWrapper .saCarouselInfoButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saImageCarouselWrapper .saCarouselInfoButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saImageCarouselWrapper .saCarouselInfoButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saImageCarouselWrapper .saCarouselInfoButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -11558,16 +12107,6 @@ body.saPc *::-webkit-scrollbar-corner {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saImageCarouselWrapper .saCarouselInfoButton:disabled,
-.saImageCarouselWrapper .saCarouselInfoButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saImageCarouselWrapper .saCarouselInfoButton:disabled .saIcon,
-.saImageCarouselWrapper .saCarouselInfoButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saLargeScreen .saImageCarouselWrapper .saCarouselInfoButton {
   display: none;
@@ -11659,16 +12198,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -11681,20 +12220,29 @@ body.saPc *::-webkit-scrollbar-corner {
   .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -11734,16 +12282,6 @@ body.saPc *::-webkit-scrollbar-corner {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton:disabled,
-.saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton:disabled .saIcon,
-.saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton:active {
   border-radius: 0.75rem;
@@ -11788,16 +12326,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saActionLink .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saActionLink .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saActionLink:has(.saIcon) {
   padding-left: 0.625rem;
@@ -11867,16 +12405,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton:active {
   border-radius: 0.75rem;
@@ -11981,16 +12519,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saNavigationLink .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saNavigationLink .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saNavigationLink:has(.saIcon) {
   padding-left: 0.625rem;
@@ -12109,16 +12647,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -12131,20 +12669,29 @@ body.saPc *::-webkit-scrollbar-corner {
   .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -12184,16 +12731,6 @@ body.saPc *::-webkit-scrollbar-corner {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton:disabled,
-.saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton:disabled .saIcon,
-.saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton:active {
   border-radius: 0.75rem;
@@ -12325,16 +12862,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saImageCarouselWrapper .saCarouselButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saImageCarouselWrapper .saCarouselButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saImageCarouselWrapper .saCarouselButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -12347,20 +12884,29 @@ body.saPc *::-webkit-scrollbar-corner {
   .saImageCarouselWrapper .saCarouselButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saImageCarouselWrapper .saCarouselButton:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saImageCarouselWrapper .saCarouselButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saImageCarouselWrapper .saCarouselButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saImageCarouselWrapper .saCarouselButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saImageCarouselWrapper .saCarouselButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saImageCarouselWrapper .saCarouselButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -12400,16 +12946,6 @@ body.saPc *::-webkit-scrollbar-corner {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saImageCarouselWrapper .saCarouselButton:disabled,
-.saImageCarouselWrapper .saCarouselButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saImageCarouselWrapper .saCarouselButton:disabled .saIcon,
-.saImageCarouselWrapper .saCarouselButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saStandard .saImageCarouselWrapper .saCarouselButton {
   border-radius: 0.5rem;
@@ -12494,7 +13030,7 @@ body.saPc *::-webkit-scrollbar-corner {
   right: 0.25rem;
   color: #fff;
   border: none;
-  background: #313a44;
+  background: light-dark(#313a44, #ccd5e2);
   border-radius: 50% !important;
   display: none;
   transition: ease border 0.2s, ease 0.2s color, ease 0.2s border-radius, ease 0.2s background, ease 0.2s box-shadow, ease 0.2s transform;
@@ -12510,16 +13046,16 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saImageCarouselWrapper .saCarouselButtonClose .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saImageCarouselWrapper .saCarouselButtonClose .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saStandard .saImageCarouselWrapper .saCarouselButtonClose {
   border-radius: 0.5rem;
@@ -13868,16 +14404,16 @@ select.saInputText {
 }
 .saIconOnlyFieldButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saIconOnlyFieldButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saIconOnlyFieldButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -13890,20 +14426,29 @@ select.saInputText {
   .saIconOnlyFieldButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saIconOnlyFieldButton:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saIconOnlyFieldButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saIconOnlyFieldButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saIconOnlyFieldButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saIconOnlyFieldButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saIconOnlyFieldButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -13943,16 +14488,6 @@ select.saInputText {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saIconOnlyFieldButton:disabled,
-.saIconOnlyFieldButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saIconOnlyFieldButton:disabled .saIcon,
-.saIconOnlyFieldButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saIconOnlyFieldButton.saDestructive {
   background-color: #fff7f7;
@@ -14009,16 +14544,16 @@ select.saInputText {
 }
 .saLabeledFieldButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saLabeledFieldButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saLabeledFieldButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -14031,20 +14566,29 @@ select.saInputText {
   .saLabeledFieldButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saLabeledFieldButton:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saLabeledFieldButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saLabeledFieldButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saLabeledFieldButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saLabeledFieldButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saLabeledFieldButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -14084,16 +14628,6 @@ select.saInputText {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saLabeledFieldButton:disabled,
-.saLabeledFieldButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saLabeledFieldButton:disabled .saIcon,
-.saLabeledFieldButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saLabeledFieldButton.saDestructive {
   background-color: #fff7f7;
@@ -14158,7 +14692,7 @@ select.saInputText {
   height: 0.875rem;
   width: 0.375rem;
   border-radius: 0.25rem;
-  background-color: #313a44;
+  background-color: light-dark(#313a44, #ccd5e2);
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -14204,6 +14738,9 @@ select.saInputText {
   .saInputAffixWrapper:has(:enabled):hover {
     box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600);
   }
+}
+.saInputAffixWrapper:has(:enabled):has(input:hover) {
+  box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600);
 }
 .saInputAffixWrapper:has(:enabled):focus-within {
   box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600);
@@ -15242,16 +15779,16 @@ select.saInputText {
 }
 .saInputPageFooter .saFormButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saInputPageFooter .saFormButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saStandard .saInputPageFooter .saFormButton {
   gap: 0.5rem;
@@ -15843,7 +16380,7 @@ legend + .saInputCardsWrapper {
   border-radius: 1rem;
   height: unset;
   position: relative;
-  background-color: #313a44;
+  background-color: light-dark(#313a44, #ccd5e2);
   color: #fff;
 }
 .saInputCardWrapper .saPill.saDisabled {
@@ -16608,16 +17145,16 @@ legend + .saInputCardsWrapper {
 }
 .saDatePickerRoot a.saMonth .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saDatePickerRoot a.saMonth .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saDatePickerRoot a.saMonth:has(.saIcon) {
   padding-left: 0.625rem;
@@ -16911,16 +17448,16 @@ legend + .saInputCardsWrapper {
 }
 .saDatePickerRoot .saTodayLink .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saDatePickerRoot .saTodayLink .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saStandard .saDatePickerRoot .saTodayLink {
   gap: 0.5rem;
@@ -17088,16 +17625,16 @@ legend + .saInputCardsWrapper {
 }
 .saDatePickerRoot .saButtonRow .saDatePickerButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saDatePickerRoot .saButtonRow .saDatePickerButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saStandard .saDatePickerRoot .saButtonRow .saDatePickerButton {
   gap: 0.5rem;
@@ -17270,16 +17807,16 @@ legend + .saInputCardsWrapper {
 }
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -17292,20 +17829,29 @@ legend + .saInputCardsWrapper {
   .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -17345,16 +17891,6 @@ legend + .saInputCardsWrapper {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton:disabled,
-.saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton:disabled .saIcon,
-.saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton:has(.saIcon) {
   padding-left: 0.625rem;
@@ -18071,16 +18607,16 @@ legend + .saInputCardsWrapper {
 }
 .saFileUploadAreaWrapper .saDeleteButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saFileUploadAreaWrapper .saDeleteButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saFileUploadAreaWrapper .saDeleteButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -19194,16 +19730,16 @@ legend + .saInputCardsWrapper {
 }
 .saMultiPickerItem .saDeleteButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saMultiPickerItem .saDeleteButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saSmallScreen .saMultiPickerItem .saDeleteButton,
 .saMultiPickerItem .saDeleteButton:focus {
@@ -19416,16 +19952,16 @@ legend + .saInputCardsWrapper {
 }
 .saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton:has(.saIcon) {
   padding-left: 0.75rem;
@@ -19453,20 +19989,29 @@ legend + .saInputCardsWrapper {
   .saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton.saSecondary:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton.saSecondary:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton.saSecondary:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton.saSecondary:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton.saSecondary:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton.saSecondary:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton.saSecondary.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -19507,16 +20052,6 @@ legend + .saInputCardsWrapper {
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
 }
-.saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton.saSecondary:disabled,
-.saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton.saSecondary.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton.saSecondary:disabled .saIcon,
-.saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton.saSecondary.saDisabled .saIcon {
-  color: #adbdd1;
-}
 .saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton.saPrimary {
   background-color: var(--Sa-Color-Primary600);
   color: var(--Sa-Color-PrimaryButtonLabel);
@@ -19527,7 +20062,7 @@ legend + .saInputCardsWrapper {
 }
 .saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton.saPrimary .saBadge {
   color: var(--Sa-Color-Primary600);
-  background: var(--Sa-Color-PrimaryButtonIcon);
+  background-color: var(--Sa-Color-PrimaryButtonIcon);
   border-color: var(--Sa-Color-Primary600);
 }
 @media (pointer: fine) {
@@ -20140,16 +20675,16 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saSignatureCanvasRoot.saSignatureLargeScreen .saCanvasButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saSignatureCanvasRoot.saSignatureLargeScreen .saCanvasButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saSignatureCanvasRoot.saSignatureLargeScreen .saCanvasButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -20285,20 +20820,29 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -20338,16 +20882,6 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton:disabled,
-.saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton:disabled .saIcon,
-.saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saSignatureCanvasRoot.saSignatureSmallScreen .saPreviewImage {
   max-width: 100%;
@@ -20421,16 +20955,16 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saClosePopup .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saClosePopup .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saClosePopup:active {
   border-radius: 0.75rem;
@@ -20590,7 +21124,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saTextboxWithPopupWrapper select {
   border: 1px solid #dde3ec;
-  color: #313a44;
+  color: light-dark(#313a44, #ccd5e2);
   padding: 1px 1px 1px 0;
   background: #fff;
   position: absolute;
@@ -20693,234 +21227,557 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
     background-position: -200% center;
   }
 }
-.saLargeScreen .saLinearProcess .saStepWrapper.short,
-.saLargeScreen .saLinearProcess .saStepCaption.short {
-  width: 15rem;
+/*.saLargeScreen .saLinearProcess {
+
+	.saStepWrapper.short,
+	.saStepCaption.short {
+		width: 15rem;
+	}
+
+	.saStepWrapper.medium,
+	.saStepCaption.medium {
+		width: 20rem;
+	}
+
+	.saStepWrapper.long,
+	.saStepCaption.long {
+		width: 25rem;
+	}
+
+	.saStepBetweenArrow {
+		width: 1rem;
+	}
 }
-.saLargeScreen .saLinearProcess .saStepWrapper.medium,
-.saLargeScreen .saLinearProcess .saStepCaption.medium {
-  width: 20rem;
+
+.saLinearProcess {
+	display: flex;
+	gap: 1rem;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	box-sizing: border-box;
+
+	* {
+		box-sizing: border-box;
+	}
+
+	&.saHasWrapped {
+		padding-left: 2rem;
+	}
+
+	.saIcon.saStepBetween {
+		.FlexCentered();
+		font-size: 1rem;
+		color: @ColorGray500;
+	}
+
+	.saStepBefore {
+		position: absolute;
+		left: -2rem;
+		top: 0;
+	}
+
+	.saStepAfter {
+		position: absolute;
+		right: -2rem;
+		top: 0;
+	}
+
+	.saStepOuter {
+		display: flex;
+		gap: 1rem;
+	}
+
+	.saStepWrapper {
+		position: relative;
+	}
+
+	.saStepIconWrapper {
+		align-items: center;
+		display: flex;
+		border-radius: 0.5rem;
+		.StandardTransition();
+		position: relative;
+
+		&::after {
+			content: '';
+			height: calc(100% + 0.125rem);
+			min-width: calc(100% + 0.125rem);
+			position: absolute;
+			left: -0.0625rem;
+			top: -0.0625rem;
+			background: @ColorWhite;
+			transition: ease-out background-color 0.1s;
+			border-radius: 0.4375rem;
+		}
+	}
+
+	.systemicon.customcolor {
+		z-index: 1;
+	}
+
+	.saStepInnerWrapper {
+		display: flex;
+		flex: 1;
+		width: 100%;
+		border-radius: 1rem;
+		align-items: stretch;
+		.StandardTransition();
+	}
+
+	.saStepInner {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		gap: 0.5rem;
+		background: @ColorWhite;
+		padding: 0.5rem;
+		border-radius: 1rem;
+		position: relative;
+		width: 100%;
+		.StandardTransition();
+	}
+
+	.saStep {
+		display: flex;
+		align-items: stretch;
+		background: @ColorWhite;
+		border-radius: 1rem;
+		position: relative;
+		font-size: 1rem;
+		.StandardTransition();
+		.Border();
+		flex: 1;
+
+		.saIcon {
+			.StandardTransition();
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.25rem;
+			min-width: 2.5rem;
+			height: 2.5rem;
+			border-radius: 0.5rem;
+			z-index: 2;
+			color: @ColorGray500;
+			background-color: @ColorGray50;
+		}
+
+		.saStepLine {
+			min-width: 0.25rem;
+			width: 0.25rem;
+			min-height: 2.5rem;
+			border-radius: 0.5rem;
+			margin-left: 0.25rem;
+
+			&::before {
+				content: '';
+			}
+		}
+
+		&.saHasLink {
+			cursor: pointer;
+
+			.Hover({
+				border-color: transparent;
+
+				.saStepHeading,
+				.saStepBody {
+					color: inherit;
+				}
+
+				.saStepInner {
+					background-color: transparent;
+				}
+
+				.saStepIconWrapper::after {
+					background: transparent;
+				}
+
+				.saIcon {
+					color: @ColorWhite;
+					background-color: transparent !important;
+				}
+			});
+
+			&:active .saStepInnerWrapper {
+				border-radius: 1.5rem;
+			}
+		}
+	}
+
+	.saStepTextWrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	.saStepHeading {
+		font-size: 0.875rem;
+		font-weight: 500;
+		line-height: 1rem;
+		word-break: break-word;
+		color: var(--Sa-Color-Text);
+	}
+
+	.saStepBody {
+		font-size: 0.75rem;
+		font-weight: 400;
+		line-height: 0.875rem;
+		color: var(--Sa-Color-TextSecondary);
+	}
+
+	.saStepCaption {
+		font-size: 0.75rem;
+		padding-left: 1rem;
+		padding-top: 0.5rem;
+		color: var(--Sa-Color-Text);
+	}
 }
-.saLargeScreen .saLinearProcess .saStepWrapper.long,
-.saLargeScreen .saLinearProcess .saStepCaption.long {
-  width: 25rem;
+
+// ----------------------------------------- smallscreen ----------------------------------------- //
+.saSmallScreen .saLinearProcess {
+	gap: 1rem;
+	justify-content: center;
+	padding: 1rem;
+
+	.saStepOuter {
+		width: 100%;
+		flex-direction: column;
+
+		>.saIcon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transform: rotate(90deg);
+			margin-bottom: 0;
+			min-height: auto;
+		}
+	}
+
+	.saStepWrapper {
+		gap: 0.5rem;
+		flex: 1 1 100%;
+		max-width: 100%;
+	}
+
+	.saStep {
+		&.saHasIcon {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.saIcon {
+			min-width: 2.5rem;
+		}
+
+		&:active .saStepInnerWrapper {
+			border-radius: 1rem;
+		}
+	}
+
+	.saStepHeading {
+		font-size: 1rem;
+		line-height: 1.25rem;
+	}
+
+	.saStepBody {
+		font-size: 0.875rem;
+		line-height: 1.125rem;
+	}
+
+	.saStepCaption {
+		font-size: 0.75rem;
+		padding-left: 0.5rem;
+	}
 }
-.saLargeScreen .saLinearProcess .saStepBetweenArrow {
-  width: 1rem;
-}
+*/
 .saLinearProcess {
   display: flex;
-  gap: 1rem;
-  align-items: flex-start;
   flex-wrap: wrap;
+  align-items: center;
+  box-sizing: border-box;
+  gap: 1rem 0;
 }
-.saLinearProcess.saHasWrapped {
-  padding-left: 2rem;
+.saLinearProcess * {
+  box-sizing: border-box;
 }
-.saLinearProcess .saIcon.saStepBetween {
+.saLinearProcess .saBadgeCount {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
-  color: #60748b;
-  min-height: 4rem;
-}
-.saLinearProcess .saStepBefore {
-  position: absolute;
-  width: 1.5rem;
-  background: url(../img/arrow-turn-down-right-ellipsis.svg) no-repeat center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--Sa-Color-Primary600);
-  left: -2rem;
-  top: 0;
-}
-.saLinearProcess .saStepAfter {
-  position: absolute;
-  right: -2rem;
-  top: 0;
-  width: 1.5rem;
-  background: url(../img/ellipsis-four.svg) no-repeat center;
-}
-.saLinearProcess .saStepOuter {
-  display: flex;
-  gap: 1rem;
-}
-.saLinearProcess .saStepWrapper {
-  position: relative;
-}
-.saLinearProcess .saStepIconWrapper {
-  align-items: center;
-  display: flex;
-  border-radius: 0.5rem;
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  position: relative;
-}
-.saLinearProcess .saStepIconWrapper::after {
-  content: '';
-  height: calc(100% + 2px);
-  min-width: calc(100% + 2px);
-  position: absolute;
-  left: -1px;
-  top: -1px;
-  background: #fff;
-  transition: ease-out background-color 0.1s;
-  border-radius: 0.4375rem;
-}
-.saLinearProcess .systemicon.customcolor {
-  z-index: 1;
-}
-.saLinearProcess .saStepInnerWrapper {
-  display: flex;
-  flex: 1;
-  width: 100%;
-  border-radius: 1rem;
-  align-items: stretch;
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-}
-.saLinearProcess .saStepInner {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 0.5rem;
-  background: #fff;
-  padding: 0.5rem;
-  border-radius: 1rem;
-  position: relative;
-  width: 100%;
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-}
-.saLinearProcess .saStep {
-  display: flex;
-  align-items: stretch;
-  background: #fff;
-  border-radius: 1rem;
-  position: relative;
-  font-size: 1rem;
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  border: solid 1px #ccd5e2;
-  flex: 1;
-}
-.saLinearProcess .saStep .saIcon {
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
-  min-width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 0.5rem;
-  z-index: 2;
-}
-.saLinearProcess .saStep .saStepLine {
-  min-width: 0.25rem;
-  width: 0.25rem;
-  min-height: 2.5rem;
-  border-radius: 0.5rem;
-  margin-left: 0.25rem;
-}
-.saLinearProcess .saStep .saStepLine::before {
-  content: '';
-}
-.saLinearProcess .saStep.saHasLink {
-  cursor: pointer;
-}
-@media (pointer: fine) {
-  .saLinearProcess .saStep.saHasLink:hover {
-    border-color: transparent;
-  }
-  .saLinearProcess .saStep.saHasLink:hover .saStepHeading,
-  .saLinearProcess .saStep.saHasLink:hover .saStepBody {
-    color: inherit;
-  }
-  .saLinearProcess .saStep.saHasLink:hover .saStepInner {
-    background-color: transparent;
-  }
-  .saLinearProcess .saStep.saHasLink:hover .saStepIconWrapper::after {
-    background: transparent;
-  }
-  .saLinearProcess .saStep.saHasLink:hover .saIcon {
-    color: #fff;
-    background-color: transparent !important;
-  }
-}
-.saLinearProcess .saStep.saHasLink:active .saStepInnerWrapper {
-  border-radius: 1.5rem;
-}
-.saLinearProcess .saStepTextWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-.saLinearProcess .saStepHeading {
-  font-size: 0.875rem;
-  font-weight: 500;
+  height: 1rem;
+  box-sizing: border-box;
+  min-width: 1rem;
+  color: var(--Sa-Color-BadgeCountText);
+  background-color: var(--Sa-Color-BadgeCountBackground);
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
   line-height: 1rem;
-  word-break: break-word;
-  color: var(--Sa-Color-Text);
+  padding: 0.25rem;
+  transition: ease background-color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
-.saLinearProcess .saStepBody {
-  font-size: 0.75rem;
-  font-weight: 400;
-  line-height: 0.875rem;
-  color: var(--Sa-Color-TextSecondary);
-}
-.saLinearProcess .saStepCaption {
-  font-size: 0.75rem;
-  padding-left: 1rem;
-  padding-top: 0.5rem;
-  color: var(--Sa-Color-Text);
+.saLinearProcess .saBadgeCount.saUrgent {
+  color: #fff;
+  background-color: #e0173e;
 }
 .saSmallScreen .saLinearProcess {
-  gap: 1rem;
-  justify-content: center;
   padding: 1rem;
-}
-.saSmallScreen .saLinearProcess .saStepOuter {
-  width: 100%;
   flex-direction: column;
 }
-.saSmallScreen .saLinearProcess .saStepOuter > .saIcon {
+.saStepWrapper {
+  position: relative;
+}
+.saStepWrapper.saInRowFirst {
+  padding-left: 2rem;
+}
+.saLargeScreen .saHasWrapped .saStepWrapper:first-child {
+  padding-left: 2rem;
+}
+.saSmallScreen .saStepWrapper {
+  padding: 0;
+  width: 100%;
+}
+.saStep {
+  position: relative;
+  padding-right: 2.5rem;
+}
+.saSmallScreen .saStep {
+  padding: 0;
+}
+.saStepInner {
   display: flex;
   align-items: center;
-  justify-content: center;
-  transform: rotate(90deg);
-  margin-bottom: 0;
-  min-height: auto;
-}
-.saSmallScreen .saLinearProcess .saStepWrapper {
   gap: 0.5rem;
-  flex: 1 1 100%;
-  max-width: 100%;
-}
-.saSmallScreen .saLinearProcess .saStep.saHasIcon {
-  flex-direction: column;
-  align-items: flex-start;
-}
-.saSmallScreen .saLinearProcess .saStep .saIcon {
-  min-width: 2.5rem;
-}
-.saSmallScreen .saLinearProcess .saStep:active .saStepInnerWrapper {
+  min-height: 3.5rem;
+  padding: 0.5rem 1rem 0.5rem 0.5rem;
   border-radius: 1rem;
+  box-shadow: inset 0 0 0 0.0625rem #ccd5e2;
+  color: inherit;
+  position: relative;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
 }
-.saSmallScreen .saLinearProcess .saStepHeading {
-  font-size: 1rem;
-  line-height: 1.25rem;
+.short .saStepInner {
+  width: 15rem;
 }
-.saSmallScreen .saLinearProcess .saStepBody {
-  font-size: 0.875rem;
-  line-height: 1.125rem;
+.medium .saStepInner {
+  width: 20rem;
 }
-.saSmallScreen .saLinearProcess .saStepCaption {
+.long .saStepInner {
+  width: 25rem;
+}
+.saSmallScreen .saStepInner {
+  width: 100%;
+}
+@media (pointer: fine) {
+  .saStepInner[role='link']:hover .saStepDescription {
+    color: inherit;
+  }
+  .saStepInner[role='link']:hover .saStepIcon {
+    color: #fff;
+  }
+}
+.saStepInner[role='link']:active {
+  border-radius: 1.25rem;
+}
+.saStepInner[role='link']:active .saStepDescription {
+  color: inherit;
+}
+.saStepInner[role='link']:active .saStepIcon {
+  color: #fff;
+  border-radius: 0.75rem;
+}
+.saIcon.saStepIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 2.5rem;
+  width: 2.5rem;
+  min-width: 2.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.25rem;
+  color: #7088a4;
+  background-color: #eef1f5;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+}
+.saStepCaption {
   font-size: 0.75rem;
-  padding-left: 0.5rem;
+  padding: 0.25rem 0 0 1rem;
+  color: var(--Sa-Color-Text);
+}
+.saStepTitle {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  margin-top: -0.125rem;
+}
+.saStepDescription {
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.75rem;
+  line-height: 0.875rem;
+}
+.saStepLine {
+  display: flex;
+  width: 0.375rem;
+  min-width: 0.375rem;
+  height: 100%;
+  min-height: 2rem;
+  border-radius: 0.5rem;
+  background-color: #ccd5e2;
+  margin-left: 0.25rem;
+}
+.saIcon.saStepBridge {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--Sa-Color-Icon);
+  font-size: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+}
+.saIcon.saStepBridge.fa-arrow-right-long {
+  display: flex;
+}
+.saStepWrapper:last-child .saIcon.saStepBridge.fa-arrow-right-long,
+.saInRowLast .saIcon.saStepBridge.fa-arrow-right-long,
+.saSmallScreen .saIcon.saStepBridge.fa-arrow-right-long {
+  display: none;
+}
+.saInRowLast .saIcon.saStepBridge.fa-ellipsis {
+  display: flex;
+}
+.saSmallScreen .saIcon.saStepBridge.fa-ellipsis {
+  display: none;
+}
+.saInRowFirst .saIcon.saStepBridge.fa-arrow-turn-down-right {
+  display: flex;
+  right: auto;
+  left: -2rem;
+}
+.saStepWrapper:first-child .saIcon.saStepBridge.fa-arrow-turn-down-right,
+.saSmallScreen .saIcon.saStepBridge.fa-arrow-turn-down-right {
+  display: none;
+}
+.saSmallScreen .saIcon.saStepBridge.fa-arrow-down-long {
+  position: static;
+  transform: none;
+  display: flex;
+  margin: 1rem auto 0 auto;
+}
+.saStepWrapper:last-child .saIcon.saStepBridge.fa-arrow-down-long {
+  display: none;
+}
+.saPrimary .saStepIcon {
+  color: var(--Sa-Color-Primary600);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saPrimary .saStepLine {
+  background-color: var(--Sa-Color-Primary600);
+}
+@media (pointer: fine) {
+  .saPrimary .saStepInner[role='link']:hover {
+    color: var(--Sa-Color-Primary600);
+    box-shadow: inset 0 0 0 0.0625rem var(--Sa-Color-Primary200);
+    background-color: var(--Sa-Color-Primary50);
+  }
+  .saPrimary .saStepInner[role='link']:hover .saStepIcon {
+    background-color: var(--Sa-Color-Primary600);
+  }
+}
+.saPrimary .saStepInner[role='link']:active {
+  color: var(--Sa-Color-Primary700);
+  box-shadow: inset 0 0 0 0.0625rem var(--Sa-Color-Primary300);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saPrimary .saStepInner[role='link']:active .saStepIcon {
+  background-color: var(--Sa-Color-Primary700);
+}
+.saGreen .saStepIcon {
+  color: #008429;
+  background-color: #d6f7d9;
+}
+.saGreen .saStepLine {
+  background-color: #008429;
+}
+@media (pointer: fine) {
+  .saGreen .saStepInner[role='link']:hover {
+    color: #008429;
+    box-shadow: inset 0 0 0 0.0625rem #91e89b;
+    background-color: #f2fcf2;
+  }
+  .saGreen .saStepInner[role='link']:hover .saStepIcon {
+    background-color: #008429;
+  }
+}
+.saGreen .saStepInner[role='link']:active {
+  color: #006d1e;
+  box-shadow: inset 0 0 0 0.0625rem #58d36e;
+  background-color: #d6f7d9;
+}
+.saGreen .saStepInner[role='link']:active .saStepIcon {
+  background-color: #006d1e;
+}
+.saPurple .saStepIcon {
+  color: #8b4af1;
+  background-color: #f0ebff;
+}
+.saPurple .saStepLine {
+  background-color: #8b4af1;
+}
+@media (pointer: fine) {
+  .saPurple .saStepInner[role='link']:hover {
+    color: #8b4af1;
+    box-shadow: inset 0 0 0 0.0625rem #ddccff;
+    background-color: #f9f7ff;
+  }
+  .saPurple .saStepInner[role='link']:hover .saStepIcon {
+    background-color: #8b4af1;
+  }
+}
+.saPurple .saStepInner[role='link']:active {
+  color: #7734d5;
+  box-shadow: inset 0 0 0 0.0625rem #caadff;
+  background-color: #f0ebff;
+}
+.saPurple .saStepInner[role='link']:active .saStepIcon {
+  background-color: #7734d5;
+}
+.saPink .saStepIcon {
+  color: #ca2c9b;
+  background-color: #ffe7f7;
+}
+.saPink .saStepLine {
+  background-color: #ca2c9b;
+}
+@media (pointer: fine) {
+  .saPink .saStepInner[role='link']:hover {
+    color: #ca2c9b;
+    box-shadow: inset 0 0 0 0.0625rem #ffc1ed;
+    background-color: #fff7fc;
+  }
+  .saPink .saStepInner[role='link']:hover .saStepIcon {
+    background-color: #ca2c9b;
+  }
+}
+.saPink .saStepInner[role='link']:active {
+  color: #ac1b82;
+  box-shadow: inset 0 0 0 0.0625rem #ff9ae1;
+  background-color: #ffe7f7;
+}
+.saPink .saStepInner[role='link']:active .saStepIcon {
+  background-color: #ac1b82;
 }
 .saMenuBoxWrapper {
   display: flex;
@@ -21191,16 +22048,16 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saMenuBoxWrapper .saHelpLink .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saMenuBoxWrapper .saHelpLink .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saMenuBoxWrapper .saHelpLink:active {
   border-radius: 0.75rem;
@@ -22103,15 +22960,15 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   background-color: #87ceeb;
 }
 .saMagicBox .saBoxContainer.saDropOn {
-  outline: 0.1875rem solid #313a44;
+  outline: 0.1875rem solid light-dark(#313a44, #ccd5e2);
   z-index: 2;
 }
 .saMagicBox .saBox.saDropAbove {
-  border-top: 0.1875rem solid #313a44;
+  border-top: 0.1875rem solid light-dark(#313a44, #ccd5e2);
   padding-top: 0;
 }
 .saMagicBox .saBox.saDropBelow {
-  border-bottom: 0.1875rem solid #313a44;
+  border-bottom: 0.1875rem solid light-dark(#313a44, #ccd5e2);
   padding-bottom: 0;
 }
 .saMagicBox .saButtonRow {
@@ -22344,16 +23201,16 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saMessageBanner .saCloseButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saMessageBanner .saCloseButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saMessageBanner .saCloseButton:active {
   border-radius: 0.75rem;
@@ -22886,16 +23743,16 @@ softadmin-nodegraph .saNodeTools button .saButtonText {
 }
 softadmin-nodegraph .saNodeTools button .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 softadmin-nodegraph .saNodeTools button .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 softadmin-nodegraph .saNodeTools button:has(.saIcon) {
   padding-left: 0.375rem;
@@ -22914,20 +23771,29 @@ softadmin-nodegraph .saNodeTools button .saBadge {
   softadmin-nodegraph .saNodeTools button:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   softadmin-nodegraph .saNodeTools button:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   softadmin-nodegraph .saNodeTools button:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 softadmin-nodegraph .saNodeTools button:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+softadmin-nodegraph .saNodeTools button:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 softadmin-nodegraph .saNodeTools button:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 softadmin-nodegraph .saNodeTools button.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -22967,16 +23833,6 @@ softadmin-nodegraph .saNodeTools button.saDestructive:active .saBadge {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-softadmin-nodegraph .saNodeTools button:disabled,
-softadmin-nodegraph .saNodeTools button.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-softadmin-nodegraph .saNodeTools button:disabled .saIcon,
-softadmin-nodegraph .saNodeTools button.saDisabled .saIcon {
-  color: #adbdd1;
 }
 softadmin-nodegraph .saNodeTools button::after {
   content: "";
@@ -24089,16 +24945,16 @@ body.saMiniView {
 }
 .saGroupView .saGroupViewButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saGroupView .saGroupViewButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saStandard .saGroupView .saGroupViewButton {
   gap: 0.5rem;
@@ -24163,20 +25019,29 @@ body.saMiniView {
   .saGroupView .saGroupViewButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saGroupView .saGroupViewButton:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saGroupView .saGroupViewButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saGroupView .saGroupViewButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saGroupView .saGroupViewButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saGroupView .saGroupViewButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saGroupView .saGroupViewButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -24216,16 +25081,6 @@ body.saMiniView {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saGroupView .saGroupViewButton:disabled,
-.saGroupView .saGroupViewButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saGroupView .saGroupViewButton:disabled .saIcon,
-.saGroupView .saGroupViewButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saSmallScreen .saGroupView .saGroupViewButton {
   width: calc(100% - 2rem);
@@ -24497,16 +25352,16 @@ body.saMiniView {
 }
 .saPdfTemplateEditor .saPageButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saPdfTemplateEditor .saPageButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saStandard .saPdfTemplateEditor .saPageButton {
   border-radius: 0.5rem;
@@ -24555,20 +25410,29 @@ body.saMiniView {
   .saPdfTemplateEditor .saPageButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saPdfTemplateEditor .saPageButton:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saPdfTemplateEditor .saPageButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saPdfTemplateEditor .saPageButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saPdfTemplateEditor .saPageButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saPdfTemplateEditor .saPageButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saPdfTemplateEditor .saPageButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -24608,16 +25472,6 @@ body.saMiniView {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saPdfTemplateEditor .saPageButton:disabled,
-.saPdfTemplateEditor .saPageButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saPdfTemplateEditor .saPageButton:disabled .saIcon,
-.saPdfTemplateEditor .saPageButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saPdfTemplateEditor .saPageButton::after {
   content: '';
@@ -24860,16 +25714,16 @@ body.saMiniView {
 }
 .saPdfTemplateEditor .saToolbarButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saPdfTemplateEditor .saToolbarButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saPdfTemplateEditor .saToolbarButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -25210,16 +26064,16 @@ body.saMiniView {
 }
 .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton:active {
   border-radius: 0.75rem;
@@ -25295,22 +26149,23 @@ body.saMiniView {
 }
 #IFDEF GreenExcelButton .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel {
   color: #009b36;
-  background: transparent;
+  background-color: transparent;
 }
 #IFDEF GreenExcelButton .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel .saIcon {
   color: #009b36;
 }
 @media (pointer: fine) {
   #IFDEF GreenExcelButton .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel:hover {
-    background: #d6f7d9;
-    color: #008429;
+    background-color: #d6f7d9;
   }
   #IFDEF GreenExcelButton .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel:hover .saIcon {
-    color: #009b36;
+    color: #008429;
   }
 }
 #IFDEF GreenExcelButton .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel:active {
-  background: #91e89b;
+  background-color: #91e89b;
+}
+#IFDEF GreenExcelButton .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton.saExcel:active .saIcon {
   color: #006d1e;
 }
 .saPivotGridWrapper .saPivotGrid {
@@ -25529,16 +26384,16 @@ body.saMiniView {
 }
 .saPivotGridWrapper .saLinkButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saPivotGridWrapper .saLinkButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saPivotGridWrapper .saLinkButton:active {
   border-radius: 0.75rem;
@@ -25684,16 +26539,16 @@ body.saMiniView {
 }
 .saProgressOuter .saProgressWrapper .saProgressButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saProgressOuter .saProgressWrapper .saProgressButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saStandard .saProgressOuter .saProgressWrapper .saProgressButton {
   gap: 0.5rem;
@@ -25752,7 +26607,7 @@ body.saMiniView {
 }
 .saProgressOuter .saProgressWrapper .saProgressButton .saBadge {
   color: var(--Sa-Color-Primary600);
-  background: var(--Sa-Color-PrimaryButtonIcon);
+  background-color: var(--Sa-Color-PrimaryButtonIcon);
   border-color: var(--Sa-Color-Primary600);
 }
 @media (pointer: fine) {
@@ -26028,7 +26883,7 @@ body.saMiniView {
 .saDiffView .saDiffViewAfter {
   text-align: center;
   padding-bottom: 0.25rem;
-  color: #313a44;
+  color: light-dark(#313a44, #ccd5e2);
 }
 .saDiffView .saDiffViewBefore button,
 .saDiffView .saDiffViewAfter button {
@@ -26079,16 +26934,16 @@ body.saMiniView {
 }
 .saCalendarOverlay .saChangeScreenModeButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saCalendarOverlay .saChangeScreenModeButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saCalendarOverlay .saChangeScreenModeButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -26101,20 +26956,29 @@ body.saMiniView {
   .saCalendarOverlay .saChangeScreenModeButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saCalendarOverlay .saChangeScreenModeButton:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saCalendarOverlay .saChangeScreenModeButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saCalendarOverlay .saChangeScreenModeButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saCalendarOverlay .saChangeScreenModeButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saCalendarOverlay .saChangeScreenModeButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saCalendarOverlay .saChangeScreenModeButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -26154,16 +27018,6 @@ body.saMiniView {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saCalendarOverlay .saChangeScreenModeButton:disabled,
-.saCalendarOverlay .saChangeScreenModeButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saCalendarOverlay .saChangeScreenModeButton:disabled .saIcon,
-.saCalendarOverlay .saChangeScreenModeButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saCalendarOverlay .saChangeScreenModeButton:has(.saIcon) {
   padding-left: 0.625rem;
@@ -26230,16 +27084,16 @@ body.saMiniView {
 }
 .saCalendarSection .saPeriodButtons button .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saCalendarSection .saPeriodButtons button .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saCalendarSection .saPeriodButtons button .saIcon {
   color: var(--Sa-Color-Icon);
@@ -26352,16 +27206,16 @@ body.saMiniView {
 }
 .saCalendarSection .saTodayButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saCalendarSection .saTodayButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saCalendarSection .saTodayButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -26860,17 +27714,17 @@ body.saMiniView {
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton .saBadgedIcon,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton .saIcon,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton .saIcon,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton .saIcon {
@@ -26886,6 +27740,7 @@ body.saMiniView {
   .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:hover .saIcon,
   .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:hover .saIcon {
@@ -26893,17 +27748,26 @@ body.saMiniView {
   }
   .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:hover .saBadge,
   .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:active,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:active .saIcon,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:active .saBadge,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saDestructive,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saDestructive {
@@ -26953,20 +27817,6 @@ body.saMiniView {
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
 }
-.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:disabled,
-.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:disabled,
-.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saDisabled,
-.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:disabled .saIcon,
-.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:disabled .saIcon,
-.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saDisabled .saIcon,
-.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saDisabled .saIcon {
-  color: #adbdd1;
-}
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:has(.saIcon),
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:has(.saIcon) {
   padding-left: 0.625rem;
@@ -27007,7 +27857,7 @@ body.saMiniView {
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonPrimary .saBadge,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonPrimary .saBadge {
   color: var(--Sa-Color-Primary600);
-  background: var(--Sa-Color-PrimaryButtonIcon);
+  background-color: var(--Sa-Color-PrimaryButtonIcon);
   border-color: var(--Sa-Color-Primary600);
 }
 @media (pointer: fine) {
@@ -27152,7 +28002,7 @@ body.saMiniView {
   color: #fff;
   font-size: 1rem;
   cursor: pointer;
-  background: #313a44;
+  background: light-dark(#313a44, #ccd5e2);
   transition: ease color 0.2s, ease background-color 0.2s;
 }
 .saDesktopCalendar.saCalendarSection .saCalendarSidebarExpander:hover {
@@ -27332,16 +28182,16 @@ body.saMiniView {
 }
 .saDesktopCalendar.saWeekdaysCalendar .saShowMoreButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saDesktopCalendar.saWeekdaysCalendar .saShowMoreButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saDesktopCalendar.saWeekdaysCalendar .saShowMoreButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -27598,16 +28448,16 @@ body.saMiniView {
 }
 .saDesktopCalendar.saResourceCalendar .saCalendarResourceFilter .saResourceFilterExpandButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saDesktopCalendar.saResourceCalendar .saCalendarResourceFilter .saResourceFilterExpandButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saDesktopCalendar.saResourceCalendar .saCalendarResourceFilter .saResourceFilterExpandButton:has(.saIcon) {
   padding-left: 0.625rem;
@@ -27924,16 +28774,16 @@ body.saMiniView {
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarHeadingButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarHeadingButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarHeadingButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -28656,7 +29506,7 @@ body.saMiniView {
   align-items: center;
   justify-content: space-between;
   min-height: 2rem;
-  color: #313a44;
+  color: light-dark(#313a44, #ccd5e2);
 }
 .saNotificationsWrapper .saToggleWrapper {
   background-color: #fff;
@@ -28888,16 +29738,16 @@ body.saMiniView {
 }
 .saVisibleParametersWrapper .saVisibleParametersButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saVisibleParametersWrapper .saVisibleParametersButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saVisibleParametersWrapper .saVisibleParametersButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -29253,16 +30103,16 @@ a.saKpiOuter:active {
 }
 .saBankgiroLink button .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saBankgiroLink button .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saStandard .saBankgiroLink button {
   gap: 0.5rem;
@@ -29549,16 +30399,16 @@ a.saKpiOuter:active {
 }
 .saBankIdWrapper button .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saBankIdWrapper button .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saStandard .saBankIdWrapper button {
   gap: 0.5rem;
@@ -29698,16 +30548,16 @@ a.saKpiOuter:active {
 }
 .saErrorSummaryWrapper .saErrorSummaryCloseButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saErrorSummaryWrapper .saErrorSummaryCloseButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saErrorSummaryWrapper .saErrorSummaryCloseButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -30478,20 +31328,29 @@ a.saKpiOuter:active {
   .saTreeViewWrapper button.saTreeViewButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saTreeViewWrapper button.saTreeViewButton:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saTreeViewWrapper button.saTreeViewButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saTreeViewWrapper button.saTreeViewButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saTreeViewWrapper button.saTreeViewButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saTreeViewWrapper button.saTreeViewButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saTreeViewWrapper button.saTreeViewButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -30531,16 +31390,6 @@ a.saKpiOuter:active {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saTreeViewWrapper button.saTreeViewButton:disabled,
-.saTreeViewWrapper button.saTreeViewButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saTreeViewWrapper button.saTreeViewButton:disabled .saIcon,
-.saTreeViewWrapper button.saTreeViewButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saTreeViewWrapper button.saTreeViewButton:active {
   border-radius: 0.5rem;
@@ -30729,16 +31578,16 @@ a.saKpiOuter:active {
 }
 .saToolbox .saToolboxButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saToolbox .saToolboxButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saToolbox .saToolboxButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -31333,16 +32182,16 @@ a.saKpiOuter:active {
 }
 .saPlanner .saUnbooked .saExpandButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saPlanner .saUnbooked .saExpandButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saPlanner .saUnbooked .saExpandButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -31995,7 +32844,7 @@ body.saPopup::before {
   gap: 0.5rem;
   align-items: center;
   color: #fff;
-  background-color: #313a44;
+  background-color: light-dark(#313a44, #ccd5e2);
   font-size: 0.875rem;
   line-height: 1rem;
   padding: 0.5rem 2.25rem 0.5rem 0.5rem;
@@ -32391,7 +33240,7 @@ body.saPopup::before {
   background-color: #506072;
 }
 .saLargeScreen .saChatWrapper .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
-  background-color: #313a44;
+  background-color: light-dark(#313a44, #ccd5e2);
 }
 .saSmallScreen .saChatWrapper .saChatMessageEdit .saChatTextarea {
   padding: 0.625rem 1rem 0.625rem 1rem;
@@ -32461,16 +33310,16 @@ body.saPopup::before {
 }
 .saChatWrapper .saChatToolbar button .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saChatWrapper .saChatToolbar button .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saChatWrapper .saChatToolbar button .saIcon {
   color: var(--Sa-Color-Icon);
@@ -32583,16 +33432,16 @@ body.saPopup::before {
 }
 .saChatWrapper .saChatToolbarMenu button .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saChatWrapper .saChatToolbarMenu button .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saChatWrapper .saChatToolbarMenu button .saIcon {
   color: var(--Sa-Color-Icon);
@@ -32736,7 +33585,7 @@ body.saPopup::before {
   background-color: #506072;
 }
 .saLargeScreen .saChatWrapper .saChatComposer .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
-  background-color: #313a44;
+  background-color: light-dark(#313a44, #ccd5e2);
 }
 .saLargeScreen .saMultiPartPanel.saHasBorder .saChatWrapper .saChatComposer .saChatTextarea {
   border-radius: 0.5rem;
@@ -32835,16 +33684,16 @@ body.saPopup::before {
 }
 .saChatWrapper .saLoadMessagesButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saChatWrapper .saLoadMessagesButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saChatWrapper .saLoadMessagesButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -32857,20 +33706,29 @@ body.saPopup::before {
   .saChatWrapper .saLoadMessagesButton:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saChatWrapper .saLoadMessagesButton:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saChatWrapper .saLoadMessagesButton:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saChatWrapper .saLoadMessagesButton:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saChatWrapper .saLoadMessagesButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saChatWrapper .saLoadMessagesButton:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saChatWrapper .saLoadMessagesButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -32910,16 +33768,6 @@ body.saPopup::before {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saChatWrapper .saLoadMessagesButton:disabled,
-.saChatWrapper .saLoadMessagesButton.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saChatWrapper .saLoadMessagesButton:disabled .saIcon,
-.saChatWrapper .saLoadMessagesButton.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saChatWrapper .saLoadMessagesButton:has(.saIcon) {
   padding-left: 0.625rem;
@@ -32967,17 +33815,17 @@ body.saPopup::before {
 .saChatWrapper .saChatButtonSend .saBadgedIcon,
 .saChatWrapper .saChatButtonStop .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saChatWrapper .saChatButtonSend .saIcon,
 .saChatWrapper .saChatButtonStop .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saSmallScreen .saChatWrapper .saChatButtonSend,
 .saSmallScreen .saChatWrapper .saChatButtonStop {
@@ -33001,7 +33849,7 @@ body.saPopup::before {
 }
 .saChatWrapper .saChatButtonSend .saBadge {
   color: var(--Sa-Color-Primary600);
-  background: var(--Sa-Color-PrimaryButtonIcon);
+  background-color: var(--Sa-Color-PrimaryButtonIcon);
   border-color: var(--Sa-Color-Primary600);
 }
 @media (pointer: fine) {
@@ -33050,20 +33898,29 @@ body.saPopup::before {
   .saChatWrapper .saChatButtonStop:hover {
     border-color: var(--Sa-Color-Primary600);
     color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
   }
   .saChatWrapper .saChatButtonStop:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
   .saChatWrapper .saChatButtonStop:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
     background-color: var(--Sa-Color-Primary600);
   }
 }
 .saChatWrapper .saChatButtonStop:active {
-  background: var(--Sa-Color-Primary100);
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saChatWrapper .saChatButtonStop:active .saIcon {
+  color: var(--Sa-Color-Primary700);
 }
 .saChatWrapper .saChatButtonStop:active .saBadge {
-  color: var(--Sa-Color-Primary100);
   border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
 }
 .saChatWrapper .saChatButtonStop.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
@@ -33103,16 +33960,6 @@ body.saPopup::before {
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
-}
-.saChatWrapper .saChatButtonStop:disabled,
-.saChatWrapper .saChatButtonStop.saDisabled {
-  color: #adbdd1;
-  background-color: #eef1f5;
-  cursor: not-allowed;
-}
-.saChatWrapper .saChatButtonStop:disabled .saIcon,
-.saChatWrapper .saChatButtonStop.saDisabled .saIcon {
-  color: #adbdd1;
 }
 .saChatWrapper .saChatAiResponse p *:first-child {
   margin-top: 0;
@@ -34019,16 +34866,16 @@ body.saPopup::before {
 }
 .saBottomSheet .saSheetButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saBottomSheet .saSheetButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saBottomSheet .saSheetButton .saIcon {
   color: var(--Sa-Color-Icon);
@@ -34208,7 +35055,7 @@ body.saPopup::before {
   top: 0.25rem;
   right: 0.25rem;
   color: #fff;
-  background-color: #313a44;
+  background-color: light-dark(#313a44, #ccd5e2);
   transition: ease border 0.2s, ease 0.2s color, ease 0.2s border-radius, ease 0.2s background-color, ease 0.2s box-shadow, ease 0.2s transform, ease opacity 0.2s;
   border-radius: 50%;
   padding: 0;
@@ -34225,16 +35072,16 @@ body.saPopup::before {
 }
 .saLightboxOverlay .saLightboxCloseButton .saBadgedIcon {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
 }
 .saLightboxOverlay .saLightboxCloseButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 .saLightboxOverlay .saLightboxCloseButton:active {
   border-radius: 0.75rem;
@@ -34301,7 +35148,7 @@ softadmin-nodegraph .saNodeContent .saNodeColumnMandatory {
 softadmin-nodegraph .saNodeContent .saNodeTableIcon .icon {
   font-size: 0.625rem;
   line-height: 0.75rem;
-  color: #313a44;
+  color: light-dark(#313a44, #ccd5e2);
 }
 softadmin-nodegraph .saNodeContent .saNodeTable:has(td .saNodeColumnMandatory) td:first-child,
 softadmin-nodegraph .saNodeContent .saNodeTable:has(td .saNodeColumnMandatory) th:first-child {
@@ -34322,4 +35169,306 @@ softadmin-nodegraph .saNodeContent .saNodeTable:has(td .saNodeColumnMandatory) t
 }
 pre.saCode {
   tab-size: 4;
+}
+.saLargeScreen .saListGrid {
+  display: none;
+}
+.saSmallScreen .listpage {
+  display: none;
+}
+.saToastGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  position: fixed;
+  inset: auto 0 1rem 0;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.saSmallScreen .saToastGroup {
+  padding: 0 1rem;
+  width: 100%;
+  inset: auto auto 1rem auto;
+}
+.saToastGroup * {
+  box-sizing: border-box;
+}
+.saButtonGroup {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.saSettingsPanel {
+  background-color: #f8f9fb;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: solid 1px #ccd5e2;
+}
+.saSettingsPanel .saInputTextWrapper {
+  margin-right: 0;
+}
+.saToast {
+  pointer-events: all;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  height: fit-content;
+  width: fit-content;
+  background-color: light-dark(#313a44, #ccd5e2);
+  color: #fff;
+  padding: 0 1rem;
+  height: 2.5rem;
+  min-width: 12.5rem;
+  border-radius: 0.75rem;
+  gap: 0.5rem;
+  background-image: linear-gradient(to right, #1c2025 var(--toast-progress), transparent var(--toast-progress));
+  transition: ease transform 0.2s;
+  transform-origin: bottom;
+  @starting-style {
+    --toast-progress: 0%;
+    transform: scale(0);
+  }
+}
+.saSmallScreen .saToast {
+  width: 100%;
+}
+.saToast.saClosed {
+  transform: scale(0);
+}
+.saToast:has(.saToastIcon + .saToastText) {
+  padding-left: 0.75rem;
+}
+.saToast:has(.saToastText + button) {
+  padding-right: 0.25rem;
+}
+.saToast .saCloseButton {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: var(--Sa-Color-Primary600);
+  background: transparent;
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+  margin-left: auto;
+}
+.saToast .saCloseButton .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saToast .saCloseButton .saBadgedIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.saToast .saCloseButton .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.saToast .saCloseButton .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saToast .saCloseButton.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saToast .saCloseButton.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saToast .saCloseButton.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saToast .saCloseButton.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saToast .saCloseButton.saDestructive:active {
+  color: #fff;
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saToast .saCloseButton.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saToast .saCloseButton:hover {
+    background-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary600);
+  }
+  .saToast .saCloseButton:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+}
+.saToast .saCloseButton:active {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+}
+.saToast .saCloseButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
+}
+.saToast .saCloseButton:disabled,
+.saToast .saCloseButton.saDisabled {
+  color: #adbdd1;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saToast .saCloseButton:disabled .saIcon,
+.saToast .saCloseButton.saDisabled .saIcon {
+  color: #adbdd1;
+}
+.saToast .saCloseButton:active {
+  border-radius: 0.75rem;
+}
+@media (pointer: fine) {
+  .saToast .saCloseButton:hover {
+    background-color: #e0173e;
+  }
+  .saToast .saCloseButton:hover .saIcon {
+    color: #fff;
+  }
+}
+.saToast .saCloseButton:active {
+  background-color: #bf0024;
+}
+.saToast .saCloseButton:active .saIcon {
+  color: #fff;
+}
+.saToastIcon {
+  font-size: 1rem;
+  color: #ccd5e2;
+}
+.saToastIcon.saSuccess {
+  color: #58d36e;
+}
+.saToastIcon.saError {
+  color: #ea4f5b;
+}
+.saToastIcon.saWarning {
+  color: #ffcd5b;
+}
+.saToastButton {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: var(--Sa-Color-Primary600);
+  background: transparent;
+  gap: 0.375rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  margin-left: auto;
+  color: #fff;
+  margin-right: -0.5rem;
+}
+.saToastButton .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saToastButton .saBadgedIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.saToastButton .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.saToastButton .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saToastButton.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saToastButton.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saToastButton.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saToastButton.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saToastButton.saDestructive:active {
+  color: #fff;
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saToastButton.saDestructive:active > .saIcon {
+  color: #fff;
+}
+@media (pointer: fine) {
+  .saToastButton:hover {
+    background-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary600);
+  }
+  .saToastButton:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+}
+.saToastButton:active {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+}
+.saToastButton:active .saIcon {
+  color: var(--Sa-Color-Primary700);
+}
+.saToastButton:disabled,
+.saToastButton.saDisabled {
+  color: #adbdd1;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saToastButton:disabled .saIcon,
+.saToastButton.saDisabled .saIcon {
+  color: #adbdd1;
+}
+.saToastButton:has(.saIcon) {
+  padding-left: 0.625rem;
+}
+.saToastButton:active {
+  border-radius: 0.75rem;
+}
+.saToastButton .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
 }

@@ -39,4 +39,39 @@ $(document).ready(function () {
 		$('.saSideBarOuter').toggleClass('saClosed')
 		$('.saSideBarSmallScreenOverlay').toggle();
 	});
+
+	const $select = $('<select>', {
+		id: 'theme-select',
+		name: 'theme',
+		'aria-label': 'Theme'
+	});
+
+	$select.append(
+		$('<option>', { value: 'system', text: 'System' }),
+		$('<option>', { value: 'light', text: 'Light' }),
+		$('<option>', { value: 'dark', text: 'Dark' })
+	);
+
+	$('body').append($select);
+
+	const saved = localStorage.getItem('theme') || 'system';
+	$('#theme-select').val(saved);
+	applyTheme(saved);
+
+	$('#theme-select').on('change', function () {
+		const value = $(this).val();
+		localStorage.setItem('theme', value);
+		applyTheme(value);
+	});
+
+	function applyTheme(theme) {
+		const root = document.documentElement;
+
+		if (theme === 'system') {
+			root.removeAttribute('data-theme');
+		} else {
+			root.setAttribute('data-theme', theme);
+		}
+	}
+
 });
