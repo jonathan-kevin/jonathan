@@ -9409,6 +9409,11 @@ body.saPc *::-webkit-scrollbar-corner {
   font-size: 1.25rem;
   min-width: 1.625rem;
 }
+.saDefaultButtonSecondary.saActive {
+  background-color: #f7faff;
+  color: #2d6ce1;
+  border-color: #bbd6ff;
+}
 .saDefaultButtonGhost {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
@@ -35681,19 +35686,22 @@ pre.saCode {
   position: static;
   margin-right: 1rem;
 }
-.saShine {
+.saShine span {
   position: relative;
   padding-right: 2rem;
   background-clip: text;
-  background: linear-gradient(120deg, #313a44 0%, #313a44 60%, #8fa5c0 70%, #eef1f5 80%, #8fa5c0 90%, #313a44 100%);
+  background: linear-gradient(120deg, #313a44 0%, #313a44 60%, #60748b 70%, #eef1f5 80%, #60748b 90%, #313a44 100%);
   background-size: 200% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: saShine 4s linear infinite;
+  animation: saShine 6s linear infinite;
 }
 @keyframes saShine {
   0% {
     background-position: 200% 0;
+  }
+  75% {
+    background-position: -200% 0;
   }
   100% {
     background-position: -200% 0;
@@ -35712,17 +35720,165 @@ pre.saCode {
     color: #8fa5c0;
   }
 }
+.saRow {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.saRow label {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  border: solid 1px #ccd5e2;
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+  gap: 0.375rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  position: relative;
+  cursor: pointer;
+}
+.saRow label .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saRow label .saBadgedIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.saRow label .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.saRow label .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saRow label .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .saRow label:hover {
+    border-color: var(--Sa-Color-Primary600);
+    color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
+  }
+  .saRow label:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+  .saRow label:hover .saBadge {
+    border-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary50);
+    background-color: var(--Sa-Color-Primary600);
+  }
+}
+.saRow label:active {
+  border-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary700);
+  background-color: var(--Sa-Color-Primary100);
+}
+.saRow label:active .saIcon {
+  color: var(--Sa-Color-Primary700);
+}
+.saRow label:active .saBadge {
+  border-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary100);
+  background-color: var(--Sa-Color-Primary700);
+}
+.saRow label.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+.saRow label.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saRow label.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saRow label.saDestructive:hover {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saRow label.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-SecondaryButtonBackground);
+  }
+  .saRow label.saDestructive:hover .saBadge {
+    background-color: var(--Sa-Color-SecondaryButtonBackground);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saRow label.saDestructive:active {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saRow label.saDestructive:active .saIcon {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saRow label.saDestructive:active .saBadge {
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saRow label:has(.saIcon) {
+  padding-left: 0.625rem;
+}
+.saRow label:active {
+  border-radius: 0.75rem;
+}
+.saRow label .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
+}
+.saRow label:has(:checked) {
+  color: #2d6ce1;
+  border-color: #bbd6ff;
+  background-color: #f7faff;
+}
+.saRow label input {
+  position: absolute;
+  inset: 0;
+  appearance: none;
+  cursor: pointer;
+}
 :root {
   --clr-1: #00c2ff;
   --clr-2: #33ff8c;
   --clr-3: #ffc640;
   --clr-4: #e54cff;
 }
+.saDescription {
+  color: #60748b;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
 .saLoadingText {
   position: relative;
-  overflow: hidden;
   margin: 0;
   background-color: #fff;
+  height: 1.5rem;
 }
 .aurora {
   position: absolute;

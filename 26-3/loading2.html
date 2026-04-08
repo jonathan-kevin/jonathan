@@ -212,7 +212,50 @@
 										</div>
 										<nav class="saNavigationBar">
 											<div class="saTopButtons">
-												<div class="saActionLinks"></div>
+												<div class="saActionLinks">
+													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="toggleText">
+														<div class="saIconHolder saOptionIcon">
+															<i class="far fa-text icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Ellipsis</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary saActive" type="button" id="toggleShine">
+														<div class="saIconHolder saOptionIcon">
+															<i class="far fa-text icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Shine</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="toggleColor">
+														<div class="saIconHolder saOptionIcon">
+															<i class="far fa-text icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Color</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="toggleSimple">
+														<div class="saIconHolder saOptionIcon">
+															<i class="far fa-text icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Simple</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="toggleLoop">
+														<div class="saIconHolder saOptionIcon">
+															<i class="far fa-text icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Loop text</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="toggleHideText">
+														<div class="saIconHolder saOptionIcon">
+															<i class="far fa-eye-slash icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Hide text</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonPrimary" type="button" id="toggleHideSpinner">
+														<div class="saIconHolder saOptionIcon">
+															<i class="far fa-eye-slash icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Show or hide spinner</span>
+													</button>
+												</div>
 											</div>
 											<div class="saBrowseButtons">
 												<button class="saBrowseButton" type="button" aria-label="Föregående post (PgUp)" id="prev">
@@ -288,21 +331,6 @@
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner">
-										<h4>Visual Effects</h4>
-										<div class="saRow">
-											<button class="saDefaultButtonSecondary" id="toggleShine"  type="button">Shine</button>
-											<button class="saDefaultButtonSecondary" id="toggleColort" type="button">Color</button>
-										</div>
-										<h4>Logic & Components</h4>
-										<div class="saRow">
-											<button class="saDefaultButtonSecondary" id="toggleEllipsis" type="button">Ellipsis (...)</button>
-											<button class="saDefaultButtonSecondary" id="toggleLoop" type="button">Main Text Loop</button>
-											<button class="saDefaultButtonSecondary" id="toggleDesc" type="button">Description Loop</button>
-										</div>
-										<h4>Spinners</h4>
-										<div class="saRow" id="radio">
-										</div>
-
 										<softadmin-chat class="saMenuItemRoot">
 											<div class="saChatWrapper" style="min-height: calc(-145px + 100vh);">
 												<div class="saChat">
@@ -415,9 +443,11 @@
 																					</div>
 																				</div>
 																			</div>
-																			<div id="demoTarget" class="saLoadingText"><span>Thinking</span><span id="ellipsis" style="display:none;">...</span>
-																				<div id="descContainer"></div>
-																			</div>
+																			<div id="text" class="saLoadingText" style="display: none;">Thinking<span id="ellipsis">...</span></div>
+																			<div id="shine" class="saLoadingText saShine saLoopable" style="display: none;"><span>Thinking</span></div>
+																			<div id="color" class="saLoadingText saColort saLoopable" style="display: none;"><span>Thinking</span></div>
+																			<div id="simple" class="saLoadingText saLoopable" style="display: none;"><span>Thinking</span></div>
+																			<div id="desc" class="saLoadingText saCol"><span>Thinking</span><div class="saDescription">Crow</div></div>
 																		</div>
 																	</div>
 															</article>
@@ -451,55 +481,21 @@
 				const $items = $('.Dot')
 					.children()
 					.not('.saLoadingText');
-				const $radioContainer = $('#radio.saRow');
-
-				// Clear existing radio buttons
-				$radioContainer.empty();
-
-				// Create radio buttons for each spinner
-				$items.each(function(index) {
-					const name = $(this).attr('name');
-					const radioId = `spinner-${index}`;
-					const $radio = $('<input>', {
-						type: 'radio',
-						name: 'spinner-selection',
-						id: radioId,
-						value: index
-					});
-					const $label = $('<label>', {
-						for: radioId,
-						text: name
-					});
-					$label.append($radio);
-					$radioContainer.append($label);
-
-					// Event listener to switch spinner on radio change
-					$radio.on('change', function() {
-						$items.hide();
-						$items.eq(index).show();
-						i = index; // Update current index
-					});
-				});
 
 				let i = 0;
+
 				$items.hide().eq(0).show();
-				// Check the first radio button
-				$('#spinner-0').prop('checked', true);
 
 				return {
 					next() {
 					$items.eq(i).hide();
 					i = (i + 1) % $items.length;
 					$items.eq(i).show();
-					// Update radio button selection
-					$(`input[name="spinner-selection"][value="${i}"]`).prop('checked', true);
 					},
 					prev() {
 					$items.eq(i).hide();
 					i = (i - 1 + $items.length) % $items.length;
 					$items.eq(i).show();
-					// Update radio button selection
-					$(`input[name="spinner-selection"][value="${i}"]`).prop('checked', true);
 					}
 				};
 			}
@@ -516,118 +512,152 @@
 				});
 			});
 
-            const $demo = $("#demoTarget");
-            const $mainSpan = $demo.find("span").first();
-            const $ellipsis = $("#ellipsis");
-            const $descContainer = $("#descContainer");
+			$('.saFavoriteToggle').click(function () {
+				$(this).attr('aria-checked', function (i, attr) { return attr === 'true' ? 'false' : 'true'; });
+			});
 
-            // --- 1. Ellipsis Animation ---
-            const ellipsisStates = [".", "..", "...", "...."];
-            let ellIndex = 0;
-            setInterval(function () {
-                $ellipsis.text(ellipsisStates[ellIndex]);
-                ellIndex = (ellIndex + 1) % ellipsisStates.length;
-            }, 350);
+			$(function () {
+				const states = [".", "..", "...", "...."];
+				let i = 0;
 
-            // --- 2. Main Loop Logic ---
-            const mainStates = [
-                "Initializing Coordinator context",
-                "Resolving parameters",
-                "Loading tool: DataSource",
-                "Executing tool: Query",
-                "Executing tool: HTTP Request",
-                "Fetching records",
-                "Loading tool: Transformer",
-                "Transforming data",
-                "Mapping output fields",
-                "Loading tool: Condition",
-                "Evaluating conditions",
-                "Applying business rules",
-                "Loading tool: Loop",
-                "Iterating dataset",
-                "Handling dependencies",
-                "Loading tool: Logger",
-                "Writing logs",
-                "Committing changes",
-                "Finalizing response"
-            ];
+				setInterval(function () {
+					$("#ellipsis").text(states[i]);
+					i = (i + 1) % states.length;
+				}, 250); // adjust speed here
+			});
 
-            let isLooping = false;
-            let loopIndex = 0;
-            let loopTimeout;
+			function startLoop() {
+				const states = [
+					"Initializing Coordinator context",
+					"Resolving parameters",
+					"Loading tool: DataSource",
+					"Executing tool: Query",
+					"Executing tool: HTTP Request",
+					"Fetching records",
+					"Loading tool: Transformer",
+					"Transforming data",
+					"Mapping output fields",
+					"Loading tool: Condition",
+					"Evaluating conditions",
+					"Applying business rules",
+					"Loading tool: Loop",
+					"Iterating dataset",
+					"Handling dependencies",
+					"Loading tool: Logger",
+					"Writing logs",
+					"Committing changes",
+					"Finalizing response"
+				];
+				let i = 0;
 
-            function runMainLoop() {
-                if (!isLooping) return;
-                $mainSpan.text(mainStates[loopIndex]);
-                loopIndex = (loopIndex + 1) % mainStates.length;
-                const delay = Math.random() * 2000 + 800;
-                loopTimeout = setTimeout(runMainLoop, delay);
-            }
+				function loop() {
+					$(".saLoopable span").text(states[i]);
+					i = (i + 1) % states.length;
 
-            // --- 3. Description Loop Logic ---
-            let isDescActive = false;
-            let descIndex = 0;
-            let descTimeout;
-            const descStates = [
-                "Analyzing user intent...",
-                "Searching internal knowledge base",
-                "Synthesizing results",
-                "Formatting response"
-            ];
+					const delay = Math.random() * 4000 + 1000; // 1000–5000 ms
+					setTimeout(loop, delay);
+				}
 
-            function runDescLoop() {
-                if (!isDescActive) return;
-                $(".saDescription").text(descStates[descIndex]);
-                descIndex = (descIndex + 1) % descStates.length;
-                descTimeout = setTimeout(runDescLoop, 2000);
-            }
+				loop();
+			}
 
-            // --- UI Event Handlers ---
+			function startLoopDesc() {
+				const states = [
+					"Initializing Coordinator context",
+					"Resolving parameters",
+					"Loading tool: DataSource",
+					"Executing tool: Query",
+					"Executing tool: HTTP Request",
+					"Fetching records",
+					"Loading tool: Transformer",
+					"Transforming data",
+					"Mapping output fields",
+					"Loading tool: Condition",
+					"Evaluating conditions",
+					"Applying business rules",
+					"Loading tool: Loop",
+					"Iterating dataset",
+					"Handling dependencies",
+					"Loading tool: Logger",
+					"Writing logs",
+					"Committing changes",
+					"Finalizing response"
+				];
+				let i = 0;
 
-            $("#toggleShine").on("click", function() {
-                $(this).toggleClass("saActive");
-                $("#toggleColort").removeClass("saActive");
-                $demo.toggleClass("saShine").removeClass("saColort");
-            });
+				function loop() {
+					$(".saDescription").text(states[i]);
+					i = (i + 1) % states.length;
 
-            $("#toggleColort").on("click", function() {
-                $(this).toggleClass("saActive");
-                $("#toggleShine").removeClass("saActive");
-                $demo.toggleClass("saColort").removeClass("saShine");
-            });
+					const delay = Math.random() * 4000 + 1000; // 1000–5000 ms
+					setTimeout(loop, delay);
+				}
 
-            // Toggle Ellipsis Visibility
-            $("#toggleEllipsis").on("click", function() {
-                const isActive = $(this).toggleClass("saActive").hasClass("saActive");
-                if (isActive) {
-                    $ellipsis.show();
-                } else {
-                    $ellipsis.hide();
-                }
-            });
+				loop();
+			}
 
-            $("#toggleLoop").on("click", function() {
-                const isActive = $(this).toggleClass("saActive").hasClass("saActive");
-                isLooping = isActive;
-                if (isActive) {
-                    runMainLoop();
-                } else {
-                    clearTimeout(loopTimeout);
-                    $mainSpan.text("Thinking");
-                }
-            });
+			startLoopDesc();
 
-            $("#toggleDesc").on("click", function() {
-                const isActive = $(this).toggleClass("saActive").hasClass("saActive");
-                isDescActive = isActive;
-                if (isActive) {
-                    $descContainer.html('<div class="saDescription">Starting...</div>');
-                    runDescLoop();
-                } else {
-                    clearTimeout(descTimeout);
-                    $descContainer.empty();
-                }
-            });
-        });
+			$('#toggleText').click(function () {
+				$('.saButtonSecondary').removeClass('saActive');
+				$(this).addClass('saActive');
+				$('#text').show();
+				$('#shine').hide();
+				$('#color').hide();
+
+				$('#simple').hide();
+			});
+
+			$('#toggleShine').click(function () {
+				$('.saButtonSecondary').removeClass('saActive');
+				$(this).addClass('saActive');
+				$('#text').hide();
+				$('#shine').show();
+				$('#color').hide();
+
+				$('#simple').hide();
+			});
+
+			$('#toggleColor').click(function () {
+				$('.saButtonSecondary').removeClass('saActive');
+				$(this).addClass('saActive');
+				$('#text').hide();
+				$('#shine').hide();
+				$('#color').show();
+
+				$('#simple').hide();
+			});
+
+			$('#toggleSimple').click(function () {
+				$('.saButtonSecondary').removeClass('saActive');
+				$(this).addClass('saActive');
+				$('#text').hide();
+				$('#shine').hide();
+				$('#color').hide();
+
+				$('#simple').show();
+			});
+
+			$('#toggleLoop').click(function () {
+				$('.saButtonSecondary').removeClass('saActive');
+				startLoop();
+				$('#toggleLoop').addClass('saInactive').attr('disabled', 'true');
+			});
+
+			$('#toggleHideText').click(function () {
+				$('.saButtonSecondary').removeClass('saActive');
+				$(this).addClass('saActive');
+				$('#text').hide();
+				$('#shine').hide();
+				$('#color').hide();
+
+				$('#simple').hide();
+				$('#loop').hide();
+			});
+
+			$('#toggleHideSpinner').click(function () {
+				$('.Dot').toggle();
+			});
+		});
 	</script>
 </body>
