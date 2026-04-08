@@ -568,18 +568,14 @@
             let isDescActive = false;
             let descIndex = 0;
             let descTimeout;
-            const descStates = [
-                "Analyzing user intent...",
-                "Searching internal knowledge base",
-                "Synthesizing results",
-                "Formatting response"
-            ];
 
             function runDescLoop() {
                 if (!isDescActive) return;
-                $(".saDescription").text(descStates[descIndex]);
-                descIndex = (descIndex + 1) % descStates.length;
-                descTimeout = setTimeout(runDescLoop, 2000);
+                $(".saDescription").text(mainStates[descIndex]);
+                descIndex = (descIndex + 1) % mainStates.length;
+				const delay = Math.random() * 1500 + 500;
+                descTimeout = setTimeout(runDescLoop, delay);
+				console.log(delay);
             }
 
             // --- UI Event Handlers ---
@@ -628,6 +624,12 @@
                     $descContainer.empty();
                 }
             });
+
+            // Initialize description as active by default
+            $("#toggleDesc").addClass("saActive");
+            isDescActive = true;
+            $descContainer.html('<div class="saDescription">Starting...</div>');
+            runDescLoop();
         });
 	</script>
 </body>
