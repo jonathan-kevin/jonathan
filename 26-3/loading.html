@@ -231,19 +231,25 @@
 														</div>
 														<span class="saButtonText saOptionText">Color</span>
 													</button>
-													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="toggleAurora">
+													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="toggleSimple">
 														<div class="saIconHolder saOptionIcon">
 															<i class="far fa-text icon saIcon"></i>
 														</div>
-														<span class="saButtonText saOptionText">Aurora</span>
+														<span class="saButtonText saOptionText">Simple</span>
 													</button>
-													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="toggleHideText">
+													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="toggleLoop">
+														<div class="saIconHolder saOptionIcon">
+															<i class="far fa-text icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Loop text</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary saActive" type="button" id="toggleHideText">
 														<div class="saIconHolder saOptionIcon">
 															<i class="far fa-eye-slash icon saIcon"></i>
 														</div>
 														<span class="saButtonText saOptionText">Hide text</span>
 													</button>
-													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="toggleHideSpinner">
+													<button class="saTopLink saActionLink saButtonPrimary" type="button" id="toggleHideSpinner">
 														<div class="saIconHolder saOptionIcon">
 															<i class="far fa-eye-slash icon saIcon"></i>
 														</div>
@@ -437,17 +443,10 @@
 																					</div>
 																				</div>
 																			</div>
-																			<div id="text" class="saLoadingText" style="display: none;">Generating response<span id="ellipsis">...</span></div>
-																			<div id="shine" class="saLoadingText saShine" style="display: none;">Generating response...</div>
-																			<div id="color" class="saLoadingText saColort" style="display: none;">Generating response...</div>
-																			<div id="aurora" class="saLoadingText saAurora" style="display: none;">Generating response...
-																				<div class="aurora">
-																					<div class="aurora__item"></div>
-																					<div class="aurora__item"></div>
-																					<div class="aurora__item"></div>
-																					<div class="aurora__item"></div>
-																				</div>
-																			</div>
+																			<div id="text" class="saLoadingText" style="display: none;">Thinking<span id="ellipsis">...</span></div>
+																			<div id="shine" class="saLoadingText saShine saLoopable" style="display: none;"><span>Thinking</span></div>
+																			<div id="color" class="saLoadingText saColort saLoopable" style="display: none;"><span>Thinking</span></div>
+																			<div id="simple" class="saLoadingText saLoopable" style="display: none;"><span>Thinking</span></div>
 																		</div>
 																	</div>
 															</article>
@@ -526,39 +525,99 @@
 				}, 250); // adjust speed here
 			});
 
+			function startLoop() {
+				const states = [
+					"Initializing Coordinator context",
+					"Resolving parameters",
+					"Loading tool: DataSource",
+					"Executing tool: Query",
+					"Executing tool: HTTP Request",
+					"Fetching records",
+					"Loading tool: Transformer",
+					"Transforming data",
+					"Mapping output fields",
+					"Loading tool: Condition",
+					"Evaluating conditions",
+					"Applying business rules",
+					"Loading tool: Loop",
+					"Iterating dataset",
+					"Handling dependencies",
+					"Loading tool: Logger",
+					"Writing logs",
+					"Committing changes",
+					"Finalizing response"
+				];
+				let i = 0;
+
+				function loop() {
+					$(".saLoopable span").text(states[i]);
+					i = (i + 1) % states.length;
+
+					const delay = Math.random() * 4000 + 1000; // 1000–5000 ms
+					setTimeout(loop, delay);
+				}
+
+				loop();
+			}
+
+
 			$('#toggleText').click(function () {
+				$('.saButtonSecondary').removeClass('saActive');
+				$(this).addClass('saActive');
 				$('#text').show();
 				$('#shine').hide();
 				$('#color').hide();
-				$('#aurora').hide();
+
+				$('#simple').hide();
 			});
 
 			$('#toggleShine').click(function () {
+				$('.saButtonSecondary').removeClass('saActive');
+				$(this).addClass('saActive');
 				$('#text').hide();
 				$('#shine').show();
 				$('#color').hide();
-				$('#aurora').hide();
+
+				$('#simple').hide();
 			});
 
 			$('#toggleColor').click(function () {
+				$('.saButtonSecondary').removeClass('saActive');
+				$(this).addClass('saActive');
 				$('#text').hide();
 				$('#shine').hide();
 				$('#color').show();
-				$('#aurora').hide();
+
+				$('#simple').hide();
 			});
 
-			$('#toggleAurora').click(function () {
+			$('#toggleSimple').click(function () {
+				$('.saButtonSecondary').removeClass('saActive');
+				$(this).addClass('saActive');
 				$('#text').hide();
 				$('#shine').hide();
 				$('#color').hide();
-				$('#aurora').show();
+
+				$('#simple').show();
 			});
+
+			$('#toggleLoop').click(function () {
+				$('.saButtonSecondary').removeClass('saActive');
+				startLoop();
+				$('#toggleLoop').addClass('saInactive').attr('disabled', 'true');
+			});
+
 			$('#toggleHideText').click(function () {
+				$('.saButtonSecondary').removeClass('saActive');
+				$(this).addClass('saActive');
 				$('#text').hide();
 				$('#shine').hide();
 				$('#color').hide();
-				$('#aurora').hide();
+
+				$('#simple').hide();
+				$('#loop').hide();
 			});
+
 			$('#toggleHideSpinner').click(function () {
 				$('.Dot').toggle();
 			});
