@@ -292,6 +292,7 @@
 										<div class="saRow">
 											<button class="saDefaultButtonSecondary" id="toggleShine"  type="button">Shine</button>
 											<button class="saDefaultButtonSecondary" id="toggleColort" type="button">Color</button>
+											<button class="saDefaultButtonSecondary" id="toggleText"  type="button">Hide/Show text</button>
 										</div>
 										<h4>Logic & Components</h4>
 										<div class="saRow">
@@ -302,7 +303,6 @@
 										<h4>Spinners</h4>
 										<div class="saRow" id="radio">
 										</div>
-
 										<softadmin-chat class="saMenuItemRoot">
 											<div class="saChatWrapper" style="min-height: calc(-145px + 100vh);">
 												<div class="saChat">
@@ -325,6 +325,7 @@
 																				<div class="saShader2" name="Softadmin® GPT">
 																					<canvas id="gradientCanvas"></canvas>
 																				</div>
+																				<div class="saDix" name="Softadmin® GPT Simple"></div>
 																				<div class="saDing" name="Coin"></div>
 																				<div class="saDit" name="GPT"></div>
 																				<div class="saRipple" name="Ripple">
@@ -809,14 +810,20 @@
 
             $("#toggleShine").on("click", function() {
                 $(this).toggleClass("saActive");
-                $("#toggleColort").removeClass("saActive");
-                $demo.toggleClass("saShine").removeClass("saColort");
+                $("#toggleColort, #toggleText").removeClass("saActive");
+                $demo.toggleClass("saShine").removeClass("saColort saHidden");
+            });
+
+            $("#toggleText").on("click", function() {
+                $(this).toggleClass("saActive");
+                $("#toggleColort, #toggleShine").removeClass("saActive");
+                $demo.toggleClass("saHidden").removeClass("saColort saShine");
             });
 
             $("#toggleColort").on("click", function() {
                 $(this).toggleClass("saActive");
-                $("#toggleShine").removeClass("saActive");
-                $demo.toggleClass("saColort").removeClass("saShine");
+                $("#toggleShine, #toggleText").removeClass("saActive");
+                $demo.toggleClass("saColort").removeClass("saShine saHidden");
             });
 
             // Toggle Ellipsis Visibility
