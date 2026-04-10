@@ -288,7 +288,12 @@
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner">
-										<h4>Visual Effects</h4>
+										<h4>Mode</h4>
+										<div class="saRow">
+											<button class="saDefaultButtonSecondary" id="toggleLoading" type="button">Loading</button>
+											<button class="saDefaultButtonSecondary" id="toggleRespond" type="button">Responding</button>
+										</div>
+										<h4>Text Effects</h4>
 										<div class="saRow">
 											<button class="saDefaultButtonSecondary" id="toggleShine"  type="button">Shine</button>
 											<button class="saDefaultButtonSecondary" id="toggleColort" type="button">Color</button>
@@ -320,117 +325,118 @@
 														<li class="saChatAiResponse">
 															<article>
 																<div class="saChatAiMessageBody" tabindex="0">
-																		<div class="DotWrapper">
-																			<div class="Dot">
-																				<div class="saShader2" name="Softadmin® GPT">
-																					<canvas id="gradientCanvas"></canvas>
-																				</div>
-																				<div class="saDix" name="Softadmin® GPT Simple"></div>
-																				<div class="saDing" name="Coin"></div>
-																				<div class="saDit" name="GPT"></div>
-																				<div class="saRipple" name="Ripple">
-																					<div></div>
-																					<div></div>
-																				</div>
-
-																				<div class="saDotCarouselWrapper" name="Carousel">
-																					<div class="saDotCarousel"></div>
-																				</div>
-																				<div class="saDotGroup" name="Bouncing ellipsis">
-																					<div class="saDot"></div>
-																					<div class="saDot"></div>
-																					<div class="saDot"></div>
-																				</div>
-																				<div class="saDutGroup" name="Blob ellipsis">
-																					<div class="saDut"></div>
-																					<div class="saDut"></div>
-																					<div class="saDut"></div>
-																				</div>
-																				<div class="saDong" name="Sparkle with clip-path"></div>
-																				<div class="saShapeWrapper" name="Sparkle spin">
-																					<div class="saShape"></div>
-																					<div class="saShape"></div>
-																				</div>
-																				<div class="saShader" name="Shader 1">
-																					<canvas id="shaderCanvas1"></canvas>
-																				</div>
-
-																				<div class="saSquircleGroup" name="Squircles">
-																					<div class="saSquircle"></div>
-																					<div class="saSquircle"></div>
-																					<div class="saSquircle"></div>
-																					<div class="saSquircle"></div>
-																					<div class="saSquircle"></div>
-																					<div class="saSquircle"></div>
-																				</div>
-
-
-																				<div class="saSpinner" name="Simple Spinner"></div>
-																				<div class="saSpunner" name="Complex Spinner">
-																					<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7"/></svg>
-																				</div>
-																				<div class="saSparkles" name="Sparkles">
-																					<svg xmlns="http://www.w3.org/2000/svg" id="lg" class="saSparkle saLg" data-name="Layer 1" viewBox="0 0 381.1 381.2">
-																						<defs>
-																							<style>
-																								.mask {
-																									isolation: isolate;
-																									opacity: .2;
-																								}
-																							</style>
-																						</defs>
-																						<g id="lg_" data-name="Layer 1">
-																							<g>
-																								<path class="mask" d="M92.3,190.7l51.2,23.6c10.4,4.8,18.7,13.1,23.5,23.5l23.6,51.2,23.6-51.2c4.8-10.4,13.1-18.7,23.5-23.5l51.2-23.6-51.2-23.6c-10.4-4.8-18.7-13.1-23.5-23.5l-23.6-51.2-23.6,51.2c-4.8,10.4-13.1,18.7-23.5,23.5l-51.2,23.6Z"></path>
-																								<path d="M166.9,143.6l23.6-51.2,23.6,51.2c4.8,10.4,13.1,18.7,23.5,23.5l51.2,23.6-51.2,23.6c-10.4,4.8-18.7,13.1-23.5,23.5l-23.6,51.2-23.6-51.2c-4.8-10.4-13.1-18.7-23.5-23.5l-51.1-23.6,51.2-23.6c10.4-4.8,18.7-13.1,23.5-23.5h-.1ZM164.1,35.2l-40.8,88.3-88.2,40.7-.6.3-8.1,3.7-17.1,7.9c-5.7,2.6-9.3,8.3-9.3,14.6s3.6,11.9,9.3,14.5l17,7.9,8.1,3.7.6.3,88.3,40.8,40.8,88.2.3.6,3.7,8.1,7.9,17.1c2.6,5.7,8.3,9.3,14.5,9.3s11.9-3.6,14.5-9.3l7.9-17.1,3.7-8.1.3-.6,40.8-88.3,88.3-40.7.6-.3,8.1-3.7,17.1-7.9c5.7-2.6,9.3-8.3,9.3-14.5s-3.6-11.9-9.3-14.5l-17.1-7.9-8.1-3.7-.6-.3-88.3-40.8-40.7-88.3-.3-.6-3.7-8.2-7.9-17.1c-2.6-5.7-8.3-9.3-14.5-9.3s-11.9,3.6-14.5,9.3l-7.9,17.1-3.7,8.1-.3.6-.1.1Z"></path>
-																							</g>
-																						</g>
-																					</svg>
-																					<svg xmlns="http://www.w3.org/2000/svg" id="sm-n" class="saSparkle saSm" data-name="Layer 2" viewBox="0 0 192 192">
-																						<g id="sm-n_" data-name="Layer 2">
-																							<path d="M64,64L7.5,85.2c-4.5,1.7-7.5,6-7.5,10.8s3,9.1,7.5,10.8l56.5,21.2,21.2,56.5c1.7,4.5,6,7.5,10.8,7.5s9.1-3,10.8-7.5l21.2-56.5,56.5-21.2c4.5-1.7,7.5-6,7.5-10.8s-3-9.1-7.5-10.8l-56.5-21.2L106.8,7.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1,3-10.8,7.5l-21.2,56.5Z"></path>
-																						</g>
-																					</svg>
-																					<svg xmlns="http://www.w3.org/2000/svg" id="sm-s" class="saSparkle saSm" data-name="Layer 3" viewBox="0 0 192 192">
-																						<g id="sm-s_" data-name="Layer 3">
-																							<path d="M64,64L7.5,85.2c-4.5,1.7-7.5,6-7.5,10.8s3,9.1,7.5,10.8l56.5,21.2,21.2,56.5c1.7,4.5,6,7.5,10.8,7.5s9.1-3,10.8-7.5l21.2-56.5,56.5-21.2c4.5-1.7,7.5-6,7.5-10.8s-3-9.1-7.5-10.8l-56.5-21.2L106.8,7.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1,3-10.8,7.5l-21.2,56.5Z"></path>
-																						</g>
-																					</svg>
-																				</div>
-																				<div class="saLoadingLogo" name="Logo">
-																					<div class="saLoadingLogoCol">
-																						<div class="saBoxx"></div>
-																						<div class="saBoxx"></div>
-																						<div class="saBoxx"></div>
-																						<div class="saBoxx"></div>
-																					</div>
-																					<div class="saLoadingLogoCol">
-																						<div class="saBoxx"></div>
-																						<div class="saBoxx"></div>
-																						<div class="saBoxx"></div>
-																					</div>
-																					<div class="saLoadingLogoCol">
-																						<div class="saBoxx"></div>
-																						<div class="saBoxx"></div>
-																					</div>
-																					<div class="saLoadingLogoCol">
-																						<div class="saBoxx"></div>
-																						<div class="saBoxx"></div>
-																						<div class="saBoxx"></div>
-																					</div>
-																					<div class="saLoadingLogoCol">
-																						<div class="saBoxx"></div>
-																						<div class="saBoxx"></div>
-																						<div class="saBoxx"></div>
-																						<div class="saBoxx"></div>
-																					</div>
-																				</div>
+																	<div class="DotWrapper" style="display: none;">
+																		<div class="Dot">
+																			<div class="saShader2" name="Softadmin® GPT">
+																				<canvas id="gradientCanvas"></canvas>
 																			</div>
-																			<div id="demoTarget" class="saLoadingText"><span>Thinking</span><span id="ellipsis" style="display:none;">...</span>
-																				<div id="descContainer"></div>
+																			<div class="saDix" name="Softadmin® GPT Simple"></div>
+																			<div class="saDing" name="Coin"></div>
+																			<div class="saDit" name="GPT"></div>
+																			<div class="saRipple" name="Ripple">
+																				<div></div>
+																				<div></div>
+																			</div>
+
+																			<div class="saDotCarouselWrapper" name="Carousel">
+																				<div class="saDotCarousel"></div>
+																			</div>
+																			<div class="saDotGroup" name="Bouncing ellipsis">
+																				<div class="saDot"></div>
+																				<div class="saDot"></div>
+																				<div class="saDot"></div>
+																			</div>
+																			<div class="saDutGroup" name="Blob ellipsis">
+																				<div class="saDut"></div>
+																				<div class="saDut"></div>
+																				<div class="saDut"></div>
+																			</div>
+																			<div class="saDong" name="Sparkle with clip-path"></div>
+																			<div class="saShapeWrapper" name="Sparkle spin">
+																				<div class="saShape"></div>
+																				<div class="saShape"></div>
+																			</div>
+																			<div class="saShader" name="Shader 1">
+																				<canvas id="shaderCanvas1"></canvas>
+																			</div>
+
+																			<div class="saSquircleGroup" name="Squircles">
+																				<div class="saSquircle"></div>
+																				<div class="saSquircle"></div>
+																				<div class="saSquircle"></div>
+																				<div class="saSquircle"></div>
+																				<div class="saSquircle"></div>
+																				<div class="saSquircle"></div>
+																			</div>
+
+
+																			<div class="saSpinner" name="Simple Spinner"></div>
+																			<div class="saSpunner" name="Complex Spinner">
+																				<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7"/></svg>
+																			</div>
+																			<div class="saSparkles" name="Sparkles">
+																				<svg xmlns="http://www.w3.org/2000/svg" id="lg" class="saSparkle saLg" data-name="Layer 1" viewBox="0 0 381.1 381.2">
+																					<defs>
+																						<style>
+																							.mask {
+																								isolation: isolate;
+																								opacity: .2;
+																							}
+																						</style>
+																					</defs>
+																					<g id="lg_" data-name="Layer 1">
+																						<g>
+																							<path class="mask" d="M92.3,190.7l51.2,23.6c10.4,4.8,18.7,13.1,23.5,23.5l23.6,51.2,23.6-51.2c4.8-10.4,13.1-18.7,23.5-23.5l51.2-23.6-51.2-23.6c-10.4-4.8-18.7-13.1-23.5-23.5l-23.6-51.2-23.6,51.2c-4.8,10.4-13.1,18.7-23.5,23.5l-51.2,23.6Z"></path>
+																							<path d="M166.9,143.6l23.6-51.2,23.6,51.2c4.8,10.4,13.1,18.7,23.5,23.5l51.2,23.6-51.2,23.6c-10.4,4.8-18.7,13.1-23.5,23.5l-23.6,51.2-23.6-51.2c-4.8-10.4-13.1-18.7-23.5-23.5l-51.1-23.6,51.2-23.6c10.4-4.8,18.7-13.1,23.5-23.5h-.1ZM164.1,35.2l-40.8,88.3-88.2,40.7-.6.3-8.1,3.7-17.1,7.9c-5.7,2.6-9.3,8.3-9.3,14.6s3.6,11.9,9.3,14.5l17,7.9,8.1,3.7.6.3,88.3,40.8,40.8,88.2.3.6,3.7,8.1,7.9,17.1c2.6,5.7,8.3,9.3,14.5,9.3s11.9-3.6,14.5-9.3l7.9-17.1,3.7-8.1.3-.6,40.8-88.3,88.3-40.7.6-.3,8.1-3.7,17.1-7.9c5.7-2.6,9.3-8.3,9.3-14.5s-3.6-11.9-9.3-14.5l-17.1-7.9-8.1-3.7-.6-.3-88.3-40.8-40.7-88.3-.3-.6-3.7-8.2-7.9-17.1c-2.6-5.7-8.3-9.3-14.5-9.3s-11.9,3.6-14.5,9.3l-7.9,17.1-3.7,8.1-.3.6-.1.1Z"></path>
+																						</g>
+																					</g>
+																				</svg>
+																				<svg xmlns="http://www.w3.org/2000/svg" id="sm-n" class="saSparkle saSm" data-name="Layer 2" viewBox="0 0 192 192">
+																					<g id="sm-n_" data-name="Layer 2">
+																						<path d="M64,64L7.5,85.2c-4.5,1.7-7.5,6-7.5,10.8s3,9.1,7.5,10.8l56.5,21.2,21.2,56.5c1.7,4.5,6,7.5,10.8,7.5s9.1-3,10.8-7.5l21.2-56.5,56.5-21.2c4.5-1.7,7.5-6,7.5-10.8s-3-9.1-7.5-10.8l-56.5-21.2L106.8,7.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1,3-10.8,7.5l-21.2,56.5Z"></path>
+																					</g>
+																				</svg>
+																				<svg xmlns="http://www.w3.org/2000/svg" id="sm-s" class="saSparkle saSm" data-name="Layer 3" viewBox="0 0 192 192">
+																					<g id="sm-s_" data-name="Layer 3">
+																						<path d="M64,64L7.5,85.2c-4.5,1.7-7.5,6-7.5,10.8s3,9.1,7.5,10.8l56.5,21.2,21.2,56.5c1.7,4.5,6,7.5,10.8,7.5s9.1-3,10.8-7.5l21.2-56.5,56.5-21.2c4.5-1.7,7.5-6,7.5-10.8s-3-9.1-7.5-10.8l-56.5-21.2L106.8,7.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1,3-10.8,7.5l-21.2,56.5Z"></path>
+																					</g>
+																				</svg>
+																			</div>
+																			<div class="saLoadingLogo" name="Logo">
+																				<div class="saLoadingLogoCol">
+																					<div class="saBoxx"></div>
+																					<div class="saBoxx"></div>
+																					<div class="saBoxx"></div>
+																					<div class="saBoxx"></div>
+																				</div>
+																				<div class="saLoadingLogoCol">
+																					<div class="saBoxx"></div>
+																					<div class="saBoxx"></div>
+																					<div class="saBoxx"></div>
+																				</div>
+																				<div class="saLoadingLogoCol">
+																					<div class="saBoxx"></div>
+																					<div class="saBoxx"></div>
+																				</div>
+																				<div class="saLoadingLogoCol">
+																					<div class="saBoxx"></div>
+																					<div class="saBoxx"></div>
+																					<div class="saBoxx"></div>
+																				</div>
+																				<div class="saLoadingLogoCol">
+																					<div class="saBoxx"></div>
+																					<div class="saBoxx"></div>
+																					<div class="saBoxx"></div>
+																					<div class="saBoxx"></div>
+																				</div>
 																			</div>
 																		</div>
+																		<div id="demoTarget" class="saLoadingText"><span>Thinking</span><span id="ellipsis" style="display:none;">...</span>
+																			<div id="descContainer"></div>
+																		</div>
 																	</div>
+																</div>
+																<p id="stream-container"></p>
 															</article>
 														</li>
 													</ol>
@@ -506,6 +512,10 @@
     </script>
 
     <script>
+		setTimeout(() => {
+			$('.DotWrapper').show();
+		}, 200);
+
         $(function () {
             const canvas = document.getElementById('gradientCanvas');
             const gl = canvas.getContext('webgl', { antialias: true });
@@ -859,11 +869,117 @@
                 }
             });
 
+            // Toggle between Loading and Responding states
+            let isStreaming = false;
+
+            $("#toggleLoading").on("click", function() {
+                $(this).addClass("saActive");
+                $("#toggleRespond").removeClass("saActive");
+                $(".DotWrapper").show();
+                $("#stream-container").empty(); // Clear all response content
+                isStreaming = false; // Stop streaming if active
+            });
+
+            $("#toggleRespond").on("click", function() {
+                $(this).addClass("saActive");
+                $("#toggleLoading").removeClass("saActive");
+                $(".DotWrapper").hide();
+                // Show response content
+                if ($("#stream-container").children().length === 0 && !isStreaming) {
+                    isStreaming = true;
+                    stream(); // Start streaming the response
+                }
+            });
+
             // Initialize description as active by default
             $("#toggleDesc").addClass("saActive");
             isDescActive = true;
             $descContainer.html('<div class="saDescription">Starting...</div>');
             runDescLoop();
+
+            // Initialize in Loading state
+            $("#toggleLoading").addClass("saActive");
+            $(".DotWrapper").show();
+
+
+
+			function stream() {
+				const paragraphs = [
+					"The Seattle Seahawks didn’t just win, they controlled the game from start to finish and then slammed the door shut in the fourth quarter. ",
+					"It started as a slow burn. Seattle chipped away early with field goals, building a quiet but steady lead while their defense kept New England completely off the board through three quarters. The Patriots had chances, but turnovers killed them, three in total, and Seattle punished every mistake. ",
+					"The game exploded in the fourth. A touchdown pass extended Seattle’s lead, but the real dagger came moments later: a defensive interception returned for a touchdown. That play broke New England completely. From there, it was damage control. ",
+					"The Patriots finally found the end zone late, but it was too little, too late. Seattle’s run game, led by Kenneth Walker III, controlled the clock, while Sam Darnold played clean, mistake-free football. ",
+					"Final score: 29–13. Not a miracle comeback, not a last-second thriller, just a methodical, physical beatdown capped with a knockout punch. ",
+				];
+
+				const $container = $('#stream-container');
+
+				const startDelay = 20;
+				const endDelay = 5;
+
+				function easeOut(t) {
+					return 1 - Math.pow(1 - t, 3);
+				}
+
+				function streamParagraph(pIndex) {
+					if (pIndex >= paragraphs.length || !isStreaming) return;
+
+					const fullText = paragraphs[pIndex];
+					const words = fullText.split(" ");
+					let wIndex = 0;
+
+					const $p = $('<p class="saChatParagraph"></p>');
+					$container.append($p);
+
+					function streamWords() {
+						if (wIndex < words.length && isStreaming) {
+
+							const progress = wIndex / (words.length - 1);
+							const delay = startDelay - (startDelay - endDelay) * easeOut(progress);
+
+							const $word = $('<span class="saChatWord"></span>')
+								.text(words[wIndex] + " ");
+
+							$p.append($word);
+
+							wIndex++;
+							setTimeout(streamWords, delay);
+
+						} else if (wIndex >= words.length && isStreaming) {
+							// Paragraph done → wait 200ms, then replace spans with full text
+							setTimeout(() => {
+								if (isStreaming) {
+									$p.text(fullText); // wipes spans, inserts clean text
+
+									// Check if this is the last paragraph
+									if (pIndex + 1 >= paragraphs.length) {
+										// Add suggestion buttons
+										const suggestions = [
+											"Who was the MVP of the game?",
+											"QB's passer ratings",
+											"Tell me about the best commercials"
+										];
+										const $suggestionsDiv = $('<div class="saSuggestions" style="margin-top: 1rem;"></div>');
+										suggestions.forEach(suggestion => {
+											const $button = $('<button type="button" class="saDefaultButtonGhost" style="margin-right: 0.5rem; margin-bottom: 0.5rem;"><i class="saIcon far fa-arrow-turn-down-right"></i>' + suggestion + '</button>');
+											$suggestionsDiv.append($button);
+										});
+										$container.append($suggestionsDiv);
+										isStreaming = false; // Streaming finished
+									} else {
+										// move to next paragraph
+										streamParagraph(pIndex + 1);
+									}
+								}
+							}, 20);
+						}
+					}
+
+					streamWords();
+				}
+
+				streamParagraph(0);
+			}
         });
 	</script>
 </body>
