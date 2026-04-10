@@ -320,6 +320,7 @@
 																<div class="saChatMessageBody" tabindex="0">
 																	<p>Who won the most recent Super Bowl?</p>
 																</div>
+																<footer class="saChatMessageFooter"><time class="saChatMessageTime" datetime="2026-03-30 16:39"></time></footer>
 															</article>
 														</li>
 														<li class="saChatAiResponse">
@@ -435,8 +436,8 @@
 																			<div id="descContainer"></div>
 																		</div>
 																	</div>
+																	<p id="stream-container"></p>
 																</div>
-																<p id="stream-container"></p>
 															</article>
 														</li>
 													</ol>
@@ -905,11 +906,10 @@
 
 			function stream() {
 				const paragraphs = [
-					"The Seattle Seahawks didn’t just win, they controlled the game from start to finish and then slammed the door shut in the fourth quarter. ",
-					"It started as a slow burn. Seattle chipped away early with field goals, building a quiet but steady lead while their defense kept New England completely off the board through three quarters. The Patriots had chances, but turnovers killed them, three in total, and Seattle punished every mistake. ",
-					"The game exploded in the fourth. A touchdown pass extended Seattle’s lead, but the real dagger came moments later: a defensive interception returned for a touchdown. That play broke New England completely. From there, it was damage control. ",
-					"The Patriots finally found the end zone late, but it was too little, too late. Seattle’s run game, led by Kenneth Walker III, controlled the clock, while Sam Darnold played clean, mistake-free football. ",
-					"Final score: 29–13. Not a miracle comeback, not a last-second thriller, just a methodical, physical beatdown capped with a knockout punch. ",
+				"The Seattle Seahawks didn’t just win, they put on a clinic and made the New England Patriots look like they didn’t belong on the same field.",
+				"From the opening drive, Seattle dictated everything. The offense moved with control and patience, stacking points early while the defense suffocated New England completely. Three full quarters passed with the Patriots unable to score a single point. Not one. Every drive they attempted got shut down, stalled out, or handed back through costly mistakes.",
+				"And those mistakes were brutal. Three turnovers, each one a gift to Seattle. The Seahawks didn’t just capitalize, they punished. Short fields turned into points, momentum swung harder every time, and the Patriots looked more and more rattled as the game went on. Meanwhile, Seattle played clean, disciplined football with zero turnovers.",
+				"New England finally managed to score late, but it felt meaningless. The game was already decided. Seattle had taken control, tightened the grip, and never let go. This was dominance. No luck, no miracle plays, no last-second drama. Just a complete, physical, disciplined performance where one team executed at a high level and the other got exposed."
 				];
 
 				const $container = $('#stream-container');
@@ -959,9 +959,10 @@
 											"QB's passer ratings",
 											"Tell me about the best commercials"
 										];
-										const $suggestionsDiv = $('<div class="saSuggestions" style="margin-top: 1rem;"></div>');
+										const $suggestionsDiv = $('<div class="saChatSuggestions"></div>');
 										suggestions.forEach(suggestion => {
-											const $button = $('<button type="button" class="saDefaultButtonGhost" style="margin-right: 0.5rem; margin-bottom: 0.5rem;"><i class="saIcon far fa-arrow-turn-down-right"></i>' + suggestion + '</button>');
+										  //const $button = $('<button type="button" class="saPill"><i class="saIcon far fa-arrow-turn-down-right"></i>' + suggestion + '</button>');
+											const $button = $('<button type="button" class="saDefaultButtonGhost"><i class="saIcon far fa-arrow-turn-down-right"></i><div class="saButtonText">' + suggestion + '</div></button>');
 											$suggestionsDiv.append($button);
 										});
 										$container.append($suggestionsDiv);
