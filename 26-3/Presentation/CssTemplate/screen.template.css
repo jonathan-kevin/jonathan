@@ -31928,6 +31928,65 @@ a.saKpiOuter:active {
   left: 0.25rem;
   transform: rotate(-45deg);
 }
+.gantt {
+  height: calc(100dvh - 10rem);
+  width: calc(100dvw - 20rem);
+  overflow: auto;
+}
+.grid {
+  display: grid;
+  position: relative;
+}
+.cell {
+  border-left: 1px solid #dde3ec;
+  border-top: 1px solid #dde3ec;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header {
+  background: rgba(248, 249, 251, 0.5);
+  font-weight: 500;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+.label {
+  justify-content: flex-start;
+  padding-left: 8px;
+  background: #f8f9fb;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+.bg.weekend {
+  background: #f8f9fb;
+}
+.booking {
+  background: #4caf50;
+  border-radius: 4px;
+  margin: 4px 2px;
+  position: relative;
+  cursor: grab;
+}
+.handle {
+  position: absolute;
+  width: 6px;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  cursor: ew-resize;
+}
+.handle.left {
+  left: 0;
+}
+.handle.right {
+  right: 0;
+}
+.focused {
+  outline: 2px solid #000;
+}
 .saSmallScreen .saPlanner {
   margin-top: 1rem;
   margin-left: 1rem;
@@ -35908,6 +35967,52 @@ pre.saCode {
 .saLoadingText.saHidden {
   display: none;
 }
+.saChatLoadingWrapper {
+  display: inline-flex;
+  align-items: center;
+}
+.saChatLoadingSpinner {
+  height: 1.25rem;
+  width: 1.25rem;
+  background-image: radial-gradient(at top left, rgba(255, 255, 255, 0.2), transparent), radial-gradient(at bottom right, var(--Sa-Color-Primary700), transparent), linear-gradient(to bottom right, var(--Sa-Color-Primary300), var(--Sa-Color-Primary700));
+  border-radius: 50%;
+  animation: chatLoadingSpinner 2s ease-in-out infinite alternate;
+}
+@keyframes chatLoadingSpinner {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.625);
+  }
+}
+.saChatLoadingText {
+  margin-left: 0.5rem;
+  position: relative;
+  padding-right: 2rem;
+  background-clip: text;
+  background: linear-gradient(120deg, var(--Sa-Color-Text) 0%, var(--Sa-Color-Text) 60%, var(--Sa-Color-TextSecondary) 70%, #8fa5c0 80%, #60748b 90%, var(--Sa-Color-Text) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: chatLoadingShine 6s linear infinite;
+}
+@keyframes chatLoadingShine {
+  0% {
+    background-position: 200% 0;
+  }
+  75% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+.saChatLoadingDescription {
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
 .saDotGroup {
   display: inline-flex;
   margin-top: -0.5rem;
@@ -35992,14 +36097,14 @@ pre.saCode {
     transform: scale(0.625);
   }
 }
-.saDix {
+.saChatLoadingSpinner {
   height: 1.25rem;
   width: 1.25rem;
   background-image: radial-gradient(at top left, rgba(255, 255, 255, 0.2), transparent), radial-gradient(at bottom right, #1c57c6, transparent), linear-gradient(to bottom right, #93bdff, #1c57c6);
   border-radius: 50%;
-  animation: saDix 2s ease-in-out infinite alternate;
+  animation: chatLoadingSpinner 2s ease-in-out infinite alternate;
 }
-@keyframes saDix {
+@keyframes chatLoadingSpinner {
   from {
     transform: scale(1);
   }
