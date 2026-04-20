@@ -1,0 +1,578 @@
+.saChatWrapper {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	justify-content: space-between;
+	box-sizing: border-box;
+	overflow: hidden;
+	min-height: 16rem;
+
+	.saLargeScreen & {
+		max-width: 48rem;
+		min-height: 16rem;
+	}
+
+	&.saChatReadOnly .saChat {
+		.saLargeScreen & {
+			border-radius: 1rem 1rem 1rem 1rem;
+			border: 1px solid @ColorGray200;
+		}
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	*[hidden] {
+		display: none !important;
+	}
+
+	.saChat {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		position: relative;
+		flex: 1;
+		overflow: auto;
+		padding: 0 1rem 1rem 1rem;
+
+		.saLargeScreen .saMultiPartPanel.saHasBorder & {
+			border-radius: 0;
+			border: none;
+		}
+
+		.saLargeScreen & {
+			border-radius: 1rem 1rem 0 0;
+			border: 1px solid @ColorGray200;
+			border-bottom: none;
+			padding-right: 0;
+			.ScrollbarHover();
+		}
+
+		hr {
+			border-color: @ColorGray200;
+		}
+	}
+
+	.saChatLog {
+		display: flex;
+		flex-direction: column;
+		list-style-type: none;
+		margin-block-start: 0;
+		margin-block-end: 0;
+		padding-inline-start: 0;
+		overflow-wrap: break-word;
+		z-index: 0;
+	}
+
+	.saChatDate {
+		.FlexCentered();
+		flex-direction: column;
+		gap: 0.5rem;
+		width: 100%;
+		position: sticky;
+		top: -1rem;
+		padding: 2rem 0 1rem 0;
+		pointer-events: none;
+		z-index: 2;
+
+		time {
+			.FlexCentered();
+			font-size: 0.75rem;
+			line-height: 0.75rem;
+			height: 1.5rem;
+			width: fit-content;
+			padding: 0 0.625rem;
+			background-color: @ColorGray50;
+			border: 1px solid @ColorGray200;
+			border-radius: 99rem;
+			pointer-events: all;
+		}
+	}
+
+	.saChatLatest {
+		position: sticky;
+		bottom: 0.5rem;
+		left: 50%;
+		transform: translate(-50%, 0);
+		width: 2rem;
+		height: 2rem;
+		min-width: 2rem;
+		min-height: 2rem;
+		.FlexCentered();
+		background-color: @ColorGray100;
+		border: 1px solid @ColorGray200;
+		border-radius: 99rem;
+		color: @ColorGray600;
+		transform-origin: center;
+		transition: transform 0.2s ease, opacity 0.2s ease, color 0.2s ease, background-color 0.2s ease, border 0.2s ease;
+		margin-top: -2rem;
+
+		&.saReached {
+			transform: translate(-50%, 0.5rem);
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		.Hover({
+			color: var(--Sa-Color-Primary600);
+			border-color: var(--Sa-Color-Primary600);
+			background-color: var(--Sa-Color-Primary100);
+		});
+
+		&:active {
+			color: var(--Sa-Color-Primary700);
+			border-color: var(--Sa-Color-Primary700);
+			background-color: var(--Sa-Color-Primary200);
+		}
+	}
+
+	.saChatMessage {
+		display: flex;
+		margin: 0 2rem 0.25rem 0;
+		flex-direction: row;
+		align-items: end;
+		position: relative;
+
+		&:first-child {
+			padding-top: 2rem;
+		}
+
+		&:has(footer) {
+			margin: 0 2rem 1rem 0;
+		}
+
+		&:not(.saChatSender, .saChatSystem):not(:has(.saChatAvatar)) {
+			padding-left: 2rem;
+		}
+	}
+
+	.saChatSender {
+		align-items: flex-end;
+		margin: 0 0 0.25rem 2rem;
+
+		.saChatMessageInner {
+			align-items: flex-end;
+		}
+
+		.saChatMessageBody {
+			align-items: flex-end;
+
+			& > p {
+				background-color: var(--Sa-Color-Primary100);
+				border-radius: 1.25rem 1.25rem 0.25rem 1.25rem;
+			}
+		}
+
+		.saChatMessageFooter {
+			padding: 0 1rem 0 0;
+			flex-direction: row-reverse;
+		}
+
+		&.saChatEdit {
+			padding: 0;
+		}
+
+		&:has(footer) {
+			margin: 0 0 1rem 2rem;
+		}
+
+		.saChatToolbar,
+		.saChatToolbarMenu {
+			left: unset;
+			right: 0.5rem;
+		}
+	}
+
+	.saChatAiResponse {
+		position: relative;
+		font-size: 0.875rem;
+		line-height: 1.5rem;
+		padding-bottom: 3rem;
+
+		p:not(:last-of-type) {
+			margin-bottom: 0.625rem;
+		}
+
+		.saSmallScreen & {
+			font-size: 1rem;
+			line-height: 1.5rem;
+		}
+	}
+
+	.saChatSystem {
+		margin: 0.5rem 0 1rem 0;
+
+		.saChatMessageBody {
+			max-width: 100%;
+
+			& > p {
+				text-align: center;
+				color: @ColorGray600;
+				font-size: 0.75rem;
+				line-height: 1rem;
+				width: 100%;
+				background-color: transparent;
+				padding: 0;
+			}
+		}
+	}
+
+	.saChatAvatar  {
+		.FlexCentered();
+		height: 1.5rem;
+		min-width: 1.5rem;
+		background-color: @ColorGray300;
+		color: @ColorWhite;
+		border-radius: 50%;
+		font-size: 0.625rem;
+		line-height: 1.5rem;
+		transition: ease background 0.2s, ease transform 0.2s, ease opacity 0.2s;
+		transform: scale(1);
+		border-width: 1px;
+		border-style: solid;
+		margin: 0 0.5rem 1rem 0;
+	}
+
+	.saChatMessageInner {
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		width: 100%;
+	}
+
+	.saChatMessageFooter {
+		display: flex;
+		gap: 0.5rem;
+		position: relative;
+		min-height: 1rem;
+		align-items: end;
+		padding: 0 0 0 1rem;
+	}
+
+	.saChatSenderName {
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		font-weight: 500;
+	}
+
+	.saChatMessageTime {
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		color: @ColorGray600;
+		position: relative;
+	}
+
+	.saChatMessageBody {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		position: relative;
+		max-width: 28rem;
+		width: 100%;
+
+		& > p {
+			font-size: 0.875rem;
+			line-height: 1.25rem;
+			word-break: break-word;
+			background-color: @ColorGray100;
+			width: fit-content;
+			padding: 0.625rem 1rem;
+			border-radius: 0.25rem;
+			min-width: 2.5rem;
+			transition: border-radius ease 0.2s;
+			border-radius: 1.25rem 1.25rem 1.25rem 0.25rem;
+
+			.saSmallScreen & {
+				font-size: 1rem;
+				line-height: 1.25rem;
+			}
+		}
+	}
+
+	.saChatEdit {
+		width: 100%;
+
+		p {
+			display: none;
+		}
+
+		.saChatToolbar {
+			display: none;
+		}
+	}
+
+	.saChatMessageEdit {
+		display: flex;
+		width: 100%;
+		flex-direction: column;
+
+		textarea {
+			appearance: none;
+			background-color: transparent;
+			width: 100%;
+			height: 100%;
+			resize: none;
+			border: none;
+			outline: none;
+			font-size: 0.875rem;
+			line-height: 1.25rem;
+			font-family: inherit;
+			color: inherit;
+			field-sizing: content;
+			min-height: 8rem;
+			max-height: 50dvh;
+			background-color: @ColorWhite;
+			border-radius: 0.75rem;
+			border: none;
+			padding: 0.625rem 0 0.625rem 1rem;
+
+			&:enabled {
+				outline: 1px solid @ColorGray200;
+				outline-offset: -1px;
+				box-shadow: 0 1px 2px fade(@ColorGray900, 3), 0 2px 0.1875rem fade(@ColorGray900, 3);
+
+				.Hover({
+					outline-color: var(--Sa-Color-Primary600);
+					background-color: var(--Sa-Color-Primary50);
+				});
+
+				&:focus {
+					outline-color: var(--Sa-Color-Primary600);
+					outline-offset: -2px;
+					outline-width: 2px;
+					background-color: var(--Sa-Color-Primary50);
+				}
+			}
+
+			&:disabled {
+				background-color: @ColorGray100;
+				outline-color: transparent;
+				color: @ColorGray300;
+			}
+
+			.saLargeScreen & {
+				.ScrollbarHover();
+			}
+
+			.saSmallScreen & {
+				padding: 0.625rem 1rem 0.625rem 1rem;
+				font-size: 1rem;
+				line-height: 1.25rem;
+			}
+		}
+
+		.saChatButtonGroup {
+			display: flex;
+			padding: 0.5rem 0 0 1rem;
+			gap: 0.5rem;
+
+			.saSmallScreen & {
+				padding: 0.5rem 0 0 0;
+			}
+
+			button {
+				min-width: 4rem;
+
+				.saSmallScreen & {
+					flex: 1;
+				}
+			}
+		}
+	}
+
+	.saChatToolbar {
+		display: flex;
+		flex-direction: row;
+		list-style: none;
+		position: absolute;
+		top: -2rem;
+		left: 0.5rem;
+		height: 2.75rem;
+		align-items: center;
+		width: fit-content;
+		gap: 0.25rem;
+		z-index: 10;
+		background-color: @ColorWhite;
+		border-radius: 0.625rem;
+		padding: 0.25rem;
+		border: 1px solid @ColorGray50;
+		.BoxShadowWeak();
+
+		button {
+			.Button();
+			.ButtonGhost();
+			.IconButtonSizeCompact();
+
+			width: 2.75rem;
+			height: 2.75rem;
+			max-width: 2.75rem;
+			min-width: 2.75rem;
+			font-size: 1.125rem;
+
+			&.saDisabled,
+			&.saDisabled:is(:hover,:active) {
+				border-radius: 0.5rem;
+			}
+
+			&.saOpen {
+				background-color: var(--Sa-Color-Primary100);
+				color: var(--Sa-Color-Primary600);
+
+				.saIcon {
+					color: var(--Sa-Color-Primary600);
+				}
+			}
+		}
+	}
+
+	.saChatToolbarMenu {
+		position: absolute;
+		top: 1rem;
+		left: 1rem;
+		display: flex;
+		flex-direction: column;
+		background-color: @ColorWhite;
+		border: 1px solid @ColorGray50;
+		.BoxShadowWeak();
+
+		padding: 0.25rem;
+		border-radius: 0.75rem;
+		z-index: 11;
+
+		button {
+			.Button();
+			.ButtonGhost();
+			.ButtonSizeCompact();
+			color: var(--Sa-Color-Text);
+			width: 100%;
+			justify-content: flex-start;
+			padding: 0 0.5rem;
+			height: 2.75rem;
+			font-size: 1rem;
+		}
+	}
+
+	.saChatComposer {
+		display: flex;
+		position: relative;
+		max-height: 50%;
+
+		.saSmallScreen & {
+			padding: 0 0.5rem 0.5rem 0.5rem;
+		}
+
+		textarea {
+			width: 100%;
+			height: 100%;
+			resize: none;
+			border: none;
+			padding: 0.75rem 1rem;
+			font-size: 0.875rem;
+			line-height: 1rem;
+			font-family: inherit;
+			outline: none;
+			color: inherit;
+			field-sizing: content;
+			min-height: 8rem;
+			border: 1px solid @ColorGray200;
+			background-color: @ColorWhite;
+
+			.saLargeScreen & {
+				border-radius: 0 0 1.5rem 1rem;
+				padding-right: 0;
+				.ScrollbarHover();
+			}
+
+			.saLargeScreen .saMultiPartPanel.saHasBorder & {
+				border-radius: 0.5rem;
+			}
+
+			.saSmallScreen & {
+				border-radius: 1.5rem;
+				font-size: 1rem;
+				line-height: 1.25rem;
+				min-height: 3rem;
+				padding: 0.75rem 3.5rem 0.75rem 1rem;
+			}
+
+			&::placeholder {
+				color: @ColorGray400;
+			}
+		}
+	}
+
+	.saChatComposerInstruction {
+		font-size: 0.75rem;
+		line-height: 1rem;
+		color: @ColorGray600;
+		padding: 0.5rem 1rem;
+		text-align: center;
+		.Ellipsis();
+	}
+
+	.saChatButtonSend,
+	.saChatButtonStop {
+		.Button();
+		background-color: @ColorGray50;
+		height: 2rem;
+		width: 2rem;
+		border-radius: 999rem;
+		position: absolute;
+		right: 0.5rem;
+		bottom: 0.5rem;
+
+		.saSmallScreen & {
+			right: 1rem;
+			bottom: 1rem;
+
+			&::after {
+				content: '';
+				position: absolute;
+				height: 3rem;
+				width: 3rem;
+				inset: -0.5rem -0.5rem auto auto;
+				opacity: 0;
+			}
+		}
+	}
+
+	.saChatButtonSend {
+		.ButtonPrimary();
+	}
+
+	.saChatButtonStop {
+		.ButtonSecondary();
+	}
+
+	.ScrollbarHover() {
+		scrollbar-gutter: stable;
+
+		&::-webkit-scrollbar {
+			background-color: transparent;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background-color: transparent;
+		}
+
+		&:is(:hover, :focus-within) {
+			&::-webkit-scrollbar {
+				background-color: @ColorGray200;
+			}
+
+			&::-webkit-scrollbar-thumb {
+				background-color: @ColorGray500;
+
+				&:hover {
+					background-color: @ColorGray700;
+				}
+
+				&:active {
+					background-color: @ColorGray900;
+				}
+			}
+		}
+	}
+}

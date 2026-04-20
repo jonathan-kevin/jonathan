@@ -1,0 +1,1128 @@
+
+.saCalendarOverlay {
+	position: fixed;
+	z-index: 99;
+	background: fade(@ColorGray900, 40);
+	height: 100vh;
+	width: 100vw;
+	top: 0;
+	left: 0;
+	.FlexCentered();
+	flex-direction: column;
+	gap: 1.5rem;
+
+	.saChangeScreenModeButton {
+		.Button();
+		.ButtonSecondary();
+		.ButtonSizeCompact();
+	}
+}
+
+.saCalendarOverlayHeading {
+	color: @ColorWhite;
+	text-align: center;
+}
+
+.saCalendarSection {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	height: fit-content;
+	border: 1px solid @ColorGray200;
+	border-radius: 1rem;
+	position: relative;
+	min-width: 54.5rem;
+
+
+	&:has(.saComponentContentLinksWrapper) {
+		.saWeek.saWeekDays {
+			top: 8rem;
+
+			.saCompact & {
+				top: 7rem;
+			}
+		}
+	}
+
+	.saMiniView:not(.saFitToContent) & {
+		margin-bottom: 0.5rem;
+	}
+
+	.saMultiPartContent & {
+		width: 62.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.saPeriodButtons {
+		display: flex;
+
+		button {
+			.Button();
+			.ButtonGhost();
+			.IconButtonSizeModeDependent();
+		}
+	}
+
+	.saTodayButton {
+		.Button();
+		.ButtonGhost();
+		.ButtonSizeModeDependent();
+	}
+
+	.saInputTextWrapper {
+		min-width: 4.5rem;
+		margin: 0;
+
+		.saStandard & .saTrailingIconsWrapper,
+		.saSmallScreen & .saTrailingIconsWrapper {
+			height: 2.5rem;
+		}
+	}
+
+	.saStandard & .saInputText {
+		height: 2.5rem;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	.saCalendarSectionInner {
+		height: 100%;
+		display: flex;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.saGoPrevPeriod {
+
+			.saCalendarInner,
+			&.saWeeks .saDateNumber,
+			&.saDateListWrapper,
+			&.saCalendarInner .saScheduleActivity,
+			&.saCalendarInner .saExtraInfoList {
+				animation: saGoPrevPeriod 0.2s ease;
+			}
+		}
+
+		.saGoNextPeriod {
+
+			.saCalendarInner,
+			&.saWeeks .saDateNumber,
+			&.saDateListWrapper,
+			&.saCalendarInner .saScheduleActivity,
+			&.saCalendarInner .saExtraInfoList {
+				animation: saGoNextPeriod 0.2s ease;
+			}
+		}
+	}
+
+	.saCalendar {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		border-radius: 0 0 1rem 0;
+		width: calc(100% - 15rem);
+		position: relative;
+		color: var(--Sa-Color-Text);
+	}
+
+	.saCalendarInnerWrapper {
+		overflow: hidden;
+	}
+
+	.saWeek {
+		display: flex;
+		flex: 1 1 0;
+		min-width: 4rem;
+		border-bottom: 1px solid @ColorGray200;
+		position: relative;
+
+		&:last-child {
+			border-bottom: none;
+
+			.saDateX:last-child {
+				border-radius: 0 0 1rem 0;
+			}
+		}
+
+		&.saWeekDays {
+			flex: 0;
+			align-items: stretch;
+			background: @ColorWhite;
+			position: sticky;
+			left: 0;
+			top: 4.4375rem;
+			z-index: 1;
+
+			.saCompact & {
+				top: 4rem;
+			}
+		}
+
+		&.saWeekExtra {
+			flex: 0;
+			border-bottom: none;
+			background: @ColorWhite;
+		}
+	}
+
+	.saWeekDay {
+		color: var(--Sa-Color-TextSecondary);
+		flex: 1 1 0;
+		border-right: 1px solid @ColorGray200;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		height: 2rem;
+		min-width: 0;
+		overflow: hidden;
+		font-size: 0.75rem;
+		background: @ColorWhite;
+
+		&:last-child {
+			border-right: 1px solid transparent;
+		}
+
+		&.saRedDay {
+			color: @ColorRed600;
+		}
+	}
+
+	.saNumberOfCheckedWrapper {
+		display: flex;
+		align-items: center;
+		font-size: 0.75rem;
+		white-space: nowrap;
+	}
+
+	.saWeekNumber {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 1.5rem;
+		background: @ColorGray50;
+		color: var(--Sa-Color-Text);
+		font-size: 0.875rem;
+		border-right: 1px solid @ColorGray200;
+	}
+
+	.saDateIsToday .saDateNumber {
+		color: var(--Sa-Color-Primary600);
+		background-color: @ColorGray100;
+		font-weight: 700;
+	}
+
+	.saRedDay .saDateNumber {
+		color: @ColorRed600;
+		background: @ColorRed100;
+	}
+
+	.saHideDescription .saCalendar .saActivity {
+		.saActivityDescription {
+			display: none;
+		}
+
+		.saActivityHeading {
+			-webkit-line-clamp: 1;
+		}
+
+		&.saNoHeading .saActivityHeading {
+			display: -webkit-box;
+		}
+	}
+
+	.saDateX {
+		flex: 1 1 0;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		position: relative;
+		border: 1px solid transparent;
+		border-right: 1px solid @ColorGray200;
+		min-width: 0;
+		overflow: hidden;
+		min-height: 5.5rem;
+
+		&:last-child {
+			border-right: 1px solid transparent;
+		}
+
+		&.saDropOn {
+			border: 1px dashed var(--Sa-Color-Primary600);
+			background-color: var(--Sa-Color-Primary100);
+		}
+
+		&.saClickable {
+			cursor: pointer;
+
+			&:hover {
+				border: 1px solid var(--Sa-Color-Primary600);
+			}
+		}
+
+		&.saLastClicked {
+			border: 1px solid var(--Sa-Color-Primary600);
+		}
+	}
+
+	.saDateInner {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		padding: 0.25rem;
+		gap: 2px;
+	}
+
+	.saDateNumber {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.25rem;
+		height: 1.5rem;
+		min-width: 1.5rem;
+		border-radius: 0.25rem;
+		.UserSelectNone();
+		font-size: 0.875rem;
+		line-height: 0.875rem;
+		position: relative;
+		color: var(--Sa-Color-Text);
+		white-space: nowrap;
+	}
+
+	.saActivityGroup {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		align-items: center;
+		justify-content: flex-start;
+		width: 100%;
+	}
+
+	.saActivity {
+		display: flex;
+		flex-direction: row;
+		border-radius: 0.25rem;
+		.StandardTransition();
+		min-height: 1.5rem;
+		width: 100%;
+		padding: 0.25rem;
+		position: relative;
+		cursor: default;
+		gap: 0.25rem;
+		z-index: 0;
+
+		.saCheckboxesVisible &.saHasCheckbox {
+			.saCheckbox {
+				transform: scale(1);
+				opacity: 1;
+				visibility: visible;
+			}
+
+			.saActivityLine {
+				min-width: 1rem;
+				height: 1rem;
+				border-radius: 0.25rem;
+				opacity: 0.1;
+				background-image: none !important;
+			}
+		}
+
+		.saActivityLine {
+			height: auto;
+			min-width: 0.25rem;
+			border-radius: 2px;
+			transition: ease min-width .2s, ease opacity .2s, ease border-radius .2s;
+		}
+
+		&.saNoHeading .saActivityHeading {
+			display: none;
+		}
+
+		.saActivityHeading {
+			font-size: 0.75rem;
+			line-height: 0.875rem;
+			font-weight: 500;
+			overflow-wrap: anywhere;
+			.LineClamp(2);
+		}
+
+		.saActivityTime {
+			font-size: 0.75rem;
+			line-height: 0.75rem;
+			font-weight: 300;
+			color: var(--Sa-Color-TextSecondary);
+			display: flex;
+			margin-top: 1px;
+		}
+
+		.saActivityDescription {
+			font-size: 0.75rem;
+			line-height: 0.875rem;
+			font-weight: 300;
+			min-width: 2rem;
+			overflow-wrap: anywhere;
+			.LineClamp(3);
+		}
+
+		&.saDraggable {
+			cursor: grab;
+			.UserSelectNone();
+		}
+
+		&.saClickable {
+			cursor: pointer;
+
+			&:hover {
+
+				.saActivityTime,
+				.saActivityDescription {
+					color: inherit;
+				}
+			}
+
+			&:active {
+				border-radius: 0.5rem;
+
+				.saActivityTime,
+				.saActivityDescription {
+					color: inherit;
+				}
+			}
+		}
+
+		&.saAllDay {
+			border: 1px solid transparent;
+			padding: 0.25rem 0.5rem;
+		}
+	}
+
+	.saActivityInner {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		justify-content: center;
+
+		&::after {
+			content: '';
+			box-shadow: inset 0 0 0 0 var(--Sa-Color-Primary600);
+			.StandardTransition();
+			position: absolute;
+		}
+	}
+
+	.saActivityHeadingWrapper {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		overflow: hidden;
+		width: 100%;
+		gap: 0.25rem;
+	}
+
+	.saCalendarHeader {
+		display: flex;
+		flex-direction: column;
+		border-bottom: 1px solid @ColorGray200;
+		border-radius: 1rem 1rem 0 0;
+		color: var(--Sa-Color-Text);
+		position: sticky;
+		top: -1px;
+		z-index: 10;
+		background-color: @ColorWhite;
+	}
+
+	.saComponentContentLinksWrapper {
+		.ComponentContentLinksWrapper();
+		box-shadow: inset 0 1px 0 @ColorGray200;
+
+		.saStandard & {
+			height: 3.5rem;
+		}
+
+		.saCompact & {
+			height: 3rem;
+		}
+
+		.saToggleWrapper {
+			padding-right: 0.5rem;
+		}
+	}
+
+	.saCalendarHeaderInner {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		padding: 1rem;
+		width: 100%;
+
+		.saInputText {
+			&::-webkit-inner-spin-button {
+				.AppearanceNone();
+			}
+
+			&.saNumberInput {
+				width: 5rem;
+			}
+		}
+
+		.saDropdown+.saDropdown .saInputText {
+			min-width: 7.25rem;
+		}
+	}
+}
+
+/* Desktop calendar */
+.saDesktopCalendar.saCalendarSection {
+	.saDateNumber {
+		pointer-events: none;
+	}
+
+	.saCalendarHeading {
+		display: flex;
+		min-width: 12.4375rem;
+	}
+
+	.saCalendarSidebar.saClose~.saCalendar .saWeek:last-child .saWeekNumber {
+		border-radius: 0 0 0 1rem;
+	}
+
+	.saClose+.saCalendar {
+		width: 100%;
+	}
+
+	.saCalendarSidebarExpander {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		max-height: 2rem;
+		width: 100%;
+		max-width: 1.5rem;
+		border: none;
+		color: @ColorWhite;
+		font-size: 1rem;
+		cursor: pointer;
+		background: @ColorGray900;
+		transition: ease color .2s, ease background-color .2s;
+
+		&:hover {
+			color: var(--Sa-Color-Primary600);
+			background: @ColorGray800;
+		}
+
+		&:active {
+			color: var(--Sa-Color-Primary600);
+			background: @ColorGray700;
+		}
+
+		&.saClose {
+			transform: rotate(180deg);
+		}
+	}
+
+	.saCalendarSidebar {
+		position: relative;
+		transition: ease all 0.2s;
+		border-right: 1px solid @ColorGray200;
+		min-height: 0;
+		transition: ease width 0.2s, ease opacity 0.2s;
+		width: 15rem;
+		display: flex;
+
+		&.saClose {
+			display: none;
+
+			.saCalendarSidebarInner {
+				transform: translateX(-15rem);
+			}
+		}
+	}
+
+	.saCalendarSidebarInner {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		width: 100%;
+		padding: 1rem;
+		min-height: 0;
+		position: relative;
+		.UserSelectNone();
+		transition: ease transform 0.3s;
+		transform: translateX(0);
+		transition-delay: 0.1s;
+		position: sticky;
+		top: 4.5rem;
+
+		.saDatePickerRoot {
+			position: relative;
+			box-shadow: none;
+			border: none;
+			padding: 0;
+			animation: none;
+			z-index: 1;
+
+			.saWeekNr {
+				height: 1.5rem;
+				min-width: 0.75rem;
+				font-size: 0.625rem;
+				line-height: 0.625rem;
+			}
+
+			.saDate {
+				height: 1.5rem;
+				width: 1.5rem;
+				min-width: 1.5rem;
+				font-size: 0.75rem;
+				line-height: 0.75rem;
+				position: relative;
+
+				&::before {
+					content: '';
+					height: 1.75rem;
+					width: 1.75rem;
+					position: absolute;
+					left: -2px;
+					top: -2px;
+					z-index: -1;
+				}
+
+				&.saMarked::before {
+					background-color: @ColorGray100;
+				}
+			}
+
+			.saDayRow {
+				display: flex;
+				flex-direction: row;
+				gap: 0.25rem;
+				font-size: 0.625rem;
+				line-height: 0.625rem;
+				height: 0.75rem;
+				min-width: 13rem;
+
+				.saDay {
+					width: 1.5rem;
+					font-size: 0.625rem;
+					line-height: 0.625rem;
+					min-width: 1.5rem;
+				}
+			}
+
+			.saMonths a .saIcon {
+				min-height: 1.5rem;
+				min-width: 1.5rem;
+				width: 1.5rem;
+				height: 1.5rem;
+				border-radius: 0.25rem;
+				font-size: 0.875rem;
+				line-height: 0.875rem;
+
+				&::after {
+					height: 2rem;
+					width: 2rem;
+				}
+			}
+
+			.saDateRow {
+				display: flex;
+				flex-direction: row;
+				gap: 0.25rem;
+				min-width: 13rem;
+			}
+
+			.saDatePickerMonthHeading {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				gap: 0.5rem;
+			}
+		}
+
+		.saCalendarSidebarHeading {
+			font-size: 0.875rem;
+			font-weight: 500;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			min-width: 0;
+			color: var(--Sa-Color-Text);
+			text-align: left;
+		}
+	}
+
+	.saCalendarSidebarSection {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		transition: height 0.2s ease;
+		min-height: 0;
+
+		&.saSidebarCalendar {
+			min-height: 13.5rem;
+		}
+	}
+}
+
+/* Weekdays desktop calendar */
+.saDesktopCalendar.saWeekdaysCalendar {
+	.saShowMoreButton {
+		.Button();
+		.ButtonGhost();
+		.ButtonSizeMini();
+		width: calc(100% - 0.5rem);
+	}
+
+	.saCheckbox {
+		position: absolute;
+		left: 0.25rem;
+		top: 0.25rem;
+		height: 1rem;
+		min-width: 1rem;
+		transition: ease transform .2s, ease opacity .2s, ease background-color .2s, ease visibility .2s;
+		transform-origin: left;
+		transform: scale(0);
+		opacity: 0;
+		visibility: hidden;
+		background-color: transparent;
+
+		&::after {
+			height: 1.5rem;
+			width: 1.25rem;
+		}
+
+		&:checked {
+			background-color: var(--Sa-Color-Primary600);
+		}
+	}
+}
+
+@TimeScheduleDayRightPadding: 1rem;
+
+/* TimeSchedule desktop calendar */
+.saDesktopCalendar.saTimeScheduleCalendar {
+	min-width: fit-content;
+
+	.saCalendarInnerWrapper:last-child .saWeek:last-child {
+		border-bottom: none;
+	}
+
+	.saWeek {
+		&:last-child {
+			border-bottom: 1px solid @ColorGray200;
+		}
+
+		&.saWeekDays {
+			border-bottom: none;
+		}
+	}
+
+	.saScheduleActivity .saCheckbox {
+		min-width: 1rem;
+		height: 1rem;
+		margin-top: 2px;
+	}
+
+	.saWeekDates {
+		border-bottom: 1px solid @ColorGray200;
+		min-height: 2rem;
+		position: sticky;
+		left: 0;
+		top: 6rem;
+		z-index: 9;
+
+		.saStandard & {
+			top: 6.4375rem;
+		}
+
+		.saWeekExtraInner {
+			border: 1px solid transparent;
+			border-right: 1px solid @ColorGray200;
+		}
+	}
+
+	.saNumberOfCheckedWrapper {
+		font-size: 0.875rem;
+		margin-right: 0.5rem;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.saWeekExtraInner {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		padding: 2px 0.25rem;
+		gap: 2px;
+		min-width: 0;
+		border: none;
+		border-right: 1px solid @ColorGray200;
+		align-items: center;
+
+		&:last-child {
+			border-right-color: transparent;
+		}
+	}
+
+	.saWeek.saWeekDays {
+		z-index: 8;
+	}
+
+	.saWeekNumber {
+		min-width: 3.5rem;
+	}
+
+	.saDateNumber {
+		width: fit-content;
+	}
+
+	.saCalendarStripe.saDropOn {
+		border: 1px dashed var(--Sa-Color-Primary600);
+		background-color: var(--Sa-Color-Primary100);
+	}
+
+	.saClickable.saWeekExtraInner:hover,
+	.saWeekExtraInner.saLastClicked {
+		border: 1px solid var(--Sa-Color-Primary600);
+		cursor: pointer;
+	}
+
+	.saCalendarItemList {
+		padding-right: @TimeScheduleDayRightPadding;
+		border-right: 1px solid @ColorGray200;
+
+		&:last-child {
+			border-right-color: transparent;
+		}
+	}
+
+	.saCalendarStripe,
+	.saCurrentTime {
+		width: calc(100% + @TimeScheduleDayRightPadding);
+	}
+
+	.saCalendarItemListInner {
+		display: flex;
+		width: 100%;
+		position: relative;
+	}
+
+	.saCalendarSidebarExpander {
+		max-width: 3.5rem;
+	}
+
+	&:has(.saComponentContentLinksWrapper) {
+		.saWeekDates {
+			top: 9rem;
+
+			.saStandard & {
+				top: 10rem;
+			}
+		}
+	}
+}
+
+.saDesktopCalendar.saResourceCalendar {
+	.saCalendarResourceFilterSection {
+		position: relative;
+		flex: 1;
+		overflow: hidden;
+		min-height: 10rem;
+		height: 100%;
+		margin-left: -0.5rem;
+		width: calc(100% + 1rem);
+	}
+
+	.saCalendarResourceFilter {
+		position: absolute;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		overflow-y: auto;
+
+		legend {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			width: 100%;
+		}
+
+		.saResourceFilterExpandButton {
+			width: 100%;
+
+			.saIcon {
+				margin-right: 0.25rem;
+			}
+		}
+
+		&.saOpen .saResourceFilterExpandButton .saIcon {
+			transform: rotate(180deg);
+		}
+
+		label {
+			display: none;
+			gap: 0.5rem;
+			align-items: center;
+			cursor: pointer;
+			overflow: hidden;
+			min-height: 2rem;
+			margin-left: 0.5rem;
+
+			&:has(.saCheckbox.saDisabled) {
+				cursor: default;
+			}
+		}
+
+		&.saOpen label {
+			display: flex;
+		}
+
+		span {
+			width: 100%;
+			.Ellipsis();
+			font-size: 0.75rem;
+		}
+
+		.saResourceFilterExpandButton {
+			.Button();
+			.ButtonSizeCompact();
+			.ButtonGhost();
+		}
+	}
+
+	.saWeekDates {
+		.saWeekExtraInner {
+			justify-content: center;
+			overflow: hidden;
+
+			time {
+				text-align: center;
+				width: 100%;
+				.Ellipsis();
+			}
+		}
+
+		.saStandard & {
+			top: 4.5rem;
+		}
+
+		.saCompact & {
+			top: 4rem;
+		}
+	}
+
+	.saCalendarHeading {
+		min-width: 21.5rem;
+
+		.saCompact & {
+			min-width: 19rem;
+		}
+	}
+
+	.saCurrentTime {
+		left: 3.5rem;
+		width: calc(100% - 3.5rem);
+	}
+
+	&:has(.saComponentContentLinksWrapper) {
+		.saWeekDates {
+			top: 7rem;
+
+			.saStandard & {
+				top: 8rem;
+			}
+		}
+	}
+}
+
+/* TimeSchedule calendar */
+.saTimeScheduleCalendar {
+	.saCalendarItemList {
+		&.saHasLinks .saCalendarStripe:hover,
+		.saHasLinks .saCalendarStripe:hover,
+		.saCalendarStripe.saLastClicked {
+			background: @ColorGray50;
+			cursor: pointer;
+			outline: 1px solid var(--Sa-Color-Primary600);
+			outline-offset: -1px;
+		}
+	}
+
+	.saListWrapper {
+		display: flex;
+		min-width: 4rem;
+		position: relative;
+
+		.saListActivity {
+			width: 100%;
+		}
+	}
+
+	.saSlotWrapper {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		gap: 0;
+		min-width: 3.5rem;
+		flex: 0;
+		border-right: 1px solid @ColorGray200;
+		position: relative;
+	}
+
+	.saSlot {
+		display: flex;
+		font-size: 0.625rem;
+		color: var(--Sa-Color-TextSecondary);
+		width: 2rem;
+		text-align: center;
+		background: transparent;
+		align-items: flex-start;
+		justify-content: center;
+
+		&::after {
+			content: '';
+			height: 1px;
+			background-color: @ColorGray100;
+			width: 0.25rem;
+			right: 0;
+			position: absolute;
+		}
+	}
+
+	.saSlotInner {
+		max-height: 0.75rem;
+		overflow: visible;
+		margin-top: -0.375rem;
+		position: relative;
+	}
+
+	.saCalendarItemList {
+		display: flex;
+		flex: 1 1 0;
+		gap: 2px;
+		width: 100%;
+		position: relative;
+	}
+
+	.saCalendarStripe {
+		position: absolute;
+		width: 100%;
+		border-top: 1px solid @ColorGray100;
+	}
+
+	.saCalendarBackground {
+		display: flex;
+		position: absolute;
+		z-index: 2;
+		opacity: 0.4;
+	}
+
+	.saScheduleActivity {
+		display: flex;
+		flex-direction: column;
+		border-radius: 0.25rem;
+		.StandardTransition();
+		padding: 0.25rem;
+		position: absolute;
+		gap: 0.25rem;
+		z-index: 3;
+		overflow: hidden;
+		min-height: 1.75rem;
+
+		.saScheduleActivityHeadingWrapper {
+			display: flex;
+			gap: 0.25rem;
+		}
+
+		&.saDraggable {
+			cursor: grab;
+			.UserSelectNone();
+		}
+
+		&.saClickable {
+			cursor: pointer;
+		}
+
+		.saScheduleActivityInner {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			gap: 2px;
+			margin-left: 2px;
+			position: relative;
+		}
+
+		.saListActivityHeading {
+			.LineClamp(8);
+			word-break: break-word;
+		}
+
+		.saListActivityDescription {
+			font-size: 0.75rem;
+			line-height: 0.875rem;
+			font-weight: 300;
+			word-break: break-word;
+		}
+	}
+
+	.saCurrentTime {
+		position: absolute;
+		width: 100%;
+		background: @ColorRed600;
+		height: 1px;
+		z-index: 4;
+		outline: 1px solid @ColorWhite;
+		pointer-events: none;
+
+		&::before {
+			content: '';
+			height: 0.5rem;
+			min-width: 0.5rem;
+			outline: 1px solid @ColorWhite;
+			position: absolute;
+			left: 0;
+			top: -0.1875rem;
+			border-radius: 0.5rem;
+			background: @ColorRed600;
+		}
+	}
+}
+
+@keyframes saGoPrevPeriod {
+	0% {
+		opacity: 0;
+		transform: translateX(-6rem);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes saGoNextPeriod {
+	0% {
+		opacity: 0;
+		transform: translateX(6rem);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+// Remove transition when there's a lot of activities.
+.saCalendarSection .saCalendar.saManyItems .saActivity {
+	.saCheckbox {
+		transition: none;
+	}
+
+	.saActivityLine {
+		transition: none;
+	}
+}

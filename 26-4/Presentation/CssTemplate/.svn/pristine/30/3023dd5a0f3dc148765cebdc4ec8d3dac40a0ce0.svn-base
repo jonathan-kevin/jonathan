@@ -1,0 +1,376 @@
+//--------VARIABLES--------//
+
+//No user select
+.UserSelectNone() {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.AppearanceNone() {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+.ScrollbarHidden() {
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+.Border() {
+	border: solid 1px @ColorGray200;
+}
+
+.BoxShadowSoft() {
+	box-shadow: 0 0 2rem fade(@ColorGray900, 7);
+}
+
+.BoxShadowWeak() {
+	box-shadow:
+		0 1px 2px fade(@ColorGray900, 7),
+		0 2px 0.25rem fade(@ColorGray900, 7);
+}
+
+.BoxShadowModerate() {
+	box-shadow:
+		0 1px 2px fade(@ColorGray900, 7),
+		0 2px 0.25rem fade(@ColorGray900, 7),
+		0 0.25rem 0.5rem fade(@ColorGray900, 7);
+}
+
+.BoxShadowMedium() {
+	box-shadow:
+		0 1px 2px fade(@ColorGray900, 7),
+		0 2px 0.25rem fade(@ColorGray900, 7),
+		0 0.25rem 0.5rem fade(@ColorGray900, 7),
+		0 0.5rem 1rem fade(@ColorGray900, 7);
+}
+
+.BoxShadowStrong() {
+	box-shadow:
+		0 1px 2px fade(@ColorGray900, 7),
+		0 2px 0.25rem fade(@ColorGray900, 7),
+		0 0.25rem 0.5rem fade(@ColorGray900, 7),
+		0 0.5rem 1rem fade(@ColorGray900, 7),
+		0 1rem 2rem fade(@ColorGray900, 7),
+		0 2rem 4rem fade(@ColorGray900, 7);
+}
+
+.Ellipsis() {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.LineClamp(@lines) {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: @lines;
+	overflow: hidden;
+}
+
+.FlexCentered() {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.StandardTransition() {
+	transition-property: color, background-color, border-color, transform, border-radius, opacity;
+	transition-duration: .2s;
+}
+
+.Destructive(@target, @invertedColor) {
+	color: var(--Sa-Color-DestructiveButtonBackground);
+	border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+
+	.saIcon {
+		color: var(--Sa-Color-DestructiveButtonBackground);
+	}
+
+	.saBadge {
+		background-color: var(--Sa-Color-DestructiveButtonBackground);
+	}
+
+	@media (pointer: fine) {
+		&:hover @{target} {
+			color: @invertedColor;
+			background: var(--Sa-Color-DestructiveButtonBackground);
+			border-color: transparent;
+
+			.saIcon {
+				color: @invertedColor;
+			}
+
+			.saBadge {
+				background-color: @invertedColor;
+				color: var(--Sa-Color-DestructiveButtonBackground);
+				border-color: var(--Sa-Color-DestructiveButtonBackground);
+			}
+		}
+	}
+
+	&:active @{target} {
+		color: @invertedColor;
+		background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+		border-color: transparent;
+
+		.saIcon {
+			color: @invertedColor;
+			background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+		}
+
+		.saBadge {
+			background-color: @invertedColor;
+			color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+			border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+		}
+	}
+}
+
+// Hover-mixin to not cause unwanted hover effects on mobile devices. We use pointer: fine instead of hover: hover since samsung mobile devices tell the browser that they use hover.
+.Hover(@rules) {
+	@media (pointer: fine) {
+		&:hover {
+			@rules();
+		}
+	}
+}
+
+.Link() {
+	cursor: pointer;
+
+	.saLinkText {
+		.StandardTransition();
+		text-decoration: none;
+		font-weight: 500;
+		color: var(--Sa-Color-Link);
+	}
+
+	.Hover({
+		.saLinkText {
+			text-decoration: underline;
+		}
+
+		img,
+		svg {
+			opacity: 0.8;
+			transition: transform .5s;
+		}
+
+		.saMeterHeader,
+		.saMeterValue {
+			text-decoration: underline;
+		}
+	});
+
+	&:active .saLinkText {
+		color: var(--Sa-Color-Link-Brightness80);
+	}
+
+	&:active {
+		img,
+		svg {
+			opacity: 0.8;
+			transition: transform .5s;
+		}
+	}
+
+	&:active {
+		.saMeterHeader,
+		.saMeterValue {
+			text-decoration: underline;
+		}
+	}
+}
+
+.BadgedIconSmall() {
+	.saBadgedIcon {
+		width: 1.875rem;
+		display: block;
+	}
+
+	.saIcon {
+		font-size: 1.25rem;
+		color: var(--Sa-Color-Icon);
+	}
+
+	.saBadge {
+		font-size: 0.5625rem;
+		color: @ColorWhite;
+		margin-left: -0.5625rem;
+		background: var(--Sa-Color-Icon);
+		border-radius: 50%;
+		padding: 1px;
+		border: 2px solid @ColorWhite;
+		width: 0.875rem;
+		box-sizing: border-box;
+		text-align: center;
+	}
+}
+
+.ContextMenu() {
+	.saContextMenuWrapper {
+		position: relative;
+
+		.saContextMenu {
+			position: absolute;
+			overflow-x: hidden;
+		}
+
+		.saContextMenuItem {
+			max-width: 25rem;
+
+			.saSmallScreen & {
+				max-width: 90vw;
+			}
+		}
+
+		.saButtonText {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			text-align: left;
+		}
+	}
+}
+
+.DefaultFieldWrapper() {
+	display: flex;
+	flex-direction: column;
+
+	.saSmallScreen & {
+		width: 100%;
+	}
+}
+
+.AiIcon() {
+	.saAiIcon {
+		height: 1rem;
+		min-width: 1rem;
+		background-position: center;
+		background: url(../img/aiSparkles.svg) top center no-repeat;
+		position: relative;
+
+		&::after {
+			content: '';
+			position: absolute;
+			height: 2rem;
+			width: 2rem;
+			bottom: 50%;
+			left: 50%;
+			transform: translate(-50%, 50%);
+		}
+	}
+}
+
+.ComponentContentLinksWrapper() {
+	display: flex;
+	align-items: center;
+	background: @ColorGray100;
+	padding: 0.5rem 0.75rem;
+	.BadgeCount();
+
+	.saStandard & {
+		.saContextMenu {
+			top: 3.5rem;
+		}
+	}
+
+	.saCompact & {
+		.saContextMenu {
+			top: 2.75rem;
+
+			.saContextMenuItem {
+				font-size: 0.875rem;
+			}
+		}
+	}
+
+	.saComponentContentLinks {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+
+		.saComponentContentLinkButton, .saMoreButton {
+			.Button();
+			.ButtonSecondary();
+			.ButtonSizeModeDependent();
+
+			&.saMoreButton {
+				.IconButtonSizeModeDependent();
+			}
+
+			&.saButtonPrimary {
+				.ButtonPrimary();
+			}
+
+			&.saInactive,
+			&.saInactive.saDestructive,
+			&.saInactive.saButtonPrimary {
+				background-color: @ColorWhite;
+				color: @ColorGray300;
+				border-color: transparent;
+				cursor: default;
+
+				.saIcon {
+					color: @ColorGray300;
+					background: none;
+				}
+
+				.saBadge {
+					color: @ColorGray300;
+					background-color: @ColorWhite;
+					border-color: @ColorGray300;
+				}
+			}
+		}
+
+		.saBadge {
+			height: 0.875rem;
+			min-width: 0.875rem;
+			font-size: 0.625rem;
+			right: -0.25rem;
+			bottom: -0.25rem;
+			z-index: 2;
+
+			.saCompact & {
+				height: 0.75rem;
+				min-width: 0.75rem;
+				font-size: 0.5rem;
+				right: -0.375rem;
+				bottom: -0.25rem;
+				border: 1px solid;
+			}
+		}
+
+		.saCollectorWrapper {
+			.ContextMenu();
+			display: flex;
+		}
+	}
+}
+
+//Sizes
+@xs: 0.25rem;
+@s: 0.5rem;
+@m: 1rem;
+@l: 1.5rem;
+@xl: 2rem;
+@xxl: 2.5rem;
+@3xl: 3rem;
+@4xl: 3.5rem;
+@5xl: 4rem;
+@6xl: 4.5rem;
+@7xl: 5rem;
+
+@PageHeaderMargin: 1rem;
+@PageHeaderPopupMargin: 1rem;
+
+@InfoBoxAreaPadding: @PageHeaderMargin;
+@InfoBoxAreaPopupPadding: @PageHeaderPopupMargin;

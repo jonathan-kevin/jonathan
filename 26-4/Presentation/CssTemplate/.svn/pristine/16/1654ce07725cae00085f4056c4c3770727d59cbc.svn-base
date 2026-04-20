@@ -1,0 +1,1139 @@
+@import "GridCommon.less";
+
+.grid .draghandle {
+	position: absolute;
+	width: 0.3125rem;
+	top: 0;
+	right: -0.1875rem;
+	cursor: e-resize;
+	z-index: @ZIndexGridColumnDragHandle;
+	opacity: 0;
+}
+
+.grid .active_draghandle {
+	border-left: 2px solid @ColorBlue600;
+	opacity: 1;
+}
+
+.grid:has(.active_draghandle) th a {
+	pointer-events: none;
+}
+
+.grid {
+	a {
+		.Link();
+	}
+
+	.saUseAccessibilityMode {
+		overflow: auto;
+		padding-bottom: 0.25rem;
+		padding-right: 2px;
+
+		.saGridCell {
+			overflow-wrap: anywhere;
+		}
+
+		.saGridHeadingInner,
+		.saAggregateLabel {
+			overflow-wrap: break-word;
+			flex-wrap: wrap;
+		}
+	}
+
+	.saNotUsingAccessibilityMode {
+		.saGridHeadingLabel,
+		a.sort {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			line-height: 1.25rem;
+		}
+	}
+}
+
+.saToggleWrapper.saEditCellsToggle {
+	.saToggle {
+		//Unchecked
+		.Hover({
+			&::before {
+				background: var(--Sa-Color-GridEditableBackgroundHover);
+			}
+		});
+
+		&:active::before {
+			background: var(--Sa-Color-GridEditableBackground);
+		}
+
+		//Checked
+		&:checked {
+			&::before {
+				background: var(--Sa-Color-GridEditableToggleAndBorder);
+			}
+
+			.Hover({
+				&::before {
+					background: var(--Sa-Color-GridEditableBackgroundHover);
+				}
+			});
+
+			&:active::before {
+				background: var(--Sa-Color-GridEditableBackground);
+			}
+		}
+	}
+}
+
+.saGridCheckbox {
+	padding: 0 0.75rem;
+}
+
+.saGridWrapper {
+	width: fit-content;
+	font-variant-numeric: tabular-nums;
+
+	.saMultiPartContent &,
+	.saMiniView & {
+		margin-right: 0.1875rem; // To avoid unnecessary horizontal scrollbars due to resize handles overflowing the table.
+	}
+
+	.saSmallScreen & {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+
+	.saLargeScreen & > .saPagination {
+		display: none;
+	}
+}
+
+.saGridWrapper:has(.saComponentContentLinks) .saGridHead {
+	.saStandard & {
+		top: 7.25rem;
+	}
+
+	.saCompact & {
+		top: 6.75rem;
+	}
+
+	&:not(:has(.saGridColumnGroupRow)) {
+		.saGridHeadingRow th {
+			border-top: none;
+		}
+	}
+
+	.saGridColumnGroup {
+		border-top: none;
+	}
+}
+
+.saGridWrapper:has(.saComponentContentLinks):not(:has(.saCompactGridTop)) .saGridTop {
+	height: auto;
+
+	.saGridTopInner {
+		height: 3.75rem;
+	}
+}
+
+.saGridTop {
+	box-sizing: border-box;
+	width: 100%;
+	color: @ColorGray900;
+	background: @ColorWhite;
+	font-weight: 500;
+	font-size: 0.875rem;
+	height: 3.75rem;
+
+	.saSmallScreen & .saPagination {
+		display: none;
+	}
+
+	.saStandard & {
+		height: 4.5rem;
+	}
+
+	.saComponentContentLinksWrapper {
+		.ComponentContentLinksWrapper();
+		outline: solid 1px @ColorGray200;
+		outline-offset: -1px;
+	}
+
+	.saListGrid & {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem 0.5rem 0 1rem;
+
+		.saButtons {
+			margin-left: -0.625rem;
+		}
+	}
+
+	.stickyheader & {
+		position: sticky;
+		top: 0;
+		z-index: 3;
+	}
+
+	.saButtons {
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		min-width: 0;
+	}
+
+	.saGridButton {
+		.GridTopButton();
+	}
+
+	.saEditCellsToggle {
+		padding: 0 0.5rem;
+	}
+
+	.saGridHitCounter {
+		min-width: 9.375rem;
+		font-size: 0.75rem;
+		display: flex;
+		flex-direction: column;
+		line-height: 1rem;
+	}
+
+	.saSelectedItemsCounter {
+		font-size: smaller;
+		color: @ColorGray600;
+	}
+
+	.saGridGroupingDropdownWrapper {
+		position: relative;
+
+		label span {
+			position: absolute;
+			top: 0.5rem;
+			left: 0.75rem;
+			font-size: 0.875rem;
+			color: @ColorGray900;
+			pointer-events: none;
+			transition: ease font-size 0.1s;
+		}
+
+		.saGridGroupingDropdown {
+			color: transparent;
+			background-color: @ColorWhite;
+			border: 1px solid @ColorGray200;
+			border-radius: 0.5rem;
+			padding: 0.75rem 0.375rem 0 0.375rem;
+			max-width: 12.5rem;
+		}
+	}
+
+	.saGridGroupingDropdownWrapper.saIsGrouped,
+	.saGridGroupingDropdownWrapper:focus-within {
+		label span {
+			color: @ColorGray600;
+			font-size: 0.625rem;
+			top: 2px;
+		}
+
+		.saGridGroupingDropdown {
+			color: @ColorGray900;
+		}
+	}
+
+	.saGridTopInner {
+		.GridTop();
+		width: 100%;
+		height: 100%;
+		display: flex;
+	}
+}
+
+.saCompactGridTop:has(.saComponentContentLinksWrapper) {
+	height: auto;
+
+	&:not(:has(.saGridTopInner)) .saComponentContentLinksWrapper {
+		border-radius: 1rem 1rem 0 0;
+	}
+}
+
+.saGrid .saGridHead {
+	border-radius: 1rem 1rem 0 0;
+
+	th:first-child {
+		border-radius: 1rem 0 0 0;
+	}
+
+	th:last-child {
+		border-radius: 0 1rem 0 0;
+	}
+
+	th:only-child {
+		border-radius: 1rem 1rem 0 0;
+	}
+}
+
+.saGridTop+.saGrid {
+	border-radius: 0 0 1rem 1rem;
+
+	.saGridHead {
+
+		th:first-child,
+		th:last-child,
+		th:only-child {
+			border-radius: 0;
+		}
+	}
+}
+
+.saGridColumnGroupRow+.saGridHeadingRow {
+
+	th:first-child,
+	th:last-child,
+	th:only-child {
+		border-radius: 0;
+	}
+}
+
+.saGridWrapper:not(:has(.saGridTop)) thead tr:only-child th {
+	border-top: none;
+}
+
+.saGridWrapper:not(:has(.saGridTop)) table.saGrid thead tr.saGridHeadingRow:first-child th {
+	&:first-child {
+		border-radius: 1rem 0 0 0;
+	}
+
+	&:last-child {
+		border-radius: 0 1rem 0 0;
+	}
+
+	&:only-child {
+		border-radius: 1rem 1rem 0 0;
+	}
+}
+
+.saGrid:has(tbody:empty):not(:has(tfoot)) {
+	overflow: hidden;
+
+	.saGridHead tr:last-child {
+		th {
+			border-bottom: none;
+		}
+
+		th:only-child {
+			border-bottom: none;
+			border-left: none;
+			border-right: none;
+		}
+	}
+}
+
+.saGridWrapper
+	> .saGrid:has(tbody:empty):not(:has(tfoot)):first-child
+	.saGridHead
+	tr:only-child
+	th:only-child {
+	border-bottom: none;
+	border-left: none;
+	border-right: none;
+}
+
+.saGrid:not(:has(tfoot)) {
+
+	.saGridRow:nth-last-child(2):has(.saGridExpandButton):not(.saOpened),
+	.saGridRow:last-child,
+	.saGridRow.saOpened+.saGridExtraText:last-child {
+		border-radius: 0 0 1rem 1rem;
+
+		td:first-child,
+		td:first-child input:not(.saCheckbox) {
+			border-radius: 0 0 0 1rem;
+		}
+
+		td:last-child {
+			border-radius: 0 0 1rem 0;
+		}
+
+		td:only-child {
+			border-radius: 0 0 1rem 1rem;
+		}
+	}
+
+	.saGridRow.saOpened {
+		border-radius: 0;
+
+		td:first-child,
+		td:last-child,
+		td:only-child {
+			border-radius: 0;
+		}
+	}
+}
+
+.saGrid:has(tbody:empty) .saGridFoot tr:first-child td {
+	border-top: none;
+}
+
+.saGridFoot tr:last-child {
+	border-radius: 0 0 1rem 1rem;
+
+	td:first-child {
+		border-radius: 0 0 0 1rem;
+	}
+
+	td:last-child {
+		border-radius: 0 0 1rem 0;
+	}
+
+	td:only-child {
+		border-radius: 0 0 1rem 1rem;
+	}
+}
+
+.saGrid {
+	border-radius: 1rem;
+
+	.GridTable();
+	min-width: 100%;
+
+	.saGridTop+& {
+		border-top: none;
+	}
+
+	.saEditable.saEdited {
+		background: @ColorWhite;
+		border: 1px solid var(--Sa-Color-GridEditableToggleAndBorder) !important;
+
+		.inputControl {
+			height: 100%;
+			display: flex;
+			box-sizing: border-box;
+
+			.saInputText::-webkit-calendar-picker-indicator {
+				display: none;
+			}
+		}
+
+		input,
+		textarea {
+			background: @ColorWhite;
+			border: 0;
+			width: 100%;
+		}
+
+		input {
+			padding: 0;
+		}
+
+		i {
+			font-size: 1rem;
+		}
+
+		*:focus {
+			outline: none;
+		}
+
+		select {
+			.AppearanceNone();
+			padding: 0 1.5rem;
+
+			.saCompact &, .saSmallScreen & {
+				padding: 0 0.5rem;
+			}
+
+		}
+
+		.saEditableWrapper {
+			box-sizing: border-box;
+			display: flex;
+			align-items: center;
+			width: 100%;
+
+			.saStandard & {
+				padding: 0 1.375rem;
+			}
+
+			.saSmallScreen &, .saCompact & {
+				padding: 0 0.375rem;
+			}
+
+			.saSmallScreen & > div:not(:empty) {
+				box-sizing: border-box;
+				width: 100%;
+			}
+		}
+	}
+
+	.saEditableGridButton {
+		background: @ColorGray900;
+		border: none;
+		width: 1.75rem;
+		height: 1.75rem;
+		align-items: center;
+		display: flex;
+		justify-content: center;
+		border-radius: 0.375rem;
+		transition: ease 0.3s;
+		transition-property: background-color, color;
+		cursor: pointer;
+		.AppearanceNone();
+		position: relative;
+
+		i {
+			color: @ColorWhite;
+		}
+
+		.Hover({
+			i {
+				color: var(--Sa-Color-GridEditableBackgroundHover);
+			}
+		});
+
+		&::after {
+			content: '';
+			height: 2rem;
+			width: 2rem;
+			position: absolute;
+		}
+
+		&:first-child::after {
+			left: -0.25rem;
+		}
+
+		&:last-child::after {
+			right: -0.25rem;
+		}
+
+		&:only-child::after {
+			left: unset;
+			right: unset;
+		}
+	}
+
+	.editButtons .saEditableGridButton {
+		.Hover({
+			background: @ColorGray700;
+			i {
+				color: var(--Sa-Color-GridEditableBackgroundHover);
+			}
+		});
+		&:active, &:active:enabled {
+			border-radius: 0.5rem;
+			background: var(--Sa-Color-GridEditableToggleAndBorder);
+		}
+	}
+
+	.saEditableDropdown {
+		width: 100%;
+		box-shadow: none;
+		justify-content: center;
+	}
+
+	.saGridCell {
+		align-items: center;
+		box-sizing: border-box;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		padding: 0.375rem 0.5rem;
+		overflow: hidden;
+
+		.saStandard & {
+			padding: 0.5rem 1.5rem;
+		}
+
+		a.saLink {
+			.Link();
+
+			.Hover({
+				.gridtext {
+					text-decoration: underline;
+				}
+			});
+		}
+
+		.UserHtmlContent();
+	}
+
+	&.saEditMode td:not(.saEditable) .saGridCell {
+		opacity: 0.6;
+		user-select: none;
+	}
+
+	.center .saGridCell {
+		justify-content: center;
+		text-align: center;
+	}
+
+	.right .saGridCell {
+		justify-content: right;
+		text-align: right;
+	}
+
+	.saGridRow:first-child>td {
+		border-top: none;
+	}
+
+	.saGridRow>td {
+		.GridCell();
+
+		&:has(.saGridExpandButton) {
+			padding: 0 0.25rem;
+		}
+	}
+
+	.saGridRow.saGridRowEvery5th>td {
+		border-top: 1px solid @ColorGray200;
+	}
+
+	.saGridRow.saSelected {
+		background: var(--Sa-Color-GridRowHighlight);
+	}
+
+	.saGridRow.saSelected .saCellUserStyle {
+		filter: brightness(0.85);
+	}
+
+	.saGridGroupedRowsHeader>th {
+		background: @ColorWhite;
+		box-shadow: 0 1px 0 0 @ColorGray150;
+		text-align: left;
+		border-top: 1px solid @ColorGray100;
+		border-collapse: collapse;
+		color: @ColorGray900;
+
+		.saGridGroupedRowsHeaderText {
+			display: flex;
+			align-items: center;
+			box-sizing: border-box;
+			margin-top: 1rem;
+			padding: 0 0.5rem;
+			font-weight: 600;
+			font-size: 1rem;
+			min-height: 2rem;
+			color: @ColorGray900;
+
+			.saStandard & {
+				font-size: 1rem;
+				min-height: 3rem;
+				padding: 0 1.5rem;
+			}
+		}
+
+		a {
+			.Link();
+		}
+
+		.systemicon {
+			margin-right: 0.5rem;
+
+			i {
+				top: unset;
+			}
+		}
+
+		.stickyheader & {
+			position: sticky;
+			z-index: 1;
+		}
+	}
+
+	.saGridGroupedRowsHeader:first-child>th {
+		border-top: none;
+	}
+
+	.systemicon {
+		width: 1.25rem;
+		display: inline-block;
+		margin-right: 0.25rem;
+		text-align: center;
+	}
+
+	.systemicon i {
+		position: relative;
+	}
+
+	.saGridRowControls {
+		width: 0; // When the table tries to distribute left-over width we want the row buttons to get as few as possible.
+
+		&:first-child:not(.saGridCheckbox) {
+			padding-left: 0.25rem;
+		}
+	}
+
+	.saGridExpandAll {
+		padding: 0 0.25rem;
+	}
+
+	.saGridRowButton,
+	.saGridExpandAllButton {
+		.GridButton();
+	}
+
+	.saGridExpandAllButton,
+	.saGridExpandButton {
+		&[aria-expanded="true"] i {
+			transform: rotate(-180deg);
+		}
+	}
+
+	.saGridRowButton.saDestructive {
+		.Destructive(~'', @ColorWhite);
+	}
+
+	button.saGridRowButton:disabled {
+		pointer-events: auto;
+	}
+
+	.saGridExtraText {
+		display: none;
+	}
+
+	.saOpened .saGridExtraText {
+		display: initial;
+	}
+
+	.saOpened+.saGridExtraText {
+		display: table-row;
+	}
+
+	.saOpened {
+		.Hover({
+			&+.saGridExtraText {
+				background: var(--Sa-Color-GridRowHighlight);
+			}
+		});
+	}
+
+	.saGridExtraText>td {
+		border-left: none;
+		padding: 0 0.5rem 0.5rem 0.5rem;
+		outline: none;
+
+		.UserHtmlContent();
+
+		.saStandard & {
+			padding: 0 1.5rem 0.5rem 1.5rem;
+		}
+
+		&:first-child {
+			padding: 0;
+		}
+	}
+
+	caption {
+		.GridCaption();
+	}
+}
+
+.saEditable {
+	transition: background ease .2s, box-shadow ease .2s;
+	cursor: pointer;
+	background: var(--Sa-Color-GridEditableBackground);
+
+	.Hover({
+		&:not(.saEdited) {
+			background: var(--Sa-Color-GridEditableBackgroundHover);
+			box-shadow: inset 0 0 0 1px var(--Sa-Color-GridEditableToggleAndBorder);
+		}
+
+		&.saCellUserStyle {
+			filter: brightness(0.85);
+		}
+	});
+}
+
+.saGridExpandButton {
+	.inactive {
+		opacity: 0.6;
+	}
+}
+
+.saGridHead {
+	.stickyheader & {
+		position: sticky;
+		z-index: 2;
+		top: 3.75rem;
+
+		.saStandard & {
+			top: 4.5rem;
+		}
+	}
+
+	th {
+		.GridColumnHeader();
+		padding: 0;
+
+		a {
+			color: inherit;
+		}
+
+		&.saGridFiller {
+			background: @ColorWhite;
+			border: none;
+		}
+
+		&.saGridCheckbox {
+			padding: 0 0.75rem;
+			vertical-align: middle;
+		}
+
+		&.saHideBorder {
+			border-right: none;
+		}
+
+		&.saGridSpecialHeader {
+			width: fit-content;
+		}
+
+		&.center {
+			text-align: center;
+		}
+
+		&.right {
+			text-align: right;
+		}
+	}
+
+	.saGridColumnGroupRow {
+		.saGridHeadingInner {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: row;
+			width: 100%;
+
+			.saGridHeadingInner {
+				padding: 0 0.5rem;
+			}
+		}
+	}
+
+	.saGridHeadingRow {
+		th {
+			position: relative; // Otherwise drag handles will break.
+			vertical-align: middle;
+			height: 2rem;
+			border-collapse: collapse;
+
+			.saStandard & {
+				height: 3rem;
+			}
+
+			&:last-child {
+				border-right: none;
+			}
+		}
+
+		.saGridHeadingInner {
+			padding: 0 0.5rem;
+
+			.saStandard & {
+				padding: 0 1.5rem;
+			}
+		}
+	}
+
+	.saGridColumnGroup {
+		.GridColumnGroup();
+
+		&+.saGridColumnGroup {
+			border-left: none;
+		}
+
+		&:first-child {
+			border-left: none;
+		}
+
+		&:last-child {
+			border-right: none;
+		}
+
+		.saGridWrapper:not(:has(.saGridTop)) & {
+			border-top: none;
+		}
+	}
+
+	.saGridHeadingInner {
+		min-width: 0;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		gap: 0.375rem;
+		transition: color 0.1s ease, background-color 0.1s ease;
+		overflow: hidden;
+	}
+
+	th:has(.saSorted) {
+		background-color: @ColorGray100;
+
+		.saIcon {
+			color: @ColorGray600;
+			font-size: 1rem;
+		}
+	}
+
+	th:has(.sort) {
+		.Hover({
+				background-color: @ColorBlue100;
+				color: @ColorBlue700;
+
+				.saIcon {
+					color: @ColorBlue700;
+				}
+		});
+
+		&:active {
+			background-color: @ColorBlue200;
+			color: @ColorBlue800;
+
+			.saIcon {
+				color: @ColorBlue800;
+			}
+		}
+	}
+
+	.center .saGridHeadingInner {
+		justify-content: center;
+	}
+
+	.right .saGridHeadingInner {
+		justify-content: right;
+	}
+}
+
+.saGridFoot {
+	.stickyheader & {
+		position: sticky;
+		z-index: 2;
+		bottom: 0;
+	}
+
+	td {
+		background: var(--Sa-Color-GridFoot);
+		font-weight: 500;
+		border-collapse: collapse;
+		border-top: 1px solid @ColorGray100;
+		height: 2rem;
+
+		.saStandard & {
+			height: 3rem;
+		}
+	}
+}
+
+.saGridCell {
+
+	// Links to and from this menu item.
+	.saDestructive {
+		.Destructive(~'', @ColorWhite);
+		pointer-events: none;
+
+		.saIcon+.saBadge {
+			background-color: var(--Sa-Color-DestructiveButtonBackground);
+			border-color: var(--Sa-Color-DestructiveButtonBackground);
+		}
+	}
+
+	.saIcon+.saBadge {
+		border: 2px solid @ColorGray900;
+		border-radius: 50%;
+		color: @ColorWhite;
+		background: @ColorGray900;
+		font-size: 0.75rem;
+		width: 0.625rem;
+		height: 0.625rem;
+		padding: 2px;
+		left: -0.75rem;
+		position: relative;
+	}
+}
+
+/* List grid */
+
+.grid:has(.saListGrid) {
+	display: flex;
+	flex: 1;
+}
+
+.saListGrid {
+	color: @ColorGray900;
+	width: 100%;
+
+	.saListGridInner {
+		height: 100%;
+
+		.saSmallScreenHasTopButtons & {
+			height: calc(100% - 6.8125rem);
+		}
+	}
+
+	.saGroupHead {
+		color: @ColorGray900;
+		box-sizing: border-box;
+		font-size: 1.125rem;
+		padding: 1rem 1rem 0 1rem;
+		line-height: 1.25rem;
+		display: block;
+
+		.saLinkText {
+			font-weight: 600;
+		}
+	}
+
+	.saRow {
+		display: flex;
+		flex-direction: column;
+		flex-basis: 100%;
+		width: 100%;
+		border-bottom: 1px solid @ColorGray150;
+		overflow-wrap: anywhere;
+
+		&:last-child {
+			border-bottom: none;
+		}
+
+		&.saOpen {
+			padding-bottom: 1.5rem;
+
+			.saExpandButton i {
+				transform: rotate(-180deg);
+			}
+		}
+
+		.saExpandButton i {
+			transform: rotate(0deg);
+			transition: all 0.2s ease;
+			font-size: 1rem;
+			color: @ColorGray500;
+		}
+	}
+
+	.saRowHeading {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		-webkit-tap-highlight-color: transparent;
+
+		&:active {
+			background: @ColorGray50;
+
+			.saRowHeadingTextWrapper,
+			.saExpandButton i {
+				color: @ColorBlue600;
+			}
+		}
+
+		.saCheckbox {
+			margin-left: 1rem;
+		}
+
+		.saRowHeadingInner {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex: 1;
+			gap: 0.25rem;
+			padding: 0.875rem 1.375rem 0.875rem 1rem;
+			width: 100%;
+			min-height: 3rem;
+			text-align: left;
+			border: none;
+			background: none;
+			font: inherit;
+			color: inherit;
+		}
+
+		.saRowHeadingTextWrapper {
+			display: flex;
+			flex-direction: column;
+			gap: 0.25rem;
+
+			&:active {
+				color: @ColorBlue600;
+			}
+
+			.UserHtmlContent();
+
+			h3 {
+				color: inherit;
+				font-size: 0.875rem;
+				line-height: 1rem;
+				margin-block-start: 0;
+				margin-block-end: 0;
+			}
+		}
+
+		.saRowHeadingDescription {
+			font-size: 0.75rem;
+			line-height: 0.75rem;
+		}
+	}
+
+	.saRowBody {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		height: auto;
+		font-size: 0.875rem;
+		padding: 0 1rem;
+		box-sizing: border-box;
+
+		.saCellLabel {
+			font-size: 0.75rem;
+			line-height: 0.75rem;
+			color: @ColorGray600;
+		}
+
+		.saCellText {
+			.UserHtmlContent();
+		}
+	}
+
+	.saActionRow {
+		display: flex;
+		gap: 0.5rem;
+		justify-content: space-between;
+		align-items: center;
+		flex-direction: row;
+
+		&:empty {
+			display: none;
+		}
+
+		button {
+			flex: 1;
+			.Button();
+			.ButtonSecondary();
+
+			&.saListGridMoreButton {
+				.IconButtonSizeSmallScreen();
+			}
+
+			&.saListGridRowLink {
+				.ButtonSizeSmallScreen();
+				min-width: fit-content;
+			}
+
+			&:disabled {
+				background: @ColorGray100;
+				pointer-events: none;
+				color: @ColorGray600;
+				border: none;
+			}
+		}
+	}
+
+	.saLink {
+		color: var(--Sa-Color-Link);
+	}
+
+	.systemicon {
+		margin-right: 0.5rem;
+
+		i {
+			top: unset;
+		}
+	}
+
+	.saInfoIndicator {
+		display: none;
+	}
+}

@@ -1,0 +1,134 @@
+a.saKpiOuter {
+	color: var(--Sa-Color-Text);
+
+	.Hover({
+		text-decoration: none;
+		color: var(--Sa-Color-Primary600);
+
+		.saIcon {
+			color: var(--Sa-Color-Primary600);
+		}
+	});
+
+	&:active {
+		color: var(--Sa-Color-Primary500);
+	}
+}
+
+.saKpiOuter {
+	display: flex;
+	gap: 0.25rem;
+	flex-direction: column;
+	flex: 1;
+	position: relative;
+
+	.saKpiHeading {
+		display: flex;
+		gap: 0.5rem;
+		align-items: baseline;
+		font-size: 0.875rem;
+		font-weight: 500;
+
+		.saIcon {
+			font-size: 0.75rem;
+			color: var(--Sa-Color-Icon);
+		}
+	}
+
+	.saKpiWrapper {
+		display: flex;
+		align-items: baseline;
+		gap: 0.5rem;
+		margin-top: -0.5rem;
+		margin-bottom: -0.5rem;
+
+		&:has(.saTrendPeriod) {
+			align-items: center;
+		}
+	}
+
+	.saKpi {
+		display: flex;
+		align-items: baseline;
+		gap: 0.25rem;
+	}
+
+	.saKpiValue {
+		font-size: 3rem;
+		line-height: 4rem;
+		font-weight: 600;
+		white-space: nowrap;
+
+		.saSmallScreen & {
+			font-size: 2.5rem;
+			line-height: 4rem;
+		}
+	}
+
+	.saKpiSuffix {
+		font-size: 1.5rem;
+		font-weight: 900;
+		white-space: nowrap;
+
+		.saSmallScreen & {
+			font-size: 1.25rem;
+		}
+	}
+
+	.saTrendWrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 0.375rem;
+		align-items: baseline;
+	}
+
+	.saTrend {
+		display: flex;
+		align-items: baseline;
+		gap: 0.25rem;
+		border-radius: 1rem;
+		padding: 0.25rem 0.5rem;
+		width: fit-content;
+
+		&.saNegative {
+			background: var(--Sa-Color-NegativeTrend-Brightness190);
+			color: var(--Sa-Color-NegativeTrend);
+		}
+
+		&.saPositive {
+			background: var(--Sa-Color-PositiveTrend-Brightness190);
+			color: var(--Sa-Color-PositiveTrend);
+		}
+
+		&.saNeutral {
+			background: var(--Sa-Color-NeutralTrend-Brightness190);
+			color: var(--Sa-Color-NeutralTrend);
+		}
+	}
+
+	.saTrendInner {
+		display: flex;
+		align-items: baseline;
+		gap: 2px;
+	}
+
+	.saTrendValue {
+		font-size: 0.875rem;
+		line-height: 0.875rem;
+		font-weight: 500;
+		white-space: nowrap;
+	}
+
+	.saTrendSuffix {
+		font-size: 0.625rem;
+		line-height: 0.875rem;
+		font-weight: 900;
+		white-space: nowrap;
+	}
+
+	.saTrendPeriod {
+		font-size: 0.625rem;
+		line-height: 0.75rem;
+		color: var(--Sa-Color-TextSecondary);
+	}
+}
