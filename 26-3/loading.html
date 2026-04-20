@@ -442,6 +442,11 @@
 														</li>
 													</ol>
 												</div>
+												<div class="saChatSuggestionGroup">
+													<button type="button">
+														<div class="saButtonText">Crow</div>
+													</button>
+												</div>
 												<div class="saChatComposerWrapper">
 													<button class="saChatLatest saReached" type="button" aria-label="Gå till senaste meddelande" tabindex="-1">
 														<i class="far fa-arrow-down saIcon"></i>
@@ -959,10 +964,10 @@
 											"QB's passer ratings",
 											"Tell me about the best commercials"
 										];
-										const $suggestionsDiv = $('<div class="saChatSuggestions"></div>');
+										const $suggestionsDiv = $('<div class="saChatSuggestionGroup"></div>');
 										suggestions.forEach(suggestion => {
 										  //const $button = $('<button type="button" class="saPill"><i class="saIcon far fa-arrow-turn-down-right"></i>' + suggestion + '</button>');
-											const $button = $('<button type="button" class="saDefaultButtonGhost"><i class="saIcon far fa-arrow-turn-down-right"></i><div class="saButtonText">' + suggestion + '</div></button>');
+											const $button = $('<button type="button" class="saChatSuggestion"><i class="saIcon far fa-arrow-turn-down-right"></i><div class="saButtonText">' + suggestion + '</div></button>');
 											$suggestionsDiv.append($button);
 										});
 										$container.append($suggestionsDiv);

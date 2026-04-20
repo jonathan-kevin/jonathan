@@ -322,12 +322,12 @@
 		</div>
 	</div>
 	<script>
-		const startDate = new Date('2026-02-01');
-		const endDate = new Date('2026-05-31');
+		const startDate = new Date('2026-03-01');
+		const endDate = new Date('2026-07-31');
 
 		let resources = [
-			{ name: 'Cat', bookings: [{ start: '2026-02-01', end: '2026-04-25' }] },
-			{ name: 'Dog', bookings: [{ start: '2026-02-03', end: '2026-05-30' }] },
+			{ name: 'Cat', bookings: [{ start: '2026-03-01', end: '2026-05-25' }] },
+			{ name: 'Dog', bookings: [{ start: '2026-03-03', end: '2026-05-30' }] },
 			{ name: 'Bird', bookings: [] },
 			{ name: 'Bird', bookings: [] },
 			{ name: 'Bird', bookings: [] },
@@ -456,13 +456,13 @@
 		function buildGantt($container) {
 			const dates = getDates(startDate, endDate);
 			const headerRows = 4;
-			const rowHeight = 32;
+			const rowHeight = 2;
 
 			const $grid = $('<div class="grid" role="grid"></div>');
 
 			$grid.css({
-				gridTemplateColumns: `200px repeat(${dates.length}, 28px)`,
-				gridTemplateRows: `${[30, 30, 30, 30].join('px ')} repeat(${resources.length}, ${rowHeight}px)`
+				gridTemplateColumns: `12.5rem repeat(${dates.length}, 1.5rem)`,
+				gridTemplateRows: `${[30, 30, 30, 30].join('px ')} repeat(${resources.length}, ${rowHeight}rem)`
 			});
 
 			// HEADER LEVELS
@@ -472,7 +472,7 @@
 				const groups = buildHeaderSpans(dates, level);
 
 				groups.forEach(g => {
-					const $cell = $(`<div class="cell header">${g.key}</div>`)
+					const $cell = $(`<div class="cell header"><span>${g.key}</span></div>`)
 						.css({
 							gridColumn: `${g.start + 2} / span ${g.span}`,
 							gridRow: row + 1
@@ -484,7 +484,7 @@
 
 			// DAY ROW
 			dates.forEach((d, i) => {
-				const $cell = $(`<div class="cell header">${d.getDate()}</div>`)
+				const $cell = $(`<div class="cell header"><span>${d.getDate()}</span></div>`)
 					.attr({ role: 'columnheader', 'aria-colindex': i + 2 })
 					.css({ gridColumn: i + 2, gridRow: 4 });
 
@@ -500,6 +500,7 @@
 					$('<div class="cell label"></div>')
 						.text(res.name)
 						.css({ gridColumn: 1, gridRow: row })
+						.append('<button type="button" aria-expanded="false" aria-label="Expand/Collapse"><i class="saIcon far fa-angle-down"></i></button>')
 				);
 
 				// cells
@@ -570,7 +571,7 @@
 			$(document).on('mousemove', function (e) {
 				if (!drag) return;
 
-				const colWidth = 28;
+				const colWidth = 24;
 				const offset = $grid.offset().left + 200;
 
 				let col = Math.floor((e.pageX - offset) / colWidth);

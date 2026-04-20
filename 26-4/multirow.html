@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Jonathan</title>
+	<title>Multirow</title>
 	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css">
 	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
 	<meta name="description" content="Demo">
@@ -203,7 +203,7 @@
 										</div>
 										<div class="saBottomRow">
 											<div class="saTitle">
-												<h1 class="saHeaderText">Jonathan</h1>
+												<h1 class="saHeaderText">Multirow</h1>
 												<div class="saNoSpinner">
 													<button type="button" class="saFavoriteToggle"><i
 															class="saIcon far fa-star"></i><i
@@ -255,7 +255,7 @@
 													class="far fa-arrow-left saBack saIcon"></i></button>
 											<div class="saHeaderWrapper">
 												<div class="saTitle">
-													<h1 class="saHeaderText">Jonathan</h1>
+													<h1 class="saHeaderText">Multirow</h1>
 												</div>
 											</div>
 											<button class="saNotifications saButtonHeader" type="button"
@@ -396,11 +396,6 @@
 																														<div class="saMultiRowInputWrapper long">
 																															<div class="saInputTextWrapper saMultiRowField long saHasTrailingIcons">
 																																<input type="text" class="saInputText" required>
-																																<div class="saTrailingIconsWrapper">
-																																	<button class="saActionIcon" type="button">
-																																		<i class="saIcon far fa-search"></i>
-																																	</button>
-																																</div>
 																															</div>
 																														</div>
 																													</div>
@@ -445,142 +440,137 @@
 		</div>
 	</div>
 	<script>
-$(document).ready(function () {
+		$(document).ready(function () {
 
-    // Function to check if a wrapper should be in Heisenberg state (empty + not focused/hovered + only one row left)
-    function updateHeisenbergState($wrapper) {
-        const $rows = $('.saMultiRowRow');
-        const isOnlyRow = $rows.length <= 1;
+			// Function to check if a wrapper should be in Heisenberg state (empty + not focused/hovered + only one row left)
+			function updateHeisenbergState($wrapper) {
+				const $rows = $('.saMultiRowRow');
+				const isOnlyRow = $rows.length <= 1;
 
-        if (!isOnlyRow) {
-            $wrapper.removeClass('saHeisenberg');
-            return;
-        }
+				if (!isOnlyRow) {
+					$wrapper.removeClass('saHeisenberg');
+					return;
+				}
 
-        const allEmpty = $wrapper.find('input, select').toArray().every(function(el) {
-            return el.value.trim() === '';
-        });
+				const allEmpty = $wrapper.find('input, select').toArray().every(function(el) {
+					return el.value.trim() === '';
+				});
 
-        const isFocusedOrHovered = $wrapper.is(':focus-within') || $wrapper.is(':hover');
+				const isFocusedOrHovered = $wrapper.is(':focus-visible') || $wrapper.is(':hover');
 
-        if (allEmpty && !isFocusedOrHovered) {
-            $wrapper.addClass('saHeisenberg');
-        } else {
-            $wrapper.removeClass('saHeisenberg');
-        }
-    }
+				if (allEmpty && !isFocusedOrHovered) {
+					$wrapper.addClass('saHeisenberg');
+				} else {
+					$wrapper.removeClass('saHeisenberg');
+				}
+			}
 
-    // Live handlers for focus / hover
-    $(document).on('focusin mouseenter', '.saMultiRowWrapper', function() {
-        $(this).removeClass('saHeisenberg');
-    });
+			// Live handlers for focus / hover
+			$(document).on('focusin mouseenter', '.saMultiRowWrapper', function() {
+				$(this).removeClass('saHeisenberg');
+			});
 
-    $(document).on('focusout mouseleave', '.saMultiRowWrapper', function() {
-        updateHeisenbergState($(this));
-    });
+			$(document).on('focusout mouseleave', '.saMultiRowWrapper', function() {
+				updateHeisenbergState($(this));
+			});
 
-    // Template for new row
-    const $rowTemplate = $(`
-        <div class="saMultiRowRow">
-            <div class="saMultiRowCellWrapper">
-                <div class="saMultiRowCell">
-                    <div class="saMultiRowInputWrapper mediumLong">
-                        <div class="saInputTextWrapper saMultiRowField mediumLong">
-                            <input type="text" class="saInputText" required>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="saMultiRowCellWrapper">
-                <div class="saMultiRowCell">
-                    <div class="saMultiRowInputWrapper mediumLong">
-                        <div class="saInputTextWrapper saMultiRowField mediumLong saHasTrailingIcons">
-                            <select class="saInputText saDropdown" required>
-                                <option value=""></option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                            <div class="saTrailingIconsWrapper">
-                                <i class="saIcon far fa-angle-down"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="saMultiRowCellWrapper">
-                <div class="saMultiRowCell">
-                    <div class="saMultiRowInputWrapper long">
-                        <div class="saInputTextWrapper saMultiRowField long saHasTrailingIcons">
-                            <input type="text" class="saInputText" required>
-                            <div class="saTrailingIconsWrapper">
-                                <button class="saActionIcon" type="button">
-                                    <i class="saIcon far fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="saMultiRowCellWrapper">
-                <div class="saMultiRowCell">
-                    <ul class="saMultiRowButtons">
-                        <li>
-                            <button class="saIconOnlyFieldButton saDestructive saDeleteRowButtonJs" type="button">
-                                <i class="saIcon far fa-trash-alt"></i>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    `);
+			// Template for new row
+			const $rowTemplate = $(`
+				<div class="saMultiRowRow">
+					<div class="saMultiRowCellWrapper">
+						<div class="saMultiRowCell">
+							<div class="saMultiRowInputWrapper mediumLong">
+								<div class="saInputTextWrapper saMultiRowField mediumLong">
+									<input type="text" class="saInputText" required>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="saMultiRowCellWrapper">
+						<div class="saMultiRowCell">
+							<div class="saMultiRowInputWrapper mediumLong">
+								<div class="saInputTextWrapper saMultiRowField mediumLong saHasTrailingIcons">
+									<select class="saInputText saDropdown" required>
+										<option value=""></option>
+										<option value="1">One</option>
+										<option value="2">Two</option>
+										<option value="3">Three</option>
+									</select>
+									<div class="saTrailingIconsWrapper">
+										<i class="saIcon far fa-angle-down"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="saMultiRowCellWrapper">
+						<div class="saMultiRowCell">
+							<div class="saMultiRowInputWrapper long">
+								<div class="saInputTextWrapper saMultiRowField long">
+									<input type="text" class="saInputText" required>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="saMultiRowCellWrapper">
+						<div class="saMultiRowCell">
+							<ul class="saMultiRowButtons">
+								<li>
+									<button class="saIconOnlyFieldButton saDestructive saDeleteRowButtonJs" type="button">
+										<i class="saIcon far fa-trash-alt"></i>
+									</button>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			`);
 
-    // Add new row
-    $('.saMultiRowNewRowButton').on('click', function (e) {
-        $('.saMultiRowRowsGroup').append($rowTemplate.clone());
-        $('.saMultiRowWrapper').removeClass('saHeisenberg');
-    });
+			// Add new row
+			$('.saMultiRowNewRowButton').on('click', function (e) {
+				$('.saMultiRowRowsGroup').append($rowTemplate.clone());
+				$('.saMultiRowRow:last .saInputText').first().focus(); // Focus first input of the new row
+			});
 
-    // Delete row logic (the part you asked for)
-    $(document).on('click', '.saDeleteRowButtonJs', function (e) {
-        e.preventDefault();
+			// Delete row logic (the part you asked for)
+			$(document).on('click', '.saDeleteRowButtonJs', function (e) {
+				e.preventDefault();
 
-        const $rowToDelete = $(this).closest('.saMultiRowRow');
-        const $wrapper = $rowToDelete.closest('.saMultiRowWrapper');
-        const $allRows = $('.saMultiRowRow');
+				const $rowToDelete = $(this).closest('.saMultiRowRow');
+				const $wrapper = $rowToDelete.closest('.saMultiRowWrapper');
+				const $allRows = $('.saMultiRowRow');
 
-        if ($allRows.length <= 1) {
-            // This is the last row → do NOT remove it, just clear values and update Heisenberg state
-            $rowToDelete.find('input, select').each(function() {
-                if (this.tagName === 'SELECT') {
-                    this.selectedIndex = 0;           // reset to first (empty) option
-                } else {
-                    this.value = '';
-                }
-            });
+				if ($allRows.length <= 1) {
+					// This is the last row → do NOT remove it, just clear values and update Heisenberg state
+					$rowToDelete.find('input, select').each(function() {
+						if (this.tagName === 'SELECT') {
+							this.selectedIndex = 0;           // reset to first (empty) option
+						} else {
+							this.value = '';
+						}
+					});
 
-            // Trigger update so it can go into Heisenberg mode if still empty
-            updateHeisenbergState($wrapper);
-        }
-        else {
-            // Not the last row → safely delete it
-            $rowToDelete.remove();
+					// Trigger update so it can go into Heisenberg mode if still empty
+					updateHeisenbergState($wrapper);
+				}
+				else {
+					// Not the last row → safely delete it
+					$rowToDelete.remove();
 
-            // After deletion, check if only one row remains and update its state
-            if ($('.saMultiRowRow').length <= 1) {
-                updateHeisenbergState($('.saMultiRowWrapper'));
-            }
-        }
-    });
+					// After deletion, check if only one row remains and update its state
+					if ($('.saMultiRowRow').length <= 1) {
+						updateHeisenbergState($('.saMultiRowWrapper'));
+					}
+				}
+			});
 
-    // Favorite toggle (unchanged)
-    $('.saFavoriteToggle').on('click', function () {
-        $(this).attr('aria-checked', function (i, attr) {
-            return attr === 'true' ? 'false' : 'true';
-        });
-    });
+			// Favorite toggle (unchanged)
+			$('.saFavoriteToggle').on('click', function () {
+				$(this).attr('aria-checked', function (i, attr) {
+					return attr === 'true' ? 'false' : 'true';
+				});
+			});
 
-});
-</script>
+		});
+	</script>
 </body>

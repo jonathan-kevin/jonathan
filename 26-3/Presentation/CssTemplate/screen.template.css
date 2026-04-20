@@ -122,7 +122,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Lexend', Arial, sans-serif;
+  font-family: 'Geist', Arial, sans-serif;
   color: var(--Sa-Color-Text);
   margin: 0;
   padding: 0;
@@ -189,8 +189,8 @@ h6 {
   font-variant: small-caps;
 }
 @font-face {
-  font-family: "Lexend";
-  src: url(../../Fonts/Lexend-VariableFont_wght.ttf) format("truetype");
+  font-family: "Geist";
+  src: url(../../Fonts/Geist-VariableFont_wght.ttf) format("truetype");
   font-weight: 100 900;
 }
 .jkControl {
@@ -456,7 +456,7 @@ table,
 td,
 textarea,
 th {
-  font-family: 'Lexend', Arial, sans-serif;
+  font-family: 'Geist', Arial, sans-serif;
   font-size: 100%;
 }
 code {
@@ -553,8 +553,7 @@ html {
   height: 1px;
   margin-top: 2px;
   margin-left: -1.5rem;
-  background: linear-gradient(to right, rgba(204, 213, 226, 0.04), #ccd5e2, #ccd5e2, #ccd5e2, rgba(204, 213, 226, 0.04));
-  transition: ease opacity 0.2s;
+  background: linear-gradient(to right, #ccd5e2, #ccd5e2, #ccd5e2);
   opacity: 0;
 }
 .scrollindicator.scrolled {
@@ -827,7 +826,7 @@ button.saFormButton:not(.busy) .icon {
 .btnfield .saFormButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -1768,6 +1767,7 @@ a {
 body {
   line-height: 1;
   color: var(--Sa-Color-Text);
+  background-color: #fff;
 }
 body.saRootBody {
   display: flex;
@@ -2157,7 +2157,7 @@ body.saPc *::-webkit-scrollbar-corner {
   color: var(--Sa-Color-SystemIconBlack);
 }
 .systemicon:not(.customcolor) .icon.iconwhite {
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
 }
 .systemicon.customcolor .icon {
   color: inherit;
@@ -2169,7 +2169,7 @@ body.saPc *::-webkit-scrollbar-corner {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   border-radius: 1rem;
   padding: 1rem;
   border: solid 1px #ccd5e2;
@@ -2210,7 +2210,7 @@ body.saPc *::-webkit-scrollbar-corner {
   height: 1px;
   border-radius: 1px;
   width: 100%;
-  background: #ccd5e2;
+  background: light-dark(#ccd5e2, #7088a4);
   bottom: -1rem;
 }
 .saInfoBoxArea .saInfoBox .infosqlexternalframe {
@@ -2477,7 +2477,7 @@ body.saPc *::-webkit-scrollbar-corner {
   height: 1px;
   width: 100%;
   border-radius: 1px;
-  background: #ccd5e2;
+  background: light-dark(#ccd5e2, #7088a4);
   top: 1rem;
 }
 .saInfoBoxArea .saColWrapper {
@@ -2509,13 +2509,13 @@ body.saPc *::-webkit-scrollbar-corner {
   height: 100%;
   width: 1px;
   border-radius: 1px;
-  background: #ccd5e2;
+  background: light-dark(#ccd5e2, #7088a4);
   right: -1rem;
 }
 .saInfoBoxArea .saExpandButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -2764,7 +2764,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saInfoArea .saWarningBox .saWarningButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -2817,18 +2817,18 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 @media (pointer: fine) {
   .saInfoArea .saWarningBox .saWarningButton:hover {
-    color: #fff;
+    color: light-dark(#fff, #1c2025);
   }
 }
 @media (pointer: fine) {
   .saInfoArea .saWarningBox .saClose .saWarningButton:hover {
     background: #e0173e;
-    color: #fff;
+    color: light-dark(#fff, #1c2025);
   }
 }
 .saInfoArea .saWarningBox .saClose .saWarningButton:active {
   background: #bf0024;
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
 }
 .saInfoArea .saWarningBox .saWarningExpander .saWarningButton::after {
   right: unset;
@@ -2836,11 +2836,11 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 @media (pointer: fine) {
   .saInfoArea .saWarningBox .saWarningExpander .saWarningButton:hover {
-    color: #fff;
+    color: light-dark(#fff, #1c2025);
   }
 }
 .saInfoArea .saWarningBox .saWarningExpander .saWarningButton:active {
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
 }
 .saInfoArea .saWarningBox .saWarningExpander.saOpen i {
   transform: rotate(180deg);
@@ -3040,7 +3040,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPagination button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -3137,7 +3137,7 @@ body.saPc *::-webkit-scrollbar-corner {
   background: transparent;
 }
 .saPagination button:disabled .saIcon {
-  color: #ccd5e2;
+  color: light-dark(#ccd5e2, #7088a4);
 }
 .saPagination input {
   max-width: 2rem;
@@ -3146,10 +3146,10 @@ body.saPc *::-webkit-scrollbar-corner {
   text-align: center;
   border-radius: 0.5rem;
   min-width: 2rem;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   font: inherit;
   color: inherit;
-  border: 1px solid #ccd5e2;
+  border: 1px solid light-dark(#ccd5e2, #7088a4);
   transition: all 0.2s ease;
   width: 100%;
 }
@@ -3168,10 +3168,10 @@ body.saPc *::-webkit-scrollbar-corner {
   left: 0;
   bottom: 0;
   max-width: 100vw;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   z-index: 2;
   height: 3rem;
-  border-top: 1px solid #ccd5e2;
+  border-top: 1px solid light-dark(#ccd5e2, #7088a4);
   margin-top: 1rem;
 }
 .saSmallScreen .saPagination button {
@@ -3374,7 +3374,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -3659,7 +3659,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saGridTop .saGridButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -3838,7 +3838,7 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saGridTop .saGridTopInner {
   box-sizing: border-box;
-  border: 1px #ccd5e2 solid;
+  border: 1px light-dark(#ccd5e2, #7088a4) solid;
   border-bottom: none;
   border-radius: 1rem 1rem 0 0;
   align-items: center;
@@ -3956,7 +3956,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saGrid {
   border-radius: 1rem;
   box-sizing: border-box;
-  border: 1px #ccd5e2 solid;
+  border: 1px light-dark(#ccd5e2, #7088a4) solid;
   color: var(--Sa-Color-Text);
   min-width: 100%;
 }
@@ -4328,7 +4328,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saGrid .saGridExpandAllButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -4557,13 +4557,13 @@ body.saPc *::-webkit-scrollbar-corner {
   padding: 0;
 }
 .saGridHead th.saFirstInColumnGroup {
-  border-left: 1px solid #ccd5e2;
+  border-left: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saGridHead th.saFirstInColumnGroup:first-child {
   border-left: none;
 }
 .saGridHead th.saLastInColumnGroup {
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saGridHead th.saLastInColumnGroup + .saFirstInColumnGroup {
   border-left: none;
@@ -4620,9 +4620,9 @@ body.saPc *::-webkit-scrollbar-corner {
   padding: 0 1.5rem;
 }
 .saGridHead .saGridColumnGroup {
-  border-right: 1px solid #ccd5e2;
-  border-left: 1px solid #ccd5e2;
-  border-top: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
+  border-left: 1px solid light-dark(#ccd5e2, #7088a4);
+  border-top: 1px solid light-dark(#ccd5e2, #7088a4);
   border-bottom: none;
   border-collapse: collapse;
   vertical-align: middle;
@@ -4978,7 +4978,7 @@ body.saPc *::-webkit-scrollbar-corner {
   flex: 1;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -5141,7 +5141,6 @@ body.saPc *::-webkit-scrollbar-corner {
   animation-timing-function: ease;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 2rem rgba(49, 58, 68, 0.07);
 }
 .saSmallScreen .saNotificationsWrapper {
   display: block;
@@ -5164,7 +5163,7 @@ body.saPc *::-webkit-scrollbar-corner {
   flex-direction: column;
   width: 25rem;
   top: 0;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   height: 100%;
   overflow: hidden;
   overflow-y: auto;
@@ -5200,7 +5199,6 @@ body.saPc *::-webkit-scrollbar-corner {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0 0.5rem 1rem;
-  background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(8px);
 }
 .saSmallScreen .saNotificationsWrapper .saNotificationsHeader {
@@ -5212,7 +5210,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saNotificationsWrapper .saCloseModal {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -5319,7 +5317,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saNotificationsWrapper .saClearAll {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -5441,8 +5439,8 @@ body.saPc *::-webkit-scrollbar-corner {
   display: flex;
   flex-direction: column;
   transition: all 0.2s ease;
-  background: #fff;
-  border: 1px solid #ccd5e2;
+  background: light-dark(#fff, #1c2025);
+  border: 1px solid light-dark(#ccd5e2, #7088a4);
   gap: 0.5rem;
   border-radius: 0.5rem;
   padding: 0.5rem 3rem 0.5rem 0.5rem;
@@ -5485,7 +5483,7 @@ body.saPc *::-webkit-scrollbar-corner {
   }
 }
 .saNotificationsWrapper .saDismissButton:active {
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
   background: #e0173e;
   border-radius: 0.375rem;
 }
@@ -5588,7 +5586,6 @@ body.saPc *::-webkit-scrollbar-corner {
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(4px);
 }
 .saSideBarSection.saSideBarHeaderSmallScreen .saButtonHeader {
@@ -5872,7 +5869,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saSideBar .saButtonFavoritesEdit {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -6142,7 +6139,7 @@ body.saPc *::-webkit-scrollbar-corner {
   position: relative;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -6420,7 +6417,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saSideBar .saExpander {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -7044,7 +7041,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPartButtons .saSpecialLinksWrapper button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -7238,7 +7235,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPartButtons .saActionLinks .saMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -7396,7 +7393,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPartButtons .saActionLinks .saActionLink {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -7498,7 +7495,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPartButtons .saNavigationLinks .saMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -7630,7 +7627,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPartButtons .saNavigationLinks .saNavigationLink {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   justify-content: center;
   box-sizing: border-box;
@@ -7791,7 +7788,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPartButtons .saBrowseButtons .saBrowseButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -8007,7 +8004,6 @@ body.saPc *::-webkit-scrollbar-corner {
   width: 100%;
   top: 0;
   z-index: 1007;
-  background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(8px);
   box-shadow: 0 0 0 1px #dde3ec;
   transition: ease 0.2s opacity;
@@ -8105,7 +8101,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPageHeader .saBackButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -8249,7 +8245,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saPageHeader .saBreadcrumbSeparator {
   font-weight: 300;
   margin: 0.5rem;
-  color: #ccd5e2;
+  color: light-dark(#ccd5e2, #7088a4);
 }
 .saPageHeader .saBreadcrumbs .saNoLinkBreadcrumb {
   color: var(--Sa-Color-TextSecondary);
@@ -8335,7 +8331,6 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saSmallScreen .saPageHeader .saLogotypeHeader .saTopRow,
 .saSmallscreensidebar .saPageHeader .saLogotypeHeader .saTopRow {
-  box-shadow: 0 0.25rem 0.25rem rgba(49, 58, 68, 0.07);
   height: 3rem;
 }
 .saSmallScreen .saPageHeader .saLogotypeHeader .saTopRow .saBackButton:active,
@@ -8471,7 +8466,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saButtonHeader {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -8598,7 +8593,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saSmallScreen .saExpandWrapper .saExpand {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -8813,7 +8808,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saAlert .saAlertButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -9125,7 +9120,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saDefaultButtonPrimary {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -9250,7 +9245,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saDefaultButtonSecondary {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -9417,7 +9412,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saDefaultButtonGhost {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -9555,7 +9550,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saDefaultButtonPrimaryIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -9664,7 +9659,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saDefaultButtonSecondaryIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -9810,7 +9805,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saDefaultButtonGhostIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -9974,7 +9969,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saClosePopupButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -10099,7 +10094,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saButtonSplit {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -10321,7 +10316,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saErrorView .saErrorViewButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -10562,7 +10557,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saLogin .saLoginInner .saLoginPageButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -10791,7 +10786,7 @@ body.saPc *::-webkit-scrollbar-corner {
   content: '';
   height: 1px;
   width: 100%;
-  background: #ccd5e2;
+  background: light-dark(#ccd5e2, #7088a4);
   position: absolute;
   right: 0;
   bottom: 0;
@@ -10801,7 +10796,7 @@ body.saPc *::-webkit-scrollbar-corner {
   display: flex;
 }
 .saColumnManager .saTabGroup div:first-child .saTab {
-  border-left: 1px solid #ccd5e2;
+  border-left: 1px solid light-dark(#ccd5e2, #7088a4);
   border-radius: 0.25rem 0 0 0;
 }
 .saColumnManager .saTabGroup div:nth-last-child(2):not(.saMoreTabWrapper) .saTab {
@@ -10823,7 +10818,7 @@ body.saPc *::-webkit-scrollbar-corner {
   background: var(--Sa-Color-TabBackground);
   border-color: #eef1f5;
   z-index: 0;
-  border: 1px solid #ccd5e2;
+  border: 1px solid light-dark(#ccd5e2, #7088a4);
   border-left: none;
   font-size: 0.875rem;
   padding: 0 1rem;
@@ -10839,7 +10834,7 @@ body.saPc *::-webkit-scrollbar-corner {
 @media (pointer: fine) {
   .saColumnManager .saTab:hover {
     color: var(--Sa-Color-Primary600);
-    background-color: #fff;
+    background-color: light-dark(#fff, #1c2025);
   }
   .saColumnManager .saTab:hover .saIcon {
     color: var(--Sa-Color-Primary600);
@@ -10854,8 +10849,8 @@ body.saPc *::-webkit-scrollbar-corner {
 }
 .saColumnManager .saTab.saSelected {
   color: var(--Sa-Color-Primary600);
-  background: #fff;
-  border-bottom: 1px solid #fff;
+  background: light-dark(#fff, #1c2025);
+  border-bottom: 1px solid light-dark(#fff, #1c2025);
 }
 .saColumnManager .saTab.saSelected .saIcon {
   color: var(--Sa-Color-Primary600);
@@ -10932,7 +10927,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saColumnManager .saCloseColumnManager {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -11853,7 +11848,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saGalleryWrapper .saGalleryItem .saMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -12154,7 +12149,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saImageCarouselWrapper .saCarouselInfoButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -12361,7 +12356,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -12494,7 +12489,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saImageCarouselWrapper .saCarousel .saActionLinks .saActionLink {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -12577,7 +12572,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -12686,7 +12681,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saNavigationLink {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   justify-content: center;
   box-sizing: border-box;
@@ -12818,7 +12813,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -13038,7 +13033,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saImageCarouselWrapper .saCarouselButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -13216,7 +13211,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saImageCarouselWrapper .saCarouselButtonClose {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   align-items: center;
@@ -13621,7 +13616,7 @@ body.saPc *::-webkit-scrollbar-corner {
   align-items: center;
   border: none;
   box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   padding: 0;
   margin: 0;
   color: var(--Sa-Color-Icon);
@@ -13706,7 +13701,7 @@ body.saPc *::-webkit-scrollbar-corner {
 .saInlineDocumentWrapper .saInlineButtonGroup button:disabled {
   pointer-events: none;
   box-shadow: inset 0 0 0 1px #dde3ec;
-  color: #ccd5e2;
+  color: light-dark(#ccd5e2, #7088a4);
   background-color: #f8f9fb;
   z-index: 0;
 }
@@ -13857,7 +13852,7 @@ body.saPc *::-webkit-scrollbar-corner {
   font-size: 0.875rem;
   padding: 0 1rem;
   height: 2.75rem;
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
   background-color: var(--Sa-Color-Primary600);
   border-radius: 0.5rem;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -14574,7 +14569,7 @@ select.saInputText {
 .saIconOnlyFieldButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -14714,7 +14709,7 @@ select.saInputText {
 .saLabeledFieldButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -15039,7 +15034,7 @@ select.saInputText {
     background-color: var(--Sa-Color-ControlVisibilityChangeBackground);
   }
   to {
-    background-color: #fff;
+    background-color: light-dark(#fff, #1c2025);
   }
 }
 @keyframes saFieldCellVisibilityChanged {
@@ -15047,7 +15042,7 @@ select.saInputText {
     background-color: var(--Sa-Color-ControlVisibilityChangeBackground);
   }
   to {
-    background-color: #fff;
+    background-color: light-dark(#fff, #1c2025);
   }
 }
 @keyframes saSectionTarget {
@@ -15111,7 +15106,7 @@ select.saInputText {
 }
 .saInputPage .saSectionWrapper {
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
   margin-bottom: 1.5rem;
   width: 100%;
   min-width: min-content;
@@ -15228,7 +15223,7 @@ select.saInputText {
 .saLargeScreen .saInputPage .saFieldsColumn {
   width: fit-content;
   padding-right: 2.5rem;
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
   margin-right: 2.5rem;
 }
 .saInputPage .saFieldsColumn.saLastVisible,
@@ -15504,7 +15499,7 @@ select.saInputText {
   font-family: 'Lucida Console', monospace;
   color: var(--Sa-Color-Text);
   background-color: #f8f9fb;
-  outline: 1px solid #ccd5e2;
+  outline: 1px solid light-dark(#ccd5e2, #7088a4);
   border-radius: 0.25rem;
   padding: 2px 0.25rem;
   font-size: smaller;
@@ -15886,7 +15881,7 @@ select.saInputText {
 }
 .saSmallScreen div.saSectionWrapper .saFieldsColumn:not(.saLastVisible) {
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
   margin-bottom: 1.5rem;
 }
 .saSmallScreen .saCheckboxFieldAndLabelWrapper {
@@ -15933,7 +15928,7 @@ select.saInputText {
   flex-grow: 1;
 }
 .saInputPageFooter {
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   padding: 0.5rem 0;
   z-index: 5;
 }
@@ -15959,7 +15954,7 @@ select.saInputText {
 .saInputPageFooter .saFormButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -16641,11 +16636,11 @@ legend + .saInputCardsWrapper {
   line-height: 0.875rem;
 }
 .saInputCardWrapper .saPill.saOutline {
-  box-shadow: inset 0 0 0 1px #ccd5e2;
+  box-shadow: inset 0 0 0 1px light-dark(#ccd5e2, #7088a4);
 }
 .saInputCardWrapper .saPill:has(:checked) {
   background-color: var(--Sa-Color-Primary600);
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
 }
 .saInputCardWrapper .saPill:has(:checked).saOutline {
   background-color: var(--Sa-Color-Primary100);
@@ -16687,7 +16682,7 @@ legend + .saInputCardsWrapper {
   box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
   border-radius: 0 0 0.5rem 0.5rem;
   padding: 0.5rem;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   transition: ease color 0.2s, ease background-color 0.2s, ease box-shadow 0.2s;
 }
 .saDisabled .saCheckboxTreeWrapper {
@@ -16778,7 +16773,7 @@ legend + .saInputCardsWrapper {
 .saCheckboxTreeWrapper .saCheckboxTreeSticky {
   width: 100%;
   z-index: 2;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   margin-bottom: -1px;
   transition: ease color 0.2s, ease background-color 0.2s, ease box-shadow 0.2s;
 }
@@ -16905,8 +16900,8 @@ legend + .saInputCardsWrapper {
   padding: 0;
   transition: background-color ease 0.2s, opacity ease 0.2s, border-radius ease 0.2s;
   overflow: hidden;
-  background-color: #ccd5e2;
-  background-image: repeating-linear-gradient(45deg, #ccd5e2 25%, transparent 25%, transparent 75%, #ccd5e2 75%, #ccd5e2), repeating-linear-gradient(45deg, #ccd5e2 25%, #eef1f5 25%, #eef1f5 75%, #ccd5e2 75%, #ccd5e2);
+  background-color: light-dark(#ccd5e2, #7088a4);
+  background-image: repeating-linear-gradient(45deg, light-dark(#ccd5e2, #7088a4) 25%, transparent 25%, transparent 75%, light-dark(#ccd5e2, #7088a4) 75%, light-dark(#ccd5e2, #7088a4)), repeating-linear-gradient(45deg, light-dark(#ccd5e2, #7088a4) 25%, #eef1f5 25%, #eef1f5 75%, light-dark(#ccd5e2, #7088a4) 75%, light-dark(#ccd5e2, #7088a4));
   border: solid 1px #ccd5e2;
 }
 @media (pointer: fine) {
@@ -16948,7 +16943,7 @@ legend + .saInputCardsWrapper {
   flex-direction: column;
   width: fit-content;
   position: relative;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   z-index: 1;
   transition: ease height 0.2s, ease opacity 0.2s;
   height: fit-content;
@@ -16978,10 +16973,10 @@ legend + .saInputCardsWrapper {
 }
 .saPalette.saFooter {
   background-color: #f8f9fb;
-  border-top: 1px solid #ccd5e2;
+  border-top: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saSmallScreen .saPalette.saFooter {
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
 }
 .saColor {
   appearance: none;
@@ -16994,7 +16989,7 @@ legend + .saInputCardsWrapper {
   cursor: pointer;
   transition: ease transform 0.2s, ease border-radius 0.2s, ease box-shadow 0.2s;
   position: relative;
-  outline: 1px solid #ccd5e2;
+  outline: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saSmallScreen .saColor {
   outline-offset: -1px;
@@ -17030,9 +17025,8 @@ legend + .saInputCardsWrapper {
   height: 0.625rem;
   width: 0.625rem;
   border-radius: 100%;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   position: absolute;
-  box-shadow: 0 2px 2px rgba(49, 58, 68, 0.2);
   transition: ease transform 0.2s, ease opacity 0.2s;
   border: solid 1px #ccd5e2;
   top: 50%;
@@ -17077,7 +17071,7 @@ legend + .saInputCardsWrapper {
   flex-direction: column;
   max-width: 100%;
   height: 2rem;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
   border: none;
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
@@ -17186,7 +17180,7 @@ legend + .saInputCardsWrapper {
   background-color: var(--Sa-Color-Primary100);
 }
 .saSmallScreen .saInputDateRange .saSep {
-  color: #ccd5e2;
+  color: light-dark(#ccd5e2, #7088a4);
 }
 .saSmallScreen .saInputDateRange.saDisabled,
 .saSmallScreen .saInputDateRange:disabled {
@@ -17202,7 +17196,7 @@ legend + .saInputCardsWrapper {
 .saSmallScreen .saInputDateRange .saDayRow {
   position: sticky;
   top: 0;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   z-index: 2;
 }
 @media (max-height: 480px) {
@@ -17237,7 +17231,7 @@ legend + .saInputCardsWrapper {
   flex-direction: column;
   box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07), 0 1rem 2rem rgba(49, 58, 68, 0.07), 0 2rem 4rem rgba(49, 58, 68, 0.07);
   border: solid 1px #ccd5e2;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   font-size: 0.875rem;
   height: fit-content;
 }
@@ -17277,7 +17271,7 @@ legend + .saInputCardsWrapper {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 0;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
 }
 .saDatePickerRoot .saYearPicker.saActive {
   height: 14rem;
@@ -17322,7 +17316,7 @@ legend + .saInputCardsWrapper {
   -moz-appearance: none;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   display: flex;
   align-items: center;
@@ -17466,7 +17460,7 @@ legend + .saInputCardsWrapper {
 .saSmallScreen .saDatePickerRoot .saDayRow {
   position: sticky;
   top: 0;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   z-index: 2;
 }
 .saDatePickerRoot .saWeekNr {
@@ -17556,7 +17550,7 @@ legend + .saInputCardsWrapper {
   color: var(--Sa-Color-Primary600);
 }
 .saDatePickerRoot .saDate.saDisabled {
-  color: #ccd5e2;
+  color: light-dark(#ccd5e2, #7088a4);
   pointer-events: none;
 }
 .saDatePickerRoot .saDate.saDateActive {
@@ -17627,7 +17621,7 @@ legend + .saInputCardsWrapper {
 .saDatePickerRoot .saTodayLink {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -17806,7 +17800,7 @@ legend + .saInputCardsWrapper {
 .saDatePickerRoot .saButtonRow .saDatePickerButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -17980,7 +17974,7 @@ legend + .saInputCardsWrapper {
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -18137,7 +18131,7 @@ legend + .saInputCardsWrapper {
   box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600), 0 0 0 0.25rem var(--Sa-Color-Primary200);
 }
 .saDatePickerRoot .saDateRangeFooterRange span {
-  color: #ccd5e2;
+  color: light-dark(#ccd5e2, #7088a4);
 }
 .saDatePickerRoot .saPill {
   display: flex;
@@ -18213,11 +18207,11 @@ legend + .saInputCardsWrapper {
   line-height: 0.875rem;
 }
 .saDatePickerRoot .saPill.saOutline {
-  box-shadow: inset 0 0 0 1px #ccd5e2;
+  box-shadow: inset 0 0 0 1px light-dark(#ccd5e2, #7088a4);
 }
 .saDatePickerRoot .saPill:has(:checked) {
   background-color: var(--Sa-Color-Primary600);
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
 }
 .saDatePickerRoot .saPill:has(:checked).saOutline {
   background-color: var(--Sa-Color-Primary100);
@@ -18293,7 +18287,7 @@ legend + .saInputCardsWrapper {
 .saSmallScreen .saDateRangePickerRoot .saDayRow {
   position: sticky;
   top: 0;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   z-index: 2;
 }
 @media (max-height: 480px) {
@@ -18408,9 +18402,6 @@ legend + .saInputCardsWrapper {
   top: -0.375rem;
   left: 0;
   border-radius: 0.25rem 0.25rem 0 0;
-}
-.saDragOver.saFileUploadAreaWrapper .saFolderBack {
-  box-shadow: 0 0.0625rem 0.125rem rgba(6, 51, 132, 0.07), 0 0.125rem 0.25rem rgba(6, 51, 132, 0.07), 0 0.25rem 0.5rem rgba(6, 51, 132, 0.07), 0 0.5rem 1rem rgba(6, 51, 132, 0.07);
 }
 .saDisabled .saFileUploadAreaWrapper .saFolderBack {
   background-color: #b2c0d3;
@@ -18589,7 +18580,6 @@ legend + .saInputCardsWrapper {
 }
 @media (pointer: fine) {
   .saDone.saFileUploadAreaWrapper .saFileUploadArea:hover {
-    background-color: rgba(242, 252, 242, 0.25);
     border-color: #009b36;
   }
 }
@@ -18780,7 +18770,7 @@ legend + .saInputCardsWrapper {
 .saFileUploadAreaWrapper .saDeleteButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -19192,7 +19182,6 @@ legend + .saInputCardsWrapper {
 }
 .saLoadingWrapper .saLoadingSpinner {
   transition: ease opacity 1s, ease border-color 0.2s, ease visiblity 0.4s;
-  border: 0.125rem solid rgba(255, 255, 255, 0.2);
   border-left: 0.125rem solid #fff;
   animation: saLoadingSpinner 0.8s infinite linear;
   border-radius: 50%;
@@ -19219,7 +19208,6 @@ legend + .saInputCardsWrapper {
 }
 .saDone .saLoadingWrapper .saLoadingSpinner {
   opacity: 0;
-  border-color: rgba(41, 187, 78, 0.2);
   border-left-color: #29bb4e;
   animation: saLoadingSpinner 0.8s infinite linear, saLoadingSpinnerDone 0.8s forwards linear;
 }
@@ -19278,18 +19266,18 @@ legend + .saInputCardsWrapper {
 }
 .tox {
   color: var(--Sa-Color-Text) !important;
-  font-family: "Lexend", sans-serif !important;
+  font-family: "Geist", sans-serif !important;
 }
 .tox-tinymce {
   border: none !important;
-  font-family: "Lexend", sans-serif !important;
+  font-family: "Geist", sans-serif !important;
   border-radius: 0.5rem !important;
 }
 .tox-tinymce-aux {
-  font-family: "Lexend", sans-serif !important;
+  font-family: "Geist", sans-serif !important;
 }
 .tox .tox-button {
-  font-family: "Lexend", sans-serif !important;
+  font-family: "Geist", sans-serif !important;
 }
 .tox .tox-editor-container .tox-menubar,
 .tox .tox-editor-container .tox-toolbar-overlord,
@@ -19325,7 +19313,7 @@ legend + .saInputCardsWrapper {
 .saMultiAutoSearchWrapper {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -19405,7 +19393,7 @@ legend + .saInputCardsWrapper {
   border: none;
   width: 1.5rem;
   color: var(--Sa-Color-Text);
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
 }
@@ -19463,7 +19451,7 @@ legend + .saInputCardsWrapper {
   overflow-wrap: anywhere;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  box-shadow: inset 0 0 0 1px #ccd5e2;
+  box-shadow: inset 0 0 0 1px light-dark(#ccd5e2, #7088a4);
   position: relative;
   align-items: baseline;
   /* Uncomment once compact mode design is finished for all controls.
@@ -19522,10 +19510,10 @@ legend + .saInputCardsWrapper {
 }
 .saLargeScreen .saMultiAutoSearchWrapper .saSelectedValueWrapper .saTag:active {
   background: #e0173e;
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
 }
 .saLargeScreen .saMultiAutoSearchWrapper .saSelectedValueWrapper .saTag:active .saIcon {
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
 }
 .saMultiAutoSearchWrapper .saSelectedValueWrapper .saTag:nth-last-child(2) {
   margin-right: -0.5rem;
@@ -19682,7 +19670,7 @@ legend + .saInputCardsWrapper {
   width: 2rem;
   border: none;
   box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   padding: 0;
   margin: 0;
   color: var(--Sa-Color-IconDark);
@@ -19741,7 +19729,7 @@ legend + .saInputCardsWrapper {
 .saMultiPickerButtons .saMultiPickerButton:disabled {
   pointer-events: none;
   box-shadow: inset 0 0 0 1px #dde3ec;
-  color: #ccd5e2;
+  color: light-dark(#ccd5e2, #7088a4);
   z-index: 0;
 }
 .saMultiPicker {
@@ -19902,7 +19890,7 @@ legend + .saInputCardsWrapper {
 .saMultiPickerItem .saDeleteButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -19920,7 +19908,7 @@ legend + .saInputCardsWrapper {
   color: var(--Sa-Color-Icon);
   position: absolute;
   border: none;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   opacity: 0;
 }
 .saMultiPickerItem .saDeleteButton .saButtonText {
@@ -19959,7 +19947,7 @@ legend + .saInputCardsWrapper {
   border-radius: 0.5rem;
 }
 .saMultiPickerItem .saDeleteButton:active .saIcon {
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
 }
 .saMultiPickerItem .saDeleteButton .saIcon::after {
   content: '';
@@ -20069,7 +20057,6 @@ legend + .saInputCardsWrapper {
 .saSmallScreen .saMultiPickerOptions .saMultiPickerInner {
   overflow-y: auto;
   transform: scale(1);
-  box-shadow: rgba(49, 58, 68, 0.1) 0 1px 2px, rgba(49, 58, 68, 0.1) 0 2px 0.25rem, rgba(49, 58, 68, 0.1) 0 0.25rem 0.5rem, rgba(49, 58, 68, 0.1) 0 0.5rem 1rem;
 }
 .saSmallScreen .saMultiPickerInner {
   display: flex;
@@ -20081,7 +20068,7 @@ legend + .saInputCardsWrapper {
   outline: 1px solid var(--Sa-Color-InputFieldBorder);
   outline-offset: -1px;
   position: relative;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
 }
 .saSmallScreen .saMultiPickerSelected .saMultiPickerInner {
   transform: scale(0.9);
@@ -20127,7 +20114,7 @@ legend + .saInputCardsWrapper {
 .saSmallScreen .saMultiPickerFooter .saMultiPickerFooterButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -20804,7 +20791,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saSignatureCanvasRoot .saSignatureOuter {
   position: relative;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   border-radius: 0.5rem;
   box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
   transition: ease box-shadow 0.2s;
@@ -20817,7 +20804,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saSignatureCanvasRoot .saSignatureOuter::after {
   content: '';
   height: 0.25rem;
-  background-image: radial-gradient(circle at 2px 2px, #ccd5e2 1px, transparent 0);
+  background-image: radial-gradient(circle at 2px 2px, light-dark(#ccd5e2, #7088a4) 1px, transparent 0);
   background-size: 0.375rem 0.25rem;
   background-position: 0 0;
   position: absolute;
@@ -20850,7 +20837,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saSignatureCanvasRoot.saSignatureLargeScreen .saCanvasButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -21124,7 +21111,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saClosePopup {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -21325,9 +21312,9 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saTextboxWithPopupWrapper select {
   border: 1px solid #dde3ec;
-  color: light-dark(#313a44, #ccd5e2);
+  color: light-dark(#313a44, light-dark(#ccd5e2, #7088a4));
   padding: 1px 1px 1px 0;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   position: absolute;
   z-index: 1005;
   max-width: 50rem;
@@ -21349,7 +21336,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   color: var(--Sa-Color-Text);
 }
 .saTextboxWithPopupWrapper option:nth-child(even):not(:checked) {
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   color: var(--Sa-Color-Text);
 }
 .saTextboxWithPopupWrapper option:hover {
@@ -22221,7 +22208,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saMenuBoxWrapper .saHelpLink {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -22461,8 +22448,8 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saLinkCardsOuter .saLinkCard {
   display: flex;
   flex-direction: column;
-  background: #fff;
-  border: 1px solid #ccd5e2;
+  background: light-dark(#fff, #1c2025);
+  border: 1px solid light-dark(#ccd5e2, #7088a4);
   border-radius: 0.5rem;
   position: relative;
   width: 100%;
@@ -22473,7 +22460,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   cursor: pointer;
 }
 .saLinkCardsOuter .saLinkCard:hover .saLinkCardImage .saIcon {
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
 }
 .saLinkCardsOuter .saLinkCard:hover .saLinkCardInner .saIcon {
   color: inherit;
@@ -22531,7 +22518,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   width: 100%;
   background-repeat: no-repeat;
   background-size: cover;
-  background: #ccd5e2;
+  background: light-dark(#ccd5e2, #7088a4);
   transition: ease 0.2s color, ease 0.2s background, ease 0.2s border, ease 0.2s border-radius;
 }
 .saLarge.saLinkCardsOuter .saLinkCardImage {
@@ -22928,7 +22915,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saTimeline [aria-current="true"] .saStepInner .saStepIcon {
   background-color: var(--Sa-Color-TimelineCurrent);
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
   border-color: transparent;
 }
 .saTimeline [aria-current="true"] .saStepInner .saStepDescription {
@@ -22939,7 +22926,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saTimeline .saComplete .saStepInner .saStepIcon {
   background-color: var(--Sa-Color-TimelineComplete);
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
   border-color: transparent;
 }
 .saTimeline .saError .saStepInner {
@@ -22950,7 +22937,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saTimeline .saError .saStepInner .saStepIcon {
   background-color: var(--Sa-Color-TimelineError);
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
   border-color: transparent;
 }
 .saTimeline .saWarning .saStepInner {
@@ -22961,7 +22948,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saTimeline .saWarning .saStepInner .saStepIcon {
   background-color: var(--Sa-Color-TimelineWarning);
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
   border-color: transparent;
 }
 .saTimeline .saStep a.saStepInner {
@@ -23372,7 +23359,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saMessageBanner .saCloseButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -23421,7 +23408,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
     background: #e0173e;
   }
   .saMessageBanner .saCloseButton:hover .saIcon {
-    color: #fff;
+    color: light-dark(#fff, #1c2025);
   }
   .saError.saMessageBanner .saCloseButton:hover {
     background: #bf0024;
@@ -23431,7 +23418,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   background: #bf0024;
 }
 .saMessageBanner .saCloseButton:active .saIcon {
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
 }
 .saError.saMessageBanner .saCloseButton:active {
   background: #9b0002;
@@ -23774,7 +23761,6 @@ softadmin-nodegraph .saNodeGroup {
   justify-content: flex-start;
   gap: 0.5rem;
   border: 0.125rem dashed #9e65ff;
-  background-color: rgba(221, 204, 255, 0.1);
   border-radius: 1.5rem;
   z-index: 0;
   padding: 0.875rem;
@@ -23912,7 +23898,7 @@ softadmin-nodegraph .saNodeTools {
 softadmin-nodegraph .saNodeTools button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -24227,7 +24213,7 @@ softadmin-nodegraph .saDragged {
   content: '';
   height: 1px;
   width: 100%;
-  background: #ccd5e2;
+  background: light-dark(#ccd5e2, #7088a4);
   position: absolute;
   right: 0;
   bottom: 0;
@@ -24237,7 +24223,7 @@ softadmin-nodegraph .saDragged {
   display: flex;
 }
 .saIFrameTabs .saTabGroup div:first-child .saTab {
-  border-left: 1px solid #ccd5e2;
+  border-left: 1px solid light-dark(#ccd5e2, #7088a4);
   border-radius: 0.25rem 0 0 0;
 }
 .saIFrameTabs .saTabGroup div:nth-last-child(2):not(.saMoreTabWrapper) .saTab {
@@ -24259,7 +24245,7 @@ softadmin-nodegraph .saDragged {
   background: var(--Sa-Color-TabBackground);
   border-color: #eef1f5;
   z-index: 0;
-  border: 1px solid #ccd5e2;
+  border: 1px solid light-dark(#ccd5e2, #7088a4);
   border-left: none;
   font-size: 0.875rem;
   padding: 0 1rem;
@@ -24275,7 +24261,7 @@ softadmin-nodegraph .saDragged {
 @media (pointer: fine) {
   .saIFrameTabs .saTab:hover {
     color: var(--Sa-Color-Primary600);
-    background-color: #fff;
+    background-color: light-dark(#fff, #1c2025);
   }
   .saIFrameTabs .saTab:hover .saIcon {
     color: var(--Sa-Color-Primary600);
@@ -24290,8 +24276,8 @@ softadmin-nodegraph .saDragged {
 }
 .saIFrameTabs .saTab.saSelected {
   color: var(--Sa-Color-Primary600);
-  background: #fff;
-  border-bottom: 1px solid #fff;
+  background: light-dark(#fff, #1c2025);
+  border-bottom: 1px solid light-dark(#fff, #1c2025);
 }
 .saIFrameTabs .saTab.saSelected .saIcon {
   color: var(--Sa-Color-Primary600);
@@ -24340,7 +24326,7 @@ softadmin-nodegraph .saDragged {
 }
 .saIFrameTabs .saContextMenu button {
   width: 100%;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
 }
 .saIFrameTabs .saTabViewInner {
   position: relative;
@@ -24567,7 +24553,7 @@ body.saMiniView {
   border-radius: 0.75rem;
 }
 .saDisabled .saCheckboxTree .saCheckboxOuter .saIcon {
-  color: #ccd5e2;
+  color: light-dark(#ccd5e2, #7088a4);
 }
 .saCheckboxTree .saIcon:before {
   transition: color ease 0.2s, border-radius ease 0.2s, background-color ease 0.2s, transform ease 0.2s;
@@ -24739,8 +24725,8 @@ body.saMiniView {
   height: 2.5rem;
   width: 2.5rem;
   border: none;
-  box-shadow: inset 0 0 0 1px #ccd5e2;
-  font-family: 'Lexend', sans-serif;
+  box-shadow: inset 0 0 0 1px light-dark(#ccd5e2, #7088a4);
+  font-family: 'Geist', sans-serif;
   color: var(--Sa-Color-Text);
   padding: 0;
   text-align: center;
@@ -24769,8 +24755,8 @@ body.saMiniView {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
-  box-shadow: inset 0 0 0 1px #ccd5e2;
+  background: light-dark(#fff, #1c2025);
+  box-shadow: inset 0 0 0 1px light-dark(#ccd5e2, #7088a4);
   color: var(--Sa-Color-Icon);
   transition: ease color 0.2s, ease background 0.2s, ease border-radius 0.2s;
   cursor: pointer;
@@ -24949,11 +24935,11 @@ body.saMiniView {
   line-height: 0.875rem;
 }
 .saGroupView .saPillGroup .saPill.saOutline {
-  box-shadow: inset 0 0 0 1px #ccd5e2;
+  box-shadow: inset 0 0 0 1px light-dark(#ccd5e2, #7088a4);
 }
 .saGroupView .saPillGroup .saPill:has(:checked) {
   background-color: var(--Sa-Color-Primary600);
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
 }
 .saGroupView .saPillGroup .saPill:has(:checked).saOutline {
   background-color: var(--Sa-Color-Primary100);
@@ -25049,7 +25035,7 @@ body.saMiniView {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   color: var(--Sa-Color-Text);
   background: #fff;
   font-size: 1rem;
@@ -25123,7 +25109,7 @@ body.saMiniView {
 .saGroupView .saGroupViewButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -25311,7 +25297,7 @@ body.saMiniView {
 }
 .saGroupView .saGroupViewGroup .saGroupViewTitle {
   box-sizing: border-box;
-  border: 1px #ccd5e2 solid;
+  border: 1px light-dark(#ccd5e2, #7088a4) solid;
   border-bottom: none;
   border-radius: 1rem 1rem 0 0;
   align-items: center;
@@ -25350,7 +25336,7 @@ body.saMiniView {
 }
 .saGroupView .saGroupViewTable {
   box-sizing: border-box;
-  border: 1px #ccd5e2 solid;
+  border: 1px light-dark(#ccd5e2, #7088a4) solid;
   border-top: none;
   color: var(--Sa-Color-Text);
   border-radius: 0 0 1rem 1rem;
@@ -25377,13 +25363,13 @@ body.saMiniView {
   vertical-align: middle;
 }
 .saGroupView .saGroupViewTable th.saFirstInColumnGroup {
-  border-left: 1px solid #ccd5e2;
+  border-left: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saGroupView .saGroupViewTable th.saFirstInColumnGroup:first-child {
   border-left: none;
 }
 .saGroupView .saGroupViewTable th.saLastInColumnGroup {
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saGroupView .saGroupViewTable th.saLastInColumnGroup + .saFirstInColumnGroup {
   border-left: none;
@@ -25515,7 +25501,7 @@ body.saMiniView {
   width: 100%;
   border-radius: 1rem 0.25rem 0.25rem 1rem;
   overflow: hidden;
-  border: 1px solid #ccd5e2;
+  border: 1px solid light-dark(#ccd5e2, #7088a4);
   box-sizing: border-box;
   outline: none;
 }
@@ -25530,7 +25516,7 @@ body.saMiniView {
 .saPdfTemplateEditor .saPageButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -25686,7 +25672,7 @@ body.saMiniView {
   border-color: transparent;
 }
 .saPdfTemplateEditor .saPageButton:disabled .saIcon {
-  color: #ccd5e2;
+  color: light-dark(#ccd5e2, #7088a4);
 }
 .saPdfTemplateEditor .saPdfTemplateEditorSidebar {
   display: flex;
@@ -25696,7 +25682,7 @@ body.saMiniView {
   width: 16.5rem;
   min-width: 16.5rem;
   padding: 0.75rem;
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saPdfTemplateEditor .saPdfTemplateEditorSidebar .saLastSavedText {
   height: 1.25rem;
@@ -25757,9 +25743,9 @@ body.saMiniView {
   justify-content: space-between;
   padding: 0.5rem;
   height: 2rem;
-  border: 1px solid #ccd5e2;
+  border: 1px solid light-dark(#ccd5e2, #7088a4);
   border-radius: 0.5rem;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   position: relative;
   cursor: grab;
   -webkit-touch-callout: none;
@@ -25864,11 +25850,11 @@ body.saMiniView {
   flex-wrap: wrap;
   gap: 0.5rem;
   width: 100%;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   padding: 0.5rem;
   justify-content: space-between;
   transition: ease transform 0.2s;
-  box-shadow: inset 0 -1px 0 0 #ccd5e2;
+  box-shadow: inset 0 -1px 0 0 light-dark(#ccd5e2, #7088a4);
 }
 .saPdfTemplateEditor .saPdfTemplateToolbar ul {
   display: flex;
@@ -25886,7 +25872,7 @@ body.saMiniView {
 .saPdfTemplateEditor .saToolbarButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -25993,7 +25979,7 @@ body.saMiniView {
   color: #adbdd1;
 }
 .saPdfTemplateEditor .saInputPair {
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
   flex-wrap: wrap;
 }
 .saPdfTemplateEditor .saInputPair.saHideBorder {
@@ -26025,7 +26011,7 @@ body.saMiniView {
   position: absolute;
   height: 0.5rem;
   width: 0.5rem;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   border: 1px solid #8b4af1;
   opacity: 0;
 }
@@ -26078,7 +26064,7 @@ body.saMiniView {
   align-items: center;
   width: fit-content;
   background: #8b4af1;
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
   padding: 0.25rem 0.25rem;
   max-height: 1rem;
   font-size: 0.75rem;
@@ -26125,8 +26111,8 @@ body.saMiniView {
 .saPdfTemplateEditor .saToolbarDistribute {
   flex-wrap: wrap;
   padding: 0 0.5rem;
-  border-left: 1px solid #ccd5e2;
-  border-right: 1px solid #ccd5e2;
+  border-left: 1px solid light-dark(#ccd5e2, #7088a4);
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saLargeScreen .saPivotGridWrapper.stickyheader thead {
   position: sticky;
@@ -26142,7 +26128,7 @@ body.saMiniView {
   z-index: -1;
   top: -1px;
   left: -1px;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
 }
 .saLargeScreen .saPivotGridWrapper.stickyheader thead tr:first-child th:first-child::after {
   content: '';
@@ -26155,8 +26141,8 @@ body.saMiniView {
   left: -1px;
   background: inherit;
   border-top-left-radius: 1rem;
-  border-top: 1px solid #ccd5e2;
-  border-left: 1px solid #ccd5e2;
+  border-top: 1px solid light-dark(#ccd5e2, #7088a4);
+  border-left: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saLargeScreen .saPivotGridWrapper.stickyheader thead tr:first-child th:last-child::before {
   content: '';
@@ -26167,7 +26153,7 @@ body.saMiniView {
   z-index: -1;
   top: -1px;
   right: -1px;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
 }
 .saLargeScreen .saPivotGridWrapper.stickyheader thead tr:first-child th:last-child::after {
   content: '';
@@ -26180,15 +26166,15 @@ body.saMiniView {
   right: -1px;
   background: inherit;
   border-top-right-radius: 1rem;
-  border-top: 1px solid #ccd5e2;
-  border-right: 1px solid #ccd5e2;
+  border-top: 1px solid light-dark(#ccd5e2, #7088a4);
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saLargeScreen .saPivotGridWrapper.stickyheader tbody .saPivotGridHeading,
 .saLargeScreen .saPivotGridWrapper.stickyheader thead .saPivotGridHeading.saPivotGridFiller:first-child {
   position: sticky;
   z-index: 2;
   left: 1px;
-  box-shadow: -1px 0 0 #ccd5e2;
+  box-shadow: -1px 0 0 light-dark(#ccd5e2, #7088a4);
 }
 .saLargeScreen .saPivotGridWrapper.stickyheader tbody tr:last-child th:first-child::before {
   content: '';
@@ -26199,7 +26185,7 @@ body.saMiniView {
   z-index: -1;
   bottom: -1px;
   left: -1px;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
 }
 .saLargeScreen .saPivotGridWrapper.stickyheader tbody tr:last-child th:first-child::after {
   content: '';
@@ -26212,8 +26198,8 @@ body.saMiniView {
   left: -1px;
   background: inherit;
   border-bottom-left-radius: 1rem;
-  border-bottom: 1px solid #ccd5e2;
-  border-left: 1px solid #ccd5e2;
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
+  border-left: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saPivotGridWrapper {
   display: flex;
@@ -26236,7 +26222,7 @@ body.saMiniView {
 .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -26371,7 +26357,7 @@ body.saMiniView {
 }
 .saPivotGridWrapper .saPivotGrid {
   box-sizing: border-box;
-  border: 1px #ccd5e2 solid;
+  border: 1px light-dark(#ccd5e2, #7088a4) solid;
   color: var(--Sa-Color-Text);
   border-radius: 1rem;
 }
@@ -26426,13 +26412,13 @@ body.saMiniView {
   border-bottom: none;
 }
 .saPivotGridWrapper .saPivotGridHeading.saFirstInColumnGroup {
-  border-left: 1px solid #ccd5e2;
+  border-left: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saPivotGridWrapper .saPivotGridHeading.saFirstInColumnGroup:first-child {
   border-left: none;
 }
 .saPivotGridWrapper .saPivotGridHeading.saLastInColumnGroup {
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saPivotGridWrapper .saPivotGridHeading.saLastInColumnGroup + .saFirstInColumnGroup {
   border-left: none;
@@ -26441,7 +26427,7 @@ body.saMiniView {
   vertical-align: top;
 }
 .saPivotGridWrapper .saPivotGridHeading.saPivotGridFiller {
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
 }
 .saPivotGridWrapper .saPivotGridHeading:has(.saSorted) {
   background-color: var(--Sa-Color-GridHeadSorted);
@@ -26526,9 +26512,9 @@ body.saMiniView {
   border-right: none;
 }
 .saPivotGridWrapper .saPivotGridColumnGroup {
-  border-right: 1px solid #ccd5e2;
-  border-left: 1px solid #ccd5e2;
-  border-top: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
+  border-left: 1px solid light-dark(#ccd5e2, #7088a4);
+  border-top: 1px solid light-dark(#ccd5e2, #7088a4);
   border-bottom: none;
   border-collapse: collapse;
   vertical-align: middle;
@@ -26557,7 +26543,7 @@ body.saMiniView {
 .saPivotGridWrapper .saLinkButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -26628,30 +26614,30 @@ body.saMiniView {
 }
 @media (pointer: fine) {
   .saPivotGridWrapper .saLinkButton.saDestructive:hover {
-    color: #fff;
+    color: light-dark(#fff, #1c2025);
     background: var(--Sa-Color-DestructiveButtonBackground);
     border-color: transparent;
   }
   .saPivotGridWrapper .saLinkButton.saDestructive:hover .saIcon {
-    color: #fff;
+    color: light-dark(#fff, #1c2025);
   }
   .saPivotGridWrapper .saLinkButton.saDestructive:hover .saBadge {
-    background-color: #fff;
+    background-color: light-dark(#fff, #1c2025);
     color: var(--Sa-Color-DestructiveButtonBackground);
     border-color: var(--Sa-Color-DestructiveButtonBackground);
   }
 }
 .saPivotGridWrapper .saLinkButton.saDestructive:active {
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
   background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: transparent;
 }
 .saPivotGridWrapper .saLinkButton.saDestructive:active .saIcon {
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
   background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
 }
 .saPivotGridWrapper .saLinkButton.saDestructive:active .saBadge {
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
 }
@@ -26713,14 +26699,14 @@ body.saMiniView {
   width: 80%;
   box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);
   border: solid 1px #ccd5e2;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   position: relative;
   top: 12.5rem;
 }
 .saProgressWrapper .saProgressButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -26930,9 +26916,9 @@ body.saMiniView {
   min-width: 0.5rem;
   height: 0.5rem;
   border-radius: 0.25rem;
-  background-color: #ccd5e2;
-  color: #ccd5e2;
-  box-shadow: 624rem 0 0 0 #ccd5e2, 624.9375rem 0 0 0 #ccd5e2, 625.875rem 0 0 0 #ccd5e2;
+  background-color: light-dark(#ccd5e2, #7088a4);
+  color: light-dark(#ccd5e2, #7088a4);
+  box-shadow: 624rem 0 0 0 light-dark(#ccd5e2, #7088a4), 624.9375rem 0 0 0 light-dark(#ccd5e2, #7088a4), 625.875rem 0 0 0 light-dark(#ccd5e2, #7088a4);
   animation: saDotCarousel 1s infinite linear;
 }
 .saSmallScreen .saProgressWrapper {
@@ -26943,13 +26929,13 @@ body.saMiniView {
 }
 @keyframes saDotCarousel {
   0% {
-    box-shadow: 624rem 0 0 -1px #ccd5e2, 624.9375rem 0 0 1px #ccd5e2, 625.875rem 0 0 -1px #ccd5e2;
+    box-shadow: 624rem 0 0 -1px light-dark(#ccd5e2, #7088a4), 624.9375rem 0 0 1px light-dark(#ccd5e2, #7088a4), 625.875rem 0 0 -1px light-dark(#ccd5e2, #7088a4);
   }
   50% {
-    box-shadow: 625.875rem 0 0 -1px #ccd5e2, 624rem 0 0 -1px #ccd5e2, 624.9375rem 0 0 1px #ccd5e2;
+    box-shadow: 625.875rem 0 0 -1px light-dark(#ccd5e2, #7088a4), 624rem 0 0 -1px light-dark(#ccd5e2, #7088a4), 624.9375rem 0 0 1px light-dark(#ccd5e2, #7088a4);
   }
   100% {
-    box-shadow: 624.9375rem 0 0 1px #ccd5e2, 625.875rem 0 0 -1px #ccd5e2, 624rem 0 0 -1px #ccd5e2;
+    box-shadow: 624.9375rem 0 0 1px light-dark(#ccd5e2, #7088a4), 625.875rem 0 0 -1px light-dark(#ccd5e2, #7088a4), 624rem 0 0 -1px light-dark(#ccd5e2, #7088a4);
   }
 }
 @keyframes saProgressIndeterminate {
@@ -26980,7 +26966,7 @@ body.saMiniView {
   margin-top: 0 !important;
 }
 .saHelpPage * {
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   color: var(--Sa-Color-Text);
 }
 .saHelpPage img {
@@ -27029,7 +27015,7 @@ body.saMiniView {
 .saDiffView tr,
 .saDiffView td,
 .saDiffView th {
-  border: 1px solid #fff;
+  border: 1px solid light-dark(#fff, #1c2025);
   border-collapse: collapse;
 }
 .saDiffView del,
@@ -27080,7 +27066,7 @@ body.saMiniView {
 .saDiffView .saDiffViewAfter {
   text-align: center;
   padding-bottom: 0.25rem;
-  color: light-dark(#313a44, #ccd5e2);
+  color: light-dark(#313a44, light-dark(#ccd5e2, #7088a4));
 }
 .saDiffView .saDiffViewBefore button,
 .saDiffView .saDiffViewAfter button {
@@ -27090,7 +27076,6 @@ body.saMiniView {
 .saCalendarOverlay {
   position: fixed;
   z-index: 99;
-  background: rgba(49, 58, 68, 0.4);
   height: 100vh;
   width: 100vw;
   top: 0;
@@ -27104,7 +27089,7 @@ body.saMiniView {
 .saCalendarOverlay .saChangeScreenModeButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -27228,7 +27213,7 @@ body.saMiniView {
   max-width: 1.125rem;
 }
 .saCalendarOverlayHeading {
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
   text-align: center;
 }
 .saCalendarSection {
@@ -27236,7 +27221,7 @@ body.saMiniView {
   flex-direction: column;
   min-width: 0;
   height: fit-content;
-  border: 1px solid #ccd5e2;
+  border: 1px solid light-dark(#ccd5e2, #7088a4);
   border-radius: 1rem;
   position: relative;
   min-width: 54.5rem;
@@ -27260,7 +27245,7 @@ body.saMiniView {
 .saCalendarSection .saPeriodButtons button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -27382,7 +27367,7 @@ body.saMiniView {
 .saCalendarSection .saTodayButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -27568,7 +27553,7 @@ body.saMiniView {
   display: flex;
   flex: 1 1 0;
   min-width: 4rem;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
   position: relative;
 }
 .saCalendarSection .saWeek:last-child {
@@ -27580,7 +27565,7 @@ body.saMiniView {
 .saCalendarSection .saWeek.saWeekDays {
   flex: 0;
   align-items: stretch;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   position: sticky;
   left: 0;
   top: 4.4375rem;
@@ -27592,12 +27577,12 @@ body.saMiniView {
 .saCalendarSection .saWeek.saWeekExtra {
   flex: 0;
   border-bottom: none;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
 }
 .saCalendarSection .saWeekDay {
   color: var(--Sa-Color-TextSecondary);
   flex: 1 1 0;
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27606,7 +27591,7 @@ body.saMiniView {
   min-width: 0;
   overflow: hidden;
   font-size: 0.75rem;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
 }
 .saCalendarSection .saWeekDay:last-child {
   border-right: 1px solid transparent;
@@ -27628,7 +27613,7 @@ body.saMiniView {
   background: #f8f9fb;
   color: var(--Sa-Color-Text);
   font-size: 0.875rem;
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saCalendarSection .saDateIsToday .saDateNumber {
   color: var(--Sa-Color-Primary600);
@@ -27655,7 +27640,7 @@ body.saMiniView {
   flex-direction: column;
   position: relative;
   border: 1px solid transparent;
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
   min-width: 0;
   overflow: hidden;
   min-height: 5.5rem;
@@ -27828,20 +27813,20 @@ body.saMiniView {
 .saCalendarSection .saCalendarHeader {
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
   border-radius: 1rem 1rem 0 0;
   color: var(--Sa-Color-Text);
   position: sticky;
   top: -1px;
   z-index: 10;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
 }
 .saCalendarSection .saComponentContentLinksWrapper {
   display: flex;
   align-items: center;
   background: #eef1f5;
   padding: 0.5rem 0.75rem;
-  box-shadow: inset 0 1px 0 #ccd5e2;
+  box-shadow: inset 0 1px 0 light-dark(#ccd5e2, #7088a4);
 }
 .saCalendarSection .saComponentContentLinksWrapper .saBadgeCount {
   display: flex;
@@ -27882,7 +27867,7 @@ body.saMiniView {
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -28196,10 +28181,10 @@ body.saMiniView {
   width: 100%;
   max-width: 1.5rem;
   border: none;
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
   font-size: 1rem;
   cursor: pointer;
-  background: light-dark(#313a44, #ccd5e2);
+  background: light-dark(#313a44, light-dark(#ccd5e2, #7088a4));
   transition: ease color 0.2s, ease background-color 0.2s;
 }
 .saDesktopCalendar.saCalendarSection .saCalendarSidebarExpander:hover {
@@ -28216,7 +28201,7 @@ body.saMiniView {
 .saDesktopCalendar.saCalendarSection .saCalendarSidebar {
   position: relative;
   transition: ease all 0.2s;
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
   min-height: 0;
   transition: ease width 0.2s, ease opacity 0.2s;
   width: 15rem;
@@ -28352,7 +28337,7 @@ body.saMiniView {
 .saDesktopCalendar.saWeekdaysCalendar .saShowMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -28475,7 +28460,7 @@ body.saMiniView {
   border-bottom: none;
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saWeek:last-child {
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saWeek.saWeekDays {
   border-bottom: none;
@@ -28486,7 +28471,7 @@ body.saMiniView {
   margin-top: 2px;
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saWeekDates {
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
   min-height: 2rem;
   position: sticky;
   left: 0;
@@ -28498,7 +28483,7 @@ body.saMiniView {
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saWeekDates .saWeekExtraInner {
   border: 1px solid transparent;
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saNumberOfCheckedWrapper {
   font-size: 0.875rem;
@@ -28513,7 +28498,7 @@ body.saMiniView {
   gap: 2px;
   min-width: 0;
   border: none;
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
   align-items: center;
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saWeekExtraInner:last-child {
@@ -28539,7 +28524,7 @@ body.saMiniView {
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saCalendarItemList {
   padding-right: 1rem;
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saDesktopCalendar.saTimeScheduleCalendar .saCalendarItemList:last-child {
   border-right-color: transparent;
@@ -28619,7 +28604,7 @@ body.saMiniView {
 .saDesktopCalendar.saResourceCalendar .saCalendarResourceFilter .saResourceFilterExpandButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -28775,7 +28760,7 @@ body.saMiniView {
   gap: 0;
   min-width: 3.5rem;
   flex: 0;
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
   position: relative;
 }
 .saTimeScheduleCalendar .saSlot {
@@ -28876,14 +28861,14 @@ body.saMiniView {
   background: #e0173e;
   height: 1px;
   z-index: 4;
-  outline: 1px solid #fff;
+  outline: 1px solid light-dark(#fff, #1c2025);
   pointer-events: none;
 }
 .saTimeScheduleCalendar .saCurrentTime::before {
   content: '';
   height: 0.5rem;
   min-width: 0.5rem;
-  outline: 1px solid #fff;
+  outline: 1px solid light-dark(#fff, #1c2025);
   position: absolute;
   left: 0;
   top: -0.1875rem;
@@ -28943,7 +28928,7 @@ body.saMiniView {
 .saSmallScreenCalendar.saCalendarSection .saCalendarHeadingButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -29062,7 +29047,7 @@ body.saMiniView {
   padding: 0.5rem 0.5rem 0.5rem 0.75rem;
   top: 0;
   z-index: 2;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   border-radius: 0;
 }
 .saSmallScreenCalendar.saCalendarSection:has(.saCalendarHeadingButton.saOpen) .saCalendarInner,
@@ -29078,7 +29063,6 @@ body.saMiniView {
   inset: 0;
   width: 100vh;
   height: 1000vh;
-  background: rgba(49, 58, 68, 0.4);
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarFilter {
   display: flex;
@@ -29088,9 +29072,9 @@ body.saMiniView {
   position: absolute;
   width: 100%;
   z-index: 10;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   top: 3.5rem;
-  box-shadow: 0 1px 0 #ccd5e2, -1px 0 0 #ccd5e2, 1px 0 0 #ccd5e2;
+  box-shadow: 0 1px 0 light-dark(#ccd5e2, #7088a4), -1px 0 0 light-dark(#ccd5e2, #7088a4), 1px 0 0 light-dark(#ccd5e2, #7088a4);
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarFilter .saInputTextWrapper {
   width: 100%;
@@ -29207,7 +29191,7 @@ body.saMiniView {
   width: 1rem;
 }
 .saSmallScreenCalendar.saCalendarSection .saDateX.saDateIsToday .saDateNumber {
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
   font-weight: 400;
   background: var(--Sa-Color-Primary600);
 }
@@ -29269,7 +29253,7 @@ body.saMiniView {
   position: relative;
   min-width: 100%;
   overflow: hidden;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
   min-height: 3.5rem;
   background: #f8f9fb;
   z-index: 2;
@@ -29351,7 +29335,7 @@ body.saMiniView {
   transform: translateX(0);
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarHeaderInnerRow .saWeek:not(.saWeekDays) .saDateNumber.saDateIsCurrent .saDateNumberInner {
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarHeaderInnerRow .saWeek:not(.saWeekDays) .saDateNumber.saDateIsCurrent .saDateNumberInner::before {
   background: var(--Sa-Color-Primary600);
@@ -29424,12 +29408,12 @@ body.saMiniView {
   gap: 1rem;
   width: 100%;
   flex: 1;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   top: 0;
   z-index: 1;
   padding: 0.5rem 0.5rem 0.5rem 1rem;
   max-height: 3rem;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saSmallScreenCalendar.saCalendarSection .saDateListHeadingWrapper button.saIcon {
   display: flex;
@@ -29608,7 +29592,7 @@ body.saMiniView {
 }
 .saSmallScreenCalendar.saCalendarSection.saTimeScheduleCalendar .saExtraInfoList {
   flex: 1 1 0;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   display: flex;
   width: 100%;
   position: relative;
@@ -29630,25 +29614,25 @@ body.saMiniView {
   position: sticky;
   left: 0;
   z-index: 8;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
 }
 .saSmallScreenCalendar.saCalendarSection.saResourceCalendar .saCalendarItemList,
 .saSmallScreenCalendar.saCalendarSection.saResourceCalendar .saExtraInfoList {
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saSmallScreenCalendar.saCalendarSection.saResourceCalendar .saResourceLabelCell {
   flex: 1 1 0;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   width: 100%;
   position: relative;
   padding: 0.5rem;
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
   height: 2.5rem;
   overflow: hidden;
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saSmallScreenCalendar.saCalendarSection.saResourceCalendar .saResourceLabelCell.saHasLinks .saResourceLabel {
   width: calc(100% - 1.5rem);
@@ -29710,7 +29694,6 @@ body.saMiniView {
   padding: 1rem;
   position: sticky;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(8px);
 }
 @media (pointer: fine) {
@@ -29768,7 +29751,6 @@ body.saMiniView {
   min-width: 2.5rem;
   border-radius: 0.75rem;
   background: #ccd5e2;
-  box-shadow: inset 0 0 0 1px rgba(49, 58, 68, 0.1);
   transition: ease background-color 0.2s, ease box-shadow 0.2s;
   position: absolute;
 }
@@ -29778,7 +29760,7 @@ body.saMiniView {
   width: 1.25rem;
   border-radius: 0.625rem;
   background: #fff;
-  box-shadow: inset 0 0 0 1px #f8f9fb, 0 1px 2px 0 rgba(49, 58, 68, 0.6);
+  inset: 0 0 0 1px #f8f9fb;
   right: 1.125rem;
   top: 2px;
   position: absolute;
@@ -29819,7 +29801,6 @@ body.saMiniView {
 }
 .saDisabled.saToggleWrapper .saToggle:checked::after {
   background: #ccd5e2;
-  box-shadow: inset 0 0 0 1px rgba(49, 58, 68, 0.2), 0 1px 2px 0 rgba(49, 58, 68, 0.6);
 }
 @media (pointer: fine) {
   .saDisabled.saToggleWrapper .saToggle:checked:hover::before {
@@ -29841,7 +29822,6 @@ body.saMiniView {
 }
 .saDisabled.saToggleWrapper .saToggle::after {
   background: #f8f9fb;
-  box-shadow: inset 0 0 0 1px rgba(49, 58, 68, 0.1), 0 1px 2px 0 rgba(49, 58, 68, 0.2);
 }
 @media (pointer: fine) {
   .saDisabled.saToggleWrapper .saToggle:hover::before {
@@ -29863,7 +29843,7 @@ body.saMiniView {
   gap: 0.5rem;
   width: fit-content;
   background: #f8f9fb;
-  border: 1px solid #ccd5e2;
+  border: 1px solid light-dark(#ccd5e2, #7088a4);
   margin-bottom: 1rem;
 }
 .saLargeScreen .saVisibleParametersWrapper {
@@ -29906,7 +29886,7 @@ body.saMiniView {
 .saVisibleParametersWrapper .saVisibleParametersButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -30247,7 +30227,7 @@ a.saKpiOuter:active {
   min-width: 40rem;
 }
 .saBankgiroLink .saDialog {
-  border: 2px solid #ccd5e2;
+  border: 2px solid light-dark(#ccd5e2, #7088a4);
   border-radius: 0.75rem;
   display: inline-block;
   max-width: 50rem;
@@ -30280,7 +30260,7 @@ a.saKpiOuter:active {
 .saBankgiroLink button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -30576,7 +30556,7 @@ a.saKpiOuter:active {
 .saBankIdWrapper button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -30665,7 +30645,7 @@ a.saKpiOuter:active {
   }
 }
 .saBankIdWrapper .saButtonGhost:active {
-  background: #ccd5e2;
+  background: light-dark(#ccd5e2, #7088a4);
 }
 .saQrWrapper {
   display: flex;
@@ -30709,7 +30689,7 @@ a.saKpiOuter:active {
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   margin-bottom: 0.5rem;
   border-radius: 1rem;
   border: 1px #dde3ec solid;
@@ -30724,7 +30704,7 @@ a.saKpiOuter:active {
   right: 0.5rem;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -30899,7 +30879,6 @@ a.saKpiOuter:active {
 }
 .saTreeViewWrapper .saTreeView > li:has(ul) > label::after {
   border-width: 0 0 1px 1px;
-  border-color: rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) #ccd5e2 rgba(255, 255, 255, 0);
   z-index: 1;
 }
 .saTreeViewWrapper .saFileDropDescription {
@@ -30951,9 +30930,6 @@ a.saKpiOuter:active {
 }
 .saTreeViewWrapper .saTreeView .saLoadingSpinnerWrapper.saDone .saLoadingSpinner {
   opacity: 0;
-  border-top-color: rgba(41, 187, 78, 0.2);
-  border-right-color: rgba(41, 187, 78, 0.2);
-  border-bottom-color: rgba(41, 187, 78, 0.2);
   border-left-color: #29bb4e;
   animation: saLoadingSpinner 0.8s infinite linear, saLoadingSpinnerDone 0.8s forwards linear;
 }
@@ -31746,7 +31722,7 @@ a.saKpiOuter:active {
 .saToolbox .saToolboxButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -31940,22 +31916,28 @@ a.saKpiOuter:active {
 .cell {
   border-left: 1px solid #dde3ec;
   border-top: 1px solid #dde3ec;
-  font-size: 11px;
+  font-size: 0.625rem;
+  height: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .header {
-  background: rgba(248, 249, 251, 0.5);
+  background: #FDFDFE;
   font-weight: 500;
   position: sticky;
   top: 0;
   z-index: 3;
 }
+.header span {
+  display: block;
+  position: sticky;
+  inset: auto 0.5rem auto 0.5rem;
+}
 .label {
   justify-content: flex-start;
   padding-left: 8px;
-  background: #f8f9fb;
+  background: light-dark(#fff, #1c2025);
   position: sticky;
   left: 0;
   z-index: 2;
@@ -32027,32 +32009,32 @@ a.saKpiOuter:active {
   position: sticky;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   z-index: 6;
 }
 .saPlanner .saStickyTop .saRowSticky .saPlannerCell {
   border-right: 1px solid transparent;
 }
 .saPlanner .saStickyTop .saRowSticky .saPlannerCell:only-child {
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saPlanner .saStickyTop .saWeek:not(.saUnbooked) .saRowSticky > div {
   border-bottom: none;
 }
 .saPlanner .saStickyTop .saWeek:not(.saUnbooked) .saRowSticky > div.saAggregateTitle {
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saPlanner .saStickyTop .saWeek:not(.saUnbooked) .saRowSticky > div:not(.saAggregateTitle) {
   background-color: #f8f9fb;
 }
 .saPlanner .saStickyTop .saWeek:last-child .saRowSticky > div {
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saPlanner .saWeekDay {
   flex-direction: column;
   height: 3rem;
   color: var(--Sa-Color-TextSecondary);
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saPlanner .saWeekDay .saDateNumber {
   font-size: 0.875rem;
@@ -32084,8 +32066,8 @@ a.saKpiOuter:active {
 }
 .saPlanner .saPlannerAggregateCell {
   border: 1px solid transparent;
-  border-right: 1px solid #ccd5e2;
-  border-bottom: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
   width: 3rem;
   min-width: 3rem;
   display: flex;
@@ -32100,9 +32082,9 @@ a.saKpiOuter:active {
   overflow: hidden;
 }
 .saPlanner .saPlannerAggregateCell.saAggregateTitle {
-  border-left: 1px solid #ccd5e2;
-  border-top: 1px solid #ccd5e2;
-  background-color: #fff;
+  border-left: 1px solid light-dark(#ccd5e2, #7088a4);
+  border-top: 1px solid light-dark(#ccd5e2, #7088a4);
+  background-color: light-dark(#fff, #1c2025);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32177,11 +32159,11 @@ a.saKpiOuter:active {
   flex-direction: column;
   position: relative;
   border: 1px solid transparent;
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
   overflow-x: visible;
   padding: 0.25rem;
-  background-color: #fff;
-  border-bottom: 1px solid #ccd5e2;
+  background-color: light-dark(#fff, #1c2025);
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saPlanner .saPlannerCell .saPlannerHoverTarget {
   min-height: calc(100% + 0.5625rem);
@@ -32213,7 +32195,7 @@ a.saKpiOuter:active {
   min-height: unset;
 }
 .saPlanner .saPlannerCell .saActivity.saLight {
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
 }
 .saPlanner .saPlannerCell .saActivity.saCanDrag {
   cursor: grab;
@@ -32250,7 +32232,7 @@ a.saKpiOuter:active {
 }
 .saPlanner .saPlannerCell.saLastCellInBlock.saTimeCell,
 .saPlanner .saPlannerCell.saLastCellInBlock .saPlannerHoverTarget {
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saPlanner .saPlannerCell.saDropOn,
 .saPlanner .saPlannerCell.saDropOn .saPlannerHoverTarget {
@@ -32259,7 +32241,7 @@ a.saKpiOuter:active {
 }
 .saPlanner .saPlannerCell.saResourceHeadingCell {
   background-color: #f8f9fb;
-  border-right-color: #ccd5e2;
+  border-right-color: light-dark(#ccd5e2, #7088a4);
 }
 .saPlanner .saPlannerCell.saDateRowHeading {
   padding: 0;
@@ -32359,7 +32341,7 @@ a.saKpiOuter:active {
   font-weight: 300;
 }
 .saPlanner .saResourceHeader {
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   z-index: 6;
 }
 .saPlanner .saCalendarSectionInner {
@@ -32368,7 +32350,7 @@ a.saKpiOuter:active {
   border-radius: 0 0 0 1rem;
 }
 .saPlanner .saActivity.saAllDay {
-  background-color: #ccd5e2;
+  background-color: light-dark(#ccd5e2, #7088a4);
   height: 1.5rem;
 }
 .saPlanner .saActivity.saAllDay .saActivityInner {
@@ -32383,21 +32365,21 @@ a.saKpiOuter:active {
 }
 .saPlanner .saColumnAggregate {
   font-size: 0.75rem;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   display: flex;
   justify-content: center;
   align-items: center;
-  border-right-color: #ccd5e2;
+  border-right-color: light-dark(#ccd5e2, #7088a4);
 }
 .saPlanner .saWeek {
   width: fit-content;
   border-bottom: none;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
 }
 .saPlanner .saWeek.saWeekExtra .saWeekExtraInner {
   padding: 0.25rem;
   min-height: 2rem;
-  border-bottom: 1px solid #ccd5e2;
+  border-bottom: 1px solid light-dark(#ccd5e2, #7088a4);
 }
 .saPlanner .saStickyTop > .saWeek:last-child > .saPlannerCell:not(.saColumnAggregate) {
   border-bottom-color: transparent;
@@ -32412,7 +32394,7 @@ a.saKpiOuter:active {
 .saPlanner .saUnbooked .saExpandButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -32583,7 +32565,7 @@ a.saKpiOuter:active {
   border-radius: 0.75rem;
 }
 .saPlanner .saWeekExtraInner {
-  border-right: 1px solid #ccd5e2;
+  border-right: 1px solid light-dark(#ccd5e2, #7088a4);
   align-items: center;
 }
 .saPlanner .saWeekExtraInner:last-child {
@@ -32594,7 +32576,7 @@ a.saKpiOuter:active {
   left: 0;
   z-index: 5;
   display: flex;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
 }
 .saPlanner .saRowSticky > div:first-child {
   width: 10.5rem;
@@ -32641,8 +32623,8 @@ a.saKpiOuter:active {
   font-weight: 500;
   text-align: center;
   transition: ease background 0.2s, ease color 0.2s, ease border-color 0.2s, ease border-radius 0.2s, ease box-shadow 0.2s;
-  background-color: #fff;
-  border: 1px solid #ccd5e2;
+  background-color: light-dark(#fff, #1c2025);
+  border: 1px solid light-dark(#ccd5e2, #7088a4);
   position: relative;
   min-width: 2.5rem;
   font-size: 1.25rem;
@@ -32768,7 +32750,7 @@ a.saKpiOuter:active {
   color: #60748b;
 }
 .saInfoSqlChartWrapper .saChartWrapper .saXYChartLabel {
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   color: var(--Sa-Color-TextSecondary);
   fill: var(--Sa-Color-TextSecondary);
 }
@@ -32872,7 +32854,7 @@ a.saKpiOuter:active {
  */
 .saMenuItemPopup {
   position: absolute;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
 }
 .saLargeScreen .saMenuItemPopup.saSmall {
   width: 25rem;
@@ -32903,7 +32885,6 @@ a.saKpiOuter:active {
   left: 1rem;
   border-radius: 0.5rem;
   transform: none;
-  box-shadow: -1rem -0.875rem 1.875rem -0.625rem rgba(49, 58, 68, 0.2);
 }
 .saSmallScreen .saMenuItemPopup {
   left: 0;
@@ -32942,7 +32923,7 @@ body.saPopup::before {
   top: 1rem;
   font-size: 0.875rem;
   line-height: 1;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   max-width: 22rem;
   min-width: 12rem;
   margin-left: 2rem;
@@ -32996,7 +32977,7 @@ body.saPopup::before {
   color: var(--Sa-Color-TextSecondary);
   position: relative;
   overflow-wrap: anywhere;
-  border-left: 1px solid #ccd5e2;
+  border-left: 1px solid light-dark(#ccd5e2, #7088a4);
   align-items: baseline;
 }
 .saToc li[hidden] {
@@ -33463,7 +33444,6 @@ body.saPopup::before {
   overflow-y: auto;
   outline: 1px solid var(--Sa-Color-InputFieldBorder);
   outline-offset: -1px;
-  box-shadow: 0 1px 2px rgba(49, 58, 68, 0.03), 0 2px 0.1875rem rgba(49, 58, 68, 0.03);
 }
 @media (pointer: fine) {
   .saChatWrapper .saChatMessageEdit .saChatTextarea:hover {
@@ -33538,7 +33518,7 @@ body.saPopup::before {
 .saChatWrapper .saChatToolbar button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -33659,7 +33639,7 @@ body.saPopup::before {
 .saChatWrapper .saChatToolbarMenu button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -33912,7 +33892,7 @@ body.saPopup::before {
 .saChatWrapper .saLoadMessagesButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -34043,7 +34023,7 @@ body.saPopup::before {
 .saChatWrapper .saChatButtonStop {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -34551,7 +34531,7 @@ body.saPopup::before {
 .saContextMenu {
   z-index: 1000;
   flex-direction: column;
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   border-radius: 0.75rem;
   box-sizing: border-box;
   width: fit-content;
@@ -34752,7 +34732,7 @@ body.saPopup::before {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-color: #ccd5e2;
+  background-color: light-dark(#ccd5e2, #7088a4);
   margin-left: auto;
   min-width: 2.5rem;
   height: 1.5rem;
@@ -34772,10 +34752,9 @@ body.saPopup::before {
   content: "";
   margin: 0 0.125rem;
   border-radius: 0.625rem;
-  box-shadow: 0 2px 2px rgba(49, 58, 68, 0.1);
   box-sizing: border-box;
   transition: 0.3s ease all, left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   width: 1.25rem;
   height: 1.25rem;
   border: solid #f8f9fb 1px;
@@ -34925,7 +34904,7 @@ body.saPopup::before {
 }
 @media (pointer: fine) {
   .saContextMenu .saOptionWrapper.saDestructive:hover .saOption {
-    color: #fff;
+    color: light-dark(#fff, #1c2025);
     background-color: #e0173e;
   }
   .saContextMenu .saOptionWrapper.saDestructive:hover .saOptionDescription,
@@ -34933,13 +34912,13 @@ body.saPopup::before {
     color: inherit;
   }
   .saContextMenu .saOptionWrapper.saDestructive:hover .saBadge {
-    background-color: #fff;
+    background-color: light-dark(#fff, #1c2025);
     border-color: currentColor;
     color: #e0173e;
   }
 }
 .saContextMenu .saOptionWrapper.saDestructive:active .saOption {
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
   background-color: #bf0024;
 }
 .saContextMenu .saOptionWrapper.saDestructive:active .saOptionDescription,
@@ -34947,7 +34926,7 @@ body.saPopup::before {
   color: inherit;
 }
 .saContextMenu .saOptionWrapper.saDestructive:active .saBadge {
-  background-color: #fff;
+  background-color: light-dark(#fff, #1c2025);
   border-color: currentColor;
   color: #bf0024;
 }
@@ -35062,7 +35041,7 @@ body.saPopup::before {
 }
 .saBottomSheet {
   border-radius: 1rem 1rem 0 0;
-  background: #fff;
+  background: light-dark(#fff, #1c2025);
   position: fixed;
   width: 100%;
   transition: transform 0.2s, translate 0.2s;
@@ -35088,7 +35067,7 @@ body.saPopup::before {
   position: absolute;
   bottom: 2rem;
   height: 0.25rem;
-  background: #ccd5e2;
+  background: light-dark(#ccd5e2, #7088a4);
   border-radius: 2px;
   width: 3.5rem;
 }
@@ -35101,7 +35080,7 @@ body.saPopup::before {
 .saBottomSheet .saSheetButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -35293,7 +35272,7 @@ body.saPopup::before {
 .saLightboxOverlay .saLightboxCloseButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -35313,8 +35292,8 @@ body.saPopup::before {
   position: fixed;
   top: 0.25rem;
   right: 0.25rem;
-  color: #fff;
-  background-color: light-dark(#313a44, #ccd5e2);
+  color: light-dark(#fff, #1c2025);
+  background-color: light-dark(#313a44, light-dark(#ccd5e2, #7088a4));
   transition: ease border 0.2s, ease 0.2s color, ease 0.2s border-radius, ease 0.2s background-color, ease 0.2s box-shadow, ease 0.2s transform, ease opacity 0.2s;
   border-radius: 50%;
   padding: 0;
@@ -35366,7 +35345,6 @@ body.saPopup::before {
   opacity: 0;
 }
 .saSmallScreen .saLightboxOverlay {
-  background-color: rgba(49, 58, 68, 0.2);
   transition: ease background-color 0.2s;
   @starting-style {
     background-color: transparent;
@@ -35376,7 +35354,6 @@ body.saPopup::before {
   background-color: transparent;
 }
 .saLightboxOverlay::backdrop {
-  background-color: rgba(49, 58, 68, 0.2);
   transition: ease background-color 0.2s;
   @starting-style {
     background-color: transparent;
@@ -35392,8 +35369,8 @@ body.saPopup::before {
 .saIconTablePreviewBox {
   position: absolute;
   z-index: 600;
-  background-color: #fff;
-  border: thin solid #ccd5e2;
+  background-color: light-dark(#fff, #1c2025);
+  border: thin solid light-dark(#ccd5e2, #7088a4);
   border-radius: 0.5rem;
   padding: 0.5rem;
   text-align: center;
@@ -35407,7 +35384,7 @@ softadmin-nodegraph .saNodeContent .saNodeColumnMandatory {
 softadmin-nodegraph .saNodeContent .saNodeTableIcon .icon {
   font-size: 0.625rem;
   line-height: 0.75rem;
-  color: light-dark(#313a44, #ccd5e2);
+  color: light-dark(#313a44, light-dark(#ccd5e2, #7088a4));
 }
 softadmin-nodegraph .saNodeContent .saNodeTable:has(td .saNodeColumnMandatory) td:first-child,
 softadmin-nodegraph .saNodeContent .saNodeTable:has(td .saNodeColumnMandatory) th:first-child {
@@ -35475,8 +35452,8 @@ pre.saCode {
   justify-content: start;
   height: fit-content;
   width: fit-content;
-  background-color: light-dark(#313a44, #ccd5e2);
-  color: #fff;
+  background-color: light-dark(#313a44, light-dark(#ccd5e2, #7088a4));
+  color: light-dark(#fff, #1c2025);
   padding: 0 1rem;
   height: 2.5rem;
   min-width: 12.5rem;
@@ -35505,7 +35482,7 @@ pre.saCode {
 .saToast .saCloseButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -35604,18 +35581,18 @@ pre.saCode {
     background-color: #e0173e;
   }
   .saToast .saCloseButton:hover .saIcon {
-    color: #fff;
+    color: light-dark(#fff, #1c2025);
   }
 }
 .saToast .saCloseButton:active {
   background-color: #bf0024;
 }
 .saToast .saCloseButton:active .saIcon {
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
 }
 .saToastIcon {
   font-size: 1rem;
-  color: #ccd5e2;
+  color: light-dark(#ccd5e2, #7088a4);
 }
 .saToastIcon.saSuccess {
   color: #58d36e;
@@ -35629,7 +35606,7 @@ pre.saCode {
 .saToastButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -35647,7 +35624,7 @@ pre.saCode {
   font-size: 0.875rem;
   padding: 0.5rem 0.75rem;
   margin-left: auto;
-  color: #fff;
+  color: light-dark(#fff, #1c2025);
   margin-right: -0.5rem;
 }
 .saToastButton .saButtonText {
@@ -35739,16 +35716,60 @@ pre.saCode {
     color: #60748b;
   }
 }
-.saChatSuggestions {
+.saChatSuggestionGroup {
+  display: flex;
+  gap: 0.5rem;
   transition: ease transform 0.2s, ease opacity 0.4s;
+  flex-direction: column;
   @starting-style {
     transform: translateY(-1rem);
     opacity: 0;
   }
 }
-.saSmallScreen .saChatSuggestions button {
-  width: 100%;
-  justify-content: start;
+.saChatSuggestionGroup.saSticky {
+  position: absolute;
+  inset: auto 0 0 0;
+}
+.saChatSuggestionGroup button {
+  display: inline-flex;
+  gap: 0.375rem;
+  align-items: center;
+  height: 1.5rem;
+  width: fit-content;
+  background-color: transparent;
+  color: inherit;
+  border-radius: 99rem;
+  border: 0.0625rem solid #dde3ec;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0 0.625rem;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+}
+.saSmallScreen .saChatSuggestionGroup button {
+  height: 1.75rem;
+  font-size: 0.875rem;
+}
+.saChatSuggestionGroup button .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+@media (pointer: fine) {
+  .saChatSuggestionGroup button:hover {
+    color: #2d6ce1;
+    background-color: #f7faff;
+    border-color: #bbd6ff;
+  }
+  .saChatSuggestionGroup button:hover .saIcon {
+    color: inherit;
+  }
+}
+.saChatSuggestionGroup button:active {
+  color: #1c57c6;
+  background-color: #e5efff;
+  border-color: #93bdff;
+}
+.saChatSuggestionGroup button:active .saIcon {
+  color: inherit;
 }
 .DotWrapper {
   display: inline-flex;
@@ -35812,7 +35833,7 @@ pre.saCode {
 .saRow label {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: 'Geist', sans-serif;
   white-space: nowrap;
   display: flex;
   align-items: center;
@@ -35974,7 +35995,7 @@ pre.saCode {
 .saChatLoadingSpinner {
   height: 1.25rem;
   width: 1.25rem;
-  background-image: radial-gradient(at top left, rgba(255, 255, 255, 0.2), transparent), radial-gradient(at bottom right, var(--Sa-Color-Primary700), transparent), linear-gradient(to bottom right, var(--Sa-Color-Primary300), var(--Sa-Color-Primary700));
+  background-image: radial-gradient(at bottom right, var(--Sa-Color-Primary700), transparent), linear-gradient(to bottom right, var(--Sa-Color-Primary300), var(--Sa-Color-Primary700));
   border-radius: 50%;
   animation: chatLoadingSpinner 2s ease-in-out infinite alternate;
 }
@@ -36100,7 +36121,7 @@ pre.saCode {
 .saChatLoadingSpinner {
   height: 1.25rem;
   width: 1.25rem;
-  background-image: radial-gradient(at top left, rgba(255, 255, 255, 0.2), transparent), radial-gradient(at bottom right, #1c57c6, transparent), linear-gradient(to bottom right, #93bdff, #1c57c6);
+  background-image: radial-gradient(at bottom right, #1c57c6, transparent), linear-gradient(to bottom right, #93bdff, #1c57c6);
   border-radius: 50%;
   animation: chatLoadingSpinner 2s ease-in-out infinite alternate;
 }
