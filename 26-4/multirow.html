@@ -456,7 +456,7 @@
 					return el.value.trim() === '';
 				});
 
-				const isFocusedOrHovered = $wrapper.is(':focus-visible') || $wrapper.is(':hover');
+				const isFocusedOrHovered = $wrapper.is(':focus-within') || $wrapper.is(':hover');
 
 				if (allEmpty && !isFocusedOrHovered) {
 					$wrapper.addClass('saHeisenberg');
@@ -530,6 +530,8 @@
 			$('.saMultiRowNewRowButton').on('click', function (e) {
 				$('.saMultiRowRowsGroup').append($rowTemplate.clone());
 				$('.saMultiRowRow:last .saInputText').first().focus(); // Focus first input of the new row
+				updateHeisenbergState($('.saMultiRowWrapper'));
+				$(this).blur();
 			});
 
 			// Delete row logic (the part you asked for)
@@ -545,9 +547,11 @@
 					$rowToDelete.find('input, select').each(function() {
 						if (this.tagName === 'SELECT') {
 							this.selectedIndex = 0;           // reset to first (empty) option
+
 						} else {
 							this.value = '';
 						}
+
 					});
 
 					// Trigger update so it can go into Heisenberg mode if still empty
@@ -562,6 +566,7 @@
 						updateHeisenbergState($('.saMultiRowWrapper'));
 					}
 				}
+				$(this).blur();
 			});
 
 			// Favorite toggle (unchanged)
