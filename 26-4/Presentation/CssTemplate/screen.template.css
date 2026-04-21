@@ -1837,6 +1837,27 @@ body .scrollcontent {
 .saGrid {
   box-shadow: none !important;
 }
+.saBadgeCount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1rem;
+  box-sizing: border-box;
+  min-width: 1rem;
+  color: var(--Sa-Color-BadgeCountText);
+  background-color: var(--Sa-Color-BadgeCountBackground);
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0.25rem;
+  transition: ease background-color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.saBadgeCount.saUrgent {
+  color: light-dark(var(--White), var(--Gray950));
+  background-color: light-dark(var(--Red600), var(--Red950));
+}
 a {
   cursor: pointer;
 }
@@ -19629,6 +19650,10 @@ legend + .saInputCardsWrapper {
 .saMultiRowWrapper.saHeisenberg {
   opacity: 0.5;
 }
+.saMultiRowWrapper.saHeisenberg:hover,
+.saMultiRowWrapper.saHeisenberg:has(:focus-visible, :hover) {
+  opacity: 1;
+}
 .saSmallScreen .saMultiRowWrapper .saMultiRowTableWrapper {
   overflow-x: scroll;
   width: calc(100vw - 2.125rem) !important;
@@ -19683,6 +19708,21 @@ legend + .saInputCardsWrapper {
 .saMultiRowWrapper .saMultiRowHead,
 .saMultiRowWrapper .saMultiRowRow {
   display: table-row;
+}
+.saMultiRowWrapper .saMultiRowRow {
+  transition: ease opacity 0.1s, ease transform 0.1s;
+  @starting-style {
+    opacity: 0;
+    transform: translateY(-1rem);
+    height: 0px;
+    overflow: hidden;
+  }
+}
+.saMultiRowWrapper .saMultiRowRow.saRemove {
+  opacity: 0;
+  transform: translateY(-0.5rem);
+  height: 0px;
+  overflow: hidden;
 }
 .saMultiRowWrapper .saMultiRowHeadGroup,
 .saMultiRowWrapper .saMultiRowRowsGroup {

@@ -323,7 +323,7 @@
 																	</legend>
 																	<fieldset class="saFieldCollection longest">
 																		<div class="saFieldAndLabelWrapper">
-																			<label class="saLabelCell"><div class="saLabel"><span>Bird collection</span></div></label>
+																			<label class="saLabelCell"><div class="saLabel"><span>Bird collection</span><div class="saBadgeCount" id="rowCount">0</div></div></label>
 																			<div class="saFieldCell">
 																				<div class="saInputWrapper longest">
 																					<div class="saInput" style="position: relative;">
@@ -442,39 +442,61 @@
 	<script>
 		$(document).ready(function () {
 
-			// Function to check if a wrapper should be in Heisenberg state (empty + not focused/hovered + only one row left)
-			function updateHeisenbergState($wrapper) {
-				const $rows = $('.saMultiRowRow');
-				const isOnlyRow = $rows.length <= 1;
+			// Determines if the single row is empty
+			function isSingleRowEmpty($wrapper) {
+				const $rows = $wrapper.find('.saMultiRowRow');
+				if ($rows.length !== 1) return false;
 
-				if (!isOnlyRow) {
-					$wrapper.removeClass('saHeisenberg');
+				return $rows.first().find('input, select').toArray().every(function (el) {
+					if (el.tagName === 'SELECT') return el.selectedIndex === 0;
+					return el.value.trim() === '';
+				});
+			}
+
+			// Updates #rowCount text
+			function updateRowCount($wrapper) {
+				const count = isSingleRowEmpty($wrapper) ? 0 : $wrapper.find('.saMultiRowRow').length;
+				$('#rowCount').text(count);
+			}
+
+			// Updates button visibility based purely on row count + emptiness
+			function updateButtonVisibility($wrapper) {
+				const $rows = $wrapper.find('.saMultiRowRow');
+
+				if ($rows.length > 1) {
+					$wrapper.find('.saDeleteRowButtonJs').removeAttr('disabled').addClass('saDestructive');
+					updateRowCount($wrapper);
 					return;
 				}
 
-				const allEmpty = $wrapper.find('input, select').toArray().every(function(el) {
-					return el.value.trim() === '';
-				});
-
-				const isFocusedOrHovered = $wrapper.is(':focus-within') || $wrapper.is(':hover');
-
-				if (allEmpty && !isFocusedOrHovered) {
-					$wrapper.addClass('saHeisenberg');
+				if (isSingleRowEmpty($wrapper)) {
+					$rows.first().find('.saDeleteRowButtonJs').attr('disabled', 'true').removeClass('saDestructive');
 				} else {
-					$wrapper.removeClass('saHeisenberg');
+					$rows.first().find('.saDeleteRowButtonJs').removeAttr('disabled').addClass('saDestructive');
 				}
+				updateRowCount($wrapper);
 			}
 
-			// Live handlers for focus / hover
-			$(document).on('focusin mouseenter', '.saMultiRowWrapper', function() {
+
+			// Heisenberg class: hover/focus only — no button logic here
+			$(document).on('mouseenter focusin', '.saMultiRowWrapper', function () {
 				$(this).removeClass('saHeisenberg');
 			});
 
-			$(document).on('focusout mouseleave', '.saMultiRowWrapper', function() {
-				updateHeisenbergState($(this));
+			$(document).on('mouseleave focusout', '.saMultiRowWrapper', function () {
+				const $wrapper = $(this);
+				const hasFocus = $wrapper.find(':focus').length > 0;
+				if (isSingleRowEmpty($wrapper)) {
+					$wrapper.addClass('saHeisenberg');
+				}
 			});
 
-			// Template for new row
+			$(document).on('input change', '.saMultiRowWrapper input, .saMultiRowWrapper select', function () {
+				const $wrapper = $(this).closest('.saMultiRowWrapper');
+				updateButtonVisibility($wrapper);
+			});
+
+			// Row template
 			const $rowTemplate = $(`
 				<div class="saMultiRowRow">
 					<div class="saMultiRowCellWrapper">
@@ -527,53 +549,42 @@
 			`);
 
 			// Add new row
-			$('.saMultiRowNewRowButton').on('click', function (e) {
-				$('.saMultiRowRowsGroup').append($rowTemplate.clone());
-				$('.saMultiRowRow:last .saInputText').first().focus(); // Focus first input of the new row
-				updateHeisenbergState($('.saMultiRowWrapper'));
+			$('.saMultiRowNewRowButton').on('click', function () {
+				const $wrapper = $(this).closest('fieldset').closest('.saMultiRowWrapper');
+				$wrapper.find('.saMultiRowRowsGroup').append($rowTemplate.clone());
+				$wrapper.find('.saMultiRowRow:last .saInputText').first().focus();
+				updateButtonVisibility($wrapper);
 				$(this).blur();
 			});
 
-			// Delete row logic (the part you asked for)
+			// Delete row
 			$(document).on('click', '.saDeleteRowButtonJs', function (e) {
 				e.preventDefault();
-
 				const $rowToDelete = $(this).closest('.saMultiRowRow');
 				const $wrapper = $rowToDelete.closest('.saMultiRowWrapper');
-				const $allRows = $('.saMultiRowRow');
 
-				if ($allRows.length <= 1) {
-					// This is the last row → do NOT remove it, just clear values and update Heisenberg state
-					$rowToDelete.find('input, select').each(function() {
-						if (this.tagName === 'SELECT') {
-							this.selectedIndex = 0;           // reset to first (empty) option
-
-						} else {
-							this.value = '';
-						}
-
-					});
-
-					// Trigger update so it can go into Heisenberg mode if still empty
-					updateHeisenbergState($wrapper);
-				}
-				else {
-					// Not the last row → safely delete it
+				if ($wrapper.find('.saMultiRowRow').length <= 1) {
+					// Last row: clear it instead of removing
+					$rowToDelete.find('input').val('');
+					$rowToDelete.find('select').prop('selectedIndex', 0);
+				} else {
 					$rowToDelete.remove();
-
-					// After deletion, check if only one row remains and update its state
-					if ($('.saMultiRowRow').length <= 1) {
-						updateHeisenbergState($('.saMultiRowWrapper'));
-					}
 				}
+
+				updateButtonVisibility($wrapper);
 				$(this).blur();
 			});
 
-			// Favorite toggle (unchanged)
+			// Favorite toggle
 			$('.saFavoriteToggle').on('click', function () {
 				$(this).attr('aria-checked', function (i, attr) {
 					return attr === 'true' ? 'false' : 'true';
 				});
+			});
+
+			// Init
+			$('.saMultiRowWrapper').each(function () {
+				updateButtonVisibility($(this));
 			});
 
 		});
