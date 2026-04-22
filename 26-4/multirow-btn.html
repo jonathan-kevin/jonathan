@@ -315,7 +315,7 @@
 													<fieldset class="saFormRoot saLabelsAbove">
 														<div class="saFieldsRow">
 															<div class="saFieldsColumn saLastVisible">
-																<fieldset class="saSectionWrapper">
+																<fieldset class="saSectionWrapper saLastVisible">
 																	<legend class="saSectionHeaderWrapper">
 																		<div class="saSectionHeader saInputPageField">
 																			<label><h2 class="legend">Birds</h2></label>
@@ -323,11 +323,11 @@
 																	</legend>
 																	<fieldset class="saFieldCollection longest">
 																		<div class="saFieldAndLabelWrapper">
-																			<label class="saLabelCell"><div class="saLabel"><span>Bird collection</span><div style="display: none;" class="saBadgeCount" id="rowCount">0</div></div></label>
+																			<label class="saLabelCell"><div class="saLabel"><span>Bird collection</span></div></label>
 																			<div class="saFieldCell">
 																				<div class="saInputWrapper longest">
 																					<div class="saInput" style="position: relative;">
-																						<div class="saInputPageField saMultiRowHeisenberg saMultiRowWrapper saHeisenberg">
+																						<div class="saInputPageField saMultiRowWrapper saDisabled" aria-disabled="true">
 																							<fieldset>
 																								<div class="saMultiRowTableWrapper">
 																									<div class="saMultiRow">
@@ -403,7 +403,7 @@
 																												<div class="saMultiRowCellWrapper">
 																													<div class="saMultiRowCell">
 																														<ul class="saMultiRowButtons">
-																															<li><button class="saIconOnlyFieldButton saDestructive saDeleteRowButtonJs" type="button">
+																															<li><button class="saIconOnlyFieldButton saDeleteRowButtonJs" type="button" disabled>
 																																<i class="saIcon far fa-trash-alt"></i>
 																															</button></li>
 																														</ul>
@@ -417,37 +417,6 @@
 																									<i class="saIcon far fa-plus"></i>Ny rad
 																								</button>
 																							</fieldset>
-																						</div>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</fieldset>
-																</fieldset>
-																<fieldset class="saSectionWrapper saLastVisible">
-																	<legend class="saSectionHeaderWrapper">
-																		<div class="saSectionHeader saInputPageField">
-																			<label><h2 class="legend">Dogs</h2></label>
-																		</div>
-																	</legend>
-																	<fieldset class="saFieldCollection longest">
-																		<div class="saFieldAndLabelWrapper">
-																			<label class="saLabelCell"><div class="saLabel"><span>Dog collection</span></div></label>
-																			<div class="saFieldCell">
-																				<div class="saInputWrapper longest">
-																					<div class="saInput">
-																						<div class="saInputPageField saMultiRowCreate saMultiRowWrapper" style="position: relative;">
-																							<div class="saEmptyState">
-																								<div class="saEmptyStateIcon">
-																									<i class="far fa-dog saIcon"></i>
-																								</div>
-																								<div class="saEmptyStateBody">
-																									<div class="saEmptyStateHeading">Inga hundar tillagda</div>
-																									<div class="saEmptyStateDescription">Lägg till en hund genom att klicka på knappen nedan</div>
-																								</div>
-																								<button class="saMultiRowNewRowButton saLabeledFieldButton" type="button" id="createTable">
-																								<i class="saIcon far fa-plus"></i><span id="createTableBtn">Skapa tabell</span></button>
-																							</div>
 																						</div>
 																					</div>
 																				</div>
@@ -473,166 +442,7 @@
 	<script>
 		$(document).ready(function () {
 
-			// -------------------------
-			// Templates
-			// -------------------------
 
-			const multiRowTemplate = `
-				<fieldset>
-					<div class="saMultiRowTableWrapper">
-						<div class="saMultiRow">
-							<div class="saMultiRowHeadGroup">
-								<div class="saMultiRowHead">
-									<div class="saMultiRowCellWrapper"><div class="saMultiRowCell"><label class="saLabelWrapper"><div class="saLabel"><span>Bird name</span></div></label></div></div>
-									<div class="saMultiRowCellWrapper"><div class="saMultiRowCell"><label class="saLabelWrapper"><div class="saLabel"><span class="saMandatory">Family<span class="saMandatoryStar">*</span></span></div></label></div></div>
-									<div class="saMultiRowCellWrapper"><div class="saMultiRowCell"><label class="saLabelWrapper"><div class="saLabel"><span class="saMandatory">Sub species<span class="saMandatoryStar">*</span></span></div></label></div></div>
-									<div class="saMultiRowCellWrapper"></div>
-								</div>
-							</div>
-							<div class="saMultiRowRowsGroup"></div>
-						</div>
-					</div>
-					<button class="saMultiRowNewRowButton saLabeledFieldButton" type="button">
-						<i class="saIcon far fa-plus"></i>Ny rad
-					</button>
-				</fieldset>`;
-
-			const $rowTemplate = $(`
-				<div class="saMultiRowRow">
-					<div class="saMultiRowCellWrapper"><div class="saMultiRowCell"><div class="saMultiRowInputWrapper mediumLong"><div class="saInputTextWrapper saMultiRowField mediumLong"><input type="text" class="saInputText" required></div></div></div></div>
-					<div class="saMultiRowCellWrapper"><div class="saMultiRowCell"><div class="saMultiRowInputWrapper mediumLong"><div class="saInputTextWrapper saMultiRowField mediumLong saHasTrailingIcons">
-						<select class="saInputText saDropdown" required>
-							<option value=""></option>
-							<option value="1">One</option>
-							<option value="2">Two</option>
-							<option value="3">Three</option>
-						</select>
-						<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
-					</div></div></div></div>
-					<div class="saMultiRowCellWrapper"><div class="saMultiRowCell"><div class="saMultiRowInputWrapper long"><div class="saInputTextWrapper saMultiRowField long"><input type="text" class="saInputText" required></div></div></div></div>
-					<div class="saMultiRowCellWrapper"><div class="saMultiRowCell">
-						<ul class="saMultiRowButtons">
-							<li><button class="saIconOnlyFieldButton saDestructive saDeleteRowButtonJs" type="button">
-								<i class="saIcon far fa-trash-alt"></i>
-							</button></li>
-						</ul>
-					</div></div>
-				</div>
-			`);
-
-			// -------------------------
-			// Helpers
-			// -------------------------
-
-			function isSingleRowEmpty($wrapper) {
-				const $rows = $wrapper.find('.saMultiRowRow');
-				if ($rows.length !== 1) return false;
-				return $rows.first().find('input, select').toArray().every(function (el) {
-					return el.tagName === 'SELECT' ? el.selectedIndex === 0 : el.value.trim() === '';
-				});
-			}
-
-			function updateState($wrapper) {
-				const $rows = $wrapper.find('.saMultiRowRow');
-				const rowCount = $rows.length;
-				const isEmpty = isSingleRowEmpty($wrapper);
-
-				$('#rowCount').text(isEmpty ? 0 : rowCount);
-
-				// Create wrappers: delete always enabled (last row tears down the table)
-				const disableDelete = !$wrapper.hasClass('saMultiRowCreate') && rowCount === 1 && isEmpty;
-				$wrapper.find('.saDeleteRowButtonJs')
-					.attr('disabled', disableDelete || null)
-					.toggleClass('saDestructive', !disableDelete);
-			}
-
-			// -------------------------
-			// Add row (handles both empty state and table "add row" buttons)
-			// -------------------------
-
-			$(document).on('click', '.saMultiRowNewRowButton', function () {
-				const $wrapper = $(this).closest('.saMultiRowWrapper');
-
-				// Inject table on first click if it doesn't exist yet
-				if ($wrapper.find('.saMultiRow').length === 0) {
-					$wrapper.find('.saEmptyState').hide();
-					$wrapper.append(multiRowTemplate);
-				}
-
-				$wrapper.find('.saMultiRowRowsGroup').append($rowTemplate.clone());
-				$wrapper.find('.saMultiRowRow:last .saInputText').first().focus();
-				updateState($wrapper);
-			});
-
-			// -------------------------
-			// Delete row
-			// -------------------------
-
-			$(document).on('click', '.saDeleteRowButtonJs', function (e) {
-				e.preventDefault();
-				const $row = $(this).closest('.saMultiRowRow');
-				const $wrapper = $row.closest('.saMultiRowWrapper');
-
-				if ($wrapper.hasClass('saMultiRowCreate') && $wrapper.find('.saMultiRowRow').length <= 1) {
-					// Last row in a create wrapper: tear down the table and show empty state
-					$wrapper.find('fieldset').remove();
-					$wrapper.find('.saEmptyState').show();
-					$('#rowCount').text(0);
-					return;
-				}
-
-				if ($wrapper.find('.saMultiRowRow').length <= 1) {
-					// Last row in a normal wrapper: just clear the fields
-					$row.find('input').val('');
-					$row.find('select').prop('selectedIndex', 0);
-				} else {
-					$row.remove();
-				}
-
-				updateState($wrapper);
-			});
-
-			// -------------------------
-			// Heisenberg visibility (saMultiRowHeisenberg wrappers only)
-			// -------------------------
-
-			$(document).on('mouseenter focusin', '.saMultiRowHeisenberg', function () {
-				$(this).removeClass('saHeisenberg');
-			});
-
-			$(document).on('mouseleave focusout', '.saMultiRowHeisenberg', function () {
-				const $wrapper = $(this);
-				const hasFocus = $wrapper.find(':focus').length > 0;
-				if (!hasFocus && isSingleRowEmpty($wrapper)) {
-					$wrapper.addClass('saHeisenberg');
-				}
-			});
-
-			// -------------------------
-			// Input change
-			// -------------------------
-
-			$(document).on('input change', '.saMultiRowWrapper input, .saMultiRowWrapper select', function () {
-				updateState($(this).closest('.saMultiRowWrapper'));
-			});
-
-			// -------------------------
-			// Favorite toggle
-			// -------------------------
-
-			$('.saFavoriteToggle').on('click', function () {
-				$(this).attr('aria-checked', function (i, attr) {
-					return attr === 'true' ? 'false' : 'true';
-				});
-			});
-
-			// -------------------------
-			// Init
-			// -------------------------
-
-			$('.saMultiRowWrapper').each(function () {
-				updateState($(this));
-			});
 
 		});
 	</script>

@@ -43,7 +43,7 @@ $(document).ready(function () {
 	const $select = $('<select>', {
 		id: 'theme-select',
 		class: 'saInputText saDropdown saButton',
-		style: 'position: fixed; bottom: 10px; right: 10px; z-index: 1000;',
+		style: 'position: fixed; top: 0.5rem; right: 0.5rem; z-index: 1000;',
 		name: 'theme',
 		'aria-label': 'Theme'
 	});
