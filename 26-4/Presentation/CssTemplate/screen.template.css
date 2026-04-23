@@ -14917,27 +14917,33 @@ select.saInputText {
   width: 0 !important;
 }
 .saLargeScreen .saInputPageField.shortest,
-.saMultiRowWrapper .saMultiRowField.shortest {
+.saMultiRowWrapper .saMultiRowField.shortest,
+.saMultiRowWrapper .saMultiRowInputWrapper.shortest {
   width: 3.5rem;
 }
 .saLargeScreen .saInputPageField.short,
-.saMultiRowWrapper .saMultiRowField.short {
+.saMultiRowWrapper .saMultiRowField.short,
+.saMultiRowWrapper .saMultiRowInputWrapper.short {
   width: 6rem;
 }
 .saLargeScreen .saInputPageField.mediumShort,
-.saMultiRowWrapper .saMultiRowField.mediumShort {
+.saMultiRowWrapper .saMultiRowField.mediumShort,
+.saMultiRowWrapper .saMultiRowInputWrapper.mediumShort {
   width: 8.75rem;
 }
 .saLargeScreen .saInputPageField.mediumLong,
-.saMultiRowWrapper .saMultiRowField.mediumLong {
+.saMultiRowWrapper .saMultiRowField.mediumLong,
+.saMultiRowWrapper .saMultiRowInputWrapper.mediumLong {
   width: 16rem;
 }
 .saLargeScreen .saInputPageField.long,
-.saMultiRowWrapper .saMultiRowField.long {
+.saMultiRowWrapper .saMultiRowField.long,
+.saMultiRowWrapper .saMultiRowInputWrapper.long {
   width: 23.5rem;
 }
 .saLargeScreen .saInputPageField.longest,
-.saMultiRowWrapper .saMultiRowField.longest {
+.saMultiRowWrapper .saMultiRowField.longest,
+.saMultiRowWrapper .saMultiRowInputWrapper.longest {
   width: 40rem;
 }
 .saLargeScreen .saInputWrapper.shortest .saValidationMessage,
@@ -19668,23 +19674,6 @@ legend + .saInputCardsWrapper {
   display: flex;
   position: unset;
 }
-.saEmpty {
-  width: calc(100% - 26px);
-  display: flex;
-  align-items: center;
-  padding: 0 0.75rem;
-  height: 3rem;
-  border: 0.0625rem solid light-dark(var(--Gray200), var(--Gray700));
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
-}
-.saEmpty .saIcon {
-  color: light-dark(var(--Gray500), var(--Gray400));
-  margin-right: 0.5rem;
-}
-.saMultiRowWrapper:has( .saMultiRowRow) .saEmpty {
-  display: none;
-}
 .saSmallScreen .saMultiRowWrapper {
   display: flex;
   flex-direction: column;
@@ -19699,15 +19688,6 @@ legend + .saInputCardsWrapper {
   padding-top: 2px;
   /* align column titles with field label */
 }
-.saGridded.saMultiRowWrapper .saMultiRow {
-  padding-top: 0;
-}
-.saHeisenberg.saMultiRowWrapper .saMultiRow {
-  opacity: 0.625;
-}
-.saHeisenberg:has(:focus-visible).saMultiRowWrapper .saMultiRow {
-  opacity: 1;
-}
 .saMultiRowWrapper .saMultiRow .saInputTextWrapper {
   /* @todo: base class should not have this margin! */
   margin: 0;
@@ -19715,6 +19695,19 @@ legend + .saInputCardsWrapper {
 .saLabelsBefore .saMultiRowWrapper .saMultiRow {
   padding-top: 0.5rem;
   /* align column titles with field label */
+}
+.saMultiRowWrapper .saMultiRowEmptyText {
+  color: var(--Sa-Color-TextSecondary);
+  line-height: 2rem;
+  position: absolute;
+  left: 0;
+  display: none;
+}
+.saEmpty.saMultiRowWrapper .saMultiRowEmptyText {
+  display: flex;
+}
+:has(.saMultiRowDragHandle).saMultiRowWrapper .saMultiRowEmptyText {
+  left: 2rem;
 }
 .saMultiRowWrapper .saMultiRowDragHandle {
   display: table-cell;
@@ -19747,9 +19740,6 @@ legend + .saInputCardsWrapper {
   font-size: 1rem;
   color: var(--Sa-Color-Icon);
 }
-.saGridded.saMultiRowWrapper .saMultiRowNewRowButton {
-  margin-top: 0.5rem;
-}
 .saMultiRowWrapper:has(.saMultiRowDragHandle) .saMultiRowNewRowButton {
   margin-left: 2rem;
 }
@@ -19757,48 +19747,8 @@ legend + .saInputCardsWrapper {
 .saMultiRowWrapper .saMultiRowRow {
   display: table-row;
 }
-.saMultiRowWrapper .saMultiRowRow:last-child .saMultiRowCellWrapper:first-child {
-  border-bottom-left-radius: 0.5rem;
-}
-.saMultiRowWrapper.saGridded .saMultiRowRow:last-child .saMultiRowCellWrapper:last-child {
-  border-bottom-right-radius: 0.5rem;
-}
-.saMultiRowWrapper.saGridded .saMultiRowCellWrapper:last-child {
-  border-right: 0.0625rem light-dark(var(--Gray200), var(--Gray700)) solid;
-}
-.saMultiRowWrapper.saGridded .saMultiRowRow:last-child .saMultiRowCellWrapper {
-  border-bottom: 0.0625rem light-dark(var(--Gray200), var(--Gray700)) solid;
-}
-.saMultiRowWrapper.saGridded .saMultiRowRow:last-child .saMultiRowCellWrapper:first-child {
-  border-bottom-left-radius: 0.5rem;
-}
-.saMultiRowWrapper .saMultiRowHead:first-child .saMultiRowCellWrapper:first-child {
-  border-top-left-radius: 0.5rem;
-}
-.saMultiRowWrapper .saMultiRowHead:first-child .saMultiRowCellWrapper:last-child {
-  border-top-right-radius: 0.5rem;
-}
-.saGridded.saMultiRowWrapper .saMultiRowHead {
-  background-color: light-dark(var(--Gray50), var(--Gray950));
-}
-.saMultiRowWrapper .saMultiRowRow {
-  transition: ease opacity 0.1s, ease transform 0.1s;
-  @starting-style {
-    opacity: 0;
-    transform: translateY(-1rem);
-    height: 0px;
-    overflow: hidden;
-  }
-}
-.saMultiRowWrapper .saMultiRowRow:last-child {
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
-}
-.saMultiRowWrapper .saMultiRowRow.saRemove {
-  opacity: 0;
-  transform: translateY(-0.5rem);
-  height: 0px;
-  overflow: hidden;
+.saMultiRowWrapper.saEmpty .saMultiRowRow {
+  visibility: hidden;
 }
 .saMultiRowWrapper .saMultiRowHeadGroup,
 .saMultiRowWrapper .saMultiRowRowsGroup {
@@ -19809,15 +19759,8 @@ legend + .saInputCardsWrapper {
   padding: 0 0.5rem 0.5rem 0;
   vertical-align: top;
 }
-.saGridded.saMultiRowWrapper .saMultiRowCellWrapper {
-  padding: 0;
-  border-top: 0.0625rem solid light-dark(var(--Gray200), var(--Gray700));
-  border-left: 0.0625rem solid light-dark(var(--Gray200), var(--Gray700));
-  min-height: 2rem;
-}
 .saMultiRowHead .saMultiRowWrapper .saMultiRowCellWrapper {
   height: 1rem;
-  background-color: light-dark(var(--Gray50), var(--Gray950));
 }
 .saMultiRowRow .saMultiRowWrapper .saMultiRowCellWrapper {
   height: 2.5rem;
@@ -19827,9 +19770,6 @@ legend + .saInputCardsWrapper {
 }
 .saMultiRowWrapper .saMultiRowCellWrapper:last-child {
   padding-right: 0;
-}
-.saGridded.saMultiRowWrapper .saMultiRowCellWrapper:last-child {
-  padding: 0.5rem;
 }
 .saMultiRowWrapper .saMultiRowCell {
   display: flex;
@@ -19874,6 +19814,9 @@ legend + .saInputCardsWrapper {
 .saMultiRowWrapper ul.saMultiRowButtons li {
   width: 2rem;
   height: 2rem;
+}
+.saMultiRowWrapper .saTextArea {
+  resize: vertical;
 }
 .saMultiRowSmallScreenWrapper {
   display: block;
