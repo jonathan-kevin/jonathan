@@ -3283,53 +3283,37 @@ div.saPopupOverlay {
 .saSmallScreen .saMultiPartContent .saGridWrapper .saPagination {
   max-width: calc(100vw - 4rem);
 }
-.saGridColLock {
-  background-color: transparent;
-  position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  color: var(--Sa-Color-IconDark);
-  font-size: 0.75rem;
-  visibility: hidden;
-  border-radius: 99rem;
-}
-th:hover .saGridColLock {
-  visibility: visible;
-}
-.saGridColLock .saIcon.fas {
-  display: none;
-}
-.saLocked .saGridColLock {
-  visibility: visible;
-}
-.saLocked .saGridColLock .saIcon.fas {
-  display: block;
-  color: var(--Sa-Color-Primary600);
-}
-.saLocked .saGridColLock .saIcon.far {
-  display: none;
-}
-@media (pointer: fine) {
-  .saGridColLock:hover {
-    background-color: light-dark(var(--White), var(--Gray950));
-  }
-}
-.saGridColLock:active {
-  background-color: light-dark(var(--Blue50), var(--Blue950));
-}
 .saGrid thead th.saLocked {
   position: sticky;
   inset: auto 0;
   z-index: 1;
 }
+.saGrid thead th.saLocked:nth-child(1) {
+  left: 0;
+}
+.saGrid thead th.saLocked:nth-child(2) {
+  left: calc(2.75rem + 2rem + 2rem);
+}
 .saGrid tbody td.saLocked {
   position: sticky;
-  inset: auto 0;
   z-index: 1;
   background-color: light-dark(var(--White), var(--Gray950));
   box-shadow: inset -1px 0 0 0 light-dark(var(--Gray150), var(--Gray800)), -1px 0 0 0 light-dark(var(--Gray150), var(--Gray800));
+}
+.saGrid tbody td.saLocked.saGridRowControls {
+  box-shadow: none;
+}
+.saGrid tbody td.saLocked:nth-child(1) {
+  left: 0;
+}
+.saGrid tbody td.saLocked:nth-child(2) {
+  left: 2.75rem;
+}
+.saGrid tbody td.saLocked:nth-child(3) {
+  left: calc(2.75rem + 2rem);
+}
+.saGrid tbody td.saLocked:nth-child(4) {
+  left: calc(2.75rem + 2rem + 2rem);
 }
 .saGridRow.saSelected td.saLocked {
   background-color: light-dark(var(--Gray50), var(--Gray950));
