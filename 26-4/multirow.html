@@ -414,7 +414,7 @@
 																									</div>
 																								</div>
 																								<button class="saMultiRowNewRowButton saLabeledFieldButton" type="button">
-																									<i class="saIcon far fa-plus"></i>Ny rad
+																									<i class="saIcon far fa-plus"></i>Add row
 																								</button>
 																							</fieldset>
 																						</div>
@@ -424,7 +424,7 @@
 																		</div>
 																	</fieldset>
 																</fieldset>
-																<fieldset class="saSectionWrapper saLastVisible">
+																<fieldset class="saSectionWrapper">
 																	<legend class="saSectionHeaderWrapper">
 																		<div class="saSectionHeader saInputPageField">
 																			<label><h2 class="legend">Dogs</h2></label>
@@ -446,8 +446,97 @@
 																									<div class="saEmptyStateDescription">Add a new row by clicking the button below</div>
 																								</div>
 																								<button class="saMultiRowNewRowButton saDefaultButtonSecondary" type="button" id="createTable">
-																								<i class="saIcon far fa-plus"></i><span id="createTableBtn">New row</span></button>
+																								<i class="saIcon far fa-plus"></i><span id="createTableBtn">Add row</span></button>
 																							</div>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</fieldset>
+																</fieldset>
+																<fieldset class="saSectionWrapper saLastVisible">
+																	<legend class="saSectionHeaderWrapper">
+																		<div class="saSectionHeader saInputPageField">
+																			<label><h2 class="legend">Hedgehogs</h2></label>
+																		</div>
+																	</legend>
+																	<fieldset class="saFieldCollection longest">
+																		<div class="saFieldAndLabelWrapper">
+																			<label class="saLabelCell"><div class="saLabel"><span>Hedgehog collection</span><div style="display: none;" class="saBadgeCount" id="rowCount">0</div></div></label>
+																			<div class="saFieldCell">
+																				<div class="saInputWrapper longest">
+																					<div class="saInput" style="position: relative;">
+																						<div class="saInputPageField saMultiRowCreate saMultiRowWrapper">
+																							<fieldset>
+																								<div class="saMultiRowTableWrapper">
+																									<div class="saMultiRow">
+																										<div class="saMultiRowHeadGroup">
+																											<div class="saMultiRowHead">
+																												<div class="saMultiRowCellWrapper">
+																													<div class="saMultiRowCell">
+																														<label class="saLabelWrapper">
+																															<div class="saLabel">
+																																<span>Hedgehog name</span>
+																															</div>
+																														</label>
+																													</div>
+																												</div>
+																												<div class="saMultiRowCellWrapper">
+																													<div class="saMultiRowCell">
+																														<label class="saLabelWrapper">
+																															<div class="saLabel">
+																																<span class="saMandatory">Family<span class="saMandatoryStar">*</span></span>
+																															</div>
+																														</label>
+																													</div>
+																												</div>
+																												<div class="saMultiRowCellWrapper">
+																													<div class="saMultiRowCell">
+																														<label class="saLabelWrapper">
+																															<div class="saLabel">
+																																<span class="saMandatory">Sub species<span class="saMandatoryStar">*</span></span>
+																															</div>
+																														</label>
+																													</div>
+																												</div>
+																												<div class="saMultiRowCellWrapper"></div>
+																											</div>
+																										</div>
+																										<div class="saMultiRowRowsGroup">
+																											<div class="saMultiRowRow saMultiRowEmpty">
+																												<div class="saMultiRowCellWrapper">
+																													<div class="saMultiRowCell">
+																														<div class="saMultiRowInputWrapper mediumLong">
+																															<div class="saInputTextWrapper saMultiRowField mediumLong saHasTrailingIcons">
+																																<div class="saUneditableText" style="color: var(--Gray600); height: 1.75rem;">No rows</div>
+																															</div>
+																														</div>
+																													</div>
+																												</div>
+																												<div class="saMultiRowCellWrapper">
+																													<div class="saMultiRowCell">
+																														<div class="saMultiRowInputWrapper mediumLong">
+																															<div class="saInputTextWrapper saMultiRowField mediumLong saHasTrailingIcons">
+																															</div>
+																														</div>
+																													</div>
+																												</div>
+																												<div class="saMultiRowCellWrapper">
+																													<div class="saMultiRowCell">
+																														<div class="saMultiRowInputWrapper long">
+																															<div class="saInputTextWrapper saMultiRowField long saHasTrailingIcons">
+																															</div>
+																														</div>
+																													</div>
+																												</div>
+																												<div class="saMultiRowCellWrapper"></div>
+																											</div>
+																										</div>
+																									</div>
+																								</div>
+																								<button class="saMultiRowNewRowButton saLabeledFieldButton" type="button"><i class="saIcon far fa-plus"></i>Add row</button>
+																							</fieldset>
 																						</div>
 																					</div>
 																				</div>
@@ -493,7 +582,7 @@
 						</div>
 					</div>
 					<button class="saMultiRowNewRowButton saLabeledFieldButton" type="button">
-						<i class="saIcon far fa-plus"></i>Ny rad
+						<i class="saIcon far fa-plus"></i>Add row
 					</button>
 				</fieldset>`;
 
@@ -525,7 +614,7 @@
 			// -------------------------
 
 			function isSingleRowEmpty($wrapper) {
-				const $rows = $wrapper.find('.saMultiRowRow');
+				const $rows = $wrapper.find('.saMultiRowRow:not(.saMultiRowEmpty)');
 				if ($rows.length !== 1) return false;
 				return $rows.first().find('input, select').toArray().every(function (el) {
 					return el.tagName === 'SELECT' ? el.selectedIndex === 0 : el.value.trim() === '';
@@ -533,7 +622,7 @@
 			}
 
 			function updateState($wrapper) {
-				const $rows = $wrapper.find('.saMultiRowRow');
+				const $rows = $wrapper.find('.saMultiRowRow:not(.saMultiRowEmpty)');
 				const rowCount = $rows.length;
 				const isEmpty = isSingleRowEmpty($wrapper);
 
@@ -544,6 +633,13 @@
 				$wrapper.find('.saDeleteRowButtonJs')
 					.attr('disabled', disableDelete || null)
 					.toggleClass('saDestructive', !disableDelete);
+
+				// Handle empty row visibility
+				const $emptyRow = $wrapper.find('.saMultiRowEmpty');
+				if ($emptyRow.length) {
+					const hasDataRows = $rows.not('.saMultiRowEmpty').length > 0;
+					$emptyRow.toggle(!hasDataRows);
+				}
 			}
 
 			// -------------------------
@@ -574,10 +670,9 @@
 				const $wrapper = $row.closest('.saMultiRowWrapper');
 
 				if ($wrapper.hasClass('saMultiRowCreate') && $wrapper.find('.saMultiRowRow').length <= 1) {
-					// Last row in a create wrapper: tear down the table and show empty state
-					$wrapper.find('fieldset').remove();
-					$wrapper.find('.saEmptyState').show();
-					$('#rowCount').text(0);
+					// Last data row in a create wrapper: remove it and show empty row
+					$row.remove();
+					updateState($wrapper);
 					return;
 				}
 
