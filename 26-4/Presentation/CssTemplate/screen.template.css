@@ -2157,7 +2157,6 @@ div.saPopupOverlay {
 .saEmptyState .saEmptyStateBody {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -19659,6 +19658,19 @@ legend + .saInputCardsWrapper {
   display: flex;
   position: unset;
 }
+.saEmpty {
+  width: calc(100% - 26px);
+  background-color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  height: 3rem;
+  border: 0.0625rem solid light-dark(var(--Gray200), var(--Gray700));
+  border-top: none;
+}
+.saMultiRowWrapper:has( .saMultiRowRow) .saEmpty {
+  display: none;
+}
 .saSmallScreen .saMultiRowWrapper {
   display: flex;
   flex-direction: column;
@@ -19672,6 +19684,11 @@ legend + .saInputCardsWrapper {
   display: table;
   padding-top: 2px;
   /* align column titles with field label */
+}
+.saGridded.saMultiRowWrapper .saMultiRow {
+  padding-top: 0;
+  border-right: 0.0625rem solid light-dark(var(--Gray200), var(--Gray700));
+  border-bottom: 0.0625rem solid light-dark(var(--Gray200), var(--Gray700));
 }
 .saHeisenberg.saMultiRowWrapper .saMultiRow {
   opacity: 0.625;
@@ -19718,12 +19735,18 @@ legend + .saInputCardsWrapper {
   font-size: 1rem;
   color: var(--Sa-Color-Icon);
 }
+.saGridded.saMultiRowWrapper .saMultiRowNewRowButton {
+  margin-top: 0.5rem;
+}
 .saMultiRowWrapper:has(.saMultiRowDragHandle) .saMultiRowNewRowButton {
   margin-left: 2rem;
 }
 .saMultiRowWrapper .saMultiRowHead,
 .saMultiRowWrapper .saMultiRowRow {
   display: table-row;
+}
+.saGridded.saMultiRowWrapper .saMultiRowHead {
+  background-color: light-dark(var(--Gray50), var(--Gray950));
 }
 .saMultiRowWrapper .saMultiRowRow {
   transition: ease opacity 0.1s, ease transform 0.1s;
@@ -19749,8 +19772,14 @@ legend + .saInputCardsWrapper {
   padding: 0 0.5rem 0.5rem 0;
   vertical-align: top;
 }
+.saGridded.saMultiRowWrapper .saMultiRowCellWrapper {
+  padding: 0.5rem 0.75rem;
+  border-top: 0.0625rem solid light-dark(var(--Gray200), var(--Gray700));
+  border-left: 0.0625rem solid light-dark(var(--Gray200), var(--Gray700));
+}
 .saMultiRowHead .saMultiRowWrapper .saMultiRowCellWrapper {
   height: 1rem;
+  background-color: light-dark(var(--Gray50), var(--Gray950));
 }
 .saMultiRowRow .saMultiRowWrapper .saMultiRowCellWrapper {
   height: 2.5rem;
@@ -19760,6 +19789,9 @@ legend + .saInputCardsWrapper {
 }
 .saMultiRowWrapper .saMultiRowCellWrapper:last-child {
   padding-right: 0;
+}
+.saGridded.saMultiRowWrapper .saMultiRowCellWrapper:last-child {
+  padding: 0.5rem;
 }
 .saMultiRowWrapper .saMultiRowCell {
   display: flex;
