@@ -19665,7 +19665,8 @@ legend + .saInputCardsWrapper {
   padding: 0 0.75rem;
   height: 3rem;
   border: 0.0625rem solid light-dark(var(--Gray200), var(--Gray700));
-  border-top: none;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }
 .saEmpty .saIcon {
   color: light-dark(var(--Gray500), var(--Gray400));
@@ -19690,8 +19691,6 @@ legend + .saInputCardsWrapper {
 }
 .saGridded.saMultiRowWrapper .saMultiRow {
   padding-top: 0;
-  border-right: 0.0625rem solid light-dark(var(--Gray200), var(--Gray700));
-  border-bottom: 0.0625rem solid light-dark(var(--Gray200), var(--Gray700));
 }
 .saHeisenberg.saMultiRowWrapper .saMultiRow {
   opacity: 0.625;
@@ -19748,6 +19747,27 @@ legend + .saInputCardsWrapper {
 .saMultiRowWrapper .saMultiRowRow {
   display: table-row;
 }
+.saMultiRowWrapper .saMultiRowRow:last-child .saMultiRowCellWrapper:first-child {
+  border-bottom-left-radius: 0.5rem;
+}
+.saMultiRowWrapper.saGridded .saMultiRowRow:last-child .saMultiRowCellWrapper:last-child {
+  border-bottom-right-radius: 0.5rem;
+}
+.saMultiRowWrapper.saGridded .saMultiRowCellWrapper:last-child {
+  border-right: 0.0625rem light-dark(var(--Gray200), var(--Gray700)) solid;
+}
+.saMultiRowWrapper.saGridded .saMultiRowRow:last-child .saMultiRowCellWrapper {
+  border-bottom: 0.0625rem light-dark(var(--Gray200), var(--Gray700)) solid;
+}
+.saMultiRowWrapper.saGridded .saMultiRowRow:last-child .saMultiRowCellWrapper:first-child {
+  border-bottom-left-radius: 0.5rem;
+}
+.saMultiRowWrapper .saMultiRowHead:first-child .saMultiRowCellWrapper:first-child {
+  border-top-left-radius: 0.5rem;
+}
+.saMultiRowWrapper .saMultiRowHead:first-child .saMultiRowCellWrapper:last-child {
+  border-top-right-radius: 0.5rem;
+}
 .saGridded.saMultiRowWrapper .saMultiRowHead {
   background-color: light-dark(var(--Gray50), var(--Gray950));
 }
@@ -19759,6 +19779,10 @@ legend + .saInputCardsWrapper {
     height: 0px;
     overflow: hidden;
   }
+}
+.saMultiRowWrapper .saMultiRowRow:last-child {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }
 .saMultiRowWrapper .saMultiRowRow.saRemove {
   opacity: 0;
