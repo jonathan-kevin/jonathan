@@ -32,7 +32,7 @@ $(document).ready(function () {
 	});
 
 	$('button.saExpander').on('click', function () {
-		$('#SideBar').toggleClass('saMinimized');
+		$('#SideBar').toggleClass('saExpanded saMinimized');
 	});
 
 	$('button.saNavigator').on('click', function () {
