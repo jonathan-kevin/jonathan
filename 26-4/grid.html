@@ -478,21 +478,6 @@
 				}
 			});
 
-
-			$(document).on('click', '.saGridColLock', function () {
-				const $th = $(this).closest('th');
-				const isLocked = $th.hasClass('saLocked');
-
-				// Always clear existing locked state
-				$('th, td').removeClass('saLocked');
-
-				if (!isLocked) {
-					const colIndex = $th.index() + 3;
-					$th.addClass('saLocked');
-					$('tbody td:nth-child(' + (colIndex + 1) + ')').addClass('saLocked');
-				}
-			});
-
 			const $tbody = $('.saGrid tbody');
 			const $row = $tbody.find('tr.saGridRow').first();
 			const $hits = 40;
@@ -501,6 +486,13 @@
 				$(this).addClass('saSelected');
 					}).on('mouseleave', '.saGridRow', function () {
 						$(this).removeClass('saSelected');
+			});
+
+
+			$(document).on('click', 'input.saCheckbox', function () {
+				const $checkbox = $(this);
+				const isChecked = $checkbox.prop('checked');
+				$checkbox.closest('tr').toggleClass('saChecked', isChecked);
 			});
 
 			if ($row.length) {
