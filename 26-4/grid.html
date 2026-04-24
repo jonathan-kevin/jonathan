@@ -413,7 +413,7 @@
 																<td class="saGridRowControls saGridCheckbox saLocked"><input class="saCheckbox" type="checkbox" value="0"></td>
 																<td class="saGridRowControls saLocked"><button type="button" class="saGridRowButton"><i class="far fa-magnifying-glass icon saIcon"></i></button></td>
 																<td class="saGridRowControls saLocked"><button type="button" class="saGridRowButton"><span><i class="icon far fa-ellipsis-vertical"></i></span></button></td>
-																<td class="right saLocked">
+																<td class="saLocked">
 																	<div class="saGridCell">
 																		<nobr>Alex of the house Norlin, Protector of the Realm</nobr>
 																	</div>
@@ -430,7 +430,7 @@
 																</td>
 																<td>
 																	<div class="saGridCell">
-																		<nobr>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro error consequatur omnis amet reprehenderit? Est, quasi delectus deleniti nihil aperiam quidem, dignissimos ullam asperiores labore illo eos excepturi saepe doloribus.</nobr>
+																		<nobr>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro error consequatur omnis amet reprehenderit.</nobr>
 																	</div>
 																</td>
 																<td>
@@ -482,6 +482,62 @@
 			const $row = $tbody.find('tr.saGridRow').first();
 			const $hits = 40;
 
+			// Data API for randomizing cloned rows
+			const gridDataApi = {
+				names: [
+					"Alex of the house Norlin", "Brianna the Bold", "Cedric Stormweaver",
+					"Dara Fireheart", "Eldric the Wise", "Fiona Shadowmere", "Crowman the Cunning",
+					"Galen Stormrider", "Peter Svensson", "Hilda Järnfot", "Erik Åkesson",
+					"Sara Beckström", "Olivia Rydén", "Clara Lindquist", "Kraken, the Kraken",
+					"Gareth Ironfist", "Helena Brightblade", "Ivan Darkwood", "Anna-Carin Larsson",
+					"Lennart Andersson", "Margareth Jonsson"
+				],
+				titles: [
+					"Equestrianism and Eschatology: a Growth plan 2026-2028. Book five of eight.",
+					"Advanced Quantum Mechanics and Applications",
+					"The Art of Strategic Leadership in Modern Organizations",
+					"Introduction to Sustainable Development Goals",
+					"Digital Transformation: A Comprehensive Guide",
+					"Mastering Data Science with Python",
+					"Effective Communication in the Workplace",
+					"Financial Markets and Investment Strategies",
+					"Project Management: Principles and Practices",
+					"Artificial Intelligence: Ethics and Implications",
+					"Avian Studies: An In-depth Analysis of Bird Species and Behaviors",
+					"Birds of the World: A Comprehensive Guide to Avian Diversity and Habitats",
+					"The Evolution of Flight: From Dinosaurs to Modern Birds",
+					"Avian Migration Patterns: Understanding the Seasonal Journeys of Birds",
+					"Birdsong and Communication: Exploring the Complex Language of Birds",
+					"Conservation of Endangered Bird Species: Strategies and Success Stories",
+					"Birdwatching for Beginners: A Guide to Identifying and Appreciating Birds",
+					"The Role of Birds in Ecosystems: Pollination, Seed Dispersal, and Pest Control",
+					"Avian Physiology: Adaptations for Flight and Survival",
+					"Birds in Culture and Mythology: Symbolism and Significance Across Civilizations"
+				],
+				descriptions: [
+					"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro error consequatur omnis amet reprehenderit?",
+					"Consectetur adipisicing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+					"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.",
+					"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+					"Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est.",
+					"Vestibulum fermentum sapien in arcu aliquet, eget bibendum nibh suscipit. In rhoncus vulputate diam id tincidunt.",
+					"Pellentesque eget nibh ac magna aliquet tristique. Phasellus ut aliquet lectus.",
+					"Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+					"Phasellus pulvinar est vitae vulputate egestas. Proin ut lobortis justo, id fringilla risus.",
+					"Sed id sapien et mauris pellentesque sagittis sit amet et nibh. Morbi ac aliquam nisi, id posuere ante.",
+					"Etiam tellus velit, ullamcorper ut pellentesque id, rhoncus dignissim lorem. Donec ullamcorper enim magna, sed rhoncus dui placerat non.",
+					"Phasellus facilisis posuere sapien ut cursus. Suspendisse ut dui leo. Curabitur bibendum lacus sed odio feugiat, at pharetra mauris interdum.",
+					"Curabitur lectus leo, volutpat ac velit sit amet, pellentesque viverra nisl. Donec tempor, ligula ac mattis malesuada, justo turpis malesuada lorem, eget tincidunt nisi erat vel tellus.",
+					"Sed dolor diam, commodo ut fringilla ut, rhoncus imperdiet massa. Nullam luctus gravida lacus nec volutpat.",
+					"Cras molestie urna sit amet tortor tincidunt commodo at in felis. Praesent euismod scelerisque imperdiet.",
+					"Pellentesque varius luctus tincidunt. Pellentesque porttitor, erat vitae aliquam porttitor, leo ligula facilisis sem, sit amet tempor nibh nibh at felis.",
+					"Nunc nec orci in tellus egestas dictum quis sit amet sapien. Vestibulum ultrices ex commodo quam imperdiet mattis."
+				],
+				getRandom: function(array) {
+					return array[Math.floor(Math.random() * array.length)];
+				}
+			};
+
 			$(document).on('mouseenter', '.saGridRow', function () {
 				$(this).addClass('saSelected');
 					}).on('mouseleave', '.saGridRow', function () {
@@ -498,7 +554,22 @@
 			if ($row.length) {
 				for (let i = 0; i < $hits; i++) {
 					const $clone = $row.clone(true);
+
+					// Randomize checkbox value
 					$clone.find('input.saCheckbox').prop('checked', false).attr('value', i + 1);
+
+					// Randomize row content
+					const $cells = $clone.find('td');
+					if ($cells.length >= 8) {
+						$cells.eq(3).find('nobr').text(gridDataApi.getRandom(gridDataApi.names));
+						$cells.eq(4).find('nobr').text(gridDataApi.getRandom(gridDataApi.titles));
+						$cells.eq(5).find('nobr').text(Math.floor(Math.random() * 100000000).toLocaleString());
+						$cells.eq(6).find('nobr').text(gridDataApi.getRandom(gridDataApi.descriptions));
+						$cells.eq(7).find('nobr').text(`202${Math.floor(Math.random() * 10)}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`);
+						$cells.eq(8).find('nobr').text(`202${Math.floor(Math.random() * 10)}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`);
+						$cells.eq(9).find('nobr').text(Math.floor(Math.random() * 50) + 1);
+					}
+
 					$tbody.append($clone);
 				}
 
