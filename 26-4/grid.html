@@ -362,7 +362,9 @@
 														<caption>Grid name</caption>
 														<thead class="saGridHead stickyheader">
 															<tr class="saGridHeadingRow">
-																<th class="saGridRowControls saGridCheckbox saLocked" colspan="3"><input type="checkbox" class="saCheckbox"></th>
+																<th class="saGridRowControls saGridCheckbox saLocked">
+																	<input type="checkbox" class="saCheckbox">
+																</th>
 																<th class="saLocked">
 																	<a class="saGridHeadingInner sort">
 																		<span class="saGridHeadingLabel">Name</span>
@@ -409,12 +411,14 @@
 															</tr>
 														</thead>
 														<tbody>
-															<tr class="saGridRow hascontextmenu">
+															<tr class="saGridRow">
 																<td class="saGridRowControls saGridCheckbox saLocked">
-																	<input class="saCheckbox" type="checkbox" value="0">
+																	<ul>
+																		<li><input class="saCheckbox" type="checkbox" value="0"></li>
+																		<li><button type="button" class="saGridRowButton"><i class="far fa-magnifying-glass icon saIcon"></i></button></li>
+																		<li><button type="button" class="saGridRowButton"><span><i class="icon far fa-ellipsis-vertical"></i></span></button></li>
+																	</ul>
 																</td>
-																<td class="saGridRowControls saLocked"><button type="button" class="saGridRowButton"><i class="far fa-magnifying-glass icon saIcon"></i></button></td>
-																<td class="saGridRowControls saLocked"><button type="button" class="saGridRowButton"><span><i class="icon far fa-ellipsis-vertical"></i></span></button></td>
 																<td class="saLocked">
 																	<div class="saGridCell">
 																		<nobr>Alex of the house Norlin, Protector of the Realm</nobr>
@@ -488,8 +492,8 @@
 			const gridDataApi = {
 				names: [
 					"Alex of the house Norlin", "Brianna the Bold", "Cedric Stormweaver",
-					"Dara Fireheart", "Eldric the Wise", "Fiona Shadowmere", "Crowman the Cunning",
-					"Galen Stormrider", "Peter Svensson", "Hilda Järnfot", "Erik Åkesson",
+					"Dara Fireheart", "Eldric the Wise", "Phi-Yona Shadowmere", "Crowman the Cunning",
+					"Galen Stormrider", "Peter Svensson", "Hilda Järnfot", "Erik Åkesson", "Da Roosta'",
 					"Sara Beckström", "Olivia Rydén", "Clara Lindquist", "Kraken, the Kraken",
 					"Gareth Ironfist", "Helena Brightblade", "Ivan Darkwood", "Anna-Carin Larsson",
 					"Lennart Andersson", "Margareth Jonsson",
@@ -566,13 +570,13 @@
 					// Randomize row content
 					const $cells = $clone.find('td');
 					if ($cells.length >= 8) {
-						$cells.eq(3).find('nobr').text(gridDataApi.getRandom(gridDataApi.names));
-						$cells.eq(4).find('nobr').text(gridDataApi.getRandom(gridDataApi.titles));
-						$cells.eq(5).find('nobr').text(Math.floor(Math.random() * 100000000).toLocaleString());
-						$cells.eq(6).find('nobr').text(gridDataApi.getRandom(gridDataApi.descriptions));
-						$cells.eq(7).find('nobr').text(`202${Math.floor(Math.random() * 10)}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`);
-						$cells.eq(8).find('nobr').text(`202${Math.floor(Math.random() * 10)}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`);
-						$cells.eq(9).find('nobr').text(Math.floor(Math.random() * 50) + 1);
+						$cells.eq(1).find('nobr').text(gridDataApi.getRandom(gridDataApi.names));
+						$cells.eq(2).find('nobr').text(gridDataApi.getRandom(gridDataApi.titles));
+						$cells.eq(3).find('nobr').text(Math.floor(Math.random() * 100000000).toLocaleString());
+						$cells.eq(4).find('nobr').text(gridDataApi.getRandom(gridDataApi.descriptions));
+						$cells.eq(5).find('nobr').text(`202${Math.floor(Math.random() * 10)}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`);
+						$cells.eq(6).find('nobr').text(`202${Math.floor(Math.random() * 10)}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`);
+						$cells.eq(7).find('nobr').text(Math.floor(Math.random() * 50) + 1);
 					}
 
 					$tbody.append($clone);
@@ -583,6 +587,12 @@
 					$hitCounter.text(`${$hits} hits`);
 				}
 			}
+
+			lockWidth = $('tbody:first tr:first td.saGridRowControls').outerWidth();
+			$(':root').css('--saGridLockWidth', lockWidth + 'px');
+			console.log('--saGridLockWidth: ' + lockWidth + 'px');
+
+
 		});
 	</script>
 </body>

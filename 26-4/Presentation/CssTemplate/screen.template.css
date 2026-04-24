@@ -11,6 +11,7 @@
   --Sa-Color-GridHead: light-dark(var(--Gray50), var(--Gray950));
   --Sa-Color-GridFoot: light-dark(var(--Gray50), var(--Gray950));
   --Sa-Color-GridRowHighlight: light-dark(var(--Gray50), var(--Gray950));
+  --Sa-Color-GridRowChecked: light-dark(var(--Blue50), var(--Blue950));
   --Sa-Color-HeadingText: light-dark(var(--Gray900), var(--Gray100));
   --Sa-Color-SideBarFavoriteIcon: light-dark(var(--Gray600), var(--Gray300));
   --Sa-Color-SideBarFavoriteBackground: light-dark(var(--Gray50), var(--Gray950));
@@ -3283,44 +3284,6 @@ div.saPopupOverlay {
 .saSmallScreen .saMultiPartContent .saGridWrapper .saPagination {
   max-width: calc(100vw - 4rem);
 }
-.saGrid thead th.saLocked {
-  position: sticky;
-  inset: auto 0;
-  z-index: 1;
-}
-.saGrid thead th.saLocked:nth-child(1) {
-  left: 0;
-}
-.saGrid thead th.saLocked:nth-child(2) {
-  left: calc(2.75rem + 2rem + 2rem);
-}
-.saGrid tbody td.saLocked {
-  position: sticky;
-  z-index: 1;
-  background-color: light-dark(var(--White), var(--Gray950));
-  box-shadow: inset -1px 0 0 0 light-dark(var(--Gray150), var(--Gray800));
-}
-.saGrid tbody td.saLocked.saGridRowControls {
-  box-shadow: none;
-}
-.saGrid tbody td.saLocked:nth-child(1) {
-  left: 0;
-}
-.saGrid tbody td.saLocked:nth-child(2) {
-  left: 2.75rem;
-}
-.saGrid tbody td.saLocked:nth-child(3) {
-  left: calc(2.75rem + 2rem);
-}
-.saGrid tbody td.saLocked:nth-child(4) {
-  left: calc(2.75rem + 2rem + 2rem);
-}
-.saGridRow.saChecked td.saLocked {
-  background-color: light-dark(var(--Blue50), var(--Blue950));
-}
-.saGridRow.saSelected td.saLocked {
-  background-color: var(--Sa-Color-GridRowHighlight);
-}
 .grid .draghandle {
   position: absolute;
   width: 0.3125rem;
@@ -4371,10 +4334,10 @@ div.saPopupOverlay {
   border-top: 1px solid light-dark(var(--Gray200), var(--Gray700));
 }
 .saGrid .saGridRow.saSelected {
-  background: var(--Sa-Color-GridRowHighlight);
+  background-color: var(--Sa-Color-GridRowHighlight);
 }
 .saGrid .saGridRow.saChecked {
-  background-color: light-dark(var(--Blue50), var(--Blue950));
+  background-color: var(--Sa-Color-GridRowChecked);
 }
 .saGrid .saGridRow.saSelected .saCellUserStyle {
   filter: brightness(0.85);
@@ -4466,6 +4429,13 @@ div.saPopupOverlay {
 }
 .saGrid .saGridRowControls:first-child:not(.saGridCheckbox) {
   padding-left: 0.25rem;
+}
+.saGrid .saGridRowControls ul {
+  display: flex;
+  align-items: center;
+}
+.saGrid .saGridRowControls li:has(.saCheckbox) + li {
+  margin-left: 0.5rem;
 }
 .saGrid .saGridExpandAll {
   padding: 0 0.25rem;
@@ -4587,6 +4557,7 @@ div.saPopupOverlay {
 }
 .saGrid button.saGridRowButton:disabled {
   pointer-events: auto;
+  cursor: not-allowed;
 }
 .saGrid .saGridExtraText {
   display: none;
