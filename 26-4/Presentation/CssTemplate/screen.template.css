@@ -13628,6 +13628,14 @@ select.saInputText {
 .saInputTextWrapper .saDropdown + .saTrailingIconsWrapper .saIcon {
   font-size: 0.875rem;
 }
+.saInputTextWrapper.saValueSelect {
+  flex-direction: row;
+  width: fit-content;
+  z-index: 0;
+}
+.saSmallScreen .saInputTextWrapper.saValueSelect {
+  width: 100%;
+}
 .saInputTextWrapper .saInputText {
   max-width: 100%;
   background: light-dark(var(--White), var(--Gray950));
@@ -13652,6 +13660,18 @@ select.saInputText {
 .saInputTextWrapper .saInputText::-webkit-calendar-picker-indicator {
   display: none;
 }
+.saValueSelect.saInputTextWrapper .saInputText:nth-child(1) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.saValueSelect.saInputTextWrapper .saInputText:nth-child(2) {
+  border-radius: 0;
+  margin-left: -0.0625rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.saValueSelect.saInputTextWrapper .saInputText:focus {
+  z-index: 1;
+}
 .saInputTextWrapper .saInputText.saDropdown {
   appearance: none;
   -webkit-appearance: none;
@@ -13659,10 +13679,17 @@ select.saInputText {
   padding-right: 2rem;
   white-space: normal;
   overflow-wrap: anywhere;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M12 14L16 18L20 14' stroke='%237088a4' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0 top 0;
+  background-size: 2rem;
 }
 :not(.saLabeled).saInputTextWrapper .saInputText.saDropdown {
   padding: 0 2rem 0 0.625rem;
   line-height: 2rem;
+}
+.saValueSelect.saInputTextWrapper .saInputText.saDropdown {
+  background-color: light-dark(var(--Gray50), var(--Gray950));
 }
 .saInputTextWrapper .saInputText.saDropdown:disabled {
   opacity: 1;
@@ -13683,10 +13710,24 @@ select.saInputText {
   .saInputTextWrapper .saInputText:hover {
     box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600);
   }
+  .saInputTextWrapper .saInputText:hover.saDropDown {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M12 14L16 18L20 14' stroke='%232d6ce1' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+  .saValueSelect.saInputTextWrapper .saInputText:hover {
+    z-index: 1;
+    background-color: inherit;
+  }
 }
 .saInputTextWrapper .saInputText:focus-within {
-  background: var(--Sa-Color-Primary50);
+  background-color: var(--Sa-Color-Primary50);
   box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600);
+}
+.saInputTextWrapper .saInputText:focus-within.saDropDown {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'%3E%3Cpath d='M12 14L16 18L20 14' stroke='%232d6ce1' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.saValueSelect.saInputTextWrapper .saInputText:focus-within {
+  z-index: 1;
+  background-color: var(--Sa-Color-Primary50);
 }
 .saInputTextWrapper .saInputText::placeholder {
   color: var(--Sa-Color-TextSecondary);
@@ -13697,34 +13738,6 @@ select.saInputText {
   background: light-dark(var(--Gray100), var(--Gray900));
   color: light-dark(var(--Gray400), var(--Gray500));
 }
-/* Style in standard mode for future use
-.saStandard .saInputTextWrapper,
-.saSmallScreen .saInputTextWrapper {
-	.saInputText {
-		height: 2.5rem;
-		border-radius: 0.5rem;
-		padding: 0 0.75rem;
-	}
-
-	.saTrailingIconsWrapper {
-		height: 2.5rem;
-		gap: 0.5rem;
-		padding: 0 0.75rem 0 0.5rem;
-
-		.saIcon {
-			font-size: 1.25rem;
-
-			&.saActionIcon:not(:disabled) {
-				padding-left: 0.5rem;
-				padding-right: 0.5rem;
-				margin-right: -0.5rem;
-				width: 2rem;
-				height: 2rem;
-			}
-		}
-	}
-}*/
-/*.saCompact*/
 .saInputTextWrapper .saInputText {
   height: 2rem;
   border-radius: 0.5rem;
@@ -13739,6 +13752,7 @@ select.saInputText {
   justify-content: center;
   padding: 0 0.5rem;
   box-sizing: border-box;
+  z-index: 1;
 }
 .saMultiRowWrapper.saGridded .saInputTextWrapper .saTrailingIconsWrapper {
   height: 3rem;
@@ -21993,7 +22007,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   z-index: -2;
 }
 .saSmallScreen .saTimeline .saStep:not(:last-child)::before {
-  top: 1.375rem;
+  top: 1.25rem;
   width: 100%;
 }
 .saTimeline .saStepInner {
@@ -22010,11 +22024,9 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   color: var(--Sa-Color-TimelineIconText);
 }
 .saSmallScreen .saTimeline .saStepInner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 2.75rem;
-  padding: 0;
+  justify-content: flex-start;
+  min-height: 2.75rem;
+  padding: 0.5rem 0 0 0;
 }
 .saTimeline [aria-current="true"] .saStepInner {
   color: var(--Sa-Color-TimelineCurrent);
@@ -22150,7 +22162,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   max-width: 17rem;
   overflow-wrap: anywhere;
 }
-.saSmallScreen .saTimeline .saStepText {
+.saTimeline .saStepText:empty {
   display: none;
 }
 .saTimeline .saStepText .saIcon {
@@ -27966,6 +27978,8 @@ body.saMiniView {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 8;
   overflow: hidden;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   word-break: break-word;
 }
 .saTimeScheduleCalendar .saScheduleActivity .saListActivityDescription {

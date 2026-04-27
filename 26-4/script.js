@@ -75,5 +75,7 @@ $(document).ready(function () {
 			root.setAttribute('data-theme', theme);
 		}
 	}
-
+	$('.saFavoriteToggle').click(function () {
+		$(this).attr('aria-checked', function (i, attr) { return attr === 'true' ? 'false' : 'true'; });
+	});
 });
