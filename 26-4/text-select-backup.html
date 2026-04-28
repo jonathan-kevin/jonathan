@@ -8,9 +8,10 @@
 	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
 	<meta name="description" content="Demo">
 	<meta property="og:image" content="./Presentation/img/og-img.png">
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	<script src="./script.js" defer></script>
-	<script src="./text-select.js" defer></script>
+
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="./script.js"></script>
 	<script type="text/javascript" src="https://livejs.com/live.js"></script>
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -448,9 +449,10 @@
 																								>
 																							</div>
 																							<ul id="countryDropdown" role="listbox">
+
+
 																								<li class="saOptionWrapper saNoResults" role="option" id="opt-empty" aria-disabled="true" style="display: none;">
 																									<div class="saOption">
-																										<i class="far fa-search saOptionIcon saIcon"></i>
 																										<span class="saOptionText">No results found</span>
 																									</div>
 																								</li>
@@ -472,7 +474,7 @@
 																					<div class="saInput">
 																						<div class="saInputTextWrapper saInputPageField mediumLong">
 																							<select class="saInputText saDropdown" id="value7">
-																								<option selected>Afghanistan</option>
+																								<option>Afghanistan</option>
 																								<option>Albania</option>
 																								<option>Algeria</option>
 																								<option>Andorra</option>
@@ -640,7 +642,7 @@
 																								<option>Sudan</option>
 																								<option>Suriname</option>
 																								<option>Swaziland</option>
-																								<option>Sweden</option>
+																								<option selected>Sweden</option>
 																								<option>Switzerland</option>
 																								<option>Syria</option>
 																								<option>Taiwan</option>
@@ -691,8 +693,548 @@
 			</div>
 		</div>
 	</div>
+
 	<script>
 		$(document).ready(function () {
+			$(function () {
+				const countries = [
+					{"code": "at", "country": "Austria"},
+					{"code": "in", "country": "India"},
+					{"code": "af", "country": "Afghanistan"},
+					{"code": "al", "country": "Albania"},
+					{"code": "de", "country": "Germany"},
+					{"code": "ad", "country": "Andorra"},
+					{"code": "ao", "country": "Angola"},
+					{"code": "ai", "country": "Anguilla"},
+					{"code": "aq", "country": "Antarctica"},
+					{"code": "ag", "country": "Antigua and Barbuda"},
+					{"code": "sa", "country": "Saudi Arabia"},
+					{"code": "dz", "country": "Algeria"},
+					{"code": "ar", "country": "Argentina"},
+					{"code": "am", "country": "Armenia"},
+					{"code": "aw", "country": "Aruba"},
+					{"code": "au", "country": "Australia"},
+					{"code": "az", "country": "Azerbaijan"},
+					{"code": "be", "country": "Belgium"},
+					{"code": "ba", "country": "Bosnia and Herzegovina"},
+					{"code": "bs", "country": "Bahamas"},
+					{"code": "bd", "country": "Bangladesh"},
+					{"code": "bh", "country": "Bahrain"},
+					{"code": "bb", "country": "Barbados"},
+					{"code": "bz", "country": "Belize"},
+					{"code": "bj", "country": "Benin"},
+					{"code": "bm", "country": "Bermuda"},
+					{"code": "by", "country": "Belarus"},
+					{"code": "mm", "country": "Burma"},
+					{"code": "bo", "country": "Bolivia"},
+					{"code": "bw", "country": "Botswana"},
+					{"code": "br", "country": "Brazil"},
+					{"code": "bn", "country": "Brunei"},
+					{"code": "bg", "country": "Bulgaria"},
+					{"code": "bi", "country": "Burundi"},
+					{"code": "bf", "country": "Burkina Faso"},
+					{"code": "bt", "country": "Bhutan"},
+					{"code": "cv", "country": "Cape Verde"},
+					{"code": "cm", "country": "Cameroon"},
+					{"code": "kh", "country": "Cambodia"},
+					{"code": "ca", "country": "Canada"},
+					{"code": "qa", "country": "Qatar"},
+					{"code": "kz", "country": "Kazakhstan"},
+					{"code": "td", "country": "Chad"},
+					{"code": "cl", "country": "Chile"},
+					{"code": "cn", "country": "China"},
+					{"code": "cy", "country": "Cyprus"},
+					{"code": "co", "country": "Colombia"},
+					{"code": "km", "country": "Comoros"},
+					{"code": "cg", "country": "Congo-Brazzaville"},
+					{"code": "cd", "country": "Congo-Kinshasa"},
+					{"code": "kp", "country": "North Korea"},
+					{"code": "za", "country": "South Africa"},
+					{"code": "kr", "country": "South Korea"},
+					{"code": "cr", "country": "Costa Rica"},
+					{"code": "ci", "country": "Ivory Coast"},
+					{"code": "hr", "country": "Croatia"},
+					{"code": "cu", "country": "Cuba"},
+					{"code": "dk", "country": "Denmark"},
+					{"code": "dm", "country": "Dominica"},
+					{"code": "eg", "country": "Egypt"},
+					{"code": "ae", "country": "United Arab Emirates", "alias": "uae"},
+					{"code": "ec", "country": "Ecuador"},
+					{"code": "er", "country": "Eritrea"},
+					{"code": "sk", "country": "Slovakia"},
+					{"code": "si", "country": "Slovenia"},
+					{"code": "es", "country": "Spain"},
+					{"code": "ee", "country": "Estonia"},
+					{"code": "us", "country": "United States of America", "alias": "usa, america, us"},
+					{"code": "et", "country": "Ethiopia"},
+					{"code": "fo", "country": "Faroe Islands"},
+					{"code": "fj", "country": "Fiji"},
+					{"code": "ph", "country": "Philippines"},
+					{"code": "fi", "country": "Finland"},
+					{"code": "fr", "country": "France"},
+					{"code": "gm", "country": "Gambia"},
+					{"code": "ga", "country": "Gabon"},
+					{"code": "gh", "country": "Ghana"},
+					{"code": "ge", "country": "Georgia"},
+					{"code": "gs", "country": "South Georgia and the South Sandwich Islands"},
+					{"code": "gi", "country": "Gibraltar"},
+					{"code": "gr", "country": "Greece"},
+					{"code": "gd", "country": "Grenada"},
+					{"code": "gl", "country": "Greenland"},
+					{"code": "gp", "country": "Guadeloupe"},
+					{"code": "gu", "country": "Guam"},
+					{"code": "gt", "country": "Guatemala"},
+					{"code": "gy", "country": "Guyana"},
+					{"code": "gf", "country": "French Guiana"},
+					{"code": "gn", "country": "Guinea"},
+					{"code": "gq", "country": "Equatorial Guinea"},
+					{"code": "gw", "country": "Guinea-Bissau"},
+					{"code": "ht", "country": "Haiti"},
+					{"code": "hn", "country": "Honduras"},
+					{"code": "hk", "country": "Hong Kong", "alias": "hk"},
+					{"code": "hu", "country": "Hungary"},
+					{"code": "ye", "country": "Yemen"},
+					{"code": "id", "country": "Indonesia"},
+					{"code": "ir", "country": "Iran"},
+					{"code": "iq", "country": "Iraq"},
+					{"code": "ie", "country": "Ireland"},
+					{"code": "is", "country": "Iceland"},
+					{"code": "il", "country": "Israel"},
+					{"code": "it", "country": "Italy"},
+					{"code": "jm", "country": "Jamaica"},
+					{"code": "jp", "country": "Japan"},
+					{"code": "dj", "country": "Djibouti"},
+					{"code": "jo", "country": "Jordan"},
+					{"code": "yu", "country": "Yugoslavia"},
+					{"code": "kw", "country": "Kuwait"},
+					{"code": "lb", "country": "Lebanon"},
+					{"code": "ly", "country": "Libya"},
+					{"code": "la", "country": "Laos"},
+					{"code": "ls", "country": "Lesotho"},
+					{"code": "lv", "country": "Latvia"},
+					{"code": "lr", "country": "Liberia"},
+					{"code": "li", "country": "Liechtenstein"},
+					{"code": "lt", "country": "Lithuania"},
+					{"code": "lu", "country": "Luxembourg"},
+					{"code": "mx", "country": "Mexico"},
+					{"code": "mc", "country": "Monaco"},
+					{"code": "mo", "country": "Macau"},
+					{"code": "mk", "country": "North Macedonia"},
+					{"code": "mg", "country": "Madagascar"},
+					{"code": "my", "country": "Malaysia"},
+					{"code": "mw", "country": "Malawi"},
+					{"code": "mv", "country": "Maldives"},
+					{"code": "ml", "country": "Mali"},
+					{"code": "mt", "country": "Malta"},
+					{"code": "ma", "country": "Morocco"},
+					{"code": "mq", "country": "Martinique"},
+					{"code": "mu", "country": "Mauritius"},
+					{"code": "mr", "country": "Mauritania"},
+					{"code": "mz", "country": "Mozambique"},
+					{"code": "md", "country": "Moldova"},
+					{"code": "mn", "country": "Mongolia"},
+					{"code": "ms", "country": "Montserrat"},
+					{"code": "ne", "country": "Niger"},
+					{"code": "na", "country": "Namibia"},
+					{"code": "nr", "country": "Nauru"},
+					{"code": "np", "country": "Nepal"},
+					{"code": "ni", "country": "Nicaragua"},
+					{"code": "ng", "country": "Nigeria"},
+					{"code": "nu", "country": "Niue"},
+					{"code": "no", "country": "Norway"},
+					{"code": "nc", "country": "New Caledonia"},
+					{"code": "nz", "country": "New Zealand"},
+					{"code": "om", "country": "Oman"},
+					{"code": "nl", "country": "Netherlands"},
+					{"code": "pw", "country": "Palau"},
+					{"code": "pa", "country": "Panama"},
+					{"code": "pg", "country": "Papua New Guinea"},
+					{"code": "pk", "country": "Pakistan"},
+					{"code": "py", "country": "Paraguay"},
+					{"code": "pe", "country": "Peru"},
+					{"code": "pn", "country": "Pitcairn"},
+					{"code": "pl", "country": "Poland"},
+					{"code": "pf", "country": "French Polynesia"},
+					{"code": "pr", "country": "Puerto Rico"},
+					{"code": "pt", "country": "Portugal"},
+					{"code": "ke", "country": "Kenya"},
+					{"code": "kg", "country": "Kyrgyzstan"},
+					{"code": "ki", "country": "Kiribati"},
+					{"code": "ru", "country": "Russia"},
+					{"code": "gb", "country": "United Kingdom", "alias": "uk, gb, great britain, england, scotland, wales"},
+					{"code": "cf", "country": "Central African Republic"},
+					{"code": "cz", "country": "Czech Republic"},
+					{"code": "do", "country": "Dominican Republic"},
+					{"code": "re", "country": "Reunion"},
+					{"code": "ro", "country": "Romania"},
+					{"code": "rw", "country": "Rwanda"},
+					{"code": "kn", "country": "Saint Kitts and Nevis"},
+					{"code": "sm", "country": "San Marino"},
+					{"code": "pm", "country": "Saint Pierre and Miquelon"},
+					{"code": "st", "country": "Sao Tome and Principe"},
+					{"code": "vc", "country": "Saint Vincent and the Grenadines"},
+					{"code": "sy", "country": "Syria"},
+					{"code": "sv", "country": "El Salvador"},
+					{"code": "ws", "country": "Samoa"},
+					{"code": "as", "country": "American Samoa"},
+					{"code": "sh", "country": "Saint Helena"},
+					{"code": "lc", "country": "Saint Lucia"},
+					{"code": "eh", "country": "Western Sahara"},
+					{"code": "sc", "country": "Seychelles"},
+					{"code": "sn", "country": "Senegal"},
+					{"code": "sl", "country": "Sierra Leone"},
+					{"code": "sg", "country": "Singapore"},
+					{"code": "so", "country": "Somalia"},
+					{"code": "lk", "country": "Sri Lanka"},
+					{"code": "se", "country": "Sweden"},
+					{"code": "ch", "country": "Switzerland"},
+					{"code": "sz", "country": "Swaziland"},
+					{"code": "sd", "country": "Sudan"},
+					{"code": "sr", "country": "Suriname"},
+					{"code": "sj", "country": "Svalbard and Jan Mayen"},
+					{"code": "th", "country": "Thailand"},
+					{"code": "tw", "country": "Taiwan"},
+					{"code": "tj", "country": "Tajikistan"},
+					{"code": "tz", "country": "Tanzania"},
+					{"code": "tl", "country": "Timor-Leste"},
+					{"code": "tg", "country": "Togo"},
+					{"code": "tk", "country": "Tokelau"},
+					{"code": "to", "country": "Tonga"},
+					{"code": "tt", "country": "Trinidad and Tobago"},
+					{"code": "tn", "country": "Tunisia"},
+					{"code": "tm", "country": "Turkmenistan"},
+					{"code": "tr", "country": "Turkey"},
+					{"code": "tv", "country": "Tuvalu"},
+					{"code": "ua", "country": "Ukraine"},
+					{"code": "ug", "country": "Uganda"},
+					{"code": "uy", "country": "Uruguay"},
+					{"code": "uz", "country": "Uzbekistan"},
+					{"code": "vu", "country": "Vanuatu"},
+					{"code": "va", "country": "Vatican City"},
+					{"code": "ve", "country": "Venezuela"},
+					{"code": "vn", "country": "Vietnam"},
+					{"code": "wf", "country": "Wallis and Futuna"},
+					{"code": "zm", "country": "Zambia"},
+					{"code": "zw", "country": "Zimbabwe"}
+				];
+
+				// 1. Sort alphabetically by country name
+				countries.sort((a, b) => a.country.localeCompare(b.country));
+
+				// 2. Select the container (e.g., <ul id="countryDropdown">)
+				const $listContainer = $('#countryDropdown');
+				let listHtml = '';
+
+				// 3. Loop and generate the HTML
+				$.each(countries, function(index, item) {
+					listHtml += `
+						<li class="saOptionWrapper" role="option" id="opt-${item.code}" data-code="${item.code} data-alias="${item.alias}">
+							<div class="saOption">
+								<img src="https://flagcdn.com/${item.code}.svg" aria-hidden="true">
+								<span class="saOptionText">${item.country}</span>
+							</div>
+						</li>`;
+				});
+
+				// 4. Append to the DOM once
+				$listContainer.append(listHtml);
+				let $button = $('#countryButton');
+				let $panel  = $('#contextMenu');
+				let $input  = $('#countrySearch');
+				let $list   = $('#countryDropdown');
+				let $items  = $list.find('.saOptionWrapper').not('.saNoResults');
+				let $noResults = $list.find('.saNoResults');
+
+				let activeIndex   = -1;
+				let selectedIndex = 0;
+
+				let typeBuffer = '';
+				let typeTimer  = null;
+
+				$items.each(function () {
+					$(this).data('label', $(this).find('.saOptionText').text());
+				});
+
+				function getScrollContainer() {
+					let el = $list[0];
+					while (el) {
+						let overflow = $(el).css('overflow-y');
+						if (overflow === 'auto' || overflow === 'scroll') return el;
+						el = el.parentElement;
+					}
+					return $list[0];
+				}
+
+				const scrollContainer = getScrollContainer();
+
+				/* ─── Helpers ─────────────────────────────────────────────── */
+
+				function getVisible() {
+					return $items.filter(':visible');
+				}
+
+				function updateNoResults() {
+					$noResults.toggle(getVisible().length === 0);
+				}
+
+				function resetActive() {
+					$items.removeClass('saActive').attr('aria-selected', 'false');
+					$input.attr('aria-activedescendant', '');
+					activeIndex = -1;
+				}
+
+				function scrollActiveIntoView() {
+					let $visible = getVisible();
+					if (activeIndex < 0 || !$visible.length) return;
+
+					let el            = $visible[activeIndex];
+					let container     = scrollContainer;
+					let elRect        = el.getBoundingClientRect();
+					let containerRect = container.getBoundingClientRect();
+
+					let elTop    = elRect.top - containerRect.top + container.scrollTop;
+					let elBottom = elTop + elRect.height;
+					let ctTop    = container.scrollTop;
+					let ctBottom = ctTop + container.clientHeight;
+
+					if (elTop < ctTop) {
+						container.scrollTop = elTop;
+					} else if (elBottom > ctBottom) {
+						container.scrollTop = elBottom - container.clientHeight;
+					}
+				}
+
+				function scrollToSelected() {
+					let $visible = getVisible();
+					if (!$visible.length) return;
+
+					let idx = selectedIndex >= 0 ? selectedIndex : 0;
+					let el  = $visible[idx];
+					if (!el) return;
+
+					let container     = scrollContainer;
+					let elRect        = el.getBoundingClientRect();
+					let containerRect = container.getBoundingClientRect();
+
+					let elTop    = elRect.top - containerRect.top + container.scrollTop;
+					let ctHeight = container.clientHeight;
+
+					container.scrollTop = elTop - ctHeight / 2 + elRect.height / 2;
+				}
+
+				function setActive(index) {
+					let $visible = getVisible();
+					if (!$visible.length) return;
+
+					if (index < 0) index = $visible.length - 1;
+					if (index >= $visible.length) index = 0;
+
+					activeIndex = index;
+
+					$items.removeClass('saActive').attr('aria-selected', 'false');
+					let $el = $visible.eq(activeIndex);
+					$el.addClass('saActive').attr('aria-selected', 'true');
+					$input.attr('aria-activedescendant', $el.attr('id'));
+
+					scrollActiveIntoView();
+				}
+
+				function highlightMatch(text, query) {
+					if (!query) return text;
+					let escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+					return text.replace(new RegExp(`(${escaped})`, 'ig'), '<mark>$1</mark>');
+				}
+
+				function filterList(query) {
+					let val = query.toLowerCase();
+
+					$items.each(function () {
+						let label = $(this).data('label');
+						let alias = $(this).data('alias');
+						let match = label.toLowerCase().includes(val);
+						$(this).toggle(match);
+						$(this).find('.saOptionText').html(
+							match ? highlightMatch(label, val) : label
+						);
+					});
+
+					updateNoResults();
+					resetActive();
+
+					let $visible = getVisible();
+					if ($visible.length) setActive(0);
+				}
+
+				function updateButton($item) {
+					let text = $item.data('label');
+					let code = $item.data('code');
+
+					selectedIndex = $items.index($item);
+
+					$button.find('.saDropdownText').text(text);
+					$button.find('img').attr('src', `https://flagcdn.com/${code}.svg`);
+				}
+
+				/* ─── Open / Close ─────────────────────────────────────────── */
+
+				function openDropdown() {
+					if ($panel.hasClass('saOpen')) return;
+
+					$panel.addClass('saOpen');
+					$button.attr('aria-expanded', 'true');
+					$input.val('');
+
+					$items.show().each(function () {
+						$(this).find('.saOptionText').html($(this).data('label'));
+					});
+					updateNoResults();
+
+					activeIndex = selectedIndex;
+					$items.removeClass('saActive').attr('aria-selected', 'false');
+					let $sel = $items.eq(selectedIndex);
+					$sel.addClass('saActive').attr('aria-selected', 'true');
+					$input.attr('aria-activedescendant', $sel.attr('id'));
+
+					setTimeout(() => {
+						$input.focus();
+						scrollToSelected();
+					}, 0);
+				}
+
+				function closeDropdown({ returnFocus = false } = {}) {
+					if (!$panel.hasClass('saOpen')) return;
+
+					$panel.removeClass('saOpen');
+					$button.attr('aria-expanded', 'false');
+					$input.val('');
+
+					$items.show().each(function () {
+						$(this).find('.saOptionText').html($(this).data('label'));
+					});
+					updateNoResults();
+					resetActive();
+
+					if (returnFocus) $button.focus();
+				}
+
+				/* ─── Events ───────────────────────────────────────────────── */
+
+				$button.on('click', function () {
+					$panel.hasClass('saOpen') ? closeDropdown({ returnFocus: true }) : openDropdown();
+				});
+
+				$input.on('input', function () {
+					filterList($(this).val());
+				});
+
+				$input.on('keydown', function (e) {
+					let $visible = getVisible();
+
+					switch (e.key) {
+						case 'ArrowDown':
+							e.preventDefault();
+							setActive(activeIndex + 1);
+							break;
+						case 'ArrowUp':
+							e.preventDefault();
+							setActive(activeIndex - 1);
+							break;
+						case 'Home':
+							e.preventDefault();
+							setActive(0);
+							break;
+						case 'End':
+							e.preventDefault();
+							setActive($visible.length - 1);
+							break;
+						case 'Enter':
+							e.preventDefault();
+							if (!$visible.length || activeIndex < 0) return;
+							updateButton($visible.eq(activeIndex));
+							closeDropdown({ returnFocus: true });
+							break;
+						case 'Escape':
+							closeDropdown({ returnFocus: true });
+							break;
+						case 'Tab':
+							closeDropdown();
+							break;
+					}
+				});
+
+				$button.on('keydown', function (e) {
+					if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+						typeBuffer += e.key.toLowerCase();
+						clearTimeout(typeTimer);
+						typeTimer = setTimeout(() => (typeBuffer = ''), 700);
+
+						let $match = $items.filter(function () {
+							return $(this).data('label').toLowerCase().startsWith(typeBuffer);
+						}).first();
+
+						if ($match.length) updateButton($match);
+						return;
+					}
+
+					switch (e.key) {
+						case 'ArrowDown':
+							e.preventDefault();
+							if (e.altKey) {
+								openDropdown();
+							} else {
+								let $next = $items.eq(selectedIndex + 1);
+								if ($next.length) updateButton($next);
+							}
+							break;
+						case 'ArrowUp':
+							e.preventDefault();
+							if (e.altKey) {
+								openDropdown();
+							} else {
+								let $prev = $items.eq(selectedIndex - 1);
+								if ($prev.length) updateButton($prev);
+							}
+							break;
+						case 'Enter':
+						case ' ':
+							e.preventDefault();
+							openDropdown();
+							break;
+						case 'Home':
+							e.preventDefault();
+							updateButton($items.first());
+							break;
+						case 'End':
+							e.preventDefault();
+							updateButton($items.last());
+							break;
+					}
+				});
+
+
+				$items.on('click', function () {
+					updateButton($(this));
+					closeDropdown({ returnFocus: true });
+				});
+
+				$(document).on('click focusin', function (e) {
+					if ($panel.hasClass('saOpen') && !$(e.target).closest('.saDropdown, #contextMenu').length) {
+						closeDropdown();
+					}
+				});
+			});
+
+
+
+			setTimeout(() => {
+			$('#opt-se').addClass('saActive').attr('aria-active', 'true')
+			}, 20);
+
+
+
+
+
+
 			$(document).on('input', '#value', function () {
 				const input = this;
 				if (input.value.endsWith('@')) {
