@@ -435,8 +435,8 @@
 															<tr class="saGridRow">
 																<td class="saGridRowControls">
 																	<ul>
-																		<li class="grippy" role="presentation">
-																			<i class="saIcon far fa-grip-dots-vertical"></i>
+																		<li class="grippy" role="presentation"><i
+																				class="saIcon far fa-grip-dots-vertical"></i>
 																		</li>
 																		<li><button type="button"
 																				class="saGridRowButton"><i
@@ -450,16 +450,19 @@
 																</td>
 																<td>
 																	<div class="saGridCell">
-																		<nobr>Alex of the house Norlin, Protector of the
-																			Realm</nobr>
+																		<a class="link" href="#">
+																			<div class="saGridCellRow">
+																				<!--<img src="../src/img/henke.jpg" class="saGridCellAvatar" loading="lazy">-->
+																				<div class="saGridCellAvatar saBlue50">AN</div>
+																				<div class="saGridCellCol saLinkText">
+																					<div class="saGridCellHeading"><nobr>Alex of the house Norlin, Protector of the Realm</nobr></div>
+																					<div class="saGridCellDescription">henrik.stiernstedt@multisoft.se</div>
+																				</div>
+																			</div>
+																		</a>
 																	</div>
 																</td>
-																<td>
-																	<div class="saGridCell">
-																		<nobr>Equestrianism and Eschatology: a Growth
-																			plan 2026-2028. Book five of eight.</nobr>
-																	</div>
-																</td>
+																<td><div class="saGridCell"><nobr>Equestrianism and Eschatology: a Growth plan 2026-2028. Book five of eight.</nobr></div></td>
 																<td class="right">
 																	<div class="saGridCell">
 																		<nobr>20 124 867</nobr>
@@ -519,71 +522,49 @@
 
 			const $tbody = $('.saGrid tbody');
 			const $row = $tbody.find('tr.saGridRow').first();
-			const $hits = 24;
+			const $hits = 16;
 
 			// Data API for randomizing cloned rows
 			const gridDataApi = {
 				names: [
-					"Alex of the house Norlin", "Brianna the Bold", "Cedric Stormweaver",
-					"Dara Fireheart", "Eldric the Wise", "Phi-Yona Shadowmere", "Crowman the Cunning",
-					"Galen Stormrider", "Peter Svensson", "Hilda Järnfot", "Erik Åkesson", "Da Roosta'",
-					"Sara Beckström", "Olivia Rydén", "Clara Lindquist", "Kraken, the Kraken",
-					"Gareth Ironfist", "Helena Brightblade", "Ivan Darkwood", "Anna-Carin Larsson",
-					"Lennart Andersson", "Margareth Jonsson", "Chungus",
-					"Johan Linde", "Linus Jönsson", "Kenneth Ljugberg", "Ellioth Rosenberg",
-					"Henrik Stiernstedt", "Jonathan Kevin", "Tim Wiman", "Pontus Ilbring",
-					"Emil Gyllenring", "Samuel Israeli"
-				],
-				titles: [
-					"Equestrianism and Eschatology",
-					"Advanced Quantum Mechanics and Applications",
-					"The Art of Strategic Leadership",
-					"Introduction to Sustainable Development Goals",
-					"Digital Transformation: A Comprehensive Guide",
-					"Mastering Data Science with Python",
-					"Learn from Birds: Effective Communication",
-					"Financial Markets and Investment Strategies",
-					"Project Management: Principles and Practices",
-					"Artificial Intelligence: Ethics and Implications",
-					"Avian Studies",
-					"Birds of the World: A Comprehensive Guide",
-					"The Evolution of Flight",
-					"Avian Migration Patterns",
-					"Birdsong and Communication",
-					"Conservation of Endangered Bird Species",
-					"Birdwatching for Beginners",
-					"The Role of Birds in Ecosystems",
-					"Avian Physiology: Adaptations for Flight and Survival",
-					"Birds in Culture and Mythology"
-				],
-				descriptions: [
-					"Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
-					"Porro error consequatur omnis amet reprehenderit?",
-					"Consectetur adipisicing elit. Sed do eiusmod tempor.",
-					"Ut enim ad minim veniam, quis nostrud exercitation.",
-					"Duis aute irure dolor in reprehenderit in voluptate.",
-					"Excepteur sint occaecat cupidatat non proident, sunt in culpa.",
-					"Vestibulum fermentum sapien in arcu aliquet, eget bibendum nibh suscipit..",
-					"Pellentesque eget nibh ac magna aliquet tristique.",
-					"Class aptent taciti sociosqu ad litora torquent per.",
-					"Phasellus pulvinar est vitae vulputate egestas.",
-					"Sed id sapien et mauris pellentesque sagittis sit amet et nibh.",
-					"Etiam tellus velit, ullamcorper ut pellentesque id, rhoncus dignissim lorem.",
-					"Donec ullamcorper enim magna, sed rhoncus dui placerat non.",
-					"Phasellus facilisis posuere sapien ut cursus. Suspendisse ut dui leo.",
-					"Curabitur bibendum lacus sed odio feugiat, at pharetra mauris interdum.",
-					"Curabitur lectus leo, volutpat ac velit sit amet, pellentesque viverra.",
-					"Sed dolor diam, commodo ut fringilla ut, rhoncus imperdiet massa.",
-					"Cras molestie urna sit amet tortor tincidunt commodo at in felis.",
-					"Pellentesque varius luctus tincidunt. Pellentesque porttitor.",
-					"Erat vitae aliquam porttitor, leo ligula facilisis sem, sit amet tempor nibh nibh at felis.",
-					"Nunc nec orci in tellus egestas dictum quis sit amet sapien."
+					{ "firstName": "Alex ", "lastName": "Norlin", "title": "Equestrianism and Eschatology", "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit.", "color": "saGray100" },
+					{ "firstName": "Brianna ", "lastName": "Bold", "title": "Equestrianism and Eschatology", "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit.", "color": "saBlue200" },
+					{ "firstName": "Cedric ", "lastName": "Stormweaver", "title": "Advanced Quantum Mechanics and Applications", "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit.", "color": "saRed50" },
+					{ "firstName": "Dara ", "lastName": "Fireheart", "title": "The Art of Strategic Leadership", "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit.", "color": "saOrange50" },
+					{ "firstName": "Eldric ", "lastName": "Wise", "title": "Introduction to Sustainable Development Goals", "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit.", "color": "saBlue50" },
+					{ "firstName": "Phi-Yona ", "lastName": "Shadowmere", "title": "Digital Transformation: A Comprehensive Guide", "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit.", "color": "saOrange50" },
+					{ "firstName": "Crowman ", "lastName": "Cunning", "title": "Mastering Data Science with Python", "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit.", "color": "saPink50" },
+					{ "firstName": "Galen ", "lastName": "Stormrider", "title": "Learn from Birds: Effective Communication", "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit.", "color": "saPink100" },
+					{ "firstName": "Peter ", "lastName": "Svensson", "title": "Financial Markets and Investment Strategies", "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit.", "color": "saPink50" },
+					{ "firstName": "Hilda ", "lastName": "Järnfot", "title": "Project Management: Principles and Practices", "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit.", "color": "saRed50" },
+					{ "firstName": "Erik ", "lastName": "Åkesson", "title": "Artificial Intelligence: Ethics and Implications", "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit.", "color": "saRed100" },
+					{ "firstName": "Da ", "lastName": "Roosta", "title": "It's a bird! It's a plane! It's Softadmin®", "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit.", "color": "saPurple50" },
+					{ "firstName": "Sara ", "lastName": "Beckström", "title": "Avian Studies", "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit.", "color": "saPurple100" },
+					{ "firstName": "Olivia ", "lastName": "Rydén", "title": "Avian Studies", "description": "Porro error consequatur omnis amet reprehenderit?", "color": "saYellow50" },
+					{ "firstName": "Clara ", "lastName": "Lindquist", "title": "Avian Studies", "description": "Consectetur adipisicing elit. Sed do eiusmod tempor.", "color": "saYellow100" },
+					{ "firstName": "Kråkan ", "lastName": "Kråkansson", "title": "Avian Studies", "description": "Ut enim ad minim veniam, quis nostrud exercitation.", "color": "saOrange50" },
+					{ "firstName": "Gareth ", "lastName": "Ironfist", "title": "Avian Studies", "description": "Duis aute irure dolor in reprehenderit in voluptate.", "color": "saOrange100" },
+					{ "firstName": "Helena ", "lastName": "Brightblade", "title": "Avian Studies", "description": "Excepteur sint occaecat cupidatat non proident, sunt in culpa.", "color": "saPink50" },
+					{ "firstName": "Ivan ", "lastName": "Darkwood", "title": "Avian Studies", "description": "Vestibulum fermentum sapien in arcu aliquet, eget bibendum nibh suscipit..", "color": "saRed50" },
+					{ "firstName": "Anna-Carin ", "lastName": "Larsson", "title": "Avian Studies", "description": "Pellentesque eget nibh ac magna aliquet tristique.", "color": "saPink100" },
+					{ "firstName": "Lennart ", "lastName": "Andersson", "title": "Avian Studies", "description": "Class aptent taciti sociosqu ad litora torquent per.", "color": "saSky50" },
+					{ "firstName": "Margareth ", "lastName": "Jonsson", "title": "Avian Studies", "description": "Phasellus pulvinar est vitae vulputate egestas.", "color": "saSky100" },
+					{ "firstName": "Oliver ", "lastName": "Olsson", "title": "Avian Studies", "description": "Sed id sapien et mauris pellentesque sagittis sit amet et nibh.", "color": "saRed50" },
+					{ "firstName": "Johan ", "lastName": "Linde", "title": "Avian Studies", "description": "Etiam tellus velit, ullamcorper ut pellentesque id, rhoncus dignissim lorem.", "color": "saSky50" },
+					{ "firstName": "Linus ", "lastName": "Jönsson", "title": "Birds of the World: A Comprehensive Guide", "description": "Donec ullamcorper enim magna, sed rhoncus dui placerat non.", "color": "saSky50" },
+					{ "firstName": "Kenneth ", "lastName": "Ljugberg", "title": "The Evolution of Flight", "description": "Phasellus facilisis posuere sapien ut cursus. Suspendisse ut dui leo.", "color": "saBlue50" },
+					{ "firstName": "Ellioth ", "lastName": "Rosenberg", "title": "Avian Migration Patterns", "description": "Curabitur bibendum lacus sed odio feugiat, at pharetra mauris interdum.", "color": "saYellow50" },
+					{ "firstName": "Henrik ", "lastName": "Stiernstedt", "title": "Birdsong and Communication", "description": "Curabitur lectus leo, volutpat ac velit sit amet, pellentesque viverra.", "color": "saRed50" },
+					{ "firstName": "Jonathan ", "lastName": "Kevin", "title": "Conservation of Endangered Bird Species", "description": "Sed dolor diam, commodo ut fringilla ut, rhoncus imperdiet massa.", "color": "saGray50" },
+					{ "firstName": "Tim ", "lastName": "Wiman", "title": "Birdwatching for Beginners", "description": "Cras molestie urna sit amet tortor tincidunt commodo at in felis.", "color": "saRed50" },
+					{ "firstName": "Pontus ", "lastName": "Ilbring", "title": "The Role of Birds in Ecosystems", "description": "Pellentesque varius luctus tincidunt. Pellentesque porttitor.", "color": "saPurple50" },
+					{ "firstName": "Emil ", "lastName": "Gyllenring", "title": "Avian Physiology: Adaptations for Flight and Survival", "description": "Erat vitae aliquam porttitor, leo ligula facilisis sem, sit amet tempor nibh nibh at felis.", "color": "saOrange50" },
+					{ "firstName": "Samuel ", "lastName": "Israeli", "title": "Birds in Culture and Mythology", "description": "Nunc nec orci in tellus egestas dictum quis sit amet sapien.", "color": "saYellow50" },
 				],
 				getRandom: function (array) {
 					return array[Math.floor(Math.random() * array.length)];
 				}
 			};
-
 
 			$(document).on('click', 'input.saCheckbox', function () {
 				const $checkbox = $(this);
@@ -601,10 +582,13 @@
 					// Randomize row content
 					const $cells = $clone.find('td');
 					if ($cells.length >= 8) {
-						$cells.eq(1).find('nobr').text(gridDataApi.getRandom(gridDataApi.names));
-						$cells.eq(2).find('nobr').text(gridDataApi.getRandom(gridDataApi.titles));
+						const person = gridDataApi.getRandom(gridDataApi.names);
+						$cells.eq(1).find('.saGridCellAvatar').removeClass('saBlue50').text(person.firstName.charAt(0) + person.lastName.charAt(0)).addClass(person.color);
+						$cells.eq(1).find('div:first-child nobr').text(person.firstName + person.lastName);
+						$cells.eq(1).find('.saGridCellDescription').text(person.firstName.trim().toLowerCase() + '.' + person.lastName.trim().toLowerCase() + '@multisoft.se');
+						$cells.eq(2).find('nobr').text(person.title);
 						$cells.eq(3).find('nobr').text(Math.floor(Math.random() * 100000000).toLocaleString());
-						$cells.eq(4).find('nobr').text(gridDataApi.getRandom(gridDataApi.descriptions));
+						$cells.eq(4).find('nobr').text(person.description);
 						$cells.eq(5).find('nobr').text(`202${Math.floor(Math.random() * 10)}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`);
 						$cells.eq(6).find('nobr').text(`202${Math.floor(Math.random() * 10)}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`);
 						$cells.eq(7).find('nobr').text(Math.floor(Math.random() * 50) + 1);
