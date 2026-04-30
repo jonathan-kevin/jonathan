@@ -336,6 +336,9 @@
 																		<option value="7">Members</option>
 																	</select>
 																</label>
+																<button class="saGridButton" type="button" id="avatarToggle">
+																	<span class="saIcon far fa-user-circle"></span>
+																</button>
 																<button class="saGridButton" type="button">
 																	<span class="saIcon far fa-sliders"></span>
 																	<div class="saButtonBadge" id="hasChanges"></div>
@@ -450,16 +453,14 @@
 																</td>
 																<td>
 																	<div class="saGridCell">
-																		<a class="link" href="#">
-																			<div class="saGridCellRow">
-																				<!--<img src="../src/img/henke.jpg" class="saGridCellAvatar" loading="lazy">-->
-																				<div class="saGridCellAvatar saBlue50">AN</div>
-																				<div class="saGridCellCol saLinkText">
-																					<div class="saGridCellHeading"><nobr>Alex of the house Norlin, Protector of the Realm</nobr></div>
-																					<div class="saGridCellDescription">henrik.stiernstedt@multisoft.se</div>
-																				</div>
+																		<div class="saGridCellRow">
+																			<!--<img src="../src/img/henke.jpg" class="saGridCellAvatar" loading="lazy">-->
+																			<div class="saGridCellAvatar saBlue50" style="display: none;">AN</div>
+																			<div class="saGridCellCol saLinkText">
+																				<div class="saGridCellHeading"><nobr>Alex of the house Norlin, Protector of the Realm</nobr></div>
+																				<div class="saGridCellDescription">henrik.stiernstedt@multisoft.se</div>
 																			</div>
-																		</a>
+																		</div>
 																	</div>
 																</td>
 																<td><div class="saGridCell"><nobr>Equestrianism and Eschatology: a Growth plan 2026-2028. Book five of eight.</nobr></div></td>
@@ -507,6 +508,8 @@
 	</div>
 	<script>
 		$(document).ready(function () {
+
+
 
 			$(document).on('click', '.saGridHeadingInner.sort', function () {
 				const $heading = $(this);
@@ -633,6 +636,10 @@
 				onEnd: function () {
 					isDragging = false;
 				}
+			});
+
+			$('#avatarToggle').click(function (e) {
+				$('.saGridCellAvatar').toggle();
 			});
 		});
 	</script>
