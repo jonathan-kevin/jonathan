@@ -32637,7 +32637,7 @@ h3.saToCHeading {
   bottom: 0;
   filter: blur(1.5rem);
   transition: transform 0.2s ease;
-  background-image: radial-gradient(at bottom, var(--Blue300) 0%, rgba(147, 189, 255, 0) 80%);
+  background-image: radial-gradient(at bottom, var(--Blue300) 0%, rgba(147, 189, 255, 0) 40%);
   pointer-events: none;
   user-select: none;
 }
@@ -32645,11 +32645,12 @@ h3.saToCHeading {
   .saBentoInner:hover {
     background-color: var(--Blue50);
     border-color: var(--Blue200);
+    color: var(--Blue600);
   }
   .saBentoInner:hover::after {
     transform: translateY(60%);
   }
-  .saBentoInner:hover .saBentoImage img {
+  .saBentoInner:hover .saBentoImage img:not(.saContain) {
     transform: scale(1.125);
   }
   .saBentoInner:hover .saBentoIcon {
@@ -32661,12 +32662,13 @@ h3.saToCHeading {
   .saBentoInner:hover .saBentoHeading,
   .saBentoInner:hover .saBentoDescription,
   .saBentoInner:hover .saBentoHeading .saIcon {
-    color: var(--Blue600);
+    color: inherit;
   }
 }
 .saBentoInner:active {
   border-radius: 1.5rem;
   background-color: var(--Blue100);
+  color: var(--Blue700);
 }
 .saBentoInner:active .saBentoIcon {
   background-image: none;
@@ -32677,17 +32679,12 @@ h3.saToCHeading {
 .saTiny .saBentoInner:active .saBentoIcon {
   border-radius: 1rem;
 }
-.saBentoInner:active .saBentoHeading,
-.saBentoInner:active .saBentoDescription,
-.saBentoInner:active .saBentoHeading .saIcon {
-  color: var(--Blue700);
-}
 .saSolid.saGreen .saBentoInner {
   background-color: #f2fcf2;
   border-color: #91e89b;
 }
 .saGreen .saBentoInner::after {
-  background-image: radial-gradient(at bottom, var(--Green200) 0%, rgba(145, 232, 155, 0) 80%);
+  background-image: radial-gradient(at bottom, var(--Green200) 0%, rgba(145, 232, 155, 0) 40%);
 }
 .saGreen .saBentoInner .saBentoIcon {
   color: var(--Green500);
@@ -32700,6 +32697,7 @@ h3.saToCHeading {
   .saGreen .saBentoInner:hover {
     background-color: var(--Green50);
     border-color: var(--Green200);
+    color: var(--Green600);
   }
   .saGreen .saBentoInner:hover .saBentoIcon {
     background-image: none;
@@ -32707,14 +32705,10 @@ h3.saToCHeading {
     color: var(--White);
     box-shadow: none;
   }
-  .saGreen .saBentoInner:hover .saBentoHeading,
-  .saGreen .saBentoInner:hover .saBentoDescription,
-  .saGreen .saBentoInner:hover .saBentoHeading .saIcon {
-    color: var(--Green600);
-  }
 }
 .saGreen .saBentoInner:active {
   background-color: var(--Green100);
+  color: var(--Green700);
 }
 .saGreen .saBentoInner:active .saBentoIcon {
   background-image: none;
@@ -32722,17 +32716,12 @@ h3.saToCHeading {
   color: var(--White);
   box-shadow: none;
 }
-.saGreen .saBentoInner:active .saBentoHeading,
-.saGreen .saBentoInner:active .saBentoDescription,
-.saGreen .saBentoInner:active .saBentoHeading .saIcon {
-  color: var(--Green700);
-}
 .saSolid.saGray .saBentoInner {
   background-color: #f8f9fb;
   border-color: #ccd5e2;
 }
 .saGray .saBentoInner::after {
-  background-image: radial-gradient(at bottom, var(--Gray300) 0%, rgba(173, 189, 209, 0) 80%);
+  background-image: radial-gradient(at bottom, var(--Gray300) 0%, rgba(173, 189, 209, 0) 40%);
 }
 .saGray .saBentoInner .saBentoIcon {
   color: var(--Gray600);
@@ -32745,6 +32734,7 @@ h3.saToCHeading {
   .saGray .saBentoInner:hover {
     background-color: var(--Gray50);
     border-color: var(--Gray200);
+    color: var(--Gray600);
   }
   .saGray .saBentoInner:hover .saBentoIcon {
     background-image: none;
@@ -32752,14 +32742,10 @@ h3.saToCHeading {
     color: var(--White);
     box-shadow: none;
   }
-  .saGray .saBentoInner:hover .saBentoHeading,
-  .saGray .saBentoInner:hover .saBentoDescription,
-  .saGray .saBentoInner:hover .saBentoHeading .saIcon {
-    color: var(--Gray600);
-  }
 }
 .saGray .saBentoInner:active {
   background-color: var(--Gray100);
+  color: var(--Gray700);
 }
 .saGray .saBentoInner:active .saBentoIcon {
   background-image: none;
@@ -32767,17 +32753,12 @@ h3.saToCHeading {
   color: var(--White);
   box-shadow: none;
 }
-.saGray .saBentoInner:active .saBentoHeading,
-.saGray .saBentoInner:active .saBentoDescription,
-.saGray .saBentoInner:active .saBentoHeading .saIcon {
-  color: var(--Gray700);
-}
 .saSolid.saRed .saBentoInner {
   background-color: #fff7f7;
   border-color: #ffc6c5;
 }
 .saRed .saBentoInner::after {
-  background-image: radial-gradient(at bottom, var(--Red200) 0%, rgba(255, 198, 197, 0) 80%);
+  background-image: radial-gradient(at bottom, var(--Red200) 0%, rgba(255, 198, 197, 0) 40%);
 }
 .saRed .saBentoInner .saBentoIcon {
   color: var(--Red600);
@@ -32790,6 +32771,7 @@ h3.saToCHeading {
   .saRed .saBentoInner:hover {
     background-color: var(--Red50);
     border-color: var(--Red200);
+    color: var(--Red600);
   }
   .saRed .saBentoInner:hover .saBentoIcon {
     background-image: none;
@@ -32797,14 +32779,10 @@ h3.saToCHeading {
     color: var(--White);
     box-shadow: none;
   }
-  .saRed .saBentoInner:hover .saBentoHeading,
-  .saRed .saBentoInner:hover .saBentoDescription,
-  .saRed .saBentoInner:hover .saBentoHeading .saIcon {
-    color: var(--Red600);
-  }
 }
 .saRed .saBentoInner:active {
   background-color: var(--Red100);
+  color: var(--Red700);
 }
 .saRed .saBentoInner:active .saBentoIcon {
   background-image: none;
@@ -32812,17 +32790,12 @@ h3.saToCHeading {
   color: var(--White);
   box-shadow: none;
 }
-.saRed .saBentoInner:active .saBentoHeading,
-.saRed .saBentoInner:active .saBentoDescription,
-.saRed .saBentoInner:active .saBentoHeading .saIcon {
-  color: var(--Red700);
-}
 .saSolid.saOrange .saBentoInner {
   background-color: #fff8f4;
   border-color: #ffc9a4;
 }
 .saOrange .saBentoInner::after {
-  background-image: radial-gradient(at bottom, var(--Orange200) 0%, rgba(255, 201, 164, 0) 80%);
+  background-image: radial-gradient(at bottom, var(--Orange200) 0%, rgba(255, 201, 164, 0) 40%);
 }
 .saOrange .saBentoInner .saBentoIcon {
   color: var(--Orange500);
@@ -32835,6 +32808,7 @@ h3.saToCHeading {
   .saOrange .saBentoInner:hover {
     background-color: var(--Orange50);
     border-color: var(--Orange200);
+    color: var(--Orange600);
   }
   .saOrange .saBentoInner:hover .saBentoIcon {
     background-image: none;
@@ -32842,14 +32816,10 @@ h3.saToCHeading {
     color: var(--White);
     box-shadow: none;
   }
-  .saOrange .saBentoInner:hover .saBentoHeading,
-  .saOrange .saBentoInner:hover .saBentoDescription,
-  .saOrange .saBentoInner:hover .saBentoHeading .saIcon {
-    color: var(--Orange600);
-  }
 }
 .saOrange .saBentoInner:active {
   background-color: var(--Orange100);
+  color: var(--Orange700);
 }
 .saOrange .saBentoInner:active .saBentoIcon {
   background-image: none;
@@ -32857,17 +32827,12 @@ h3.saToCHeading {
   color: var(--White);
   box-shadow: none;
 }
-.saOrange .saBentoInner:active .saBentoHeading,
-.saOrange .saBentoInner:active .saBentoDescription,
-.saOrange .saBentoInner:active .saBentoHeading .saIcon {
-  color: var(--Orange700);
-}
 .saSolid.saYellow .saBentoInner {
   background-color: #fff8e7;
   border-color: #ffcd5b;
 }
 .saYellow .saBentoInner::after {
-  background-image: radial-gradient(at bottom, var(--Yellow200) 0%, rgba(255, 205, 91, 0) 80%);
+  background-image: radial-gradient(at bottom, var(--Yellow200) 0%, rgba(255, 205, 91, 0) 40%);
 }
 .saYellow .saBentoInner .saBentoIcon {
   color: var(--Yellow500);
@@ -32880,6 +32845,7 @@ h3.saToCHeading {
   .saYellow .saBentoInner:hover {
     background-color: var(--Yellow50);
     border-color: var(--Yellow200);
+    color: var(--Yellow600);
   }
   .saYellow .saBentoInner:hover .saBentoIcon {
     background-image: none;
@@ -32887,14 +32853,10 @@ h3.saToCHeading {
     color: var(--White);
     box-shadow: none;
   }
-  .saYellow .saBentoInner:hover .saBentoHeading,
-  .saYellow .saBentoInner:hover .saBentoDescription,
-  .saYellow .saBentoInner:hover .saBentoHeading .saIcon {
-    color: var(--Yellow600);
-  }
 }
 .saYellow .saBentoInner:active {
   background-color: var(--Yellow100);
+  color: var(--Yellow700);
 }
 .saYellow .saBentoInner:active .saBentoIcon {
   background-image: none;
@@ -32902,17 +32864,12 @@ h3.saToCHeading {
   color: var(--White);
   box-shadow: none;
 }
-.saYellow .saBentoInner:active .saBentoHeading,
-.saYellow .saBentoInner:active .saBentoDescription,
-.saYellow .saBentoInner:active .saBentoHeading .saIcon {
-  color: var(--Yellow700);
-}
 .saSolid.saSky .saBentoInner {
   background-color: #f0fcff;
   border-color: #82e1fb;
 }
 .saSky .saBentoInner::after {
-  background-image: radial-gradient(at bottom, var(--Sky200) 0%, rgba(130, 225, 251, 0) 80%);
+  background-image: radial-gradient(at bottom, var(--Sky200) 0%, rgba(130, 225, 251, 0) 40%);
 }
 .saSky .saBentoInner .saBentoIcon {
   color: var(--Sky500);
@@ -32925,6 +32882,7 @@ h3.saToCHeading {
   .saSky .saBentoInner:hover {
     background-color: var(--Sky50);
     border-color: var(--Sky200);
+    color: var(--Sky600);
   }
   .saSky .saBentoInner:hover .saBentoIcon {
     background-image: none;
@@ -32932,14 +32890,10 @@ h3.saToCHeading {
     color: var(--White);
     box-shadow: none;
   }
-  .saSky .saBentoInner:hover .saBentoHeading,
-  .saSky .saBentoInner:hover .saBentoDescription,
-  .saSky .saBentoInner:hover .saBentoHeading .saIcon {
-    color: var(--Sky600);
-  }
 }
 .saSky .saBentoInner:active {
   background-color: var(--Sky100);
+  color: var(--Sky700);
 }
 .saSky .saBentoInner:active .saBentoIcon {
   background-image: none;
@@ -32947,17 +32901,12 @@ h3.saToCHeading {
   color: var(--White);
   box-shadow: none;
 }
-.saSky .saBentoInner:active .saBentoHeading,
-.saSky .saBentoInner:active .saBentoDescription,
-.saSky .saBentoInner:active .saBentoHeading .saIcon {
-  color: var(--Sky700);
-}
 .saSolid.saPurple .saBentoInner {
   background-color: #f9f7ff;
   border-color: #ddccff;
 }
 .saPurple .saBentoInner::after {
-  background-image: radial-gradient(at bottom, var(--Purple300) 0%, rgba(202, 173, 255, 0) 80%);
+  background-image: radial-gradient(at bottom, var(--Purple300) 0%, rgba(202, 173, 255, 0) 40%);
 }
 .saPurple .saBentoInner .saBentoIcon {
   color: var(--Purple600);
@@ -32970,6 +32919,7 @@ h3.saToCHeading {
   .saPurple .saBentoInner:hover {
     background-color: var(--Purple50);
     border-color: var(--Purple200);
+    color: var(--Purple600);
   }
   .saPurple .saBentoInner:hover .saBentoIcon {
     background-image: none;
@@ -32977,14 +32927,10 @@ h3.saToCHeading {
     color: var(--White);
     box-shadow: none;
   }
-  .saPurple .saBentoInner:hover .saBentoHeading,
-  .saPurple .saBentoInner:hover .saBentoDescription,
-  .saPurple .saBentoInner:hover .saBentoHeading .saIcon {
-    color: var(--Purple600);
-  }
 }
 .saPurple .saBentoInner:active {
   background-color: var(--Purple100);
+  color: var(--Purple700);
 }
 .saPurple .saBentoInner:active .saBentoIcon {
   background-image: none;
@@ -32992,17 +32938,12 @@ h3.saToCHeading {
   color: var(--White);
   box-shadow: none;
 }
-.saPurple .saBentoInner:active .saBentoHeading,
-.saPurple .saBentoInner:active .saBentoDescription,
-.saPurple .saBentoInner:active .saBentoHeading .saIcon {
-  color: var(--Purple700);
-}
 .saSolid.saPink .saBentoInner {
   background-color: #fff7fc;
   border-color: #ffc1ed;
 }
 .saPink .saBentoInner::after {
-  background-image: radial-gradient(at bottom, var(--Pink200) 0%, rgba(255, 193, 237, 0) 80%);
+  background-image: radial-gradient(at bottom, var(--Pink200) 0%, rgba(255, 193, 237, 0) 40%);
 }
 .saPink .saBentoInner .saBentoIcon {
   color: var(--Pink500);
@@ -33015,6 +32956,7 @@ h3.saToCHeading {
   .saPink .saBentoInner:hover {
     background-color: var(--Pink50);
     border-color: var(--Pink200);
+    color: var(--Pink600);
   }
   .saPink .saBentoInner:hover .saBentoIcon {
     background-image: none;
@@ -33022,25 +32964,16 @@ h3.saToCHeading {
     color: var(--White);
     box-shadow: none;
   }
-  .saPink .saBentoInner:hover .saBentoHeading,
-  .saPink .saBentoInner:hover .saBentoDescription,
-  .saPink .saBentoInner:hover .saBentoHeading .saIcon {
-    color: var(--Pink600);
-  }
 }
 .saPink .saBentoInner:active {
   background-color: var(--Pink100);
+  color: var(--Pink700);
 }
 .saPink .saBentoInner:active .saBentoIcon {
   background-image: none;
   background-color: var(--Pink600);
   color: var(--White);
   box-shadow: none;
-}
-.saPink .saBentoInner:active .saBentoHeading,
-.saPink .saBentoInner:active .saBentoDescription,
-.saPink .saBentoInner:active .saBentoHeading .saIcon {
-  color: var(--Pink700);
 }
 .saBentoBody {
   display: flex;
@@ -33049,7 +32982,7 @@ h3.saToCHeading {
   padding: 1rem;
   overflow-wrap: anywhere;
   text-wrap: balance;
-  margin: auto 0;
+  margin: auto 0 0 0;
 }
 .saTiny .saBentoBody {
   margin: unset;
@@ -33063,11 +32996,6 @@ h3.saToCHeading {
 .saBentoBody:only-child {
   padding: 1rem;
 }
-@media (width >= 768px) {
-  .saFeatured:not(.saTiny) .saBentoBody {
-    padding: 1.5rem;
-  }
-}
 .saBentoIcon {
   display: flex;
   justify-content: center;
@@ -33076,7 +33004,7 @@ h3.saToCHeading {
   height: 12rem;
   position: relative;
   overflow: hidden;
-  border-bottom-width: 1px;
+  border-bottom-width: 0.0625rem;
   border-bottom-style: solid;
   border-bottom-color: inherit;
   background-image: linear-gradient(var(--Blue50), var(--Blue100) 80%);
@@ -33091,10 +33019,10 @@ h3.saToCHeading {
   width: 3rem;
   border-bottom: none;
   font-size: 1.25rem;
-  border-radius: 0.5rem;
+  border-radius: 0.625rem;
   margin-top: 1rem;
   margin-left: 1rem;
-  box-shadow: inset 0 0 0 1px var(--Blue200);
+  box-shadow: inset 0 0 0 0.0625rem var(--Blue200);
 }
 .saBentoIcon .saIcon {
   z-index: 1;
@@ -33106,6 +33034,10 @@ h3.saToCHeading {
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: inherit;
+  position: relative;
+}
+.saBentoImage:has(.saContain) {
+  border-bottom: none;
 }
 .saTiny .saBentoImage {
   height: 3rem;
@@ -33124,6 +33056,22 @@ h3.saToCHeading {
   object-fit: cover;
   transition: transform 0.2s ease;
   background-color: var(--Gray100);
+}
+.saBentoImage img.saContain {
+  object-fit: contain;
+  padding: 1rem;
+  background-color: transparent;
+}
+.saTugg {
+  display: inline-flex;
+  height: 1.5rem;
+  padding: 0 0.5rem;
+  width: fit-content;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  border: 1px solid #ccd5e2;
+  position: absolute;
+  inset: auto auto 1.5rem 1.5rem;
 }
 .saPillGroup {
   display: flex;
@@ -33149,7 +33097,9 @@ h3.saToCHeading {
   transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
   box-shadow: inset 0 0 0 0 transparent;
   border-radius: 1rem;
-  padding: 0.25rem 0.75rem;
+  color: var(--Gray900);
+  padding: 0.25rem 0.625rem;
+  border: var(--Gray200) solid 0.0625rem;
 }
 .saPill.saDisabled {
   background: var(--Gray100);
@@ -33238,44 +33188,54 @@ h3.saToCHeading {
   cursor: inherit;
 }
 .saPill.saGreen {
-  background-color: var(--Green100);
-  color: var(--Green800);
+  background-color: var(--Green50);
+  color: var(--Green600);
+  border-color: var(--Green200);
 }
 .saPill.saRed {
-  background-color: var(--Red100);
-  color: var(--Red800);
+  background-color: var(--Red50);
+  color: var(--Red600);
+  border-color: var(--Red200);
 }
 .saPill.saPurple {
-  background-color: var(--Purple100);
-  color: var(--Purple800);
+  background-color: var(--Purple50);
+  color: var(--Purple600);
+  border-color: var(--Purple200);
 }
 .saPill.saOrange {
-  background-color: var(--Orange100);
-  color: var(--Orange800);
+  background-color: var(--Orange50);
+  color: var(--Orange600);
+  border-color: var(--Orange200);
 }
 .saPill.saYellow {
-  background-color: var(--Yellow100);
-  color: var(--Yellow800);
+  background-color: var(--Yellow50);
+  color: var(--Yellow600);
+  border-color: var(--Yellow200);
 }
 .saPill.saSky {
-  background-color: var(--Sky100);
-  color: var(--Sky800);
+  background-color: var(--Sky50);
+  color: var(--Sky600);
+  border-color: var(--Sky200);
 }
 .saPill.saPink {
-  background-color: var(--Pink100);
-  color: var(--Pink800);
+  background-color: var(--Pink50);
+  color: var(--Pink600);
+  border-color: var(--Pink200);
 }
 .saPill.saGray {
-  background-color: var(--Gray100);
-  color: var(--Gray800);
+  background-color: var(--Gray50);
+  color: var(--Gray600);
+  border-color: var(--Gray200);
 }
 .saPill.saBlue {
-  background-color: var(--Blue100);
-  color: var(--Blue800);
+  background-color: var(--Blue50);
+  color: var(--Blue600);
+  border-color: var(--Blue200);
 }
 .saPill.saBlack {
   background-color: var(--Gray900);
   color: var(--White);
+  border-color: transparent;
 }
 h2.saBentoHeading {
   font-size: 1rem;
@@ -33294,6 +33254,9 @@ h2.saBentoHeading .saIcon {
   font-size: 0.625rem;
   color: var(--Gray500);
   margin-left: 0.25rem;
+}
+.saBentoSubHeading {
+  padding-bottom: 0.5rem;
 }
 p.saBentoDescription {
   font-size: 0.75rem;
@@ -33314,12 +33277,24 @@ p.saBentoDescription {
 .saBentoFooter {
   display: flex;
   align-items: center;
-  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  margin-top: auto;
   gap: 0.5rem;
   z-index: 1;
 }
 .saTiny .saBentoFooter {
   display: none;
+}
+.saBentoFooterAlt {
+  margin-top: 1.5rem;
+}
+.saBentoHuge span {
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+}
+.saBentoHuge span:nth-child(2) {
+  font-size: 1rem;
 }
 .saBentoAuthor {
   display: flex;
@@ -33335,6 +33310,7 @@ p.saBentoDescription {
   line-height: 1rem;
   font-weight: 500;
   margin-left: 0.5rem;
+  color: #313a44;
 }
 .saBentoDate {
   font-size: 0.75rem;

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Bento Preview</title>
+
+	<style>
+		body {
+			margin: 0;
+			font-family: system-ui;
+			background: #111;
+			color: white;
+		}
+
+		.toolbar {
+			display: flex;
+			gap: 8px;
+			padding: 12px;
+			background: #1f1f1f;
+		}
+
+		button.active {
+			background: #22c55e;
+			color: black;
+		}
+
+		.resizer {
+			resize: horizontal;
+			overflow: auto;
+			min-width: 320px;
+			max-width: calc(100dvw - 5rem);
+			height: calc(100dvh - 6rem);
+			border: 4px solid #444;
+			margin: 0 auto;
+			overflow: hidden;
+			border-radius: 0.5rem;
+		}
+		iframe {
+			border: none;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="toolbar">
+		<button data-bp="sm">sm</button>
+		<button data-bp="md">md</button>
+		<button data-bp="lg">lg</button>
+		<button data-bp="xl">xl</button>
+		<button data-bp="2xl">2xl</button>
+
+		<input type="range" min="320" max="2000" value="1200" id="slider">
+
+		<select id="gridCols">
+			<option value="">cols</option>
+			<script>
+				for (let i = 1; i <= 12; i++) {
+					document.write(`<option value="${i}">${i}</option>`);
+				}
+			</script>
+		</select>
+
+		<span id="widthLabel">1200px</span>
+	</div>
+
+	<div class="resizer" id="resizer">
+		<iframe id="frame" src="bento.html" width="100%" height="100%"></iframe>
+	</div>
+
+	<script>
+		const frame = document.getElementById('frame');
+		const resizer = document.getElementById('resizer');
+		const slider = document.getElementById('slider');
+		const label = document.getElementById('widthLabel');
+		const gridSelect = document.getElementById('gridCols');
+
+		let currentBp = 'lg';
+
+		function getBreakpoint(w) {
+			if (w >= 1536) return '2xl';
+			if (w >= 1280) return 'xl';
+			if (w >= 1024) return 'lg';
+			if (w >= 768) return 'md';
+			if (w >= 640) return 'sm';
+			return 'base';
+		}
+
+		function send(msg) {
+			frame.contentWindow?.postMessage(msg, '*');
+		}
+
+		function update(width) {
+			label.textContent = width + 'px';
+			currentBp = getBreakpoint(width);
+
+			document.querySelectorAll('[data-bp]').forEach(btn => {
+				btn.classList.toggle('active', btn.dataset.bp === currentBp);
+			});
+
+			send({ type: 'SET_BP', bp: currentBp });
+		}
+
+		// Slider
+		slider.addEventListener('input', e => {
+			const w = parseInt(e.target.value, 10);
+			resizer.style.width = w + 'px';
+			update(w);
+		});
+
+		// Buttons
+		document.querySelectorAll('[data-bp]').forEach(btn => {
+			btn.onclick = () => {
+				const map = { sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 };
+				const w = map[btn.dataset.bp];
+				resizer.style.width = w + 'px';
+				slider.value = w;
+				update(w);
+			};
+		});
+
+		// Grid cols
+		gridSelect.addEventListener('change', () => {
+			send({
+				type: 'SET_GRID_COLS',
+				value: gridSelect.value
+			});
+		});
+
+		// Resize observer
+		new ResizeObserver(entries => {
+			const w = Math.round(entries[0].contentRect.width);
+			update(w);
+		}).observe(resizer);
+
+		// Init after iframe load
+		frame.addEventListener('load', () => {
+			update(1200);
+		});
+	</script>
+
+</body>
+
+</html>
