@@ -67,7 +67,7 @@
 								<div class="saSideBarFavoritesHeader">
 									<button class="saButtonFavorites" type="button"><span>Favorites</span><i class="saIcon saIcon far fa-angle-down"></i></button>
 									<button class="saButtonFavoritesMinimized" type="button"><i class="saIcon saIcon far fa-angle-down"></i></button>
-									<button class="saButtonFavoritesEdit" type="button">Redigera</button>
+									<button class="saButtonFavoritesEdit" type="button">Edit</button>
 								</div>
 								<ul class="saItemList">
 									<li><a class="saItem saFavorite" tabindex="0">
@@ -270,14 +270,12 @@
 												<h2 id="filter-heading">Filter</h2>
 
 												<form id="filter-form">
-													<button type="reset">Clear filters</button>
+													<button type="reset">Clear</button>
 
 													<!-- Live result count -->
-													<p id="filter-results" aria-live="polite">Showing <strong>36</strong> of 384 results</p>
+													<p id="filter-results" aria-live="polite" style="margin-top: -0.5rem;">Showing <strong>36</strong> of 384 results</p>
 
-													<!-- Search -->
-													<section class="saBentoFilterGroup">
-													<label class="saInputTextWrapper saHasLeadingIcon">
+													<label class="saInputTextWrapper saHasLeadingIcon" style="margin-right: 0;">
 														<div class="saLeadingIconWrapper" style="height: 2rem; width: 2rem; inset: 0 auto auto -0.25rem; display: flex; align-items: center; justify-content: center;">
 															<i class="saIcon far fa-search"></i>
 														</div>
@@ -287,15 +285,47 @@
 															name="q"
 															class="saInputText"
 															placeholder="Search..."
+															aria-label="Search"
 														/>
 													</label>
-													</section>
 
 													<!-- Category -->
 													<section class="saBentoFilterGroup">
-														<h3 id="cat">Category</h3>
+														<h3 id="season"><button type="button"class="saBentoFilterButton" aria-expanded="false" aria-controls="season-sub">
+															<span>Season</span>
+															<span class="saBadgeCount" style="display: none;">0</span>
+															<i class="far fa-angle-down saIcon"></i>
+														</button></h3>
 
-														<div aria-labelledby="cat" role="group">
+														<div aria-labelledby="season" role="group" class="saBentoFilterGroupSub" id="season-sub">
+															<label class="saRow">
+																<input type="checkbox" id="season-winter" class="saCheckbox" name="season" value="winter" />
+																<span class="saLabel">Winter</span>
+															</label>
+
+															<label class="saRow">
+																<input type="checkbox" id="season-spring" class="saCheckbox" name="season" value="spring" />
+																<span class="saLabel">Spring</span>
+															</label>
+
+															<label class="saRow">
+																<input type="checkbox" id="season-summer" class="saCheckbox" name="season" value="summer" />
+																<span class="saLabel">Summer</span>
+															</label>
+															<label class="saRow">
+																<input type="checkbox" id="season-autumn" class="saCheckbox" name="season" value="autumn" />
+																<span class="saLabel">Autumn</span>
+															</label>
+														</div>
+													</section>
+													<section class="saBentoFilterGroup">
+														<h3 id="cat"><button type="button" class="saBentoFilterButton" aria-expanded="false" aria-controls="cat-sub">
+															<span>Category</span>
+															<span class="saBadgeCount" style="display: none;">0</span>
+															<i class="far fa-angle-down saIcon"></i>
+														</button></h3>
+
+														<div aria-labelledby="cat" role="group" class="saBentoFilterGroupSub" id="cat-sub">
 															<label class="saRow">
 																<input type="checkbox" id="cat-design" class="saCheckbox" name="category" value="design" />
 																<span class="saLabel">Design</span>
@@ -310,57 +340,158 @@
 																<input type="checkbox" id="cat-ux" class="saCheckbox" name="category" value="ux" />
 																<span class="saLabel">UX</span>
 															</label>
+															<label class="saRow">
+																<input type="checkbox" id="cat-design" class="saCheckbox" name="category" value="mythical" />
+																<span class="saLabel">Mythical</span>
+															</label>
+
+															<label class="saRow">
+																<input type="checkbox" id="cat-dev" class="saCheckbox" name="category" value="empty" />
+																<span class="saLabel">Empty state</span>
+															</label>
+
+															<label class="saRow">
+																<input type="checkbox" id="cat-ux" class="saCheckbox" name="category" value="crows" />
+																<span class="saLabel">Crows</span>
+															</label>
 														</div>
 													</section>
 													<section class="saBentoFilterGroup">
-														<h3 id="pill">Category</h3>
+														<h3 id="pill"><button type="button" class="saBentoFilterButton" aria-expanded="false" aria-controls="pill-sub">
+															<span>Topic</span>
+															<span aria-hidden="true" class="saBadgeCount">2</span>
+															<i aria-hidden="true" class="far fa-angle-down saIcon"></i>
+														</button></h3>
 
-														<div aria-labelledby="pill" role="group" class="saPillGroup">
-															<label class="saPill">
-																<input type="checkbox" id="pill-design" name="category" value="aviation" />
-																<span class="saLabel">Aviation</span>
+														<div class="saBentoFilterGroupSub">
+															<div aria-labelledby="pill" role="group" class="saPillGroup" style="padding-bottom: 0;" id="pill-sub">
+																<label class="saPill">
+																	<input type="checkbox" id="pill-design" name="category" value="aviation" />
+																	<span class="saLabel">Aviation</span>
+																</label>
+
+																<label class="saPill">
+																	<input type="checkbox" id="pill-dev" name="category" value="birds" />
+																	<span class="saLabel">Birds</span>
+																</label>
+
+																<label class="saPill">
+																	<input type="checkbox" id="pill-ux" name="category" value="shoes" />
+																	<span class="saLabel">Shoes</span>
+																</label>
+																<label class="saPill">
+																	<input type="checkbox" id="pill-space" name="category" value="space" />
+																	<span class="saLabel">Space</span>
+																</label>
+
+																<label class="saPill">
+																	<input type="checkbox" id="pill-coffee" name="category" value="coffee" />
+																	<span class="saLabel">Coffee</span>
+																</label>
+
+																<label class="saPill">
+																	<input type="checkbox" id="pill-fitness" name="category" value="fitness" />
+																	<span class="saLabel">Fitness</span>
+																</label>
+
+																<label class="saPill">
+																	<input type="checkbox" id="pill-gaming" name="category" value="gaming" />
+																	<span class="saLabel">Gaming</span>
+																</label>
+
+																<label class="saPill">
+																	<input type="checkbox" id="pill-photography" name="category" value="photography" />
+																	<span class="saLabel">Photography</span>
+																</label>
+															</div>
+														</div>
+													</section>
+													<section class="saBentoFilterGroup">
+														<h3 id="size"><button type="button" class="saBentoFilterButton" aria-expanded="false" aria-controls="size-sub">
+															<span>Size</span>
+															<span aria-hidden="true" class="saBadgeCount">2</span>
+															<i  aria-hidden="true" class="far fa-angle-down saIcon"></i>
+														</button></h3>
+
+														<div aria-labelledby="size" role="group" class="saBentoFilterGroupSub" id="size-sub">
+															<label class="saRow">
+																<input type="checkbox" id="size-xs" class="saCheckbox" name="size" value="xxs" />
+																<span class="saLabel">XXS</span>
+															</label>
+															<label class="saRow">
+																<input type="checkbox" id="size-xs" class="saCheckbox" name="size" value="xs" />
+																<span class="saLabel">XS</span>
 															</label>
 
-															<label class="saPill">
-																<input type="checkbox" id="pill-dev" name="category" value="birds" />
-																<span class="saLabel">Birds</span>
+															<label class="saRow">
+																<input type="checkbox" id="size-sm" class="saCheckbox" name="size" value="sm" />
+																<span class="saLabel">SM</span>
 															</label>
 
-															<label class="saPill">
-																<input type="checkbox" id="pill-ux" name="category" value="shoes" />
-																<span class="saLabel">Shoes</span>
+															<label class="saRow">
+																<input type="checkbox" id="size-lg" class="saCheckbox" name="size" value="md" />
+																<span class="saLabel">MD</span>
 															</label>
-															<label class="saPill">
-																<input type="checkbox" id="pill-space" name="category" value="space" />
-																<span class="saLabel">Space</span>
-															</label>
-
-															<label class="saPill">
-																<input type="checkbox" id="pill-coffee" name="category" value="coffee" />
-																<span class="saLabel">Coffee</span>
+															<label class="saRow">
+																<input type="checkbox" id="size-lg" class="saCheckbox" name="size" value="lg" />
+																<span class="saLabel">LG</span>
 															</label>
 
-															<label class="saPill">
-																<input type="checkbox" id="pill-fitness" name="category" value="fitness" />
-																<span class="saLabel">Fitness</span>
+															<label class="saRow">
+																<input type="checkbox" id="size-xl" class="saCheckbox" name="size" value="xl" />
+																<span class="saLabel">XL</span>
 															</label>
-
-															<label class="saPill">
-																<input type="checkbox" id="pill-gaming" name="category" value="gaming" />
-																<span class="saLabel">Gaming</span>
-															</label>
-
-															<label class="saPill">
-																<input type="checkbox" id="pill-photography" name="category" value="photography" />
-																<span class="saLabel">Photography</span>
+															<label class="saRow">
+																<input type="checkbox" id="size-2xl" class="saCheckbox" name="size" value="	xxl" />
+																<span class="saLabel">XXL</span>
 															</label>
 														</div>
 													</section>
+													<section class="saBentoFilterGroup">
+														<h3 id="color"><button type="button" class="saBentoFilterButton" aria-expanded="false" aria-controls="color-sub">
+															<span>Color</span>
+															<span aria-hidden="true" class="saBadgeCount">2</span>
+															<i  aria-hidden="true" class="far fa-angle-down saIcon"></i>
+														</button></h3>
 
+														<div aria-labelledby="color" role="group" class="saBentoFilterGroupSub" id="color-sub">
+															<label class="saRow">
+																<input type="checkbox" id="color-xs" class="saCheckbox" name="color" value="black" />
+																<span class="saLabel">Black</span>
+															</label>
+															<label class="saRow">
+																<input type="checkbox" id="color-xs" class="saCheckbox" name="color" value="white" />
+																<span class="saLabel">White</span>
+															</label>
+
+															<label class="saRow">
+																<input type="checkbox" id="color-sm" class="saCheckbox" name="color" value="red" />
+																<span class="saLabel">Red</span>
+															</label>
+
+															<label class="saRow">
+																<input type="checkbox" id="color-lg" class="saCheckbox" name="color" value="blue" />
+																<span class="saLabel">Blue</span>
+															</label>
+															<label class="saRow">
+																<input type="checkbox" id="color-lg" class="saCheckbox" name="color" value="green" />
+																<span class="saLabel">Green</span>
+															</label>
+
+															<label class="saRow">
+																<input type="checkbox" id="color-xl" class="saCheckbox" name="color" value="yellow" />
+																<span class="saLabel">Yellow</span>
+															</label>
+														</div>
+													</section>
 													<!-- Sort -->
 													<section class="saBentoFilterGroup">
-														<h3 id="sort">Sort by</h3>
-														<div role="group" aria-labelledby="sort">
+														<h3 id="sort"><button type="button" class="saBentoFilterButton" aria-expanded="false" aria-controls="sort-sub">
+															<span>Sort by</span>
+															<span aria-hidden="true" class="saBadgeCount">2</span>
+															<i  aria-hidden="true" class="far fa-angle-down saIcon"></i>
+														</button></h3>
+														<div role="group" aria-labelledby="sort" class="saBentoFilterGroupSub" id="sort-sub">
 															<label class="saRow">
 																<input type="radio" class="saRadio" id="sort-za" name="sort" value="Relevant" checked/>
 																<span>Most relevant</span>
@@ -395,6 +526,17 @@
 													</section>
 												</form>
 											</aside>
+											<label class="saInputTextWrapper" style="margin-right: 0; margin-left: auto; display: none;">
+												<span class="saLabeledLabel">Sort by</span>
+												<select type="text" class="saInputText saDropdown">
+													<option>Most relevant</option>
+													<option>Latest</option>
+													<option>Oldest</option>
+													<option>Alphabetical (a-z)</option>
+													<option>Alphabetical (z-a)</option>
+													<option>Most popular</option>
+												</select>
+											</label>
 											<ul class="saBentoWrapper saGridCol8 saMdGridCol4 saLgGridCol6 saXlGridCol8 sa2xlGridCol8" id="sortable">
 												<li class="saBento saFeatured saCol4 saRow2">
 													<article>
@@ -1256,6 +1398,27 @@
 	</div>
 	<script>
 		$(document).ready(function () {
+
+			$('input').on('click', function () {
+			 updateBadgeCount();
+			});
+
+			function updateBadgeCount() {
+				$('.saBentoFilterGroup').each(function() {
+					// Contextual lookups for better performance
+					const $group = $(this);
+					const count = $group.find('.saBentoFilterGroupSub input:checkbox:checked').length;
+					const $badge = $group.find('.saBadgeCount');
+
+					if (count > 0) {
+						$badge.text(count).show();
+					} else {
+						$badge.hide();
+					}
+				});
+			};
+			 updateBadgeCount();
+
 			$(function () {
 				const Pagination = {
 					currentPage: 1,
@@ -1535,6 +1698,11 @@
 
 			$('.saFavoriteToggle').click(function () {
 				$(this).attr('aria-checked', function (i, attr) { return attr === 'true' ? 'false' : 'true'; });
+			});
+
+			$('.saBentoFilterButton').on('click', function() {
+				const $this = $(this);
+				$this.attr('aria-expanded', $this.attr('aria-expanded') !== 'true');
 			});
 		});
 	</script>
