@@ -1378,15 +1378,14 @@
 											</ul>
 											<nav aria-label="Pagination">
 												<ul class="saPaginationX" id="pagination-list">
-													<li><a href="#" class="saBentoPage" id="prev-page" aria-label="Previous page">
-															<i class="saIcon far fa-angle-left" aria-hidden="true"></i>
-													</a></li>
-													<li><span class="saBentoPage" href="#" aria-current="page">1</span></li>
+													<li><a href="#" class="saBentoPage" id="prev-page" aria-label="Previous page"><i class="saIcon far fa-angle-left" aria-hidden="true"></i></a></li>
+													<li><span class="saBentoPage" aria-current="page">1</span></li>
 													<li><a class="saBentoPage" href="#">2</a></li>
 													<li><a class="saBentoPage" href="#">3</a></li>
 													<li><a class="saBentoPage" href="#">4</a></li>
 													<li><a class="saBentoPage" href="#">5</a></li>
 													<li><a class="saBentoPage" href="#">6</a></li>
+													<li><a class="saBentoPage" href="#">7</a></li>
 													<li role="presentation"><span class="saBentoPage" aria-hidden="true">...</span></li>
 													<li><a class="saBentoPage" href="#">12</a></li>
 													<li><a href="#" class="saBentoPage" id="next-page" aria-label="Next page"><i class="saIcon far fa-angle-right" aria-hidden="true"></i></a></li>
@@ -1429,163 +1428,163 @@
 			};
 			 updateBadgeCount();
 
-			$(function () {
-				const Pagination = {
-					currentPage: 1,
-					totalPages: 12,
-					windowSize: 6,
-					leftBias: 1,
-					container: $('#pagination-list'),
 
-					init() {
-						this.bindEvents();
-						this.render();
-					},
+			 (function ($) {
+				// ── Configuration ──────────────────────────────────────────────
+				const TOTAL_PAGES = 12;
 
-					bindEvents() {
-						// Page clicks
-						this.container.on('click', '.saBentoPage[data-page]', (e) => {
-							e.preventDefault();
-							const page = parseInt($(e.currentTarget).data('page'), 10);
-							if (page && page !== this.currentPage) {
-								this.currentPage = page;
-								this.render();
-							}
-						});
+				// ── State ───────────────────────────────────────────────────────
+				let currentPage = 1;
 
-						// Prev / Next
-						$('#prev-page, #next-page').on('click', (e) => {
-							const $btn = $(e.currentTarget);
+				// ── Helpers ─────────────────────────────────────────────────────
+				function pageLink(page) {
+					return `<a href="#" class="saBentoPage" data-page="${page}">${page}</a>`;
+				}
+				function ellipsis() {
+					return `<span class="saBentoPage" aria-hidden="true">...</span>`;
+				}
+				function currentSpan(page) {
+					return `<span class="saBentoPage" aria-current="page">${page}</span>`;
+				}
+				function item(page) {
+					return page === currentPage ? currentSpan(page) : pageLink(page);
+				}
 
-							if ($btn.attr('aria-disabled') === 'true') {
-								e.preventDefault();
-								return;
-							}
+				// ── Layout resolver ─────────────────────────────────────────────
+				// Always returns exactly 9 page/ellipsis slots (+ prev + next = 11 <li>s)
+				//
+				// LEFT ZONE  (1–4):  1 2 3 4 5 6 7 ... 12        (7 pages + 1 ellipsis + last)
+				// MIDDLE ZONE (5–7): 1 ... p-1 [p] p+1 p+2 p+3 ... 12  (5 pages + 2 ellipsis + first + last)
+				// RIGHT ZONE (8–12): 1 ... 6 7 8 9 10 11 12       (first + 1 ellipsis + 7 pages)
 
-							e.preventDefault();
+				function resolveSlots() {
+					const slots = [];
 
-							if ($btn.is('#prev-page') && this.currentPage > 1) {
-								this.currentPage--;
-							}
+					if (currentPage <= 4) {
+					// LEFT ZONE
+					for (let p = 1; p <= 7; p++) slots.push(item(p));
+					slots.push(ellipsis());
+					slots.push(item(TOTAL_PAGES));
 
-							if ($btn.is('#next-page') && this.currentPage < this.totalPages) {
-								this.currentPage++;
-							}
+					} else if (currentPage >= 8) {
+					// RIGHT ZONE
+					slots.push(item(1));
+					slots.push(ellipsis());
+					for (let p = 6; p <= TOTAL_PAGES; p++) slots.push(item(p));
 
-							this.render();
-						});
+					} else {
+					// MIDDLE ZONE (pages 5, 6, 7)
+					const p1 = currentPage - 1;
+					const p2 = currentPage;
+					const p3 = currentPage + 1;
+					const p4 = currentPage + 2;
+					const p5 = currentPage + 3;
 
-						// Keyboard navigation
-						$(document).on('keydown', (e) => {
-							if (e.key === 'ArrowLeft' && this.currentPage > 1) {
-								this.currentPage--;
-								this.render();
-							}
-							if (e.key === 'ArrowRight' && this.currentPage < this.totalPages) {
-								this.currentPage++;
-								this.render();
-							}
-						});
-					},
+					slots.push(item(1));
+					slots.push(ellipsis());
+					slots.push(item(p1));
+					slots.push(item(p2));
+					slots.push(item(p3));
+					slots.push(item(p4));
+					slots.push(item(p5));
 
-					getPageRange() {
-						let start = this.currentPage - this.leftBias;
-						let end = start + this.windowSize - 1;
-
-						if (start < 1) {
-							start = 1;
-							end = this.windowSize;
-						}
-
-						if (end > this.totalPages) {
-							end = this.totalPages;
-							start = Math.max(1, end - this.windowSize + 1);
-						}
-
-						return { start, end };
-					},
-
-					buildPagesArray() {
-						const { start, end } = this.getPageRange();
-						const pages = [];
-
-						if (start > 1) {
-							pages.push(1);
-							if (start > 2) pages.push('...');
-						}
-
-						for (let i = start; i <= end; i++) {
-							pages.push(i);
-						}
-
-						if (end < this.totalPages) {
-							if (end < this.totalPages - 1) pages.push('...');
-							pages.push(this.totalPages);
-						}
-
-						return pages;
-					},
-
-					render() {
-						let pages = this.buildPagesArray();
-						const $slots = this.container.find('li').slice(1, -1);
-						const maxSlots = $slots.length;
-
-						// SAFEGUARD: ensure last page never disappears
-						if (pages.length > maxSlots) {
-							const first = pages[0];
-							const last = pages[pages.length - 1];
-
-							const middle = pages.slice(1, -1).slice(0, maxSlots - 2);
-
-							pages = [first, ...middle, last];
-						}
-
-						$slots.each((i, el) => {
-							const $li = $(el);
-							const val = pages[i];
-
-							$li.empty();
-
-							if (val === '...') {
-								$li.html('<span class="saBentoPage" aria-hidden="true">...</span>');
-							}
-							else if (val === this.currentPage) {
-								$li.html(`<span class="saBentoPage" aria-current="page">${val}</span>`);
-							}
-							else if (typeof val === 'number') {
-								$li.html(`<a href="#" class="saBentoPage" data-page="${val}">${val}</a>`);
-							}
-							else {
-								$li.html('<span class="saBentoPage" aria-hidden="true"></span>');
-							}
-						});
-
-						this.updatePrevNext();
-					},
-
-					updatePrevNext() {
-						const isFirst = this.currentPage === 1;
-						const isLast = this.currentPage === this.totalPages;
-
-						const $prev = $('#prev-page');
-						const $next = $('#next-page');
-
-						$prev
-							.toggleClass('is-disabled', isFirst)
-							.attr('aria-disabled', isFirst)
-							.attr('tabindex', isFirst ? -1 : 0);
-
-						$next
-							.toggleClass('is-disabled', isLast)
-							.attr('aria-disabled', isLast)
-							.attr('tabindex', isLast ? -1 : 0);
+					// If the last window page is adjacent to (or only 1 from) TOTAL_PAGES,
+					// show the penultimate page instead of an ellipsis
+					if (p5 >= TOTAL_PAGES - 2) {
+						slots.push(item(TOTAL_PAGES - 1)); // e.g. 11
+					} else {
+						slots.push(ellipsis());
 					}
-				};
 
-				Pagination.init();
-			});
+					slots.push(item(TOTAL_PAGES));
+					}
 
+					return slots; // always 9 slots
+				}
+
+				// ── Renderer ────────────────────────────────────────────────────
+				function renderPagination() {
+					const $list = $('#pagination-list');
+					const slots = resolveSlots();
+
+					const prevDisabled = currentPage === 1;
+					const nextDisabled = currentPage === TOTAL_PAGES;
+
+					const items = [];
+
+					// Prev arrow
+					if (prevDisabled) {
+					items.push(`<span class="saBentoPage" id="prev-page" aria-label="Previous page"><i class="saIcon far fa-angle-left" aria-hidden="true"></i></span>`);
+					} else {
+					items.push(`<a href="#" class="saBentoPage" id="prev-page" aria-label="Previous page"><i class="saIcon far fa-angle-left" aria-hidden="true"></i></a>`);
+					}
+
+					// Page slots
+					slots.forEach(function (html) {
+					items.push(html);
+					});
+
+					// Next arrow
+					if (nextDisabled) {
+					items.push(`<span class="saBentoPage" id="next-page" aria-label="Next page"><i class="saIcon far fa-angle-right" aria-hidden="true"></i></span>`);
+					} else {
+					items.push(`<a href="#" class="saBentoPage" id="next-page" aria-label="Next page"><i class="saIcon far fa-angle-right" aria-hidden="true"></i></a>`);
+					}
+
+				// Sync DOM — swap innerHTML only, never touch <li> count
+					const $items = $list.children('li');
+
+					if ($items.length !== items.length) {
+					$list.empty();
+					items.forEach(function (html) {
+						const isEllipsis = html.includes('aria-hidden="true">...<');
+						$list.append($('<li>').attr(isEllipsis ? { role: 'presentation' } : {}).html(html));
+					});
+					} else {
+					$items.each(function (i) {
+						const $li = $(this);
+						const isEllipsis = items[i].includes('aria-hidden="true">...<');
+						if ($li.html() !== items[i]) $li.html(items[i]);
+						// Sync role attribute
+						if (isEllipsis) {
+						$li.attr('role', 'presentation');
+						} else {
+						$li.removeAttr('role');
+						}
+					});
+					}
+				}
+
+				// ── Event delegation ────────────────────────────────────────────
+				$('#pagination-list').on('click', '.saBentoPage', function (e) {
+					e.preventDefault();
+					const $el = $(this);
+
+					if ($el.is('#prev-page')) {
+					if ($el.is('span')) return;
+					currentPage = Math.max(1, currentPage - 1);
+					renderPagination();
+					return;
+					}
+
+					if ($el.is('#next-page')) {
+					if ($el.is('span')) return;
+					currentPage = Math.min(TOTAL_PAGES, currentPage + 1);
+					renderPagination();
+					return;
+					}
+
+					const page = parseInt($el.data('page'), 10);
+					if (!isNaN(page) && page !== currentPage) {
+					currentPage = page;
+					renderPagination();
+					}
+				});
+
+				// ── Init ────────────────────────────────────────────────────────
+				renderPagination();
+
+				}(jQuery));
 
 			$(function () {
 				const $addBtn = $('#add');
