@@ -273,21 +273,22 @@
 													<button type="reset">Clear</button>
 
 													<!-- Live result count -->
-													<p id="filter-results" aria-live="polite" style="margin-top: -0.5rem;">Showing <strong>36</strong> of 384 results</p>
-
-													<label class="saInputTextWrapper saHasLeadingIcon" style="margin-right: 0;">
-														<div class="saLeadingIconWrapper" style="height: 2rem; width: 2rem; inset: 0 auto auto -0.25rem; display: flex; align-items: center; justify-content: center;">
-															<i class="saIcon far fa-search"></i>
-														</div>
-														<input
-															type="search"
-															id="filter-search"
-															name="q"
-															class="saInputText"
-															placeholder="Search..."
-															aria-label="Search"
-														/>
-													</label>
+													<p id="filter-results" aria-live="polite">Showing <strong>36</strong> of 384 results</p>
+													<section class="saBentoFilterGroup">
+														<label class="saInputTextWrapper saHasLeadingIcon" style="margin-right: 0; margin-top: 0.5rem;">
+															<div class="saLeadingIconWrapper" style="height: 2rem; width: 2rem; inset: 0 auto auto -0.25rem; display: flex; align-items: center; justify-content: center;">
+																<i class="saIcon far fa-search"></i>
+															</div>
+															<input
+																type="search"
+																id="filter-search"
+																name="q"
+																class="saInputText"
+																placeholder="Search..."
+																aria-label="Search"
+															/>
+														</label>
+													</section>
 
 													<!-- Category -->
 													<section class="saBentoFilterGroup">
@@ -1408,7 +1409,7 @@
 				e.preventDefault();
 				alert('😿');
 			});
-			$('input').on('click', function () {
+			$('input, button').on('click', function () {
 			 updateBadgeCount();
 			});
 

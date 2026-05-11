@@ -35249,7 +35249,6 @@ select.is-inherited {
   min-width: 20rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   overflow-y: auto;
   height: calc(100dvh - 10rem);
 }
@@ -35411,6 +35410,9 @@ select.is-inherited {
 .saBentoFilterGroup label.saRow {
   display: flex;
   gap: 0.5rem;
+  min-height: 1.5rem;
+  align-items: center;
+  padding-bottom: 0.25rem;
 }
 .saBentoFilterGroup label.saRow:has(input:enabled) {
   cursor: pointer;
@@ -35426,7 +35428,7 @@ select.is-inherited {
   background-color: light-dark(var(--White), var(--Gray950));
   border: none;
   width: 100%;
-  height: 1.5rem;
+  height: 2rem;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
 }
@@ -35450,17 +35452,11 @@ select.is-inherited {
   transform: rotate(-180deg);
 }
 .saBentoFilterGroupSub {
-  flex-direction: column;
-  gap: 0.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 1rem;
-  transition: ease all 0.2s;
-  height: auto;
-  max-height: 100%;
+  padding-bottom: 0.5rem;
   display: none;
 }
 h3:has([aria-expanded="true"]) + .saBentoFilterGroupSub {
-  display: flex;
+  display: block;
 }
 .saBentoVariantGroup {
   display: inline-flex;
