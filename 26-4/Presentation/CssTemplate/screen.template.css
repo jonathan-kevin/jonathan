@@ -35073,6 +35073,11 @@ pre.saCode {
 .saSmallScreen .saFiiilterWrapper {
   padding: 1rem  1rem 0  1rem;
 }
+@media (width >= 64rem) {
+  .saFiiilterWrapper {
+    display: none;
+  }
+}
 .saFiiilter {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
@@ -35201,11 +35206,6 @@ pre.saCode {
 .saFiiilter.saDisabled .saIcon {
   color: light-dark(var(--Gray300), var(--Gray600));
 }
-@media (width >= 64rem) {
-  .saFiiilter {
-    display: none;
-  }
-}
 .saDisplayGrid {
   display: grid;
   grid-auto-flow: dense;
@@ -35256,7 +35256,7 @@ select.is-inherited {
 .saSmallScreen .saBentoAside {
   display: none;
 }
-@media (width <= 64rem) {
+@media (width < 64rem) {
   .saBentoAside {
     display: none;
   }
@@ -35584,6 +35584,9 @@ nav:has(.saPaginationX) {
   position: absolute;
   inset: 0.5rem 0.5rem auto auto;
   z-index: 1;
+}
+.saSmallScreen .saBentoSizer {
+  display: none;
 }
 .saBentoSizerLabel {
   width: 4rem;

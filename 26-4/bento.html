@@ -204,10 +204,10 @@
 													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="shuffle">
 														<div class="saIconHolder saOptionIcon"><i class="far fa-random icon saIcon"></i></div><span class="saButtonText saOptionText">Shuffle order</span>
 													</button>
-													<!-- <button class="saTopLink saActionLink saButtonSecondary" type="button" id="random">
-														<div class="saIconHolder saOptionIcon"><i class="far fa-dice icon saIcon"></i></div><span class="saButtonText saOptionText">Randomize size</span>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="toggleSelect">
+														<div class="saIconHolder saOptionIcon"><i class="far fa-angle-down icon saIcon"></i></div><span class="saButtonText saOptionText">Toggle selects</span>
 													</button>
-													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="tiny">
+													<!-- <button class="saTopLink saActionLink saButtonSecondary" type="button" id="tiny">
 														<div class="saIconHolder saOptionIcon"><i class="far fa-copy icon saIcon"></i></div><span class="saButtonText saOptionText">Make all cards tiny</span>
 													</button> -->
 												</div>
@@ -429,7 +429,7 @@
 															</label>
 
 															<label class="saRow">
-																<input type="checkbox" id="size-lg" class="saCheckbox" name="size" value="md" />
+																<input type="checkbox" id="size-md" class="saCheckbox" name="size" value="md" />
 																<span class="saLabel">MD</span>
 															</label>
 															<label class="saRow">
@@ -543,7 +543,7 @@
 													<span>Filter</span>
 												</button>
 											</div>
-											<ul class="saBentoWrapper saGridCol8 saMdGridCol4 saLgGridCol6 saXlGridCol8 sa2xlGridCol8" id="sortable">
+											<ul class="saBentoWrapper saGridCol8 saLgGridCol4 saXlGridCol8 sa2xlGridCol8" id="sortable">
 												<li class="saBento saFeatured saCol4 saRow2">
 													<article>
 														<a href="#" class="saBentoInner">
@@ -1386,7 +1386,6 @@
 													<li><a class="saBentoPage" href="#">4</a></li>
 													<li><a class="saBentoPage" href="#">5</a></li>
 													<li><a class="saBentoPage" href="#">6</a></li>
-													<li><a class="saBentoPage" href="#">7</a></li>
 													<li role="presentation"><span class="saBentoPage" aria-hidden="true">...</span></li>
 													<li><a class="saBentoPage" href="#">12</a></li>
 													<li><a href="#" class="saBentoPage" id="next-page" aria-label="Next page"><i class="saIcon far fa-angle-right" aria-hidden="true"></i></a></li>
@@ -1433,7 +1432,7 @@
 				const Pagination = {
 					currentPage: 1,
 					totalPages: 12,
-					windowSize: 7,
+					windowSize: 6,
 					leftBias: 1,
 					container: $('#pagination-list'),
 
@@ -1662,6 +1661,12 @@
 			// $('li.saBento').on('dblclick', function () {
 			// 	$(this).hide();
 			// });
+
+			$('#toggleSelect').on('click', function (e) {
+				e.preventDefault();
+				$('.saBentoSizer').toggle();
+
+			});
 
 			$('#shuffle').on('click', function (e) {
 				e.preventDefault();
