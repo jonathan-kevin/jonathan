@@ -308,51 +308,45 @@
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner">
-										<softadmin-infosql class="infoarea saInfoArea">
-											<div class="saInfoBoxAreaWrapper" style="width: 25rem;">
-												<div class="saInfoBoxArea">
-													<div class="saRowWrapper">
-														<div class="saColWrapper">
-															<div class="saCol">
-																<div class="saInfoBox saOpen">
-																	<button class="saInfoBoxHeading saInfoBoxHeadingButton" type="button" aria-expanded="true">
-																		<div class="saInfoBoxHeaderWrapper"><h3>The Council of Crows</h3></div>
-																		<i class="far fa-angle-down saIcon saInfoBoxExpandIcon"></i>
-																	</button>
-																	<div class="saInfoBoxInner">
-																		<div class="saInfoBoxCol">
-																			<p class="saInfoBoxContent saUserHtmlContent">
-																				<span class="saInfoBoxTextContent"><p>Crow News - For Crows, by Crows</p></span>
-																			</p>
-																		</div>
-																	</div>
+
+										<softadmin-chat class="saMenuItemRoot">
+											<div class="saChatWrapper" style="min-height: calc(-331px + 100vh);">
+												<div class="saChat">
+													<button class="saLoadMessagesButton saHidden"type="button">Visa tidigare meddelanden</button>
+													<ol class="saChatLog">
+														<li class="saChatDate"><time datetime="Wed Apr 15 2026">Onsdag, 15 april</time></li>
+														<li class="saChatMessage saChatSender"><article class="saChatMessageInner"><div class="saChatMessageBody" tabindex="0"><div class="saScreenReaderOnly">Message sent by Alex Norlin 2026-04-15 13:40</div><p>What's your opinion on the geopolitical conflicts going on in the world right now?</p></div><footer class="saChatMessageFooter"><time class="saChatMessageTime" datetime="2026-04-15 13:40">13:40</time></footer></article></li>
+														<li class="saChatAiResponse">
+															<article>
+																<div class="saChatAiMessageBody" tabindex="0">
+																	<div class="saScreenReaderOnly">Meddelande skickat av SoftAIdmin 2026-04-15 15:41</div>
+																	<p>Ah, ye be askin' about the goings-on in the world? Well, I'm afraid it's a complex mess, with many flags and many faces. There's the great divide between the East and the west, and the rest of the world, each with their own agendas and interests. The Middle east's full of strife, with many religions and cultures clashing in the sand. And then there's the northern front, with all the tensions between the great powers. It's like a storm, with winds of change blowing from all directions. But don't fret, for though the storm may seem fierce, there's always a chance for calm in the end.</p>
+																	<ul class="saChatToolbar saInline" aria-label="Meddelandealternativ">
+																		<li><button data-tooltip="Redigera meddelande" type="button"><i class="saIcon far fa-pen"></i></button></li>
+																		<li><button data-tooltip="Kopiera till urklipp" type="button"><i class="saIcon far fa-copy"></i></button></li>
+																		<li class="saChatMessageLink"><button type="button" aria-label="Chat with AI [The chat]"><i class="far fa-dollar-sign icon saIcon"></i></button></li>
+																		<li><button data-tooltip="Mer..." type="button"><i class="saIcon far fa-ellipsis-vertical"></i></button></li>
+																	</ul>
 																</div>
-																<div class="saInfoBox saOpen">
-																	<div class="saInfoBoxHeading">
-																		<a tabindex="0">
-																			<h3 class="saLinkText">Crow</h3>
-																		</a>
-																		<button class="saExpandButton" type="button" aria-expanded="true" aria-label="Ekonomi">
-																			<i class="far fa-angle-down saIcon saInfoBoxExpandIcon"></i>
-																		</button>
-																	</div>
-																	<div class="saInfoBoxInner">
-																		<div class="saInfoBoxGrid">
-																			<div class="saInfoBoxLabel">Crow Percentage</div>
-																			<p class="saInfoBoxContent"><span class="saInfoBoxTextContent">5.1%</span></p>
-																			<div class="saInfoBoxLabel">Crows</div>
-																			<p class="saInfoBoxContent saUserHtmlContent">
-																				<span class="saInfoBoxTextContent">Yes</span>
-																			</p>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
+															</article>
+														</li>
+													</ol>
+												</div>
+												<div class="saChatComposerWrapper">
+													<button class="saChatLatest saReached" type="button" tabindex="-1">
+														<i class="far fa-arrow-down saIcon"></i>
+													</button>
+
+													<div class="saChatComposer">
+														<div class="saChatTextarea saEmpty" contenteditable="plaintext-only" enterkeyhint="enter"></div>
+														<button class="saChatButtonSend" type="submit" title="Skicka meddelande" disabled="">
+															<i class="far fa-arrow-up saIcon"></i>
+														</button>
 													</div>
+													<p class="saChatComposerInstruction">AI-genererat innehåll kan vara inkorrekt</p>
 												</div>
 											</div>
-										</softadmin-infosql>
+										</softadmin-chat>
 									</div>
 								</div>
 							</main>
@@ -362,4 +356,9 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		$('.saFavoriteToggle').click(function () {
+			$(this).attr('aria-checked', function (i, attr) { return attr === 'true' ? 'false' : 'true'; });
+		});
+	</script>
 </body>
