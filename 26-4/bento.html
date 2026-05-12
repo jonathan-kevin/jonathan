@@ -207,9 +207,18 @@
 													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="toggleSelect">
 														<div class="saIconHolder saOptionIcon"><i class="far fa-angle-down icon saIcon"></i></div><span class="saButtonText saOptionText">Toggle selects</span>
 													</button>
-													<!-- <button class="saTopLink saActionLink saButtonSecondary" type="button" id="tiny">
-														<div class="saIconHolder saOptionIcon"><i class="far fa-copy icon saIcon"></i></div><span class="saButtonText saOptionText">Make all cards tiny</span>
-													</button> -->
+													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="showImages">
+														<div class="saIconHolder saOptionIcon"><i class="far fa-image icon saIcon"></i></div><span class="saButtonText saOptionText">Show images</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="oneByOne">
+														<div class="saIconHolder saOptionIcon"><i class="far fas fa-table icon saIcon"></i></div><span class="saButtonText saOptionText">1x1 for all cards</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="twoByOne">
+														<div class="saIconHolder saOptionIcon"><i class="far fas fa-table icon saIcon"></i></div><span class="saButtonText saOptionText">2x1 for all cards</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="random">
+														<div class="saIconHolder saOptionIcon"><i class="far fa-dice icon saIcon"></i></div><span class="saButtonText saOptionText">Randomize</span>
+													</button>
 												</div>
 											</div>
 										</nav>
@@ -571,6 +580,9 @@
 												<li class="saBento saCol2 saRow1 saPurple">
 													<article>
 														<a href="#" class="saBentoInner">
+															<div class="saBentoImage" style="display: none;">
+																<img loading="lazy" src="https://images.pexels.com/photos/14495310/pexels-photo-14495310.jpeg">
+															</div>
 															<div class="saBentoBody">
 																<ul class="saPillGroup">
 																	<li class="saPill">Aviation</li>
@@ -596,6 +608,9 @@
 												<li class="saBento saCol2 saRow1">
 													<article>
 														<a href="#" class="saBentoInner">
+															<div class="saBentoImage" style="display: none;">
+																<img loading="lazy" src="https://images.pexels.com/photos/7522827/pexels-photo-7522827.jpeg">
+															</div>
 															<div class="saBentoBody">
 																<ul class="saPillGroup">
 																	<li class="saPill">Aviation</li>
@@ -618,6 +633,9 @@
 												<li class="saBento saCol2 saRow1 saPink">
 													<article>
 														<a href="#" class="saBentoInner">
+															<div class="saBentoImage" style="display: none;">
+																<img loading="lazy" src="https://images.pexels.com/photos/11461473/pexels-photo-11461473.jpeg">
+															</div>
 															<div class="saBentoBody">
 																<ul class="saPillGroup">
 																	<li class="saPill saBlue">Beaks</li>
@@ -640,6 +658,9 @@
 												<li class="saBento saCol2 saRow1 saOrange">
 													<article>
 														<a href="#" class="saBentoInner">
+															<div class="saBentoImage" style="display: none;">
+																<img loading="lazy" src="https://images.pexels.com/photos/31374567/pexels-photo-31374567.jpeg">
+															</div>
 															<div class="saBentoBody">
 																<ul class="saPillGroup">
 																	<li class="saPill saOrange">Silence</li>
@@ -1667,6 +1688,23 @@
 				$('.saBentoSizer').toggle();
 
 			});
+
+			$('#showImages').on('click', function (e) {
+				e.preventDefault();
+				$('.saBentoImage').show();
+
+			});
+			$('#oneByOne').on('click', function (e) {
+				e.preventDefault();
+				$('li.saBento').removeAttr('class').addClass('saBento saCol1 saRow1');
+
+			});
+
+			$('#twoByOne').on('click', function (e) {
+				e.preventDefault();
+				$('li.saBento').removeAttr('class').addClass('saBento saCol2 saRow1');
+			});
+
 
 			$('#shuffle').on('click', function (e) {
 				e.preventDefault();
