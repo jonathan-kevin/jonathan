@@ -34773,37 +34773,53 @@ pre.saCode {
 .saGulleryImage {
   display: inline-flex;
   gap: 1rem !important;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
-  width: 25rem;
-  max-width: 25rem;
+  overscroll-behavior-x: contain;
+  width: 26rem;
+  height: 26rem;
   border-radius: 0.5rem;
   scrollbar-width: none;
 }
+.saSmallScreen .saGulleryImage {
+  width: 100dvw;
+  height: unset;
+}
 .saGulleryImage img {
-  border-radius: 0.5rem;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
-  height: 100%;
-  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 0.5rem;
 }
 .saGulleryMain {
   display: flex;
+  justify-content: center;
+  align-items: center;
   scroll-snap-align: center;
-  min-width: 25rem;
-  max-width: 25rem;
-  height: 15rem;
+  width: 26rem;
+  min-width: 26rem;
+  height: 26rem;
 }
-.saGulleryMain img {
-  transform: scale(0.825);
-  transition: ease all 0.2s;
+.saSmallScreen .saGulleryMain {
+  width: 100%;
+  flex-shrink: 0;
+  min-width: unset;
+  max-height: calc(100dvh - 12rem);
+  height: unset;
+  padding: 0 1rem;
 }
 .saGulleryMain:target img {
   transform: scale(1);
 }
 .saGullery {
   box-sizing: border-box;
+  width: 26rem;
+}
+.saSmallScreen .saGullery {
+  width: 100%;
 }
 .saGullery * {
   box-sizing: border-box;
@@ -34812,7 +34828,6 @@ pre.saCode {
   display: flex;
   flex-direction: row;
   gap: 0.25rem;
-  padding-top: 1rem;
 }
 .saGullery .saGulleryThumbnail {
   height: 2rem;
@@ -34837,9 +34852,12 @@ pre.saCode {
   max-width: 2rem;
   min-width: 2rem;
   font-size: 1rem;
+  color: var(--Sa-Color-Primary600);
+  background: transparent;
   border-radius: 0.375rem;
   padding: 0;
   overflow: hidden;
+  transition: ease all 0.2s;
 }
 .saGullery button .saButtonText {
   white-space: nowrap;
@@ -34863,9 +34881,62 @@ pre.saCode {
 .saGullery button:active {
   border-radius: 0.75rem;
 }
-.saGullery button[aria-pressed="true"] {
-  outline: 2px solid var(--Sa-Color-Primary600);
-  border: 1px light-dark(var(--White), var(--Gray950)) solid;
+.saGullery button .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saGullery button.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saGullery button.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saGullery button.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saGullery button.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saGullery button.saDestructive:active {
+  color: light-dark(var(--White), var(--Gray950));
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saGullery button.saDestructive:active > .saIcon {
+  color: light-dark(var(--White), var(--Gray950));
+}
+@media (pointer: fine) {
+  .saGullery button:hover {
+    background-color: var(--Sa-Color-Primary50);
+    color: var(--Sa-Color-Primary600);
+  }
+  .saGullery button:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+}
+.saGullery button:active {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+}
+.saGullery button:active .saIcon {
+  color: var(--Sa-Color-Primary700);
+}
+.saGullery button:disabled,
+.saGullery button.saDisabled {
+  color: light-dark(var(--Gray300), var(--Gray600));
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saGullery button:disabled .saIcon,
+.saGullery button.saDisabled .saIcon {
+  color: light-dark(var(--Gray300), var(--Gray600));
+}
+.saGullery button[aria-pressed='true'] {
+  border: 0.125rem solid var(--Sa-Color-Primary600);
+  outline-offset: -3px;
+  outline: 0.0625rem solid light-dark(var(--White), var(--Gray950));
+  border-radius: 0.5rem;
 }
 .saGullery button img {
   width: 2rem;
@@ -34878,16 +34949,31 @@ pre.saCode {
     opacity: 0.5;
   }
 }
+#gullery-thumbnails {
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: none;
+}
+.saSmallScreen #gullery-thumbnails {
+  padding: 0 1rem;
+}
+#gullery-nav {
+  margin-left: auto;
+}
+.saSmallScreen #gullery-nav {
+  display: none;
+}
 .saGulleryFooter {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
+  padding-top: 1rem;
 }
 .saFiiilterWrapper {
   padding-bottom: 1rem;
 }
 .saSmallScreen .saFiiilterWrapper {
-  padding: 1rem  1rem 0  1rem;
+  padding: 1rem 1rem 0 1rem;
 }
 @media (width >= 64rem) {
   .saFiiilterWrapper {
@@ -35076,7 +35162,7 @@ select.is-inherited {
     display: none;
   }
 }
-.saBentoAside button[type="reset"] {
+.saBentoAside button[type='reset'] {
   position: absolute;
   top: 0;
   right: 0.5rem;
@@ -35100,83 +35186,83 @@ select.is-inherited {
   font-size: 0.875rem;
   padding: 0.5rem 0.75rem;
 }
-.saBentoAside button[type="reset"] .saButtonText {
+.saBentoAside button[type='reset'] .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.saBentoAside button[type="reset"] .saBadgedIcon {
+.saBentoAside button[type='reset'] .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saBentoAside button[type="reset"] .saIcon {
+.saBentoAside button[type='reset'] .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.saBentoAside button[type="reset"] .saIcon {
+.saBentoAside button[type='reset'] .saIcon {
   color: var(--Sa-Color-Icon);
 }
-.saBentoAside button[type="reset"].saDestructive {
+.saBentoAside button[type='reset'].saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
-.saBentoAside button[type="reset"].saDestructive .saIcon {
+.saBentoAside button[type='reset'].saDestructive .saIcon {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
 @media (pointer: fine) {
-  .saBentoAside button[type="reset"].saDestructive:hover {
+  .saBentoAside button[type='reset'].saDestructive:hover {
     color: var(--Sa-Color-DestructiveButtonBackground);
     background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
   }
-  .saBentoAside button[type="reset"].saDestructive:hover .saIcon {
+  .saBentoAside button[type='reset'].saDestructive:hover .saIcon {
     color: var(--Sa-Color-DestructiveButtonBackground);
   }
 }
-.saBentoAside button[type="reset"].saDestructive:active {
+.saBentoAside button[type='reset'].saDestructive:active {
   color: light-dark(var(--White), var(--Gray950));
   background: var(--Sa-Color-DestructiveButtonBackground);
 }
-.saBentoAside button[type="reset"].saDestructive:active > .saIcon {
+.saBentoAside button[type='reset'].saDestructive:active > .saIcon {
   color: light-dark(var(--White), var(--Gray950));
 }
 @media (pointer: fine) {
-  .saBentoAside button[type="reset"]:hover {
+  .saBentoAside button[type='reset']:hover {
     background-color: var(--Sa-Color-Primary50);
     color: var(--Sa-Color-Primary600);
   }
-  .saBentoAside button[type="reset"]:hover .saIcon {
+  .saBentoAside button[type='reset']:hover .saIcon {
     color: var(--Sa-Color-Primary600);
   }
 }
-.saBentoAside button[type="reset"]:active {
+.saBentoAside button[type='reset']:active {
   background-color: var(--Sa-Color-Primary100);
   color: var(--Sa-Color-Primary700);
 }
-.saBentoAside button[type="reset"]:active .saIcon {
+.saBentoAside button[type='reset']:active .saIcon {
   color: var(--Sa-Color-Primary700);
 }
-.saBentoAside button[type="reset"]:disabled,
-.saBentoAside button[type="reset"].saDisabled {
+.saBentoAside button[type='reset']:disabled,
+.saBentoAside button[type='reset'].saDisabled {
   color: light-dark(var(--Gray300), var(--Gray600));
   background-color: transparent;
   cursor: not-allowed;
 }
-.saBentoAside button[type="reset"]:disabled .saIcon,
-.saBentoAside button[type="reset"].saDisabled .saIcon {
+.saBentoAside button[type='reset']:disabled .saIcon,
+.saBentoAside button[type='reset'].saDisabled .saIcon {
   color: light-dark(var(--Gray300), var(--Gray600));
 }
-.saBentoAside button[type="reset"]:has(.saIcon) {
+.saBentoAside button[type='reset']:has(.saIcon) {
   padding-left: 0.625rem;
 }
-.saBentoAside button[type="reset"]:active {
+.saBentoAside button[type='reset']:active {
   border-radius: 0.75rem;
 }
-.saBentoAside button[type="reset"] .saIcon {
+.saBentoAside button[type='reset'] .saIcon {
   font-size: 1rem;
   min-width: 1.125rem;
   max-width: 1.125rem;
@@ -35264,14 +35350,14 @@ select.is-inherited {
 .saBentoFilterButton:active {
   color: var(--Sa-Color-Primary700);
 }
-.saBentoFilterButton[aria-expanded="true"] .saIcon {
+.saBentoFilterButton[aria-expanded='true'] .saIcon {
   transform: rotate(-180deg);
 }
 .saBentoFilterGroupSub {
   padding-bottom: 0.5rem;
   display: none;
 }
-h3:has([aria-expanded="true"]) + .saBentoFilterGroupSub {
+h3:has([aria-expanded='true']) + .saBentoFilterGroupSub {
   display: block;
 }
 .saBentoVariantGroup {
@@ -35286,7 +35372,7 @@ h3:has([aria-expanded="true"]) + .saBentoFilterGroupSub {
   outline: 0.0625rem solid rgba(0, 0, 0, 0.2);
   outline-offset: -0.0625rem;
 }
-.saBentoVariant[aria-current="true"] {
+.saBentoVariant[aria-current='true'] {
   outline: 0.125rem solid light-dark(var(--Blue600), var(--Blue400));
 }
 nav:has(.saPaginationX) {
@@ -35312,7 +35398,7 @@ nav:has(.saPaginationX) {
   box-sizing: border-box;
   text-align: center;
 }
-.saPaginationX .saBentoPage[aria-current="page"] {
+.saPaginationX .saBentoPage[aria-current='page'] {
   background-color: var(--Sa-Color-Primary50);
   color: var(--Sa-Color-Primary600);
   border-color: var(--Sa-Color-Primary200);
