@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Bento Preview</title>
+	<script src="./live.min.js"></script>
+	<style>
+		*,
+		*::before,
+		*::after {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		:root {
+			--bg: #0e0e0f;
+			--surface: #161618;
+			--surface2: #1e1e21;
+			--surface3: #26262b;
+			--border: #2e2e34;
+			--text: #e4e4e8;
+			--muted: #6b6b78;
+			--accent: #3b82f6;
+			--accent-dim: rgba(59, 130, 246, 0.12);
+			--green: #22c55e;
+			--red: #ef4444;
+			--amber: #f59e0b;
+			--sidebar-w: 240px;
+			--toolbar-h: 44px;
+			--ruler-h: 28px;
+			--edge-grip: 8px;
+		}
+
+		html,
+		body {
+			height: 100%;
+		}
+
+		body {
+			font-family: 'DM Mono', ui-monospace, monospace;
+			background: var(--bg);
+			color: var(--text);
+			font-size: 12px;
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+		}
+
+		/* ── Toolbar ─────────────────────────────────────── */
+		.toolbar {
+			height: var(--toolbar-h);
+			min-height: var(--toolbar-h);
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			padding: 0 12px;
+			background: var(--surface);
+			border-bottom: 1px solid var(--border);
+			flex-shrink: 0;
+			user-select: none;
+		}
+
+		.toolbar-sep {
+			width: 1px;
+			height: 18px;
+			background: var(--border);
+			margin: 0 2px;
+			flex-shrink: 0;
+		}
+
+		.toolbar-spacer {
+			flex: 1;
+		}
+
+		/* ── Shared controls ─────────────────────────────── */
+		button {
+			font-family: inherit;
+			font-size: 11px;
+			padding: 3px 9px;
+			background: var(--surface2);
+			color: var(--muted);
+			border: 1px solid var(--border);
+			border-radius: 4px;
+			cursor: pointer;
+			line-height: 1.6;
+			transition: background 0.1s, color 0.1s, border-color 0.1s, opacity 0.1s;
+			white-space: nowrap;
+			user-select: none;
+		}
+
+		button:hover {
+			background: var(--surface3);
+			color: var(--text);
+		}
+
+		button:disabled {
+			opacity: 0.3;
+			cursor: default;
+		}
+
+		button.active {
+			background: var(--green);
+			color: #000;
+			border-color: var(--green);
+		}
+
+		select {
+			font-family: inherit;
+			font-size: 11px;
+			padding: 3px 6px;
+			background: var(--surface2);
+			color: var(--text);
+			border: 1px solid var(--border);
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		select:focus {
+			outline: 1px solid var(--accent);
+		}
+
+		#slider {
+			width: 110px;
+			accent-color: var(--accent);
+			cursor: ew-resize;
+		}
+
+		#widthLabel {
+			color: var(--muted);
+			min-width: 100px;
+			letter-spacing: 0.03em;
+			font-variant-numeric: tabular-nums;
+		}
+
+		.undo-btn,
+		.redo-btn {
+			padding: 3px 7px;
+			font-size: 13px;
+			line-height: 1;
+		}
+
+		/* ── Layout ──────────────────────────────────────── */
+		.main {
+			display: flex;
+			flex: 1;
+			overflow: hidden;
+			min-height: 0;
+		}
+
+		/* ── Canvas ──────────────────────────────────────── */
+		.canvas {
+			flex: 1;
+			overflow: auto;
+			padding: 0 32px 20px 20px;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			min-width: 0;
+		}
+
+		/* ── Breakpoint ruler ──────────────────────────────── */
+		.bp-ruler {
+			height: var(--ruler-h);
+			min-height: var(--ruler-h);
+			width: 100%;
+			position: relative;
+			margin: 8px 0 4px 0;
+			flex-shrink: 0;
+			align-self: flex-start;
+		}
+
+		.bp-ruler-track {
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 50%;
+			transform: translateY(-50%);
+			height: 2px;
+			background: var(--border);
+			border-radius: 1px;
+		}
+
+		.bp-tick {
+			position: absolute;
+			top: 0;
+			transform: translateX(-50%);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 2px;
+			pointer-events: none;
+		}
+
+		.bp-tick-line {
+			width: 1px;
+			height: 8px;
+			background: var(--border);
+			margin-top: 5px;
+			border-radius: 1px;
+			transition: background 0.15s;
+		}
+
+		.bp-tick-label {
+			font-size: 8px;
+			color: var(--muted);
+			letter-spacing: 0.04em;
+			margin-top: 1px;
+			transition: color 0.15s;
+		}
+
+		.bp-tick.at-or-past .bp-tick-line {
+			background: var(--accent);
+		}
+
+		.bp-tick.at-or-past .bp-tick-label {
+			color: var(--accent);
+		}
+
+		.bp-tick.is-active .bp-tick-line {
+			background: var(--green);
+		}
+
+		.bp-tick.is-active .bp-tick-label {
+			color: var(--green);
+			font-weight: 600;
+		}
+
+		/* ── Resizer ─────────────────────────────────────── */
+		.resizer {
+			position: relative;
+			min-width: 320px;
+			height: calc(100dvh - var(--toolbar-h) - var(--ruler-h) - 50px);
+			border: 1px solid var(--border);
+			border-radius: 8px;
+			flex-shrink: 0;
+		}
+
+		.edge-grip {
+			position: absolute;
+			top: 0;
+			right: calc(var(--edge-grip) / -2);
+			width: var(--edge-grip);
+			height: 100%;
+			cursor: ew-resize;
+			z-index: 10;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.edge-grip::after {
+			content: '';
+			width: 3px;
+			height: 40px;
+			border-radius: 2px;
+			background: var(--border);
+			transition: background 0.15s, height 0.15s;
+		}
+
+		.edge-grip:hover::after,
+		.edge-grip.dragging::after {
+			background: var(--accent);
+			height: 56px;
+		}
+
+		iframe {
+			border: none;
+			display: block;
+			border-radius: 7px;
+			overflow: hidden;
+		}
+
+		/* ── Sidebar ─────────────────────────────────────── */
+		.sidebar {
+			width: var(--sidebar-w);
+			min-width: var(--sidebar-w);
+			background: var(--surface);
+			border-left: 1px solid var(--border);
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+			flex-shrink: 0;
+		}
+
+		.sidebar-header {
+			padding: 12px 14px 11px;
+			border-bottom: 1px solid var(--border);
+			flex-shrink: 0;
+		}
+
+		.sidebar-header-row {
+			display: flex;
+			align-items: flex-start;
+			gap: 6px;
+		}
+
+		.sidebar-header-text {
+			flex: 1;
+			min-width: 0;
+		}
+
+		.sidebar-eyebrow {
+			font-size: 9px;
+			text-transform: uppercase;
+			letter-spacing: 0.12em;
+			color: var(--muted);
+			margin-bottom: 3px;
+		}
+
+		.sidebar-card-id {
+			font-size: 13px;
+			color: var(--text);
+			font-weight: 600;
+			line-height: 1.2;
+		}
+
+		.sidebar-card-label {
+			font-size: 11px;
+			color: var(--muted);
+			margin-top: 1px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.reset-btn {
+			padding: 3px 7px;
+			font-size: 10px;
+			color: var(--muted);
+			flex-shrink: 0;
+			margin-top: 2px;
+			position: relative;
+		}
+
+		.reset-menu {
+			position: absolute;
+			top: calc(100% + 4px);
+			right: 0;
+			background: var(--surface2);
+			border: 1px solid var(--border);
+			border-radius: 5px;
+			overflow: hidden;
+			z-index: 100;
+			min-width: 140px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+			display: none;
+		}
+
+		.reset-menu.open {
+			display: block;
+		}
+
+		.reset-menu-item {
+			display: block;
+			width: 100%;
+			padding: 7px 10px;
+			text-align: left;
+			background: transparent;
+			border: none;
+			border-radius: 0;
+			color: var(--text);
+			font-size: 11px;
+			cursor: pointer;
+		}
+
+		.reset-menu-item:hover {
+			background: var(--surface3);
+			color: var(--red);
+		}
+
+		/* ── Empty state ─────────────────────────────────── */
+		.sidebar-empty {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			color: var(--muted);
+			padding: 24px;
+			text-align: center;
+			line-height: 1.7;
+		}
+
+		.sidebar-empty svg {
+			opacity: 0.2;
+			flex-shrink: 0;
+		}
+
+		/* ── Card nav ────────────────────────────────────── */
+		.sidebar-nav {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			padding: 8px 14px;
+			border-bottom: 1px solid var(--border);
+			flex-shrink: 0;
+		}
+
+		.sidebar-nav button {
+			padding: 3px 8px;
+			font-size: 16px;
+			line-height: 1;
+		}
+
+		.sidebar-nav-label {
+			flex: 1;
+			text-align: center;
+			color: var(--muted);
+			font-size: 11px;
+		}
+
+		/* ── Inspector body ──────────────────────────────── */
+		.sidebar-body {
+			flex: 1;
+			overflow-y: auto;
+			padding: 14px;
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+		}
+
+		/* FIXED: CSS Target Specificity for mode-row toggles corrected */
+		.mode-row {
+			display: flex;
+			border-radius: 5px;
+			overflow: hidden;
+			border: 1px solid var(--border);
+		}
+
+		.mode-row button {
+			flex: 1;
+			border: none;
+			border-radius: 0;
+			padding: 5px 0;
+			background: var(--surface2);
+			color: var(--muted);
+		}
+
+		.mode-row button+button {
+			border-left: 1px solid var(--border);
+		}
+
+		.mode-row button:hover {
+			background: var(--surface3);
+			color: var(--text);
+		}
+
+		.mode-row button.active {
+			background: var(--accent) !important;
+			color: #fff !important;
+			border-color: var(--accent) !important;
+		}
+
+		.field-group {
+			display: flex;
+			flex-direction: column;
+			gap: 7px;
+		}
+
+		.field-group-label {
+			font-size: 9px;
+			text-transform: uppercase;
+			letter-spacing: 0.1em;
+			color: var(--muted);
+		}
+
+		.field-row {
+			display: flex;
+			align-items: center;
+			gap: 5px;
+			position: relative;
+		}
+
+		.field-label {
+			width: 58px;
+			flex-shrink: 0;
+			color: var(--muted);
+			font-size: 11px;
+		}
+
+		.field-row select {
+			flex: 1;
+			min-width: 0;
+			font-size: 11px;
+			transition: border-color 0.15s, border-style 0.15s;
+		}
+
+		.field-row select.is-inherited {
+			color: #f59e0b;
+			background: rgba(245, 158, 11, 0.04);
+		}
+
+		.inherited-tag {
+			font-size: 8px;
+			color: var(--amber);
+			text-transform: uppercase;
+			border: 1px solid rgba(245, 158, 11, 0.3);
+			padding: 1px 4px;
+			border-radius: 3px;
+			letter-spacing: 0.02em;
+			white-space: nowrap;
+			background: rgba(245, 158, 11, 0.08);
+		}
+
+		.clear-btn,
+		.apply-all-btn {
+			width: 16px;
+			height: 16px;
+			padding: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 3px;
+			border: none;
+			background: transparent;
+			color: var(--muted);
+			font-size: 12px;
+			cursor: pointer;
+			opacity: 0;
+			flex-shrink: 0;
+			transition: opacity 0.1s, color 0.1s, background 0.1s;
+		}
+
+		.field-row:hover .clear-btn,
+		.field-row:hover .apply-all-btn {
+			opacity: 1;
+		}
+
+		.clear-btn.has-value {
+			opacity: 1;
+		}
+
+		.clear-btn:hover {
+			color: var(--red);
+			background: rgba(239, 68, 68, 0.1);
+		}
+
+		.apply-all-btn:hover {
+			color: var(--amber);
+			background: rgba(245, 158, 11, 0.1);
+		}
+
+		.sidebar-rule {
+			height: 1px;
+			background: var(--border);
+			margin: 0 -14px;
+			flex-shrink: 0;
+		}
+
+		.bp-badges {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 4px;
+			min-height: 20px;
+		}
+
+		.bp-badge {
+			font-size: 9px;
+			padding: 2px 6px;
+			border-radius: 3px;
+			letter-spacing: 0.05em;
+			cursor: default;
+		}
+
+		.bp-badge.active-bp {
+			background: var(--accent-dim);
+			color: var(--accent);
+		}
+
+		.bp-badge.other-bp {
+			background: var(--surface3);
+			color: var(--muted);
+		}
+
+		/* ── Responsive summary table ────────────────────── */
+		.summary-table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 10px;
+			line-height: 1.4;
+		}
+
+		.summary-table th {
+			text-align: left;
+			color: var(--muted);
+			font-weight: normal;
+			padding: 2px 4px 2px 0;
+			border-bottom: 1px solid var(--border);
+		}
+
+		.summary-table td {
+			padding: 3px 4px 3px 0;
+			color: var(--text);
+			border-bottom: 1px solid var(--surface3);
+			vertical-align: middle;
+		}
+
+		.summary-table tr:last-child td {
+			border-bottom: none;
+		}
+
+		.summary-table tr.is-active-bp td {
+			color: var(--accent);
+		}
+
+		.summary-table tr.is-active-bp td:first-child {
+			position: relative;
+		}
+
+		.summary-table tr.is-active-bp td:first-child::before {
+			content: '▸';
+			position: absolute;
+			left: -10px;
+			color: var(--accent);
+			font-size: 8px;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		.summary-val-inherited {
+			color: var(--muted) !important;
+			font-style: italic;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="toolbar">
+		<button data-bp="2xl">2xl (base)</button>
+		<button data-bp="xl">xl</button>
+		<button data-bp="lg">lg</button>
+		<button data-bp="md">md</button>
+		<button data-bp="sm">sm</button>
+		<button data-bp="mobile">mobile</button>
+
+		<div class="toolbar-sep"></div>
+		<input type="range" id="slider" min="320" max="2000" value="1200">
+		<span id="widthLabel">1200px · lg</span>
+
+		<div class="toolbar-sep"></div>
+		<select id="gridCols">
+			<option value="">cols</option>
+			<script>for (let i = 1; i <= 12; i++) document.write(`<option value="${i}">${i}</option>`);</script>
+		</select>
+
+		<div class="toolbar-spacer"></div>
+		<button class="undo-btn" id="undoBtn" title="Undo" disabled>↩</button>
+		<button class="redo-btn" id="redoBtn" title="Redo" disabled>↪</button>
+	</div>
+
+	<div class="main">
+		<div class="canvas" id="canvas">
+			<div class="bp-ruler" id="bpRuler">
+				<div class="bp-ruler-track"></div>
+			</div>
+			<div class="resizer-wrap"
+				style="flex:1; width:100%; display:flex; align-items:flex-start; padding-top:8px;">
+				<div class="resizer" id="resizer">
+					<iframe id="frame" src="bento.html" width="100%" height="100%"></iframe>
+					<div class="edge-grip" id="edgeGrip"></div>
+				</div>
+			</div>
+		</div>
+
+		<aside class="sidebar">
+			<div class="sidebar-header"
+				style="border-bottom:1px solid var(--border); background:rgba(255,255,255,0.01);">
+				<div class="field-group" style="gap:5px;">
+					<div class="sidebar-eyebrow">Container Layout Modifiers</div>
+					<div class="mode-row">
+						<button id="wrapperGridBtn">Grid</button>
+						<button id="wrapperFlexBtn">Flex</button>
+					</div>
+					<div class="field-row" id="wrapperFlexColsRow" style="display:none; margin-top:3px;">
+						<span class="field-label" style="width:70px;">Items/Row</span>
+						<select id="wrapperFlexColsSelect">
+							<option value="">Auto Fill</option>
+							<option value="1">1 Col</option>
+							<option value="2">2 Cols</option>
+							<option value="3">3 Cols</option>
+							<option value="4">4 Cols</option>
+							<option value="6">6 Cols</option>
+							<option value="7">7 Cols</option>
+							<option value="8">8 Cols</option>
+							<option value="9">9 Cols</option>
+							<option value="10">10 Cols</option>
+							<option value="11">11 Cols</option>
+							<option value="12">12 Cols</option>
+							<option value="13">13 Cols</option>
+							<option value="14">14 Cols</option>
+							<option value="15">15 Cols</option>
+							<option value="16">16 Cols</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="sidebar-header">
+				<div class="sidebar-header-row">
+					<div class="sidebar-header-text">
+						<div class="sidebar-eyebrow">Card inspector</div>
+						<div class="sidebar-card-id" id="cardId">—</div>
+						<div class="sidebar-card-label" id="cardLabel"></div>
+					</div>
+					<div style="position:relative" id="resetWrapper">
+						<button class="reset-btn" id="resetBtn" title="Reset card classes" style="display:none">↺
+							Reset</button>
+						<div class="reset-menu" id="resetMenu">
+							<button class="reset-menu-item" id="resetBp">Clear this breakpoint</button>
+							<button class="reset-menu-item" id="resetAll">Clear all breakpoints</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="sidebar-nav" id="sidebarNav" style="display:none">
+				<button id="prevCard">‹</button>
+				<span class="sidebar-nav-label" id="navLabel"></span>
+				<button id="nextCard">›</button>
+			</div>
+
+			<div class="sidebar-empty" id="emptyState">
+				<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+					<rect x="3" y="3" width="7" height="7" rx="1" />
+					<rect x="14" y="3" width="7" height="7" rx="1" />
+					<rect x="3" y="14" width="7" height="7" rx="1" />
+					<rect x="14" y="14" width="7" height="7" rx="1" />
+				</svg>
+				<div>Click a layout item to open editing controls.</div>
+			</div>
+
+			<div class="sidebar-body" id="inspectorBody" style="display:none">
+				<div id="mobileNoticeBox"
+					style="display:none; background:var(--accent-dim); border:1px solid var(--accent); padding:8px; border-radius:4px; color:var(--text); font-size:10px; line-height:1.4;">
+					🔒 <strong>Mobile Screen active:</strong> Layout handles are locked out at this viewport resolution
+					width. Items cascade automatically as single vertical blocks.
+				</div>
+
+				<div id="inspectorFormFields">
+					<div class="field-group">
+						<div class="field-group-label">Card Item Mode</div>
+						<div class="mode-row">
+							<button id="modeSpan">Span</button>
+							<button id="modePlacement">Placement</button>
+						</div>
+					</div>
+
+					<div class="sidebar-rule"></div>
+
+					<div class="field-group" id="spanFields">
+						<div class="field-group-label">Span configuration</div>
+						<div class="field-row">
+							<span class="field-label">col</span><select id="colSelect"></select>
+							<button class="apply-all-btn" data-prop="Col">⇊</button><button class="clear-btn"
+								data-prop="Col">×</button>
+						</div>
+						<div class="field-row">
+							<span class="field-label">row</span><select id="rowSelect"></select>
+							<button class="apply-all-btn" data-prop="Row">⇊</button><button class="clear-btn"
+								data-prop="Row">×</button>
+						</div>
+					</div>
+
+					<div class="field-group" id="placementFields" style="display:none">
+						<div class="field-group-label">Column bounds</div>
+						<div class="field-row"><span class="field-label">start</span><select
+								id="colStartSelect"></select><button class="apply-all-btn"
+								data-prop="ColStart">⇊</button><button class="clear-btn" data-prop="ColStart">×</button>
+						</div>
+						<div class="field-row"><span class="field-label">end</span><select
+								id="colEndSelect"></select><button class="apply-all-btn"
+								data-prop="ColEnd">⇊</button><button class="clear-btn" data-prop="ColEnd">×</button>
+						</div>
+						<div class="field-group-label" style="margin-top:2px">Row bounds</div>
+						<div class="field-row"><span class="field-label">start</span><select
+								id="rowStartSelect"></select><button class="apply-all-btn"
+								data-prop="RowStart">⇊</button><button class="clear-btn" data-prop="RowStart">×</button>
+						</div>
+						<div class="field-row"><span class="field-label">end</span><select
+								id="rowEndSelect"></select><button class="apply-all-btn"
+								data-prop="RowEnd">⇊</button><button class="clear-btn" data-prop="RowEnd">×</button>
+						</div>
+					</div>
+
+					<div class="sidebar-rule"></div>
+				</div>
+
+				<div class="field-group">
+					<div class="field-group-label">Active variations</div>
+					<div class="bp-badges" id="bpBadges"></div>
+				</div>
+
+				<div class="sidebar-rule"></div>
+
+				<div class="field-group">
+					<div class="field-group-label">Responsive mapping cascade</div>
+					<table class="summary-table" id="summaryTable">
+						<thead>
+							<tr>
+								<th>bp</th>
+								<th>col</th>
+								<th>row</th>
+							</tr>
+						</thead>
+						<tbody id="summaryBody"></tbody>
+					</table>
+				</div>
+			</div>
+		</aside>
+	</div>
+
+	<script>
+		(function () {
+			// ── Refs ───────────────────────────────────────────────
+			const frame = document.getElementById('frame'), resizer = document.getElementById('resizer'), edgeGrip = document.getElementById('edgeGrip');
+			const canvas = document.getElementById('canvas'), slider = document.getElementById('slider'), widthLabel = document.getElementById('widthLabel');
+			const gridSelect = document.getElementById('gridCols'), undoBtn = document.getElementById('undoBtn'), redoBtn = document.getElementById('redoBtn'), bpRuler = document.getElementById('bpRuler');
+			const cardId = document.getElementById('cardId'), cardLabel = document.getElementById('cardLabel'), emptyState = document.getElementById('emptyState'), inspectorBody = document.getElementById('inspectorBody');
+			const sidebarNav = document.getElementById('sidebarNav'), navLabel = document.getElementById('navLabel'), spanFields = document.getElementById('spanFields'), placementFields = document.getElementById('placementFields');
+			const bpBadges = document.getElementById('bpBadges'), summaryBody = document.getElementById('summaryBody'), summaryTable = document.getElementById('summaryTable');
+			const modeSpanBtn = document.getElementById('modeSpan'), modePlacementBtn = document.getElementById('modePlacement');
+			const colSelect = document.getElementById('colSelect'), rowSelect = document.getElementById('rowSelect'), colStartSelect = document.getElementById('colStartSelect'), colEndSelect = document.getElementById('colEndSelect'), rowStartSelect = document.getElementById('rowStartSelect'), rowEndSelect = document.getElementById('rowEndSelect');
+			const prevCardBtn = document.getElementById('prevCard'), nextCardBtn = document.getElementById('nextCard');
+			const resetBtn = document.getElementById('resetBtn'), resetMenu = document.getElementById('resetMenu'), resetBpBtn = document.getElementById('resetBp'), resetAllBtn = document.getElementById('resetAll');
+			const wrapperGridBtn = document.getElementById('wrapperGridBtn'), wrapperFlexBtn = document.getElementById('wrapperFlexBtn'), wrapperFlexColsRow = document.getElementById('wrapperFlexColsRow'), wrapperFlexColsSelect = document.getElementById('wrapperFlexColsSelect');
+			const mobileNoticeBox = document.getElementById('mobileNoticeBox'), inspectorFormFields = document.getElementById('inspectorFormFields');
+
+			// ── Config ──────────────────────────────────────────────
+			// UPDATED PATH: Ordered accurately to represent cascading logic flow
+			const BP_ORDER = ['2xl', 'xl', 'lg', 'md', 'sm', 'mobile'];
+			const SLIDER_MIN = 320;
+			const SLIDER_MAX = 2000;
+
+			// Marker lines for your ruler track layout view
+			const BP_TICKS = [
+				{ bp: 'sm', w: 640 },
+				{ bp: 'md', w: 768 },
+				{ bp: 'lg', w: 1024 },
+				{ bp: 'xl', w: 1280 },
+				{ bp: '2xl', w: 1536 },
+			];
+
+			let currentBp = 'lg';
+			let selectedId = null;
+			let totalCards = 0;
+			let currentState = null;
+			let lastGridCols = 12;
+
+			// ── Utility ────────────────────────────────────────────
+			function getBreakpoint(w) {
+				if (w >= 1536) return '2xl';
+				if (w >= 1280) return 'xl';
+				if (w >= 1024) return 'lg';
+				if (w >= 768) return 'md';
+				if (w >= 640) return 'sm';
+				return 'mobile'; // Renamed from base -> mobile boundary
+			}
+
+			function send(msg) { frame.contentWindow?.postMessage(msg, '*'); }
+			function buildOptions(max) { let h = '<option value="">—</option>'; for (let i = 1; i <= max; i++) h += `<option value="${i}">${i}</option>`; return h; }
+			function buildLineOptions(gridCols) { let h = '<option value="">—</option>'; for (let i = 1; i <= gridCols + 1; i++) h += `<option value="${i}">${i}</option>`; return h; }
+
+			function populateSelects(gridCols) {
+				if (gridCols === lastGridCols) return;
+				lastGridCols = gridCols;
+				colSelect.innerHTML = buildOptions(gridCols);
+				rowSelect.innerHTML = buildOptions(12);
+				colStartSelect.innerHTML = buildLineOptions(gridCols);
+				colEndSelect.innerHTML = buildLineOptions(gridCols);
+				rowStartSelect.innerHTML = buildLineOptions(12);
+				rowEndSelect.innerHTML = buildLineOptions(12);
+			}
+			populateSelects(12);
+
+			// ── FIXED: Breakpoint ruler ───────────────────────────
+			BP_TICKS.forEach(({ bp, w }) => {
+				const tick = document.createElement('div');
+				tick.className = 'bp-tick';
+				tick.dataset.bp = bp;
+				tick.dataset.w = w;
+				tick.innerHTML = `<div class="bp-tick-line"></div><div class="bp-tick-label">${bp}</div>`;
+				bpRuler.appendChild(tick);
+			});
+
+			const tickEls = [...bpRuler.querySelectorAll('.bp-tick')].map(tick => ({
+				tick, bp: tick.dataset.bp, w: parseInt(tick.dataset.w, 10)
+			}));
+
+			function updateRuler(width) {
+				const sliderRect = slider.getBoundingClientRect();
+				const rulerRect = bpRuler.getBoundingClientRect();
+
+				bpRuler.style.width = sliderRect.width + 'px';
+				bpRuler.style.marginLeft = (sliderRect.left - rulerRect.left) + 'px';
+
+				const activeBreakpoint = getBreakpoint(width);
+				const activeIndex = BP_ORDER.indexOf(activeBreakpoint);
+
+				tickEls.forEach(({ tick, bp, w }) => {
+					const pct = (w - SLIDER_MIN) / (SLIDER_MAX - SLIDER_MIN);
+					tick.style.left = (pct * 100) + '%';
+
+					const tickIndex = BP_ORDER.indexOf(bp);
+					// DESKTOP FIRST LOGIC: A lower index in BP_ORDER means it's a larger screen context!
+					const isActive = (activeBreakpoint === bp);
+					const atOrPast = (tickIndex >= activeIndex);
+
+					tick.classList.toggle('at-or-past', atOrPast);
+					tick.classList.toggle('is-active', isActive);
+				});
+			}
+
+			// ── Breakpoint toolbar ─────────────────────────────────
+			function updateWidth(width, forceSend = false) {
+				const bp = getBreakpoint(width);
+				widthLabel.textContent = `${width}px · ${bp === '2xl' ? '2xl (base)' : bp}`;
+
+				document.querySelectorAll('[data-bp]').forEach(btn => {
+					btn.classList.toggle('active', btn.dataset.bp === bp);
+				});
+
+				updateRuler(width);
+
+				if (bp !== currentBp || forceSend) {
+					currentBp = bp;
+					send({ type: 'SET_BP', bp });
+				}
+			}
+
+			slider.addEventListener('input', e => {
+				const w = parseInt(e.target.value, 10);
+				resizer.style.width = w + 'px';
+				updateWidth(w);
+			});
+
+			document.querySelectorAll('[data-bp]').forEach(btn => {
+				btn.addEventListener('click', () => {
+					const map = { mobile: 360, sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 };
+					const w = map[btn.dataset.bp];
+					resizer.style.width = w + 'px';
+					slider.value = w;
+					updateWidth(w, true);
+				});
+			});
+
+			gridSelect.addEventListener('change', () => { send({ type: 'SET_GRID_COLS', value: gridSelect.value }); });
+
+			wrapperGridBtn.addEventListener('click', () => send({ type: 'SET_WRAPPER_MODE', mode: 'grid' }));
+			wrapperFlexBtn.addEventListener('click', () => send({ type: 'SET_WRAPPER_MODE', mode: 'flex' }));
+			wrapperFlexColsSelect.addEventListener('change', () => send({ type: 'SET_FLEX_COLS', value: wrapperFlexColsSelect.value }));
+
+			let roTimer = null;
+			new ResizeObserver(entries => {
+				clearTimeout(roTimer);
+				roTimer = setTimeout(() => {
+					const w = Math.round(entries[0].contentRect.width);
+					slider.value = w;
+					updateWidth(w);
+				}, 30);
+			}).observe(resizer);
+
+			// ── Edge-grip resize ──────────────────────────────────
+			let drag = { active: false, startX: 0, startW: 0 };
+			edgeGrip.addEventListener('pointerdown', e => {
+				e.preventDefault(); drag.active = true; drag.startX = e.clientX; drag.startW = resizer.offsetWidth;
+				edgeGrip.classList.add('dragging'); frame.style.pointerEvents = 'none';
+				document.body.style.cursor = 'ew-resize'; document.body.style.userSelect = 'none';
+				edgeGrip.setPointerCapture(e.pointerId);
+			});
+			edgeGrip.addEventListener('pointermove', e => {
+				if (!drag.active) return;
+				const dx = e.clientX - drag.startX;
+				const max = canvas.clientWidth - 32;
+				const w = Math.max(320, Math.min(max, drag.startW + dx));
+				resizer.style.width = w + 'px'; slider.value = Math.round(w); updateWidth(Math.round(w));
+			});
+			edgeGrip.addEventListener('pointerup', () => {
+				drag.active = false; edgeGrip.classList.remove('dragging'); frame.style.pointerEvents = '';
+				document.body.style.cursor = ''; document.body.style.userSelect = '';
+			});
+
+			// ── History ──
+			undoBtn.addEventListener('click', () => send({ type: 'UNDO' }));
+			redoBtn.addEventListener('click', () => send({ type: 'REDO' }));
+
+			// ── Sidebar Sync ─────────────────────────────────────
+			function syncSelect(select, value, sourceBp) {
+				select.value = value || '';
+				const existingTag = select.parentNode.querySelector('.inherited-tag');
+				if (existingTag) existingTag.remove();
+
+				const isInherited = !!(value && sourceBp !== currentBp);
+				select.classList.toggle('is-inherited', isInherited);
+
+				if (isInherited) {
+					select.style.borderStyle = 'dashed'; select.style.borderColor = 'var(--amber)';
+					const tag = document.createElement('span'); tag.className = 'inherited-tag';
+					tag.textContent = `⌥ ${sourceBp}`; select.parentNode.insertBefore(tag, select.nextSibling);
+				} else {
+					select.style.borderStyle = 'solid'; select.style.borderColor = 'var(--border)';
+				}
+			}
+
+			function setClearBtn(prop, isSet) {
+				const btn = document.querySelector(`.clear-btn[data-prop="${prop}"]`);
+				if (btn) btn.classList.toggle('has-value', isSet);
+			}
+
+			function renderSummary(summary, mode, activeBp) {
+				summaryBody.innerHTML = '';
+				const isPlacement = mode === 'placement';
+				const thead = summaryTable.querySelector('thead tr');
+				thead.innerHTML = isPlacement ? '<th>bp</th><th>cs</th><th>ce</th><th>rs</th><th>re</th>' : '<th>bp</th><th>col</th><th>row</th>';
+
+				BP_ORDER.forEach(bp => {
+					const data = summary[bp]; if (!data) return;
+					const tr = document.createElement('tr'); if (bp === activeBp) tr.classList.add('is-active-bp');
+
+					const bpTd = document.createElement('td'); bpTd.textContent = bp === 'mobile' ? 'mobile' : bp;
+					tr.appendChild(bpTd);
+
+					const targetKeys = isPlacement ? ['ColStart', 'ColEnd', 'RowStart', 'RowEnd'] : ['Col', 'Row'];
+					targetKeys.forEach(key => {
+						const td = document.createElement('td'); const val = data[key];
+						if (val) {
+							td.textContent = val;
+							if (data.source && data.source[key] !== bp) { td.classList.add('summary-val-inherited'); }
+						} else {
+							td.textContent = '–'; td.style.color = 'var(--surface3)';
+						}
+						tr.appendChild(td);
+					});
+					summaryBody.appendChild(tr);
+				});
+			}
+
+			function applyState(state) {
+				currentState = state;
+				const { id, label, mode, values, source, raw, summary, gridCols } = state;
+				const activeBp = state.activeBp;
+
+				cardId.textContent = `Card ${id}`;
+				cardLabel.textContent = label || '';
+				resetBtn.style.display = '';
+
+				populateSelects(gridCols);
+
+				// FIXED: Toggle control form block inputs on read-only mobile screen wrapper widths
+				if (activeBp === 'mobile') {
+					mobileNoticeBox.style.display = 'block'; inspectorFormFields.style.display = 'none';
+				} else {
+					mobileNoticeBox.style.display = 'none'; inspectorFormFields.style.display = '';
+				}
+
+				modeSpanBtn.classList.toggle('active', mode === 'span');
+				modePlacementBtn.classList.toggle('active', mode === 'placement');
+				spanFields.style.display = mode === 'span' ? '' : 'none';
+				placementFields.style.display = mode === 'placement' ? '' : 'none';
+
+				if (mode === 'span') {
+					syncSelect(colSelect, values.Col, source.Col); syncSelect(rowSelect, values.Row, source.Row);
+					[...colSelect.options].forEach(opt => { if (opt.value) opt.disabled = parseInt(opt.value, 10) > gridCols; });
+					setClearBtn('Col', !!(raw[activeBp]?.Col)); setClearBtn('Row', !!(raw[activeBp]?.Row));
+				} else {
+					syncSelect(colStartSelect, values.ColStart, source.ColStart); syncSelect(colEndSelect, values.ColEnd, source.ColEnd);
+					syncSelect(rowStartSelect, values.RowStart, source.RowStart); syncSelect(rowEndSelect, values.RowEnd, source.RowEnd);
+					setClearBtn('ColStart', !!(raw[activeBp]?.ColStart)); setClearBtn('ColEnd', !!(raw[activeBp]?.ColEnd));
+					setClearBtn('RowStart', !!(raw[activeBp]?.RowStart)); setClearBtn('RowEnd', !!(raw[activeBp]?.RowEnd));
+				}
+
+				bpBadges.innerHTML = ''; let anySet = false;
+				BP_ORDER.forEach(bp => {
+					if (!raw[bp] || !Object.keys(raw[bp]).length) return;
+					anySet = true; const span = document.createElement('span');
+					span.className = `bp-badge ${bp === activeBp ? 'active-bp' : 'other-bp'}`;
+					span.textContent = bp; bpBadges.appendChild(span);
+				});
+				if (!anySet) bpBadges.innerHTML = '<span style="color:var(--muted);font-size:11px">nothing set</span>';
+
+				if (summary) renderSummary(summary, mode, activeBp);
+				if (totalCards > 0) navLabel.textContent = `${id} / ${totalCards}`;
+			}
+
+			function syncGlobalWrapperUI(d) {
+				gridSelect.value = d.gridCols || '';
+
+				// FIXED: Active toggle class evaluation logic fully operational for UI buttons
+				wrapperGridBtn.classList.toggle('active', !d.flexMode);
+				wrapperFlexBtn.classList.toggle('active', d.flexMode);
+
+				wrapperFlexColsRow.style.display = d.flexMode ? 'flex' : 'none';
+				if (d.flexMode) wrapperFlexColsSelect.value = d.flexCols || '';
+
+				if (currentState && inspectorBody.style.display !== 'none') {
+					const isFlex = !!d.flexMode;
+					spanFields.style.opacity = isFlex ? '0.4' : '';
+					placementFields.style.opacity = isFlex ? '0.4' : '';
+					spanFields.style.pointerEvents = isFlex ? 'none' : '';
+					placementFields.style.pointerEvents = isFlex ? 'none' : '';
+				}
+			}
+
+			function showInspector(show) {
+				emptyState.style.display = show ? 'none' : '';
+				inspectorBody.style.display = show ? '' : 'none';
+				sidebarNav.style.display = show ? '' : 'none';
+				if (!show) resetBtn.style.display = 'none';
+			}
+
+			modeSpanBtn.addEventListener('click', () => { if (selectedId) send({ type: 'SET_CARD_MODE', id: selectedId, mode: 'span' }); });
+			modePlacementBtn.addEventListener('click', () => { if (selectedId) send({ type: 'SET_CARD_MODE', id: selectedId, mode: 'placement' }); });
+
+			function wireSelect(select, prop) {
+				select.addEventListener('change', () => {
+					if (!selectedId) return;
+					send(select.value ? { type: 'SET_CARD_PROP', id: selectedId, prop, value: select.value } : { type: 'CLEAR_CARD_PROP', id: selectedId, prop });
+				});
+			}
+			wireSelect(colSelect, 'Col'); wireSelect(rowSelect, 'Row');
+			wireSelect(colStartSelect, 'ColStart'); wireSelect(colEndSelect, 'ColEnd');
+			wireSelect(rowStartSelect, 'RowStart'); wireSelect(rowEndSelect, 'RowEnd');
+
+			document.querySelectorAll('.clear-btn').forEach(btn => {
+				btn.addEventListener('click', () => { if (selectedId) send({ type: 'CLEAR_CARD_PROP', id: selectedId, prop: btn.dataset.prop }); });
+			});
+
+			document.querySelectorAll('.apply-all-btn').forEach(btn => {
+				btn.addEventListener('click', () => {
+					if (!selectedId || !currentState) return;
+					const prop = btn.dataset.prop; const value = currentState.values[prop] || '';
+					if (value) send({ type: 'APPLY_TO_ALL', prop, value });
+				});
+			});
+
+			resetBtn.addEventListener('click', e => { e.stopPropagation(); resetMenu.classList.toggle('open'); });
+			resetBpBtn.addEventListener('click', () => { if (selectedId) { resetMenu.classList.remove('open'); send({ type: 'RESET_CARD', id: selectedId, scope: 'bp' }); } });
+			resetAllBtn.addEventListener('click', () => { if (selectedId) { resetMenu.classList.remove('open'); send({ type: 'RESET_CARD', id: selectedId, scope: 'all' }); } });
+			document.addEventListener('click', e => { if (!document.getElementById('resetWrapper').contains(e.target)) resetMenu.classList.remove('open'); });
+
+			function navigateCard(dir) {
+				if (!selectedId || !totalCards) return;
+				const cards = [...frame.contentDocument?.querySelectorAll('li.saBento') || []];
+				const idx = cards.findIndex(li => li.dataset.bentoId === selectedId);
+				if (idx === -1) return;
+				const next = cards[(idx + dir + cards.length) % cards.length];
+				if (next) { selectedId = next.dataset.bentoId; send({ type: 'SELECT_CARD', id: selectedId }); }
+			}
+			prevCardBtn.addEventListener('click', () => navigateCard(-1));
+			nextCardBtn.addEventListener('click', () => navigateCard(+1));
+
+			window.addEventListener('message', e => {
+				const d = e.data || {};
+				if (d.type === 'WRAPPER_STATE') syncGlobalWrapperUI(d);
+				if (d.type === 'CARD_STATE') { selectedId = d.id; if (d.totalCards) totalCards = d.totalCards; showInspector(true); applyState(d); if (d.hasOwnProperty('flexMode')) syncGlobalWrapperUI(d); }
+				if (d.type === 'CARD_DESELECTED') { selectedId = null; showInspector(false); cardId.textContent = '—'; cardLabel.textContent = ''; }
+				if (d.type === 'TOTAL_CARDS') totalCards = d.count;
+				if (d.type === 'GRID_CHANGED') { if (d.gridCols !== lastGridCols) { lastGridCols = -1; populateSelects(d.gridCols); } }
+				if (d.type === 'HISTORY_STATE') { undoBtn.disabled = !d.canUndo; redoBtn.disabled = !d.canRedo; }
+			});
+
+			frame.addEventListener('load', () => {
+				updateWidth(parseInt(slider.value, 10), true);
+				send({ type: 'GET_TOTAL_CARDS' }); send({ type: 'GET_WRAPPER_STATE' });
+				requestAnimationFrame(() => updateRuler(parseInt(slider.value, 10)));
+			});
+			window.addEventListener('resize', () => { updateRuler(parseInt(slider.value, 10)); });
+		})();
+	</script>
+</body>
+
+</html>

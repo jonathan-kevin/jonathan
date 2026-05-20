@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
 	// ── Config ─────────────────────────────────────────────
+	let activeBp = '';
 
-	const BP_ORDER = ['base', 'sm', 'md', 'lg', 'xl', '2xl'];
-
+	const BP_ORDER = ['2xl', 'xl', 'lg', 'md', 'sm', 'base']; // Desktop → Mobile
 	const BP_PREFIX = {
 		base: '',
 		sm: 'Sm',
@@ -13,12 +13,26 @@ document.addEventListener('DOMContentLoaded', () => {
 		'2xl': '2xl'
 	};
 
-	let activeBp = 'lg';
+		function updateBentoColumns() {
+		$('.saBentoWrapper').each(function () {
+			const columns = window
+				.getComputedStyle(this)
+				.getPropertyValue('grid-template-columns')
+				.split(' ')
+				.length;
+
+			this.style.setProperty('--columns', columns);
+			console.log(columns);
+		});
+	}
+
+	$(document).ready(updateBentoColumns);
+	$(window).on('resize', updateBentoColumns);
+
 
 	const wrapper = document.querySelector('.saBentoWrapper');
 
 	// ── Parsing ────────────────────────────────────────────
-
 	function parseClasses(className) {
 		const result = {};
 
@@ -30,43 +44,42 @@ document.addEventListener('DOMContentLoaded', () => {
 			const bp = bpRaw ? bpRaw.toLowerCase() : 'base';
 
 			if (!result[bp]) result[bp] = {};
-			result[bp][type] = value;
+			result[bp][type] = parseInt(value, 10);
 		});
 
 		return result;
 	}
 
+	// ── Desktop-first effective state ─────────────────────
 	function getEffectiveState(el) {
 		const parsed = parseClasses(el.className || '');
 		const currentIndex = BP_ORDER.indexOf(activeBp);
 
-		const result = {};
+		const result = { Col: null, Row: null, GridCol: null };
 		const source = {};
 
-		// Desktop-first cascade: prefer the active bp, then walk down toward
-		// base as a last resort. This means lg/xl/2xl settings are the
-		// authoritative source and smaller breakpoints only override when
-		// explicitly set.
 		['Col', 'Row', 'GridCol'].forEach(type => {
-			// 1. Exact match at the active breakpoint
-			if (parsed[activeBp]?.[type]) {
+			// 1. Exact match at current breakpoint
+			if (parsed[activeBp]?.[type] !== undefined) {
 				result[type] = parsed[activeBp][type];
 				source[type] = activeBp;
 				return;
 			}
-			// 2. Walk upward (larger breakpoints) — inherit from a bigger sibling
-			for (let i = currentIndex + 1; i < BP_ORDER.length; i++) {
+
+			// 2. Look for stronger (larger) breakpoints first (desktop-first)
+			for (let i = 0; i < currentIndex; i++) {
 				const bp = BP_ORDER[i];
-				if (parsed[bp]?.[type]) {
+				if (parsed[bp]?.[type] !== undefined) {
 					result[type] = parsed[bp][type];
 					source[type] = bp;
 					return;
 				}
 			}
-			// 3. Fall back downward (smaller breakpoints) toward base
-			for (let i = currentIndex - 1; i >= 0; i--) {
+
+			// 3. Fall back to weaker (smaller) breakpoints
+			for (let i = currentIndex + 1; i < BP_ORDER.length; i++) {
 				const bp = BP_ORDER[i];
-				if (parsed[bp]?.[type]) {
+				if (parsed[bp]?.[type] !== undefined) {
 					result[type] = parsed[bp][type];
 					source[type] = bp;
 					return;
@@ -77,188 +90,129 @@ document.addEventListener('DOMContentLoaded', () => {
 		return { values: result, source };
 	}
 
-	function getEffectiveGridCols() {
-		const { values } = getEffectiveState(wrapper);
-		return parseInt(values.GridCol || 12, 10);
-	}
-
-	// ── Class setter ───────────────────────────────────────
-
+	// ── Class manipulation ─────────────────────────────────
 	function setClass(el, bp, type, value) {
 		const prefix = BP_PREFIX[bp];
-		const classes = (el.className || '').split(/\s+/);
+		let classes = (el.className || '').split(/\s+/);
 
-		const filtered = classes.filter(c => !c.startsWith(`sa${prefix}${type}`));
+		// Remove ALL existing Col/Row/GridCol classes (any breakpoint)
+		classes = classes.filter(c => !c.match(/^sa(Sm|Md|Lg|Xl|2xl)?(?:Col|Row|GridCol)\d+$/));
 
-		if (value) {
-			filtered.push(`sa${prefix}${type}${value}`);
+		if (value && value > 0) {
+			classes.push(`sa${prefix}${type}${value}`);
 		}
 
-		el.className = filtered.join(' ');
+		el.className = classes.join(' ').trim();
 	}
-
-	// ── API ────────────────────────────────────────────────
 
 	function setGridCols(value) {
-		setClass(wrapper, activeBp, 'GridCol', value);
+		setClass(wrapper, activeBp, 'GridCol', value ? parseInt(value) : null);
 	}
 
-	function setCardSpan(li, type, value) {
-		if (type === 'col') {
-			value = Math.min(value, getEffectiveGridCols());
-		}
-		setClass(li, activeBp, type === 'col' ? 'Col' : 'Row', value);
+	function setCardSpan(li, spanType, value) {
+		const num = value ? parseInt(value) : null;
+		const cssType = spanType === 'col' ? 'Col' : 'Row';
+		setClass(li, activeBp, cssType, num);
 	}
 
-	function normalizeCards() {
-		const max = getEffectiveGridCols();
-
-		document.querySelectorAll('li.saBento').forEach(li => {
-			const { values } = getEffectiveState(li);
-
-			if (values.Col && parseInt(values.Col, 10) > max) {
-				setClass(li, activeBp, 'Col', max);
-			}
-		});
-	}
-
-	// ── UI helpers ─────────────────────────────────────────
-
+	// ── UI Sync ────────────────────────────────────────────
 	function updateSelect(select, value, sourceBp) {
 		select.value = value || '';
 
-		const isInherited = sourceBp !== activeBp;
-
+		const isInherited = sourceBp && sourceBp !== activeBp;
 		select.classList.toggle('is-inherited', isInherited);
 		select.dataset.source = sourceBp || '';
-
 		select.title = isInherited
-			? `Inherited from ${sourceBp}`
-			: `Set on ${activeBp}`;
+			? `Inherited from ${sourceBp} (larger breakpoint)`
+			: `Set at ${activeBp}`;
 	}
-
-	function constrainColOptions(select) {
-		const max = getEffectiveGridCols();
-
-		[...select.options].forEach(opt => {
-			if (!opt.value) return;
-			opt.disabled = parseInt(opt.value, 10) > max;
-		});
-	}
-
-	// ── UI Injection ───────────────────────────────────────
-
-	function buildOptions(max) {
-		let html = '<option value="">—</option>';
-		for (let i = 1; i <= max; i++) {
-			html += `<option value="${i}">${i}</option>`;
-		}
-		return html;
-	}
-
-	// Grid select
-	const gridWrap = document.createElement('label');
-	gridWrap.className = 'saGridColSizerLabel';
-
-	const gridPrefix = document.createElement('span');
-	gridPrefix.className = 'saGridColSizerBp';
-
-	const gridSelect = document.createElement('select');
-	gridSelect.className = 'saGridColSizerSelect';
-	gridSelect.innerHTML = buildOptions(12);
-
-	gridWrap.append(gridPrefix, gridSelect);
-	wrapper.after(gridWrap);
-
-	gridSelect.addEventListener('change', () => {
-		setGridCols(gridSelect.value);
-		normalizeCards();
-		refreshUI();
-	});
-
-	// Cards
-	document.querySelectorAll('li.saBento').forEach(li => {
-		const fieldset = document.createElement('div');
-		fieldset.className = 'saBentoSizer';
-
-		fieldset.innerHTML = `
-			<label>
-				<select data-type="col">${buildOptions(12)}</select>
-			</label>
-			<label>
-				<select data-type="row">${buildOptions(12)}</select>
-			</label>
-		`;
-
-		li.querySelector('article').prepend(fieldset);
-
-		fieldset.addEventListener('change', e => {
-			if (e.target.tagName !== 'SELECT') return;
-
-			const type = e.target.dataset.type;
-			const value = e.target.value;
-
-			setCardSpan(li, type, value);
-			refreshUI();
-		});
-	});
-
-	// ── Sync ───────────────────────────────────────────────
 
 	function syncGrid() {
 		const { values, source } = getEffectiveState(wrapper);
-
-		gridSelect.value = values.GridCol || '';
-		gridPrefix.textContent = activeBp + ': ';
-
-		gridSelect.classList.toggle(
-			'is-inherited',
-			source.GridCol && source.GridCol !== activeBp
-		);
+		const gridSelect = document.querySelector('.saGridColSizerSelect');
+		if (gridSelect) {
+			gridSelect.value = values.GridCol || '';
+			gridSelect.classList.toggle('is-inherited', source.GridCol !== activeBp);
+		}
 	}
 
 	function syncCard(li) {
 		const { values, source } = getEffectiveState(li);
-
 		const colSelect = li.querySelector('[data-type="col"]');
 		const rowSelect = li.querySelector('[data-type="row"]');
 
-		updateSelect(colSelect, values.Col, source.Col);
-		updateSelect(rowSelect, values.Row, source.Row);
-
-		constrainColOptions(colSelect);
-	}
-
-	function syncCards() {
-		document.querySelectorAll('li.saBento').forEach(syncCard);
+		if (colSelect) updateSelect(colSelect, values.Col, source.Col);
+		if (rowSelect) updateSelect(rowSelect, values.Row, source.Row);
 	}
 
 	function refreshUI() {
 		syncGrid();
-		syncCards();
+		document.querySelectorAll('li.saBento').forEach(syncCard);
 	}
 
-	// ── Messaging ──────────────────────────────────────────
+	// ── UI Setup ───────────────────────────────────────────
+	function initUI() {
+		// Grid columns control
+		const gridWrap = document.createElement('label');
+		gridWrap.className = 'saGridColSizerLabel';
+		gridWrap.innerHTML = `
+			<span class="saGridColSizerBp">${activeBp}:</span>
+			<select class="saGridColSizerSelect">
+				<option value="">—</option>
+				${Array.from({length: 12}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
+			</select>
+		`;
+		wrapper.after(gridWrap);
 
+		gridWrap.querySelector('select').addEventListener('change', e => {
+			setGridCols(e.target.value);
+			refreshUI();
+		});
+
+		// Per-card controls
+		document.querySelectorAll('li.saBento').forEach(li => {
+			const fieldset = document.createElement('div');
+			fieldset.className = 'saBentoSizer';
+			fieldset.innerHTML = `
+				<label>Col <select data-type="col">
+					<option value="">—</option>
+					${Array.from({length: 12}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
+				</select></label>
+				<label>Row <select data-type="row">
+					<option value="">—</option>
+					${Array.from({length: 12}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
+				</select></label>
+			`;
+
+			li.querySelector('article').prepend(fieldset);
+
+			fieldset.addEventListener('change', e => {
+				if (e.target.tagName !== 'SELECT') return;
+				setCardSpan(li, e.target.dataset.type, e.target.value);
+				refreshUI();
+			});
+		});
+	}
+
+	// ── Communication with preview.html ───────────────────
 	window.addEventListener('message', e => {
 		const { type, bp, value } = e.data || {};
 
 		if (type === 'SET_BP') {
 			activeBp = bp;
 			refreshUI();
-
-			e.source?.postMessage({ type: 'BP_CHANGED', bp }, '*');
 		}
 
 		if (type === 'SET_GRID_COLS') {
 			setGridCols(value);
-			normalizeCards();
 			refreshUI();
 		}
 	});
 
-	// ── Init ───────────────────────────────────────────────
-
+	// ── Initialize ─────────────────────────────────────────
+	initUI();
 	refreshUI();
 
+	// Debug helper
+	window.bentoDebug = { getEffectiveState, setCardSpan, activeBp, setClass };
 });
