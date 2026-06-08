@@ -10764,22 +10764,22 @@ a.link:active .saGridCellDescription {
 }
 .saColumnManager .saTabGroup div:first-child .saTab {
   border-left: 1px solid light-dark(var(--Gray200), var(--Gray700));
-  border-radius: 0.25rem 0 0 0;
+  border-radius: 0.375rem 0 0 0;
 }
 .saColumnManager .saTabGroup div:nth-last-child(2):not(.saMoreTabWrapper) .saTab {
-  border-radius: 0 0.25rem 0 0;
+  border-radius: 0 0.375rem 0 0;
 }
 .saColumnManager .saTabGroup div:first-child:nth-last-child(2) .saTab {
-  border-radius: 0.25rem 0.25rem 0 0;
+  border-radius: 0.375rem 0.375rem 0 0;
 }
 .saColumnManager .saTabGroup div.saMoreTabWrapper:not(.saHidden) .saTab {
-  border-radius: 0 0.25rem 0 0;
+  border-radius: 0 0.375rem 0 0;
 }
 .saColumnManager .saTab {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
   text-decoration: none;
   color: var(--Sa-Color-TabText);
   background: var(--Sa-Color-TabBackground);
@@ -10788,15 +10788,12 @@ a.link:active .saGridCellDescription {
   border: 1px solid light-dark(var(--Gray200), var(--Gray700));
   border-left: none;
   font-size: 0.875rem;
-  padding: 0 1rem;
+  padding: 0 0.75rem;
   height: 2.5rem;
   max-width: 32ch;
   gap: 0.5rem;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-}
-.saCompact .saColumnManager .saTab {
-  padding: 0 0.5rem;
 }
 @media (pointer: fine) {
   .saColumnManager .saTab:hover {
@@ -10814,12 +10811,14 @@ a.link:active .saGridCellDescription {
 .saColumnManager .saTab:active .saIcon {
   color: var(--Sa-Color-Primary700);
 }
-.saColumnManager .saTab.saSelected {
+.saColumnManager .saTab.saSelected,
+.saColumnManager .saTab[aria-selected="true"] {
   color: var(--Sa-Color-Primary600);
   background: light-dark(var(--White), var(--Gray950));
   border-bottom: 1px solid light-dark(var(--White), var(--Gray950));
 }
-.saColumnManager .saTab.saSelected .saIcon {
+.saColumnManager .saTab.saSelected .saIcon,
+.saColumnManager .saTab[aria-selected="true"] .saIcon {
   color: var(--Sa-Color-Primary600);
 }
 .saColumnManager .saTabText {
@@ -10857,7 +10856,7 @@ a.link:active .saGridCellDescription {
 }
 .saColumnManager .saTabGroup .saTab.saMoreTab {
   padding: 0;
-  border-radius: 0 0.25rem 0 0;
+  border-radius: 0 0.5rem 0 0;
 }
 .saColumnManager .saTabGroup .saTab.saMoreTab .saBadgeCount {
   position: absolute;
@@ -23630,6 +23629,143 @@ softadmin-nodegraph .saDragged {
   pointer-events: none;
   z-index: 90;
 }
+* {
+  box-sizing: border-box;
+}
+.saSmallScreen nav[aria-label="Tab navigation"] {
+  display: none;
+}
+.saTabList {
+  position: relative;
+  display: flex;
+  padding: 0.25rem;
+  height: 2.5rem;
+  background-color: light-dark(var(--Gray100), var(--Gray900));
+  border-radius: 0.75rem;
+  list-style: none;
+  width: fit-content;
+  box-shadow: inset 0 0 0 0.0625rem light-dark(var(--Gray150), var(--Gray800));
+}
+.saTabList .saTabIndicator {
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  height: 2rem;
+  background: light-dark(var(--White), var(--Gray950));
+  border-radius: 0.5rem;
+  box-shadow: 0 0.0625rem 0.25rem rgba(1, 4, 51, 0.1), inset 0 0 0 0.0625rem light-dark(var(--Gray50), var(--Gray950));
+  transition: left 0.2s ease, width 0.2s ease;
+  z-index: 0;
+}
+.saTabList [role="tab"] {
+  justify-content: center;
+  align-items: center;
+  color: light-dark(var(--Gray700), var(--Gray200));
+  position: relative;
+  z-index: 1;
+  display: flex;
+  padding: 0 0.625rem;
+  text-decoration: none;
+  min-height: 2rem;
+  min-width: 2rem;
+  gap: 0.375rem;
+}
+@media (pointer: fine) {
+  .saTabList [role="tab"]:hover {
+    color: var(--Sa-Color-Primary700);
+  }
+}
+.saTabList [role="tab"]:active {
+  color: var(--Sa-Color-Primary800);
+}
+.saTabList [role="tab"]:has(.fa-ellipsis) {
+  max-width: 2rem;
+}
+.saSmallScreen .saTabList [role="tab"] {
+  width: 100%;
+}
+.saTabList [role="tab"][aria-selected="true"] {
+  color: var(--Sa-Color-Text);
+}
+.saTabList [role="tab"][aria-selected="true"] .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saTabList [role="tab"] span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 32ch;
+}
+.saTabList [role="tab"] .saIcon {
+  color: inherit;
+  font-size: 1rem;
+}
+.saTabListX {
+  position: relative;
+  display: flex;
+  list-style: none;
+  width: fit-content;
+  margin-top: 0.5rem;
+}
+.saTabListX .saTabIndicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2rem;
+  background: var(--Sa-Color-Primary100);
+  border-radius: 0.625rem;
+  transition: left 0.2s ease, width 0.2s ease;
+  z-index: 0;
+}
+.saTabListX [role="tab"] {
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  padding: 0 0.625rem;
+  text-decoration: none;
+  min-height: 2rem;
+  min-width: 2rem;
+  gap: 0.375rem;
+  color: var(--Sa-Color-Text);
+}
+@media (pointer: fine) {
+  .saTabListX [role="tab"]:hover {
+    color: var(--Sa-Color-Primary600);
+  }
+  .saTabListX [role="tab"]:hover .saIcon {
+    color: var(--Sa-Color-Primary600);
+  }
+}
+.saTabListX [role="tab"]:active {
+  color: var(--Sa-Color-Primary700);
+}
+.saTabListX [role="tab"]:active .saIcon {
+  color: var(--Sa-Color-Primary700);
+}
+.saTabListX [role="tab"]:has(.fa-ellipsis) {
+  max-width: 2rem;
+}
+.saSmallScreen .saTabListX [role="tab"] {
+  width: 100%;
+}
+.saTabListX [role="tab"][aria-selected="true"] {
+  color: var(--Sa-Color-Primary700);
+}
+.saTabListX [role="tab"][aria-selected="true"] .saIcon {
+  color: var(--Sa-Color-Primary700);
+}
+.saTabListX [role="tab"] span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 32ch;
+}
+.saTabListX [role="tab"] .saIcon {
+  color: var(--Sa-Color-Icon);
+  font-size: 1rem;
+}
 .saMultiPartContent .saIFrameTabs .saTabViewInner {
   margin-right: 0;
 }
@@ -23668,22 +23804,22 @@ softadmin-nodegraph .saDragged {
 }
 .saIFrameTabs .saTabGroup div:first-child .saTab {
   border-left: 1px solid light-dark(var(--Gray200), var(--Gray700));
-  border-radius: 0.25rem 0 0 0;
+  border-radius: 0.375rem 0 0 0;
 }
 .saIFrameTabs .saTabGroup div:nth-last-child(2):not(.saMoreTabWrapper) .saTab {
-  border-radius: 0 0.25rem 0 0;
+  border-radius: 0 0.375rem 0 0;
 }
 .saIFrameTabs .saTabGroup div:first-child:nth-last-child(2) .saTab {
-  border-radius: 0.25rem 0.25rem 0 0;
+  border-radius: 0.375rem 0.375rem 0 0;
 }
 .saIFrameTabs .saTabGroup div.saMoreTabWrapper:not(.saHidden) .saTab {
-  border-radius: 0 0.25rem 0 0;
+  border-radius: 0 0.375rem 0 0;
 }
 .saIFrameTabs .saTab {
   display: flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
   text-decoration: none;
   color: var(--Sa-Color-TabText);
   background: var(--Sa-Color-TabBackground);
@@ -23692,15 +23828,12 @@ softadmin-nodegraph .saDragged {
   border: 1px solid light-dark(var(--Gray200), var(--Gray700));
   border-left: none;
   font-size: 0.875rem;
-  padding: 0 1rem;
+  padding: 0 0.75rem;
   height: 2.5rem;
   max-width: 32ch;
   gap: 0.5rem;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-}
-.saCompact .saIFrameTabs .saTab {
-  padding: 0 0.5rem;
 }
 @media (pointer: fine) {
   .saIFrameTabs .saTab:hover {
@@ -23718,12 +23851,14 @@ softadmin-nodegraph .saDragged {
 .saIFrameTabs .saTab:active .saIcon {
   color: var(--Sa-Color-Primary700);
 }
-.saIFrameTabs .saTab.saSelected {
+.saIFrameTabs .saTab.saSelected,
+.saIFrameTabs .saTab[aria-selected="true"] {
   color: var(--Sa-Color-Primary600);
   background: light-dark(var(--White), var(--Gray950));
   border-bottom: 1px solid light-dark(var(--White), var(--Gray950));
 }
-.saIFrameTabs .saTab.saSelected .saIcon {
+.saIFrameTabs .saTab.saSelected .saIcon,
+.saIFrameTabs .saTab[aria-selected="true"] .saIcon {
   color: var(--Sa-Color-Primary600);
 }
 .saIFrameTabs .saTabText {
@@ -23761,7 +23896,7 @@ softadmin-nodegraph .saDragged {
 }
 .saIFrameTabs .saTabGroup .saTab.saMoreTab {
   padding: 0;
-  border-radius: 0 0.25rem 0 0;
+  border-radius: 0 0.5rem 0 0;
 }
 .saIFrameTabs .saTabGroup .saTab.saMoreTab .saBadgeCount {
   position: absolute;
@@ -23776,6 +23911,7 @@ softadmin-nodegraph .saDragged {
   position: relative;
   margin-left: -1.5rem;
   padding-top: 0.5rem;
+  width: 100%;
 }
 .saIFrameTabs .saTabGroup {
   margin-left: 1.5rem;
@@ -23795,18 +23931,6 @@ softadmin-nodegraph .saDragged {
   border-radius: 0.5rem;
   height: 2.5rem;
   width: 2.5rem;
-}
-.saStandard .saIFrameTabs .saTabViewInner {
-  width: 100%;
-}
-.saStandard .saIFrameTabs .saContextMenu {
-  top: 3.5rem;
-}
-.saCompact .saIFrameTabs .saTabViewInner {
-  width: 100%;
-}
-.saCompact .saIFrameTabs .saContextMenu {
-  top: 2.75rem;
 }
 .saLinkTabs {
   display: flex;

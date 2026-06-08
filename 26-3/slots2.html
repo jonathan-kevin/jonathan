@@ -322,27 +322,26 @@
 		</div>
 	</div>
 	<script>
-		const START = new Date('2026-02-27');
+		const START = new Date('2025-11-01');
 		const END = new Date('2026-05-31');
 
 		let resources = [
-			{ name: ' 1. Katt', bookings: [{ start: '2026-03-01', end: '2026-04-02' }] },
-			{ name: ' 2. Hund', bookings: [{ start: '2026-04-03', end: '2026-04-06' }] },
-			{ name: ' 3. Fågel', bookings: [{ start: '2026-04-07', end: '2026-05-12' }] },
-			{ name: ' 4. Häst', bookings: [{ start: '2026-04-14', end: '2026-05-19' }] },
-			{ name: ' 5. Fisk', bookings: [] },
-			{ name: ' 6. Åsna', bookings: [] },
-			{ name: ' 7. Gris', bookings: [] },
-			{ name: ' 8. Ko', bookings: [] },
-			{ name: ' 9. Höna', bookings: [] },
-			{ name: '10. Lejon', bookings: [] },
-			{ name: '11. Tiger', bookings: [] },
-			{ name: '12. Jaguar', bookings: [] },
+			{ name: 'Katt', bookings: [{ start: '2026-03-01', end: '2026-05-25' }] },
+			{ name: 'Hund', bookings: [{ start: '2026-03-03', end: '2026-05-30' }] },
+			{ name: 'Fågel', bookings: [{ start: '2026-03-10', end: '2026-05-12' }] },
+			{ name: 'Häst', bookings: [{ start: '2026-03-14', end: '2026-05-18' }] },
+			{ name: 'Fisk', bookings: [] },
+			{ name: 'Åsna', bookings: [] },
+			{ name: 'Gris', bookings: [] },
+			{ name: 'Ko', bookings: [] },
+			{ name: 'Höna', bookings: [] },
+			{ name: 'Lejon', bookings: [] },
+			{ name: 'Tiger', bookings: [] },
+			{ name: 'Jaguar', bookings: [] },
 		];
 
-		const SV_MONTHS = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
+		const SV_MONTHS_SHORT = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
 		const SV_WEEKDAY_NARROW = ['S', 'M', 'T', 'O', 'T', 'F', 'L'];
-		const SV_WEEKDAY_FULL = ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'];
 
 		function getDates(start, end) {
 			const dates = [];
@@ -353,20 +352,6 @@
 
 		function daysBetween(a, b) {
 			return Math.floor((b - a) / 86400000);
-		}
-
-		function dateFromCol(col) {
-			const d = new Date(START);
-			d.setDate(d.getDate() + col);
-			return d;
-		}
-
-		function dateStrFromCol(col) {
-			return dateFromCol(col).toISOString().split('T')[0];
-		}
-
-		function formatDate(d) {
-			return d.getDate() + ' ' + SV_MONTHS[d.getMonth()];
 		}
 
 		function buildHeaderSpans(dates, key) {
@@ -383,61 +368,15 @@
 		const HEADER_LEVELS = [
 			{ cls: 'row-year', key: d => d.getFullYear() },
 			{ cls: 'row-quarter', key: d => 'Q' + (Math.floor(d.getMonth() / 3) + 1) },
-			{ cls: 'row-month', key: d => SV_MONTHS[d.getMonth()] },
-			{ cls: 'row-dow', key: d => SV_WEEKDAY_NARROW[d.getDay()], 'aria-label': d => SV_WEEKDAY_FULL[d.getDay()] },
-			{ cls: 'row-day', key: d => d.getDate(), 'aria-label': d => SV_WEEKDAY_FULL[d.getDay()] + ' ' + d.getDate() + ' ' + SV_MONTHS[d.getMonth()] + ' ' + d.getFullYear() },
+			{ cls: 'row-month', key: d => SV_MONTHS_SHORT[d.getMonth()] },
+			{ cls: 'row-dow', key: d => SV_WEEKDAY_NARROW[d.getDay()] },
+			{ cls: 'row-day', key: d => d.getDate() },
 		];
 
 		const HEADER_ROWS = HEADER_LEVELS.length;
 		const COL_W = '1.5rem';
 		const ROW_H = '1.5rem';
 		const LABEL_W = '9rem';
-
-		let $dateLabel = null;
-
-		function showInlineDate(label, isLeft, $bar) {
-			removeInlineDate();
-			$dateLabel = $('<div class="resize-date-label"></div>').text(label).css({
-				position: 'absolute',
-				top: '50%',
-				transform: 'translateY(-50%)',
-				pointerEvents: 'none',
-				fontSize: '11px',
-				fontWeight: '500',
-				color: '#185FA5',
-				whiteSpace: 'nowrap',
-				zIndex: 10,
-			});
-			if (isLeft) {
-				$dateLabel.css({ right: 'calc(100% + 0.25rem)', left: 'auto' });
-			} else {
-				$dateLabel.css({ left: 'calc(100% + 0.25rem)', right: 'auto' });
-			}
-			$bar.css('position', 'relative').append($dateLabel);
-		}
-
-		function removeInlineDate() {
-			if ($dateLabel) { $dateLabel.remove(); $dateLabel = null; }
-		}
-
-		function formatAriaDate(d) {
-			return `${SV_WEEKDAY_FULL[d.getDay()]} ${d.getDate()} ${SV_MONTHS[d.getMonth()]} ${d.getFullYear()}`;
-		}
-
-		function isBooked(row, date) {
-			return resources[row].bookings.some(b => {
-				const start = new Date(b.start);
-				const end = new Date(b.end);
-				return date >= start && date <= end;
-			});
-		}
-
-		function getCellAriaLabel(row, date) {
-			const resource = resources[row];
-			const booked = isBooked(row, date);
-
-			return `${resource.name}, ${formatAriaDate(date)}, ${booked ? 'bokad' : 'ledig'}`;
-		}
 
 		function buildGantt($container) {
 			const dates = getDates(START, END);
@@ -450,33 +389,35 @@
 
 			HEADER_LEVELS.forEach(({ cls, key }, row) => {
 				buildHeaderSpans(dates, key).forEach(g => {
-					$(`<div class="cell header ${cls}"><span>${g.key}</span></div>`).css({
+					const $cell = $(`<div class="cell header ${cls}"><span>${g.key}</span></div>`).css({
 						gridColumn: `${g.start + 2} / span ${g.span}`,
 						gridRow: row + 1,
-					}).appendTo($grid);
+					});
+					// add .weekend if any of the covered dates is Saturday(6) or Sunday(0)
+					const isWeekendSpan = (() => {
+						for (let i = g.start; i < g.start + g.span; i++) {
+							const d = dates[i];
+							if (!d) continue;
+							if (d.getDay() === 0 || d.getDay() === 6) return true;
+						}
+						return false;
+					})();
+					$cell.toggleClass('weekend', isWeekendSpan).appendTo($grid);
 				});
 			});
 
 			resources.forEach((res, r) => {
 				const gridRow = r + HEADER_ROWS + 1;
 
-				$('<button type="button" class="cell label" aria-expanded="false"></button>')
+				$('<div class="cell label"></div>')
 					.text(res.name)
 					.css({ gridColumn: 1, gridRow })
 					.appendTo($grid);
 
 				dates.forEach((d, c) => {
 					$('<div class="cell bg" tabindex="0"></div>')
-						.attr({
-							'data-row': r,
-							'data-col': c,
-							role: 'gridcell',
-							'aria-label': getCellAriaLabel(r, d),
-						})
-						.css({
-							gridColumn: c + 2,
-							gridRow,
-						})
+						.attr({ 'data-row': r, 'data-col': c })
+						.css({ gridColumn: c + 2, gridRow })
 						.toggleClass('weekend', d.getDay() === 0 || d.getDay() === 6)
 						.appendTo($grid);
 				});
@@ -493,14 +434,14 @@
 			const colEnd = daysBetween(START, new Date(endStr));
 			$('<div class="booking" tabindex="0"><div class="handle left"></div><div class="handle right"></div></div>')
 				.css({ gridColumn: `${colStart + 2} / ${colEnd + 3}`, gridRow: row + HEADER_ROWS + 1 })
-				.data({ row, colStart, colEnd, origStart: colStart, origEnd: colEnd })
+				.data({ row, colStart, colEnd })
 				.appendTo($grid);
 		}
 
-		function colFromMouseX($grid, pageX) {
-			const gridLeft = $grid.offset().left + parseFloat(LABEL_W) * 16;
-			const colW = parseFloat(COL_W) * 16;
-			return Math.max(0, Math.floor((pageX - gridLeft) / colW));
+		function dateFromCol(col) {
+			const d = new Date(START);
+			d.setDate(d.getDate() + col);
+			return d.toISOString().split('T')[0];
 		}
 
 		function attachInteractions($grid) {
@@ -516,64 +457,48 @@
 
 			$grid.on('mousedown', '.handle', function (e) {
 				e.stopPropagation();
-				const $bar = $(this).parent();
-				const d = $bar.data();
-				drag = {
-					type: 'resize',
-					isLeft: $(this).hasClass('left'),
-					el: $bar,
-					row: d.row,
-					colStart: d.colStart,
-					colEnd: d.colEnd,
-					origStart: d.colStart,
-					origEnd: d.colEnd,
-				};
+				drag = { type: 'resize', isLeft: $(this).hasClass('left'), el: $(this).parent() };
 			});
 
 			$(document).on('mousemove', function (e) {
 				if (!drag) return;
-				const col = colFromMouseX($grid, e.pageX);
+				const gridLeft = $grid.offset().left + parseFloat(LABEL_W) * 16;
+				const colW = parseFloat(COL_W) * 16;
+				const col = Math.max(0, Math.floor((e.pageX - gridLeft) / colW));
 
 				if (drag.type === 'create') {
 					drag.end = col;
 					const s = Math.min(drag.start, drag.end), en = Math.max(drag.start, drag.end);
 					drag.el.css({ gridColumn: `${s + 2} / ${en + 3}`, gridRow: drag.row + HEADER_ROWS + 1 });
-
 				} else if (drag.type === 'resize') {
+					const d = drag.el.data();
 					if (drag.isLeft) {
-						drag.colStart = Math.min(col, drag.colEnd);
-						drag.el.css({ gridColumn: `${drag.colStart + 2} / ${drag.colEnd + 3}` });
-						showInlineDate(formatDate(dateFromCol(drag.colStart)), true, drag.el);
+						const newStart = Math.min(col, d.colEnd);
+						drag.el.css({ gridColumn: `${newStart + 2} / ${d.colEnd + 3}` });
+						drag.el.data('colStart', newStart);
 					} else {
-						drag.colEnd = Math.max(col, drag.colStart);
-						drag.el.css({ gridColumn: `${drag.colStart + 2} / ${drag.colEnd + 3}` });
-						showInlineDate(formatDate(dateFromCol(drag.colEnd)), false, drag.el);
+						const newEnd = Math.max(col, d.colStart);
+						drag.el.css({ gridColumn: `${d.colStart + 2} / ${newEnd + 3}` });
+						drag.el.data('colEnd', newEnd);
 					}
 				}
 			});
 
 			$(document).on('mouseup', function () {
 				if (!drag) return;
-				removeInlineDate();
-
 				if (drag.type === 'create') {
 					const s = Math.min(drag.start, drag.end), en = Math.max(drag.start, drag.end);
-					resources[drag.row].bookings.push({ start: dateStrFromCol(s), end: dateStrFromCol(en) });
-
+					resources[drag.row].bookings.push({ start: dateFromCol(s), end: dateFromCol(en) });
 				} else if (drag.type === 'resize') {
-					const res = resources[drag.row];
-					let matched = false;
-					res.bookings = res.bookings.map(b => {
-						const cs = daysBetween(START, new Date(b.start));
-						const ce = daysBetween(START, new Date(b.end));
-						if (!matched && cs === drag.origStart && ce === drag.origEnd) {
-							matched = true;
-							return { start: dateStrFromCol(drag.colStart), end: dateStrFromCol(drag.colEnd) };
+					const d = drag.el.data();
+					resources[d.row].bookings = resources[d.row].bookings.map(b => {
+						if (daysBetween(START, new Date(b.start)) === d.colStart ||
+							daysBetween(START, new Date(b.end)) === d.colEnd) {
+							return { start: dateFromCol(d.colStart), end: dateFromCol(d.colEnd) };
 						}
 						return b;
 					});
 				}
-
 				drag = null;
 				buildGantt($('.gantt-grid'));
 			});
@@ -595,5 +520,10 @@
 		}
 
 		$(function () { buildGantt($('.gantt-grid')); });
+	</script>
+	<script>
+		$('.saFavoriteToggle').click(function () {
+			$(this).attr('aria-checked', function (i, attr) { return attr === 'true' ? 'false' : 'true'; });
+		});
 	</script>
 </body>

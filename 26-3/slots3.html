@@ -322,32 +322,108 @@
 		</div>
 	</div>
 	<script>
-		const START = new Date('2026-02-27');
-		const END = new Date('2026-05-31');
+		const startDate = new Date('2026-03-01');
+		const endDate = new Date('2026-07-31');
 
 		let resources = [
-			{ name: ' 1. Katt', bookings: [{ start: '2026-03-01', end: '2026-04-02' }] },
-			{ name: ' 2. Hund', bookings: [{ start: '2026-04-03', end: '2026-04-06' }] },
-			{ name: ' 3. Fågel', bookings: [{ start: '2026-04-07', end: '2026-05-12' }] },
-			{ name: ' 4. Häst', bookings: [{ start: '2026-04-14', end: '2026-05-19' }] },
-			{ name: ' 5. Fisk', bookings: [] },
-			{ name: ' 6. Åsna', bookings: [] },
-			{ name: ' 7. Gris', bookings: [] },
-			{ name: ' 8. Ko', bookings: [] },
-			{ name: ' 9. Höna', bookings: [] },
-			{ name: '10. Lejon', bookings: [] },
-			{ name: '11. Tiger', bookings: [] },
-			{ name: '12. Jaguar', bookings: [] },
+			{ name: 'Cat', bookings: [{ start: '2026-03-01', end: '2026-05-25' }] },
+			{ name: 'Dog', bookings: [{ start: '2026-03-03', end: '2026-05-30' }] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] },
+			{ name: 'Bird', bookings: [] }
 		];
-
-		const SV_MONTHS = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
-		const SV_WEEKDAY_NARROW = ['S', 'M', 'T', 'O', 'T', 'F', 'L'];
-		const SV_WEEKDAY_FULL = ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'];
 
 		function getDates(start, end) {
 			const dates = [];
 			let d = new Date(start);
-			while (d <= end) { dates.push(new Date(d)); d.setDate(d.getDate() + 1); }
+			while (d <= end) {
+				dates.push(new Date(d));
+				d.setDate(d.getDate() + 1);
+			}
 			return dates;
 		}
 
@@ -355,222 +431,176 @@
 			return Math.floor((b - a) / 86400000);
 		}
 
-		function dateFromCol(col) {
-			const d = new Date(START);
-			d.setDate(d.getDate() + col);
-			return d;
-		}
-
-		function dateStrFromCol(col) {
-			return dateFromCol(col).toISOString().split('T')[0];
-		}
-
-		function formatDate(d) {
-			return d.getDate() + ' ' + SV_MONTHS[d.getMonth()];
-		}
-
-		function buildHeaderSpans(dates, key) {
+		function buildHeaderSpans(dates, type) {
 			const groups = [];
-			let cur = null;
+			let current = null;
+
 			dates.forEach((d, i) => {
-				const k = key(d);
-				if (!cur || cur.key !== k) { cur = { key: k, start: i, span: 1 }; groups.push(cur); }
-				else cur.span++;
+				let key;
+
+				if (type === 'year') key = d.getFullYear();
+				if (type === 'quarter') key = 'Q' + (Math.floor(d.getMonth() / 3) + 1);
+				if (type === 'month') key = d.toLocaleString('en', { month: 'short' });
+
+				if (!current || current.key !== key) {
+					current = { key, start: i, span: 1 };
+					groups.push(current);
+				} else {
+					current.span++;
+				}
 			});
+
 			return groups;
 		}
 
-		const HEADER_LEVELS = [
-			{ cls: 'row-year', key: d => d.getFullYear() },
-			{ cls: 'row-quarter', key: d => 'Q' + (Math.floor(d.getMonth() / 3) + 1) },
-			{ cls: 'row-month', key: d => SV_MONTHS[d.getMonth()] },
-			{ cls: 'row-dow', key: d => SV_WEEKDAY_NARROW[d.getDay()], 'aria-label': d => SV_WEEKDAY_FULL[d.getDay()] },
-			{ cls: 'row-day', key: d => d.getDate(), 'aria-label': d => SV_WEEKDAY_FULL[d.getDay()] + ' ' + d.getDate() + ' ' + SV_MONTHS[d.getMonth()] + ' ' + d.getFullYear() },
-		];
-
-		const HEADER_ROWS = HEADER_LEVELS.length;
-		const COL_W = '1.5rem';
-		const ROW_H = '1.5rem';
-		const LABEL_W = '9rem';
-
-		let $dateLabel = null;
-
-		function showInlineDate(label, isLeft, $bar) {
-			removeInlineDate();
-			$dateLabel = $('<div class="resize-date-label"></div>').text(label).css({
-				position: 'absolute',
-				top: '50%',
-				transform: 'translateY(-50%)',
-				pointerEvents: 'none',
-				fontSize: '11px',
-				fontWeight: '500',
-				color: '#185FA5',
-				whiteSpace: 'nowrap',
-				zIndex: 10,
-			});
-			if (isLeft) {
-				$dateLabel.css({ right: 'calc(100% + 0.25rem)', left: 'auto' });
-			} else {
-				$dateLabel.css({ left: 'calc(100% + 0.25rem)', right: 'auto' });
-			}
-			$bar.css('position', 'relative').append($dateLabel);
-		}
-
-		function removeInlineDate() {
-			if ($dateLabel) { $dateLabel.remove(); $dateLabel = null; }
-		}
-
-		function formatAriaDate(d) {
-			return `${SV_WEEKDAY_FULL[d.getDay()]} ${d.getDate()} ${SV_MONTHS[d.getMonth()]} ${d.getFullYear()}`;
-		}
-
-		function isBooked(row, date) {
-			return resources[row].bookings.some(b => {
-				const start = new Date(b.start);
-				const end = new Date(b.end);
-				return date >= start && date <= end;
-			});
-		}
-
-		function getCellAriaLabel(row, date) {
-			const resource = resources[row];
-			const booked = isBooked(row, date);
-
-			return `${resource.name}, ${formatAriaDate(date)}, ${booked ? 'bokad' : 'ledig'}`;
-		}
-
 		function buildGantt($container) {
-			const dates = getDates(START, END);
+			const dates = getDates(startDate, endDate);
+			const headerRows = 4;
+			const rowHeight = 2;
+
 			const $grid = $('<div class="grid" role="grid"></div>');
 
 			$grid.css({
-				gridTemplateColumns: `${LABEL_W} repeat(${dates.length}, ${COL_W})`,
-				gridTemplateRows: `${HEADER_LEVELS.map(() => '1.5rem').join(' ')} repeat(${resources.length}, ${ROW_H})`,
+				gridTemplateColumns: `12.5rem repeat(${dates.length}, 1.5rem)`,
+				gridTemplateRows: `${[30, 30, 30, 30].join('px ')} repeat(${resources.length}, ${rowHeight}rem)`
 			});
 
-			HEADER_LEVELS.forEach(({ cls, key }, row) => {
-				buildHeaderSpans(dates, key).forEach(g => {
-					$(`<div class="cell header ${cls}"><span>${g.key}</span></div>`).css({
-						gridColumn: `${g.start + 2} / span ${g.span}`,
-						gridRow: row + 1,
-					}).appendTo($grid);
+			// HEADER LEVELS
+			const levels = ['year', 'quarter', 'month'];
+
+			levels.forEach((level, row) => {
+				const groups = buildHeaderSpans(dates, level);
+
+				groups.forEach(g => {
+					const $cell = $(`<div class="cell header"><span>${g.key}</span></div>`)
+						.css({
+							gridColumn: `${g.start + 2} / span ${g.span}`,
+							gridRow: row + 1
+						});
+
+					$grid.append($cell);
 				});
 			});
 
+			// DAY ROW
+			dates.forEach((d, i) => {
+				const $cell = $(`<div class="cell header"><span>${d.getDate()}</span></div>`)
+					.attr({ role: 'columnheader', 'aria-colindex': i + 2 })
+					.css({ gridColumn: i + 2, gridRow: 4 });
+
+				$grid.append($cell);
+			});
+
+			// BODY
 			resources.forEach((res, r) => {
-				const gridRow = r + HEADER_ROWS + 1;
+				const row = r + headerRows + 1;
 
-				$('<button type="button" class="cell label" aria-expanded="false"></button>')
-					.text(res.name)
-					.css({ gridColumn: 1, gridRow })
-					.appendTo($grid);
+				// label
+				$grid.append(
+					$('<div class="cell label"></div>')
+						.text(res.name)
+						.css({ gridColumn: 1, gridRow: row })
+						.append('<button type="button" aria-expanded="false" aria-label="Expand/Collapse"><i class="saIcon far fa-angle-down"></i></button>')
+				);
 
+				// cells
 				dates.forEach((d, c) => {
-					$('<div class="cell bg" tabindex="0"></div>')
+					const $cell = $('<div class="cell bg" tabindex="0"></div>')
 						.attr({
 							'data-row': r,
-							'data-col': c,
-							role: 'gridcell',
-							'aria-label': getCellAriaLabel(r, d),
+							'data-col': c
 						})
 						.css({
 							gridColumn: c + 2,
-							gridRow,
-						})
-						.toggleClass('weekend', d.getDay() === 0 || d.getDay() === 6)
-						.appendTo($grid);
+							gridRow: row
+						});
+
+					if (d.getDay() === 0 || d.getDay() === 6) $cell.addClass('weekend');
+
+					$grid.append($cell);
 				});
 
-				res.bookings.forEach(b => addBookingBar($grid, r, b.start, b.end));
+				// bookings
+				res.bookings.forEach(b => {
+					createBooking($grid, r, b.start, b.end);
+				});
 			});
 
 			$container.empty().append($grid);
-			attachInteractions($grid);
+			attachInteractions($grid, dates);
 		}
 
-		function addBookingBar($grid, row, startStr, endStr) {
-			const colStart = daysBetween(START, new Date(startStr));
-			const colEnd = daysBetween(START, new Date(endStr));
-			$('<div class="booking" tabindex="0"><div class="handle left"></div><div class="handle right"></div></div>')
-				.css({ gridColumn: `${colStart + 2} / ${colEnd + 3}`, gridRow: row + HEADER_ROWS + 1 })
-				.data({ row, colStart, colEnd, origStart: colStart, origEnd: colEnd })
-				.appendTo($grid);
-		}
+		function createBooking($grid, row, startStr, endStr) {
+			const start = new Date(startStr);
+			const end = new Date(endStr);
 
-		function colFromMouseX($grid, pageX) {
-			const gridLeft = $grid.offset().left + parseFloat(LABEL_W) * 16;
-			const colW = parseFloat(COL_W) * 16;
-			return Math.max(0, Math.floor((pageX - gridLeft) / colW));
-		}
+			const colStart = daysBetween(startDate, start);
+			const colEnd = daysBetween(startDate, end);
 
-		function attachInteractions($grid) {
-			let drag = null;
+			const $bar = $(`
+    <div class="booking" tabindex="0">
+      <div class="handle left"></div>
+      <div class="handle right"></div>
+    </div>
+  `);
 
-			$grid.on('mousedown', '.bg', function (e) {
-				const row = +$(this).data('row'), col = +$(this).data('col');
-				drag = {
-					type: 'create', row, start: col, end: col,
-					el: $('<div class="booking"></div>').appendTo($grid)
-				};
+			$bar.css({
+				gridColumn: `${colStart + 2} / ${colEnd + 3}`,
+				gridRow: row + 5
 			});
 
-			$grid.on('mousedown', '.handle', function (e) {
-				e.stopPropagation();
-				const $bar = $(this).parent();
-				const d = $bar.data();
-				drag = {
-					type: 'resize',
-					isLeft: $(this).hasClass('left'),
-					el: $bar,
-					row: d.row,
-					colStart: d.colStart,
-					colEnd: d.colEnd,
-					origStart: d.colStart,
-					origEnd: d.colEnd,
-				};
+			$bar.data({ row, colStart, colEnd });
+
+			$grid.append($bar);
+		}
+
+		function attachInteractions($grid, dates) {
+			let drag = null;
+
+			// CREATE booking
+			$grid.on('mousedown', '.bg', function (e) {
+				const row = +$(this).data('row');
+				const col = +$(this).data('col');
+
+				drag = { row, start: col, end: col, type: 'create' };
+
+				const $temp = $('<div class="booking"></div>').appendTo($grid);
+				drag.el = $temp;
 			});
 
 			$(document).on('mousemove', function (e) {
 				if (!drag) return;
-				const col = colFromMouseX($grid, e.pageX);
 
-				if (drag.type === 'create') {
-					drag.end = col;
-					const s = Math.min(drag.start, drag.end), en = Math.max(drag.start, drag.end);
-					drag.el.css({ gridColumn: `${s + 2} / ${en + 3}`, gridRow: drag.row + HEADER_ROWS + 1 });
+				const colWidth = 24;
+				const offset = $grid.offset().left + 200;
 
-				} else if (drag.type === 'resize') {
-					if (drag.isLeft) {
-						drag.colStart = Math.min(col, drag.colEnd);
-						drag.el.css({ gridColumn: `${drag.colStart + 2} / ${drag.colEnd + 3}` });
-						showInlineDate(formatDate(dateFromCol(drag.colStart)), true, drag.el);
-					} else {
-						drag.colEnd = Math.max(col, drag.colStart);
-						drag.el.css({ gridColumn: `${drag.colStart + 2} / ${drag.colEnd + 3}` });
-						showInlineDate(formatDate(dateFromCol(drag.colEnd)), false, drag.el);
-					}
-				}
+				let col = Math.floor((e.pageX - offset) / colWidth);
+				col = Math.max(0, col);
+
+				drag.end = col;
+
+				const start = Math.min(drag.start, drag.end);
+				const end = Math.max(drag.start, drag.end);
+
+				drag.el.css({
+					gridColumn: `${start + 2} / ${end + 3}`,
+					gridRow: drag.row + 5
+				});
 			});
 
 			$(document).on('mouseup', function () {
 				if (!drag) return;
-				removeInlineDate();
 
 				if (drag.type === 'create') {
-					const s = Math.min(drag.start, drag.end), en = Math.max(drag.start, drag.end);
-					resources[drag.row].bookings.push({ start: dateStrFromCol(s), end: dateStrFromCol(en) });
+					const start = new Date(startDate);
+					start.setDate(start.getDate() + Math.min(drag.start, drag.end));
 
-				} else if (drag.type === 'resize') {
-					const res = resources[drag.row];
-					let matched = false;
-					res.bookings = res.bookings.map(b => {
-						const cs = daysBetween(START, new Date(b.start));
-						const ce = daysBetween(START, new Date(b.end));
-						if (!matched && cs === drag.origStart && ce === drag.origEnd) {
-							matched = true;
-							return { start: dateStrFromCol(drag.colStart), end: dateStrFromCol(drag.colEnd) };
-						}
-						return b;
+					const end = new Date(startDate);
+					end.setDate(end.getDate() + Math.max(drag.start, drag.end));
+
+					resources[drag.row].bookings.push({
+						start: start.toISOString().split('T')[0],
+						end: end.toISOString().split('T')[0]
 					});
 				}
 
@@ -578,22 +608,51 @@
 				buildGantt($('.gantt-grid'));
 			});
 
+			// RESIZE
+			$grid.on('mousedown', '.handle', function (e) {
+				e.stopPropagation();
+
+				const $bar = $(this).parent();
+				const isLeft = $(this).hasClass('left');
+
+				drag = {
+					type: 'resize',
+					el: $bar,
+					isLeft
+				};
+			});
+
+			// KEYBOARD NAV
 			$grid.on('focus', '.bg', function () {
 				$('.focused').removeClass('focused');
 				$(this).addClass('focused');
 			});
 
 			$grid.on('keydown', '.bg', function (e) {
-				const row = +$(this).data('row'), col = +$(this).data('col');
-				const map = { ArrowRight: [row, col + 1], ArrowLeft: [row, col - 1], ArrowDown: [row + 1, col], ArrowUp: [row - 1, col] };
-				if (map[e.key]) {
+				const row = +$(this).data('row');
+				const col = +$(this).data('col');
+
+				let next;
+
+				if (e.key === 'ArrowRight') next = `[data-row=${row}][data-col=${col + 1}]`;
+				if (e.key === 'ArrowLeft') next = `[data-row=${row}][data-col=${col - 1}]`;
+				if (e.key === 'ArrowDown') next = `[data-row=${row + 1}][data-col=${col}]`;
+				if (e.key === 'ArrowUp') next = `[data-row=${row - 1}][data-col=${col}]`;
+
+				if (next) {
 					e.preventDefault();
-					const [r, c] = map[e.key];
-					$grid.find(`[data-row=${r}][data-col=${c}]`).focus();
+					$grid.find(next).focus();
 				}
 			});
 		}
 
-		$(function () { buildGantt($('.gantt-grid')); });
+		$(function () {
+			buildGantt($('.gantt-grid'));
+		});
+	</script>
+	<script>
+		$('.saFavoriteToggle').click(function () {
+			$(this).attr('aria-checked', function (i, attr) { return attr === 'true' ? 'false' : 'true'; });
+		});
 	</script>
 </body>
