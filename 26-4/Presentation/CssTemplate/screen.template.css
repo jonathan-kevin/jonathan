@@ -20008,23 +20008,32 @@ legend + .saInputCardsWrapper {
 .saFieldAndLabelWrapper:not(:focus-within) .saLiveTotal {
   height: 0;
 }
-.saSticky {
-  position: sticky;
-  inset: auto 0 0 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem;
-  color: var(--Sa-Color-TextSecondary);
-  gap: 1rem;
-  z-index: 1007;
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(0.5rem);
+.saMultiRowAggregate {
+  padding: 1rem 0;
+  overflow-wrap: anywhere;
 }
-.saStickyValue {
+.saMultiRowAggregateBody {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.saMultiRowAggregateHeading {
   font-size: 1rem;
-  font-weight: 500;
   line-height: 1rem;
-  color: var(--Sa-Color-Text);
+  font-weight: 500;
+  padding-bottom: 0.5rem;
+}
+.saMultiRowAggregateLabel {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--Sa-Color-TextSecondary);
+}
+.saMultiRowAggregateValue {
+  font-size: 0.875rem;
+  line-height: 1rem;
+}
+.saMultiRowWrapper {
+  position: relative;
 }
 .saSmallScreen .saMultiRowWrapper {
   display: flex;
@@ -20034,19 +20043,6 @@ legend + .saInputCardsWrapper {
 .saSmallScreen .saMultiRowWrapper .saMultiRowTableWrapper {
   overflow-x: scroll;
   width: calc(100vw - 2.125rem) !important;
-}
-.saMultiRowWrapper .saMultiRow {
-  display: table;
-  padding-top: 2px;
-  /* align column titles with field label */
-}
-.saMultiRowWrapper .saMultiRow .saInputTextWrapper {
-  /* @todo: base class should not have this margin! */
-  margin: 0;
-}
-.saLabelsBefore .saMultiRowWrapper .saMultiRow {
-  padding-top: 0.5rem;
-  /* align column titles with field label */
 }
 .saMultiRowWrapper .saMultiRowEmptyText {
   color: var(--Sa-Color-TextSecondary);
@@ -20060,6 +20056,19 @@ legend + .saInputCardsWrapper {
 }
 :has(.saMultiRowDragHandle).saMultiRowWrapper .saMultiRowEmptyText {
   left: 2rem;
+}
+.saMultiRowWrapper .saMultiRow {
+  display: table;
+  padding-top: 2px;
+  /* align column titles with field label */
+}
+.saMultiRowWrapper .saMultiRow .saInputTextWrapper {
+  /* @todo: base class should not have this margin! */
+  margin: 0;
+}
+.saLabelsBefore .saMultiRowWrapper .saMultiRow {
+  padding-top: 0.5rem;
+  /* align column titles with field label */
 }
 .saMultiRowWrapper .saMultiRowDragHandle {
   display: table-cell;
@@ -20092,7 +20101,8 @@ legend + .saInputCardsWrapper {
   font-size: 1rem;
   color: var(--Sa-Color-Icon);
 }
-.saMultiRowWrapper:has(.saMultiRowDragHandle) .saMultiRowNewRowButton {
+.saMultiRowWrapper:has(.saMultiRowDragHandle) .saMultiRowNewRowButton,
+.saMultiRowWrapper:has(.saMultiRowDragHandle) .saMultiRowAggregate {
   margin-left: 2rem;
 }
 .saMultiRowWrapper .saMultiRowHead,
@@ -20132,12 +20142,26 @@ legend + .saInputCardsWrapper {
   display: flex;
   flex-direction: column;
 }
+.saMultiRowWrapper .saMultiRowAggregateRow .saMultiRowCell {
+  align-items: center;
+  color: var(--Sa-Color-TextSecondary);
+  padding: 0.375rem 0.625rem 0 0.625rem;
+}
+.saMultiRowWrapper .saMultiRowAggregateRow .saMultiRowAggregateValue {
+  color: var(--Sa-Color-Text);
+  font-weight: 500;
+}
+.saMultiRowWrapper .saMultiRowAggregateRow .saMultiRowSumText {
+  margin-left: auto;
+}
+.saMultiRowWrapper .saMultiRowAggregateRow .saMultiRowAggregateCell {
+  gap: 0.25rem;
+}
+.saMultiRowWrapper .saMultiRowAggregateRow .saMultiRowNoPadding {
+  padding-left: 0;
+}
 .saMultiRowWrapper .saMultiRow .saLabel {
   max-width: unset;
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-  font-size: 0.875rem;
   line-height: 1rem;
   word-break: keep-all;
   text-wrap: nowrap;
@@ -20219,7 +20243,7 @@ legend + .saInputCardsWrapper {
   border-top-left-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
 }
-.saMultiRowSmallScreenWrapper .saMultiRowCard:last-child .saMultiRowCardInner {
+.saMultiRowSmallScreenWrapper .saMultiRowCard:nth-last-child(2) .saMultiRowCardInner {
   border-bottom-left-radius: 0.75rem;
   border-bottom-right-radius: 0.75rem;
 }
@@ -34933,6 +34957,34 @@ pre.saCode {
   tab-size: 4;
 }
 /* Let this be the last import */
+#gellery-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#gellery-nav a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1rem;
+  height: 1rem;
+  background-color: transparent;
+  transition: ease width 0.2s;
+}
+#gellery-nav a[aria-pressed="true"] {
+  width: 1.5rem;
+}
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: light-dark(var(--Gray300), var(--Gray600));
+  border-radius: 0.25rem;
+  transition: ease width 0.2s;
+}
+[aria-pressed="true"] .dot {
+  width: 1.5rem;
+  background-color: light-dark(var(--Gray900), var(--Gray100));
+}
 .saGulleryImage {
   display: inline-flex;
   gap: 1rem !important;
@@ -34951,10 +35003,10 @@ pre.saCode {
   height: unset;
 }
 .saGulleryImage img {
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
-  max-width: 100%;
-  max-height: 100%;
+  width: 26rem;
+  max-height: 26rem;
   border-radius: 0.5rem;
 }
 .saGulleryMain {
