@@ -1,0 +1,737 @@
+.saDateTimeField,
+.saLargeScreen .saMultiRowCell .saMultiRowInputWrapper.saDateTimeValidation .saValidationMessage,
+.saLargeScreen .saSiblingFields .saFieldCell:not(:last-child) .saInputWrapper.saDateTimeValidation .saValidationMessage {
+	width: 12rem;
+}
+
+.saDateField {
+	width: @FieldWidthMediumShort;
+}
+
+.saTimeField {
+	width: @FieldWidthMediumShort;
+}
+
+.saDatePicker {
+	gap: 0.25rem;
+}
+
+.saDatePickerRoot {
+	animation: .1s ease-in-out saScaleIn;
+	position: absolute;
+	z-index: @ZIndexInputPicker;
+	width: fit-content;
+	user-select: none;
+	padding: 0.5rem 1rem 1rem 1rem;
+	border-radius: 1rem;
+	display: flex;
+	flex-direction: column;
+	.BoxShadowStrong();
+	.Border();
+	background: @ColorWhite;
+	font-size: 0.875rem;
+	height: fit-content;
+
+	* {
+		box-sizing: border-box;
+	}
+
+	&.saDateTimePickerWrapper,
+	&.saDateRangePickerRoot {
+		gap: 1rem;
+	}
+
+	a {
+		text-decoration: none;
+	}
+
+	.saPrevMonth {
+		animation: .2s ease-in-out saPrevMonth;
+	}
+
+	.saNextMonth {
+		animation: .2s ease-in-out saNextMonth;
+	}
+
+	.saMonthWrapper {
+		display: flex;
+		flex-direction: column;
+		position: relative;
+	}
+
+	.saYearPicker {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		align-content: flex-start;
+		gap: 0.25rem;
+		transition: ease width .2s, ease height .2s;
+		position: absolute;
+		top: 2rem;
+		left: 0;
+		z-index: 1;
+		height: 0;
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding: 0;
+		background: @ColorWhite;
+
+		&.saActive {
+			height: 14rem;
+
+			.saFewWeeks& {
+				height: 11.875rem;
+			}
+
+			.saManyWeeks& {
+				height: 16.375rem;
+			}
+		}
+
+		.saDateTimePickerWrapper& {
+			width: 25.125rem;
+
+			&.saActive {
+				height: 18.5rem;
+
+				.saCompact & {
+					height: 18rem;
+				}
+			}
+		}
+
+		.saDatePicker& {
+			width: 16.75rem;
+		}
+
+		.saDateRangePickerRoot& {
+			top: 2.5rem;
+
+			.saLargeScreen & {
+				left: 1rem;
+			}
+		}
+	}
+
+	.saMonth {
+		background-color: transparent;
+		display: flex;
+		gap: 0.5rem;
+		font-size: 0.875rem;
+		align-items: center;
+		font-weight: 600;
+		gap: 0.5rem;
+		color: @ColorGray900;
+		padding: 0.5rem 0;
+	}
+
+	a.saMonth {
+		.AppearanceNone();
+		.StandardTransition();
+		.Button();
+		.ButtonSizeCompact();
+		cursor: pointer;
+
+		.saIcon {
+			color: @ColorGray500;
+		}
+
+		.Hover({
+			color: @ColorBlue600;
+
+			.saIcon {
+				color: @ColorBlue600;
+			}
+		});
+
+		&:active {
+			color: @ColorBlue500;
+
+			.saIcon {
+				color: @ColorBlue500;
+			}
+		}
+
+		&.saActive {
+			color: @ColorBlue600;
+
+			.saIcon {
+				color: @ColorBlue600;
+				transform: rotate(180deg);
+			}
+		}
+	}
+
+	.saDatePickerMonthHeading {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		position: relative;
+		height: 2rem;
+	}
+
+	.saMonthBrowser {
+		display: flex;
+		gap: 0.25rem;
+		justify-content: flex-end;
+		transition: transform .2s ease, visibility .2s ease, opacity .2s ease;
+
+		.saDatePickerRoot:has(.saYearPicker.saActive)& {
+			visibility: hidden;
+			transform: translateY(2rem);
+			opacity: 0;
+		}
+
+		button {
+			.AppearanceNone();
+			background-color: transparent;
+		}
+
+		.saSmallScreen & {
+			display: none;
+		}
+	}
+
+	.saMonthBrowser .saIcon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1rem;
+		height: 2rem;
+		min-width: 2rem;
+		position: relative;
+		border-radius: 0.5rem;
+		color: @ColorGray500;
+		cursor: pointer;
+		.StandardTransition();
+
+		&::after {
+			content: '';
+			position: absolute;
+			height: 3rem;
+			width: 3rem;
+		}
+
+		.Hover({
+			background: @ColorGray50;
+			color: @ColorBlue600;
+		});
+
+		&:active {
+			background: @ColorGray100;
+			border-radius: 0.75rem;
+		}
+	}
+
+	.saDayRow {
+		display: flex;
+		text-align: center;
+		gap: 0.25rem;
+		color: @ColorGray600;
+		align-items: center;
+		transition: transform .2s ease, visibility .2s ease, opacity .2s ease;
+
+		.saDatePickerRoot:has(.saYearPicker.saActive)& {
+			visibility: hidden;
+			transform: translateY(2rem);
+			opacity: 0;
+		}
+
+		.saSmallScreen & {
+			position: sticky;
+			top: 0;
+			background-color: @ColorWhite;
+			z-index: 2;
+		}
+	}
+
+	.saWeekNr {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.75rem;
+		min-width: 1rem;
+		height: 2rem;
+		color: @ColorGray400;
+
+		.saSmallScreen & {
+			height: 2.5rem;
+		}
+
+		&.saEmpty {
+			height: 1.5rem;
+		}
+	}
+
+	.saDay {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 2rem;
+		height: 1.5rem;
+		font-size: 0.75rem;
+		color: @ColorGray400;
+
+		.saSmallScreen & {
+			width: 100%;
+			min-width: unset;
+		}
+	}
+
+	.saDateRow {
+		display: flex;
+		text-align: center;
+		gap: 0.25rem;
+		transition: transform .2s ease, visibility .2s ease, opacity .2s ease;
+
+		.saDatePickerRoot:has(.saYearPicker.saActive)& {
+			visibility: hidden;
+			transform: translateY(2rem);
+			opacity: 0;
+		}
+	}
+
+	.saDate {
+		.AppearanceNone();
+		.FlexCentered();
+		.StandardTransition();
+		height: 2rem;
+		min-width: 2rem;
+		font-size: 0.875rem;
+		cursor: pointer;
+		position: relative;
+		color: var(--Sa-Color-Label);
+		line-height: 1rem;
+		border-radius: 0.5rem;
+		background-color: transparent;
+
+		&::after {
+			content: "";
+			position: absolute;
+			height: calc(100% + 0.25rem);
+			width: calc(100% + 0.25rem);
+			background-color: transparent;
+			opacity: 0;
+		}
+
+		.saSmallScreen & {
+			height: 2.5rem;
+			width: 100%;
+		}
+
+		.Hover({
+			background-color: var(--Sa-Color-LabelBackground);
+			color: var(--Sa-Color-LabelHover);
+			box-shadow: inset 0 0 0 2px var(--Sa-Color-LabelHover);
+		});
+
+		&:active {
+			background-color: var(--Sa-Color-IconMarked);
+			color: var(--Sa-Color-LabelActive);
+			box-shadow: inset 0 0 0 2px var(--Sa-Color-LabelActive);
+			border-radius: 0.75rem;
+		}
+
+		&.saToday {
+			color: var(--Sa-Color-LabelHover);
+		}
+
+		&.saDisabled {
+			color: @ColorGray200;
+			pointer-events: none;
+		}
+
+		&.saDateActive {
+			background-color: var(--Sa-Color-LabelHover);
+			color: var(--Sa-Color-LabelBackground);
+			box-shadow: inset 0 0 0 2px transparent;
+
+			&.saToday {
+				font-weight: 400;
+			}
+		}
+
+		.saDateRangePickerRoot& {
+			transition: ease border-radius .2s;
+		}
+
+		&.saDateInRange {
+			color: var(--Sa-Color-LabelActive);
+
+			&::before {
+				content: "";
+				height: 100%;
+				width: calc(100% + 0.25rem);
+				left: -0.25rem;
+				position: absolute;
+				z-index: -1;
+				background-color: var(--Sa-Color-IconMarked);
+			}
+
+			&:last-child::before {
+				border-radius: 0 0.25rem 0.25rem 0;
+			}
+
+			&:nth-child(2)::before {
+				border-radius: 0.25rem 0 0 0.25rem;
+				left: 0;
+				width: 100%;
+			}
+
+			&:has(+ .saDateEnd)::before {
+				width: calc(100% + 0.5rem);
+			}
+		}
+
+		&.saDateStart {
+			border-radius: 0.5rem 0 0 0.5rem;
+
+			&:has(+ .saDateEnd)::before {
+				content: "";
+				height: 100%;
+				width: calc(100% + 0.25rem);
+				left: 0;
+				position: absolute;
+				z-index: -1;
+				background-color: var(--Sa-Color-LabelHover);
+				border-radius: 0.5rem 0 0 0.5rem;
+			}
+		}
+
+		&.saDateEnd {
+			border-radius: 0 0.5rem 0.5rem 0;
+		}
+
+		&.saDateActive.saDateStart.saDateEnd {
+			border-radius: 0.5rem;
+		}
+
+		&.saDateInRange:has(+ .saEmpty)::before {
+			border-radius: 0 0.25rem 0.25rem 0;
+		}
+
+		&.saDateInRange:nth-child(2):has(+ .saEmpty)::before {
+			border-radius: 0.25rem;
+		}
+
+		&.saEmpty + .saDateInRange::before {
+			border-radius: 0.25rem 0 0 0.25rem;
+		}
+
+		&.saEmpty {
+			pointer-events: none;
+		}
+	}
+
+	.saTodayLink {
+		.Button();
+		.ButtonSizeModeDependent();
+		.ButtonGhost();
+		width: fit-content;
+
+		.saDatePickerRoot:has(.saYearPicker.saActive)& {
+			visibility: hidden;
+			transform: translateY(2rem);
+			opacity: 0;
+		}
+	}
+
+	.saDatePickerMonth {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+
+		.saSmallScreen & {
+			padding-right: 0.25rem;
+		}
+	}
+
+	.saDateTimePicker {
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
+	}
+
+	.saDateRangePicker {
+		display: flex;
+		flex-direction: row;
+		gap: 2rem;
+
+		.saSmallScreen & {
+			overflow: auto;
+			flex-direction: column;
+		}
+	}
+
+	.saButtonRow {
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		gap: 0.5rem;
+		min-width: 0;
+		transition: transform .2s ease, visibility .2s ease, opacity .2s ease;
+
+		.saDatePickerRoot:has(.saYearPicker.saActive)& {
+			visibility: hidden;
+			transform: translateY(2rem);
+			opacity: 0;
+		}
+
+		.saDatePickerButton {
+			.Button();
+			.ButtonSizeModeDependent();
+			min-width: 5rem;
+		}
+	}
+
+	.saTimeSlotPickerWrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		border-left: 1px solid @ColorGray150;
+		padding: 0 0 0 1rem;
+		margin-top: 0.5rem;
+		height: 17rem;
+		transition: transform .2s ease, visibility .2s ease, border .2s ease, opacity .2s ease;
+		transform-origin: center;
+
+		.saDatePickerRoot:has(.saYearPicker.saActive)& {
+			visibility: hidden;
+			border-left-color: transparent;
+			transform: translateY(2rem);
+			opacity: 0;
+		}
+
+		label {
+			font-weight: 700;
+			font-size: 0.875rem;
+			color: @ColorGray900;
+		}
+	}
+
+	.saTimeSlotPicker {
+		display: flex;
+		flex-direction: column;
+		height: auto;
+		overflow: auto;
+		overflow-x: hidden;
+		padding: 0.5rem 1rem;
+		gap: 0.25rem;
+	}
+
+	.saDatePickerSlot {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 2rem;
+		height: 2rem;
+		width: 3.875rem;
+		padding: 0.5rem;
+		border-radius: 0.25rem;
+		cursor: pointer;
+		transition: background .2s ease, border-radius .2s ease, color .2s ease, box-shadow .2s ease;
+		box-shadow: inset 0 0 0 1px @ColorGray150;
+		font-size: 1rem;
+		color: var(--Sa-Color-Label);
+		background: transparent;
+
+		.Hover({
+			color: var(--Sa-Color-LabelHover);
+			background-color: var(--Sa-Color-LabelBackground);
+			box-shadow: inset 0 0 0 2px var(--Sa-Color-LabelHover);
+		});
+
+		&:active {
+			color: var(--Sa-Color-LabelActive);
+			background-color: var(--Sa-Color-IconMarked);
+			border-radius: 0.75rem;
+			box-shadow: inset 0 0 0 2px var(--Sa-Color-LabelActive);
+		}
+
+		&.saSelected {
+			background-color: var(--Sa-Color-LabelHover);
+			color: var(--Sa-Color-LabelBackground);
+			box-shadow: inset 0 0 0 1px transparent;
+
+			&.saYearCurrent {
+				font-weight: inherit;
+			}
+		}
+
+		&.saYearCurrent {
+			color: var(--Sa-Color-LabelHover);
+			font-weight: 700;
+		}
+
+		&.saDecade {
+			width: 100%;
+			box-shadow: none;
+			justify-content: flex-start;
+			padding: 1rem 0 0.5rem 0.75rem;
+			font-size: 0.75rem;
+			pointer-events: none;
+			color: @ColorGray600;
+		}
+	}
+
+	.saDateRangeFooter {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 0.5rem;
+
+		.saLargeScreen & .saResetButton {
+			.Button();
+			.ButtonSecondary();
+			.ButtonSizeCompact();
+			margin-left: auto;
+		}
+
+		.saSmallScreen & {
+			flex-direction: column;
+			align-items: unset;
+		}
+	}
+
+	.saDateRangeFooterRange {
+		display: none;
+		justify-content: space-between;
+		align-items: center;
+
+		.saSmallScreen & {
+			display: flex;
+			gap: 0.5rem;
+		}
+
+		.saInputTextWrapper {
+			//width: calc((100vw - 1.5rem - 1rem) / 2); //(width of screen - width of seperator - padding for both sides / 2)
+			width: fit-content;
+			flex: 1;
+			margin-right: 0;
+
+			.saInputText {
+				height: 2.5rem;
+				transition: ease box-shadow 0.2s;
+				text-align: left;
+
+				&::-webkit-date-and-time-value {
+					text-align: left;
+				}
+
+				&::-webkit-calendar-picker-indicator {
+					display: none;
+				}
+
+				&.saActive {
+					box-shadow: inset 0 0 0 2px @ColorBlue600, 0 0 0 0.25rem @ColorBlue200;
+				}
+			}
+		}
+		span {
+			color: @ColorGray200;
+		}
+	}
+
+	.saPill {
+		.Pill();
+		.PillHover();
+	}
+
+	.saLargeScreen & .saPillGroup {
+		max-width: 31.25rem;
+	}
+}
+
+.saCompact .saDatePickerRoot .saButtonRow .saButtonPrimary {
+	min-width: 4rem;
+}
+
+.saSmallScreen .saDateRangePickerRoot {
+	animation: none;
+	position: static;
+	z-index: unset;
+	width: 100%;
+	user-select: unset;
+	padding: 0 0.5rem 0.5rem 0.5rem;
+	border-radius: 0;
+	box-shadow: none;
+	border: none;
+	background: unset;
+	height: 100%;
+	gap: 0.25rem;
+	box-sizing: border-box;
+
+	.saPillGroup {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		min-height: 2.75rem;
+		align-items: center;
+		margin: 0 -0.5rem;
+		padding: 0.5rem;
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
+		.saPill {
+			white-space: nowrap;
+			min-width: fit-content;
+		}
+	}
+
+	.saDayRow {
+		position: sticky;
+		top: 0;
+		background-color: @ColorWhite;
+		z-index: 2;
+
+		@media (max-height: 480px) {
+			position: unset;
+			top: unset;
+		}
+	}
+
+	.saYearPicker.saActive{
+		margin: 0 0.5rem;
+		width: 100%;
+	}
+}
+
+@keyframes saNextMonth {
+	0% {
+		transform: translateX(1.5rem);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+@keyframes saPrevMonth {
+	0% {
+		transform: translateX(-1.5rem);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+@keyframes saScaleIn {
+	0% {
+		transform: scale(.2);
+		transform-origin: top;
+	}
+
+	100% {
+		transform: scale(1);
+		transform-origin: top;
+	}
+}

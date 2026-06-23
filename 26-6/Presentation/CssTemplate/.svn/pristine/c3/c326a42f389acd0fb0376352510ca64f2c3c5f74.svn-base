@@ -1,0 +1,541 @@
+@HeaderHeightStandard: 4.5rem;
+@HeaderHeightCompact: 4rem;
+@LongHeaderHeightStandard: 7rem;
+@LongHeaderHeightCompact: 6rem;
+@ContentMargin: 0.5rem;
+@ShortHeaderHeightSmallscreen: 3.5rem;
+@LongHeaderHeightSmallScreen: 5.5rem;
+@ShortMiniViewHeaderHeightStandard: 4rem;
+@LongMiniViewHeaderHeightStandard: 7rem;
+@ShortMiniViewHeaderHeightCompact: 3rem;
+@LongMiniViewHeaderHeightCompact: 6.5rem;
+@ScrollIndicatorHeight: 2px;
+@CodeFont: 'Lucida Console', monospace;
+
+.BadgeCount() {
+	.saBadgeCount {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 1rem;
+		box-sizing: border-box;
+		min-width: 1rem;
+		color: var(--Sa-Color-BadgeCountText);
+		background-color: var(--Sa-Color-BadgeCountBackground);
+		border-radius: 0.75rem;
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		padding: 0.25rem;
+		transition: ease background-color .2s;
+
+		&.saUrgent {
+			color: @ColorWhite;
+			background-color: @ColorRed600;
+		}
+	}
+}
+
+a {
+	cursor: pointer;
+}
+
+.saLargeScreen .saRootContentWrapper {
+	display: flex;
+	flex-direction: row;
+	overflow: hidden;
+}
+
+body {
+	line-height: 1;
+	color: @ColorGray900;
+}
+
+body.saRootBody {
+	display: flex;
+	flex-direction: column;
+
+	.saRootContentWrapper {
+		height: 100%;
+	}
+}
+
+body.saPc,
+body.saPc * {
+	&::-webkit-scrollbar {
+		width: 1rem;
+		height: 1rem;
+		background-color: @ColorGray200;
+		border-radius: 0.5rem;
+		border: 0.3125rem solid transparent;
+		background-clip: padding-box;
+
+		&:hover {
+			border-width: 2px;
+		}
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: @ColorGray500;
+		border-radius: 0.5rem;
+		border: 0.3125rem solid transparent;
+		background-clip: padding-box;
+
+		&:hover {
+			background-color: @ColorGray700;
+			border-width: 2px;
+		}
+
+		&:active {
+			background-color: @ColorGray900;
+		}
+	}
+
+	&::-webkit-scrollbar-corner {
+		background-color: transparent;
+	}
+}
+
+.saDropIndicator {
+	position: absolute;
+	pointer-events: none;
+	z-index: @ZIndexDropIndicator;
+
+	&.saVertical {
+		border-left: 2px solid @ColorBlue700;
+	}
+
+	&.saHorizontal {
+		border-top: 2px solid @ColorBlue700;
+		border-radius: 1px;
+	}
+}
+
+.saMarkFavorite button {
+	background: none;
+}
+
+.saFavoriteIcon:active.saFavoriteAdded::before,
+.saFavoriteIcon:hover.saFavoriteAdded::before {
+	font-weight: 400;
+	color: @ColorYellow200;
+}
+
+.saFavoriteIcon:active.saFavoriteNotAdded::before,
+.saFavoriteIcon:hover.saFavoriteNotAdded::before,
+.saFavoriteIcon.saFavoriteAdded {
+	font-weight: 900;
+	color: @ColorYellow200;
+}
+
+.saFavoriteIcon.saFavoriteNotAdded {
+	color: @ColorGray200;
+}
+
+.saHighContrast {
+	.saFavoriteIcon.saFavoriteAdded,
+	.saFavoriteIcon:hover::before,
+	.saFavoriteIcon:active::before {
+		color: @ColorOrange500;
+	}
+
+	.saFavoriteIcon.saFavoriteNotAdded {
+		color: @ColorGray500;
+	}
+}
+
+.saSpinner>div>div {
+	background-color: var(--Sa-Color-Spinner) !important;
+}
+
+.saC {
+	display: inline-block;
+}
+
+.saScreenReaderOnly {
+	opacity: 0;
+	position: absolute;
+	height: 0;
+	pointer-events: none;
+	.UserSelectNone();
+}
+
+.saIconHolder {
+	display: block;
+	float: left;
+	position: relative;
+	align-items: center;
+	justify-content: center;
+
+	.saIcon {
+		.StandardTransition();
+	}
+
+	.saBadge {
+		.StandardTransition();
+		border-radius: 50%;
+		background: var(--Sa-Color-Icon);
+		color: @ColorWhite;
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 2px solid @ColorWhite;
+	}
+}
+
+.saSmallScreenHasTopButtons.saSmallScreen .scrollcontent {
+	padding-top: 4rem;
+	height: calc(100% - 4rem);
+
+	.saPicker {
+		margin-top: -4rem;
+	}
+}
+
+.saStandard .maincolinner {
+	height: calc(~'100% - @{HeaderHeightStandard} - @{ContentMargin} - 1rem');
+}
+
+.saStandard.saPopup .maincolinner {
+	height: calc(~'100% - @{HeaderHeightStandard} - @{ScrollIndicatorHeight} - 1rem');
+}
+
+.saStandard.saLargeScreenHasTopButtons .maincolinner {
+	height: calc(~'100% - @{LongHeaderHeightStandard} - @{ContentMargin} - 1rem');
+}
+
+.saStandard.saLargeScreenHasTopButtons.saPopup .maincolinner {
+	height: calc(~'100% - @{LongHeaderHeightStandard} - @{ScrollIndicatorHeight} - 1rem');
+}
+
+.saCompact .maincolinner {
+	height: calc(~'100% - @{HeaderHeightCompact} - @{ContentMargin} - 1rem');
+}
+
+.saCompact.saPopup .maincolinner {
+	height: calc(~'100% - @{HeaderHeightCompact} - @{ScrollIndicatorHeight} - 1rem');
+}
+
+.saCompact.saLargeScreenHasTopButtons .maincolinner {
+	height: calc(~'100% - @{LongHeaderHeightCompact} - @{ContentMargin} - 1rem');
+}
+
+.saCompact.saLargeScreenHasTopButtons.saPopup .maincolinner {
+	height: calc(~'100% - @{LongHeaderHeightCompact} - @{ScrollIndicatorHeight} - 1rem');
+}
+
+.saSmallScreen .maincolinner {
+	height: calc(~'100% - @{ShortHeaderHeightSmallscreen}');
+}
+
+.saSmallScreen.saHasLogotypeHeader .maincolinner {
+	height: calc(~'100% - @{LongHeaderHeightSmallScreen}');
+}
+
+.saMiniView.saStandard .maincolinner {
+	height: calc(~'100% - @{ShortMiniViewHeaderHeightStandard} - @{ScrollIndicatorHeight}');
+}
+
+.saMiniView.saStandard.saLargeScreenHasTopButtons .maincolinner {
+	height: calc(~'100% - @{LongMiniViewHeaderHeightStandard} - @{ScrollIndicatorHeight}');
+}
+
+.saMiniView.saCompact .maincolinner {
+	height: calc(~'100% - @{ShortMiniViewHeaderHeightCompact} - @{ScrollIndicatorHeight}');
+}
+
+.saMiniView.saCompact.saLargeScreenHasTopButtons .maincolinner {
+	height: calc(~'100% - @{LongMiniViewHeaderHeightCompact} - @{ScrollIndicatorHeight}');
+}
+
+.saSmallScreen .scrollcontent {
+	height: 100%;
+}
+
+.saSmallScreen.saRootBody {
+	line-height: 0; // Avoid getting a 1px  full page scrollbar for right frame.
+}
+
+// Context menu
+.saContextMenuWrapper {
+	.saContextMenu {
+		.Border();
+		.BoxShadowSoft();
+		display: flex;
+		flex-direction: column;
+		padding-inline-start: 0;
+		padding: 0.25rem 0;
+		position: absolute;
+		border-radius: 0.5rem;
+		background: @ColorWhite;
+		margin-block-start: 0;
+		margin-block-end: 0;
+		z-index: @ZIndexContextMenu;
+		list-style-type: none;
+		box-sizing: border-box;
+		overflow-y: auto;
+		min-width: 7rem;
+
+		* {
+			box-sizing: border-box;
+		}
+
+		.saSmallScreen &,
+		.saSmallscreensidebar & {
+			min-width: 100%;
+		}
+
+		li > * {
+			.StandardTransition();
+			text-decoration: none;
+			color: var(--Sa-Color-Label);
+			list-style-type: none;
+			display: flex;
+			align-items: center;
+			border-radius: 0.25rem;
+			cursor: pointer;
+			padding: 0 0.25rem;
+
+			.saIcon {
+				color: var(--Sa-Color-Icon);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				.saStandard & {
+					font-size: 1.25rem;
+					min-width: 1.625rem;
+				}
+
+				.saCompact & {
+					font-size: 1rem;
+					min-width: 1.25rem;
+				}
+
+				.saSmallscreensidebar &,
+				.saSmallScreen & {
+					font-size: 1.25rem;
+					min-width: 1.625rem;
+				}
+			}
+
+			.Hover({
+				.saContextMenuItem {
+					background-color: @ColorGray50;
+					color: var(--Sa-Color-LabelHover);
+				}
+
+				.saIcon {
+					color: var(--Sa-Color-IconHover);
+				}
+
+				.saBadge {
+					background: var(--Sa-Color-IconHover);
+				}
+			});
+
+			&:active {
+				.saContextMenuItem {
+					background-color: @ColorGray200;
+					color: var(--Sa-Color-LabelHover);
+					border-radius: 0.5rem;
+				}
+
+				.saBadge {
+					border-color: @ColorGray200;
+					color: @ColorGray200;
+				}
+			}
+
+			.saButtonText {
+				.Ellipsis();
+				line-height: 1.5;
+			}
+		}
+
+		a.saDestructive {
+			.Destructive(~'.saContextMenuItem', @ColorWhite);
+		}
+
+		a.saInactive {
+			color: @ColorGray200;
+			cursor: default;
+
+			&:hover .saContextMenuItem,
+			&:active .saContextMenuItem {
+				color: @ColorGray200;
+				background: none;
+			}
+
+			.saIcon {
+				color: @ColorGray200;
+			}
+
+			.saBadge {
+				color: @ColorGray200;
+				background: @ColorWhite;
+				border-color: @ColorGray200;
+			}
+		}
+
+		li.saSelected {
+			.saContextMenuItem {
+				background-color: @ColorGray50;
+				color: var(--Sa-Color-LabelHover);
+			}
+
+			.saIcon {
+				color: var(--Sa-Color-IconHover);
+			}
+		}
+
+		.saContextMenuItem {
+			.StandardTransition();
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			font-size: 0.875rem;
+			line-height: 1rem;
+			padding: 0.5rem;
+			border-radius: 0.25rem;
+			height: 100%;
+			width: 100%;
+			min-height: 2rem;
+			max-width: 25rem;
+
+			.saSmallScreen & {
+				min-height: 2.75rem;
+			}
+		}
+
+		.saDivider {
+			height: 1px;
+			border-radius: 1px;
+			background: @ColorGray100;
+		}
+	}
+}
+
+.saDebugContextMenu {
+	z-index: @ZIndexDebugContextMenu;
+}
+
+.saSpecialLinkIcon {
+	color: @ColorGray500;
+	margin-left: 0.25rem;
+}
+
+.saPopupOverlay {
+	height: 100%;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	max-height: none;
+	max-width: none;
+	border: none;
+	background: none;
+	overflow: hidden;
+
+	&::backdrop {
+		background-color: fade(@ColorGray900, 20);
+	}
+}
+
+div.saPopupOverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: @ZIndexSmallScreenOverlay;
+	background-color: fade(@ColorGray900, 20);
+}
+
+.saPopup .saPopupOverlay::backdrop {
+	border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.saSideBar .saPopupOverlay {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: fade(@ColorGray900, 20);
+}
+
+.saRightFrameRoot {
+	width: 100%;
+	height: 100%;
+}
+
+.saLargeScreen .saRightFrameRoot {
+	border-left: 1px solid @ColorGray200;
+}
+
+.saBottomSheet {
+	border-radius: 1rem 1rem 0 0;
+	background: @ColorWhite;
+	position: fixed;
+	width: 100%;
+	transition: transform 0.2s, translate 0.2s;
+	height: 90%;
+	padding-top: 3rem;
+
+	&.saEaseTransition {
+		transition: transform 0.2s, translate 0.2s, top 0.2s;
+	}
+
+	.saSheetDragHandle {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		height: 3rem;
+		cursor: grab;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.saDraggableThumb {
+		position: absolute;
+		bottom: 2rem;
+		height: 0.25rem;
+		background: @ColorGray200;
+		border-radius: 2px;
+		width: 3.5rem;
+	}
+
+	.saSheetContent {
+		display: flex;
+		width: 100%;
+		height: calc(100% - 3rem);
+		overflow-y: auto;
+	}
+
+	.saSheetButton {
+		.Button();
+		.ButtonGhost();
+		.ButtonSizeModeDependent();
+		position: absolute;
+		right: 0.25rem;
+		top: 0.25rem;
+	}
+}
+
+.saSpinnerWrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: @ZIndexSpinner;
+	background-color: rgba(255, 255, 255, 0.01)
+}
+
+.saPackageButton {
+	gap: 0.5rem;
+	padding: 0.5rem;
+	height: 2.25rem;
+	border-radius: 0.5rem;
+	font-size: 0.875rem;
+}

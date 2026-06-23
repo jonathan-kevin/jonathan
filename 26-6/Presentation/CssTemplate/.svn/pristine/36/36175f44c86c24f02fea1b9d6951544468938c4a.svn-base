@@ -1,0 +1,101 @@
+.saToc {
+	display: flex;
+	flex-direction: column;
+	position: sticky;
+	top: 1rem;
+	font-size: 0.875rem;
+	line-height: 1;
+	box-sizing: border-box;
+	background-color: @ColorWhite;
+	border-radius: 1rem;
+	max-width: 22rem;
+	min-width: 12rem;
+	height: fit-content;
+	max-height: 80vh;
+	margin-left: 2rem;
+	order: 99;
+
+	.saSmallScreen & {
+		display: none;
+	}
+
+	.saTocFixed &,
+	.saMultiPartContent & {
+		top: 0;
+		order: 0;
+		position: relative;
+		margin-left: 0;
+		padding: 0 0 1rem 0;
+		max-height: 100%;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	ul {
+		display: flex;
+		flex-direction: column;
+		padding-left: 1rem;
+		width: 100%;
+		overflow: auto;
+	}
+
+	li {
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		overflow-wrap: break-word;
+
+		&[hidden] {
+			display: none;
+		}
+
+		&[aria-current="true"] a {
+			border-color: @ColorBlue600;
+			color: @ColorBlue600;
+
+			&::after {
+				opacity: 1;
+			}
+		}
+	}
+
+	a {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+		width: 100%;
+		padding: 0.25rem 0.5rem 0.25rem 0.5rem	;
+		min-height: 1.5rem;
+		text-decoration: none;
+		color: @ColorGray600;
+		flex-wrap: wrap;
+		position: relative;
+		border-left: 1px solid @ColorGray200;
+
+		.Hover({
+			color: @ColorBlue600;
+			border-color: @ColorBlue600;
+		});
+
+		&:active {
+			color: @ColorBlue700;
+			border-color: @ColorBlue900;
+		}
+
+		.saIcon {
+			font-size: 1rem;
+			line-height: 1;
+			cursor: default;
+
+			&.saError {
+				color: @ColorRed600;
+			}
+		}
+	}
+
+	.saTocHeading {
+		padding-bottom: 0.25rem;
+	}
+}

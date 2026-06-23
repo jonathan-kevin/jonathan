@@ -1,0 +1,58 @@
+// Use this for things like field descriptions and uneditable text, where we expect a bit of styling.
+
+.RestrictedUserHtmlContent() {
+	h1, h2, h3, h4, h5, h6 {
+		font-size: revert;
+		font-weight: revert;
+		margin: revert;
+		line-height: revert;
+		color: revert;
+	}
+
+	ul, ol {
+		list-style: revert;
+		margin: 0;
+		padding: 0 0 0 2.5rem;
+	}
+
+	table {
+		border-collapse: collapse;
+	}
+
+	thead {
+		background: @ColorGray50;
+		font-weight: 700;
+	}
+
+	td, th {
+		border: 1px solid @ColorGray100;
+		padding: 0.5rem;
+		text-align: left;
+	}
+
+	a {
+		color: var(--Sa-Color-Link);
+		font-weight: 500;
+	}
+
+	p {
+		margin: revert;
+	}
+}
+
+// Use this for wild user HTML content, like info boxes, where almost anything goes.
+
+.UserHtmlContent() {
+	.RestrictedUserHtmlContent();
+
+	ul, ol {
+		list-style: revert;
+		margin: revert;
+		padding: revert;
+	}
+
+	// Hack to not break embedded google maps.
+	#map img {
+		max-width : none;
+	}
+}

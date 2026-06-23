@@ -1,0 +1,143 @@
+.saInputDateRange {
+	.DefaultFieldWrapper();
+	max-width: 100%;
+	height: 2rem;
+	background-color: @ColorWhite;
+	box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+	border: none;
+	transition: background-color 0.2s ease, box-shadow 0.2s ease;
+	box-sizing: border-box;
+	border-radius: 0.5rem;
+	flex-direction: row;
+	align-items: center;
+	cursor: text;
+
+	* {
+		.UserSelectNone();
+	}
+
+	.saDateSeparator {
+		pointer-events: none;
+		width: 0.75rem;
+		border-bottom: 2px solid @ColorGray300;
+	}
+
+	input {
+		.AppearanceNone();
+		height: 100%;
+		background-color: transparent;
+		margin: 0;
+		padding-block: 0;
+		padding-inline: 0;
+		padding: 0 0.625rem;
+		border: none;
+		font-size: 0.875rem;
+		cursor: text;
+		outline: none;
+		color: var(--Sa-Color-Text);
+		width: 6.5rem;
+		box-sizing: border-box;
+		font-variant-numeric: tabular-nums;
+
+		&::placeholder {
+			color: var(--Sa-Color-TextSecondary);
+			letter-spacing: -1px;
+		}
+
+		&::-webkit-calendar-picker-indicator {
+			display: none;
+		}
+
+		&.saToDate {
+			padding-left: 0.75rem;
+		}
+
+		&.saActive {
+			color: var(--Sa-Color-Primary600);
+			font-weight: 500;
+			letter-spacing: -0.0094rem;
+		}
+	}
+
+	&:focus-visible {
+		outline: none;
+	}
+
+	.Hover({
+		box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600);
+	});
+
+	&:focus-within {
+		background: var(--Sa-Color-Primary50);
+		box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600);
+	}
+
+	&::placeholder {
+		color: var(--Sa-Color-TextSecondary);
+	}
+
+	//Disabled
+	&.saDisabled {
+		.DisabledControl();
+		cursor: default;
+
+		input,
+		input::placeholder,
+		.saIcon {
+			.DisabledControl();
+			background-color: transparent;
+			cursor: default;
+		}
+	}
+}
+
+.saSmallScreen{
+	.saInputDateRange {
+		flex-direction: row;
+		justify-content: flex-start;
+		height: 2.75rem;
+		position: relative;
+
+		input {
+			width: 7.25rem;
+			padding: 0 1rem;
+
+			&.saToDate {
+				padding-left: 0.5rem;
+			}
+
+			&.saFromDate {
+				padding-right: 0.5rem;
+			}
+		}
+
+		&:active {
+			background-color: var(--Sa-Color-Primary100);
+		}
+
+		.saSep {
+			color: @ColorGray200;
+		}
+
+		&.saDisabled,
+		&:disabled {
+			.DisabledControl();
+
+			.saIcon {
+				color: @ColorGray400;
+			}
+		}
+
+		.saDayRow {
+			position: sticky;
+			top: 0;
+			background-color: @ColorWhite;
+			z-index: 2;
+
+			@media (max-height: 480px) {
+				position: unset;
+				top: unset;
+			}
+		}
+	}
+}

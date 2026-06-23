@@ -1,0 +1,58 @@
+.saTextboxWithPopupWrapper {
+	select {
+		border: 1px solid @ColorGray150;
+		color: @ColorGray900;
+		padding: 1px 1px 1px 0;
+		background: @ColorWhite;
+		position: absolute;
+		z-index: @ZIndexInputPicker;
+		max-width: 50rem;
+		min-width: 104%;
+		width: fit-content;
+	}
+
+	select:focus {
+		background: #d7e3ff;
+	}
+
+	option {
+		text-overflow: ellipsis;
+		overflow: hidden;
+		padding: 1px 0 1px 0.5rem;
+		color: #666;
+		cursor: pointer;
+	}
+
+	option:nth-child(odd):not(:checked) {
+		background: @ColorGray50;
+		color: var(--Sa-Color-Text);
+	}
+
+	option:nth-child(even):not(:checked) {
+		background: @ColorWhite;
+		color: var(--Sa-Color-Text);
+	}
+
+	option:hover {
+		background: #d7e3ff !important;
+		color: var(--Sa-Color-Text) !important;
+	}
+
+	select.monospace option {
+		font-family: monospace, monospace; // Hack to keep font-size;
+	}
+
+	option:checked {
+		background: #335079;
+		color: #fff;
+	}
+
+	.saMessage {
+		position: absolute;
+		background-color: var(--Sa-Color-TooltipBackground);
+		color: var(--Sa-Color-TooltipText);
+		padding: 0.25rem;
+		border-radius: 0.5rem;
+		font-size: small;
+	}
+}

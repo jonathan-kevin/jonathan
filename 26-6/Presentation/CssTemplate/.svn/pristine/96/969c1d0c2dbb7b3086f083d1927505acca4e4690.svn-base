@@ -1,0 +1,67 @@
+input[type=password].saInputText {
+	/* Force Chrome to use big password dots so that the size difference beteween obscued and revealed password is not too big. */
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+	&::-ms-reveal {
+		display: none;
+	}
+
+	&:-webkit-autofill +.saTrailingIconsWrapper {
+		display: none;
+	}
+}
+
+.saPasswordStrength {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding-top: 0.5rem;
+
+	div {
+		display: flex;
+		width: 100%;
+		height: 0.25rem;
+		position: relative;
+		clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 78% 100%, 78% 0%, 74% 0%, 74% 100%, 52% 100%, 52% 0%, 48% 0%, 48% 100%, 26% 100%, 26% 0%, 22% 0%, 22% 100%, 0% 100%, 0% 0%);
+		border-radius: 2px;
+		background: @ColorGray150;
+		border-radius: 2px;
+
+		&::after {
+			content: '';
+			height: 100%;
+			width: 0;
+			position: absolute;
+			left: 0;
+			top: 0;
+			background: @ColorGray150;
+			transition: ease background .2s, ease width .2s;
+
+			.saBad& {
+				background: @ColorRed700;
+				width: 25%;
+			}
+
+			.saWeak& {
+				background: @ColorRed600;
+				width: 50%;
+			}
+
+			.saOk& {
+				background: @ColorYellow300;
+				width: 75%;
+			}
+
+			.saGood& {
+				background: @ColorGreen400;
+				width: 100%;
+			}
+		}
+	}
+
+	span {
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		min-height: 0.75rem;
+	}
+}

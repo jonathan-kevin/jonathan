@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="sv">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>UX-guide – Softadmin®</title>
+
+		<script src="https://cdn.tailwindcss.com"></script>
+
+		<style>
+			html { scroll-behavior: smooth; }
+			.toc-link { transition: color 0.15s, border-color 0.15s, background 0.15s; }
+			.toc-link.active { color: #2563eb; border-left-color: #2563eb; background: #eff6ff; }
+			section { scroll-margin-top: 5rem; }
+			::-webkit-scrollbar { width: 6px; }
+			::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 9999px; }
+		</style>
+	</head>
+	<body class="bg-slate-50 text-slate-800 antialiased">
+		<header class="fixed inset-x-0 top-0 z-40 bg-white border-b border-slate-200 h-14 flex items-center px-6 gap-3">
+			<span class="font-bold text-slate-900 tracking-tight">UX-guide</span>
+			<span class="text-slate-300">·</span>
+			<span class="text-sm text-slate-500">Softadmin®</span>
+			<span class="ml-auto text-xs text-slate-400">Jonathan Kevin, Oskar Franke, Erik Öberg</span>
+		</header>
+		<div class="flex pt-14 min-h-screen">
+			<!-- Sidebar TOC -->
+			<aside class="hidden lg w-64 xl shrink-0 fixed left-0 top-14 bottom-0 overflow-y-auto bg-white border-r border-slate-100 py-6 px-3">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest px-3 mb-3">Innehåll</p>
+			<p class="text-xs font-semibold text-blue-600 uppercase tracking-wide px-3 mt-4 mb-1">Del 1 · UX-principer</p>
+			<nav class="space-y-0.5">
+				<a href="#ux-i-softadmin" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">UX i Softadmin®</a>
+				<a href="#de-fem-perspektiven" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">De fem perspektiven</a>
+				<a href="#ux-lagar" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">UX-lagar</a>
+				<a href="#navigation" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">Navigation</a>
+				<a href="#informationsstruktur" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">Informationsstruktur</a>
+				<a href="#kommunicera" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">Kommunicera tydligt</a>
+				<a href="#feedback" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">Feedback till användaren</a>
+				<a href="#visuell-design" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">Visuell design</a>
+			</nav>
+			<p class="text-xs font-semibold text-blue-600 uppercase tracking-wide px-3 mt-6 mb-1">Del 2 · Softadmin®-regler</p>
+			<nav class="space-y-0.5">
+				<a href="#namngivning" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">Namngivning</a>
+				<a href="#svarstider" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">Svarstider</a>
+				<a href="#newedit" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">NewEdit</a>
+				<a href="#parametersidor" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">Parametersidor</a>
+				<a href="#grid" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">Grid och listvyer</a>
+				<a href="#detailview" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">Detailview</a>
+				<a href="#execute-delete" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">Execute och Delete</a>
+				<a href="#rtf-pdf" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">RTF, PDF och nedladdning</a>
+				<a href="#disabled-state" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">Disabled state</a>
+				<a href="#behorighet" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">Behörighet och kontext</a>
+				<a href="#anvandaranpassning" class="toc-link block text-sm text-slate-600 px-3 py-1.5 rounded border-l-2 border-transparent hover">Användaranpassning</a>
+			</nav>
+		</aside>
+			<!-- Main content -->
+			<main class="lg xl flex-1 px-6 md lg py-12 max-w-3xl w-full">
+			<!-- Hero -->
+			<div class="mb-16">
+			<p class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-2">Internguide</p>
+			<h1 class="text-4xl font-bold text-slate-900 leading-tight mb-3">UX-guide</h1>
+			<p class="text-lg text-slate-500">En praktisk guide för att bygga välstrukturerade, användbara verksamhetssystem i Softadmin®.</p>
+		</div>
+			<!-- ═══════════════════════════════════════════════ -->
+			<!-- DEL 1 -->
+			<!-- ═══════════════════════════════════════════════ -->
+			<div class="flex items-center gap-4 mb-10">
+			<div class="bg-blue-600 text-white text-sm font-bold px-3 py-1 rounded">Del 1</div>
+			<div>
+			<p class="font-bold text-slate-900">UX-principer</p>
+			<p class="text-sm text-slate-400">Gäller oavsett vilket verktyg du bygger i</p>
+		</div>
+		</div>
+			<!-- UX i Softadmin -->
+			<section id="ux-i-softadmin" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">UX i Softadmin®</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">UX skapas av struktur, informationspresentation och arbetsflöden – inte visuell design. Målet: systemet ska kunna användas och vilja användas.</p>
+		</div>
+			<p class="text-slate-700 mb-3">I ett Softadmin® skapas användarupplevelsen främst genom hur väl systemet stödjer användarens arbete. Även om visuell design spelar roll är det oftast struktur, informationspresentation och arbetsflöden som har störst påverkan på användbarheten.</p>
+			<p class="text-slate-700 mb-3">För att leverera lösningar med stor kundnytta räcker det inte att uppfylla de funktionella kraven. Vi behöver också presentera rätt information på rätt plats, välja lämpliga komponenter och utforma arbetsflöden som stödjer verksamhetens processer.</p>
+			<p class="text-slate-700 mb-4">Målet är att användaren ska kunna utföra sina arbetsuppgifter effektivt, förstå vad som förväntas i varje steg och känna sig trygg i systemet.</p>
+			<div class="grid grid-cols-2 gap-3">
+			<div class="bg-green-50 border border-green-200 rounded-lg p-4">
+			<p class="text-xs font-bold text-green-600 uppercase tracking-wide mb-1">Kan jag använda systemet?</p>
+			<p class="text-sm text-green-800">Systemet stödjer verksamheten funktionellt.</p>
+		</div>
+			<div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+			<p class="text-xs font-bold text-blue-600 uppercase tracking-wide mb-1">Vill jag använda systemet?</p>
+			<p class="text-sm text-blue-800">Systemet har hög användbarhet.</p>
+		</div>
+		</div>
+		</section>
+			<!-- De fem perspektiven -->
+			<section id="de-fem-perspektiven" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">De fem perspektiven</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Fem frågor att ha med sig hela arbetet: Vem är användaren? Vad gör de? Hur är info strukturerad? Hur kommunicerar vi? Hur förbättrar vi med fakta?</p>
+		</div>
+			<p class="text-slate-700 mb-6">Genom hela arbetet bör du ha dessa fem perspektiv i åtanke.</p>
+			<div class="space-y-5">
+			<div class="flex gap-4">
+			<div class="w-8 h-8 shrink-0 rounded-full bg-blue-600 text-white text-sm font-bold flex items-center justify-center">1</div>
+			<div>
+			<h3 class="font-semibold text-slate-800 mb-1">Förstå användarens arbete</h3>
+			<p class="text-sm text-slate-600 mb-2">Användaren är inte i systemet för att använda ett system, utan för att utföra en uppgift. Fundera på:</p>
+			<ul class="text-sm text-slate-600 space-y-1 list-none">
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Vem är användaren?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Vad försöker användaren göra?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Vilken information behövs för att lyckas?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Vad tar onödigt mycket tid idag?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Var uppstår osäkerhet eller misstag?</li>
+		</ul>
+		</div>
+		</div>
+			<div class="flex gap-4">
+			<div class="w-8 h-8 shrink-0 rounded-full bg-blue-600 text-white text-sm font-bold flex items-center justify-center">2</div>
+			<div>
+			<h3 class="font-semibold text-slate-800 mb-1">Gör det enkelt att göra rätt</h3>
+			<p class="text-sm text-slate-600 mb-2">Systemet ska hjälpa användaren att göra rätt från början, inte rätta fel i efterhand. Fundera på:</p>
+			<ul class="text-sm text-slate-600 space-y-1">
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Kan vi minska antal steg?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Kan vi förifylla information?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Kan fel förhindras i stället för att hanteras efteråt?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Är nästa steg alltid tydligt?</li>
+		</ul>
+		</div>
+		</div>
+			<div class="flex gap-4">
+			<div class="w-8 h-8 shrink-0 rounded-full bg-blue-600 text-white text-sm font-bold flex items-center justify-center">3</div>
+			<div>
+			<h3 class="font-semibold text-slate-800 mb-1">Strukturera informationen</h3>
+			<p class="text-sm text-slate-600 mb-2">I Softadmin® styr du inte designen visuellt, men du styr hur information presenteras och grupperas. Fundera på:</p>
+			<ul class="text-sm text-slate-600 space-y-1">
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Vad ska användaren se först?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Vad hör ihop och bör visas tillsammans?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Hur hittar användaren rätt information snabbt?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Är listor, formulär och vyer logiskt uppbyggda?</li>
+		</ul>
+		</div>
+		</div>
+			<div class="flex gap-4">
+			<div class="w-8 h-8 shrink-0 rounded-full bg-blue-600 text-white text-sm font-bold flex items-center justify-center">4</div>
+			<div>
+			<h3 class="font-semibold text-slate-800 mb-1">Kommunicera tydligt</h3>
+			<p class="text-sm text-slate-600 mb-2">Texter och etiketter är en central del av UX. Fundera på:</p>
+			<ul class="text-sm text-slate-600 space-y-1">
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Förstår användaren vad som ska fyllas i?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Är rubriker och fältbeskrivningar tydliga?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Är felmeddelanden begripliga och konkreta?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Undviker vi interna begrepp?</li>
+		</ul>
+		</div>
+		</div>
+			<div class="flex gap-4">
+			<div class="w-8 h-8 shrink-0 rounded-full bg-blue-600 text-white text-sm font-bold flex items-center justify-center">5</div>
+			<div>
+			<h3 class="font-semibold text-slate-800 mb-1">Förbättra med fakta</h3>
+			<p class="text-sm text-slate-600 mb-2">Bra lösningar bygger på hur systemet faktiskt används. Fundera på:</p>
+			<ul class="text-sm text-slate-600 space-y-1">
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Var gör användare fel?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Var fastnar de i processen?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Vilka funktioner används inte?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Vad säger support och verksamheten?</li>
+		</ul>
+		</div>
+		</div>
+		</div>
+		</section>
+			<!-- UX-lagar -->
+			<section id="ux-lagar" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">UX-lagar och vad de betyder i praktiken</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Tio psykologiska principer – från Millers lag om arbetsminnet till Jakobs lag om användarens förväntningar – med direkt koppling till hur du bygger i Softadmin®.</p>
+		</div>
+			<p class="text-slate-700 mb-6">Laws of UX är en samling välbelagda UX-principer som beskriver hur människor uppfattar och interagerar med gränssnitt. Nedan finns de lagar som är mest relevanta för Softadmin®-system.</p>
+			<div class="grid grid-cols-1 md gap-4">
+			<div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+			<h4 class="font-semibold text-blue-900 text-sm mb-1">Millers lag</h4>
+			<p class="text-xs text-blue-600 italic mb-2">"Den genomsnittliga personen kan bara hålla 7 ± 2 informationsenheter i arbetsminnet samtidigt."</p>
+			<p class="text-sm text-slate-700">Strukturera formulär, parametersidor och menyvalsgrupper i sektioner med max ~7 fält eller val.</p>
+		</div>
+			<div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+			<h4 class="font-semibold text-blue-900 text-sm mb-1">Kognitiv belastning</h4>
+			<p class="text-xs text-blue-600 italic mb-2">"Ju mer mental kapacitet som krävs, desto sämre blir upplevelsen."</p>
+			<p class="text-sm text-slate-700">Minska belastning genom att dölja irrelevanta fält, använda förvalda värden och självförklarande flöden.</p>
+		</div>
+			<div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+			<h4 class="font-semibold text-blue-900 text-sm mb-1">Hicks lag</h4>
+			<p class="text-xs text-blue-600 italic mb-2">"Beslutstiden ökar med antalet och komplexiteten av valen."</p>
+			<p class="text-sm text-slate-700">Max två synliga radknappar. Håll parametersidor fokuserade. Varje extra alternativ kostar beslutskraft.</p>
+		</div>
+			<div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+			<h4 class="font-semibold text-blue-900 text-sm mb-1">Jakobs lag</h4>
+			<p class="text-xs text-blue-600 italic mb-2">"Användare förväntar sig att ditt system fungerar som de system de redan känner till."</p>
+			<p class="text-sm text-slate-700">Använd Softadmin®s standardmönster för ikoner, namngivning och navigation. Avvik inte utan starka skäl.</p>
+		</div>
+			<div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+			<h4 class="font-semibold text-blue-900 text-sm mb-1">Fitts lag</h4>
+			<p class="text-xs text-blue-600 italic mb-2">"Tiden att nå ett mål beror på avståndet och dess storlek."</p>
+			<p class="text-sm text-slate-700">Placera de viktigaste knapparna nära det innehåll de gäller. Den mest frekventa radknappen ska vara lättast att klicka.</p>
+		</div>
+			<div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+			<h4 class="font-semibold text-blue-900 text-sm mb-1">Von Restorff-effekten</h4>
+			<p class="text-xs text-blue-600 italic mb-2">"Det som avviker uppmärksammas och minns."</p>
+			<p class="text-sm text-slate-700">Markera bara det som avviker från normen. Om allt är godkänt, markera bara det som är underkänt. Använd avvikelse sparsamt.</p>
+		</div>
+			<div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+			<h4 class="font-semibold text-blue-900 text-sm mb-1">Peak-End-regeln</h4>
+			<p class="text-xs text-blue-600 italic mb-2">"Vi minns höjdpunkten och slutet, inte genomsnittet."</p>
+			<p class="text-sm text-slate-700">Felmeddelanden och bekräftelse på slutförd åtgärd väger tungt. Bygg dem väl.</p>
+		</div>
+			<div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+			<h4 class="font-semibold text-blue-900 text-sm mb-1">Närhetsprincipen</h4>
+			<p class="text-xs text-blue-600 italic mb-2">"Objekt nära varandra uppfattas som hörande ihop."</p>
+			<p class="text-sm text-slate-700">Gruppera relaterade fält nära varandra. Avstånd kommunicerar struktur utan ord.</p>
+		</div>
+			<div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+			<h4 class="font-semibold text-blue-900 text-sm mb-1">Teslers lag</h4>
+			<p class="text-xs text-blue-600 italic mb-2">"Komplexitet kan inte elimineras, bara förflyttas."</p>
+			<p class="text-sm text-slate-700">Var medveten om var du placerar komplexiteten. Se till att den hamnar hos den som har bäst förutsättningar att hantera den.</p>
+		</div>
+			<div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+			<h4 class="font-semibold text-blue-900 text-sm mb-1">Paradoxen med den aktive användaren</h4>
+			<p class="text-xs text-blue-600 italic mb-2">"Användare läser aldrig manualer."</p>
+			<p class="text-sm text-slate-700">Bygg system som är självförklarande. Labels, hjälptexter och logisk struktur är din dokumentation.</p>
+		</div>
+		</div>
+		</section>
+			<!-- Navigation -->
+			<section id="navigation" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">Navigation: Djup eller platt struktur</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Välj antingen platt eller djup – blanda dem inte. Antal klick är inte problemet, tydlighet är. Bygg direktlänkar mellan relaterade objekt.</p>
+		</div>
+			<p class="text-slate-700 mb-4">I verksamhetssystem kan navigationen bara optimeras i två riktningar:</p>
+			<div class="grid grid-cols-2 gap-4 mb-6">
+			<div class="border border-slate-200 rounded-lg p-4 bg-white">
+			<h3 class="font-semibold text-slate-800 mb-2">Platt struktur</h3>
+			<p class="text-sm text-slate-600 mb-2">Fler val direkt i menyn, färre klick till funktion. Bra när användaren ofta hoppar mellan funktioner. Risk: menyn växer snabbt.</p>
+			<p class="text-xs text-slate-400">Typiskt för system där användaren jobbar brett.</p>
+		</div>
+			<div class="border border-slate-200 rounded-lg p-4 bg-white">
+			<h3 class="font-semibold text-slate-800 mb-2">Djup struktur</h3>
+			<p class="text-sm text-slate-600 mb-2">Färre menyalternativ, fler steg in. Renare navigation men kräver att användaren alltid vet var hen är.</p>
+			<p class="text-xs text-slate-400">Vanligt i system med mycket data per område.</p>
+		</div>
+		</div>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r mb-4">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Att försöka kombinera båda leder ofta till ett rörigt system. Välj en riktning och håll den.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mt-6 mb-2">Antal klick är inte problemet</h3>
+			<p class="text-slate-700 mb-3">Det är en gammal UX-regel att allt ska vara max 3 klick bort. Det stämmer inte i verksamhetssystem. Problemet är att användaren inte förstår var de är, att strukturen inte matchar deras arbetsflöde, eller att navigationen inte speglar hur arbetet faktiskt är organiserat.</p>
+			<h3 class="font-semibold text-slate-800 mt-6 mb-2">Direktlänkar mellan relaterade objekt</h3>
+			<p class="text-slate-700">Användaren ska inte behöva gå till huvudmenyn för att t.ex. ta sig från en specifik faktura till fakturamottagaren. Bygg direktlänkar mellan relaterade objekt – det är en av de enklaste och mest uppskattade sakerna du kan göra.</p>
+		</section>
+			<!-- Informationsstruktur -->
+			<section id="informationsstruktur" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">Informationsstruktur</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Dela upp i logiska bitar om max 7. Visa inte kritisk information bakom extended description – sällananvändare missar det.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Dela upp information i mindre bitar</h3>
+			<p class="text-slate-700 mb-3">Enligt Millers lag kan vi bara hålla ungefär 7 ± 2 informationsenheter i arbetsminnet. Hur det kan göras i praktiken:</p>
+			<ul class="text-sm text-slate-700 space-y-1 mb-4 ml-4">
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Dela upp formulär i sektioner med tydliga rubriker</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Gruppera relaterade fält tillsammans</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Använd stegvisa flöden i stället för långa sidor</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Visa sammanfattningar i stället för rå data i stora block</li>
+		</ul>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r mb-6">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Om användaren måste leta efter den viktiga informationen behöver innehållet organiseras bättre.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Extended description</h3>
+			<p class="text-slate-700 mb-4">Extended description kan vara lockande för att städa upp gränssnittet, men riskerar att dölja viktig information bakom ett extra steg.</p>
+			<div class="grid grid-cols-2 gap-4 mb-4">
+			<div>
+			<p class="text-xs font-semibold text-green-700 uppercase tracking-wide mb-2">Använd när</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span><span>Informationen är ett tillägg, inte kritisk kontext</span></div>
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span><span>Dagliga användare arbetar regelbundet med menyvalet</span></div>
+		</div>
+		</div>
+			<div>
+			<p class="text-xs font-semibold text-red-700 uppercase tracking-wide mb-2">Undvik när</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span><span>Informationen är kritisk för rätt beslut</span></div>
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span><span>Det gäller sällananvändare som kan missa det</span></div>
+		</div>
+		</div>
+		</div>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Om information är nödvändig för att fatta rätt beslut ska den inte döljas.</p>
+		</div>
+		</section>
+			<!-- Kommunicera tydligt -->
+			<section id="kommunicera" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">Kommunicera tydligt</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Labels förklarar vad, inte hur. Hjälptexter tillför ny information. Knappar använder verb + objekt. Samma ord för samma sak i hela systemet.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mt-6 mb-2">Labels</h3>
+			<p class="text-slate-700 mb-3">Label är det viktigaste textfältet i ett formulär. Den ska alltid förklara vad användaren ska fylla i, inte hur eller varför. En bra label är kort, konkret och entydig.</p>
+			<div class="grid grid-cols-2 gap-4 mb-4">
+			<div>
+			<p class="text-xs font-semibold text-green-700 uppercase tracking-wide mb-2">Bra</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Förnamn</div>
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>E-postadress</div>
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Ordernummer</div>
+		</div>
+		</div>
+			<div>
+			<p class="text-xs font-semibold text-red-700 uppercase tracking-wide mb-2">Dåligt</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>Ange ditt förnamn här</div>
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>Information om kund</div>
+		</div>
+		</div>
+		</div>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r mb-6">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Om en label behöver en förklaring för att förstås är den dålig. Lös det med bättre label, inte mer text.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mt-6 mb-2">Hjälptexter</h3>
+			<p class="text-slate-700 mb-3">Hjälptext används för att förtydliga krav eller konsekvenser – inte förklara det som redan borde vara tydligt i labeln. En bra hjälptext svarar på: Vilket format gäller? Varför behövs det? Vad används datan till?</p>
+			<div class="grid grid-cols-2 gap-4 mb-4">
+			<div>
+			<p class="text-xs font-semibold text-green-700 uppercase tracking-wide mb-2">Bra</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Ange i formatet ÅÅÅÅ-MM-DD</div>
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Används för orderbekräftelse</div>
+		</div>
+		</div>
+			<div>
+			<p class="text-xs font-semibold text-red-700 uppercase tracking-wide mb-2">Dåligt</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>Här skriver du ditt förnamn</div>
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>Upprepning av labeln</div>
+		</div>
+		</div>
+		</div>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r mb-6">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Om hjälptexten inte tillför ny information ska du ta bort den.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mt-6 mb-2">Placeholders</h3>
+			<p class="text-slate-700 mb-3">Placeholder är inte en ersättning för label och ska aldrig bära viktig information – texten försvinner när användaren börjar skriva. Använd den enbart för exempelformat.</p>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r mb-6">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Om användaren måste komma ihåg något från placeholdern är det fel lösning.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mt-6 mb-2">Knappar</h3>
+			<p class="text-slate-700 mb-3">Knappar ska alltid säga exakt vad som händer. Undvik generiska knappar som OK och Skicka. Använd alltid <span class="font-mono text-sm bg-slate-100 px-1 rounded">verb + objekt</span>.</p>
+			<div class="grid grid-cols-2 gap-4 mb-4">
+			<div>
+			<p class="text-xs font-semibold text-green-700 uppercase tracking-wide mb-2">Bra</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Spara projekt</div>
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Acceptera ansökan</div>
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Skapa kund</div>
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Avvisa beställning</div>
+		</div>
+		</div>
+			<div>
+			<p class="text-xs font-semibold text-red-700 uppercase tracking-wide mb-2">Dåligt</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>OK</div>
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>Skicka</div>
+		</div>
+		</div>
+		</div>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r mb-6">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Om en knapptext kan användas i vilket system som helst är den för vag.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mt-6 mb-2">Konsekvent namngivning</h3>
+			<p class="text-slate-700 mb-3">Om ett menyval heter Uppdrag ska samma term användas genom hela systemet: i knappar, länkar, flikar och rubriker.</p>
+			<div class="bg-white border border-slate-200 rounded-lg p-4 text-sm text-slate-700 space-y-1 mb-4">
+			<div class="flex gap-3"><span class="text-slate-400 w-16 shrink-0">Meny</span><span class="font-medium">Uppdrag</span></div>
+			<div class="flex gap-3"><span class="text-slate-400 w-16 shrink-0">Flik</span><span class="font-medium">Uppdrag</span></div>
+			<div class="flex gap-3"><span class="text-slate-400 w-16 shrink-0">Knapp</span><span class="font-medium">Skapa uppdrag</span></div>
+			<div class="flex gap-3"><span class="text-slate-400 w-16 shrink-0">Länk</span><span class="font-medium">Uppdrag</span></div>
+		</div>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Olika ord för samma sak skapar osäkerhet. Samma ord överallt skapar flyt.</p>
+		</div>
+		</section>
+			<!-- Feedback -->
+			<section id="feedback" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">Feedback till användaren</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Felmeddelanden ska leda vidare, inte stoppa. Varningar hjälper utan att skrämma. Alerts bara när konsekvensen är svår att återställa.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Felmeddelanden</h3>
+			<p class="text-slate-700 mb-3">Ett effektivt felmeddelande innehåller tre delar:</p>
+			<div class="space-y-2 mb-4">
+			<div class="flex gap-3 text-sm"><span class="w-6 h-6 shrink-0 rounded-full bg-slate-200 text-slate-600 font-bold flex items-center justify-center text-xs">1</span><div><span class="font-semibold">Att något har gått fel</span> – var tydlig med att åtgärden inte lyckades</div></div>
+			<div class="flex gap-3 text-sm"><span class="w-6 h-6 shrink-0 rounded-full bg-slate-200 text-slate-600 font-bold flex items-center justify-center text-xs">2</span><div><span class="font-semibold">Varför det hände</span> – förklara orsaken utan tekniska detaljer</div></div>
+			<div class="flex gap-3 text-sm"><span class="w-6 h-6 shrink-0 rounded-full bg-slate-200 text-slate-600 font-bold flex items-center justify-center text-xs">3</span><div><span class="font-semibold">Nästa steg</span> – berätta vad användaren kan göra</div></div>
+		</div>
+			<div class="grid grid-cols-2 gap-4 mb-4">
+			<div>
+			<p class="text-xs font-semibold text-green-700 uppercase tracking-wide mb-2">Bra</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Kunden kan inte tas bort eftersom den har aktiva uppdrag. Avsluta eller flytta uppdragen först.</div>
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Bokningen kan inte genomföras eftersom tiden är upptagen. Välj en annan tid.</div>
+		</div>
+		</div>
+			<div>
+			<p class="text-xs font-semibold text-red-700 uppercase tracking-wide mb-2">Dåligt</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>Error 500</div>
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>Något gick fel</div>
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>Fel vid sparning</div>
+		</div>
+		</div>
+		</div>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r mb-6">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Ett bra felmeddelande hjälper användaren vidare.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mt-6 mb-2">Varningar</h3>
+			<p class="text-slate-700 mb-3">Varningar handlar inte om att stoppa användaren, utan om att göra dem uppmärksamma på något ovanligt eller värt att dubbelkolla.</p>
+			<div class="grid grid-cols-2 gap-4 mb-4">
+			<div>
+			<p class="text-xs font-semibold text-green-700 uppercase tracking-wide mb-2">Bra</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Det finns redan en kund med samma namn. Kontrollera om det är en dubblett.</div>
+		</div>
+		</div>
+			<div>
+			<p class="text-xs font-semibold text-red-700 uppercase tracking-wide mb-2">Dåligt</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>Varning!</div>
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>Är du säker?</div>
+		</div>
+		</div>
+		</div>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r mb-6">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>En varning ska kännas som en kunnig kollega: "Det här ser lite ovanligt ut, kolla en gång till."</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mt-6 mb-2">Alerts</h3>
+			<p class="text-slate-700 mb-3">Användaren slutar läsa alerts som dyker upp för ofta och klickar igenom dem reflexmässigt.</p>
+			<div class="grid grid-cols-2 gap-4 mb-4">
+			<div>
+			<p class="text-xs font-semibold text-green-700 uppercase tracking-wide mb-2">Fråga bara när</p>
+			<ul class="text-sm text-slate-700 space-y-1">
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Konsekvensen är svår att återställa</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Risken för misstag är reell</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Åtgärden påverkar data utanför vyn</li>
+		</ul>
+		</div>
+			<div>
+			<p class="text-xs font-semibold text-red-700 uppercase tracking-wide mb-2">Fråga inte när</p>
+			<ul class="text-sm text-slate-700 space-y-1">
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Åtgärden är enkel att ångra</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Det är ett rutinsteg i dagligt arbete</li>
+		</ul>
+		</div>
+		</div>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Om användaren behöver läsa mycket för att förstå vad som ska göras är det inte en alert – det är en informationssida.</p>
+		</div>
+		</section>
+			<!-- Visuell design -->
+			<section id="visuell-design" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">Visuell design</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Använd Softadmins standardtema – avvik inte. Komplettera alltid färg med text eller ikon, aldrig färg som enda signal.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Använd inte eget tema</h3>
+			<p class="text-slate-700 mb-3">Softadmin® har ett etablerat färgsystem. Att införa egna färger eller teman leder till inkonsekvent design där olika delar börjar se ut som separata produkter.</p>
+			<ul class="text-sm text-slate-700 space-y-1 mb-4 ml-4">
+			<li class="flex gap-2"><span class="text-red-400">✗</span>Förlorad visuell enhetlighet</li>
+			<li class="flex gap-2"><span class="text-red-400">✗</span>Ökad risk för låg kontrast och WCAG-problem</li>
+			<li class="flex gap-2"><span class="text-red-400">✗</span>Svårare att underhålla och vidareutveckla</li>
+			<li class="flex gap-2"><span class="text-red-400">✗</span>Otydligare visuella signaler för status, fel och varningar</li>
+		</ul>
+			<h3 class="font-semibold text-slate-800 mt-6 mb-2">Använd inte färg som enda signal</h3>
+			<p class="text-slate-700 mb-3">Färgblindhet och varierande skärmar påverkar hur nyanser upplevs. Använd färg som förstärkning, aldrig som enda signal.</p>
+			<div class="grid grid-cols-2 gap-4 mb-4">
+			<div>
+			<p class="text-xs font-semibold text-green-700 uppercase tracking-wide mb-2">Bra</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Grön ikon + text "Godkänd"</div>
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Röd status + text "Fel"</div>
+		</div>
+		</div>
+			<div>
+			<p class="text-xs font-semibold text-red-700 uppercase tracking-wide mb-2">Dåligt</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>Bara grön = godkänd</div>
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>Färgskillnad utan text</div>
+		</div>
+		</div>
+		</div>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>En design är bristfällig om den förutsätter att användaren måste se färgen på ett visst sätt för att förstå den.</p>
+		</div>
+		</section>
+			<!-- ═══════════════════════════════════════════════ -->
+			<!-- DEL 2 -->
+			<!-- ═══════════════════════════════════════════════ -->
+			<div class="flex items-center gap-4 mb-10 mt-4">
+			<div class="bg-slate-800 text-white text-sm font-bold px-3 py-1 rounded">Del 2</div>
+			<div>
+			<p class="font-bold text-slate-900">Softadmin®-specifika regler</p>
+			<p class="text-sm text-slate-400">Hur du tillämpar principerna konkret i Softadmin®</p>
+		</div>
+		</div>
+			<!-- Namngivning -->
+			<section id="namngivning" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">Namngivning</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Namnge efter verksamheten, inte databasen. Konsekvent ikonanvändning. Kryssrutor i jakande termer.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-3">Menyvalsgrupper och menyval</h3>
+			<table class="w-full text-sm mb-4 border border-slate-200 rounded-lg overflow-hidden">
+			<thead><tr class="bg-slate-50 border-b border-slate-200">
+			<th class="text-left px-4 py-2 text-green-700 font-semibold">Verksamhetsbegrepp ✓</th>
+			<th class="text-left px-4 py-2 text-red-700 font-semibold">Databasnamn ✗</th>
+		</tr></thead>
+			<tbody>
+			<tr class="border-b border-slate-100"><td class="px-4 py-2 text-green-800">Kunder</td><td class="px-4 py-2 text-red-800">Kundregister</td></tr>
+			<tr><td class="px-4 py-2 text-green-800">Beställningar</td><td class="px-4 py-2 text-red-800">OrderHeader</td></tr>
+		</tbody>
+		</table>
+			<ul class="text-sm text-slate-700 space-y-1 mb-4 ml-4">
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Menyvalsgrupper namnges som objektet i plural: Ärenden, Ansökningar, Inbetalningar</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Listvyer med fler än 50 rader: Sök &lt;objekt&gt; i plural + parametersida</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Statiska tabeller med få rader: &lt;objekt&gt; i plural, ingen parametersida</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Inga synonymer för samma handling</li>
+		</ul>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r mb-6">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Om ett menyvalsnamn kräver en förklaring till användaren borde du byta ut det.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mt-6 mb-2">Länkar</h3>
+			<p class="text-slate-700 mb-2">Länkar ska i regel ha samma namn som menyvalet. Undantagen:</p>
+			<ul class="text-sm text-slate-700 space-y-1 mb-6 ml-4">
+			<li class="flex gap-2"><span class="text-slate-300">—</span><span><span class="font-medium">Arvsstrukturer:</span> Visa person / Visa företag i stället för Visa kontakt</span></li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span><span><span class="font-medium">Statusväxling:</span> Aktivera &lt;objekt&gt; och Inaktivera &lt;objekt&gt;</span></li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span><span><span class="font-medium">Kedjehandelser:</span> Slå ihop orderrader och skapa faktura</span></li>
+		</ul>
+			<h3 class="font-semibold text-slate-800 mt-6 mb-2">Ikoner</h3>
+			<ul class="text-sm text-slate-700 space-y-1 mb-6 ml-4">
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Samma ikon ska inte användas för två olika radlänkar från samma menyval</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Om ett menyval nås från flera ställen ska samma ikon användas överallt</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Använd inte Ta bort-ikonen för Inaktivera eller Makulera</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Ikonvalen ska vara enhetliga i hela systemet</li>
+		</ul>
+			<h3 class="font-semibold text-slate-800 mt-6 mb-2">Kryssrutor</h3>
+			<p class="text-slate-700 mb-3">Kryssrutor ska beskriva ett tillstånd som gäller när rutan är markerad. Undvik negationer.</p>
+			<table class="w-full text-sm border border-slate-200 rounded-lg overflow-hidden">
+			<thead><tr class="bg-slate-50 border-b border-slate-200">
+			<th class="text-left px-4 py-2 text-green-700 font-semibold">Bra ✓</th>
+			<th class="text-left px-4 py-2 text-red-700 font-semibold">Dåligt ✗</th>
+		</tr></thead>
+			<tbody>
+			<tr class="border-b border-slate-100"><td class="px-4 py-2 text-green-800">Aktiv</td><td class="px-4 py-2 text-red-800">Inaktiv</td></tr>
+			<tr class="border-b border-slate-100"><td class="px-4 py-2 text-green-800">Avslutad</td><td class="px-4 py-2 text-red-800">Ej avslutad</td></tr>
+			<tr><td class="px-4 py-2 text-green-800">Publicerad</td><td class="px-4 py-2 text-red-800">Opublicerad</td></tr>
+		</tbody>
+		</table>
+		</section>
+			<!-- Svarstider -->
+			<section id="svarstider" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">Svarstider och användarupplevelse</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Under 1 sekund är målet. Testa alltid med produktionsdata. Gör tunga operationer asynkrona med progressbar.</p>
+		</div>
+			<table class="w-full text-sm mb-6 border border-slate-200 rounded-lg overflow-hidden">
+			<thead><tr class="bg-slate-50 border-b border-slate-200">
+			<th class="text-left px-4 py-2 font-semibold text-slate-700">Tid</th>
+			<th class="text-left px-4 py-2 font-semibold text-slate-700">Upplevelse</th>
+			<th class="text-left px-4 py-2 font-semibold text-slate-700">Åtgärd</th>
+		</tr></thead>
+			<tbody>
+			<tr class="border-b border-slate-100 bg-green-50"><td class="px-4 py-2 font-mono text-xs font-bold text-green-700">≤ 0,1 s</td><td class="px-4 py-2 text-green-800">Omedelbar</td><td class="px-4 py-2 text-green-700">–</td></tr>
+			<tr class="border-b border-slate-100 bg-green-50"><td class="px-4 py-2 font-mono text-xs font-bold text-green-700">≤ 1 s</td><td class="px-4 py-2 text-green-800">Snabb, stör inte flödet</td><td class="px-4 py-2 text-green-700">–</td></tr>
+			<tr class="border-b border-slate-100 bg-amber-50"><td class="px-4 py-2 font-mono text-xs font-bold text-amber-700">&gt; 1 s</td><td class="px-4 py-2 text-amber-800">Märkbar fördröjning</td><td class="px-4 py-2 text-amber-700">Visa att systemet arbetar</td></tr>
+			<tr class="bg-red-50"><td class="px-4 py-2 font-mono text-xs font-bold text-red-700">&gt; 10 s</td><td class="px-4 py-2 text-red-800">Lång väntan</td><td class="px-4 py-2 text-red-700">Progressbar + möjlighet att avbryta</td></tr>
+		</tbody>
+		</table>
+			<p class="text-slate-700 mb-3">Testa alltid systemets svarstider efter att data migrerats. Ett menyval som är snabbt med 100 testposter kan vara oacceptabelt långsamt med 50 000 produktionsposter.</p>
+			<p class="text-slate-700 mb-4">Om en hantering tar lång tid bör du göra den asynkron. I nyare versioner av Softadmin® kan du visa en progressbar som anger antal genomförda steg eller behandlade poster.</p>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Om ett menyval är snabbt under utveckling men långsamt i produktion saknas det ofta indexering eller parameterbegränsning.</p>
+		</div>
+		</section>
+			<!-- NewEdit -->
+			<section id="newedit" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">NewEdit</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Viktigaste fälten först. Inga bakåtberoenden – använd default value dependencies. Dölj irrelevanta fält. Validera alltid. Förvalda värden minskar fel.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Användningsfrekvens avgör var "Nytt &lt;objekt&gt;" finns</h3>
+			<p class="text-slate-700 mb-6">Menyval av typen Nytt &lt;objekt&gt; ska finnas direkt i menyvalsgruppen om användaren förväntas skapa nya objekt dagligen. För administrativa register räcker det med topplänk från söksidan.</p>
+			<h3 class="font-semibold text-slate-800 mb-2">Fältordning och gruppering</h3>
+			<p class="text-slate-700 mb-3">De mest centrala fälten ska komma först. Dela upp långa formulär i logiska grupper.</p>
+			<div class="bg-white border border-slate-200 rounded-lg p-4 text-sm text-slate-600 space-y-1 mb-4">
+			<div class="flex gap-2"><span class="text-green-500">✓</span>Kundinformation</div>
+			<div class="flex gap-2"><span class="text-green-500">✓</span>Kontaktuppgifter</div>
+			<div class="flex gap-2"><span class="text-green-500">✓</span>Leveransinformation</div>
+			<div class="flex gap-2"><span class="text-green-500">✓</span>Betalningsinställningar</div>
+		</div>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r mb-6">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Om användaren måste hoppa runt i formuläret för att förstå det behöver du dela upp det i grupper.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Överväg separata formulär för objekt av olika typ</h3>
+			<p class="text-slate-700 mb-6">Om systemet lagrar objekt av olika typ (t.ex. privatpersoner och företag) kan det vara lämpligt med separata NewEdit-menyval per typ. Det håller nere antalet fält och förenklar behörighetsstyrning.</p>
+			<h3 class="font-semibold text-slate-800 mb-2">Fältberoenden</h3>
+			<p class="text-slate-700 mb-3">Det som väljs högre upp styr det som visas längre ned – aldrig tvärtom. Använd <span class="font-mono text-xs bg-slate-100 px-1 rounded">default value dependencies</span>, inte Onchange. Onchange har odefinierad exekveringsordning och kan vid cirkulära beroenden överbelasta servern.</p>
+			<ul class="text-sm text-red-700 bg-red-50 rounded-lg p-3 space-y-1 mb-4">
+			<li class="flex gap-2"><span>✗</span>Fält som ändrar värden ovanför sig själva</li>
+			<li class="flex gap-2"><span>✗</span>Cirkulära beroenden mellan fält</li>
+			<li class="flex gap-2"><span>✗</span>Bakåtstyrning där senare val påverkar tidigare struktur</li>
+		</ul>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r mb-6">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Informationsflödet ska kännas som att man fyller i något, inte som att systemet ändrar vad man redan sett.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Dölj fält baserat på kontext</h3>
+			<p class="text-slate-700 mb-3">Visa bara fält som är relevanta för den nuvarande uppgiften.</p>
+			<ul class="text-sm text-slate-700 space-y-1 mb-6 ml-4">
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Visa Företagsnamn först när Typ = Företag är valt</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Visa betalningsfält först när Faktura är valt</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Dölj avancerade inställningar tills de behövs</li>
+		</ul>
+			<h3 class="font-semibold text-slate-800 mb-2">Val av inmatningskontroll</h3>
+			<p class="text-slate-700 mb-3">Välj kontroll utifrån vad som är enklast för användaren – inte enklast att konfigurera.</p>
+			<div class="space-y-4 mb-6">
+			<div>
+			<p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Välja ett alternativ</p>
+			<table class="w-full text-sm border border-slate-200 rounded-lg overflow-hidden">
+			<thead><tr class="bg-slate-50 border-b border-slate-200"><th class="text-left px-4 py-2 font-semibold text-slate-600">Situation</th><th class="text-left px-4 py-2 font-semibold text-slate-600">Kontroll</th></tr></thead>
+			<tbody>
+			<tr class="border-b border-slate-100"><td class="px-4 py-2">2–5 alternativ, jämförelse viktigt</td><td class="px-4 py-2 font-medium">Radio Buttons / Radio Cards</td></tr>
+			<tr class="border-b border-slate-100"><td class="px-4 py-2">Upp till ~20 alternativ</td><td class="px-4 py-2 font-medium">Dropdown</td></tr>
+			<tr class="border-b border-slate-100"><td class="px-4 py-2">Ja / Nej / Ej angivet</td><td class="px-4 py-2 font-medium">Boolean Dropdown</td></tr>
+			<tr><td class="px-4 py-2">Många alternativ</td><td class="px-4 py-2 font-medium">Textbox with Autosearch</td></tr>
+		</tbody>
+		</table>
+		</div>
+			<div>
+			<p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Välja flera alternativ</p>
+			<table class="w-full text-sm border border-slate-200 rounded-lg overflow-hidden">
+			<thead><tr class="bg-slate-50 border-b border-slate-200"><th class="text-left px-4 py-2 font-semibold text-slate-600">Situation</th><th class="text-left px-4 py-2 font-semibold text-slate-600">Kontroll</th></tr></thead>
+			<tbody>
+			<tr class="border-b border-slate-100"><td class="px-4 py-2">Få alternativ (upp till ~10)</td><td class="px-4 py-2 font-medium">Checkbox Cards</td></tr>
+			<tr class="border-b border-slate-100"><td class="px-4 py-2">Hierarkisk data</td><td class="px-4 py-2 font-medium">Checkbox Tree</td></tr>
+			<tr><td class="px-4 py-2">Många alternativ</td><td class="px-4 py-2 font-medium">Multi-autosearch</td></tr>
+		</tbody>
+		</table>
+		</div>
+			<div>
+			<p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Fritext och datum</p>
+			<table class="w-full text-sm border border-slate-200 rounded-lg overflow-hidden">
+			<tbody>
+			<tr class="border-b border-slate-100"><td class="px-4 py-2">Kort svar på en rad</td><td class="px-4 py-2 font-medium">Textbox</td></tr>
+			<tr class="border-b border-slate-100"><td class="px-4 py-2">Mer än en mening</td><td class="px-4 py-2 font-medium">Textarea</td></tr>
+			<tr class="border-b border-slate-100"><td class="px-4 py-2">Formatering faktiskt behövs</td><td class="px-4 py-2 font-medium">HTML Editor (sällan!)</td></tr>
+			<tr><td class="px-4 py-2">Datumintervall</td><td class="px-4 py-2 font-medium">Date Range (inte två separata)</td></tr>
+		</tbody>
+		</table>
+		</div>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Förvalda värden</h3>
+			<ul class="text-sm text-slate-700 space-y-1 mb-3 ml-4">
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Datumfält vid inmatning: oftast dagens datum</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Datumfält på parametersidor: oftast dagens datum minus tre månader</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Antal-fält: ofta förvalt värde 1</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Dropdowns med systemanvändare: nästan alltid inloggad användare – gäller både inmatning och parametersidor</li>
+		</ul>
+			<p class="text-sm text-slate-600 bg-slate-50 border border-slate-200 rounded px-3 py-2 mb-3">För obligatoriska fält där användaren kan förväntas välja olika värden varje gång bör förvalda värdet vara <span class="font-mono">(inget värde)</span>. Det förhindrar att fel värde sparas av misstag.</p>
+			<p class="text-slate-700 mb-4">När användaren gått via en sökning till ett Nytt &lt;objekt&gt;-menyval ska sökparametervärdena följa med som förvalda värden.</p>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r mb-6">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Varje fält användaren slipper fylla i manuellt är ett fält där det inte kan bli fel.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Validering</h3>
+			<p class="text-slate-700 mb-3">Inmatad data ska alltid valideras i så stor utsträckning som möjligt. Softadmin® stödjer tre typer:</p>
+			<div class="space-y-3 mb-6">
+			<div class="flex gap-3 bg-red-50 border border-red-200 rounded-lg p-3">
+			<div class="w-6 h-6 shrink-0 rounded-full bg-red-500 text-white flex items-center justify-center text-xs font-bold">✗</div>
+			<div><p class="font-semibold text-red-800 text-sm">Error – blockerar sparning</p><p class="text-sm text-red-700">Ogiltig data eller obligatoriska krav. Exempel: felaktigt personnummer, ogiltigt org.nr.</p></div>
+		</div>
+			<div class="flex gap-3 bg-amber-50 border border-amber-200 rounded-lg p-3">
+			<div class="w-6 h-6 shrink-0 rounded-full bg-amber-400 text-white flex items-center justify-center text-xs font-bold">!</div>
+			<div><p class="font-semibold text-amber-800 text-sm">Warning – tillåter sparning</p><p class="text-sm text-amber-700">Ovanliga eller avvikande värden. Exempel: ovanligt högt orderbelopp.</p></div>
+		</div>
+			<div class="flex gap-3 bg-blue-50 border border-blue-200 rounded-lg p-3">
+			<div class="w-6 h-6 shrink-0 rounded-full bg-blue-400 text-white flex items-center justify-center text-xs font-bold">i</div>
+			<div><p class="font-semibold text-blue-800 text-sm">Info – kompletterande</p><p class="text-sm text-blue-700">Förklarar konsekvenser av ett val utan att blockera sparning.</p></div>
+		</div>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Inmatning av relaterade objekt</h3>
+			<p class="text-slate-700 mb-3">Om användaren måste avbryta inmatningen för att skapa ett relaterat objekt störs arbetsflödet. Två lösningar:</p>
+			<ul class="text-sm text-slate-700 space-y-2 mb-6 ml-4">
+			<li class="flex gap-2"><span class="text-slate-300">—</span><span><span class="font-medium">Javascript-knapp</span> bredvid fältet – öppnar menyval i popupfönster</span></li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span><span><span class="font-medium">Inline-utfällning</span> – kryssruta som fäller ut extra fält direkt i formuläret</span></li>
+		</ul>
+			<h3 class="font-semibold text-slate-800 mb-2">Tillåt inte att objekt skapas som inaktiva</h3>
+			<p class="text-slate-700 mb-6">Aktiv/Status-inställningen ska bara visas i Ändra &lt;objekt&gt;, inte i Nytt &lt;objekt&gt;. Objekt ska skapas med standardinställningar (Aktiv = Ja).</p>
+			<h3 class="font-semibold text-slate-800 mb-2">Visa kontext vid inmatning</h3>
+			<p class="text-slate-700 mb-4">När en länk från Detailview leder till ett formulär ska sammanhanget framgå – t.ex. namnet på personen formuläret avser.</p>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r mb-6">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Användaren ska när som helst kunna svara på: Var är jag och vad är jag på väg att göra?</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Typiska inmatningsmönster</h3>
+			<div class="space-y-3">
+			<div class="bg-white border border-slate-200 rounded-lg p-4"><p class="font-medium text-slate-800 text-sm mb-1">Objekt som skapas sällan</p><p class="text-sm text-slate-600">Vidaresänd till Detailview för den nyss skapade posten.</p></div>
+			<div class="bg-white border border-slate-200 rounded-lg p-4"><p class="font-medium text-slate-800 text-sm mb-1">Objekt som skapas ofta</p><p class="text-sm text-slate-600">Vidaresänd tillbaka till samma NewEdit – användaren kan börja mata in nästa post direkt.</p></div>
+			<div class="bg-white border border-slate-200 rounded-lg p-4"><p class="font-medium text-slate-800 text-sm mb-1">Avvikelse och manuell genomgång</p><p class="text-sm text-slate-600">Vidaresänd till nästa post i listan. Visa antal kvarvarande via InfoSQL.</p></div>
+		</div>
+		</section>
+			<!-- Parametersidor -->
+			<section id="parametersidor" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">Parametersidor</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Max 10 synliga parametrar. Fritext överst. Slå ihop liknande fält. Aldrig ensam kryssruta. Inloggad användare som default för loggfält.</p>
+		</div>
+			<ul class="text-sm text-slate-700 space-y-3">
+			<li class="flex gap-3"><span class="shrink-0 w-5 h-5 rounded bg-blue-600 text-white text-xs flex items-center justify-center font-bold">1</span><span><span class="font-medium">Max 10 synliga parametrar</span> – fler ska grupperas och gömmas under rubriker med kryssrutor, i användningsfrekvensordning</span></li>
+			<li class="flex gap-3"><span class="shrink-0 w-5 h-5 rounded bg-blue-600 text-white text-xs flex items-center justify-center font-bold">2</span><span><span class="font-medium">Fritextparameter först</span> – den kraftigaste filtreringen görs oftast via fritext</span></li>
+			<li class="flex gap-3"><span class="shrink-0 w-5 h-5 rounded bg-blue-600 text-white text-xs flex items-center justify-center font-bold">3</span><span><span class="font-medium">Slå ihop liknande fält</span> – sökning på namn och e-post kan göras i en och samma parameter</span></li>
+			<li class="flex gap-3"><span class="shrink-0 w-5 h-5 rounded bg-blue-600 text-white text-xs flex items-center justify-center font-bold">4</span><span><span class="font-medium">Aldrig ensam kryssruta</span> – visa aktiva poster direkt, med toppknapp för att visa alla</span></li>
+			<li class="flex gap-3"><span class="shrink-0 w-5 h-5 rounded bg-blue-600 text-white text-xs flex items-center justify-center font-bold">5</span><span><span class="font-medium">Inloggad användare som default</span> – för parametrar som söker i loggningskolumner</span></li>
+		</ul>
+		</section>
+			<!-- Grid -->
+			<section id="grid" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">Grid och listvyer</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Identifiering i vänsterkant. Logginfo längst till höger. Max 2 synliga radknappar. Ta bort alltid sist. Alltid drilldown på aggregerade rapporter.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Kolumnordning</h3>
+			<div class="flex gap-2 mb-4 text-sm">
+			<div class="flex-1 bg-blue-50 border border-blue-200 rounded p-3 text-center"><p class="font-bold text-blue-700 text-xs uppercase mb-1">Först</p><p class="text-blue-800">Identifiering<br/><span class="text-xs text-blue-500">namn, nr, PK</span></p></div>
+			<div class="flex items-center text-slate-300">→</div>
+			<div class="flex-1 bg-slate-50 border border-slate-200 rounded p-3 text-center"><p class="font-bold text-slate-600 text-xs uppercase mb-1">Sedan</p><p class="text-slate-700">Kontext<br/><span class="text-xs text-slate-400">status, typ</span></p></div>
+			<div class="flex items-center text-slate-300">→</div>
+			<div class="flex-1 bg-slate-50 border border-slate-200 rounded p-3 text-center"><p class="font-bold text-slate-600 text-xs uppercase mb-1">Sen</p><p class="text-slate-700">Detaljer<br/><span class="text-xs text-slate-400">sekundär data</span></p></div>
+			<div class="flex items-center text-slate-300">→</div>
+			<div class="flex-1 bg-slate-50 border border-slate-200 rounded p-3 text-center"><p class="font-bold text-slate-600 text-xs uppercase mb-1">Sist</p><p class="text-slate-700">Logg<br/><span class="text-xs text-slate-400">skapad av/datum</span></p></div>
+		</div>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r mb-6">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Om användaren måste scrolla långt åt sidan för att förstå vad raden är är kolumnordningen fel.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Standardsortering</h3>
+			<p class="text-slate-700 mb-6">Alltid förvald sorteringsordning. Naturligt: första kolumnen (primärnyckeln). Grupperade rapporter ska också sorteras på grupperingskolumnen.</p>
+			<h3 class="font-semibold text-slate-800 mb-2">Radknappar</h3>
+			<p class="text-slate-700 mb-3">Max två synliga. Övriga i kontextmenyn. Ta bort eller inaktivera kan med fördel ligga i kontextmenyn. Ta bort-länken ska alltid vara sist i ordningen.</p>
+			<h3 class="font-semibold text-slate-800 mb-2">Automatisk navigering vid exakt en träff</h3>
+			<p class="text-slate-700 mb-6">Om sökningen ger exakt en träff är det oftast lämpligt att aktivera radlänken till detaljvyn automatiskt.</p>
+			<h3 class="font-semibold text-slate-800 mb-2">Bläddra i listvyer</h3>
+			<p class="text-slate-700 mb-6">Aktivera bläddringsfunktionen på radlänken till detaljvyn när listvyn visar objekt som ska gås igenom manuellt.</p>
+			<h3 class="font-semibold text-slate-800 mb-2">Alltid drilldown på rapporter</h3>
+			<p class="text-slate-700 mb-3">Aggregerade siffror ska alltid ha drilldown-menyval som listar transaktionerna bakom. Dokumentera syfte och definition direkt i systemet, förslagsvis som InfoSQL.</p>
+			<h3 class="font-semibold text-slate-800 mb-2">Undantaget bekräftar regeln</h3>
+			<p class="text-slate-700">Markera bara det som avviker. Om allt är godkänt, markera bara det som är underkänt.</p>
+		</section>
+			<!-- Detailview -->
+			<section id="detailview" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">Detailview</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Viktigaste info först (löpsedelsprincipen). Flikar sorterade efter frekvens. Kontextberoende förvald flik. Alltid länk till Ändra-menyvalet.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Infoboxar</h3>
+			<p class="text-slate-700 mb-6">Gruppera sammanhörande information. Löpsedelsprincipen: viktigaste informationen presenteras först. Inte för många datafält per infobox.</p>
+			<h3 class="font-semibold text-slate-800 mb-2">Flikar för relaterade objekt</h3>
+			<p class="text-slate-700 mb-3">Sortera flikar i användningsfrekvensordning. Den mest använda fliken längst till vänster som förvald.</p>
+			<p class="text-sm font-semibold text-red-700 mb-2">Undvik flikar för:</p>
+			<ul class="text-sm text-slate-700 space-y-1 mb-6 ml-4">
+			<li class="flex gap-2"><span class="text-red-400">✗</span>Listvyer med väldigt många rader – ge dem parametersida i fullskärm</li>
+			<li class="flex gap-2"><span class="text-red-400">✗</span>NewEdit-menyval – inmatning kan klickas bort utan varning</li>
+			<li class="flex gap-2"><span class="text-red-400">✗</span>En nästlad Detailview som har egna flikar</li>
+		</ul>
+			<h3 class="font-semibold text-slate-800 mb-2">Kontextberoende förvald flik</h3>
+			<p class="text-slate-700 mb-3">Den flik som visas längst till vänster är normalt förvald. I vissa fall ska en annan flik visas beroende på varifrån användaren navigerade.</p>
+			<div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-sm text-blue-800">
+			<p class="font-medium mb-1">Exempel</p>
+			<p>Om en listvy visar fakturor och användaren klickar på radlänk till Visa kontakt, ska Fakturor-fliken visas som förvald – inte den vanligt förvalda fliken. Det speglar vad användaren just arbetade med.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Alltid länk till Ändra-menyvalet</h3>
+			<p class="text-slate-700">Användaren ska alltid kunna ta sig till redigering utan att gå via huvudmenyn.</p>
+		</section>
+			<!-- Execute och Delete -->
+			<section id="execute-delete" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">Execute och Delete</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Informera om vad som händer och varför – innan och efter. Alltid bekräftelsetext vid borttagning. Informativt felmeddelande om borttagning misslyckas.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Execute – informera om vad som händer</h3>
+			<p class="text-slate-700 mb-3">Om en handling bara påverkar objekt som uppfyller vissa villkor ska det framgå på föregående menyval. Användaren ska inte bli överraskad.</p>
+			<ul class="text-sm text-slate-700 space-y-1 mb-4 ml-4">
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Förklara förekrav i en infobox innan körning</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Informera om hur många poster som behandlades och varför vissa inte behandlades</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Om Execute nås via Detailview och behöver parametrar – använd NewEdit (stödjer InfoSQL)</li>
+		</ul>
+			<h3 class="font-semibold text-slate-800 mb-2">Delete – bekräftelse och felhantering</h3>
+			<ul class="text-sm text-slate-700 space-y-1 ml-4">
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Använd alltid Confirmation text</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Vid bulkborttagning: visa hur många objekt som togs bort</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Om borttagning misslyckas: informativt felmeddelande – förlita dig inte på det generiska databaskopplingsmeddelandet</li>
+		</ul>
+		</section>
+			<!-- RTF/PDF -->
+			<section id="rtf-pdf" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">RTF, PDF och nedladdning</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Låt alltid användaren markera manuellt som hanterat. Dokumentera taggar i mallar direkt i systemet.</p>
+		</div>
+			<h3 class="font-semibold text-slate-800 mb-2">Markera aldrig automatiskt som hanterat</h3>
+			<p class="text-slate-700 mb-6">Det finns inget sätt att säkerställa att en nedladdad fil verkligen skrevs ut eller importerades. Användaren ska alltid manuellt exekvera ett separat menyval, lämpligen namngivet <span class="font-medium">Markera &lt;dokumentobjekt&gt; som utskrivet</span>.</p>
+			<h3 class="font-semibold text-slate-800 mb-2">Dokumentera taggar i mallar</h3>
+			<p class="text-slate-700">Taggar i dokument- eller e-postmallar ska dokumenteras med namn och innehåll i anslutning till det menyval där mallen laddas upp.</p>
+		</section>
+			<!-- Disabled state -->
+			<section id="disabled-state" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">Disabled state och knappar</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Använd alltid Disabled reason-egenskapen. Förklara varför något är inaktivt, inte bara att det är det.</p>
+		</div>
+			<p class="text-slate-700 mb-4">Om användaren inte kan klicka behöver systemet förklara varför. I Softadmin® görs detta via fältets <span class="font-mono text-sm bg-slate-100 px-1 rounded">Disabled reason</span>-egenskap.</p>
+			<div class="grid grid-cols-2 gap-4 mb-4">
+			<div>
+			<p class="text-xs font-semibold text-green-700 uppercase tracking-wide mb-2">Bra</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Kräver att kund är sparad först</div>
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Kan inte skickas förrän alla fält är ifyllda</div>
+			<div class="flex gap-2 text-sm text-green-800 bg-green-50 px-3 py-1.5 rounded"><span>✓</span>Endast tillgänglig för aktiva uppdrag</div>
+		</div>
+		</div>
+			<div>
+			<p class="text-xs font-semibold text-red-700 uppercase tracking-wide mb-2">Dåligt</p>
+			<div class="space-y-1">
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>Ingen förklaring alls</div>
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>Inte tillgänglig</div>
+			<div class="flex gap-2 text-sm text-red-800 bg-red-50 px-3 py-1.5 rounded"><span>✗</span>Disabled</div>
+		</div>
+		</div>
+		</div>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Om något går att se men inte klicka på, förklara varför direkt i gränssnittet.</p>
+		</div>
+		</section>
+			<!-- Behörighet -->
+			<section id="behorighet" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">Behörighet och kontext</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Bygg för sällananvändaren, inte superusern. Dölj irrelevanta länkar – inte bara otillgängliga menyval.</p>
+		</div>
+			<p class="text-slate-700 mb-4">UX handlar om att rätt information visas för rätt person. Konsulter bygger ofta för superusern och glömmer att nyanställda ser exakt samma vy.</p>
+			<ul class="text-sm text-slate-700 space-y-1 mb-4 ml-4">
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Ska känsliga fält döljas baserat på roll?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Ska åtgärder bara synas när de är relevanta för inloggad användare?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Kan standardvärden sättas automatiskt beroende på vem som är inloggad?</li>
+			<li class="flex gap-2"><span class="text-slate-300">—</span>Ser en nyanställd samma vy som en van användare – och är det lämpligt?</li>
+		</ul>
+			<p class="text-slate-700 mb-4">Softadmin® visar automatiskt bara menyval som användaren har rätt till. Men det räcker inte – länkar till menyval som inte är relevanta i ett visst tillstånd ska döljas tills de är det.</p>
+			<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-4 text-sm text-slate-700">
+			<p class="font-medium mb-1">Tänk på sällananvändaren</p>
+			<p>Den som bara använder en funktion ett par gånger i månaden har inte lärt sig systemets logik. Tydliga labels, synliga hjälptexter och enkla flöden är extra viktiga för dem.</p>
+		</div>
+			<div class="border-l-4 border-amber-400 bg-amber-50 px-4 py-3 rounded-r">
+			<p class="text-sm text-slate-700"><span class="font-semibold">⚡ </span>Bygg för den minst erfarna användaren av en viss funktion.</p>
+		</div>
+		</section>
+			<!-- Användaranpassning -->
+			<section id="anvandaranpassning" class="mb-16">
+			<h2 class="text-xl font-bold text-blue-700 mb-1 pb-2 border-b border-slate-200">Användaranpassning och hjälp</h2>
+			<div class="bg-slate-100 rounded-lg px-4 py-3 mb-6 mt-4">
+			<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">TL;DR</p>
+			<p class="text-sm text-slate-600">Samla alla användarinställningar på ett ställe. Indexera centrala objekt i Enterprise Search. Visa senast öppnade poster. Överväg tangentbordsgenvägar.</p>
+		</div>
+			<div class="space-y-5">
+			<div>
+			<h3 class="font-semibold text-slate-800 mb-1">Samla användarens inställningar på ett ställe</h3>
+			<p class="text-sm text-slate-600">All information som knyts till användaren samlas på ett och samma menyval.</p>
+		</div>
+			<div>
+			<h3 class="font-semibold text-slate-800 mb-1">Enterprise Search</h3>
+			<p class="text-sm text-slate-600">Indexera centrala entiteter i Softadmin® Enterprise Search. Ofta finns ett litet antal objekt som söks fram med många olika sökbegrepp.</p>
+		</div>
+			<div>
+			<h3 class="font-semibold text-slate-800 mb-1">Senast visade poster</h3>
+			<p class="text-sm text-slate-600">En lista över de X senast öppnade posterna för centrala objekt (t.ex. 20 senast öppnade kunder) kan placeras på användarens startsida.</p>
+		</div>
+			<div>
+			<h3 class="font-semibold text-slate-800 mb-1">Tangentbordsnavigering</h3>
+			<p class="text-sm text-slate-600">För användningsfall med hög frekvens bör du överväga att tilldela menyval och länkar tangentbordsgenvägar.</p>
+		</div>
+		</div>
+		</section>
+			<!-- Footer -->
+			<div class="border-t border-slate-200 pt-8 mt-8 text-center text-sm text-slate-400">
+			<p>UX-guide för Softadmin® · Internt dokument</p>
+		</div>
+		</main>
+		</div>
+		<script>
+			const sections = document.querySelectorAll('section[id]');
+			const links = document.querySelectorAll('.toc-link');
+			const observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+			const link = document.querySelector(.toc-link[href="#${entry.target.id}"]);
+			if (!link) return;
+			if (entry.isIntersecting) {
+			link.classList.add('active');
+			} else {
+			link.classList.remove('active');
+			}
+			});
+			}, { rootMargin: '-56px 0px -60% 0px', threshold: 0 });
+			sections.forEach(s => observer.observe(s));
+		</script>
+</body>
+</html>
