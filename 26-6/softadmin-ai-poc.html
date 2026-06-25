@@ -4,323 +4,470 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Softadmin AI Mockup PoC</title>
+	<title>Anna Andersson - Softadmin mockup</title>
 	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css">
 	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
 	<style>
-		@font-face {
-			font-family: "Lexend";
-			src: url("./Fonts/Lexend-VariableFont_wght.ttf") format("truetype");
-			font-weight: 100 900;
-		}
-
-		:root {
-			--poc-panel-border: #ccd5e2;
-			--poc-panel-bg: #fff;
-		}
-
-		body {
-			background: #eef1f5;
-		}
-
-		.pocShell {
-			display: grid;
-			grid-template-columns: minmax(20rem, 28rem) minmax(0, 1fr);
-			min-height: 100vh;
-		}
-
-		.pocControlPanel {
-			background: var(--poc-panel-bg);
-			border-right: 1px solid var(--poc-panel-border);
-			padding: 1.5rem;
-			overflow: auto;
-		}
-
-		.pocControlPanel h1 {
-			margin-bottom: 0.5rem;
-		}
-
-		.pocControlPanel p {
-			margin: 0 0 1rem;
-			color: var(--Sa-Color-TextSecondary);
-			line-height: 1.5;
-		}
-
-		.pocPrompt {
-			width: 100%;
-			min-height: 8rem;
-			box-sizing: border-box;
-			margin-bottom: 1rem;
-		}
-
-		.pocStatus {
+		.saRadioCardsMock {
 			margin-top: 1rem;
-			color: var(--Sa-Color-TextSecondary);
+		}
+
+		.saValidationMessage {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			margin-top: 0.5rem;
 			font-size: 0.875rem;
-			line-height: 1.4;
+			line-height: 1.25rem;
+			font-weight: 500;
 		}
 
-		.pocPreview {
-			min-width: 0;
-			overflow: auto;
+		.saValidationMessage.saWarning {
+			color: #9c6700;
 		}
 
-		.pocMockFrame {
-			min-width: 58rem;
-			min-height: 100vh;
-			background: #fff;
+		.saValidationMessage.saError {
+			color: #e0173e;
 		}
 
-		.pocMockFrame .saRootContentWrapper {
-			min-height: 100vh;
+		.saLargeScreen .saMockSmallScreenOnly {
+			display: none !important;
 		}
 
-		.pocRightFrame {
-			min-height: 100vh;
+		.saSmallScreen .saMockLargeScreenOnly {
+			display: none !important;
 		}
 
-		.pocMockContent {
-			min-height: calc(100vh - 7rem);
-			padding: 0;
-		}
-
-		@media (max-width: 62rem) {
-			.pocShell {
-				grid-template-columns: 1fr;
-			}
-
-			.pocControlPanel {
-				border-right: 0;
-				border-bottom: 1px solid var(--poc-panel-border);
-			}
-
-			.pocMockFrame {
-				min-width: 0;
-			}
-
+		.saSmallScreen .saMockMobileOverflowAction {
+			display: none !important;
 		}
 	</style>
+	<meta name="description" content="Demo">
+	<meta property="og:image" content="./Presentation/img/og-img.png">
+
+	<script src="../src/jquery-4.0.0.slim.min.js"></script>
+	<script src="./script.js?v=2"></script>
+	<script src="./softadmin-component-registry.js?v=14"></script>
+	<script src="./softadmin-ai-spec.js?v=14"></script>
+	<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
+	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
 
-<body class="saRootBody saLargeScreen saPc saCompact saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
-	<div class="pocShell">
-		<aside class="pocControlPanel">
-			<h1>AI mockup PoC</h1>
-			<p>This simulates the proposed workflow: natural language becomes a compact Softadmin screen spec, then a deterministic renderer creates the mockup.</p>
-			<label class="saLabel" for="prompt">Natural language request</label>
-			<textarea id="prompt" class="saInputText pocPrompt">Create the basic Softadmin frame for a customer details page with breadcrumbs, back button, title, favorite toggle, sidebar, and top actions.</textarea>
-			<button id="generate" class="saButtonPrimary" type="button">
-				<i class="saIcon far fa-wand-magic-sparkles"></i>
-				<span class="saButtonText">Generate frame</span>
-			</button>
-			<p id="status" class="pocStatus" aria-live="polite"></p>
-		</aside>
-
-		<section class="pocPreview">
-			<div class="pocMockFrame">
-				<div class="saRootContentWrapper">
-					<div class="saSideBarOuter saSideBarOuterJs saClosed">
-						<aside class="saAside">
-							<nav id="PreviewSideBar" class="saSideBar saSideBarJs saHasSmallScreenLogo saExpanded">
-								<div class="saAccessibilityBannerHolderJs">
-									<ul class="saAccessibilityBanner">
-										<li><a tabindex="0">Go to content</a></li>
-										<li><a tabindex="0">Go to menu</a></li>
-									</ul>
+<body class="saRootBody saLargeScreen saPc saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
+	<div class="saRootContentWrapper">
+		<div class="saSideBarOuter saSideBarOuterJs saClosed">
+			<form name="aspnetForm" method="post" action="./softadmin.aspx" id="aspnetForm">
+				<aside class="saAside">
+					<nav id="SideBar" class="saSideBar saSideBarJs saExpanded">
+						<div class="saAccessibilityBannerHolderJs">
+							<ul class="saAccessibilityBanner">
+								<li><a tabindex="0">Go to content</a></li>
+								<li><a tabindex="0">Go to menu</a></li>
+							</ul>
+						</div>
+						<section class="saSideBarSection saSideBarHeaderSmallScreen">
+							<img class="saSideBarHeaderSmallScreenLogo">
+							<div class="saTitle">
+								<h1>Anna Andersson</h1>
+							</div>
+							<button class="saNavigator saButtonHeader" type="button">
+								<i class="saIcon far fa-xmark"></i>
+							</button>
+						</section>
+						<section class="saSideBarSection saSideBarHeader saSideBarSectionJs">
+							<img class="saCustomerLogo" alt="Contact details logo" src="../src/img/logo.svg">
+							<ul class="saSideBarInputGroup">
+								<li>
+									<a class="saSideBarSearchLink" tabindex="0">
+										<div><i class="far fa-magnifying-glass saIcon"></i></div>
+									</a>
+									<label class="saSideBarSearch">
+										<input id="SideBarSearchInput" class="saSearchInput saInputText" type="search"
+											placeholder="Search...">
+										<i class="far fa-magnifying-glass saIcon"></i>
+									</label>
+								</li>
+								<li>
+									<div class="saLabeled saImpersonator">
+										<label class="saLabel" for="autoSearch">User</label>
+										<span class="saFirstLetter">A</span>
+										<button class="saActionIcon" type="button" tabindex="-1">
+											<i class="saIcon far fa-search"></i>
+										</button>
+										<input class="saInputText" id="autoSearch" value="anna.andersson@example.se">
+									</div>
+								</li>
+							</ul>
+						</section>
+						<section class="saSideBarSection saSideBarBody saSideBarSectionJs">
+							<div class="saSideBarGroup saSideBarFavorites">
+								<div class="saSideBarFavoritesHeader">
+									<button class="saButtonFavorites" type="button"><span>Favorites</span><i
+											class="saIcon saIcon far fa-angle-down"></i></button>
+									<button class="saButtonFavoritesMinimized" type="button"><i
+											class="saIcon saIcon far fa-angle-down"></i></button>
+									<button class="saButtonFavoritesEdit" type="button">Edit</button>
 								</div>
-								<section class="saSideBarSection saSideBarHeader saSideBarSectionJs">
-									<img class="saCustomerLogo" alt="Customer portal logo" src="./Presentation/img/softadmin-logo-expanded.svg">
-									<ul class="saSideBarInputGroup">
-										<li>
-											<a class="saSideBarSearchLink" tabindex="0">
-												<div><i class="saIcon far fa-search"></i></div>
-											</a>
-											<label class="saSideBarSearch">
-												<input class="saSearchInput saInputText" type="search" placeholder="Search...">
-												<i class="saIcon far fa-search"></i>
-											</label>
-										</li>
-										<li class="saMenuDropdowns">
-											<label class="saMenuDropdown">
-												<span class="saFirstLetter">A</span>
-												<select class="saDropdown">
-													<option>All customers</option>
-													<option>Active accounts</option>
-												</select>
-												<i class="saIcon far fa-angle-down saTrailing"></i>
-											</label>
-										</li>
-									</ul>
-								</section>
-								<section class="saSideBarSection saSideBarBody saSideBarSectionJs">
-									<div class="saSideBarGroup saSideBarFavorites">
-										<div class="saSideBarFavoritesHeader">
-											<button class="saButtonFavorites" type="button"><span>Favorites</span><i class="saIcon saIcon far fa-angle-down"></i></button>
-											<button class="saButtonFavoritesMinimized" type="button"><i class="saIcon saIcon far fa-angle-down"></i></button>
-											<button class="saButtonFavoritesEdit" type="button">Edit</button>
+								<ul class="saItemList">
+									<li><a class="saItem saFavorite" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-calendar-check icon saIcon"></i></div>
+												<span>Today's bookings</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-file-invoice-dollar icon saIcon"></i>
+												</div><span>Invoices to approve</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-triangle-exclamation icon saIcon"></i>
+												</div><span>Booking conflicts</span>
+											</div>
+										</a></li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Economy</h3>
+								<ul class="saItemList">
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-chart-line icon saIcon"></i>
+												</div>
+												<span>Overview</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-file-invoice icon saIcon"></i>
+												</div>
+												<span>Customer invoices</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-receipt icon saIcon"></i>
+												</div>
+												<span>Supplier invoices</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-credit-card icon saIcon"></i>
+												</div>
+												<span>Payments</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Bookings</h3>
+								<ul class="saItemList">
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-calendar-days icon saIcon"></i>
+												</div>
+												<span>Booking calendar</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-inbox icon saIcon"></i>
+												</div>
+												<span>Booking requests<span class="saMenuItemPill saBeta">Beta</span></span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-user-check icon saIcon"></i>
+												</div>
+												<span>Participants</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-tags icon saIcon"></i>
+												</div>
+												<span>Price rules</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Resources</h3>
+								<ul class="saItemList">
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-door-open icon saIcon"></i>
+												</div>
+												<span>Rooms</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-people-group icon saIcon"></i>
+												</div>
+												<span>Instructors</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-boxes-stacked icon saIcon"></i>
+												</div>
+												<span>Equipment</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Reports</h3>
+								<ul class="saItemList">
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-chart-pie icon saIcon"></i>
+												</div>
+												<span>Revenue report</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-chart-simple icon saIcon"></i>
+												</div>
+												<span>Occupancy report</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</section>
+						<section class="saSideBarSection saSideBarFooter saSideBarSectionJs">
+							<div class="saSideBarFooterPrimary">
+								<div class="saListItem">
+									<button class="saAccountDropdown" type="button">
+										<div class="saAccountAvatar">AA</div>
+										<span class="saAccountName">Anna Andersson</span>
+										<i class="far fa-angle-down saIcon"></i>
+									</button>
+								</div>
+								<ul class="saSideBarToolbar">
+									<li>
+										<button type="button">
+											<div class="saIconWrapper">
+												<i class="far fa-gear icon saIcon"></i>
+											</div>
+											<span>Settings</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper"><i class="far fa-chart-network icon saIcon"></i>
+											</div>
+											<span>Economy setup</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper"><i class="far fa-window-restore icon saIcon"></i>
+											</div>
+											<span>New tab</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper"><i
+													class="far fa-circle-question icon saIcon"></i></div>
+											<span>Help</span>
+										</button>
+									</li>
+									<li class="saNotificationsItem">
+										<button id="largeScreenNotifications" type="button">
+											<div class="saSidenavItem"><i class="far fa-bell saIcon"></i></div>
+											<div class="saBadgeCount saUrgent">2</div>
+										</button>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarFooterSecondary">
+								<a class="saSoftadminLogo" target="_blank" rel="noopener noreferrer" tabindex="-1"
+									href="https://www.softadmin.com/">
+									<img class="saLogo" src="./Presentation/img/softadmin-logo-minimized.svg">
+									<img class="saWordmark" src="./Presentation/img/softadmin-logo-expanded.svg">
+								</a>
+								<button class="saExpander saDynamicTooltipJs" type="button"><i
+										class="far fa-angles-left saIcon"></i></button>
+							</div>
+						</section>
+					</nav>
+				</aside>
+			</form>
+		</div>
+		<div class="saSideBarSmallScreenOverlay" id="SideBarSmallScreenOverlay" style="display: none;"></div>
+		<div class="saRightFrameRoot">
+			<div id="body"
+				class="right standardview saPc saLargeScreen saCompact saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
+				<div class="pagecontentframe">
+					<form class="interface">
+						<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs" aria-label="Breadcrumbs">
+												<div class="saBackButtonWrapper">
+													<button class="saBackButton" type="button">
+														<i class="far fa-arrow-left saBack saIcon"></i>
+													</button>
+												</div>
+												<span class="saBreadcrumb">
+													<a tabindex="0">Home</a></span>
+													<span class="saBreadcrumbSeparator" aria-hidden="true">&gt;</span>
+													<span class="saBreadcrumb">
+														<a tabindex="0">Search contacts</a></span>
+													<span class="saBreadcrumbSeparator" aria-hidden="true">&gt;</span>
+													<span class="saBreadcrumb saNoLinkBreadcrumb">Anna Andersson</span>
+											</nav>
 										</div>
-										<ul class="saItemList">
-											<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="saIcon far fa-building icon"></i></div><span>Customers</span></div></a></li>
-											<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="saIcon far fa-truck icon"></i></div><span>Orders</span></div></a></li>
-											<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="saIcon far fa-file-invoice icon"></i></div><span>Invoices</span></div></a></li>
-										</ul>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Anna Andersson</h1>
+												<div class="saNoSpinner">
+													<button type="button" class="saFavoriteToggle"><i
+															class="saIcon far fa-star"></i><i
+															class="saIcon fas fa-star"></i></button>
+												</div>
+												<ul class="saSpecialLinksWrapper"></ul>
+											</div>
+										</div>
+										<nav class="saNavigationBar">
+											<div class="saTopButtons">
+												<div class="saActionLinks">
+													<button class="saTopLink saActionLink saButtonPrimary"
+														type="button">
+														<div class="saIconHolder saOptionIcon"><i
+																class="far fa-folder-plus icon saIcon"></i></div><span
+															class="saButtonText saOptionText">Create case</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary saMockMobileOverflowAction"
+														type="button">
+														<div class="saIconHolder saOptionIcon"><i
+															class="far fa-address-book icon saIcon"></i></div><span
+															class="saButtonText saOptionText">Show addresses</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary saMockMobileOverflowAction"
+														type="button">
+														<div class="saIconHolder saOptionIcon"><i
+															class="far fa-shield-check icon saIcon"></i></div><span
+															class="saButtonText saOptionText">Identity check</span>
+													</button>
+													<div class="saCollectorWrapper">
+														<button class="saMoreButton" type="button"><i
+																class="far fa-ellipsis-vertical icon saIcon"></i></button>
+													</div>
+												</div>
+											</div>
+										</nav>
 									</div>
-									<div class="saSideBarGroup">
-										<h3>Sales</h3>
-										<ul class="saItemList">
-											<li><a class="saItem saDynamicTooltipJs" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="saIcon far fa-chart-line icon"></i></div><span>Pipeline</span></div></a></li>
-											<li><a class="saItem saDynamicTooltipJs" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="saIcon far fa-users icon"></i></div><span>Contacts</span></div></a></li>
-										</ul>
-									</div>
-								</section>
-								<section class="saSideBarSection saSideBarFooter saSideBarSectionJs">
-									<div class="saSideBarFooterPrimary">
-										<div class="saListItem">
-											<button class="saAccountDropdown" type="button">
-												<div class="saAccountAvatar">AK</div>
-												<span class="saAccountName">Anna Karlsson</span>
-												<i class="saIcon far fa-angle-down"></i>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<button class="saSmallScreenBackButton saButtonHeader" type="button"><i
+													class="far fa-arrow-left saBack saIcon"></i></button>
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+													<h1 class="saHeaderText">Anna Andersson</h1>
+												</div>
+											</div>
+											<button class="saNotifications saButtonHeader" type="button"
+												aria-expanded="false">
+												<i class="far fa-bell saIcon"></i>
+												<div class="saBadgeCount saUrgent">2</div>
+											</button>
+											<button class="saNavigator saButtonHeader" type="button"
+												aria-label="Open menu" data-tooltip="Open menu">
+												<div class="saNavBar"><i class="saIcon far fa-bars"></i>
+												</div>
 											</button>
 										</div>
 									</div>
-									<div class="saSideBarFooterSecondary">
-										<a class="saSoftadminLogo" tabindex="-1">
-											<img class="saLogo" src="./Presentation/img/softadmin-logo-minimized.svg">
-											<img class="saWordmark" src="./Presentation/img/softadmin-logo-expanded.svg">
-										</a>
-										<button class="saExpander saDynamicTooltipJs" type="button"><i class="saIcon far fa-angles-left"></i></button>
+									<nav class="saBottomRow saActionLinkBar">
+										<div class="saTopButtons saActionLinks">
+											<button class="saTopLink saActionLink saButtonPrimary" type="button">
+												<div class="saIconHolder saOptionIcon" aria-hidden="true">
+													<i class="far fa-folder-plus icon saIcon"></i>
+												</div>
+												<span class="saButtonText saOptionText">Create case</span>
+											</button>
+											<button class="saTopLink saActionLink saButtonSecondary saMockMobileOverflowAction" type="button">
+												<div class="saIconHolder saOptionIcon" aria-hidden="true">
+													<i class="far fa-address-book icon saIcon"></i>
+												</div>
+												<span class="saButtonText saOptionText">Show addresses</span>
+											</button>
+											<button class="saTopLink saActionLink saButtonSecondary saMockMobileOverflowAction" type="button">
+												<div class="saIconHolder saOptionIcon" aria-hidden="true">
+													<i class="far fa-shield-check icon saIcon"></i>
+												</div>
+												<span class="saButtonText saOptionText">Identity check</span>
+											</button>
+											<div class="saCollectorWrapper">
+												<button class="saMoreButton" aria-expanded="false" type="button">
+													<i class="far fa-ellipsis-vertical icon saIcon"></i>
+												</button>
+											</div>
+										</div>
+									</nav>
+								</div>
+							</div>
+						</header>
+						<div class="maincolinner gradients">
+							<main id="MI_M" class="menuitem pagecontentframe">
+								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
+									<div class="scrollcontent-inner">
+
+										<div data-softadmin-component-root></div>
+
 									</div>
-								</section>
-							</nav>
-						</aside>
-					</div>
-					<div class="saRightFrameRoot">
-						<form class="interface pocRightFrame right standardview saLargeScreen saPc saCompact saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
-							<header id="pageheader" class="saPageHeaderHolder"></header>
-							<main class="pocMockContent" id="mockup" aria-hidden="true"></main>
-						</form>
-					</div>
+								</div>
+							</main>
+						</div>
+					</form>
 				</div>
 			</div>
-		</section>
+		</div>
 	</div>
-
-	<script>
-		const scenarioSpec = {
-			type: "DetailPage",
-			title: "Customer: Acme Manufacturing AB",
-			breadcrumbs: ["Customers", "Acme Manufacturing AB"],
-			actions: [
-				{ label: "New order", icon: "plus", variant: "primary" },
-				{ label: "Edit customer", icon: "pen", variant: "secondary" },
-				{ label: "Export", icon: "file-export", variant: "secondary" }
-			]
-		};
-
-		function escapeHtml(value) {
-			return String(value)
-				.replace(/&/g, "&amp;")
-				.replace(/</g, "&lt;")
-				.replace(/>/g, "&gt;")
-				.replace(/"/g, "&quot;")
-				.replace(/'/g, "&#039;");
-		}
-
-		function actionButton(action) {
-			const variant = action.variant === "primary" ? "saButtonPrimary" : "saButtonSecondary";
-			const destructive = action.destructive ? " saDestructive" : "";
-			return `
-				<button class="saTopLink saActionLink ${variant}${destructive}" type="button">
-					<div class="saIconHolder saOptionIcon"><i class="saIcon far fa-${escapeHtml(action.icon)} icon"></i></div>
-					<span class="saButtonText saOptionText">${escapeHtml(action.label)}</span>
-				</button>`;
-		}
-
-		function renderBreadcrumbs(items) {
-			return `
-				<div class="saBackButtonWrapper">
-					<button class="saBackButton" type="button"><i class="saIcon far fa-arrow-left saBack"></i></button>
-				</div>
-				${items.map((item, index) => `
-					<div class="saBreadcrumb${index === items.length - 1 ? " saNoLinkBreadcrumb" : ""}">
-						${index === items.length - 1
-							? `<div>${escapeHtml(item)}</div>`
-							: `<a tabindex="0">${escapeHtml(item)}</a>`}
-					</div>
-					${index < items.length - 1 ? `<span class="saBreadcrumbSeparator">/</span>` : ""}
-				`).join("")}`;
-		}
-
-		function renderHeader(spec) {
-			const breadcrumbs = spec.breadcrumbs || [];
-			document.getElementById("pageheader").innerHTML = `
-				<div class="saPageHeader saDesktopHeader">
-					<div class="saHeader">
-						<div class="saRowWrapper">
-							<div class="saTopRow">
-								<nav class="saBreadcrumbs">
-									${renderBreadcrumbs(breadcrumbs)}
-								</nav>
-							</div>
-							<div class="saBottomRow">
-								<div class="saTitle">
-									<h1 class="saHeaderText">${escapeHtml(spec.title)}</h1>
-									<div class="saNoSpinner">
-										<button type="button" class="saFavoriteToggle"><i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i></button>
-									</div>
-								</div>
-							</div>
-							<nav class="saNavigationBar">
-								<div class="saTopButtons">
-									<div class="saActionLinks">
-										${spec.actions.map(actionButton).join("")}
-										<div class="saCollectorWrapper">
-											<button class="saMoreButton" type="button"><i class="saIcon far fa-ellipsis-vertical icon"></i></button>
-										</div>
-									</div>
-								</div>
-							</nav>
-						</div>
-					</div>
-				</div>
-				<div class="saPageHeader saSmallScreenHeader">
-					<div class="saHeader">
-						<div class="saHeaderInner">
-							<div class="saTopRow">
-								<button class="saSmallScreenBackButton saButtonHeader" type="button"><i class="saIcon far fa-arrow-left saBack"></i></button>
-								<div class="saHeaderWrapper">
-									<div class="saTitle">
-										<h1 class="saHeaderText">${escapeHtml(spec.title)}</h1>
-									</div>
-								</div>
-								<button class="saNotifications saButtonHeader" type="button"><i class="saIcon far fa-bell"></i></button>
-								<button class="saNavigator saButtonHeader" type="button"><i class="saIcon far fa-bars"></i></button>
-							</div>
-						</div>
-						<nav class="saBottomRow saActionLinkBar">
-							<div class="saTopButtons saActionLinks">
-								${spec.actions.map(actionButton).join("")}
-								<div class="saCollectorWrapper">
-									<button class="saMoreButton" type="button"><i class="saIcon far fa-ellipsis-vertical icon"></i></button>
-								</div>
-							</div>
-						</nav>
-					</div>
-				</div>`;
-		}
-
-		function render(spec) {
-			renderHeader(spec);
-			document.getElementById("mockup").innerHTML = "";
-			document.getElementById("status").textContent = "Basic Softadmin frame generated: sidebar, breadcrumbs, back button, title, favorite toggle, and top actions.";
-		}
-
-		document.getElementById("generate").addEventListener("click", () => {
-			render(scenarioSpec);
-		});
-
-		render(scenarioSpec);
-	</script>
 </body>
-
-</html>

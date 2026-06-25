@@ -4,14 +4,47 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Jonathan</title>
+	<title>Customer details - Softadmin prompt test</title>
 	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css">
 	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+	<style>
+		.saRadioCardsMock {
+			margin-top: 1rem;
+		}
+
+		.saValidationMessage {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			margin-top: 0.5rem;
+			font-size: 0.875rem;
+			line-height: 1.25rem;
+			font-weight: 500;
+		}
+
+		.saValidationMessage.saWarning {
+			color: #9c6700;
+		}
+
+		.saValidationMessage.saError {
+			color: #e0173e;
+		}
+
+		.saLargeScreen .saMockSmallScreenOnly {
+			display: none !important;
+		}
+
+		.saSmallScreen .saMockLargeScreenOnly {
+			display: none !important;
+		}
+	</style>
 	<meta name="description" content="Demo">
 	<meta property="og:image" content="./Presentation/img/og-img.png">
 
 	<script src="../src/jquery-4.0.0.slim.min.js"></script>
-	<script src="./script.js"></script>
+	<script src="./script.js?v=2"></script>
+	<script src="./softadmin-component-registry.js?v=2"></script>
+	<script src="./softadmin-prompt-test-spec.js?v=2"></script>
 	<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -31,14 +64,14 @@
 						<section class="saSideBarSection saSideBarHeaderSmallScreen">
 							<img class="saSideBarHeaderSmallScreenLogo">
 							<div class="saTitle">
-								<h1>Softadmin® System</h1>
+								<h1>Customer details</h1>
 							</div>
 							<button class="saNavigator saButtonHeader" type="button">
 								<i class="saIcon far fa-xmark"></i>
 							</button>
 						</section>
 						<section class="saSideBarSection saSideBarHeader saSideBarSectionJs">
-							<img class="saCustomerLogo" alt="Softadmin® System logo" src="../src/img/logo.svg">
+							<img class="saCustomerLogo" alt="Customer details logo" src="../src/img/logo.svg">
 							<ul class="saSideBarInputGroup">
 								<li>
 									<a class="saSideBarSearchLink" tabindex="0">
@@ -46,18 +79,18 @@
 									</a>
 									<label class="saSideBarSearch">
 										<input id="SideBarSearchInput" class="saSearchInput saInputText" type="search"
-											placeholder="Sök...">
+											placeholder="Search...">
 										<i class="far fa-magnifying-glass saIcon"></i>
 									</label>
 								</li>
 								<li>
 									<div class="saLabeled saImpersonator">
-										<label class="saLabel" for="autoSearch">Användare</label>
-										<span class="saFirstLetter">J</span>
+										<label class="saLabel" for="autoSearch">User</label>
+										<span class="saFirstLetter">A</span>
 										<button class="saActionIcon" type="button" tabindex="-1">
 											<i class="saIcon far fa-search"></i>
 										</button>
-										<input class="saInputText" id="autoSearch" value="jonathan.kevin@multisoft.se">
+										<input class="saInputText" id="autoSearch" value="anna.andersson@example.se">
 									</div>
 								</li>
 							</ul>
@@ -65,57 +98,169 @@
 						<section class="saSideBarSection saSideBarBody saSideBarSectionJs">
 							<div class="saSideBarGroup saSideBarFavorites">
 								<div class="saSideBarFavoritesHeader">
-									<button class="saButtonFavorites" type="button"><span>Favoriter</span><i
+									<button class="saButtonFavorites" type="button"><span>Favorites</span><i
 											class="saIcon saIcon far fa-angle-down"></i></button>
 									<button class="saButtonFavoritesMinimized" type="button"><i
 											class="saIcon saIcon far fa-angle-down"></i></button>
-									<button class="saButtonFavoritesEdit" type="button">Redigera</button>
+									<button class="saButtonFavoritesEdit" type="button">Edit</button>
 								</div>
 								<ul class="saItemList">
 									<li><a class="saItem saFavorite" tabindex="0">
 											<div class="saItemInner">
-												<div class="saIconWrapper"><i class="far fa-bolt icon saIcon"></i></div>
-												<span>Quick fixes</span>
+												<div class="saIconWrapper"><i class="far fa-calendar-check icon saIcon"></i></div>
+												<span>Today's bookings</span>
 											</div>
 										</a></li>
 									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
 											<div class="saItemInner">
-												<div class="saIconWrapper"><i class="far fa-message icon saIcon"></i>
-												</div><span>Chat</span>
+												<div class="saIconWrapper"><i class="far fa-file-invoice-dollar icon saIcon"></i>
+												</div><span>Invoices to approve</span>
 											</div>
 										</a></li>
 									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
 											<div class="saItemInner">
-												<div class="saIconWrapper"><i class="far fa-compass icon saIcon"></i>
-												</div><span>Location finder</span>
+												<div class="saIconWrapper"><i class="far fa-triangle-exclamation icon saIcon"></i>
+												</div><span>Booking conflicts</span>
 											</div>
 										</a></li>
 								</ul>
 							</div>
 							<div class="saSideBarGroup">
-								<h3>Models</h3>
+								<h3>Economy</h3>
 								<ul class="saItemList">
 									<li>
 										<a class="saItem saDynamicTooltipJs" tabindex="0">
 											<div class="saItemInner">
 												<div class="saIconWrapper">
-													<i class="far fa-brain icon saIcon"></i>
+													<i class="far fa-chart-line icon saIcon"></i>
 												</div>
-												<span>4.1<span class="saMenuItemPill saAdminOnly">Admin</span>
+												<span>Overview</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-file-invoice icon saIcon"></i>
+												</div>
+												<span>Customer invoices</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-receipt icon saIcon"></i>
+												</div>
+												<span>Supplier invoices</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-credit-card icon saIcon"></i>
+												</div>
+												<span>Payments</span>
 											</div>
 										</a>
 									</li>
 								</ul>
 							</div>
 							<div class="saSideBarGroup">
-								<h3>Summer</h3>
+								<h3>Bookings</h3>
 								<ul class="saItemList">
 									<li>
 										<a class="saItem" tabindex="0">
 											<div class="saItemInner">
-												<div class="saIconWrapper"><i class="far fa-sun-alt icon saIcon"></i>
+												<div class="saIconWrapper"><i class="far fa-calendar-days icon saIcon"></i>
 												</div>
-												<span>Sun</span>
+												<span>Booking calendar</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-inbox icon saIcon"></i>
+												</div>
+												<span>Booking requests<span class="saMenuItemPill saBeta">Beta</span></span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-user-check icon saIcon"></i>
+												</div>
+												<span>Participants</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-tags icon saIcon"></i>
+												</div>
+												<span>Price rules</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Resources</h3>
+								<ul class="saItemList">
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-door-open icon saIcon"></i>
+												</div>
+												<span>Rooms</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-people-group icon saIcon"></i>
+												</div>
+												<span>Instructors</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-boxes-stacked icon saIcon"></i>
+												</div>
+												<span>Equipment</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Reports</h3>
+								<ul class="saItemList">
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-chart-pie icon saIcon"></i>
+												</div>
+												<span>Revenue report</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-chart-simple icon saIcon"></i>
+												</div>
+												<span>Occupancy report</span>
 											</div>
 										</a>
 									</li>
@@ -126,8 +271,8 @@
 							<div class="saSideBarFooterPrimary">
 								<div class="saListItem">
 									<button class="saAccountDropdown" type="button">
-										<div class="saAccountAvatar">JK</div>
-										<span class="saAccountName">Jonathan Kevin</span>
+										<div class="saAccountAvatar">AA</div>
+										<span class="saAccountName">Anna Andersson</span>
 										<i class="far fa-angle-down saIcon"></i>
 									</button>
 								</div>
@@ -137,28 +282,28 @@
 											<div class="saIconWrapper">
 												<i class="far fa-gear icon saIcon"></i>
 											</div>
-											<span>Admin</span>
+											<span>Settings</span>
 										</button>
 									</li>
 									<li>
 										<button type="button">
 											<div class="saIconWrapper"><i class="far fa-chart-network icon saIcon"></i>
 											</div>
-											<span>Database designer</span>
+											<span>Economy setup</span>
 										</button>
 									</li>
 									<li>
 										<button type="button">
 											<div class="saIconWrapper"><i class="far fa-window-restore icon saIcon"></i>
 											</div>
-											<span>Ny flik</span>
+											<span>New tab</span>
 										</button>
 									</li>
 									<li>
 										<button type="button">
 											<div class="saIconWrapper"><i
 													class="far fa-circle-question icon saIcon"></i></div>
-											<span>Visa hjälpsida - Allmän hjälpsida</span>
+											<span>Help</span>
 										</button>
 									</li>
 									<li class="saNotificationsItem">
@@ -203,12 +348,12 @@
 												<span class="saBreadcrumb">
 													<a tabindex="0">Home</a></span>
 													<span class="saBreadcrumbSeparator" aria-hidden="true">&gt;</span>
-													<span class="saBreadcrumb saNoLinkBreadcrumb">Page name</span>
+													<span class="saBreadcrumb saNoLinkBreadcrumb">Customer details</span>
 											</nav>
 										</div>
 										<div class="saBottomRow">
 											<div class="saTitle">
-												<h1 class="saHeaderText">Softadmin® System</h1>
+												<h1 class="saHeaderText">Customer details</h1>
 												<div class="saNoSpinner">
 													<button type="button" class="saFavoriteToggle"><i
 															class="saIcon far fa-star"></i><i
@@ -223,30 +368,20 @@
 													<button class="saTopLink saActionLink saButtonPrimary"
 														type="button">
 														<div class="saIconHolder saOptionIcon"><i
-																class="far fa-plus icon saIcon"></i></div><span
-															class="saButtonText saOptionText">New bird</span>
+																class="far fa-file-invoice icon saIcon"></i></div><span
+															class="saButtonText saOptionText">New order</span>
 													</button>
 													<button class="saTopLink saActionLink saButtonSecondary"
 														type="button">
 														<div class="saIconHolder saOptionIcon"><i
-																class="far fa-copy icon saIcon"></i></div><span
-															class="saButtonText saOptionText">copy bird</span>
+																class="far fa-envelope icon saIcon"></i></div><span
+															class="saButtonText saOptionText">Send message</span>
 													</button>
 													<div class="saCollectorWrapper">
 														<button class="saMoreButton" type="button"><i
 																class="far fa-ellipsis-vertical icon saIcon"></i></button>
 													</div>
 												</div>
-											</div>
-											<div class="saBrowseButtons">
-												<button class="saBrowseButton" type="button"
-													aria-label="Föregående post (PgUp)">
-													<i class="fas fa-caret-up saIcon"></i>
-												</button>
-												<button class="saBrowseButton" type="button"
-													aria-label="Nästa post (PgDn)">
-													<i class="fas fa-caret-down saIcon"></i>
-												</button>
 											</div>
 										</nav>
 									</div>
@@ -260,7 +395,7 @@
 													class="far fa-arrow-left saBack saIcon"></i></button>
 											<div class="saHeaderWrapper">
 												<div class="saTitle">
-													<h1 class="saHeaderText">Softadmin® System</h1>
+													<h1 class="saHeaderText">Customer details</h1>
 												</div>
 											</div>
 											<button class="saNotifications saButtonHeader" type="button"
@@ -269,7 +404,7 @@
 												<div class="saBadgeCount saUrgent">2</div>
 											</button>
 											<button class="saNavigator saButtonHeader" type="button"
-												aria-label="Öppna meny" data-tooltip="Öppna meny">
+												aria-label="Open menu" data-tooltip="Open menu">
 												<div class="saNavBar"><i class="saIcon far fa-bars"></i>
 												</div>
 											</button>
@@ -279,31 +414,21 @@
 										<div class="saTopButtons saActionLinks">
 											<button class="saTopLink saActionLink saButtonPrimary" type="button">
 												<div class="saIconHolder saOptionIcon" aria-hidden="true">
-													<i class="far fa-plus icon saIcon"></i>
+													<i class="far fa-file-invoice icon saIcon"></i>
 												</div>
-												<span class="saButtonText saOptionText">New bird</span>
+												<span class="saButtonText saOptionText">New order</span>
 											</button>
 											<button class="saTopLink saActionLink saButtonSecondary" type="button">
 												<div class="saIconHolder saOptionIcon" aria-hidden="true">
-													<i class="far fa-copy icon saIcon"></i>
+													<i class="far fa-envelope icon saIcon"></i>
 												</div>
-												<span class="saButtonText saOptionText">Copy bird</span>
+												<span class="saButtonText saOptionText">Send message</span>
 											</button>
 											<div class="saCollectorWrapper">
 												<button class="saMoreButton" aria-expanded="false" type="button">
 													<i class="far fa-ellipsis-vertical icon saIcon"></i>
 												</button>
 											</div>
-										</div>
-										<div class="saBrowseButtons">
-											<button class="saBrowseButton saPrevious" type="button"
-												aria-label="Föregående post (PgUp)">
-												<i class="fas fa-caret-up saIcon"></i>
-											</button>
-											<button class="saBrowseButton saNext" type="button"
-												aria-label="Nästa post (PgDn)">
-												<i class="fas fa-caret-down saIcon"></i>
-											</button>
 										</div>
 									</nav>
 								</div>
@@ -315,7 +440,7 @@
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner">
 
-										<!-- Component -->
+										<div data-softadmin-component-root></div>
 
 									</div>
 								</div>

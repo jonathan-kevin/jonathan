@@ -200,45 +200,66 @@
 										<nav class="saNavigationBar">
 											<div class="saTopButtons">
 												<div class="saActionLinks">
-													<button class="saTopLink saActionLink saButtonPrimary" type="button">
-														<div class="saIconHolder saOptionIcon"><i class="far fa-plus icon saIcon"></i></div><span class="saButtonText saOptionText">New bird</span>
-													</button>
-													<button class="saTopLink saActionLink saButtonSecondary x" type="button">
-														<i class="far fa-snake icon saIcon"></i><span class="saButtonText saOptionText">Snakes</span><div class="saIconHolder saOptionIcon"><i class="far fa-angle-down icon saIcon" style="margin-right: -0.25rem;"></i></div>
-													</button>
-													<div class="saButtonSplit">
-														<button type="button">
-															<span class="saButtonText">Split button</span>
+													<div class="saTopLink saButtonSplit">
+														<button type="button" class="saButtonPrimary">
+															<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																<i class="far fa-save icon saIcon"></i>
+															</div>
+															<span class="saButtonText">Save</span>
 														</button>
-														<button type="button" class="x">
+														<button type="button" class="saButtonPrimary" id="save" aria-label="More save options" aria-haspopup="menu" aria-expanded="false" aria-controls="save-menu">
 															<i class="far fa-angle-down saIcon"></i>
 														</button>
 													</div>
+													<div class="saTopLink saButtonSplit">
+														<button type="button" class="saButtonSecondary">
+															<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-envelope icon saIcon"></i></div>
+															<span class="saButtonText">Send</span>
+														</button>
+														<button type="button" class="saButtonSecondary" id="send" aria-label="More send options" aria-haspopup="menu" aria-expanded="false" aria-controls="send-menu">
+															<i class="far fa-angle-down saIcon"></i>
+														</button>
+													</div>
+													<div class="saTopLink saButtonSplit">
+														<button type="button" class="saButtonSecondary saDestructive">
+															<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-trash-alt icon saIcon"></i></div>
+															<span class="saButtonText">Delete layer</span>
+														</button>
+														<button type="button" class="saButtonSecondary saDestructive" id="send" aria-label="More delete options" aria-haspopup="menu" aria-expanded="false" aria-controls="delete-menu">
+															<i class="far fa-angle-down saIcon"></i>
+														</button>
+													</div>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button">
+														<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-pen icon saIcon"></i></div>
+														<span class="saButtonText saOptionText">Change name</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button">
+														<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-hand icon saIcon"></i></div>
+														<span class="saButtonText saOptionText">Claim project</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button">
+														<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-palette icon saIcon"></i></div>
+														<span class="saButtonText saOptionText">Change color</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary saDestructive" type="button">
+														<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-trash-alt icon saIcon"></i></div>
+														<span class="saButtonText saOptionText">Remove project</span>
+													</button>
 													<div class="saCollectorWrapper">
-														<button class="saMoreButton x" type="button"><i class="far fa-ellipsis-vertical icon saIcon"></i></button>
+														<button class="saMoreButton" type="button" id="more" aria-label="More options" aria-haspopup="menu" aria-expanded="false" aria-controls="more-menu"><i class="far fa-ellipsis-vertical icon saIcon"></i></button>
+														<button class="saMoreButton" type="button" id="more2" aria-label="More options" aria-haspopup="menu" aria-expanded="false" aria-controls="more-menu-2"><i class="fas fa-ellipsis-vertical icon saIcon"></i></button>
 													</div>
 												</div>
 											</div>
-											<div class="saContextMenu saSouth">
+											<div class="saContextMenu saSouth" id="save-menu">
 												<ul class="saActionLinkList">
 													<li>
 														<a class="saOptionWrapper" tabindex="0">
 															<div class="saOption">
 																<div class="saIconHolder saOptionIcon" aria-hidden="true">
-																	<i class="far fa-box icon saIcon"></i>
+																	<i class="far fa-feather icon saIcon"></i>
 																</div>
-																<span class="saButtonText saOptionText">Build structure</span>
-															</div>
-														</a>
-													</li>
-													<li role="presentation"><hr></li>
-													<li>
-														<a class="saOptionWrapper" tabindex="0">
-															<div class="saOption">
-																<div class="saIconHolder saOptionIcon" aria-hidden="true">
-																	<i class="far fa-star icon saIcon"></i>
-																</div>
-																<span class="saButtonText saOptionText">Add review</span>
+																<span class="saButtonText saOptionText">Save as draft</span>
 															</div>
 														</a>
 													</li>
@@ -246,9 +267,9 @@
 														<a class="saOptionWrapper" tabindex="0">
 															<div class="saOption">
 																<div class="saIconHolder saOptionIcon" aria-hidden="true">
-																	<i class="far fa-floppy-disk icon saIcon"></i>
+																	<i class="far fa-archive icon saIcon"></i>
 																</div>
-																<span class="saButtonText saOptionText">Save as copy</span>
+																<span class="saButtonText saOptionText">Save as...</span>
 															</div>
 														</a>
 													</li>
@@ -256,65 +277,364 @@
 														<a class="saOptionWrapper" tabindex="0">
 															<div class="saOption">
 																<div class="saIconHolder saOptionIcon" aria-hidden="true">
-																	<i class="far fa-fire icon saIcon"></i>
+																	<i class="far fa-file-pdf icon saIcon"></i>
 																</div>
-																<span class="saButtonText saOptionText">Start fire</span>
-															</div>
-														</a>
-													</li>
-													<li>
-														<a class="saOptionWrapper" tabindex="0">
-															<div class="saOption">
-																<div class="saIconHolder saOptionIcon" aria-hidden="true">
-																	<i class="far fa-crown icon saIcon"></i>
-																</div>
-																<span class="saButtonText saOptionText">King Maker</span>
-															</div>
-														</a>
-													</li>
-													<li>
-														<a class="saOptionWrapper" tabindex="0">
-															<div class="saOption">
-																<div class="saIconHolder saOptionIcon" aria-hidden="true">
-																	<i class="far fa-video icon saIcon"></i>
-																</div>
-																<span class="saButtonText saOptionText">Add to Media Space</span>
-															</div>
-														</a>
-													</li>
-													<li>
-														<a class="saOptionWrapper" tabindex="0">
-															<div class="saOption">
-																<div class="saIconHolder saOptionIcon" aria-hidden="true">
-																	<i class="far fa-water icon saIcon"></i>
-																</div>
-																<span class="saButtonText saOptionText">Find water</span>
-															</div>
-														</a>
-													</li>
-													<li role="presentation"><hr></li>
-													<li>
-														<a class="saOptionWrapper" tabindex="0">
-															<div class="saOption">
-																<div class="saIconHolder saOptionIcon" aria-hidden="true">
-																	<i class="far fa-shield icon saIcon"></i>
-																</div>
-																<span class="saButtonText saOptionText">Protect from attack</span>
+																<span class="saButtonText saOptionText">Export PDF</span>
 															</div>
 														</a>
 													</li>
 												</ul>
 											</div>
-										</nav>
-										<nav aria-label="Länkar">
-											<ul class="saNavigationLinks">
-												<li><a tabindex="0"><span>Animals</span></a></li>
-												<li><a tabindex="0"><span>Husbandry</span></a></li>
-												<li><a tabindex="0"><span>Crow Nests</span></a></li>
-												<li><a tabindex="0"><span>Agriculture</span></a></li>
-												<li><a tabindex="0"><span>King Bird</span></a></li>
-												<li><a tabindex="0" class="x"><i class="saIcon far fa-ellipsis-h"></i><span>Mer</span></a></li>
-											</ul>
+											<div class="saContextMenu saSouth" id="send-menu">
+												<ul class="saActionLinkList">
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-calendar icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Schedule send</span>
+															</div>
+														</a>
+													</li>
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-paper-plane icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Send test</span>
+															</div>
+														</a>
+													</li>
+												</ul>
+											</div>
+											<div class="saContextMenu saSouth" id="delete-menu">
+												<ul class="saActionLinkList">
+													<li>
+														<a class="saOptionWrapper saDestructive" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-layer-group icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Delete all layers</span>
+															</div>
+														</a>
+													</li>
+													<li>
+														<a class="saOptionWrapper saDestructive" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-calendar icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Schedule delete</span>
+															</div>
+														</a>
+													</li>
+												</ul>
+											</div>
+											<div class="saContextMenu saSouth" id="more-menu">
+												<ul class="saActionLinkList">
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-save icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Save</span>
+															</div>
+														</a>
+														<ul>
+															<li>
+																<a class="saOptionWrapper" tabindex="0">
+																	<div class="saOption">
+																		<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																			<i class="far fa-feather icon saIcon"></i>
+																		</div>
+																		<span class="saButtonText saOptionText">Save as draft</span>
+																	</div>
+																</a>
+															</li>
+															<li>
+																<a class="saOptionWrapper" tabindex="0">
+																	<div class="saOption">
+																		<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																			<i class="far fa-archive icon saIcon"></i>
+																		</div>
+																		<span class="saButtonText saOptionText">Save as...</span>
+																	</div>
+																</a>
+															</li>
+															<li>
+																<a class="saOptionWrapper" tabindex="0">
+																	<div class="saOption">
+																		<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																			<i class="far fa-file-pdf icon saIcon"></i>
+																		</div>
+																		<span class="saButtonText saOptionText">Export PDF</span>
+																	</div>
+																</a>
+															</li>
+														</ul>
+													</li>
+													<li role="presentation"><hr></li>
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-envelope icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Send</span>
+															</div>
+														</a>
+														<ul>
+															<li>
+																<a class="saOptionWrapper" tabindex="0">
+																	<div class="saOption">
+																		<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																			<i class="far fa-calendar icon saIcon"></i>
+																		</div>
+																		<span class="saButtonText saOptionText">Schedule send</span>
+																	</div>
+																</a>
+															</li>
+															<li>
+																<a class="saOptionWrapper" tabindex="0">
+																	<div class="saOption">
+																		<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																			<i class="far fa-paper-plane icon saIcon"></i>
+																		</div>
+																		<span class="saButtonText saOptionText">Send test</span>
+																	</div>
+																</a>
+															</li>
+														</ul>
+													</li>
+													<li role="presentation"><hr></li>
+													<li>
+														<a class="saOptionWrapper saDestructive" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-trash-alt icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Delete layer</span>
+															</div>
+														</a>
+														<ul>
+															<li>
+																<a class="saOptionWrapper saDestructive" tabindex="0">
+																	<div class="saOption">
+																		<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																			<i class="far fa-layer-group icon saIcon"></i>
+																		</div>
+																		<span class="saButtonText saOptionText">Delete all layers</span>
+																	</div>
+																</a>
+															</li>
+															<li>
+																<a class="saOptionWrapper saDestructive" tabindex="0">
+																	<div class="saOption">
+																		<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																			<i class="far fa-calendar icon saIcon"></i>
+																		</div>
+																		<span class="saButtonText saOptionText">Schedule delete</span>
+																	</div>
+																</a>
+															</li>
+														</ul>
+													</li>
+													<li role="presentation"><hr></li>
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-pen icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Change name</span>
+															</div>
+														</a>
+													</li>
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-hand icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Claim project</span>
+															</div>
+														</a>
+													</li>
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-palette icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Change color</span>
+															</div>
+														</a>
+													</li>
+													<li role="presentation"><hr></li>
+													<li>
+														<a class="saOptionWrapper saDestructive" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-trash-alt icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Remove project</span>
+															</div>
+														</a>
+													</li>
+												</ul>
+											</div>
+											<div class="saContextMenu saSouth" id="more-menu-2">
+												<ul class="saActionLinkList">
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-save icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Save</span>
+															</div>
+														</a>
+													</li>
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-feather icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Save as draft</span>
+															</div>
+														</a>
+													</li>
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-archive icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Save as...</span>
+															</div>
+														</a>
+													</li>
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-file-pdf icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Export PDF</span>
+															</div>
+														</a>
+													</li>
+													<li role="presentation"><hr></li>
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-envelope icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Send</span>
+															</div>
+														</a>
+													</li>
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-calendar icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Schedule send</span>
+															</div>
+														</a>
+													</li>
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-paper-plane icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Send test</span>
+															</div>
+														</a>
+													</li>
+													<li role="presentation"><hr></li>
+													<li>
+														<a class="saOptionWrapper saDestructive" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-trash-alt icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Delete layer</span>
+															</div>
+														</a>
+													</li>
+													<li>
+														<a class="saOptionWrapper saDestructive" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-layer-group icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Delete all layers</span>
+															</div>
+														</a>
+													</li>
+													<li>
+														<a class="saOptionWrapper saDestructive" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-calendar icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Schedule delete</span>
+															</div>
+														</a>
+													</li>
+													<li role="presentation"><hr></li>
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-pen icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Change name</span>
+															</div>
+														</a>
+													</li>
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-hand icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Claim project</span>
+															</div>
+														</a>
+													</li>
+													<li>
+														<a class="saOptionWrapper" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-palette icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Change color</span>
+															</div>
+														</a>
+													</li>
+													<li role="presentation"><hr></li>
+													<li>
+														<a class="saOptionWrapper saDestructive" tabindex="0">
+															<div class="saOption">
+																<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																	<i class="far fa-trash-alt icon saIcon"></i>
+																</div>
+																<span class="saButtonText saOptionText">Remove project</span>
+															</div>
+														</a>
+													</li>
+												</ul>
+											</div>
 										</nav>
 									</div>
 								</div>
@@ -491,12 +811,23 @@
 		});
 
 		(function () {
-			var $contextMenu = $('.saContextMenu.saSouth');
 			var $currentButton = null;
 
-			$('button.x, a.x').on('click', function (event) {
+			function closeAllContextMenus() {
+				$('.saContextMenu.saOpen').removeClass('saOpen');
+				$('[aria-controls].saOpen').removeClass('saOpen').attr('aria-expanded', 'false');
+				$currentButton = null;
+			}
+
+			// bind to any element that declares an aria-controls target
+			$('[aria-controls]').on('click', function (event) {
+				event.stopPropagation();
 				var $button = $(this);
 				var sameButton = $currentButton && $currentButton.is($button);
+
+				// determine context menu by aria-controls on the button; fall back to default selector
+				var controlId = $button.attr('aria-controls');
+				var $contextMenu = controlId ? $('#' + controlId) : $('.saContextMenu.saSouth');
 
 				if ($button.closest('.saContextMenu').length) {
 					return;
@@ -504,21 +835,26 @@
 
 				if (sameButton && $contextMenu.hasClass('saOpen')) {
 					$contextMenu.removeClass('saOpen');
-					$button.toggleClass('saOpen');
+					$button.toggleClass('saOpen').attr('aria-expanded', 'false');
+					$currentButton = null;
 					return;
 				}
 
-				if ($currentButton && !$currentButton.is($button)) {
-					$currentButton.removeClass('saOpen');
-				}
+				closeAllContextMenus();
 
 				$currentButton = $button;
-				$button.addClass('saOpen');
+				$button.addClass('saOpen').attr('aria-expanded', 'true');
 				$contextMenu.appendTo('body').css({
 					position: 'absolute',
 					left: $button.offset().left + 'px',
 					top: 'calc(' + ($button.offset().top + $button.outerHeight()) + 'px + 0.5rem)'
 				}).addClass('saOpen');
+			});
+
+			$(document).on('click', function (event) {
+				if ($(event.target).closest('.saContextMenu, [aria-controls]').length === 0) {
+					closeAllContextMenus();
+				}
 			});
 		})();
 	</script>
