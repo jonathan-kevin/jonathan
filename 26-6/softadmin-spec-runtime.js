@@ -15,6 +15,10 @@
 		Textarea: 'textarea',
 		Dropdown: 'dropdown',
 		Checkbox: 'checkbox',
+		'Multi-autosearch': 'multiAutosearch',
+		'Textbox with Autosearch': 'autosearch',
+		'Textbox with Autosuggest': 'autosuggest',
+		'Textbox with Dropdown': 'textboxDropdown',
 		Time: 'time',
 		'Uneditable Text': 'uneditable'
 	};

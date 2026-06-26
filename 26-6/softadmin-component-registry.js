@@ -225,6 +225,30 @@
 					implemented: true,
 					renderType: 'textbox'
 				},
+				'Textbox with Autosearch': {
+					docs: 'https://documentation.softadmin.com/softadmin.aspx?id=7&Control=Textbox+with+Autosearch',
+					description: 'Textbox with trailing autosearch action.',
+					implemented: true,
+					renderType: 'autosearch'
+				},
+				'Textbox with Autosuggest': {
+					docs: 'https://documentation.softadmin.com/softadmin.aspx?id=7&Control=Textbox+with+Autosuggest',
+					description: 'Textbox with autosuggest menu and text-size trailing icon.',
+					implemented: true,
+					renderType: 'autosuggest'
+				},
+				'Textbox with Dropdown': {
+					docs: 'https://documentation.softadmin.com/softadmin.aspx?id=7&Control=Textbox+with+Dropdown',
+					description: 'Textbox with trailing dropdown action and context menus.',
+					implemented: true,
+					renderType: 'textboxDropdown'
+				},
+				'Multi-autosearch': {
+					docs: 'https://documentation.softadmin.com/softadmin.aspx?id=7&Control=Multi-autosearch',
+					description: 'Multi-value autosearch control with selected value chips.',
+					implemented: true,
+					renderType: 'multiAutosearch'
+				},
 				Time: {
 					docs: 'https://documentation.softadmin.com/softadmin.aspx?id=7&Control=Time',
 					description: 'Time field with trailing clock action.',
@@ -397,6 +421,49 @@
 			</div>`;
 	}
 
+	function renderTextboxDropdown(field) {
+		return `
+			<div class="saInputTextWrapper saInputPageField ${escapeHtml(field.width || 'mediumLong')} saHasTrailingIcons${field.disabled ? ' saDisabled' : ''}">
+				<input class="saInputText" value="${escapeHtml(field.value || '')}" ${field.disabled ? 'disabled' : ''}>
+				<div class="saTrailingIconsWrapper"><button class="saActionIcon" type="button" tabindex="-1"><i class="saIcon fas fa-caret-down"></i></button></div>
+				<ul class="saContextMenu"></ul>
+				<ul class="saContextMenu"></ul>
+			</div>`;
+	}
+
+	function renderAutosearch(field) {
+		return `
+			<div class="saInputTextWrapper saInputPageField ${escapeHtml(field.width || 'mediumLong')} saHasTrailingIcons${field.disabled ? ' saDisabled' : ''}">
+				<div class="saTrailingIconsWrapper"><button class="saActionIcon" type="button" tabindex="-1"><i class="saIcon saC sa-magnifying-glass-arrow-rotate-left"></i></button></div>
+				<ul class="saContextMenu"></ul>
+				<input class="saInputText" value="${escapeHtml(field.value || '')}" ${field.disabled ? 'disabled' : ''}>
+			</div>`;
+	}
+
+	function renderAutosuggest(field) {
+		return `
+			<div class="saInputTextWrapper saInputPageField ${escapeHtml(field.width || 'mediumLong')} saHasTrailingIcons${field.disabled ? ' saDisabled' : ''}">
+				<ul class="saContextMenu"></ul>
+				<input class="saInputText" value="${escapeHtml(field.value || '')}" ${field.disabled ? 'disabled' : ''}>
+				<div class="saTrailingIconsWrapper"><i class="saIcon far fa-text-size"></i></div>
+			</div>`;
+	}
+
+	function renderMultiAutosearch(field) {
+		const values = field.values || [];
+
+		return `
+			<div class="saInputTextWrapper saMultiAutoSearchWrapper saInputPageField ${escapeHtml(field.width || 'mediumLong')} saHasTrailingIcons${field.disabled ? ' saDisabled' : ''}">
+				<ul class="saSelectedValueWrapper">
+					${values.map(value => `<li class="saSelectedValue">${escapeHtml(value)}</li>`).join('')}
+					<li class="saNewInput"><input value="${escapeHtml(field.value || '')}" ${field.disabled ? 'disabled' : ''}></li>
+				</ul>
+				<div class="saTrailingIconsWrapper"><button class="saActionIcon" type="button" tabindex="-1"><i class="saIcon saC sa-magnifying-glass-arrow-rotate-left"></i></button></div>
+				<ul class="saContextMenu"></ul>
+				<input value="">
+			</div>`;
+	}
+
 	function renderTime(field) {
 		return `
 			<div class="saInputTextWrapper saTimeField saInputPageField saHasTrailingIcons">
@@ -434,6 +501,22 @@
 	function renderControl(field) {
 		if (field.control === 'dropdown') {
 			return renderDropdown(field);
+		}
+
+		if (field.control === 'textboxDropdown') {
+			return renderTextboxDropdown(field);
+		}
+
+		if (field.control === 'autosearch') {
+			return renderAutosearch(field);
+		}
+
+		if (field.control === 'autosuggest') {
+			return renderAutosuggest(field);
+		}
+
+		if (field.control === 'multiAutosearch') {
+			return renderMultiAutosearch(field);
 		}
 
 		if (field.control === 'textarea') {

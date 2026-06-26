@@ -253,8 +253,10 @@
 						{
 							heading: 'Booking',
 							fields: [
-								{ label: 'Customer', value: 'Anna Andersson', required: true },
-								{ label: 'Room', control: 'dropdown', value: 'Room 3', options: ['Room 1', 'Room 2', 'Room 3'], required: true },
+								{ label: 'Customer', control: 'autosearch', value: 'Anna Andersson', required: true },
+								{ label: 'Room', control: 'textboxDropdown', value: 'Room 3', required: true },
+								{ label: 'Participants', control: 'multiAutosearch', values: ['Anna Andersson', 'Maria Lindberg'] },
+								{ label: 'Reference', control: 'autosuggest', value: 'Membership introduction' },
 								{
 									layout: 'siblings',
 									fields: [
