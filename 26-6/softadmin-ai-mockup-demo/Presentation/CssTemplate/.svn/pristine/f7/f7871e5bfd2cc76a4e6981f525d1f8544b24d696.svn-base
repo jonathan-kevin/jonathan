@@ -1,0 +1,646 @@
+.saLargeScreen {
+	.saMultiPickerWrapper {
+		outline: 1px solid var(--Sa-Color-InputFieldBorder);
+		outline-offset: -1px;
+		border: 1px solid transparent;
+		border-radius: 0.5rem;
+		margin-right: 0.5rem;
+
+		&.saHighlightFieldError {
+			outline: 2px solid @ColorRed600;
+		}
+
+		&.saHighlightFieldWarning {
+			outline: 2px solid @ColorYellow300;
+		}
+	}
+
+	.shortest.saMultiPickerWrapper {
+		width: 25rem;
+	}
+
+	.short.saMultiPickerWrapper {
+		width: 35rem;
+	}
+
+	.mediumShort.saMultiPickerWrapper {
+		width: 40rem;
+	}
+
+	.mediumLong.saMultiPickerWrapper {
+		width: 52.5rem;
+	}
+
+	.long.saMultiPickerWrapper {
+		width: 70rem;
+	}
+
+	.longest.saMultiPickerWrapper {
+		width: 87.5rem;
+	}
+
+	& .saInputWrapper,
+	& .saMultiRowCell .saMultiRowInputWrapper {
+		&.saMultiPickerValidation .saValidationMessage {
+			width: 25rem;
+		}
+	}
+}
+
+.saMultiPickerTreeWrapper {
+	display: flex;
+	flex-direction: column;
+
+	.saCheckboxTree .saCheckboxOuter {
+		align-items: center;
+
+		div.saCheckboxWrapper {
+			align-items: center;
+			display: flex;
+		}
+	}
+
+	.saCheckboxTree fieldset .saCheckboxWrapper {
+		padding-right: 0.5rem;
+
+		&.saNotSelectable {
+			padding-left: 2.25rem;
+		}
+
+		span {
+			font-size: 0.875rem;
+			line-height: 1.125rem;
+			.LineClamp(2);
+		}
+	}
+}
+
+.saMultiPickerWrapper {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	.UserSelectNone();
+
+	.saMultiPickerTreeWrapper {
+		flex: 1;
+
+		&.saDropOn {
+			background: @ColorGray50;
+			outline: 1px dashed var(--Sa-Color-Primary600);
+			outline-offset: -1px;
+			border-top-left-radius: 0.5rem;
+			border-bottom-left-radius: 0.5rem;
+		}
+
+		.saCheckboxTree {
+			border-radius: 0.5rem 0 0 0.5rem;
+			height: 100%;
+			padding: 0.5rem;
+
+			.saCheckboxOuter {
+				display: flex;
+			}
+
+			.saExpandButton {
+				display: flex;
+				background: none;
+				flex: 1;
+
+				&:active .saIcon {
+					color: var(--Sa-Color-Primary600);
+					background: @ColorGray100;
+					border-radius: 0.5rem;
+				}
+
+				.saIcon {
+					position: relative;
+					left: 0;
+					top: 0;
+				}
+
+				.saExpandingIcon {
+					background: @ColorGray150;
+					cursor: default;
+				}
+
+				.saSpinner {
+					cursor: wait;
+				}
+			}
+		}
+
+		.saCompact & .saIcon {
+			top: 0;
+		}
+	}
+
+	.saNumberOfCheckedWrapper {
+		padding: 0.5rem;
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		display: flex;
+		gap: 0.25rem;
+	}
+}
+
+.saMultiPickerButtons {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	position: sticky;
+	bottom: 0;
+	right: 0.5rem;
+	pointer-events: none;
+	.StandardTransition();
+
+	.saMultiPickerButton {
+		pointer-events: all;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1rem;
+		line-height: 1rem;
+		height: 2rem;
+		width: 2rem;
+		border: none;
+		box-shadow: inset 0 0 0 1px @ColorGray200;
+		background: @ColorWhite;
+		padding: 0;
+		margin: 0;
+		color: @ColorGray700;
+		cursor: pointer;
+		.StandardTransition();
+		position: relative;
+
+		&::after {
+			content: '';
+			height: 3rem;
+			width: 3rem;
+			position: absolute;
+		}
+
+		&.saUp {
+			border-radius: 0.5rem 0 0 0.5rem;
+			margin-right: -1px;
+
+			&::after {
+				right: 1px;
+				bottom: -0.5rem;
+			}
+
+			&:active {
+				border-radius: 0.75rem 0 0 0.75rem;
+			}
+		}
+
+		&.saDown {
+			border-radius: 0 0.5rem 0.5rem 0;
+
+			&::after {
+				left: 1px;
+				bottom: -0.5rem;
+				width: 2.5rem;
+			}
+
+			&:active {
+				border-radius: 0 0.75rem 0.75rem 0;
+			}
+		}
+
+		.Hover({
+			background: var(--Sa-Color-Primary100);
+			color: var(--Sa-Color-Primary600);
+			box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
+			z-index: 1;
+		});
+
+		&:focus-visible {
+			background: var(--Sa-Color-Primary100);
+			color: var(--Sa-Color-Primary600);
+			box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
+			z-index: 1;
+		}
+
+		&:active {
+			background: var(--Sa-Color-Primary100);
+			color: var(--Sa-Color-Primary600);
+			box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
+		}
+
+		&:disabled {
+			pointer-events: none;
+			box-shadow: inset 0 0 0 1px @ColorGray150;
+			color: @ColorGray200;
+			z-index: 0;
+		}
+	}
+}
+
+.saMultiPicker {
+	display: flex;
+	max-height: 40rem;
+	border-radius: 0.5rem;
+	overflow: auto;
+}
+
+.saMultiPickerSelected {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 0.5rem;
+	flex: 1;
+	position: relative;
+	box-shadow: inset 2px 1px 0 -1px var(--Sa-Color-InputFieldBorder);
+	overflow-y: auto;
+	overflow-x: hidden;
+	border-radius: 0 0 0.5rem 0;
+
+	.saHighlightFieldError & {
+		box-shadow: inset 0.25rem 2px 0 -2px @ColorRed600;
+	}
+
+	.saHighlightFieldWarning & {
+		box-shadow: inset 0.25rem 2px 0 -2px @ColorYellow300;
+	}
+
+	&:focus-visible {
+		outline: 1px solid black;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	.saMultiPickerInner {
+		display: flex;
+		flex-direction: column;
+
+		fieldset {
+			border-radius: 0 0 0.5rem 0;
+		}
+	}
+}
+
+.saMultiPickerItem {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	border-radius: 0.25rem;
+	padding: 0 2rem 0 0.5rem;
+	overflow: hidden;
+	width: 100%;
+	font-size: 0.875rem;
+	height: 2rem;
+	display: flex;
+	width: 100%;
+	cursor: pointer;
+	.Ellipsis();
+	position: relative;
+	transition: ease color .2s, ease border-radius .2s;
+
+	&[draggable] label {
+		cursor: grab;
+	}
+
+	&.saSlideIn {
+		animation: saSlideInFromLeft .2s forwards ease;
+	}
+
+	&.saPreviousIsSelected {
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+
+	&.saNextIsSelected {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	@keyframes saSlideInFromLeft {
+		0% {
+			opacity: .4;
+			transform: translate(-2.5rem, 1rem);
+			height: 0;
+		}
+
+		100% {
+			opacity: 1;
+			transform: translate(0, 0);
+			height: 2rem;
+		}
+	}
+
+	.Hover({
+		background: @ColorGray100;
+		color: var(--Sa-Color-Primary600);
+	});
+
+	&:active {
+		background: @ColorGray200;
+	}
+
+	label {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		animation: no-animation .2s forwards ease;
+		height: 100%;
+		width: 100%;
+		cursor: pointer;
+	}
+
+	input[type="checkbox"] {
+		.AppearanceNone();
+		position: absolute;
+		top: 1px;
+		left: 0;
+		width: calc(100% - 0.5rem);
+		height: 1.5rem;
+		cursor: pointer;
+		pointer-events: none;
+
+		&:focus-visible,
+		&:focus {
+			outline: none;
+		}
+	}
+
+	span {
+		display: block;
+		font-size: 0.875rem;
+		line-height: 0.875rem;
+		align-items: center;
+		height: 2rem;
+		width: 100%;
+		overflow: hidden;
+		.Ellipsis();
+		padding: 0.5rem 0;
+	}
+
+	.saDeleteButton {
+		.Button();
+		right: 0.25rem;
+		font-size: 0.875rem;
+		height: 1.5rem;
+		width: 1.5rem;
+		border-radius: 0.25rem;
+		color: var(--Sa-Color-IconDark);
+		position: absolute;
+		border: none;
+		background: none;
+
+		.Hover({
+			background: @ColorRed200;
+
+			.saIcon {
+				color: @ColorRed600;
+			}
+		});
+
+		&:active {
+			background: @ColorRed600;
+			border-radius: 0.5rem;
+
+			.saIcon {
+				color: @ColorWhite;
+			}
+		}
+
+		.saIcon {
+			&::after {
+				content: '';
+				height: 2rem;
+				position: absolute;
+				left: -0.5rem;
+				top: 0;
+				width: 2.5rem;
+				right: -0.75rem;
+			}
+		}
+	}
+
+	.saIcon {
+		color: var(--Sa-Color-IconDark);
+	}
+
+	&:has(input:checked) {
+		background: var(--Sa-Color-Primary100);
+		color: var(--Sa-Color-Primary600);
+
+		.Hover({
+			background: @ColorGray200;
+		});
+	}
+}
+
+.saSmallScreen {
+	.saMultiPickerWrapper {
+		width: 100%;
+		margin-right: 1rem;
+
+		.saInputTextWrapper .saInputText {
+			align-items: center;
+			display: flex;
+			text-align: left;
+			font-size: 1rem;
+		}
+	}
+
+	.saMultiPickerWrapper.saHighlightFieldError {
+		.saInputText {
+			outline: 2px solid @ColorRed600;
+		}
+	}
+
+	.saMultiPickerWrapper.saHighlightFieldWarning {
+		.saInputText {
+			outline: 2px solid @ColorYellow300;
+		}
+	}
+
+	.saMultiPickerSmallScreen {
+		display: flex;
+		height: calc(95vh - 3rem);
+		padding: 1rem;
+		margin-top: 3rem;
+		position: relative;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		overflow-y: hidden;
+
+		&.saAnimating {
+			animation: ease .2s saScaleInFromCenter;
+		}
+
+		@keyframes saScaleInFromCenter {
+			0% {
+				transform: scale(.2);
+				transform-origin: center;
+			}
+
+			100% {
+				transform: scale(1);
+				transform-origin: center;
+			}
+		}
+
+		.saNumberOfCheckedWrapper {
+			padding: 1rem;
+			font-size: 0.75rem;
+			line-height: 0.75rem;
+		}
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
+		.saMultiPickerTreeWrapper {
+			justify-content: space-between;
+			flex: 1;
+			min-height: 100%;
+			overflow-x: auto;
+
+			.saCheckboxTree {
+				.saCheckboxOuter {
+					height: 2.75rem;
+
+					&:has(.saExpandButton) .saCheckboxWrapper {
+						padding-right: 2.25rem;
+					}
+				}
+
+				.saCheckboxWrapper {
+					height: 2.75rem;
+					border-radius: 0.5rem;
+					align-items: center;
+					display: flex;
+
+					.saIcon::after {
+						height: 2.75rem;
+						top: 0;
+					}
+				}
+
+				fieldset {
+					height: 100%;
+					width: auto;
+					padding: 0.5rem;
+					padding-bottom: 1rem;
+					overflow: auto;
+				}
+
+				.saCheckbox::after {
+					height: 2.75rem;
+					width: 2.75rem;
+				}
+			}
+		}
+	}
+
+	.saMultiPickerDragHandle {
+		width: 50%;
+		position: absolute;
+		height: 100%;
+		left: -0.5rem;
+	}
+
+	.saMultiPickerOptions,
+	.saMultiPickerSelected {
+		min-width: calc(100vw - 4rem);
+		min-height: 100%;
+		border-radius: 1rem;
+		scroll-snap-align: center;
+		position: relative;
+	}
+
+	.saMultiPickerOptions .saMultiPickerInner {
+		overflow-y: auto;
+		transform: scale(1);
+		box-shadow:
+			fade(@ColorGray900, 10) 0 1px 2px,
+			fade(@ColorGray900, 10) 0 2px 0.25rem,
+			fade(@ColorGray900, 10) 0 0.25rem 0.5rem,
+			fade(@ColorGray900, 10) 0 0.5rem 1rem;
+	}
+
+	.saMultiPickerInner {
+		display: flex;
+		flex-direction: column;
+		min-width: 100%;
+		height: 100%;
+		transition: ease all .1s;
+		border-radius: 1rem;
+		outline: 1px solid var(--Sa-Color-InputFieldBorder);
+		outline-offset: -1px;
+		position: relative;
+		background-color: @ColorWhite;
+	}
+
+	.saMultiPickerSelected .saMultiPickerInner {
+		transform: scale(.9);
+	}
+
+	.saMultiPickerSwitcher {
+		display: flex;
+		position: absolute;
+		right: 0;
+		opacity: 0;
+		min-height: 90vh;
+		min-width: 3rem;
+		z-index: 99;
+		border: none;
+		margin: 0;
+		padding: 0;
+		background: transparent;
+	}
+
+	.saMultiPickerSelected {
+		padding: unset;
+		border-left: unset;
+
+		fieldset {
+			overflow-y: auto;
+		}
+	}
+
+	.saMultiPickerSmallScreen fieldset {
+		padding: 0 0.5rem 0.5rem 0.5rem;
+		height: 100%;
+		border-radius: unset;
+
+		.saMultiPickerItem {
+			height: 2.75rem;
+		}
+	}
+
+	.saMultiPickerFooter {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		min-height: 3rem;
+		padding: 0.5rem;
+		overflow: hidden;
+
+		.saMultiPickerFooterButton {
+			.Button();
+			.ButtonSizeCompact();
+			min-width: fit-content;
+			flex: 0;
+
+			&.saSecondary {
+				.ButtonSecondary();
+			}
+
+			&.saPrimary {
+				.ButtonPrimary();
+				min-width: 5.5rem;
+			}
+		}
+
+		.saMultiPickerButtons {
+			display: flex;
+			position: unset;
+		}
+	}
+}

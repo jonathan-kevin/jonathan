@@ -1,0 +1,714 @@
+.saSmallScreen .saPlanner {
+	margin-top: 1rem;
+	margin-left: 1rem;
+
+	.saCalendarResourceFilterSection {
+		display: none;
+	}
+
+	.saCalendarHeader {
+		position: relative;
+		top: 0;
+	}
+
+	.saStickyTop {
+		position: relative;
+	}
+
+	.saRowSticky {
+		position: relative;
+	}
+}
+
+.saPlanner {
+	.saCalendar {
+		overflow: auto;
+		height: 100%;
+		width: 100%;
+		left: 0;
+		position: absolute;
+	}
+
+	.saCalendarSidebar:not(.saClose) {
+		min-width: 15rem;
+
+		& ~ .saCalendar {
+			width: calc(100% - 15rem);
+			left: 15rem;
+		}
+	}
+
+	.saSidebarFilters {
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+
+	.saStickyTop {
+		top: 0;
+		position: sticky;
+		display: flex;
+		flex-direction: column;
+		background-color: @ColorWhite;
+		z-index: 6;
+
+		.saRowSticky .saPlannerCell {
+			border-right: 1px solid transparent;
+
+			&:only-child {
+				border-right: 1px solid @ColorGray200;
+			}
+		}
+
+		.saWeek:not(.saUnbooked) .saRowSticky > div {
+			border-bottom: none;
+
+			&.saAggregateTitle {
+				border-bottom: 1px solid @ColorGray200;
+			}
+
+			&:not(.saAggregateTitle) {
+				background-color: @ColorGray50;
+			}
+		}
+
+		.saWeek:last-child .saRowSticky > div {
+			border-bottom: 1px solid @ColorGray200;
+		}
+	}
+
+	.saWeekDay {
+		flex-direction: column;
+		height: 3rem;
+		color: var(--Sa-Color-TextSecondary);
+		border-bottom: 1px solid @ColorGray200;
+
+		.saDateNumber {
+			font-size: 0.875rem;
+		}
+
+		&.saDateIsToday {
+			color: var(--Sa-Color-Primary600);
+		}
+
+		&.saRedDay {
+			color: @ColorRed600;
+		}
+
+		&.saWeekCell {
+			color: var(--Sa-Color-Text);
+			font-size: 0.875rem;
+
+			.saDateNumber {
+				font-size: 0.75rem;
+				line-height: 0.75rem;
+				height: 0.75rem;
+				color: var(--Sa-Color-TextSecondary);
+			}
+
+			&.saDateIsToday {
+				color: var(--Sa-Color-Primary600);
+				font-weight: 700;
+
+				.saDateNumber {
+					color: var(--Sa-Color-Primary600);
+					background: none;
+					font-weight: 400;
+				}
+			}
+		}
+	}
+
+	.saPlannerAggregateCell {
+		border: 1px solid transparent;
+		border-right: 1px solid @ColorGray200;
+		border-bottom: 1px solid @ColorGray200;
+		width: 3rem;
+		min-width: 3rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		font-size: 0.6875rem;
+		padding: 0.25rem;
+
+		span {
+			overflow-wrap: break-word;
+			overflow: hidden;
+		}
+
+		&.saAggregateTitle {
+			border-left: 1px solid @ColorGray200;
+			border-top: 1px solid @ColorGray200;
+			background-color: @ColorWhite;
+			.FlexCentered();
+			padding-right: 0;
+
+			span {
+				.LineClamp(1);
+			}
+		}
+	}
+
+	.saTimeCell {
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		height: 1.5rem;
+	}
+
+	&.saNarrow {
+		div:not(.saRowSticky, .saStickyTop, .saUnbooked) > .saPlannerCell:not(.saTimeCell, .saUnbookedItems, .saCounterCell, .saResourceHeadingCell) {
+			padding: 0;
+
+			.saPlannerHoverTarget {
+				min-height: calc(100% + 2px);
+				width: calc(100% + 2px);
+				top: -1px;
+				left: -1px;
+			}
+		}
+
+		.saWeek:not(.saUnbooked) > .saPlannerCell:not(.saColumnAggregate, .saTimeCell) {
+			border-right: 1px solid @ColorGray100;
+		}
+
+		.saTimeCell {
+			font-size: 0.625rem;
+			line-height: 0.625rem;
+			padding-left: 2px;
+			border: none;
+			background-color: transparent;
+		}
+
+		&.saSkipHours {
+			.saTimeCell.saLastCellInBlock:not(.saLastCellInDay) {
+				clip-path: polygon(0 66%, 100% 66%, 100% 100%, 0% 100%);
+			}
+
+			.saSkippable span {
+				display: none;
+			}
+		}
+	}
+
+	.saActivityInner {
+		justify-content: flex-start;
+		margin-top: -2px;
+		overflow: hidden;
+	}
+
+	.saActivityHeadingWrapper {
+		display: inline;
+		line-height: 0.75rem;
+		overflow: unset;
+
+		.saBoxIcons {
+			margin-top: -0.25rem;
+			display: inline;
+
+			> span {
+				padding-right: 0.25rem;
+			}
+		}
+
+		.saActivityHeading {
+			display: inline;
+		}
+	}
+
+	.saPlannerCell.saUnbookedItems,
+	.saCalendar .saUnbooked .saPlannerCell:nth-last-child(2) {
+		border-right-color: transparent;
+	}
+
+	.saPlannerCell {
+		min-height: unset;
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		border: 1px solid transparent;
+		border-right: 1px solid @ColorGray200;
+		overflow-x: visible;
+		padding: 0.25rem;
+		background-color: @ColorWhite;
+		border-bottom: 1px solid @ColorGray200;
+
+		.saPlannerHoverTarget {
+			min-height: calc(100% + 0.5625rem);
+			width: calc(100% + 0.625rem);
+			top: -0.3125rem;
+			position: relative;
+			left: -0.3125rem;
+			cursor: pointer;
+		}
+
+		.saPlannerDropTarget {
+			position: absolute;
+			top: 0;
+
+			&.saDropOn {
+				border: 1px dashed var(--Sa-Color-Primary600);
+			}
+		}
+
+		&:last-child {
+			border-right-color: transparent;
+		}
+
+		&.saHasLinks .saPlannerHoverTarget:hover,
+		&.saLastClicked .saPlannerHoverTarget {
+			background: @ColorGray50;
+			outline: 1px solid var(--Sa-Color-Primary600);
+			outline-offset: -1px;
+		}
+
+		.saActivity {
+			z-index: 2;
+			padding-bottom: 0;
+			min-height: unset;
+
+			&.saLight {
+				color: @ColorWhite;
+			}
+
+			&.saCanDrag {
+				cursor: grab;
+			}
+
+			&.saHasLinks {
+				cursor: pointer;
+			}
+
+			&.saMoreRight {
+				background-image: url(../img/LargeBubble_Right_Black.png);
+				background-repeat: no-repeat;
+				background-position: right 0.3125rem top 0.25rem;
+			}
+
+			&.saLight.saMoreRight {
+				background-image: url(../img/LargeBubble_Right_White.png);
+			}
+
+			&.saMoreLeft {
+				background-image: url(../img/LargeBubble_Left_Black.png);
+				background-repeat: no-repeat;
+				background-position: right 0.3125rem top 0.25rem;
+			}
+
+			&.saLight.saMoreLeft {
+				background-image: url(../img/LargeBubble_Left_White.png);
+			}
+
+			&.saMoreLeft.saMoreRight {
+				background-repeat: no-repeat, no-repeat;
+				background-position: right 0.875rem top 0.375rem, right 0.3125rem top 0.375rem;
+				background-image: url(../img/LargeBubble_Left_Black.png), url(../img/LargeBubble_Right_Black.png);
+			}
+
+			&.saLight.saMoreLeft.saMoreRight {
+				background-image: url(../img/LargeBubble_Left_White.png), url(../img/LargeBubble_Right_White.png);
+			}
+
+			.saActivityDescription {
+				display: flex;
+			}
+		}
+
+		&.saLastCellInBlock.saTimeCell,
+		&.saLastCellInBlock .saPlannerHoverTarget {
+			border-right: 1px solid @ColorGray200;
+		}
+
+		&.saDropOn,
+		&.saDropOn .saPlannerHoverTarget {
+			border: 1px dashed var(--Sa-Color-Primary600);
+			background-color: var(--Sa-Color-Primary100);
+		}
+
+		&.saResourceHeadingCell {
+			background-color: @ColorGray50;
+			border-right-color: @ColorGray200;
+		}
+
+		&.saDateRowHeading {
+			padding: 0;
+
+			.saCalendarSidebarExpander {
+				max-height: unset;
+				border-radius: 0 0.25rem 0.25rem 0;
+				height: 2rem;
+				width: 1.5rem;
+				margin-left: -1px;
+				margin-top: 0.4375rem;
+
+				&.saClose {
+					border-radius: 0.25rem 0 0 0.25rem;
+				}
+			}
+		}
+	}
+
+	.saInputTextWrapper.saLabeled.shortest  {
+		width: 5rem;
+	}
+
+	.saInputTextWrapper.saLabeled .saLabeledLabel {
+		width: 100%;
+	}
+
+	.saCalendarHeading {
+		display: flex;
+		flex-direction: column;
+
+		p {
+			font-size: 0.875rem;
+			line-height: 1rem;
+			font-weight: 400;
+		}
+	}
+
+	.saPlannerCellInner {
+		display: flex;
+		align-items: start;
+		justify-content: center;
+		flex-direction: column;
+		flex: 1;
+		width: 100%;
+		gap: 0.25rem;
+		padding: 0.25rem;
+		height: 2rem;
+	}
+
+	.saPlannerCellHeading {
+		font-size: 0.875rem;
+		line-height: 1.125rem;
+		font-weight: 400;
+
+		&.saPlannerLink {
+			display: flex;
+			gap: 0.25rem;
+			.Link();
+
+			&::after {
+				content: '';
+				position: absolute;
+				left: 0;
+				top: 0;
+				height: 100%;
+				width: 100%;
+			}
+		}
+	}
+
+	.saPlannerCellDescription {
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		color: @ColorGray800;
+		font-weight: 300;
+	}
+
+	.saResourceHeader {
+		background-color: @ColorWhite;
+		z-index: 6;
+	}
+
+	.saCalendarSectionInner {
+		position: relative;
+		overflow: hidden;
+		border-radius: 0 0 0 1rem;
+	}
+
+	.saActivity {
+		&.saAllDay {
+			background-color: @ColorGray200;
+			height: 1.5rem;
+
+			.saActivityInner {
+				display: flex;
+				margin-top: 0;
+			}
+
+			.saActivityHeadingWrapper {
+				overflow: hidden;
+			}
+
+			.saActivityHeading {
+				color: var(--Sa-Color-Text);
+			}
+		}
+	}
+
+	.saColumnAggregate {
+		font-size: 0.75rem;
+		background-color: @ColorWhite;
+		.FlexCentered();
+		border-right-color: @ColorGray200;
+	}
+
+	.saWeek {
+		width: fit-content;
+		border-bottom: none;
+		background-color: @ColorWhite;
+
+		&.saWeekExtra .saWeekExtraInner {
+			padding: 0.25rem;
+			min-height: 2rem;
+			border-bottom: 1px solid @ColorGray200;
+		}
+	}
+
+	.saStickyTop > .saWeek:last-child > .saPlannerCell:not(.saColumnAggregate) {
+		border-bottom-color: transparent;
+	}
+
+	.saCalendar > .saWeek {
+		&:last-child {
+			border-bottom-color: transparent;
+
+			.saPlannerAggregateCell,
+			.saPlannerCell:not(.saColumnAggregate) {
+				border-bottom-color: transparent;
+			}
+		}
+	}
+
+	.saUnbooked {
+		.saExpandButton {
+			.Button();
+			.ButtonGhost();
+			.ButtonSizeCompact();
+
+			.saIcon {
+				transform: rotate(180deg);
+			}
+		}
+
+		.saPlannerCell {
+			overflow-y: auto;
+			flex-direction: row;
+		}
+
+		.saPlannerAggregateCell {
+			justify-content: center;
+			padding-top: 0.25rem;
+			align-items: start;
+		}
+
+		.saPlannerCellHeading {
+			.LineClamp(1);
+		}
+
+		.saCounterCell {
+			display: none;
+		}
+
+		&.saClosed {
+			.saIcon {
+				transform: none;
+			}
+
+			.saItemCell {
+				display: none;
+			}
+
+			.saCounterCell {
+				.FlexCentered();
+				height: 2.625rem;
+			}
+		}
+	}
+
+	.saUnbookedWrapper {
+		width: 100%;
+		height: fit-content;
+
+		.saUnbookedRow.saClosed {
+			height: 2.625rem;
+
+			.saUnbookedItems {
+				display: none;
+			}
+		}
+
+		.saWeek {
+			width: 100%;
+		}
+
+		.saPlannerCell:first-child {
+			width: 10.5rem;
+			min-width: 10.5rem;
+		}
+
+		.saUnbookedItems {
+			display: flex;
+			position: relative;
+			width: 100%;
+		}
+
+		.saCounterCell {
+			width: 100%;
+			height: unset;
+		}
+	}
+
+	.saUnbookedCounter {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.5rem;
+		height: 1.5rem;
+		min-width: 1rem;
+		background: @ColorGray100;
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		border-radius: 0.75rem;
+	}
+
+	.saWeekExtraInner {
+		border-right: 1px solid @ColorGray200;
+		align-items: center;
+
+		&:last-child {
+			border-right-color: transparent;
+		}
+	}
+
+	.saRowSticky {
+		position: sticky;
+		left: 0;
+		z-index: 5;
+		display: flex;
+		background-color: @ColorWhite;
+
+		& > div:first-child {
+			width: 10.5rem;
+			min-width: 10.5rem;
+		}
+	}
+
+	.saToggleGroup {
+		.saToggleGroup();
+	}
+
+	.saToggleGroup() {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		min-height: 2.5rem;
+		border-radius: 0.5rem;
+		margin-top: 1px;
+		width: fit-content;
+		box-sizing: border-box;
+
+		* {
+			box-sizing: border-box;
+		}
+
+		.saCompact & {
+			min-height: 2rem;
+		}
+
+		input {
+			position: absolute;
+			inset: 0;
+			opacity: 1;
+			pointer-events: none;
+			.AppearanceNone();
+			transition: border-radius ease 0.2s;
+		}
+
+		label {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			min-height: 2.5rem;
+			width: 100%;
+			flex: 1;
+			cursor: pointer;
+			font-weight: 500;
+			text-align: center;
+			transition: ease background 0.2s, ease color 0.2s, ease border-color 0.2s, ease border-radius 0.2s, ease box-shadow 0.2s;
+			background-color: @ColorWhite;
+			border: 1px solid @ColorGray200;
+			position: relative;
+			min-width: 2.5rem;
+			font-size: 1.25rem;
+			color: var(--Sa-Color-Icon);
+
+			&:first-child {
+				border-radius: 0.5rem 0 0 0.5rem;
+
+				input {
+					border-radius: 0.5rem 0 0 0.5rem;
+				}
+			}
+
+			&:not(:last-child) {
+				margin-right: -1px;
+			}
+
+			&:last-child {
+				border-right-style: solid;
+				border-width: 1px;
+				border-radius: 0 0.5rem 0.5rem 0;
+
+				input {
+					border-radius: 0 0.5rem 0.5rem 0;
+				}
+			}
+
+			.saCompact & {
+				min-width: 2rem;
+				min-height: 2rem;
+				font-size: 1rem;
+			}
+
+			.saSmallScreen & {
+				min-width: 2.75rem;
+				min-height: 2.75rem;
+			}
+
+			.Hover({
+				color: var(--Sa-Color-Primary600);
+				background-color: var(--Sa-Color-Primary100);
+				border-color: var(--Sa-Color-Primary600);
+				z-index: 3;
+			});
+
+			&:active {
+				color: var(--Sa-Color-Primary700);
+				background-color: var(--Sa-Color-Primary200);
+				border-color: var(--Sa-Color-Primary700);
+
+				&:first-child {
+					border-radius: 0.75rem 0 0 0.75rem;
+
+					input {
+						border-radius: 0.75rem 0 0 0.75rem;
+					}
+				}
+
+				&:last-child {
+					border-radius: 0 0.75rem 0.75rem 0;
+
+					input {
+						border-radius: 0 0.75rem 0.75rem 0;
+					}
+				}
+			}
+
+			&:has(:checked) {
+				z-index: 2;
+				background-color: var(--Sa-Color-Primary100);
+				color: var(--Sa-Color-Primary600);
+				border-color: var(--Sa-Color-Primary600);
+			}
+		}
+	}
+}

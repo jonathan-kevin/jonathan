@@ -1,0 +1,128 @@
+.saMagicBox {
+	position: relative;
+	display: flex;
+	color: @ColorGray900;
+
+	.saBoxGrid {
+		display: grid;
+	}
+
+	.saBoxRow {
+		border: 1px transparent;
+		border-top-style: solid;
+		border-bottom-style: solid;
+		max-width: 6.25rem;
+	}
+
+	.saBoxRowLabel {
+		margin-right: 1rem;
+	}
+
+	.saBoxRowsLabel {
+		text-align: center;
+		writing-mode: tb-rl;
+	}
+
+	.saBoxColumn {
+		border: 1px transparent;
+		border-left-style: solid;
+		border-right-style: solid;
+	}
+
+	.saBoxColumnLabel {
+		text-align: center;
+		margin-bottom: 2px;
+	}
+
+	.saBoxColumnsLabel {
+		text-align: center;
+		grid-column: 1/-1;
+	}
+
+	.saContainersWrapper {
+		display: flex;
+	}
+
+	.saBoxContainer {
+		display: flex;
+		flex-direction: column;
+		box-sizing: border-box;
+		border: 1px solid @ColorGray200;
+		/* prevent stripes from escaping the container if it is too small */
+		overflow: clip;
+	}
+
+	.saBoxContainerHeading {
+		padding: 2px;
+	}
+
+	.saContainerStripesWrapper {
+		position: relative;
+		height: 0;
+	}
+
+	.saContainerStripe {
+		position: absolute;
+		width: auto;
+		margin: 0;
+		left: 0;
+		right: 0
+	}
+
+	&.saBottomToTop .saBoxesWrapper {
+		flex-direction: column-reverse;
+	}
+
+	.saBoxesWrapper {
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.saBox {
+		border: 1px solid;
+		box-sizing: border-box;
+		padding: 2px;
+		overflow: clip;
+		background-color: @ColorWhite;
+		/* margin so that you can see the container's background color behind the box */
+		margin: 0 0.25rem;
+		/* boxes on top of stripes */
+		z-index: 1;
+	}
+
+	.saBox.saDragged,
+	.saBox.saSelected {
+		background-color: #87ceeb
+	}
+
+	.saBoxContainer.saDropOn {
+		outline: 0.1875rem solid @ColorGray900;
+		z-index: 2;
+	}
+
+	.saBox.saDropAbove {
+		border-top: 0.1875rem solid @ColorGray900;
+		padding-top: 0
+	}
+
+	.saBox.saDropBelow {
+		border-bottom: 0.1875rem solid @ColorGray900;
+		padding-bottom: 0
+	}
+
+	.saButtonRow {
+		display: flex;
+		flex-direction: row;
+		background: @ColorWhite;
+	}
+
+	.saBoxContainer .saButtonRow {
+		border-bottom: 1px solid @ColorGray600;
+	}
+
+	.saBoxLink {
+		.ButtonGhost();
+		.IconButtonSizeCompact();
+	}
+}
