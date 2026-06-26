@@ -1,7 +1,21 @@
 (function () {
 	const config = {
-		specEndpoint: ''
+		specEndpoint: defaultSpecEndpoint()
 	};
+
+	function defaultSpecEndpoint() {
+		const endpoint = new URLSearchParams(window.location.search).get('specEndpoint');
+
+		if (endpoint) {
+			return endpoint;
+		}
+
+		if (/\.netlify\.app$/i.test(window.location.hostname)) {
+			return '/.netlify/functions/softadmin-spec';
+		}
+
+		return '';
+	}
 
 	function registryComponents() {
 		const registry = window.SoftadminMockups && window.SoftadminMockups.registry;
@@ -211,7 +225,8 @@
 		});
 
 		if (!response.ok) {
-			throw new Error(`Spec endpoint returned ${response.status}.`);
+			const errorBody = await response.json().catch(() => null);
+			throw new Error(errorBody?.error || `Spec endpoint returned ${response.status}.`);
 		}
 
 		return response.json();
