@@ -160,8 +160,7 @@ async function fetchAzureResponsesSpec(config, prompt, summary) {
 				format: {
 					type: 'json_object'
 				}
-			},
-			temperature: 0.2
+			}
 		})
 	});
 	const responseJson = await response.json();
