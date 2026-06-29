@@ -18,7 +18,21 @@ when it is hosted on `*.netlify.app`.
 
 ## Required Environment Variable
 
-Set this in Netlify:
+For Azure OpenAI, set these in Netlify:
+
+```text
+AZURE_OPENAI_ENDPOINT=https://your-resource-name.openai.azure.com
+AZURE_OPENAI_API_KEY=...
+AZURE_OPENAI_DEPLOYMENT=your-deployment-name
+```
+
+Optional:
+
+```text
+AZURE_OPENAI_API_VERSION=2024-10-21
+```
+
+For OpenAI Platform instead, set this in Netlify:
 
 ```text
 OPENAI_API_KEY=...
@@ -30,7 +44,7 @@ Optional:
 OPENAI_MODEL=gpt-4.1-mini
 ```
 
-If `OPENAI_API_KEY` is missing, the function returns an error and the browser falls back to the local rule-based prompt mapper.
+If credentials are missing or invalid, the function returns an error and the browser falls back to the local rule-based prompt mapper.
 
 ## Smoke Test
 
@@ -59,4 +73,3 @@ Local spec: ...
 ```
 
 then the function failed or the API key is missing.
-

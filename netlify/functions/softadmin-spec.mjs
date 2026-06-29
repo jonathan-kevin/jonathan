@@ -1,4 +1,5 @@
 const OPENAI_RESPONSES_URL = 'https://api.openai.com/v1/responses';
+const DEFAULT_AZURE_API_VERSION = '2024-10-21';
 
 function jsonResponse(body, status = 200) {
 	return new Response(JSON.stringify(body), {
@@ -83,6 +84,112 @@ function systemInstructions(summary) {
 	].join('\n');
 }
 
+function envValue(env, name) {
+	return env?.get(name) || process.env[name] || '';
+}
+
+function azureConfig(env) {
+	const endpoint = envValue(env, 'AZURE_OPENAI_ENDPOINT').replace(/\/$/, '');
+	const deployment = envValue(env, 'AZURE_OPENAI_DEPLOYMENT') || envValue(env, 'AZURE_OPENAI_DEPLOYMENT_NAME');
+	const apiKey = envValue(env, 'AZURE_OPENAI_API_KEY') || (endpoint && deployment ? envValue(env, 'OPENAI_API_KEY') : '');
+	const apiVersion = envValue(env, 'AZURE_OPENAI_API_VERSION') || DEFAULT_AZURE_API_VERSION;
+
+	if (!endpoint && !deployment && !apiKey) {
+		return null;
+	}
+
+	return {
+		apiKey,
+		apiVersion,
+		deployment,
+		endpoint
+	};
+}
+
+function openAiConfig(env) {
+	return {
+		apiKey: envValue(env, 'OPENAI_API_KEY'),
+		model: envValue(env, 'OPENAI_MODEL') || 'gpt-4.1-mini'
+	};
+}
+
+function missingAzureConfig(config) {
+	return [
+		!config.endpoint ? 'AZURE_OPENAI_ENDPOINT' : '',
+		!config.apiKey ? 'AZURE_OPENAI_API_KEY' : '',
+		!config.deployment ? 'AZURE_OPENAI_DEPLOYMENT' : ''
+	].filter(Boolean);
+}
+
+async function fetchAzureSpec(config, prompt, summary) {
+	const url = `${config.endpoint}/openai/deployments/${encodeURIComponent(config.deployment)}/chat/completions?api-version=${encodeURIComponent(config.apiVersion)}`;
+	const response = await fetch(url, {
+		method: 'POST',
+		headers: {
+			'api-key': config.apiKey,
+			'content-type': 'application/json'
+		},
+		body: JSON.stringify({
+			messages: [
+				{
+					role: 'system',
+					content: systemInstructions(summary)
+				},
+				{
+					role: 'user',
+					content: prompt
+				}
+			],
+			response_format: {
+				type: 'json_object'
+			},
+			temperature: 0.2
+		})
+	});
+	const responseJson = await response.json();
+
+	if (!response.ok) {
+		throw new Error(responseJson.error?.message || `Azure OpenAI request failed with ${response.status}.`);
+	}
+
+	return parseJsonObject(responseJson.choices?.[0]?.message?.content || '');
+}
+
+async function fetchOpenAiSpec(config, prompt, summary) {
+	const response = await fetch(OPENAI_RESPONSES_URL, {
+		method: 'POST',
+		headers: {
+			authorization: `Bearer ${config.apiKey}`,
+			'content-type': 'application/json'
+		},
+		body: JSON.stringify({
+			model: config.model,
+			input: [
+				{
+					role: 'system',
+					content: systemInstructions(summary)
+				},
+				{
+					role: 'user',
+					content: prompt
+				}
+			],
+			text: {
+				format: {
+					type: 'json_object'
+				}
+			}
+		})
+	});
+	const responseJson = await response.json();
+
+	if (!response.ok) {
+		throw new Error(responseJson.error?.message || `OpenAI request failed with ${response.status}.`);
+	}
+
+	return parseJsonObject(extractOutputText(responseJson));
+}
+
 export default async (request) => {
 	if (request.method === 'OPTIONS') {
 		return new Response(null, { status: 204 });
@@ -93,11 +200,12 @@ export default async (request) => {
 	}
 
 	const netlifyEnv = typeof Netlify !== 'undefined' && Netlify.env ? Netlify.env : null;
-	const apiKey = netlifyEnv?.get('OPENAI_API_KEY') || process.env.OPENAI_API_KEY;
+	const azure = azureConfig(netlifyEnv);
+	const openai = openAiConfig(netlifyEnv);
 
-	if (!apiKey) {
+	if (!azure && !openai.apiKey) {
 		return jsonResponse({
-			error: 'Missing OPENAI_API_KEY.'
+			error: 'Missing Azure OpenAI or OpenAI Platform credentials.'
 		}, 503);
 	}
 
@@ -116,44 +224,21 @@ export default async (request) => {
 	}
 
 	const summary = registrySummary(payload.registry || {});
-	const model = netlifyEnv?.get('OPENAI_MODEL') || process.env.OPENAI_MODEL || 'gpt-4.1-mini';
-
-	const response = await fetch(OPENAI_RESPONSES_URL, {
-		method: 'POST',
-		headers: {
-			authorization: `Bearer ${apiKey}`,
-			'content-type': 'application/json'
-		},
-		body: JSON.stringify({
-			model,
-			input: [
-				{
-					role: 'system',
-					content: systemInstructions(summary)
-				},
-				{
-					role: 'user',
-					content: prompt
-				}
-			],
-			text: {
-				format: {
-					type: 'json_object'
-				}
-			}
-		})
-	});
-
-	const responseJson = await response.json();
-
-	if (!response.ok) {
-		return jsonResponse({
-			error: responseJson.error?.message || `OpenAI request failed with ${response.status}.`
-		}, 502);
-	}
 
 	try {
-		const spec = parseJsonObject(extractOutputText(responseJson));
+		if (azure) {
+			const missing = missingAzureConfig(azure);
+
+			if (missing.length) {
+				return jsonResponse({
+					error: `Missing Azure OpenAI environment variables: ${missing.join(', ')}.`
+				}, 503);
+			}
+
+			return jsonResponse(await fetchAzureSpec(azure, prompt, summary));
+		}
+
+		const spec = await fetchOpenAiSpec(openai, prompt, summary);
 		return jsonResponse(spec);
 	} catch (error) {
 		return jsonResponse({
