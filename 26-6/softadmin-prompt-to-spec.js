@@ -282,6 +282,22 @@
 										{ name: 'room-layout.png', size: '18 kB' }
 									]
 								},
+								{
+									label: 'Resource rows',
+									control: 'multirow',
+									columns: [
+										{ key: 'selected', label: 'Primary', control: 'radio', name: 'resource-row' },
+										{ key: 'resource', label: 'Resource', control: 'textbox' },
+										{ key: 'hours', label: 'Hours', control: 'affix', suffix: ' h', inputmode: 'decimal', width: 'short' },
+										{ key: 'price', label: 'Price', control: 'affix', suffix: ' SEK', inputmode: 'decimal' }
+									],
+									rows: [
+										{ selected: true, resource: 'Room 3', hours: '1.5', price: '750' },
+										{ selected: false, resource: 'Projector', hours: '1.5', price: '120' },
+										{ selected: false, resource: 'Coffee service', hours: '1.5', price: '180' }
+									],
+									aggregate: ['', { sumText: 'Sum' }, { value: '4.5', suffix: ' h' }, { value: '1 050', suffix: ' SEK' }]
+								},
 								{ label: 'Notes', control: 'textarea', value: 'Remember accessibility needs.' }
 							]
 						}

@@ -261,6 +261,12 @@
 					implemented: true,
 					renderType: 'multiAutosearch'
 				},
+				Multirow: {
+					docs: 'https://documentation.softadmin.com/softadmin.aspx?id=7&Control=Multirow',
+					description: 'Repeating row input with column headings, per-row fields, optional aggregate row and a New row button.',
+					implemented: true,
+					renderType: 'multirow'
+				},
 				Time: {
 					docs: 'https://documentation.softadmin.com/softadmin.aspx?id=7&Control=Time',
 					description: 'Time field with trailing clock action.',
@@ -606,6 +612,168 @@
 			</div>`;
 	}
 
+	function renderMultirowHeaderCell(column) {
+		return `
+			<div class="saMultiRowCellWrapper">
+				<div class="saMultiRowCell">
+					<label class="saLabelWrapper">
+						<div class="saLabel"><span>${escapeHtml(column.label || '')}</span></div>
+					</label>
+				</div>
+			</div>`;
+	}
+
+	function renderMultirowCellInner(column, row, rowIndex) {
+		const value = row[column.key] ?? column.value ?? '';
+		const width = column.width || 'mediumLong';
+		const checked = row[column.key] === true || row[column.key] === column.checkedValue || rowIndex === column.checkedRow;
+		const control = String(column.control || column.type || 'textbox').toLowerCase();
+
+		if (control === 'radio' || control === 'radiobutton') {
+			return `
+				<div class="saMultiRowInputWrapper">
+					<div class="saRadioWrapper saMultiRowField">
+						<label class="saRadioLabel${checked ? ' saSelected' : ''}">
+							<input class="saRadio" type="radio" name="${escapeHtml(column.name || column.key || 'multirow-radio')}" ${checked ? 'checked' : ''}>
+						</label>
+					</div>
+				</div>`;
+		}
+
+		if (control === 'affix' || control === 'numberaffix' || control === 'number') {
+			return `
+				<div class="saMultiRowInputWrapper ${escapeHtml(width)}">
+					<div class="saInputAffixWrapper saMultiRowField ${escapeHtml(width)}">
+						${column.prefix ? `<div class="saInputAffixText">${escapeHtml(column.prefix)}</div>` : ''}
+						<input class="saInputAffix" value="${escapeHtml(value)}" ${column.inputmode ? `inputmode="${escapeHtml(column.inputmode)}"` : ''}>
+						${column.suffix ? `<div class="saInputAffixText">${escapeHtml(column.suffix)}</div>` : ''}
+					</div>
+				</div>`;
+		}
+
+		if (control === 'uneditable' || control === 'rowheading' || control === 'text') {
+			return `
+				<div class="saMultiRowInputWrapper ${escapeHtml(width)}">
+					<div class="saMultiRowField ${escapeHtml(width)}">
+						<span>${escapeHtml(value)}</span>
+					</div>
+				</div>`;
+		}
+
+		if (control === 'empty') {
+			return `
+				<div class="saMultiRowInputWrapper">
+					<div class="saMultiRowField"></div>
+				</div>`;
+		}
+
+		return `
+			<div class="saMultiRowInputWrapper ${escapeHtml(width)}">
+				<div class="saInputTextWrapper saMultiRowField ${escapeHtml(width)}">
+					<input class="saInputText" value="${escapeHtml(value)}">
+				</div>
+			</div>`;
+	}
+
+	function renderMultirowCell(column, row, rowIndex) {
+		return `
+			<div class="saMultiRowCellWrapper">
+				<div class="saMultiRowCell">
+					${renderMultirowCellInner(column, row, rowIndex)}
+				</div>
+			</div>`;
+	}
+
+	function renderMultirowButtons(field) {
+		if (field.allowDelete === false) {
+			return '';
+		}
+
+		return `
+			<div class="saMultiRowCellWrapper">
+				<div class="saMultiRowCell">
+					<ul class="saMultiRowButtons">
+						<li>
+							<button class="saIconOnlyFieldButton saDestructive saDeleteRowButtonJs" type="button" aria-label="Delete row">
+								<i class="saIcon far fa-trash-alt"></i>
+							</button>
+						</li>
+					</ul>
+				</div>
+			</div>`;
+	}
+
+	function renderMultirowAggregateCell(cell) {
+		if (cell && typeof cell === 'object' && cell.sumText) {
+			return `
+				<div class="saMultiRowCellWrapper saMultiRowAggregateCellWrapper">
+					<div class="saMultiRowCell saMultiRowAggregateCell">
+						<span class="saMultiRowSumText">${escapeHtml(cell.sumText)}</span>
+					</div>
+				</div>`;
+		}
+
+		const content = cell && typeof cell === 'object'
+			? `${escapeHtml(cell.prefix || '')}<span class="saMultiRowAggregateValue">${escapeHtml(cell.value ?? '')}</span>${escapeHtml(cell.suffix || '')}`
+			: escapeHtml(cell || '');
+
+		return `
+			<div class="saMultiRowCellWrapper saMultiRowAggregateCellWrapper">
+				<div class="saMultiRowCell saMultiRowAggregateCell">
+					${content ? `<span>${content}</span>` : ''}
+				</div>
+			</div>`;
+	}
+
+	function renderMultirowAggregate(field, columns) {
+		if (!field.aggregate) {
+			return '';
+		}
+
+		const cells = Array.isArray(field.aggregate)
+			? field.aggregate
+			: columns.map(column => field.aggregate[column.key] || '');
+
+		return `
+			<div class="saMultiRowRow saMultiRowAggregateRow">
+				${cells.map(renderMultirowAggregateCell).join('')}
+				${field.allowDelete === false ? '' : renderMultirowAggregateCell('')}
+			</div>`;
+	}
+
+	function renderMultirow(field) {
+		const columns = field.columns || [];
+		const rows = field.rows && field.rows.length ? field.rows : [{}];
+
+		return `
+			<div class="saInputPageField saMultiRowWrapper${rows.length ? '' : ' saEmpty'}">
+				<fieldset>
+					<div class="saMultiRowTableWrapper">
+						<div class="saMultiRow">
+							<div class="saMultiRowHeadGroup">
+								<div class="saMultiRowHead">
+									${columns.map(renderMultirowHeaderCell).join('')}
+									${field.allowDelete === false ? '' : '<div class="saMultiRowCellWrapper"></div>'}
+								</div>
+							</div>
+							<div class="saMultiRowRowsGroup">
+								${rows.map((row, rowIndex) => `
+									<div class="saMultiRowRow">
+										${columns.map(column => renderMultirowCell(column, row, rowIndex)).join('')}
+										${renderMultirowButtons(field)}
+									</div>`).join('')}
+								${renderMultirowAggregate(field, columns)}
+							</div>
+						</div>
+					</div>
+					<a class="newrowtabstop"></a>
+					<button class="saMultiRowNewRowButton saLabeledFieldButton" type="button">
+						<i class="saIcon far fa-plus"></i>${escapeHtml(field.addButtonLabel || 'New row')}
+					</button>
+				</fieldset>
+			</div>`;
+	}
+
 	function renderRadioCardsControl(field) {
 		const validationClass = field.validation && field.validation.state !== 'valid'
 			? ` saHighlightField${field.validation.state === 'warning' ? 'Warning' : 'Error'}`
@@ -632,6 +800,7 @@
 		dropdown: renderDropdown,
 		fileUploadArea: renderFileUploadArea,
 		multiAutosearch: renderMultiAutosearch,
+		multirow: renderMultirow,
 		numberAffix: renderNumberAffix,
 		radioCards: renderRadioCardsControl,
 		textarea: renderTextarea,

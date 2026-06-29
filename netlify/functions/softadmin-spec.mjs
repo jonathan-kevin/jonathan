@@ -1,5 +1,5 @@
 const OPENAI_RESPONSES_URL = 'https://api.openai.com/v1/responses';
-const DEFAULT_AZURE_API_VERSION = '2024-10-21';
+const DEFAULT_AZURE_API_VERSION = '2025-04-01-preview';
 
 function jsonResponse(body, status = 200) {
 	return new Response(JSON.stringify(body), {
@@ -80,7 +80,8 @@ function systemInstructions(summary) {
 		'ResultGrid: { type:"ResultGrid", variant?, title, caption, hitCounter, columns:[{ key, label, width?, sorted?, sortDirection?, align?, numeric? }], rows:[{...}] }',
 		'DetailView: { type:"DetailView", infoBoxes?, visibleTabs?, tabs:[{ label, icon?, badge?, selected?, component? }] }',
 		'InfoBoxes: { type:"InfoBoxes", messages?, boxes:[{ heading, fields:[{ label, value }] }] }',
-		'Supported controls include textbox, textarea, dropdown, checkbox, radioCards, time, dateRange, fileUploadArea, multiAutosearch, autosearch, autosuggest, textboxDropdown, uneditable.'
+		'Multirow field: { label, control:"multirow", columns:[{ key, label, control:"textbox|radio|affix|uneditable|empty", width?, prefix?, suffix? }], rows:[{...}], aggregate? }. Use for repeated editable rows inside NewEdit.',
+		'Supported controls include textbox, textarea, dropdown, checkbox, radioCards, time, dateRange, fileUploadArea, multiAutosearch, multirow, autosearch, autosuggest, textboxDropdown, uneditable.'
 	].join('\n');
 }
 
@@ -93,6 +94,7 @@ function azureConfig(env) {
 	const deployment = envValue(env, 'AZURE_OPENAI_DEPLOYMENT') || envValue(env, 'AZURE_OPENAI_DEPLOYMENT_NAME');
 	const apiKey = envValue(env, 'AZURE_OPENAI_API_KEY') || (endpoint && deployment ? envValue(env, 'OPENAI_API_KEY') : '');
 	const apiVersion = envValue(env, 'AZURE_OPENAI_API_VERSION') || DEFAULT_AZURE_API_VERSION;
+	const wireApi = envValue(env, 'AZURE_OPENAI_WIRE_API') || 'responses';
 
 	if (!endpoint && !deployment && !apiKey) {
 		return null;
@@ -102,7 +104,8 @@ function azureConfig(env) {
 		apiKey,
 		apiVersion,
 		deployment,
-		endpoint
+		endpoint,
+		wireApi
 	};
 }
 
@@ -122,7 +125,56 @@ function missingAzureConfig(config) {
 }
 
 async function fetchAzureSpec(config, prompt, summary) {
-	const url = `${config.endpoint}/openai/deployments/${encodeURIComponent(config.deployment)}/chat/completions?api-version=${encodeURIComponent(config.apiVersion)}`;
+	if (config.wireApi === 'chat_completions') {
+		return fetchAzureChatCompletionsSpec(config, prompt, summary);
+	}
+
+	return fetchAzureResponsesSpec(config, prompt, summary);
+}
+
+function azureOpenAiBaseUrl(endpoint) {
+	return endpoint.endsWith('/openai') ? endpoint : `${endpoint}/openai`;
+}
+
+async function fetchAzureResponsesSpec(config, prompt, summary) {
+	const url = `${azureOpenAiBaseUrl(config.endpoint)}/responses?api-version=${encodeURIComponent(config.apiVersion)}`;
+	const response = await fetch(url, {
+		method: 'POST',
+		headers: {
+			'api-key': config.apiKey,
+			'content-type': 'application/json'
+		},
+		body: JSON.stringify({
+			model: config.deployment,
+			input: [
+				{
+					role: 'system',
+					content: systemInstructions(summary)
+				},
+				{
+					role: 'user',
+					content: prompt
+				}
+			],
+			text: {
+				format: {
+					type: 'json_object'
+				}
+			},
+			temperature: 0.2
+		})
+	});
+	const responseJson = await response.json();
+
+	if (!response.ok) {
+		throw new Error(responseJson.error?.message || `Azure OpenAI request failed with ${response.status}.`);
+	}
+
+	return parseJsonObject(extractOutputText(responseJson));
+}
+
+async function fetchAzureChatCompletionsSpec(config, prompt, summary) {
+	const url = `${azureOpenAiBaseUrl(config.endpoint)}/deployments/${encodeURIComponent(config.deployment)}/chat/completions?api-version=${encodeURIComponent(config.apiVersion)}`;
 	const response = await fetch(url, {
 		method: 'POST',
 		headers: {
