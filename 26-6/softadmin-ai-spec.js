@@ -4,8 +4,13 @@
 	const manualEdits = new Map();
 	let initialState = null;
 	let isBusy = false;
-	let sessionTokenTotal = 0;
 	let lastTokenEstimate = null;
+	let selectedElement = null;
+	let draggedElement = null;
+	let dropTargetElement = null;
+	let pendingDragElement = null;
+	let pendingDragStart = null;
+	let suppressNextClick = false;
 
 	function escapeHtml(value) {
 		return String(value ?? '')
@@ -150,86 +155,6 @@
 		}
 
 		return names;
-	}
-
-	function summarizeSidebarPatch(sidebarPatch) {
-		const changes = [];
-
-		if (sidebarPatch.removeItems && sidebarPatch.removeItems.length) {
-			changes.push(`removed ${sidebarPatch.removeItems.map(item => item.title).join(', ')}`);
-		}
-
-		if (sidebarPatch.addItemsToResolvedGroup?.items?.length) {
-			const count = sidebarPatch.addItemsToResolvedGroup.items.length;
-			changes.push(`added ${count} menu item${count === 1 ? '' : 's'} to the resolved sidebar group`);
-		}
-
-		return changes.join('; ');
-	}
-
-	function changeSummary(spec, result) {
-		const changes = [];
-
-		if (spec.sidebarPatch) {
-			changes.push(`sidebar patch (${summarizeSidebarPatch(spec.sidebarPatch) || 'updated sidebar'})`);
-		}
-
-		if (spec.sidebar) {
-			if (spec.sidebar.favorites?.append) {
-				changes.push(`sidebar favorites +${(spec.sidebar.favorites.items || []).length}`);
-			} else {
-				changes.push('sidebar replaced');
-			}
-		}
-
-		if (hasOwnProperties(spec.frame)) {
-			const actionCount = (spec.frame.actions || []).length;
-			changes.push(`frame updated${actionCount ? ` with ${actionCount} top action${actionCount === 1 ? '' : 's'}` : ' without top actions'}`);
-		}
-
-		if (spec.components && spec.components.length) {
-			changes.push(`rendered ${componentNames({ components: spec.components }).join(', ')}`);
-		}
-
-		if (!changes.length) {
-			changes.push('nothing visible changed');
-		}
-
-		return `${result.source === 'endpoint' ? 'AI' : 'Local'}: ${changes.join('; ')}.`;
-	}
-
-	function updateChangeSummary(summary) {
-		const element = document.getElementById('SoftadminChangeSummary');
-
-		if (!element) {
-			return;
-		}
-
-		element.innerHTML = `<strong>Changed:</strong> ${escapeHtml(summary || 'Nothing yet.')}`;
-	}
-
-	function renderCoverageBadges() {
-		const element = document.getElementById('SoftadminCoverageBadges');
-
-		if (!element) {
-			return;
-		}
-
-		const badges = [
-			'Shell',
-			'Frame',
-			'Sidebar',
-			'Sidebar patch',
-			'Menu group',
-			'NewEdit',
-			'Grid',
-			'InfoSQL',
-			'Warning area',
-			'Calendar',
-			'Detailview tabs'
-		];
-
-		element.innerHTML = badges.map(label => `<span class="saMockCoverageBadge">${escapeHtml(label)}</span>`).join('');
 	}
 
 	function sidebarItemHtml(item) {
@@ -422,25 +347,6 @@
 		};
 	}
 
-	function updateTokenMeter(prompt) {
-		const meter = document.getElementById('SoftadminTokenMeter');
-
-		if (!meter) {
-			return;
-		}
-
-		const currentPrompt = prompt ?? document.getElementById('SoftadminPrompt')?.value ?? '';
-		const currentPromptTokens = estimateTokens(currentPrompt);
-		const lastText = lastTokenEstimate
-			? `Last: ${formatTokens(lastTokenEstimate.totalTokens)} (${formatTokens(lastTokenEstimate.promptTokens)} prompt + ${formatTokens(lastTokenEstimate.rawSpecTokens)} spec)`
-			: 'Last: 0';
-
-		meter.innerHTML = `
-			<span>Prompt: ${formatTokens(currentPromptTokens)}</span>
-			<span>${lastText}</span>
-			<span>Session: ${formatTokens(sessionTokenTotal)}</span>`;
-	}
-
 	function editableTextSelector() {
 		return [
 			'#pageheader .saHeaderText',
@@ -590,6 +496,299 @@
 		});
 	}
 
+	function selectableElementSelector() {
+		return [
+			'#pageheader .saTopLink',
+			'#pageheader .saCollectorWrapper',
+			'#pageheader .saBreadcrumb',
+			'.saSideBarBody .saItemList > li',
+			'.saSideBarBody > .saSideBarGroup:not(.saSideBarFavorites)',
+			'.saSideBarToolbar > li',
+			'[data-softadmin-component-root] .saFieldAndLabelWrapper',
+			'[data-softadmin-component-root] .saSiblingRow',
+			'[data-softadmin-component-root] .saInputCard',
+			'[data-softadmin-component-root] .saInfoBox',
+			'[data-softadmin-component-root] .saWarningBox',
+			'[data-softadmin-component-root] .saMenuItemWrapper',
+			'[data-softadmin-component-root] .saMenuBox',
+			'[data-softadmin-component-root] tr.saGridRow',
+			'[data-softadmin-component-root] .saListGridRowLink',
+			'[data-softadmin-component-root] .saTab:not(.saMoreTab)',
+			'[data-softadmin-component-root] .saCalendarEvent',
+			'[data-softadmin-component-root] .saCalendarActivity'
+		].join(', ');
+	}
+
+	function isInteractiveEditingTarget(target) {
+		return Boolean(target.closest('.saMockPromptPanel, .saMockDebugDrawer, input, textarea, select'));
+	}
+
+	function clearSelectedElement() {
+		if (selectedElement) {
+			selectedElement.classList.remove('saMockSelectedElement');
+		}
+
+		selectedElement = null;
+	}
+
+	function selectElement(element) {
+		if (!element || element === selectedElement) {
+			return;
+		}
+
+		clearSelectedElement();
+		selectedElement = element;
+		selectedElement.classList.add('saMockSelectedElement');
+	}
+
+	function enableDragAndDrop() {
+		document.querySelectorAll(selectableElementSelector()).forEach(element => {
+			if (element.closest('.saMockPromptPanel, .saMockDebugDrawer')) {
+				return;
+			}
+
+			element.draggable = true;
+			element.dataset.softadminDraggable = 'true';
+		});
+	}
+
+	function clearDropTarget() {
+		if (dropTargetElement) {
+			dropTargetElement.classList.remove('saMockDropTarget');
+		}
+
+		dropTargetElement = null;
+	}
+
+	function clearDragState() {
+		if (draggedElement) {
+			draggedElement.classList.remove('saMockDraggingElement');
+		}
+
+		clearDropTarget();
+		draggedElement = null;
+		pendingDragElement = null;
+		pendingDragStart = null;
+	}
+
+	function canDropOn(source, target) {
+		return source && target && source !== target && source.parentElement && source.parentElement === target.parentElement;
+	}
+
+	function setDropTarget(target) {
+		if (dropTargetElement === target) {
+			return;
+		}
+
+		clearDropTarget();
+		dropTargetElement = target;
+		dropTargetElement.classList.add('saMockDropTarget');
+	}
+
+	function insertDraggedElement(source, target, event) {
+		const rect = target.getBoundingClientRect();
+		const useHorizontal = rect.width > rect.height * 1.6;
+		const insertAfter = useHorizontal
+			? event.clientX > rect.left + rect.width / 2
+			: event.clientY > rect.top + rect.height / 2;
+
+		if (insertAfter) {
+			target.insertAdjacentElement('afterend', source);
+		} else {
+			target.insertAdjacentElement('beforebegin', source);
+		}
+	}
+
+	function syncTopButtonLayoutAfterDeletion() {
+		const hasTopButtons = Boolean(document.querySelector('#pageheader .saTopLink'));
+		const desktopActionBar = document.querySelector('#pageheader > .saDesktopHeader .saNavigationBar');
+		const smallActionBar = document.querySelector('#pageheader > .saSmallScreenHeader .saActionLinkBar');
+
+		toggleTopButtonLayoutClasses(hasTopButtons);
+
+		if (desktopActionBar) {
+			desktopActionBar.style.display = hasTopButtons ? '' : 'none';
+		}
+
+		if (smallActionBar) {
+			smallActionBar.style.display = hasTopButtons ? '' : 'none';
+		}
+	}
+
+	function removeSelectedElement() {
+		const status = document.getElementById('SoftadminPromptStatus');
+
+		if (!selectedElement || !selectedElement.isConnected) {
+			clearSelectedElement();
+			return;
+		}
+
+		undoStack.push(captureState());
+		selectedElement.remove();
+		clearSelectedElement();
+		syncTopButtonLayoutAfterDeletion();
+
+		if (status) {
+			status.textContent = 'Deleted selection.';
+		}
+
+		updateUndoButton();
+	}
+
+	function handleSelectionClick(event) {
+		if (suppressNextClick) {
+			suppressNextClick = false;
+			return;
+		}
+
+		if (isInteractiveEditingTarget(event.target)) {
+			return;
+		}
+
+		if (event.detail > 1 && event.target.closest('[contenteditable="true"]')) {
+			clearSelectedElement();
+			return;
+		}
+
+		const element = event.target.closest(selectableElementSelector());
+
+		if (!element) {
+			clearSelectedElement();
+			return;
+		}
+
+		selectElement(element);
+	}
+
+	function handleSelectionMouseDown(event) {
+		if (event.detail > 1 || isInteractiveEditingTarget(event.target)) {
+			return;
+		}
+
+		pendingDragElement = event.target.closest(selectableElementSelector());
+		pendingDragStart = pendingDragElement ? { x: event.clientX, y: event.clientY } : null;
+
+		if (event.target.closest('[contenteditable="true"]') && event.target.closest(selectableElementSelector())) {
+			event.preventDefault();
+		}
+	}
+
+	function startPointerDrag() {
+		if (!pendingDragElement || draggedElement) {
+			return;
+		}
+
+		draggedElement = pendingDragElement;
+		selectElement(draggedElement);
+		draggedElement.classList.add('saMockDraggingElement');
+		suppressNextClick = true;
+	}
+
+	function handlePointerDragMove(event) {
+		if (!pendingDragElement || !pendingDragStart) {
+			return;
+		}
+
+		const deltaX = Math.abs(event.clientX - pendingDragStart.x);
+		const deltaY = Math.abs(event.clientY - pendingDragStart.y);
+
+		if (!draggedElement && deltaX + deltaY < 8) {
+			return;
+		}
+
+		startPointerDrag();
+
+		const target = document.elementFromPoint(event.clientX, event.clientY)?.closest(selectableElementSelector());
+
+		if (!canDropOn(draggedElement, target)) {
+			clearDropTarget();
+			return;
+		}
+
+		event.preventDefault();
+		setDropTarget(target);
+	}
+
+	function moveDraggedElement(event) {
+		const status = document.getElementById('SoftadminPromptStatus');
+		const elementToMove = draggedElement;
+		const targetElement = dropTargetElement;
+
+		elementToMove.classList.remove('saMockDraggingElement');
+		clearDropTarget();
+		undoStack.push(captureState());
+		insertDraggedElement(elementToMove, targetElement, event);
+		selectElement(elementToMove);
+		draggedElement = null;
+		pendingDragElement = null;
+		pendingDragStart = null;
+
+		if (status) {
+			status.textContent = 'Moved selection.';
+		}
+
+		updateUndoButton();
+	}
+
+	function handlePointerDragEnd(event) {
+		if (!draggedElement) {
+			clearDragState();
+			return;
+		}
+
+		if (dropTargetElement && canDropOn(draggedElement, dropTargetElement)) {
+			moveDraggedElement(event);
+			return;
+		}
+
+		clearDragState();
+	}
+
+	function handleDragStart(event) {
+		if (isInteractiveEditingTarget(event.target)) {
+			return;
+		}
+
+		const element = event.target.closest(selectableElementSelector());
+
+		if (!element) {
+			return;
+		}
+
+		draggedElement = element;
+		selectElement(element);
+		element.classList.add('saMockDraggingElement');
+		event.dataTransfer.effectAllowed = 'move';
+		event.dataTransfer.setData('text/plain', '');
+	}
+
+	function handleDragOver(event) {
+		if (!draggedElement) {
+			return;
+		}
+
+		const target = event.target.closest(selectableElementSelector());
+
+		if (!canDropOn(draggedElement, target)) {
+			clearDropTarget();
+			return;
+		}
+
+		event.preventDefault();
+		event.dataTransfer.dropEffect = 'move';
+		setDropTarget(target);
+	}
+
+	function handleDrop(event) {
+		if (!draggedElement || !dropTargetElement || !canDropOn(draggedElement, dropTargetElement)) {
+			clearDragState();
+			return;
+		}
+
+		event.preventDefault();
+		moveDraggedElement(event);
+	}
+
 	function resetManualEdits() {
 		manualEdits.clear();
 		document.querySelectorAll('[data-softadmin-user-edited="true"]').forEach(element => {
@@ -696,7 +895,6 @@
 			sidebarHtml: document.querySelector('.saSideBarOuter')?.innerHTML || '',
 			rootHtml: document.querySelector('[data-softadmin-component-root]')?.innerHTML || '',
 			statusText: document.getElementById('SoftadminPromptStatus')?.textContent || '',
-			changeSummaryHtml: document.getElementById('SoftadminChangeSummary')?.innerHTML || '',
 			debugResult: cloneDebugResult(lastDebugResult),
 			manualEdits: Array.from(manualEdits.entries())
 		};
@@ -708,6 +906,7 @@
 		const root = document.querySelector('[data-softadmin-component-root]');
 		const status = document.getElementById('SoftadminPromptStatus');
 
+		clearSelectedElement();
 		document.title = state.documentTitle;
 		document.body.className = state.bodyClassName || document.body.className;
 
@@ -733,20 +932,15 @@
 			manualEdits.set(key, value);
 		});
 		enableInlineEditing();
+		enableDragAndDrop();
 		applyManualEdits();
 
 		lastDebugResult = cloneDebugResult(state.debugResult);
 		lastTokenEstimate = lastDebugResult?.tokenEstimate || lastTokenEstimate;
 		updateDebugDrawer();
-		updateTokenMeter();
 
 		if (status) {
 			status.textContent = 'Undone.';
-		}
-
-		const changeSummaryElement = document.getElementById('SoftadminChangeSummary');
-		if (changeSummaryElement) {
-			changeSummaryElement.innerHTML = state.changeSummaryHtml || '<strong>Changed:</strong> Undone.';
 		}
 
 		updateUndoButton();
@@ -804,6 +998,7 @@
 			const result = await specRuntime.createSpec(prompt);
 			const spec = result.spec;
 
+			clearSelectedElement();
 			suppressTopActionsForComponent(spec);
 
 			if (hasOwnProperties(spec.frame)) {
@@ -818,6 +1013,7 @@
 			}
 
 			enableInlineEditing();
+			enableDragAndDrop();
 			if (!shouldResetManualEdits) {
 				applyManualEdits();
 			}
@@ -833,10 +1029,7 @@
 			};
 			lastTokenEstimate = generationTokenEstimate(prompt, lastDebugResult);
 			lastDebugResult.tokenEstimate = lastTokenEstimate;
-			sessionTokenTotal += lastTokenEstimate.totalTokens;
 			updateDebugDrawer();
-			updateTokenMeter(prompt);
-			updateChangeSummary(changeSummary(spec, result));
 
 			if (status) {
 				const sourceLabel = result.source === 'endpoint' ? 'AI spec' : 'Local spec';
@@ -867,6 +1060,7 @@
 		}
 
 		undoStack.length = 0;
+		clearSelectedElement();
 		resetManualEdits();
 		restoreState(initialState);
 
@@ -875,8 +1069,6 @@
 		}
 
 		lastTokenEstimate = null;
-		updateTokenMeter();
-		updateChangeSummary('Reset to baseline shell.');
 		updateUndoButton();
 	}
 
@@ -891,9 +1083,6 @@
 
 		if (promptInput) {
 			promptInput.value = defaultPrompt;
-			promptInput.addEventListener('input', function () {
-				updateTokenMeter(promptInput.value);
-			});
 		}
 
 		if (generateButton && promptInput) {
@@ -910,18 +1099,11 @@
 			resetButton.addEventListener('click', resetMockup);
 		}
 
-		document.querySelectorAll('[data-softadmin-preset-prompt]').forEach(button => {
+		document.querySelectorAll('[data-softadmin-example-prompt]').forEach(button => {
 			button.addEventListener('click', function () {
-				const status = document.getElementById('SoftadminPromptStatus');
-
 				if (promptInput) {
-					promptInput.value = button.dataset.softadminPresetPrompt || '';
+					promptInput.value = button.dataset.softadminExamplePrompt || '';
 					promptInput.focus();
-					updateTokenMeter(promptInput.value);
-				}
-
-				if (status) {
-					status.textContent = `Preset loaded: ${button.textContent.trim()}.`;
 				}
 			});
 		});
@@ -942,10 +1124,26 @@
 		}
 
 		document.addEventListener('keydown', function (event) {
+			if ((event.key === 'Delete' || event.key === 'Backspace') && selectedElement && !isInteractiveEditingTarget(event.target)) {
+				event.preventDefault();
+				removeSelectedElement();
+				return;
+			}
+
 			if (event.key === 'Escape') {
+				clearSelectedElement();
 				setDebugDrawerOpen(false);
 			}
 		});
+
+		document.addEventListener('mousedown', handleSelectionMouseDown, true);
+		document.addEventListener('mousemove', handlePointerDragMove);
+		document.addEventListener('mouseup', handlePointerDragEnd);
+		document.addEventListener('click', handleSelectionClick);
+		document.addEventListener('dragstart', handleDragStart);
+		document.addEventListener('dragover', handleDragOver);
+		document.addEventListener('drop', handleDrop);
+		document.addEventListener('dragend', clearDragState);
 
 		const status = document.getElementById('SoftadminPromptStatus');
 		if (status) {
@@ -953,10 +1151,8 @@
 		}
 
 		enableInlineEditing();
+		enableDragAndDrop();
 		initialState = captureState();
-		updateTokenMeter();
-		updateChangeSummary();
-		renderCoverageBadges();
 		updateUndoButton();
 	});
 }());
