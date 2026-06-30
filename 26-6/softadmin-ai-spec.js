@@ -1,5 +1,7 @@
 (function () {
 	let lastDebugResult = null;
+	const undoStack = [];
+	let isBusy = false;
 
 	function escapeHtml(value) {
 		return String(value ?? '')
@@ -171,15 +173,71 @@
 		}
 	}
 
-	function setBusy(isBusy) {
-		const generateButton = document.getElementById('SoftadminGenerate');
+	function cloneDebugResult(value) {
+		return value ? JSON.parse(JSON.stringify(value)) : null;
+	}
 
-		if (!generateButton) {
+	function captureState() {
+		return {
+			documentTitle: document.title,
+			headerHtml: document.getElementById('pageheader')?.innerHTML || '',
+			sidebarHtml: document.querySelector('.saSideBarOuter')?.innerHTML || '',
+			rootHtml: document.querySelector('[data-softadmin-component-root]')?.innerHTML || '',
+			statusText: document.getElementById('SoftadminPromptStatus')?.textContent || '',
+			debugResult: cloneDebugResult(lastDebugResult)
+		};
+	}
+
+	function restoreState(state) {
+		const header = document.getElementById('pageheader');
+		const sidebar = document.querySelector('.saSideBarOuter');
+		const root = document.querySelector('[data-softadmin-component-root]');
+		const status = document.getElementById('SoftadminPromptStatus');
+
+		document.title = state.documentTitle;
+
+		if (header) {
+			header.innerHTML = state.headerHtml;
+		}
+
+		if (sidebar) {
+			sidebar.innerHTML = state.sidebarHtml;
+		}
+
+		if (root) {
+			root.innerHTML = state.rootHtml;
+		}
+
+		lastDebugResult = cloneDebugResult(state.debugResult);
+		updateDebugDrawer();
+
+		if (status) {
+			status.textContent = 'Undone.';
+		}
+
+		updateUndoButton();
+	}
+
+	function updateUndoButton() {
+		const undoButton = document.getElementById('SoftadminUndo');
+
+		if (!undoButton) {
 			return;
 		}
 
-		generateButton.disabled = isBusy;
-		generateButton.classList.toggle('saMockPromptButtonLoading', isBusy);
+		undoButton.disabled = isBusy || undoStack.length === 0;
+	}
+
+	function setBusy(busy) {
+		isBusy = busy;
+		const generateButton = document.getElementById('SoftadminGenerate');
+
+		if (generateButton) {
+			generateButton.disabled = busy;
+			generateButton.classList.toggle('saMockPromptButtonLoading', busy);
+		}
+
+		updateUndoButton();
 	}
 
 	async function renderFromPrompt(prompt) {
@@ -187,6 +245,7 @@
 		const status = document.getElementById('SoftadminPromptStatus');
 		const specRuntime = window.SoftadminSpecRuntime;
 		const renderer = window.SoftadminMockups;
+		const previousState = captureState();
 
 		if (!root || !specRuntime || !renderer) {
 			return;
@@ -204,6 +263,7 @@
 
 			updateFrame(spec.frame || {});
 			renderer.renderSpec(spec, root);
+			undoStack.push(previousState);
 			lastDebugResult = {
 				diagnostics: result.diagnostics || { aliases: [], dropped: [], warnings: [] },
 				prompt,
@@ -226,9 +286,18 @@
 		}
 	}
 
+	function undoLastGeneration() {
+		if (isBusy || !undoStack.length) {
+			return;
+		}
+
+		restoreState(undoStack.pop());
+	}
+
 	document.addEventListener('DOMContentLoaded', function () {
 		const promptInput = document.getElementById('SoftadminPrompt');
 		const generateButton = document.getElementById('SoftadminGenerate');
+		const undoButton = document.getElementById('SoftadminUndo');
 		const defaultPrompt = window.SoftadminPromptToSpec && window.SoftadminPromptToSpec.defaultPrompt
 			? window.SoftadminPromptToSpec.defaultPrompt
 			: 'Create a customer detail page with contact summary, cases, invoices, and payments.';
@@ -241,6 +310,10 @@
 			generateButton.addEventListener('click', function () {
 				renderFromPrompt(promptInput.value);
 			});
+		}
+
+		if (undoButton) {
+			undoButton.addEventListener('click', undoLastGeneration);
 		}
 
 		const debugToggle = document.getElementById('SoftadminDebugToggle');
@@ -268,5 +341,7 @@
 		if (status) {
 			status.textContent = 'Ready.';
 		}
+
+		updateUndoButton();
 	});
 }());
