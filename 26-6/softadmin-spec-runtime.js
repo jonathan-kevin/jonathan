@@ -191,17 +191,19 @@
 			throw new Error('Spec must be an object.');
 		}
 
+		const frame = spec.frame || {};
 		const components = (spec.components || [])
 			.map((component, index) => normalizeComponent(component, diagnostics, `components[${index}]`))
 			.filter(Boolean);
 
-		if (!components.length) {
+		if (!components.length && !spec.sidebar && !Object.keys(frame).length) {
 			throw new Error('Spec did not contain any supported components.');
 		}
 
 		const normalizedSpec = {
-			frame: spec.frame || {},
-			components
+			frame,
+			components,
+			sidebar: spec.sidebar || null
 		};
 
 		return normalizedSpec;

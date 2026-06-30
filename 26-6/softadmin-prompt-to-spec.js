@@ -235,6 +235,70 @@
 		};
 	}
 
+	function birdSidebarSpec() {
+		return {
+			frame: {},
+			sidebar: {
+				favorites: {
+					heading: 'Favorites',
+					editLabel: 'Edit',
+					items: [
+						{ title: 'Aviary overview', icon: 'dove' },
+						{ title: 'Nest approvals', icon: 'egg' },
+						{ title: 'Migration alerts', icon: 'triangle-exclamation' }
+					]
+				},
+				groups: [
+					{
+						heading: 'Aviary',
+						items: [
+							{ title: 'Flock overview', icon: 'feather' },
+							{ title: 'Bird profiles', icon: 'dove' },
+							{ title: 'Nest records', icon: 'egg' },
+							{ title: 'Feeding schedule', icon: 'seedling' }
+						]
+					},
+					{
+						heading: 'Habitats',
+						items: [
+							{ title: 'Perches', icon: 'tree' },
+							{ title: 'Flight rooms', icon: 'warehouse' },
+							{ title: 'Aviary equipment', icon: 'boxes-stacked' }
+						]
+					},
+					{
+						heading: 'Observation',
+						items: [
+							{ title: 'Migration calendar', icon: 'calendar-days' },
+							{ title: 'Sightings', icon: 'binoculars', pill: { type: 'beta', text: 'Beta' } },
+							{ title: 'Feather reports', icon: 'chart-simple' }
+						]
+					}
+				]
+			},
+			components: []
+		};
+	}
+
+	function frameChromeSpec(prompt) {
+		const titleMatch = prompt.match(/\btitle\s+(?:to|as|called|named)\s+["']?(.+?)(?=\s+(?:and|with|plus|while|but|then|also)\b|[.?!]|$)/i);
+		const title = titleMatch ? titleCase(titleMatch[1]) : 'Aviary overview';
+
+		return {
+			frame: {
+				title,
+				documentTitle: `${title} - Softadmin mockup`,
+				breadcrumbs: ['Home', 'Aviary', title],
+				actions: [
+					{ label: 'Add bird', icon: 'plus', variant: 'primary' },
+					{ label: 'Import sightings', icon: 'file-import', variant: 'secondary' },
+					{ label: 'Export report', icon: 'file-export', variant: 'secondary' }
+				]
+			},
+			components: []
+		};
+	}
+
 	function formSpec() {
 		return {
 			frame: {
@@ -446,6 +510,14 @@
 
 	function createSpec(prompt) {
 		const normalized = String(prompt || '').toLowerCase();
+
+		if (hasAny(normalized, ['sidebar', 'side bar', 'sidebar menu'])) {
+			return birdSidebarSpec();
+		}
+
+		if (hasAny(normalized, ['top button', 'top buttons', 'action button', 'action buttons', 'title', 'header'])) {
+			return frameChromeSpec(prompt);
+		}
 
 		if (hasAny(normalized, ['menu', 'menu group', 'sidebar items'])) {
 			return menuGroupsSpec();
