@@ -280,6 +280,47 @@
 		};
 	}
 
+	function addFavoritesSidebarSpec() {
+		return {
+			frame: {},
+			sidebar: {
+				favorites: {
+					append: true,
+					items: [
+						{ title: 'Customer search', icon: 'magnifying-glass' },
+						{ title: 'Create invoice', icon: 'file-invoice' },
+						{ title: 'Booking calendar', icon: 'calendar-days' },
+						{ title: 'Payment overview', icon: 'credit-card' },
+						{ title: 'Revenue report', icon: 'chart-simple' }
+					]
+				}
+			},
+			components: []
+		};
+	}
+
+	function economySidebarPatchSpec() {
+		return {
+			frame: {},
+			sidebarPatch: {
+				removeItems: [
+					{ title: 'Rooms' }
+				],
+				addItemsToResolvedGroup: {
+					fallbackGroup: 'Economy',
+					items: [
+						{ title: 'Cost centers', icon: 'chart-pie' },
+						{ title: 'Budget periods', icon: 'calendar-range' },
+						{ title: 'Accounts', icon: 'calculator' },
+						{ title: 'VAT codes', icon: 'percent' },
+						{ title: 'Journal entries', icon: 'book' }
+					]
+				}
+			},
+			components: []
+		};
+	}
+
 	function frameChromeSpec(prompt) {
 		const titleMatch = prompt.match(/\btitle\s+(?:to|as|called|named)\s+["']?(.+?)(?=\s+(?:and|with|plus|while|but|then|also)\b|[.?!]|$)/i);
 		const title = titleMatch ? titleCase(titleMatch[1]) : 'Aviary overview';
@@ -305,10 +346,7 @@
 				title: 'Create booking',
 				documentTitle: 'Create booking - Softadmin mockup',
 				breadcrumbs: ['Home', 'Bookings', 'Create booking'],
-				actions: [
-					{ label: 'Save', icon: 'floppy-disk', variant: 'primary' },
-					{ label: 'Cancel', icon: 'xmark', variant: 'secondary' }
-				]
+				actions: []
 			},
 			components: [
 				{
@@ -510,6 +548,14 @@
 
 	function createSpec(prompt) {
 		const normalized = String(prompt || '').toLowerCase();
+
+		if (hasAny(normalized, ['remove', 'delete']) && hasAny(normalized, ['sidebar', 'menu item', 'menu items']) && hasAny(normalized, ['rooms', "'rooms'", '"rooms"'])) {
+			return economySidebarPatchSpec();
+		}
+
+		if (hasAny(normalized, ['favorite', 'favorites']) && hasAny(normalized, ['add', 'more', 'new', 'five', '5'])) {
+			return addFavoritesSidebarSpec();
+		}
 
 		if (hasAny(normalized, ['sidebar', 'side bar', 'sidebar menu'])) {
 			return birdSidebarSpec();

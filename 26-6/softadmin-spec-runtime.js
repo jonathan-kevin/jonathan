@@ -14,7 +14,7 @@
 			return '/.netlify/functions/softadmin-spec';
 		}
 
-		return '';
+		return 'https://jonathankevin.netlify.app/.netlify/functions/softadmin-spec';
 	}
 
 	function registryComponents() {
@@ -196,14 +196,15 @@
 			.map((component, index) => normalizeComponent(component, diagnostics, `components[${index}]`))
 			.filter(Boolean);
 
-		if (!components.length && !spec.sidebar && !Object.keys(frame).length) {
+		if (!components.length && !spec.sidebar && !spec.sidebarPatch && !Object.keys(frame).length) {
 			throw new Error('Spec did not contain any supported components.');
 		}
 
 		const normalizedSpec = {
 			frame,
 			components,
-			sidebar: spec.sidebar || null
+			sidebar: spec.sidebar || null,
+			sidebarPatch: spec.sidebarPatch || null
 		};
 
 		return normalizedSpec;
@@ -211,7 +212,7 @@
 
 	async function fetchRemoteSpec(prompt) {
 		if (!config.specEndpoint) {
-			return null;
+			throw new Error('Spec endpoint is not configured.');
 		}
 
 		// Endpoint contract: POST { prompt, registry } and return the compact Softadmin spec only.
@@ -235,22 +236,10 @@
 	}
 
 	async function createSpec(prompt) {
-		let source = 'local';
-		let spec = null;
+		const source = 'endpoint';
 		const diagnostics = createDiagnostics();
 
-		try {
-			spec = await fetchRemoteSpec(prompt);
-			if (spec) {
-				source = 'endpoint';
-			}
-		} catch (error) {
-			console.warn('Falling back to local Softadmin spec mapper.', error);
-		}
-
-		if (!spec) {
-			spec = window.SoftadminPromptToSpec.createSpec(prompt);
-		}
+		const spec = await fetchRemoteSpec(prompt);
 
 		const rawSpec = spec;
 		const normalizedSpec = normalizeSpec(spec, diagnostics);

@@ -119,6 +119,90 @@
 			box-shadow: 0 0 0 0.1875rem rgba(37, 99, 235, 0.14);
 		}
 
+		.saMockTokenMeter {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.375rem;
+			margin-top: 0.5rem;
+			color: #64748b;
+			font-size: 0.6875rem;
+			font-weight: 700;
+			line-height: 1rem;
+		}
+
+		.saMockTokenMeter span {
+			border: 1px solid rgba(148, 163, 184, 0.28);
+			border-radius: 999px;
+			background: rgba(248, 250, 252, 0.88);
+			padding: 0.125rem 0.5rem;
+			white-space: nowrap;
+		}
+
+		.saMockChangeSummary {
+			margin-top: 0.5rem;
+			border: 1px solid rgba(37, 99, 235, 0.16);
+			border-radius: 0.75rem;
+			background: rgba(239, 246, 255, 0.72);
+			color: #1e3a8a;
+			font-size: 0.75rem;
+			line-height: 1.125rem;
+			padding: 0.5rem 0.625rem;
+		}
+
+		.saMockChangeSummary strong {
+			font-weight: 800;
+		}
+
+		.saMockCoverageBadges {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.375rem;
+			margin-top: 0.5rem;
+		}
+
+		.saMockCoverageBadge {
+			display: inline-flex;
+			align-items: center;
+			min-height: 1.5rem;
+			border: 1px solid rgba(15, 23, 42, 0.1);
+			border-radius: 999px;
+			background: rgba(241, 245, 249, 0.9);
+			color: #475569;
+			font-size: 0.6875rem;
+			font-weight: 800;
+			line-height: 1rem;
+			padding: 0 0.5rem;
+			white-space: nowrap;
+		}
+
+		.saMockPresetList {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.375rem;
+			margin-top: 0.625rem;
+		}
+
+		.saMockPresetButton {
+			display: inline-flex;
+			align-items: center;
+			min-height: 1.875rem;
+			border: 1px solid rgba(148, 163, 184, 0.42);
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.86);
+			color: #334155;
+			cursor: pointer;
+			font: inherit;
+			font-size: 0.75rem;
+			font-weight: 700;
+			line-height: 1rem;
+			padding: 0 0.625rem;
+		}
+
+		.saMockPresetButton:hover {
+			border-color: rgba(37, 99, 235, 0.45);
+			color: #2563eb;
+		}
+
 		.saMockPromptActions {
 			display: flex;
 			align-items: center;
@@ -336,10 +420,10 @@
 
 	<script src="../src/jquery-4.0.0.slim.min.js"></script>
 	<script src="./script.js?v=2"></script>
-	<script src="./softadmin-component-registry.js?v=42"></script>
-	<script src="./softadmin-prompt-to-spec.js?v=42"></script>
-	<script src="./softadmin-spec-runtime.js?v=42"></script>
-	<script src="./softadmin-ai-spec.js?v=42"></script>
+	<script src="./softadmin-component-registry.js?v=51"></script>
+	<script src="./softadmin-prompt-to-spec.js?v=51"></script>
+	<script src="./softadmin-spec-runtime.js?v=51"></script>
+	<script src="./softadmin-ai-spec.js?v=51"></script>
 	<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -759,6 +843,22 @@
 												<span class="saMockPromptHint">Prompt to Softadmin</span>
 											</div>
 											<textarea id="SoftadminPrompt" class="saMockPromptInput" aria-label="AI mockup prompt"></textarea>
+											<div id="SoftadminTokenMeter" class="saMockTokenMeter" aria-live="polite">
+												<span>Prompt: 0 est. tokens</span>
+												<span>Last: 0</span>
+												<span>Session: 0</span>
+											</div>
+											<div id="SoftadminChangeSummary" class="saMockChangeSummary" aria-live="polite">
+												<strong>Changed:</strong> Nothing yet.
+											</div>
+											<div id="SoftadminCoverageBadges" class="saMockCoverageBadges" aria-label="Component coverage"></div>
+											<div class="saMockPresetList" aria-label="Preset prompts">
+												<button class="saMockPresetButton" type="button" data-softadmin-preset-prompt="Create a customer details page with contact info boxes, overdue invoice warning, related cases tabs, invoices, payments, and realistic action buttons.">Customer detail</button>
+												<button class="saMockPresetButton" type="button" data-softadmin-preset-prompt="Create a NewEdit form for creating a booking with customer autosearch, room dropdown, participants multi-autosearch, from and to time, confirmation radio cards, notes, and save/cancel buttons.">Booking form</button>
+												<button class="saMockPresetButton" type="button" data-softadmin-preset-prompt="Create an invoice grid for an economy system with customer, invoice number, due date, status, amount, and realistic row actions.">Invoice grid</button>
+												<button class="saMockPresetButton" type="button" data-softadmin-preset-prompt="Create a booking calendar in weekdays mode with rooms, instructors, colored bookings, and top actions for new booking and week navigation.">Calendar</button>
+												<button class="saMockPresetButton" type="button" data-softadmin-preset-prompt="Create realistic menu groups for an economy and booking system with 7 menu items per group, favorites, and one beta item.">Admin menu</button>
+											</div>
 											<div class="saMockPromptActions">
 												<div class="saMockPromptActionGroup">
 													<button id="SoftadminGenerate" class="saMockPromptButton" type="button">
@@ -767,6 +867,9 @@
 													</button>
 													<button id="SoftadminUndo" class="saMockDebugToggle" type="button" aria-label="Undo last generation" title="Undo last generation" disabled>
 														<i class="far fa-arrow-rotate-left"></i>
+													</button>
+													<button id="SoftadminReset" class="saMockDebugToggle" type="button" aria-label="Reset mockup" title="Reset mockup">
+														<i class="far fa-arrow-rotate-right"></i>
 													</button>
 													<button id="SoftadminDebugToggle" class="saMockDebugToggle" type="button" aria-label="Open developer debug drawer">
 														<i class="far fa-code"></i>
