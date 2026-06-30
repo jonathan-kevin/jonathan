@@ -264,6 +264,9 @@
 			}
 		});
 
-		renderFromPrompt(defaultPrompt);
+		const status = document.getElementById('SoftadminPromptStatus');
+		if (status) {
+			status.textContent = 'Ready.';
+		}
 	});
 }());
