@@ -943,7 +943,7 @@
 						${(component.buttons || [
 							{ label: 'Save', variant: 'primary' },
 							{ label: 'Cancel', variant: 'secondary' }
-						]).map(button => `<button class="saFormButton ${button.variant === 'primary' ? 'saButtonPrimary' : 'saButtonSecondary'}"><i class="icon fas fa-spin fa-spinner saSpinner"></i>${escapeHtml(button.label)}</button>`).join('')}
+						]).map(button => `<button class="saFormButton ${button.variant === 'primary' ? 'saButtonPrimary' : 'saButtonSecondary'}" type="button"><i class="icon fas fa-spin fa-spinner saSpinner"></i>${escapeHtml(button.label)}</button>`).join('')}
 					</div>
 				</div>
 			</div>`;

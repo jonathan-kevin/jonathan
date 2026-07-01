@@ -401,21 +401,22 @@
 		);
 	}
 
-	function minimizeSidebar() {
+	function setSidebarExpanded(expanded) {
 		const sidebarOuter = document.querySelector('.saSideBarOuter');
 		const sidebar = document.querySelector('.saSideBar');
 		const expander = document.querySelector('.saExpander');
 
 		if (sidebarOuter) {
-			sidebarOuter.classList.add('saClosed');
+			sidebarOuter.classList.toggle('saClosed', !expanded);
 		}
 
 		if (sidebar) {
-			sidebar.classList.add('saMinimized');
+			sidebar.classList.toggle('saExpanded', expanded);
+			sidebar.classList.toggle('saMinimized', !expanded);
 		}
 
 		if (expander) {
-			expander.setAttribute('aria-expanded', 'false');
+			expander.setAttribute('aria-expanded', expanded ? 'true' : 'false');
 		}
 	}
 
@@ -427,7 +428,7 @@
 		}
 
 		event.preventDefault();
-		minimizeSidebar();
+		setSidebarExpanded(document.querySelector('.saSideBar')?.classList.contains('saMinimized'));
 	}
 
 	function updateSidebar(sidebar) {
