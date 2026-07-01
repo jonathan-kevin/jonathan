@@ -651,6 +651,6 @@
 
 	window.SoftadminPromptToSpec = {
 		createSpec,
-		defaultPrompt: 'Create a customer detail page for Anna Andersson with overdue invoices, contact summary, cases, invoices, bookings, and payments.'
+		defaultPrompt: 'Create a NewEdit form for entering a persons contact information.'
 	};
 }());

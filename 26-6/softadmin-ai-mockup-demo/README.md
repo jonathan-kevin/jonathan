@@ -25,7 +25,7 @@ Create a customer detail page for Anna Andersson with overdue invoices, contact 
 ```
 
 ```text
-Create a NewEdit form for creating a booking with room, date range, time, participants, customer autosearch and reference autosuggest.
+Create a NewEdit form for entering a persons contact information.
 ```
 
 ```text
