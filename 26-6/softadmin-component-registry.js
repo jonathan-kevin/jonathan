@@ -138,6 +138,18 @@
 				implemented: true,
 				renderType: 'DetailView'
 			},
+			'Enterprise Search': {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Enterprise+Search',
+				description: 'Grouped search results with search input, category pills and result tables.',
+				implemented: true,
+				renderType: 'EnterpriseSearch'
+			},
+			EnterpriseSearch: {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Enterprise+Search',
+				description: 'Mock renderer alias for the Enterprise Search component.',
+				implemented: true,
+				aliasFor: 'Enterprise Search'
+			},
 			Grid: {
 				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Grid',
 				description: 'Tabular result component with toolbar, sortable columns, row actions and small-screen list-grid rendering.',
@@ -351,6 +363,103 @@
 						</div>`).join('')}
 				</div>
 			</softadmin-menuitems>`;
+	}
+
+	function renderSearchSegments(value) {
+		if (Array.isArray(value)) {
+			return value.map(segment => {
+				if (!segment || typeof segment !== 'object') {
+					return `<span>${escapeHtml(segment)}</span>`;
+				}
+
+				return segment.mark
+					? `<mark>${escapeHtml(segment.text)}</mark>`
+					: `<span>${escapeHtml(segment.text)}</span>`;
+			}).join('');
+		}
+
+		if (value && typeof value === 'object') {
+			const content = renderSearchSegments(value.segments || value.text || '');
+			const icon = value.icon ? `<span class="saIconWrapper">${iconHtml(value.icon)}</span>` : '';
+
+			if (value.email) {
+				return `<nobr><a class="link" href="mailto:${escapeHtml(value.email)}"><span class="saLinkText">${escapeHtml(value.email)}</span><i class="far fa-envelope saSpecialLinkIcon"></i></a></nobr>`;
+			}
+
+			return value.link
+				? `<a class="saLink" tabindex="0"><div>${icon}${content}</div></a>`
+				: `<div>${icon}${content}</div>`;
+		}
+
+		return `<span>${escapeHtml(value)}</span>`;
+	}
+
+	function renderEnterpriseSearchCell(value) {
+		return `
+			<td>
+				<div class="saCellWrapper">
+					${renderSearchSegments(value)}
+				</div>
+			</td>`;
+	}
+
+	function renderEnterpriseSearchRow(group, row) {
+		return `
+			<tr>
+				${group.columns.map(column => renderEnterpriseSearchCell(row[column.key])).join('')}
+			</tr>`;
+	}
+
+	function renderEnterpriseSearchGroup(group) {
+		return `
+			<div class="saGroupViewWrapper" aria-live="polite">
+				<div class="saGroupViewGroup">
+					<div class="saGroupViewTitle"><h2>${escapeHtml(group.title)}</h2></div>
+					<table class="saGroupViewTable">
+						<thead>
+							<tr>${group.columns.map(column => `<th>${escapeHtml(column.label)}</th>`).join('')}</tr>
+						</thead>
+						<tbody class="saTableBodyJs">
+							${(group.rows || []).map(row => renderEnterpriseSearchRow(group, row)).join('')}
+						</tbody>
+					</table>
+				</div>
+				${group.showMore === false ? '' : `<button class="saGroupViewButton" type="button"><i class="saIcon far fa-arrow-down" aria-hidden="true"></i>${escapeHtml(group.showMoreLabel || 'Show more')}</button>`}
+			</div>`;
+	}
+
+	function renderEnterpriseSearch(component) {
+		const filters = component.filters || [];
+		const groups = component.groups || [];
+
+		return `
+			<softadmin-groupview class="saGroupView${groups.length ? '' : ' saEmpty'}">
+				<div class="saGroupViewSearchWrapper">
+					<div class="saGroupViewSearchBox">
+						<button type="button" aria-label="${escapeHtml(component.searchLabel || 'Search')}" data-tooltip="${escapeHtml(component.searchLabel || 'Search')}">
+							<i class="saIcon far fa-search saSearchIcon" aria-hidden="true"></i>
+							<i class="saIcon fas fa-spin fa-spinner saSpinIcon"></i>
+						</button>
+						<input type="search" name="searchtext" aria-label="${escapeHtml(component.searchLabel || 'Search')}" value="${escapeHtml(component.query || '')}">
+					</div>
+					<span class="saGroupViewWarning" aria-live="polite"></span>
+					<fieldset class="saPillGroup">
+						<legend class="saScreenReaderOnly">${escapeHtml(component.filterLegend || 'Filter category')}</legend>
+						${filters.map(filter => `
+							<label class="saPill${filter.active === false ? '' : ' saActive'}${filter.selected ? ' saSelected' : ''}${filter.disabled ? ' saDisabled' : ''}">
+								<span>${escapeHtml(filter.label)}</span>
+								<input class="saGroupFilterRadioJs" type="radio" name="saGroupViewGroupFilter" value="${escapeHtml(filter.value || '')}" ${filter.selected ? 'checked' : ''} ${filter.disabled ? 'disabled' : ''}>
+							</label>`).join('')}
+					</fieldset>
+				</div>
+				<div class="saEmptyState" aria-live="polite">
+					<div class="saEmptyStateIcon"><i class="saIcon far fa-search"></i></div>
+					<div class="saEmptyStateBody"><span class="saEmptyStateHeading">${escapeHtml(component.emptyText || 'No results found.')}</span></div>
+				</div>
+				<div class="saGroupViewGroupWrapper">
+					${groups.map(renderEnterpriseSearchGroup).join('')}
+				</div>
+			</softadmin-groupview>`;
 	}
 
 	function validationMessage(validation) {
@@ -1765,6 +1874,7 @@
 	const componentRenderers = {
 		CalendarWeekdays: renderCalendarWeekdays,
 		DetailView: renderDetailView,
+		EnterpriseSearch: renderEnterpriseSearch,
 		InfoBoxes: renderInfoBoxes,
 		MenuGroups: renderMenuGroups,
 		Multipart: renderMultipart,

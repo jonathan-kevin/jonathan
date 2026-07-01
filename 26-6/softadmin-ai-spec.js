@@ -143,6 +143,7 @@
 		const displayNames = {
 			DetailView: 'Detailview',
 			CalendarWeekdays: 'Calendar',
+			EnterpriseSearch: 'Enterprise Search',
 			ResultGrid: 'Grid'
 		};
 
@@ -733,6 +734,84 @@
 		element.dataset.softadminUserEdited = 'true';
 	}
 
+	function formValueSelector() {
+		return [
+			'[data-softadmin-component-root] input.saInputText',
+			'[data-softadmin-component-root] textarea.saTextArea',
+			'[data-softadmin-component-root] select.saDropdown',
+			'[data-softadmin-component-root] input.saFromDate',
+			'[data-softadmin-component-root] input.saToDate',
+			'[data-softadmin-component-root] input.saTime',
+			'[data-softadmin-component-root] input.saInputAffix',
+			'[data-softadmin-component-root] input.saCheckbox',
+			'[data-softadmin-component-root] input.saRadio',
+			'.saSideBarInputGroup input.saInputText'
+		].join(', ');
+	}
+
+	function formControlLabel(control) {
+		const field = control.closest('.saFieldAndLabelWrapper, .saSiblingRow, .saMultiRowCellWrapper, .saSideBarInputGroup > li');
+		const label = field?.querySelector('.saLabel, .saLabelCell, label')?.textContent?.trim().replace(/\s+/g, ' ');
+
+		return label || control.getAttribute('aria-label') || control.getAttribute('placeholder') || control.name || control.id || '';
+	}
+
+	function formControlKey(control) {
+		if (control.dataset.softadminValueEditKey) {
+			return control.dataset.softadminValueEditKey;
+		}
+
+		const root = control.closest('[data-softadmin-component-root], .saSideBarInputGroup') || document;
+		const controls = Array.from(root.querySelectorAll(formValueSelector()));
+		const index = controls.indexOf(control);
+		const label = formControlLabel(control).toLowerCase();
+		const scope = control.closest('.saSideBarInputGroup') ? 'sidebar-input' : 'main-value';
+		const type = control.matches('select') ? 'select' : control.type || control.tagName.toLowerCase();
+		const key = `${scope}:${type}:${label}:${Math.max(index, 0)}`;
+
+		control.dataset.softadminValueEditKey = key;
+		return key;
+	}
+
+	function formControlEdit(control) {
+		if (control.matches('input[type="checkbox"], input[type="radio"], input.saCheckbox, input.saRadio')) {
+			return { type: 'field-state', checked: control.checked };
+		}
+
+		if (control.matches('select')) {
+			return { type: 'field-value', value: control.value, selectedIndex: control.selectedIndex };
+		}
+
+		return { type: 'field-value', value: control.value };
+	}
+
+	function rememberFormValueEdit(control) {
+		if (!control || control.disabled) {
+			return;
+		}
+
+		manualEdits.set(formControlKey(control), formControlEdit(control));
+		control.dataset.softadminUserEdited = 'true';
+	}
+
+	function enableFormValueEditing() {
+		document.querySelectorAll(formValueSelector()).forEach(control => {
+			formControlKey(control);
+
+			if (control.dataset.softadminValueEditBound) {
+				return;
+			}
+
+			control.dataset.softadminValueEditBound = 'true';
+			control.addEventListener('input', function () {
+				rememberFormValueEdit(control);
+			});
+			control.addEventListener('change', function () {
+				rememberFormValueEdit(control);
+			});
+		});
+	}
+
 	function enableInlineEditing() {
 		document.querySelectorAll(editableTextSelector()).forEach(element => {
 			if (!canMakeEditable(element)) {
@@ -769,6 +848,10 @@
 			if (canMakeEditable(element)) {
 				rememberManualEdit(element);
 			}
+
+			if (element.matches(formValueSelector())) {
+				rememberFormValueEdit(element);
+			}
 		});
 	}
 
@@ -783,6 +866,27 @@
 
 			element.textContent = edit.value;
 			element.dataset.softadminUserEdited = 'true';
+		});
+
+		document.querySelectorAll(formValueSelector()).forEach(control => {
+			const key = formControlKey(control);
+			const edit = manualEdits.get(key);
+
+			if (!edit) {
+				return;
+			}
+
+			if (edit.type === 'field-state') {
+				control.checked = Boolean(edit.checked);
+			} else if (edit.type === 'field-value') {
+				if (control.matches('select') && edit.selectedIndex >= 0 && edit.selectedIndex < control.options.length) {
+					control.selectedIndex = edit.selectedIndex;
+				} else {
+					control.value = edit.value ?? '';
+				}
+			}
+
+			control.dataset.softadminUserEdited = 'true';
 		});
 	}
 
@@ -1004,6 +1108,8 @@
 		element.classList.remove('saMockSelectedElement', 'saMockDraggingElement', 'saMockDropTarget');
 		delete element.dataset.softadminEditBound;
 		delete element.dataset.softadminEditKey;
+		delete element.dataset.softadminValueEditBound;
+		delete element.dataset.softadminValueEditKey;
 		delete element.dataset.softadminUserEdited;
 
 		if (element.id) {
@@ -1013,9 +1119,11 @@
 		element.querySelectorAll('.saMockSelectedElement, .saMockDraggingElement, .saMockDropTarget').forEach(child => {
 			child.classList.remove('saMockSelectedElement', 'saMockDraggingElement', 'saMockDropTarget');
 		});
-		element.querySelectorAll('[data-softadmin-edit-bound], [data-softadmin-edit-key], [data-softadmin-user-edited]').forEach(child => {
+		element.querySelectorAll('[data-softadmin-edit-bound], [data-softadmin-edit-key], [data-softadmin-value-edit-bound], [data-softadmin-value-edit-key], [data-softadmin-user-edited]').forEach(child => {
 			delete child.dataset.softadminEditBound;
 			delete child.dataset.softadminEditKey;
+			delete child.dataset.softadminValueEditBound;
+			delete child.dataset.softadminValueEditKey;
 			delete child.dataset.softadminUserEdited;
 		});
 		element.querySelectorAll('[id]').forEach(child => child.removeAttribute('id'));
@@ -1035,6 +1143,7 @@
 		selectedElement.insertAdjacentElement('afterend', clone);
 		selectElement(clone);
 		enableInlineEditing();
+		enableFormValueEditing();
 		enableDragAndDrop();
 
 		if (status) {
@@ -1435,6 +1544,7 @@
 			manualEdits.set(key, value);
 		});
 		enableInlineEditing();
+		enableFormValueEditing();
 		enableDragAndDrop();
 		applyManualEdits();
 		updateAccountInitials();
@@ -1473,6 +1583,30 @@
 		}
 
 		updateUndoButton();
+	}
+
+	function componentPickerInstruction(value) {
+		const instructions = {
+			NewEdit: 'Use the Softadmin NewEdit component as the main component.',
+			ResultGrid: 'Use the Softadmin Grid component as the main component.',
+			DetailView: 'Use the Softadmin Detailview component with tabs as the main component.',
+			EnterpriseSearch: 'Use the Softadmin Enterprise Search component as the main component.',
+			CalendarWeekdays: 'Use the Softadmin Calendar component in Weekdays mode as the main component.',
+			Multipart: 'Use the Softadmin Multipart component as the main component.',
+			MenuGroups: 'Use Softadmin menu groups as the main component.',
+			InfoBoxes: 'Use Softadmin InfoSQL-style information boxes as the main component.'
+		};
+
+		return instructions[value] || '';
+	}
+
+	function promptWithComponentPreference(prompt) {
+		const picker = document.getElementById('SoftadminComponentPicker');
+		const instruction = componentPickerInstruction(picker?.value);
+
+		return instruction
+			? `${instruction}\n\n${prompt}`
+			: prompt;
 	}
 
 	async function renderFromPrompt(prompt) {
@@ -1517,6 +1651,7 @@
 			}
 
 			enableInlineEditing();
+			enableFormValueEditing();
 			enableDragAndDrop();
 			if (!shouldResetManualEdits) {
 				applyManualEdits();
@@ -1596,7 +1731,7 @@
 
 		if (generateButton && promptInput) {
 			generateButton.addEventListener('click', function () {
-				renderFromPrompt(promptInput.value);
+				renderFromPrompt(promptWithComponentPreference(promptInput.value));
 			});
 		}
 
@@ -1698,6 +1833,7 @@
 		}
 
 		enableInlineEditing();
+		enableFormValueEditing();
 		enableDragAndDrop();
 		loadLogoPreference();
 		loadAvatarPreference();

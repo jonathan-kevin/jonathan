@@ -635,8 +635,251 @@
 		};
 	}
 
+	function infoBoxesOnlySpec() {
+		return {
+			frame: {
+				title: 'Membership overview',
+				documentTitle: 'Membership overview - Softadmin mockup',
+				breadcrumbs: ['Home', 'Contacts', 'Membership overview'],
+				actions: [
+					{ label: 'Refresh', icon: 'arrow-rotate-right', variant: 'secondary' }
+				]
+			},
+			components: [
+				{
+					type: 'InfoBoxes',
+					boxes: [
+						{
+							heading: 'Membership',
+							fields: [
+								{ label: 'Status', value: 'Active' },
+								{ label: 'Member since', value: '2024-02-14' },
+								{ label: 'Certificate', value: { text: 'Create membership certificate', link: true } }
+							]
+						},
+						{
+							heading: 'Balance',
+							fields: [
+								{ label: 'Current balance', value: '1 840 SEK' },
+								{ label: 'Overdue invoices', value: '1' },
+								{ label: 'Payment terms', value: '30 days' }
+							]
+						},
+						{
+							heading: 'Contact',
+							fields: [
+								{ label: 'Email', value: { text: 'anna.andersson@example.se', link: true } },
+								{ label: 'Phone', value: '+46 70 123 45 67' },
+								{ label: 'Address', value: 'Storgatan 12, 111 22 Stockholm' }
+							]
+						}
+					]
+				}
+			]
+		};
+	}
+
+	function calendarWeekdaysSpec() {
+		return {
+			frame: {
+				title: 'Booking calendar',
+				documentTitle: 'Booking calendar - Softadmin mockup',
+				breadcrumbs: ['Home', 'Bookings', 'Booking calendar'],
+				actions: [
+					{ label: 'New booking', icon: 'plus', variant: 'primary' }
+				]
+			},
+			components: [
+				{
+					type: 'CalendarWeekdays',
+					heading: 'Week 27',
+					year: '2026',
+					month: 'July',
+					week: '27',
+					currentSidebarDay: '1',
+					todaySidebarDay: '1',
+					resource: 'Anna Andersson',
+					filters: [
+						{ label: 'Bookings', checked: true },
+						{ label: 'Maintenance', checked: true },
+						{ label: 'Unavailable', checked: false }
+					],
+					weeks: [
+						{
+							number: '27',
+							label: 'Week 27',
+							id: '2026-W27',
+							days: [
+								{ day: '29', date: '2026-06-29', activities: [{ title: 'Room inspection', time: '09:00', color: 'rgb(133, 147, 173)' }] },
+								{ day: '30', date: '2026-06-30', activities: [{ title: 'Supplier visit', time: '13:00', color: 'rgb(119, 171, 124)' }] },
+								{ day: '1', date: '2026-07-01', today: true, current: true, activities: [{ title: 'Conference room booked', description: 'Customer workshop', time: '10:00', color: 'rgb(96, 165, 250)' }] },
+								{ day: '2', date: '2026-07-02', activities: [{ title: 'Equipment service', time: '08:30', color: 'rgb(245, 158, 11)' }] },
+								{ day: '3', date: '2026-07-03', activities: [{ title: 'Board meeting', time: '15:00', color: 'rgb(168, 85, 247)' }] },
+								{ day: '4', date: '2026-07-04', redDay: true, activities: [] },
+								{ day: '5', date: '2026-07-05', redDay: true, activities: [] }
+							]
+						}
+					]
+				}
+			]
+		};
+	}
+
+	function enterpriseSearchSpec() {
+		return {
+			frame: {
+				title: 'Search',
+				documentTitle: 'Search - Softadmin mockup',
+				breadcrumbs: ['Home', 'Search'],
+				actions: []
+			},
+			components: [
+				{
+					type: 'EnterpriseSearch',
+					query: 'design',
+					searchLabel: 'Search',
+					filterLegend: 'Filter category',
+					emptyText: 'No results found.',
+					filters: [
+						{ label: 'All', value: '', selected: true },
+						{ label: 'My maintenance items', value: 'maintenance' },
+						{ label: 'Companies', value: 'companies' },
+						{ label: 'Knowledge base', value: 'knowledge' },
+						{ label: 'Contacts', value: 'contacts', disabled: true }
+					],
+					groups: [
+						{
+							title: 'My maintenance items',
+							columns: [
+								{ key: 'project', label: 'Project' },
+								{ key: 'number', label: 'No.' },
+								{ key: 'subject', label: 'Subject' },
+								{ key: 'status', label: 'Status' }
+							],
+							rows: [
+								{
+									project: { text: 'Softadmin', link: true },
+									number: '6031',
+									subject: { link: true, segments: [{ text: 'Mobile interface shows non-responsive ' }, { text: 'design', mark: true }, { text: ' when switching menu item' }] },
+									status: 'Archived'
+								},
+								{
+									project: { text: 'Softadmin', link: true },
+									number: '7298',
+									subject: { link: true, segments: [{ text: 'New ' }, { text: 'design', mark: true }, { text: ': Column picker' }] },
+									status: 'Archived'
+								},
+								{
+									project: { text: 'Softadmin - Support', link: true },
+									number: '7325',
+									subject: { link: true, segments: [{ text: 'New ' }, { text: 'design', mark: true }, { text: ': Radio button' }] },
+									status: 'In progress'
+								}
+							]
+						},
+						{
+							title: 'Companies',
+							columns: [
+								{ key: 'company', label: 'Company' },
+								{ key: 'email', label: 'Email' },
+								{ key: 'phone', label: 'Phone' }
+							],
+							rows: [
+								{ company: { link: true, segments: [{ text: 'Nordic ' }, { text: 'Design', mark: true }, { text: ' Group AB' }] }, email: { email: 'info@nordicdesign.se' }, phone: '08-441 46 46' },
+								{ company: { link: true, segments: [{ text: 'Bright Light ' }, { text: 'Design', mark: true }] }, email: { email: 'hello@brightlight.se' }, phone: '08-728 20 00' },
+								{ company: { link: true, segments: [{ text: 'Travel ' }, { text: 'Design', mark: true }, { text: ' Stockholm AB' }] }, email: { email: 'booking@traveldesign.se' }, phone: '08-667 85 25' }
+							]
+						},
+						{
+							title: 'Knowledge base',
+							columns: [
+								{ key: 'title', label: 'Title' },
+								{ key: 'folder', label: 'Folder' }
+							],
+							rows: [
+								{ title: { link: true, segments: [{ text: 'Employee guide - ' }, { text: 'Design', mark: true }] }, folder: { text: 'Internal', link: true } },
+								{ title: { link: true, segments: [{ text: 'Database ' }, { text: 'Design', mark: true }, { text: 'er demo' }] }, folder: { text: 'R & D', link: true } },
+								{ title: { link: true, segments: [{ text: 'Release planning Softadmin 8.11' }] }, folder: { text: 'Softadmin', link: true } }
+							]
+						}
+					]
+				}
+			]
+		};
+	}
+
+	function multipartSpec() {
+		return {
+			frame: {
+				title: 'Customer workspace',
+				documentTitle: 'Customer workspace - Softadmin mockup',
+				breadcrumbs: ['Home', 'Customers', 'Customer workspace'],
+				actions: [
+					{ label: 'Create case', icon: 'folder-plus', variant: 'primary' }
+				]
+			},
+			components: [
+				{
+					type: 'Multipart',
+					parts: [
+						{
+							title: 'Overview',
+							component: infoBoxesOnlySpec().components[0]
+						},
+						{
+							title: 'Open invoices',
+							component: advancedGridSpec().components[0]
+						}
+					]
+				}
+			]
+		};
+	}
+
 	function createSpec(prompt) {
 		const normalized = String(prompt || '').toLowerCase();
+		const prefersNewEdit = normalized.includes('use the softadmin newedit component');
+		const prefersGrid = normalized.includes('use the softadmin grid component');
+		const prefersDetailView = normalized.includes('use the softadmin detailview component');
+		const prefersEnterpriseSearch = normalized.includes('use the softadmin enterprise search component');
+		const prefersCalendar = normalized.includes('use the softadmin calendar component');
+		const prefersMultipart = normalized.includes('use the softadmin multipart component');
+		const prefersMenuGroups = normalized.includes('use softadmin menu groups');
+		const prefersInfoBoxes = normalized.includes('use softadmin infosql-style information boxes');
+
+		if (prefersNewEdit) {
+			return hasAny(normalized, ['person', 'persons', 'first name', 'last name', 'contact information'])
+				? personFormSpec()
+				: formSpec();
+		}
+
+		if (prefersGrid) {
+			return advancedGridSpec();
+		}
+
+		if (prefersDetailView) {
+			return detailViewSpec(normalized);
+		}
+
+		if (prefersEnterpriseSearch) {
+			return enterpriseSearchSpec();
+		}
+
+		if (prefersCalendar) {
+			return calendarWeekdaysSpec();
+		}
+
+		if (prefersMultipart) {
+			return multipartSpec();
+		}
+
+		if (prefersMenuGroups) {
+			return menuGroupsSpec();
+		}
+
+		if (prefersInfoBoxes) {
+			return infoBoxesOnlySpec();
+		}
 
 		if (hasAny(normalized, ['remove', 'delete']) && hasAny(normalized, ['sidebar', 'menu item', 'menu items']) && hasAny(normalized, ['rooms', "'rooms'", '"rooms"'])) {
 			return economySidebarPatchSpec();
@@ -672,6 +915,10 @@
 
 		if (hasAny(normalized, ['grid', 'grouped rows', 'resultgrid', 'transaction overview'])) {
 			return advancedGridSpec();
+		}
+
+		if (hasAny(normalized, ['enterprise search', 'groupview', 'grouped search', 'search results'])) {
+			return enterpriseSearchSpec();
 		}
 
 		return detailViewSpec(normalized);
