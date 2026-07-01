@@ -1,10 +1,12 @@
 (function () {
 	let lastDebugResult = null;
 	const undoStack = [];
+	const logoStorageKey = 'softadmin.mockup.logo';
 	const manualEdits = new Map();
 	let initialState = null;
 	let isBusy = false;
 	let lastTokenEstimate = null;
+	let preferredLogoSource = null;
 	let selectedElement = null;
 	let draggedElement = null;
 	let dropTargetElement = null;
@@ -244,6 +246,107 @@
 		return Array.from(document.querySelectorAll('.saSideBarBody > .saSideBarGroup:not(.saSideBarFavorites)'));
 	}
 
+	function logoElements() {
+		return Array.from(document.querySelectorAll('.saCustomerLogo, .saSideBarHeaderSmallScreenLogo'));
+	}
+
+	function saveLogoPreference(source) {
+		try {
+			window.localStorage.setItem(logoStorageKey, source);
+		} catch (error) {
+			// Local storage can be unavailable for file URLs or large data URLs.
+		}
+	}
+
+	function loadLogoPreference() {
+		try {
+			preferredLogoSource = window.localStorage.getItem(logoStorageKey) || null;
+		} catch (error) {
+			preferredLogoSource = null;
+		}
+	}
+
+	function applyLogoPreference() {
+		if (!preferredLogoSource) {
+			return;
+		}
+
+		logoElements().forEach(logo => {
+			logo.setAttribute('src', preferredLogoSource);
+			if (!logo.getAttribute('alt')) {
+				logo.setAttribute('alt', 'Customer logo');
+			}
+		});
+	}
+
+	function setLogoPreference(source, message) {
+		const status = document.getElementById('SoftadminPromptStatus');
+		const normalizedSource = String(source || '').trim();
+
+		if (!normalizedSource) {
+			return;
+		}
+
+		preferredLogoSource = normalizedSource;
+		saveLogoPreference(normalizedSource);
+		applyLogoPreference();
+
+		if (status) {
+			status.textContent = message || 'Logo updated.';
+		}
+	}
+
+	function handleLogoFileChange(event) {
+		const file = event.target.files && event.target.files[0];
+		const status = document.getElementById('SoftadminPromptStatus');
+
+		if (!file) {
+			return;
+		}
+
+		if (!file.type.startsWith('image/')) {
+			if (status) {
+				status.textContent = 'Choose an image file for the logo.';
+			}
+			return;
+		}
+
+		const reader = new FileReader();
+		reader.addEventListener('load', function () {
+			setLogoPreference(reader.result, `Logo updated: ${file.name}.`);
+			event.target.value = '';
+		});
+		reader.readAsDataURL(file);
+	}
+
+	function logoUrlInput() {
+		return document.getElementById('SoftadminLogoUrlInput');
+	}
+
+	function openLogoUrlInput() {
+		const input = logoUrlInput();
+
+		if (!input) {
+			return;
+		}
+
+		input.value = preferredLogoSource || input.value || '';
+		input.classList.add('saOpen');
+		input.focus();
+		input.select();
+	}
+
+	function applyLogoUrlInput() {
+		const input = logoUrlInput();
+
+		if (!input) {
+			return;
+		}
+
+		setLogoPreference(input.value, 'Logo URL applied.');
+		input.classList.remove('saOpen');
+	}
+
 	function sidebarItemTitle(element) {
 		const titleElement = element.querySelector('.saItemInner > span');
 
@@ -298,6 +401,35 @@
 		);
 	}
 
+	function minimizeSidebar() {
+		const sidebarOuter = document.querySelector('.saSideBarOuter');
+		const sidebar = document.querySelector('.saSideBar');
+		const expander = document.querySelector('.saExpander');
+
+		if (sidebarOuter) {
+			sidebarOuter.classList.add('saClosed');
+		}
+
+		if (sidebar) {
+			sidebar.classList.add('saMinimized');
+		}
+
+		if (expander) {
+			expander.setAttribute('aria-expanded', 'false');
+		}
+	}
+
+	function handleSidebarExpanderClick(event) {
+		const expander = event.target.closest('.saExpander');
+
+		if (!expander) {
+			return;
+		}
+
+		event.preventDefault();
+		minimizeSidebar();
+	}
+
 	function updateSidebar(sidebar) {
 		if (!sidebar) {
 			return;
@@ -317,6 +449,7 @@
 		body.innerHTML = `
 			${sidebar.favorites ? sidebarFavoritesHtml(sidebar.favorites) : ''}
 			${sidebar.groups.map(sidebarGroupHtml).join('')}`;
+		applyLogoPreference();
 	}
 
 	function hasOwnProperties(value) {
@@ -501,6 +634,7 @@
 			'#pageheader .saTopLink',
 			'#pageheader .saCollectorWrapper',
 			'#pageheader .saBreadcrumb',
+			'.saSideBarInputGroup > li',
 			'.saSideBarBody .saItemList > li',
 			'.saSideBarBody > .saSideBarGroup:not(.saSideBarFavorites)',
 			'.saSideBarToolbar > li',
@@ -531,8 +665,20 @@
 		selectedElement = null;
 	}
 
+	function blurSidebarInputGroupSelection(element) {
+		if (element?.matches('.saSideBarInputGroup > li') && document.activeElement?.closest('.saSideBarInputGroup')) {
+			document.activeElement.blur();
+		}
+	}
+
 	function selectElement(element) {
-		if (!element || element === selectedElement) {
+		if (!element) {
+			return;
+		}
+
+		blurSidebarInputGroupSelection(element);
+
+		if (element === selectedElement) {
 			return;
 		}
 
@@ -892,6 +1038,8 @@
 			documentTitle: document.title,
 			headerHtml: document.getElementById('pageheader')?.innerHTML || '',
 			rightFrameClassName: document.getElementById('body')?.className || '',
+			sidebarOuterClassName: document.querySelector('.saSideBarOuter')?.className || '',
+			sidebarClassName: document.querySelector('.saSideBar')?.className || '',
 			sidebarHtml: document.querySelector('.saSideBarOuter')?.innerHTML || '',
 			rootHtml: document.querySelector('[data-softadmin-component-root]')?.innerHTML || '',
 			statusText: document.getElementById('SoftadminPromptStatus')?.textContent || '',
@@ -903,6 +1051,7 @@
 	function restoreState(state) {
 		const header = document.getElementById('pageheader');
 		const sidebar = document.querySelector('.saSideBarOuter');
+		const sideBarNav = document.querySelector('.saSideBar');
 		const root = document.querySelector('[data-softadmin-component-root]');
 		const status = document.getElementById('SoftadminPromptStatus');
 
@@ -920,8 +1069,20 @@
 		}
 
 		if (sidebar) {
+			if (state.sidebarOuterClassName) {
+				sidebar.className = state.sidebarOuterClassName;
+			}
 			sidebar.innerHTML = state.sidebarHtml;
 		}
+
+		const restoredSideBarNav = document.querySelector('.saSideBar');
+		if (restoredSideBarNav && state.sidebarClassName) {
+			restoredSideBarNav.className = state.sidebarClassName;
+		} else if (sideBarNav && state.sidebarClassName) {
+			sideBarNav.className = state.sidebarClassName;
+		}
+
+		applyLogoPreference();
 
 		if (root) {
 			root.innerHTML = state.rootHtml;
@@ -1077,6 +1238,10 @@
 		const generateButton = document.getElementById('SoftadminGenerate');
 		const undoButton = document.getElementById('SoftadminUndo');
 		const resetButton = document.getElementById('SoftadminReset');
+		const logoFileInput = document.getElementById('SoftadminLogoFile');
+		const logoUploadButton = document.getElementById('SoftadminLogoUpload');
+		const logoUrlButton = document.getElementById('SoftadminLogoUrl');
+		const logoUrlInputElement = document.getElementById('SoftadminLogoUrlInput');
 		const defaultPrompt = window.SoftadminPromptToSpec && window.SoftadminPromptToSpec.defaultPrompt
 			? window.SoftadminPromptToSpec.defaultPrompt
 			: 'Create a customer detail page with contact summary, cases, invoices, and payments.';
@@ -1097,6 +1262,36 @@
 
 		if (resetButton) {
 			resetButton.addEventListener('click', resetMockup);
+		}
+
+		if (logoUploadButton && logoFileInput) {
+			logoUploadButton.addEventListener('click', function () {
+				logoFileInput.click();
+			});
+			logoFileInput.addEventListener('change', handleLogoFileChange);
+		}
+
+		if (logoUrlButton) {
+			logoUrlButton.addEventListener('click', function () {
+				if (logoUrlInputElement?.classList.contains('saOpen') && logoUrlInputElement.value.trim()) {
+					applyLogoUrlInput();
+				} else {
+					openLogoUrlInput();
+				}
+			});
+		}
+
+		if (logoUrlInputElement) {
+			logoUrlInputElement.addEventListener('keydown', function (event) {
+				if (event.key === 'Enter') {
+					event.preventDefault();
+					applyLogoUrlInput();
+				}
+
+				if (event.key === 'Escape') {
+					logoUrlInputElement.classList.remove('saOpen');
+				}
+			});
 		}
 
 		document.querySelectorAll('[data-softadmin-example-prompt]').forEach(button => {
@@ -1140,6 +1335,7 @@
 		document.addEventListener('mousemove', handlePointerDragMove);
 		document.addEventListener('mouseup', handlePointerDragEnd);
 		document.addEventListener('click', handleSelectionClick);
+		document.addEventListener('click', handleSidebarExpanderClick);
 		document.addEventListener('dragstart', handleDragStart);
 		document.addEventListener('dragover', handleDragOver);
 		document.addEventListener('drop', handleDrop);
@@ -1152,6 +1348,8 @@
 
 		enableInlineEditing();
 		enableDragAndDrop();
+		loadLogoPreference();
+		applyLogoPreference();
 		initialState = captureState();
 		updateUndoButton();
 	});

@@ -395,16 +395,42 @@
 			margin: 0;
 		}
 
+		.saMockLogoFileInput {
+			display: none;
+		}
+
+		.saMockLogoUrlInput {
+			width: 0;
+			min-width: 0;
+			opacity: 0;
+			border: 1px solid rgba(148, 163, 184, 0.38);
+			border-radius: 0.5rem;
+			background: rgba(255, 255, 255, 0.96);
+			color: #0f172a;
+			font: inherit;
+			height: 2.125rem;
+			padding: 0;
+			pointer-events: none;
+			transition: width 0.16s ease, opacity 0.16s ease, padding 0.16s ease;
+		}
+
+		.saMockLogoUrlInput.saOpen {
+			width: 13rem;
+			opacity: 1;
+			padding: 0 0.625rem;
+			pointer-events: auto;
+		}
+
 	</style>
 	<meta name="description" content="Demo">
 	<meta property="og:image" content="./Presentation/img/og-img.png">
 
 	<script src="../src/jquery-4.0.0.slim.min.js"></script>
 	<script src="./script.js?v=2"></script>
-	<script src="./softadmin-component-registry.js?v=60"></script>
-	<script src="./softadmin-prompt-to-spec.js?v=60"></script>
-	<script src="./softadmin-spec-runtime.js?v=60"></script>
-	<script src="./softadmin-ai-spec.js?v=60"></script>
+	<script src="./softadmin-component-registry.js?v=65"></script>
+	<script src="./softadmin-prompt-to-spec.js?v=65"></script>
+	<script src="./softadmin-spec-runtime.js?v=65"></script>
+	<script src="./softadmin-ai-spec.js?v=65"></script>
 	<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -825,10 +851,10 @@
 											</div>
 											<textarea id="SoftadminPrompt" class="saMockPromptInput" aria-label="AI mockup prompt"></textarea>
 											<div class="saMockExamplePrompts" aria-label="Example prompts">
-												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create a NewEdit form for entering a person's first and last name only.">Person form</button>
+												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create a NewEdit form for entering a person's contact information.">Person form</button>
 												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create a customer details page with contact info boxes, overdue invoice warning, related cases tabs, invoices, payments, and realistic action buttons.">Customer detail</button>
-												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create an invoice grid for an economy system with customer, invoice number, due date, status, amount, and realistic row actions.">Invoice grid</button>
-												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Add five more favorites in the sidebar.">Sidebar favorites</button>
+												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create an 15 row invoice grid for an economy system with customer, invoice number, due date, status, amount, and realistic row actions.">Invoice grid</button>
+												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Add five more random favorites in the sidebar.">Sidebar favorites</button>
 												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Remove item 'Rooms' in sidebar and add five more menu items in that group about economy.">Sidebar patch</button>
 											</div>
 											<div class="saMockPromptActions">
@@ -843,6 +869,14 @@
 													<button id="SoftadminReset" class="saMockDebugToggle" type="button" aria-label="Reset mockup" title="Reset mockup">
 														<i class="far fa-arrow-rotate-right"></i>
 													</button>
+													<input id="SoftadminLogoFile" class="saMockLogoFileInput" type="file" accept="image/*">
+													<button id="SoftadminLogoUpload" class="saMockDebugToggle" type="button" aria-label="Upload logo" title="Upload logo">
+														<i class="far fa-image"></i>
+													</button>
+													<button id="SoftadminLogoUrl" class="saMockDebugToggle" type="button" aria-label="Use logo URL" title="Use logo URL">
+														<i class="far fa-link"></i>
+													</button>
+													<input id="SoftadminLogoUrlInput" class="saMockLogoUrlInput" type="url" aria-label="Logo image URL" placeholder="Logo URL">
 													<button id="SoftadminDebugToggle" class="saMockDebugToggle" type="button" aria-label="Open developer debug drawer">
 														<i class="far fa-code"></i>
 													</button>
