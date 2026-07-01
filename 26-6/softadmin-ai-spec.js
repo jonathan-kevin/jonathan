@@ -319,6 +319,25 @@
 		reader.readAsDataURL(file);
 	}
 
+	function openLogoFilePicker() {
+		const input = document.getElementById('SoftadminLogoFile');
+
+		if (input) {
+			input.click();
+		}
+	}
+
+	function handleLogoClick(event) {
+		const logo = event.target.closest('.saCustomerLogo, .saSideBarHeaderSmallScreenLogo');
+
+		if (!logo) {
+			return;
+		}
+
+		event.preventDefault();
+		openLogoFilePicker();
+	}
+
 	function logoUrlInput() {
 		return document.getElementById('SoftadminLogoUrlInput');
 	}
@@ -1266,9 +1285,7 @@
 		}
 
 		if (logoUploadButton && logoFileInput) {
-			logoUploadButton.addEventListener('click', function () {
-				logoFileInput.click();
-			});
+			logoUploadButton.addEventListener('click', openLogoFilePicker);
 			logoFileInput.addEventListener('change', handleLogoFileChange);
 		}
 
@@ -1336,6 +1353,7 @@
 		document.addEventListener('mousemove', handlePointerDragMove);
 		document.addEventListener('mouseup', handlePointerDragEnd);
 		document.addEventListener('click', handleSelectionClick);
+		document.addEventListener('click', handleLogoClick);
 		document.addEventListener('click', handleSidebarExpanderClick);
 		document.addEventListener('dragstart', handleDragStart);
 		document.addEventListener('dragover', handleDragOver);
