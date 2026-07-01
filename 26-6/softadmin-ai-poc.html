@@ -427,16 +427,66 @@
 			pointer-events: auto;
 		}
 
+		.saMockSelectionToolbar {
+			position: fixed;
+			z-index: 100000;
+			display: none;
+			align-items: center;
+			gap: 0.25rem;
+			max-width: min(30rem, calc(100vw - 1rem));
+			border: 1px solid rgba(15, 23, 42, 0.14);
+			border-radius: 0.75rem;
+			background: rgba(15, 23, 42, 0.94);
+			box-shadow: 0 1rem 2.5rem rgba(15, 23, 42, 0.22);
+			color: #fff;
+			padding: 0.3125rem;
+		}
+
+		.saMockSelectionToolbar.saOpen {
+			display: flex;
+		}
+
+		.saMockSelectionLabel {
+			max-width: 10rem;
+			overflow: hidden;
+			padding: 0 0.5rem;
+			color: #cbd5e1;
+			font-size: 0.6875rem;
+			font-weight: 800;
+			line-height: 1.75rem;
+			text-overflow: ellipsis;
+			text-transform: uppercase;
+			white-space: nowrap;
+		}
+
+		.saMockSelectionToolbar button {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 1.875rem;
+			height: 1.875rem;
+			border: 0;
+			border-radius: 0.5rem;
+			background: transparent;
+			color: #e2e8f0;
+			cursor: pointer;
+		}
+
+		.saMockSelectionToolbar button:hover {
+			background: rgba(255, 255, 255, 0.12);
+			color: #fff;
+		}
+
 	</style>
 	<meta name="description" content="Demo">
 	<meta property="og:image" content="./Presentation/img/og-img.png">
 
 	<script src="../src/jquery-4.0.0.slim.min.js"></script>
 	<script src="./script.js?v=2"></script>
-	<script src="./softadmin-component-registry.js?v=70"></script>
-	<script src="./softadmin-prompt-to-spec.js?v=70"></script>
-	<script src="./softadmin-spec-runtime.js?v=70"></script>
-	<script src="./softadmin-ai-spec.js?v=70"></script>
+	<script src="./softadmin-component-registry.js?v=72"></script>
+	<script src="./softadmin-prompt-to-spec.js?v=72"></script>
+	<script src="./softadmin-spec-runtime.js?v=72"></script>
+	<script src="./softadmin-ai-spec.js?v=72"></script>
 	<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -901,6 +951,14 @@
 											</div>
 											<div id="SoftadminDebugContent" class="saMockDebugContent"></div>
 										</aside>
+
+										<div id="SoftadminSelectionToolbar" class="saMockSelectionToolbar" aria-hidden="true">
+											<span id="SoftadminSelectionLabel" class="saMockSelectionLabel">Selected</span>
+											<button type="button" data-softadmin-selection-action="move-up" aria-label="Move selection up" title="Move up"><i class="far fa-arrow-up"></i></button>
+											<button type="button" data-softadmin-selection-action="move-down" aria-label="Move selection down" title="Move down"><i class="far fa-arrow-down"></i></button>
+											<button type="button" data-softadmin-selection-action="duplicate" aria-label="Duplicate selection" title="Duplicate"><i class="far fa-copy"></i></button>
+											<button type="button" data-softadmin-selection-action="delete" aria-label="Delete selection" title="Delete"><i class="far fa-trash-alt"></i></button>
+										</div>
 
 										<div data-softadmin-component-root></div>
 

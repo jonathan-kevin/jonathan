@@ -791,6 +791,7 @@
 			'#pageheader .saTopLink',
 			'#pageheader .saCollectorWrapper',
 			'#pageheader .saBreadcrumb',
+			'#pageheader .saBreadcrumbSeparator',
 			'.saSideBarInputGroup > li',
 			'.saSideBarBody .saItemList > li',
 			'.saSideBarBody > .saSideBarGroup:not(.saSideBarFavorites)',
@@ -811,7 +812,7 @@
 	}
 
 	function isInteractiveEditingTarget(target) {
-		return Boolean(target.closest('.saMockPromptPanel, .saMockDebugDrawer, input, textarea, select'));
+		return Boolean(target.closest('.saMockPromptPanel, .saMockDebugDrawer, .saMockSelectionToolbar, input, textarea, select'));
 	}
 
 	function clearSelectedElement() {
@@ -820,6 +821,68 @@
 		}
 
 		selectedElement = null;
+		updateSelectionToolbar();
+	}
+
+	function selectedElementLabel(element) {
+		if (!element) {
+			return 'Selected';
+		}
+
+		if (element.matches('#pageheader .saTopLink')) return 'Top button';
+		if (element.matches('#pageheader .saCollectorWrapper')) return 'More button';
+		if (element.matches('#pageheader .saBreadcrumbSeparator')) return 'Breadcrumb separator';
+		if (element.matches('#pageheader .saBreadcrumb')) return 'Breadcrumb';
+		if (element.matches('.saSideBarInputGroup > li')) return 'Sidebar input';
+		if (element.matches('.saSideBarToolbar > li')) return 'Sidebar tool';
+		if (element.matches('.saSideBarBody .saItemList > li')) return 'Sidebar item';
+		if (element.matches('.saSideBarBody > .saSideBarGroup')) return 'Sidebar group';
+		if (element.matches('[data-softadmin-component-root] .saFieldAndLabelWrapper')) return 'NewEdit field';
+		if (element.matches('[data-softadmin-component-root] .saSiblingRow')) return 'Sibling row';
+		if (element.matches('[data-softadmin-component-root] tr.saGridRow')) return 'Grid row';
+		if (element.matches('[data-softadmin-component-root] .saTab')) return 'Tab';
+		if (element.matches('[data-softadmin-component-root] .saMenuItemWrapper')) return 'Menu item';
+		if (element.matches('[data-softadmin-component-root] .saMenuBox')) return 'Menu group';
+		if (element.matches('[data-softadmin-component-root] .saInfoBox')) return 'Info box';
+		if (element.matches('[data-softadmin-component-root] .saWarningBox')) return 'Warning';
+		if (element.matches('[data-softadmin-component-root] .saCalendarEvent, [data-softadmin-component-root] .saCalendarActivity')) return 'Calendar item';
+
+		return 'Selected';
+	}
+
+	function updateSelectionToolbar() {
+		const toolbar = document.getElementById('SoftadminSelectionToolbar');
+		const label = document.getElementById('SoftadminSelectionLabel');
+
+		if (!toolbar) {
+			return;
+		}
+
+		if (!selectedElement || !selectedElement.isConnected) {
+			toolbar.classList.remove('saOpen');
+			toolbar.setAttribute('aria-hidden', 'true');
+			return;
+		}
+
+		if (label) {
+			label.textContent = selectedElementLabel(selectedElement);
+		}
+
+		toolbar.classList.add('saOpen');
+		toolbar.setAttribute('aria-hidden', 'false');
+
+		const rect = selectedElement.getBoundingClientRect();
+		const toolbarRect = toolbar.getBoundingClientRect();
+		const viewportPadding = 8;
+		const left = Math.min(
+			Math.max(viewportPadding, rect.left),
+			Math.max(viewportPadding, window.innerWidth - toolbarRect.width - viewportPadding)
+		);
+		const above = rect.top - toolbarRect.height - 8;
+		const top = above > viewportPadding ? above : Math.min(rect.bottom + 8, window.innerHeight - toolbarRect.height - viewportPadding);
+
+		toolbar.style.left = `${Math.round(left)}px`;
+		toolbar.style.top = `${Math.round(top)}px`;
 	}
 
 	function blurSidebarInputGroupSelection(element) {
@@ -842,6 +905,7 @@
 		clearSelectedElement();
 		selectedElement = element;
 		selectedElement.classList.add('saMockSelectedElement');
+		updateSelectionToolbar();
 	}
 
 	function enableDragAndDrop() {
@@ -918,6 +982,126 @@
 		}
 	}
 
+	function captureUndoState() {
+		const selected = document.querySelectorAll('.saMockSelectedElement');
+		const dragging = document.querySelectorAll('.saMockDraggingElement');
+		const dropTargets = document.querySelectorAll('.saMockDropTarget');
+
+		selected.forEach(element => element.classList.remove('saMockSelectedElement'));
+		dragging.forEach(element => element.classList.remove('saMockDraggingElement'));
+		dropTargets.forEach(element => element.classList.remove('saMockDropTarget'));
+
+		const state = captureState();
+
+		selected.forEach(element => element.classList.add('saMockSelectedElement'));
+		dragging.forEach(element => element.classList.add('saMockDraggingElement'));
+		dropTargets.forEach(element => element.classList.add('saMockDropTarget'));
+
+		return state;
+	}
+
+	function cleanDuplicatedElement(element) {
+		element.classList.remove('saMockSelectedElement', 'saMockDraggingElement', 'saMockDropTarget');
+		delete element.dataset.softadminEditBound;
+		delete element.dataset.softadminEditKey;
+		delete element.dataset.softadminUserEdited;
+
+		if (element.id) {
+			element.removeAttribute('id');
+		}
+
+		element.querySelectorAll('.saMockSelectedElement, .saMockDraggingElement, .saMockDropTarget').forEach(child => {
+			child.classList.remove('saMockSelectedElement', 'saMockDraggingElement', 'saMockDropTarget');
+		});
+		element.querySelectorAll('[data-softadmin-edit-bound], [data-softadmin-edit-key], [data-softadmin-user-edited]').forEach(child => {
+			delete child.dataset.softadminEditBound;
+			delete child.dataset.softadminEditKey;
+			delete child.dataset.softadminUserEdited;
+		});
+		element.querySelectorAll('[id]').forEach(child => child.removeAttribute('id'));
+	}
+
+	function duplicateSelectedElement() {
+		const status = document.getElementById('SoftadminPromptStatus');
+
+		if (!selectedElement || !selectedElement.isConnected) {
+			clearSelectedElement();
+			return;
+		}
+
+		undoStack.push(captureUndoState());
+		const clone = selectedElement.cloneNode(true);
+		cleanDuplicatedElement(clone);
+		selectedElement.insertAdjacentElement('afterend', clone);
+		selectElement(clone);
+		enableInlineEditing();
+		enableDragAndDrop();
+
+		if (status) {
+			status.textContent = 'Duplicated selection.';
+		}
+
+		updateUndoButton();
+	}
+
+	function moveSelectedElement(direction) {
+		const status = document.getElementById('SoftadminPromptStatus');
+
+		if (!selectedElement || !selectedElement.isConnected) {
+			clearSelectedElement();
+			return;
+		}
+
+		const sibling = direction === 'up' ? selectedElement.previousElementSibling : selectedElement.nextElementSibling;
+
+		if (!sibling) {
+			if (status) {
+				status.textContent = direction === 'up' ? 'Already first in this group.' : 'Already last in this group.';
+			}
+			return;
+		}
+
+		undoStack.push(captureUndoState());
+
+		if (direction === 'up') {
+			selectedElement.parentElement.insertBefore(selectedElement, sibling);
+		} else {
+			selectedElement.parentElement.insertBefore(selectedElement, sibling.nextElementSibling);
+		}
+
+		selectElement(selectedElement);
+
+		if (status) {
+			status.textContent = direction === 'up' ? 'Moved selection up.' : 'Moved selection down.';
+		}
+
+		updateSelectionToolbar();
+		updateUndoButton();
+	}
+
+	function handleSelectionToolbarClick(event) {
+		const button = event.target.closest('[data-softadmin-selection-action]');
+
+		if (!button) {
+			return;
+		}
+
+		event.preventDefault();
+		event.stopPropagation();
+
+		const action = button.dataset.softadminSelectionAction;
+
+		if (action === 'delete') {
+			removeSelectedElement();
+		} else if (action === 'duplicate') {
+			duplicateSelectedElement();
+		} else if (action === 'move-up') {
+			moveSelectedElement('up');
+		} else if (action === 'move-down') {
+			moveSelectedElement('down');
+		}
+	}
+
 	function removeSelectedElement() {
 		const status = document.getElementById('SoftadminPromptStatus');
 
@@ -926,7 +1110,7 @@
 			return;
 		}
 
-		undoStack.push(captureState());
+		undoStack.push(captureUndoState());
 		selectedElement.remove();
 		clearSelectedElement();
 		syncTopButtonLayoutAfterDeletion();
@@ -1019,7 +1203,7 @@
 
 		elementToMove.classList.remove('saMockDraggingElement');
 		clearDropTarget();
-		undoStack.push(captureState());
+		undoStack.push(captureUndoState());
 		insertDraggedElement(elementToMove, targetElement, event);
 		selectElement(elementToMove);
 		draggedElement = null;
@@ -1496,6 +1680,7 @@
 		document.addEventListener('mousedown', handleSelectionMouseDown, true);
 		document.addEventListener('mousemove', handlePointerDragMove);
 		document.addEventListener('mouseup', handlePointerDragEnd);
+		document.addEventListener('click', handleSelectionToolbarClick);
 		document.addEventListener('click', handleSelectionClick);
 		document.addEventListener('click', handleLogoClick);
 		document.addEventListener('click', handleAvatarClick);
@@ -1504,6 +1689,8 @@
 		document.addEventListener('dragover', handleDragOver);
 		document.addEventListener('drop', handleDrop);
 		document.addEventListener('dragend', clearDragState);
+		window.addEventListener('resize', updateSelectionToolbar);
+		document.addEventListener('scroll', updateSelectionToolbar, true);
 
 		const status = document.getElementById('SoftadminPromptStatus');
 		if (status) {
