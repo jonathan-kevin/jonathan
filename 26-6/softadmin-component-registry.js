@@ -898,10 +898,12 @@
 			</legend>`;
 	}
 
-	function renderNewEditSection(section) {
+	function renderNewEditSection(section, index, sections) {
+		const sectionClass = `saSectionWrapper${index === sections.length - 1 ? ' saLastVisible' : ''}`;
+
 		if (!section.heading) {
 			return `
-				<div class="saSectionWrapper saLastVisible">
+				<div class="${sectionClass}">
 					<div class="saFieldCollection ${escapeHtml(section.width || 'long')}">
 						${(section.fields || []).map(renderField).join('')}
 					</div>
@@ -909,7 +911,7 @@
 		}
 
 		return `
-			<fieldset class="saSectionWrapper saLastVisible">
+			<fieldset class="${sectionClass}">
 				${renderSectionHeader(section)}
 				<fieldset class="saFieldCollection ${escapeHtml(section.width || 'long')}">
 					${(section.fields || []).map(renderField).join('')}
@@ -931,9 +933,7 @@
 					<div class="saFormRootAndTocWrapper">
 						<fieldset class="saFormRoot saLabelsAbove">
 							<div class="saSectionWrapper">
-								<div class="saFieldsRow">
-									${(component.sections || []).map(renderNewEditSection).join('')}
-								</div>
+								${(component.sections || []).map(renderNewEditSection).join('')}
 							</div>
 						</fieldset>
 					</div>

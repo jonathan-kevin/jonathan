@@ -460,13 +460,41 @@
 						{
 							heading: 'Person',
 							fields: [
-								{ label: 'First name', control: 'textbox', required: true },
-								{ label: 'Last name', control: 'textbox', required: true }
+								{ label: 'First name', control: 'textbox', value: 'Emma', required: true },
+								{ label: 'Last name', control: 'textbox', value: 'Johnson', required: true },
+								{ label: 'Job title', control: 'textbox', value: 'Operations Manager' },
+								{ label: 'Company', control: 'autosearch', value: 'Northwind Traders' }
+							]
+						},
+						{
+							heading: 'Contact information',
+							fields: [
+								{ label: 'Email', control: 'textbox', value: 'emma.johnson@example.com', required: true },
+								{ label: 'Mobile phone', control: 'textbox', value: '+1 555 0147' },
+								{ label: 'Work phone', control: 'textbox', value: '+1 555 0182' },
+								{ label: 'Preferred contact method', control: 'dropdown', value: 'Email', options: ['Email', 'Mobile phone', 'Work phone', 'SMS'] }
+							]
+						},
+						{
+							heading: 'Address',
+							fields: [
+								{ label: 'Street address', control: 'textbox', value: '145 Maple Avenue' },
+								{ label: 'City', control: 'textbox', value: 'Seattle' },
+								{ label: 'State or region', control: 'textbox', value: 'WA' },
+								{ label: 'Postal code', control: 'textbox', value: '98101' },
+								{ label: 'Country', control: 'dropdown', value: 'United States', options: ['United States', 'Canada', 'United Kingdom', 'Germany', 'Sweden'] }
+							]
+						},
+						{
+							heading: 'Notes and consent',
+							fields: [
+								{ label: 'Notes', control: 'textarea', value: 'Prefers email for appointment confirmations.' },
+								{ label: 'May receive marketing updates', control: 'checkbox' }
 							]
 						}
 					],
 					buttons: [
-						{ label: 'Save', variant: 'primary' },
+						{ label: 'Save contact', variant: 'primary' },
 						{ label: 'Cancel', variant: 'secondary' }
 					]
 				}
