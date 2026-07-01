@@ -355,18 +355,29 @@
 						{
 							heading: 'Booking',
 							fields: [
-								{ label: 'Customer', control: 'autosearch', value: 'Anna Andersson', required: true },
-								{ label: 'Room', control: 'textboxDropdown', value: 'Room 3', required: true },
+								{ label: 'Customer', control: 'autosearch', value: 'Anna Andersson', required: true, actions: [{ label: 'Edit', icon: 'pen' }] },
+								{ label: 'Room', control: 'textboxDropdown', value: 'Room 3', required: true, actions: [{ label: 'Choose' }] },
 								{ label: 'Participants', control: 'multiAutosearch', id: 'MI_MC_Participants', values: ['Anna Andersson', 'Maria Lindberg'], valueIds: [19, 22] },
 								{ label: 'Reference', control: 'autosuggest', value: 'Membership introduction' },
-								{ label: 'Booking dates', control: 'dateRange', from: '2026-06-29', to: '2026-06-30' },
+								{ label: 'Booking dates', control: 'dateRange', from: '2026-06-29', to: '2026-06-30', description: 'Used for availability and price calculation.' }
+							]
+						},
+						{
+							heading: 'Schedule',
+							fields: [
 								{
 									layout: 'siblings',
 									fields: [
 										{ label: 'From', control: 'time', displayValue: '09:00', value: '09:00:00', required: true },
-										{ label: 'To', control: 'time', displayValue: '10:30', value: '10:30:00', required: true }
+										{ label: 'To', control: 'time', displayValue: '10:30', value: '10:30:00', required: true },
+										{ label: 'Breaks', control: 'numberAffix', value: '0.25', suffix: ' h', required: true, extendedDescription: 'Time reserved for lunch, cleaning or other breaks.' }
 									]
-								},
+								}
+							]
+						},
+						{
+							heading: 'Communication',
+							fields: [
 								{
 									label: 'Confirmation',
 									control: 'radioCards',
@@ -376,14 +387,12 @@
 										{ title: 'No confirmation', value: 'none', description: 'Create without notifying the participant.' }
 									]
 								},
-								{
-									label: 'Attachments',
-									control: 'fileUploadArea',
-									files: [
-										{ name: 'booking-request.pdf', size: '42 kB' },
-										{ name: 'room-layout.png', size: '18 kB' }
-									]
-								},
+								{ label: 'Send copy to customer contact', control: 'checkbox', checked: true, description: 'Uses the customer email address from the selected contact.' }
+							]
+						},
+						{
+							heading: 'Resources',
+							fields: [
 								{
 									label: 'Resource rows',
 									control: 'multirow',
@@ -400,7 +409,59 @@
 									],
 									aggregate: ['', { sumText: 'Sum' }, { value: '4.5', suffix: ' h' }, { value: '1 050', suffix: ' SEK' }]
 								},
+								{ label: 'Price rule', control: 'dropdown', value: 'Standard price', options: ['Standard price', 'Member price', 'Campaign price'], actions: [{ label: 'Open', icon: 'arrow-up-right-from-square' }] }
+							]
+						},
+						{
+							heading: 'Attachments and notes',
+							fields: [
+								{
+									label: 'Attachments',
+									control: 'fileUploadArea',
+									files: [
+										{ name: 'booking-request.pdf', size: '42 kB' },
+										{ name: 'room-layout.png', size: '18 kB' }
+									]
+								},
 								{ label: 'Notes', control: 'textarea', value: 'Remember accessibility needs.' }
+							]
+						},
+						{
+							heading: 'Publish booking',
+							checkbox: { checked: true },
+							fields: [
+								{ label: 'Visible in customer portal', control: 'checkbox', checked: true },
+								{ label: 'Booking icon', control: 'autosearch', value: 'calendar-days', actions: [{ label: 'Choose' }] },
+								{ label: 'Icon preview', control: 'iconPreview', icon: 'calendar-days' }
+							]
+						}
+					],
+					buttons: [
+						{ label: 'Save', variant: 'primary' },
+						{ label: 'Cancel', variant: 'secondary' }
+					]
+				}
+			]
+		};
+	}
+
+	function personFormSpec() {
+		return {
+			frame: {
+				title: 'Create person',
+				documentTitle: 'Create person - Softadmin mockup',
+				breadcrumbs: ['Home', 'Contacts', 'Create person'],
+				actions: []
+			},
+			components: [
+				{
+					type: 'NewEdit',
+					sections: [
+						{
+							heading: 'Person',
+							fields: [
+								{ label: 'First name', control: 'textbox', required: true },
+								{ label: 'Last name', control: 'textbox', required: true }
 							]
 						}
 					],
@@ -567,6 +628,10 @@
 
 		if (hasAny(normalized, ['menu', 'menu group', 'sidebar items'])) {
 			return menuGroupsSpec();
+		}
+
+		if (hasAny(normalized, ['person', 'persons', 'first name', 'last name']) && hasAny(normalized, ['newedit', 'form'])) {
+			return personFormSpec();
 		}
 
 		if (hasAny(normalized, ['newedit', 'form', 'create booking', 'edit booking'])) {

@@ -1,0 +1,782 @@
+.saSmallScreenCalendar.saCalendarSection {
+	margin: 0;
+	border-radius: 0;
+	box-shadow: none;
+	min-width: 0;
+	border: none;
+	max-width: 100%;
+
+	.UserSelectNone();
+
+	.saEmptyState {
+		padding-top: 4rem;
+		width: 100%;
+	}
+
+	.saIsInEmptyState {
+		.saMoreDayButton {
+			display: none;
+		}
+
+		.saSlotWrapper {
+			display: none;
+		}
+	}
+
+	.saCalendarHeadingButton {
+		.Button();
+		.ButtonGhost();
+		.IconButtonSizeSmallScreen();
+	}
+
+	.saContentRight {
+		padding: 0;
+	}
+
+	.saCalendarHeaderSmallScreen {
+		display: flex;
+		flex-direction: column;
+		flex: 1 1 100%;
+	}
+
+	.saCalendar {
+		width: 100%;
+
+		.saActivityLine {
+			min-width: 2px;
+			border-radius: 1px;
+		}
+	}
+
+	.saCalendarHeaderInnerSmallScreen {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex: 1 1 100%;
+		position: relative;
+	}
+
+	.saCalendarHeader {
+		padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+		top: 0;
+		z-index: 2;
+		background: @ColorWhite;
+		border-radius: 0;
+	}
+
+	&:has(.saCalendarHeadingButton.saOpen) {
+		.saCalendarInner,
+		.saCalendarList {
+			overflow: hidden;
+			position: relative;
+
+			&::after {
+				content: '';
+				position: absolute;
+				z-index: 9;
+				inset: 0;
+				width: 100vh;
+				height: 1000vh;
+				background: fade(@ColorGray900, 40);
+			}
+		}
+	}
+
+	.saCalendarFilter {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding: 0 0.5rem 1rem 0.5rem;
+		position: absolute;
+		width: 100%;
+		z-index: 10;
+		background: @ColorWhite;
+		top: 3.5rem;
+		box-shadow: 0 1px 0 @ColorGray200, -1px 0 0 @ColorGray200, 1px 0 0 @ColorGray200;
+
+		.saInputTextWrapper {
+			width: 100%;
+		}
+
+		&::before {
+			content: '';
+			position: fixed;
+			z-index: -10;
+			top: 0;
+			left: 0;
+			width: 100vh;
+			height: 100vh;
+		}
+	}
+
+	.saHiddenDate {
+		position: absolute;
+		top: 0;
+		left: 0;
+		.AppearanceNone();
+		opacity: 0;
+		height: 100%;
+		width: 100%;
+	}
+
+	.saCalendarHeaderButton {
+		display: flex;
+		justify-content: space-between;
+		gap: 0.5rem;
+		align-items: center;
+		font: inherit;
+		color: inherit;
+		border: none;
+		background: none;
+		padding: 0;
+		height: 2.5rem;
+		position: relative;
+		.StandardTransition();
+
+		.saIcon {
+			color: @ColorGray600;
+			.StandardTransition();
+		}
+
+		&::before {
+			content: '';
+			.StandardTransition();
+			height: 100%;
+			width: calc(100% + 1rem);
+			background-color: @ColorGray100;
+			position: absolute;
+			left: -0.5rem;
+			border-radius: 2px;
+			z-index: -1;
+			opacity: 0;
+		}
+
+		.Hover({
+			color: @ColorBlue600;
+
+			&::before {
+				opacity: 1;
+				border-radius: 0.75rem;
+			}
+
+			.saIcon {
+				color: @ColorBlue600;
+			}
+		});
+
+		&:active {
+			color: @ColorBlue600;
+
+			&::before {
+				opacity: 1;
+				border-radius: 0.75rem;
+			}
+
+			.saIcon {
+				color: @ColorBlue600;
+			}
+		}
+
+		&:focus-within {
+			color: @ColorBlue600;
+
+			&::before {
+				opacity: 1;
+				border-radius: 0.5rem;
+			}
+
+			.saIcon {
+				color: @ColorBlue600;
+				transform: rotate(180deg);
+			}
+		}
+	}
+
+	.saCalendarInner {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+
+		.saWeekHeader {
+			max-height: 1.625rem;
+		}
+
+		.saWeek {
+			overflow: hidden;
+		}
+	}
+
+	.saCalendarInnerWrapper {
+		height: 100%;
+	}
+
+	.saWeekDay {
+		font-size: 0.625rem;
+		line-height: 0.625rem;
+		min-height: 1.5rem;
+		height: auto;
+	}
+
+	.saWeekNumber {
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		width: 1rem;
+	}
+
+	.saDateX.saDateIsToday .saDateNumber {
+		color: @ColorWhite;
+		font-weight: 400;
+		background: @ColorBlue600;
+	}
+
+	.saDateNumber {
+		padding: 0 0.25rem;
+		height: 1.25rem;
+		min-width: 1.25rem;
+		max-width: fit-content;
+		border-radius: 0.25rem;
+		font-size: 0.875rem;
+
+		&:active {
+			background: none;
+			color: inherit;
+			transform: scale(1);
+		}
+
+		&::after {
+			height: 0;
+			width: 0;
+		}
+	}
+
+	.saButtons {
+		display: flex;
+	}
+
+	.saActivity {
+		min-height: 0.75rem;
+		height: 0.75rem;
+		gap: 2px;
+		padding: 0;
+		pointer-events: none;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+
+		&::before {
+			min-width: 2px;
+		}
+
+		&.saAllDay {
+			min-height: 0.875rem;
+			height: 0.875rem;
+			max-height: 0.875rem;
+			padding: 0 0 0 2px;
+		}
+
+		&.saMoreItems {
+			padding: 0;
+			color: @ColorBlue600;
+
+			.saActivityHeadingWrapper {
+				justify-content: center;
+			}
+		}
+	}
+
+	.saActivityHeading {
+		white-space: nowrap;
+		font-size: 0.625rem;
+		line-height: 0.625rem;
+		font-weight: 400;
+	}
+
+	.saCalendarHeaderInnerRow {
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		min-width: 100%;
+		overflow: hidden;
+		border-bottom: 1px solid @ColorGray200;
+		min-height: 3.5rem;
+		background: @ColorGray50;
+		z-index: 2;
+
+		.saWeekDays {
+			position: absolute;
+			top: 0;
+			user-select: none;
+			pointer-events: none;
+			min-width: 100%;
+			flex: 1;
+			justify-content: space-between;
+			border-bottom: none;
+			background: none;
+			color: @ColorGray600;
+
+			.saWeekDay {
+				border: none;
+				background: transparent;
+
+				&.saDateIsToday {
+					color: @ColorBlue600;
+				}
+
+				&.saDateIsCurrent {
+					color: @ColorBlue600;
+				}
+			}
+		}
+
+		.saWeeks {
+			display: flex;
+			overflow-y: hidden;
+			overflow-x: hidden;
+		}
+
+		.saWeek:not(.saWeekDays) {
+			min-width: 100%;
+			flex: 1;
+			justify-content: space-between;
+			border-bottom: none;
+			min-height: 3.5rem;
+
+			.saWeekDay {
+				border: none;
+				padding: 0;
+				height: 3rem;
+				justify-content: space-between;
+			}
+
+			.saDateNumber {
+				flex: 1;
+				padding-top: 1rem;
+				height: unset;
+				min-width: unset;
+				max-width: unset;
+				overflow: hidden;
+				background-color: @ColorGray50;
+
+				&.saHasItems::after {
+					content: '';
+					height: 0.25rem;
+					width: 0.25rem;
+					border-radius: 2px;
+					position: absolute;
+					background-color: @ColorBlue600;
+					bottom: 0.375rem;
+					z-index: 1;
+					pointer-events: none;
+				}
+
+				&.saRedDay .saDateNumberInner {
+					color: @ColorRed600;
+				}
+
+				&:active .saDateNumberInner {
+					background-color: @ColorGray100;
+					color: @ColorBlue600;
+					border-radius: 0.75rem;
+				}
+
+				&.saDateIsToday .saDateNumberInner {
+					color: @ColorBlue600;
+
+					&::before {
+						background: @ColorBlue100;
+						border-radius: 0.5rem;
+						transform: translateX(0);
+					}
+				}
+
+				&.saDateIsCurrent .saDateNumberInner {
+					color: @ColorWhite;
+
+					&::before {
+						background: @ColorBlue600;
+						border-radius: 0.5rem;
+						transform: translateX(0);
+					}
+				}
+
+				&.saDateIsCurrent.saWideDate .saDateNumberInner::before {
+					width: 3rem;
+				}
+			}
+
+			.saDateNumberInner {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				height: 2rem;
+				width: 2rem;
+				font-size: 1rem;
+				position: relative;
+				z-index: 1;
+
+				&::before {
+					content: '';
+					position: absolute;
+					bottom: 0;
+					height: 2rem;
+					width: 2rem;
+					border-radius: 0.25rem;
+					.StandardTransition();
+					z-index: -1;
+					transform: scale(0.4);
+					background: transparent;
+				}
+			}
+
+		}
+	}
+
+	.saCalendarListOuter {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 100%;
+		min-height: 12.5rem;
+	}
+
+	.saCalendarList {
+		display: flex;
+		justify-content: center;
+		position: absolute;
+		width: 100%;
+	}
+
+	.saCalendarListInner {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+
+	.saDateListWrapper {
+		display: flex;
+		flex-direction: column;
+		overflow-y: auto;
+
+		&:first-child {
+			border: none;
+		}
+	}
+
+	.saDateList {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding-top: 0.5rem;
+	}
+
+	.saDateListHeadingWrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		width: 100%;
+		flex: 1;
+		background: @ColorWhite;
+		top: 0;
+		z-index: 1;
+		padding: 0.5rem 0.5rem 0.5rem 1rem;
+		max-height: 3rem;
+		border-bottom: 1px solid @ColorGray200;
+
+		button.saIcon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1rem;
+			height: 2rem;
+			min-width: 2rem;
+			border-radius: 0.5rem;
+			color: @ColorGray600;
+			border: none;
+			margin: 0;
+			background: transparent;
+		}
+
+		&:active .saIcon {
+			background: @ColorGray50;
+			color: @ColorBlue600;
+		}
+	}
+
+	.saDateListHeading {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+		font-weight: 600;
+	}
+
+	.saListActivity * {
+		.UserSelectNone();
+	}
+
+	.saListActivity,
+	.saScheduleActivity {
+		button.saIcon {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 1rem;
+			height: 2rem;
+			min-width: 2rem;
+			max-width: 2rem;
+			border-radius: 0.5rem;
+			color: @ColorGray600;
+			border: none;
+			margin: 0;
+			background: transparent;
+			position: absolute;
+			right: 0.5rem;
+			top: 0.25rem;
+			transition: ease background .2s, ease color .2s;
+
+			&:active {
+				background: @ColorGray50;
+				color: @ColorBlue600;
+			}
+
+			&::after {
+				content: '';
+				height: 2.75rem;
+				width: 2.75rem;
+				position: absolute;
+				right: -0.25rem;
+				top: -0.25rem;
+			}
+		}
+	}
+
+	.saListActivity {
+		position: relative;
+		user-select: none;
+		min-height: 2.5rem;
+		border-radius: 0.5rem;
+		.UserSelectNone();
+
+		&.saAllDay {
+			margin: 0 0.25rem;
+			min-height: 2rem;
+			border-radius: 0.25rem;
+
+			.saListActivityInner {
+				padding: 0;
+				min-height: 2rem;
+			}
+		}
+	}
+
+	.saListActivityInner {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		min-height: 2.5rem;
+		gap: 2px;
+		padding: 0.5rem 2.5rem 0.5rem 1rem;
+		margin: 0 0.5rem;
+		position: relative;
+
+		.saActivityLine {
+			position: absolute;
+			min-height: calc(100% - 1rem);
+			top: 0.5rem;
+			left: 0.5rem;
+			min-width: 2px;
+			border-radius: 1px;
+			background: @ColorBlue600;
+			transition: height 0.2s ease;
+		}
+
+		&.saHasCheckbox:active {
+			background: @ColorGray50;
+			border-radius: 0.75rem;
+		}
+
+		.saCheckbox {
+			width: 1.25rem;
+			height: 1.25rem;
+			position: absolute;
+			left: 0.5rem;
+			top: calc(50% - 0.625rem);
+		}
+	}
+
+	.saListActivityHeading,
+	.saListActivityDescription {
+		font-size: 0.75rem;
+		line-height: 1rem;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+	}
+
+	.saListActivityHeading {
+		font-weight: 500;
+	}
+
+	.saListActivityDescription {
+		font-weight: 300;
+	}
+}
+
+/* Weekdays calendar */
+.saSmallScreenCalendar.saWeekdaysCalendar {
+	.saListActivityDescription {
+		-webkit-line-clamp: 8;
+	}
+
+	.saListActivityTime {
+		font-size: 0.875rem;
+		line-height: 0.875rem;
+		color: @ColorGray600;
+	}
+
+	label.saListActivityInner {
+		padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+
+		&::before {
+			min-height: 1.25rem;
+			min-width: 1.25rem;
+			border-radius: 0.25rem;
+			top: calc(50% - 0.625rem);
+			background: @ColorBlue100;
+			transition: height 0.2s ease, background 0.2s ease;
+		}
+	}
+}
+
+/* TimeSchedule calendar */
+.saSmallScreenCalendar.saCalendarSection.saTimeScheduleCalendar {
+	.saCalendarInner {
+		overflow-x: auto;
+	}
+
+	.saSlotWrapper {
+		min-width: 3rem;
+	}
+
+	.saCalendarStripe::before {
+		content: '';
+		left: -3rem;
+		position: absolute;
+		height: 100%;
+		width: 3rem;
+	}
+
+	.saScheduleActivity.saHasLinks .saScheduleActivityInner {
+		padding-right: 0.875rem;
+	}
+
+	.saScheduleActivity {
+		button.saIcon {
+			right: 0;
+			top: 0;
+			color: @ColorGray900;
+			min-width: 1.5rem;
+			max-width: 1.5rem;
+			height: 1.5rem;
+			margin-top: 2px;
+		}
+	}
+
+	.saExtraInfoList {
+		flex: 1 1 0;
+		background: @ColorWhite;
+		display: flex;
+		width: 100%;
+		position: relative;
+		padding: 0.25rem;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	.saListActivity.saAllDay {
+		margin: 0;
+	}
+}
+
+.saSmallScreenCalendar.saCalendarSection.saResourceCalendar {
+	.saCalendarInner {
+		position: relative;
+	}
+
+	.saListWrapper {
+		min-width: 100%;
+		width: fit-content;
+
+		&:not(.saResourceLabelRow) .saSlotWrapper {
+			position: sticky;
+			left: 0;
+			z-index: 8;
+			background: @ColorWhite;
+		}
+	}
+
+	.saCalendarItemList,
+	.saExtraInfoList {
+		border-right: 1px solid @ColorGray200;
+	}
+
+	.saResourceLabelCell {
+		flex: 1 1 0;
+		background: @ColorWhite;
+		width: 100%;
+		position: relative;
+		padding: 0.5rem;
+		border-right: 1px solid @ColorGray200;
+		height: 2.5rem;
+		overflow: hidden;
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+		border-bottom: 1px solid @ColorGray200;
+
+		&.saHasLinks .saResourceLabel {
+			width: calc(100% - 1.5rem);
+		}
+	}
+
+	.saResourceLabel {
+		.Ellipsis();
+		position: absolute;
+		width: calc(100% - 1rem);
+		color: @ColorGray900;
+		font-weight: 600;
+	}
+
+	.saCalendarResourceMoreButton {
+		position: absolute;
+		right: 0.5rem;
+		background: transparent;
+		color: @ColorGray600;
+	}
+
+	.saCalendarStripe::before {
+		content: none;
+	}
+
+	.saCurrentTime {
+		left: 3rem;
+		width: calc(100% - 3rem);
+	}
+
+	.saResourceLabelRow {
+		position: sticky;
+		top: 0;
+		z-index: 9;
+	}
+
+	.saButtonBadge {
+		top: 0.375rem;
+		right: 0.375rem;
+		.ButtonBadge();
+	}
+
+	&:not(.saHasHiddenResources) .saButtonBadge {
+		display: none;
+	}
+}

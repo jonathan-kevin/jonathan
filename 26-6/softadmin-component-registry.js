@@ -605,6 +605,14 @@
 			</div>`;
 	}
 
+	function renderIconPreview(field) {
+		return `
+			<div class="saInputPageField ${escapeHtml(field.width || 'shortest')}">
+				<div class="saUneditableText"><i class="saIcon far fa-${escapeHtml(field.icon || 'cube')}"></i></div>
+				<input type="hidden" value="${escapeHtml(field.icon || '')}">
+			</div>`;
+	}
+
 	function renderCheckbox(field) {
 		return `
 			<div class="saCheckboxControl saCheckboxWrapper saInputPageField">
@@ -802,6 +810,7 @@
 		multiAutosearch: renderMultiAutosearch,
 		multirow: renderMultirow,
 		numberAffix: renderNumberAffix,
+		iconPreview: renderIconPreview,
 		radioCards: renderRadioCardsControl,
 		textarea: renderTextarea,
 		textbox: renderTextbox,
@@ -815,12 +824,31 @@
 		return renderer(field);
 	}
 
+	function renderFieldAction(action) {
+		const icon = action.icon ? `<i class="saIcon far fa-${escapeHtml(action.icon)}"></i>` : '';
+		const label = escapeHtml(action.label || 'Choose');
+
+		return `
+			<button class="saLabeledFieldButton${action.variant === 'primary' ? ' saButtonPrimary' : ''}" type="button">
+				${icon}<span class="saButtonText">${label}</span>
+			</button>`;
+	}
+
+	function renderFieldActions(field) {
+		if (!Array.isArray(field.actions) || !field.actions.length) {
+			return '';
+		}
+
+		return `<div class="saFieldButtonGroup">${field.actions.map(renderFieldAction).join('')}</div>`;
+	}
+
 	function renderFieldCell(field) {
 		return `
 			<div class="saFieldCell">
 				<div class="saInputWrapper ${escapeHtml(field.inputWrapper || 'long')}">
 					<div class="saInput">
 						${renderControl(field)}
+						${renderFieldActions(field)}
 					</div>
 				</div>
 				${field.info ? `<div class="saFieldInfoText">${escapeHtml(field.info)}</div>` : ''}
@@ -857,6 +885,19 @@
 			</div>`;
 	}
 
+	function renderSectionHeader(section) {
+		const checkbox = section.checkbox
+			? `<label class="saCheckboxControl saCheckboxWrapper"><input class="saCheckbox" type="checkbox" ${section.checkbox.checked ? 'checked' : ''}></label>`
+			: '';
+
+		return `
+			<legend class="saSectionHeaderWrapper">
+				<div class="saSectionHeader${section.checkbox ? ' saSectionHeaderWithCheckbox' : ''}">
+					${checkbox}<h2>${escapeHtml(section.heading)}</h2>
+				</div>
+			</legend>`;
+	}
+
 	function renderNewEditSection(section) {
 		if (!section.heading) {
 			return `
@@ -869,9 +910,7 @@
 
 		return `
 			<fieldset class="saSectionWrapper saLastVisible">
-				<legend class="saSectionHeaderWrapper">
-					<div class="saSectionHeader"><h2>${escapeHtml(section.heading)}</h2></div>
-				</legend>
+				${renderSectionHeader(section)}
 				<fieldset class="saFieldCollection ${escapeHtml(section.width || 'long')}">
 					${(section.fields || []).map(renderField).join('')}
 				</fieldset>

@@ -1,0 +1,420 @@
+.Button() {
+	.StandardTransition();
+	font-family: 'Lexend', sans-serif;
+	white-space: nowrap;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	max-width: 100%;
+	flex-shrink: 0;
+
+	.saButtonText {
+		.Ellipsis();
+		line-height: 1.5;
+	}
+
+	.saBadgedIcon {
+		display: flex;
+		position: relative;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.saIcon {
+		.StandardTransition();
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+.saButtonPrimary {
+	.ButtonPrimary();
+}
+
+.saButtonSecondary {
+	.ButtonSecondary();
+}
+
+.saButtonGhost {
+	.ButtonGhost();
+}
+
+.saDefaultButtonPrimary {
+	.Button();
+	.ButtonPrimary();
+	.ButtonSizeModeDependent();
+}
+
+.saDefaultButtonSecondary {
+	.Button();
+	.ButtonSecondary();
+	.ButtonSizeModeDependent();
+}
+
+.ButtonPrimary {
+	background-color: var(--Sa-Color-Primary600);
+	color: var(--Sa-Color-PrimaryButtonLabel);
+
+	.saIcon {
+		color: var(--Sa-Color-PrimaryButtonIcon);
+	}
+
+	.saBadge {
+		color: var(--Sa-Color-Primary600);
+		background: var(--Sa-Color-PrimaryButtonIcon);
+		border-color: var(--Sa-Color-Primary600);
+	}
+
+	.Hover({
+		background-color: var(--Sa-Color-Primary700);
+
+		.saBadge {
+			background-color: var(--Sa-Color-PrimaryButtonIcon);
+			border-color: var(--Sa-Color-Primary700);
+		}
+	});
+
+	&:active {
+		background-color: var(--Sa-Color-Primary800);
+
+		.saBadge {
+			color: var(--Sa-Color-Primary800);
+			border-color: 2px solid var(--Sa-Color-Primary800);
+		}
+	}
+
+	&:disabled {
+		background: var(--Sa-Color-Primary200);
+		pointer-events: none;
+	}
+
+	&.saDestructive {
+		background-color: var(--Sa-Color-DestructiveButtonBackground);
+		color: @ColorWhite;
+		border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+
+		.Hover({
+			background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness90);
+		});
+	}
+}
+
+.ButtonSecondary() {
+	.Border();
+	background-color: var(--Sa-Color-SecondaryButtonBackground);
+	color: var(--Sa-Color-Label);
+
+	.saIcon {
+		color: var(--Sa-Color-Icon);
+	}
+
+	.saBadge {
+		color: var(--Sa-Color-SecondaryButtonBackground);
+		border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+	}
+
+	.Hover({
+		border-color: var(--Sa-Color-Primary600);
+		color: var(--Sa-Color-Primary600);
+
+		.saIcon {
+			color: var(--Sa-Color-Primary600);
+		}
+
+		.saBadge {
+			background-color: var(--Sa-Color-Primary600);
+		}
+	});
+
+	&:active {
+		background: var(--Sa-Color-Primary100);
+
+		.saBadge {
+			color: var(--Sa-Color-Primary100);
+			border-color: var(--Sa-Color-Primary100);
+		}
+	}
+
+	&.saDestructive {
+		.Destructive(~'', var(--Sa-Color-SecondaryButtonBackground));
+	}
+}
+
+.ButtonGhost() {
+	color: var(--Sa-Color-Primary600);
+	background: transparent;
+
+	.saIcon {
+		color: var(--Sa-Color-Icon);
+	}
+
+	&.saDestructive {
+		color: var(--Sa-Color-DestructiveButtonBackground);
+
+		.saIcon {
+			color: var(--Sa-Color-DestructiveButtonBackground);
+		}
+
+		.Hover({
+			color: var(--Sa-Color-DestructiveButtonBackground);
+			background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+
+			.saIcon {
+				color: var(--Sa-Color-DestructiveButtonBackground);
+			}
+		});
+
+		&:active {
+			color: @ColorWhite;
+			background: var(--Sa-Color-DestructiveButtonBackground);
+		}
+
+		&:active>.saIcon {
+			color: @ColorWhite;
+		}
+	}
+
+	.Hover({
+		background-color: var(--Sa-Color-Primary50);
+		color: var(--Sa-Color-Primary600);
+
+		.saIcon {
+			color: var(--Sa-Color-Primary600);
+		}
+	});
+
+	&:active {
+		background-color: var(--Sa-Color-Primary100);
+		color: var(--Sa-Color-Primary700);
+
+		.saIcon {
+			color: var(--Sa-Color-Primary700);
+		}
+	}
+
+	&:disabled,
+	&.saDisabled {
+		color: @ColorGray300;
+		background-color: transparent;
+		cursor: not-allowed;
+
+		.saIcon {
+			color: @ColorGray300;
+		}
+	}
+}
+
+.ButtonExcel() {
+	color: @ColorGreen500;
+	background: transparent;
+
+	.saIcon {
+		color: @ColorGreen500;
+	}
+
+	.Hover({
+		background: @ColorGreen100;
+		color: @ColorGreen600;
+
+		.saIcon {
+			color: @ColorGreen500;
+		}
+	});
+
+	&:active {
+		background: @ColorGreen200;
+		color: @ColorGreen700;
+	}
+}
+
+.ButtonSizeModeDependent() {
+	.saStandard & {
+		.ButtonSizeStandard();
+	}
+
+	.saCompact & {
+		.ButtonSizeCompact();
+	}
+
+	.saSmallScreen & {
+		.ButtonSizeSmallScreen();
+	}
+}
+
+.ButtonSizeStandard() {
+	gap: 0.5rem;
+	height: 2.5rem;
+	font-size: 0.875rem;
+	padding: 0.5rem 0.75rem;
+	border-radius: 0.5rem;
+
+	&:active {
+		border-radius: 0.75rem;
+	}
+
+	.saIcon {
+		font-size: 1.25rem;
+		min-width: 1.625rem;
+	}
+}
+
+.ButtonSizeCompact() {
+	gap: 0.5rem;
+	padding: 0.5rem;
+	height: 2rem;
+	border-radius: 0.5rem;
+	font-size: 0.875rem;
+
+	&:active {
+		border-radius: 0.75rem;
+	}
+
+	.saIcon {
+		font-size: 1rem;
+		min-width: 1.125rem;
+		max-width: 1.125rem;
+	}
+}
+
+.ButtonSizeSmallScreen() {
+	gap: 0.5rem;
+	border-radius: 0.5rem;
+	height: 2.75rem;
+	font-size: 1rem;
+	padding: 0.5rem 0.75rem;
+
+	&:active {
+		border-radius: 0.75rem;
+	}
+
+	.saIcon {
+		font-size: 1.25rem;
+		min-width: 1.625rem;
+	}
+}
+
+.ButtonSizeMini() {
+	gap: 0.5rem;
+	height: 1.5rem;
+	padding: 0.5rem;
+	font-size: 0.75rem;
+	border-radius: 0.25rem;
+
+	&:active {
+		border-radius: 0.75rem;
+	}
+}
+
+.IconButtonSizeModeDependent() {
+	.saStandard & {
+		.IconButtonSizeStandard();
+	}
+
+	.saCompact & {
+		.IconButtonSizeCompact();
+	}
+
+	.saSmallScreen & {
+		.IconButtonSizeSmallScreen();
+	}
+}
+
+.IconButtonSizeStandard() {
+	border-radius: 0.5rem;
+	padding: 0 0.5rem;
+	width: 2.5rem;
+	height: 2.5rem;
+	max-width: 2.5rem;
+	min-width: 2.5rem;
+	font-size: 1rem;
+
+	&:active {
+		border-radius: 0.75rem;
+	}
+}
+
+.IconButtonSizeCompact() {
+	border-radius: 0.5rem;
+	padding: 0 0.5rem;
+	width: 2rem;
+	height: 2rem;
+	max-width: 2rem;
+	min-width: 2rem;
+	font-size: 1rem;
+
+	&:active {
+		border-radius: 0.75rem;
+	}
+}
+
+.IconButtonSizeSmallScreen() {
+	border-radius: 0.5rem;
+	padding: 0 0.5rem;
+	width: 2.75rem;
+	height: 2.75rem;
+	max-width: 2.75rem;
+	min-width: 2.75rem;
+	font-size: 1.5rem;
+
+	&:active {
+		border-radius: 0.75rem;
+	}
+}
+
+.ButtonBadge() {
+	height: 0.5rem;
+	width: 0.5rem;
+	background: @ColorRed600;
+	position: absolute;
+	border-radius: 0.25rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.saClosePopupButton {
+	.Button();
+	.ButtonSizeModeDependent();
+	background-color: @ColorGray900;
+	color: @ColorWhite;
+	position: absolute;
+	right: 0;
+
+	.Hover({
+		background-color: @ColorRed600;
+	});
+
+	&:active {
+		background-color: @ColorRed700;
+	}
+
+	.saStandard & {
+		top: -3rem;
+	}
+
+	.saCompact & {
+		top: -2.75rem;
+	}
+}
+
+.saLabelButton {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 1rem;
+	width: 1rem;
+	min-width: 1rem;
+	border-radius: 50%;
+	padding: 0;
+	background: var(--Sa-Color-Primary600);
+	position: relative;
+	transition: ease background 0.2s, ease box-shadow 0.2s;
+
+	.saIcon {
+		font-size: 0.625rem;
+		color: @ColorWhite;
+	}
+}

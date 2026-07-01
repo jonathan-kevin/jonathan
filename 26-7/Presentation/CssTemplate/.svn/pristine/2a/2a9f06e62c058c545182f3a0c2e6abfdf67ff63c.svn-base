@@ -1,0 +1,138 @@
+
+.GridTop() {
+	box-sizing: border-box;
+	border: 1px @ColorGray200 solid;
+	border-bottom: none;
+	border-radius: 1rem 1rem 0 0;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 1rem 1rem 1rem 1.5rem;
+}
+
+.GridTopButton() {
+	.Button();
+	.IconButtonSizeModeDependent();
+	.ButtonGhost();
+	position: relative;
+
+	.saStandard & {
+		font-size: 1.25rem;
+	}
+
+	.saButtonBadge {
+		top: 0.375rem;
+		right: 0.375rem;
+		.ButtonBadge();
+	}
+
+	.saSmallScreen &.saExcel {
+		display: none;
+	}
+
+	.saLargeScreen &.saChangeScreenModeButton {
+		display: none;
+	}
+
+	#IFDEF GreenExcelButton &.saExcel {
+		.ButtonExcel();
+	}
+}
+
+.GridTable() {
+	box-sizing: border-box;
+	border: 1px @ColorGray200 solid;
+	color: var(--Sa-Color-Text);
+}
+
+.GridColumnHeader() {
+	color: var(--Sa-Color-GridHeadingText);
+	background: var(--Sa-Color-GridHead);
+	font-weight: 600;
+	box-sizing: border-box;
+	border-right: 1px solid @ColorGray150;
+	border-top: 1px solid @ColorGray150;
+	border-bottom: 1px solid @ColorGray150;
+	border-left: none;
+	text-align: left;
+
+	&.saFirstInColumnGroup {
+		border-left: 1px solid @ColorGray200;
+
+		&:first-child {
+			border-left: none;
+		}
+	}
+
+	&.saLastInColumnGroup {
+		border-right: 1px solid @ColorGray200;
+
+		& + .saFirstInColumnGroup {
+			border-left: none;
+		}
+	}
+}
+
+.GridCell() {
+	box-sizing: border-box;
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+	border-bottom: none;
+	border-top: 1px solid @ColorGray150;
+	vertical-align: middle;
+	height: 2rem;
+
+	.saStandard & {
+		height: 3rem;
+	}
+}
+
+.GridButton() {
+	.Button();
+	.IconButtonSizeCompact();
+	background: none;
+	color:  var(--Sa-Color-Icon);
+
+	.Hover({
+		&:not(.inactive) {
+			color: var(--Sa-Color-Primary600);
+			background: var(--Sa-Color-Primary100);
+		}
+	});
+
+	&:active:not(.inactive), &.open, &.openup {
+		color: var(--Sa-Color-Primary600);
+		background: var(--Sa-Color-Primary200);
+		border-radius: 0.75rem;
+	}
+
+	&.inactive {
+		cursor: default;
+		opacity: 0.4;
+	}
+
+	.saSmallScreen & {
+		width: 2.75rem;
+		height: 2.75rem;
+		max-width: 2.75rem;
+		max-height: 2.75rem;
+		font-size: 1.25rem;
+	}
+}
+
+.GridColumnGroup() {
+	border-right: 1px solid @ColorGray200;
+	border-left: 1px solid @ColorGray200;
+	border-top: 1px solid @ColorGray200;
+	border-bottom: none;
+	border-collapse: collapse;
+	vertical-align: middle;
+	text-align: center;
+	height: 2rem;
+}
+
+.GridCaption() {
+	position: absolute;
+	left: -625rem;
+}
+

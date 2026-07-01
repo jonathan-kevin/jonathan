@@ -1,0 +1,60 @@
+// Hacks to work with ADMIN menu items
+
+.saGridCell {
+	// Icon Picker.
+	.saIconTable .saIcon {
+		cursor: pointer;
+	}
+}
+
+.saIconTablePreviewBox {
+	position: absolute;
+	z-index: @ZIndexIconPickerHoverPreview;
+	background-color: @ColorWhite;
+	border: thin solid @ColorGray200;
+	border-radius: 0.5rem;
+	padding: 0.5rem;
+	text-align: center;
+}
+
+softadmin-nodegraph .saNodeContent {
+	.saNodeColumnMandatory {
+		height: 0.375rem;
+		width: 0.375rem;
+		background-color: @ColorRed600;
+		border-radius: 50%;
+	}
+
+	.saNodeTableIcon .icon {
+		font-size: 0.625rem;
+		line-height: 0.75rem;
+		color: @ColorGray900;
+	}
+
+	.saNodeTable:has(td .saNodeColumnMandatory) {
+		td:first-child,
+		th:first-child {
+			padding-right: 0;
+			width: 0.75rem;
+		}
+	}
+}
+
+.saWebServiceLogPart {
+	.Border();
+	padding: 1rem;
+	border-radius: 1rem;
+	margin-bottom: 1rem;
+
+	h3 {
+		margin-top: 0;
+	}
+
+	p {
+		margin-bottom: 0;
+	}
+}
+
+pre.saCode {
+	tab-size: 4;
+}

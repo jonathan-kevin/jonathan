@@ -1,0 +1,303 @@
+.saColorPreview {
+	padding: 0;
+	border: 1px solid @ColorGray200;
+	transition: background-color ease .2s, opacity ease .2s, border-radius ease .2s;
+	overflow: hidden;
+	background-color: @ColorGray200;
+	background-image: repeating-linear-gradient(45deg, @ColorGray200 25%, transparent 25%, transparent 75%, @ColorGray200 75%, @ColorGray200), repeating-linear-gradient(45deg, @ColorGray200 25%, @ColorGray100 25%, @ColorGray100 75%, @ColorGray200 75%, @ColorGray200);
+
+	.Hover({
+		opacity: .9;
+	});
+
+	&:active {
+		border-radius: 0.75rem;
+		transform: scale(.96);
+	}
+}
+
+/*.saCompact*/ .saColorPreview { // Compact but for now used everywhere
+	height: 1.5rem;
+	width: 1.5rem;
+	border-radius: 0.25rem;
+	background-position: 0 0, 0.3438rem 0.3438rem;
+	background-size: 0.6875rem 0.6875rem;
+}
+
+/*.saStandard .saColorPreview,
+.saSmallScreen .saColorPreview {
+	width: 2rem;
+	height: 2rem;
+	border-radius: 0.375rem;
+	background-position: 0 0, 0.5rem 0.5rem;
+	background-size: 1rem 1rem;
+}*/
+
+.saColorPickerField {
+	width: 8.75rem;
+}
+
+.saColorPicker {
+	position: absolute;
+	width: 30rem;
+	z-index: @ZIndexInputPicker;
+
+	.saColors {
+		margin-top: 0.25rem;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		border-radius: 1rem;
+		gap: 1rem;
+		padding: 0.5rem;
+		background: @ColorWhite;
+		.Border();
+		.BoxShadowMedium();
+		z-index: 1;
+		transition: ease height .2s, ease opacity .2s;
+		height: fit-content;
+		max-height: 80vh;
+		overflow-y: auto;
+	}
+
+	.saCustomColorPickerWrapper {
+		display: flex;
+		gap: 0.5rem;
+		border: 1px solid @ColorGray100;
+		padding: 0 0.5rem;
+		align-items: center;
+		border-radius: 0.75rem;
+		height: 3rem;
+		transition: ease all .2s;
+		cursor: pointer;
+
+		.Hover({
+			.BoxShadowMedium();
+			color: @ColorBlue600;
+		});
+	}
+
+	.saCustomColorPicker::after,
+	input.saColor::after {
+		content: '';
+		height: 0.875rem;
+		width: 0.875rem;
+		border-radius: 100%;
+		background: @ColorWhite;
+		position: absolute;
+		top: 0.5rem;
+		left: 0.5rem;
+		box-shadow: 0 2px 2px fade(@ColorGray900, 60);
+		transition: ease all .2s;
+		.Border();
+	}
+
+	.saCustomColorPicker {
+		display: flex;
+		align-items: center;
+		.AppearanceNone();
+		cursor: pointer;
+		border-radius: 0.75rem;
+		transition: ease transform .2s, ease border-radius .2s, ease box-shadow .2s;
+		height: 2.5rem;
+		position: relative;
+		height: 2rem;
+		min-width: 2rem;
+		background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+		border-radius: 0.5rem;
+		transition: ease border-radius .2s;
+		box-shadow: 0 0 0 1px @ColorGray100;
+
+		&:active,
+		&:focus-within {
+			.BoxShadowMedium();
+			border-radius: 1rem;
+			transform: scale(.96);
+		}
+
+		&::after {
+			transform: scale(0);
+			transform-origin: center;
+		}
+
+		&.saSelected {
+			border-radius: 100%;
+
+			&::after {
+				transform: scale(1);
+			}
+		}
+
+		input {
+			opacity: 0;
+			border: none;
+			width: 2rem;
+			height: 2rem;
+			padding: 0;
+			transition: ease border-radius .2s;
+			cursor: pointer;
+			.AppearanceNone();
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+
+		input[type="color"]::-webkit-color-swatch-wrapper {
+			padding: 0;
+		}
+
+		input[type="color"]::-webkit-color-swatch {
+			border: none;
+		}
+	}
+
+	.saPaletteWrapper {
+		display: flex;
+		flex-direction: row;
+		gap: 0.5rem;
+		justify-content: space-between;
+	}
+
+	.saPalette {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		position: relative;
+
+		.saPaletteHeading {
+			padding-bottom: 0.25rem;
+		}
+	}
+
+	.saPaletteHeading {
+		color: @ColorGray600;
+		font-size: 0.75rem;
+		.Ellipsis();
+	}
+
+	input.saColor {
+		.AppearanceNone();
+		width: 2rem;
+		height: 2rem;
+		margin: 0;
+		border-radius: 0.5rem;
+		background: @ColorGray100;
+		box-shadow: 0 0 0 1px @ColorGray200;
+		cursor: pointer;
+		transition: ease transform .2s, ease border-radius .2s, ease box-shadow .2s;
+		position: relative;
+
+		.Hover({
+			transform: scale(1.1);
+			.BoxShadowMedium();
+		});
+
+		&:active {
+			border-radius: 0.75rem;
+			box-shadow: 0 0 0 1px @ColorGray200;
+			transform: scale(.96);
+		}
+
+		&::before {
+			content: '';
+			height: 2.5rem;
+			width: 2.5rem;
+			left: -0.25rem;
+			top: -0.25rem;
+			position: absolute;
+			background: none;
+			opacity: 0;
+		}
+
+		&::after {
+			transform: scale(1);
+			opacity: 0;
+		}
+
+		&:checked {
+			pointer-events: none;
+			border-radius: 100%;
+
+			&::before {
+				content: none;
+			}
+
+			&::after {
+				opacity: 1;
+				transform: scale(1);
+			}
+		}
+	}
+}
+
+.saCompact .saColorPicker {
+	width: 22.5rem;
+
+	.saColors {
+		border-radius: 0.5rem;
+		gap: 0.5rem;
+		padding: 0.5rem;
+	}
+
+	input.saColor {
+		width: 1.5rem;
+		height: 1.5rem;
+		border-radius: 0.25rem;
+
+		&:active {
+			border-radius: 0.5rem;
+		}
+
+		&::before {
+			height: 2rem;
+			width: 2rem;
+			left: -0.25rem;
+			top: -0.25rem;
+		}
+
+		&::after {
+			height: 0.625rem;
+			width: 0.625rem;
+			top: 0.375rem;
+			left: 0.375rem;
+		}
+
+		&:checked {
+			border-radius: 100%;
+		}
+	}
+
+	.saCustomColorPickerWrapper {
+		height: 2rem;
+		border-radius: 0.5rem;
+		padding: 0 0.25rem;
+	}
+
+	.saCustomColorPicker {
+		height: 1.5rem;
+		min-width: 1.5rem;
+
+		&::after {
+			height: 0.625rem;
+			width: 0.625rem;
+			top: 0.375rem;
+			left: 0.375rem;
+		}
+	}
+}
+
+.saSmallScreen .saColorPicker {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	height: fit-content;
+	width: 100%;
+
+	.saColors {
+		width: calc(100% - 2rem);
+		margin-top: 0;
+		border: none;
+		box-shadow: none;
+	}
+}

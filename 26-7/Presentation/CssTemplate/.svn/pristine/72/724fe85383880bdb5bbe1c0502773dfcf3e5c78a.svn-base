@@ -1,0 +1,1315 @@
+.saNotificationBadge {
+	background-color: @ColorRed600;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 0.5rem;
+	order: 2;
+}
+
+.saNotificationBadgeCount {
+	color: @ColorWhite;
+	font-size: 0.875rem;
+	line-height: 0.875rem;
+	font-weight: 700;
+	padding: 0.25rem;
+}
+
+.saNotificationBadge.saEmpty {
+	visibility: hidden;
+}
+
+.saSidenav {
+	display: flex;
+	flex-direction: column;
+	.UserSelectNone();
+
+	.saSidenavItemWrapper.saSearch {
+		.saInputTextWrapper {
+			flex-direction: row;
+		}
+
+		.saIcon {
+			margin-left: -100%;
+			transition: ease color .2s;
+		}
+
+		.saSidenavItem {
+			padding: 0;
+			text-align: left;
+		}
+
+		input {
+			padding: 0.5rem 0.5rem 0.5rem 2.5rem;
+
+			&:focus-visible+.saIcon {
+				color: var(--Sa-Color-Primary600);
+			}
+		}
+	}
+
+	.saSidenavLists {
+		overflow-y: auto;
+		overflow-x: hidden;
+		min-height: 2.5rem;
+	}
+
+	.saSidenavContainer {
+		.SidenavItems();
+	}
+
+	.saSidenavItemList {
+		.SidenavItems();
+		list-style-type: none;
+	}
+
+	.saHelpBadge {
+		position: absolute;
+		display: flex;
+		order: 2;
+		border-radius: 50%;
+		min-height: 1rem;
+		width: 1rem;
+		right: 0.1875rem;
+		top: 0.1875rem;
+
+		&.saPush {
+			background: @ColorRed600;
+		}
+
+		&.saPresent {
+			background: var(--Sa-Color-Primary600);
+		}
+	}
+
+	.saExpander {
+		.Button();
+		.IconButtonSizeStandard();
+		.ButtonSecondary();
+		position: relative;
+
+		&::after {
+			content: '';
+			height: 100%;
+			width: 100%;
+			position: absolute;
+			padding: 0 1rem;
+		}
+	}
+
+	.saCustomerLogo {
+		display: flex;
+		justify-content: center;
+		margin-top: 1rem;
+
+		img {
+			display: block;
+			width: auto;
+			height: auto;
+		}
+	}
+
+	ul.saContextMenu {
+		left: 1rem;
+
+		li:not(:last-child) {
+			border-bottom: 1px solid @ColorGray100;
+		}
+	}
+
+	.saSidenavItemWrapper {
+		width: 100%;
+		background: none;
+		cursor: pointer;
+
+		.Hover({
+			.saSidenavItem {
+				background-color: var(--Sa-Color-Primary50);
+
+				.saIcon {
+					color: var(--Sa-Color-Primary600);
+				}
+
+				.saSidenavItemText {
+					color: var(--Sa-Color-Primary600);
+				}
+			}
+		});
+	}
+
+	.saSidenavItemText {
+		color: var(--Sa-Color-Label);
+	}
+
+	.SidenavItems() {
+		flex-direction: column;
+		display: flex;
+		width: 100%;
+		margin-block-start: 0;
+		margin-block-end: 0;
+		padding-inline-start: 0;
+	}
+
+	.saIcon {
+		font-size: 1.25rem;
+		min-width: 1.625rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: var(--Sa-Color-Icon);
+	}
+
+	.saSearchInput {
+		.AppearanceNone();
+	}
+
+	.saSearch .saIcon {
+		position: relative;
+		pointer-events: none;
+	}
+
+	.saLogo {
+		background: url(../img/softadmin-logo-minimized.svg) top center no-repeat;
+	}
+
+	.saRing {
+		animation: ring;
+		animation-timing-function: ease-in;
+		animation-duration: 3s;
+		animation-iteration-count: infinite;
+	}
+
+	.saRing.saRingThreeTimes {
+		animation-iteration-count: 3;
+	}
+
+	.saSidenavSection .saSidenavContainer .saMenuDropdownsOuter {
+		flex-direction: column;
+		display: flex;
+		gap: 0.5rem;
+		padding: 0;
+
+		.saSidenavItemWrapper {
+			padding: 0;
+		}
+	}
+
+	.saMenuDropdowns {
+		flex-direction: column;
+		display: flex;
+		gap: 0.5rem;
+		height: fit-content;
+		max-height: fit-content;
+		min-height: 0;
+
+		.saSidenavItemWrapper {
+			height: 2.5rem;
+			min-height: 2.5rem;
+			max-height: 2.5rem;
+		}
+	}
+
+	.saSelectLabel {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		font-size: 0.875rem;
+		font-weight: 600;
+		display: flex;
+		width: 100%;
+	}
+
+	.saInputTextWrapper {
+		margin: 0;
+		color: var(--Sa-Color-Text);
+
+		&.saLabeled {
+			.saLabeledLabel {
+				top: 0.375rem;
+			}
+
+			.saInputText {
+				padding-bottom: 0;
+				padding-top: 0.75rem;
+			}
+		}
+
+		.saInputText {
+			line-height: 1.0625rem;
+			height: 2.5rem;
+		}
+
+		&:has(select) {
+			.saTrailingIconsWrapper {
+				height: 2.5rem;
+				padding: 0;
+			}
+		}
+
+		&:not(:has(select)) {
+			.saTrailingIconsWrapper {
+				height: 2.5rem;
+
+				.saActionIcon {
+					display: flex;
+					justify-content: center;
+				}
+			}
+		}
+	}
+
+	.saListItem {
+		position: relative;
+	}
+
+	.saAvatarWrapper {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		height: 2rem;
+		min-width: 2rem;
+		max-width: 2rem;
+		border-radius: 50%;
+	}
+
+	.saUserInitials {
+		background: var(--Sa-Color-Primary600);
+		color: @ColorWhite;
+		font-weight: 500;
+		font-size: 0.875rem;
+	}
+
+	.saAvatarWrapperOuter {
+		&.saOpen {
+			background: var(--Sa-Color-Primary50);
+
+			&>.saSidenavItemText {
+				color: var(--Sa-Color-Primary600);
+			}
+
+			&>.saIcon {
+				color: var(--Sa-Color-Primary600);
+			}
+		}
+
+		.saSidenavItemText {
+			.Ellipsis();
+			padding-right: 1.5rem;
+		}
+
+		.saIcon {
+			font-size: 1rem;
+			position: absolute;
+			right: 1.25rem;
+		}
+	}
+
+	.saToggleGroup {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		border-radius: 0.5rem;
+		padding: 0.5rem 1rem;
+		width: 100%;
+		box-sizing: border-box;
+		z-index: 0; // Force local z-index that does not affect anything outside the toggle.
+		font-size: 0.875rem;
+
+		.saMinimized & {
+			flex-direction: column;
+		}
+
+		.saSmallScreen & {
+			padding: 0;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		button {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			appearance: none;
+			position: relative;
+			gap: 0.5rem;
+			margin: 0;
+			padding: 0.5rem 0.25rem;
+			min-height: 2.5rem;
+			flex: 1 1 auto;
+			min-width: 50%;
+			cursor: pointer;
+			font-weight: 500;
+			text-align: center;
+			transition: ease background 0.2s, ease color 0.2s, ease border-color 0.2s, ease border-radius 0.2s, ease box-shadow 0.2s;
+			background-color: @ColorWhite;
+			border: 1px solid var(--Sa-Color-InputFieldBorder);
+			position: relative;
+			color: var(--Sa-Color-Label);
+
+			&::after {
+				content: '';
+				height: calc(100% + 2px);
+				position: absolute;
+				opacity: 0;
+			}
+
+			&:first-child {
+				border-radius: 0.5rem 0 0 0.5rem;
+				margin-right: -1px;
+
+				&::after {
+					top: -1px;
+					left: calc(-1rem - 1px);
+					width: calc(100% + 1rem + 1px);
+				}
+
+				.saMinimized & {
+					border-radius: 0.5rem 0.5rem 0 0;
+					margin-right: 0;
+					margin-bottom: -1px;
+
+					&::after {
+						width: 4.5rem;
+						height: 2.5rem;
+						left: unset;
+					}
+				}
+			}
+
+			&:last-child {
+				border-right-style: solid;
+				border-width: 1px;
+				border-radius: 0 0.5rem 0.5rem 0;
+
+				&::after {
+					width: calc(100% + 1rem);
+					right: -1rem;
+					bottom: -1px;
+				}
+
+				.saMinimized & {
+					border-radius: 0 0 0.5rem 0.5rem;
+
+					&::after {
+						width: 4.5rem;
+						height: 2.5rem;
+						right: unset;
+					}
+				}
+			}
+
+			.saMinimized & {
+				min-width: 2.5rem;
+				padding: 0;
+			}
+
+			.saSmallScreen & {
+				min-height: 2.75rem;
+			}
+
+			.Hover({
+				color: var(--Sa-Color-Primary700);
+				background-color: var(--Sa-Color-Primary50);
+				border-color: var(--Sa-Color-Primary700);
+				z-index: 3;
+
+				.saIcon {
+					color: currentColor;
+				}
+			});
+
+			&:active {
+				color: var(--Sa-Color-Primary700);
+				background-color: var(--Sa-Color-Primary100);
+				border-color: var(--Sa-Color-Primary700);
+
+				&:first-child {
+					border-radius: 0.75rem 0 0 0.75rem;
+
+					.saMinimized & {
+						border-radius: 0.75rem 0.75rem 0 0;
+					}
+				}
+
+				&:last-child {
+					border-radius: 0 0.75rem 0.75rem 0;
+
+					.saMinimized & {
+						border-radius: 0 0 0.75rem 0.75rem;
+					}
+				}
+			}
+
+			&[aria-selected="true"] {
+				z-index: 2;
+				background-color: var(--Sa-Color-Primary50);
+				color: var(--Sa-Color-Primary700);
+				border-color: var(--Sa-Color-Primary600);
+
+				.saIcon {
+					color: currentColor;
+				}
+			}
+
+			.saIcon {
+				min-width: auto;
+			}
+
+			span {
+				overflow-wrap: anywhere;
+				font-size: 0.875rem;
+				line-height: 1rem;
+
+				.saMinimized & {
+					display: none;
+				}
+			}
+		}
+	}
+
+	.saWrapped.saToggleGroup {
+		button {
+			// saWrapped is set dynamically in TS, so it's possible that it's applied without actually having to wrap. Therefore, if it's applied we force it to wrap.
+			width: 100%;
+		}
+
+		button:first-child {
+			border-radius: 0.5rem 0.5rem 0 0;
+		}
+
+		button:first-child:active {
+			border-radius: 0.75rem 0.75rem 0 0;
+		}
+
+		button:last-child {
+			border-radius: 0 0 0.5rem 0.5rem;
+		}
+
+		button:last-child:active {
+			border-radius: 0 0 0.75rem 0.75rem;
+		}
+
+		button:not(:last-child) {
+			margin-right: 0;
+			margin-bottom: -1px;
+		}
+	}
+}
+
+.saLargeScreen .saSidenav {
+	height: 100%;
+	background-color: @ColorWhite;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	flex-shrink: 0;
+
+	.saMenuDropdownsOuter {
+		margin-top: 0.5rem;
+	}
+
+	.saSidenavSection {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+		min-height: 2rem;
+
+		&.saSidenavSectionLast {
+			min-height: fit-content;
+			gap: 0;
+			margin-bottom: 0.5rem;
+		}
+	}
+
+	.saSidenavLists {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.saFirstLetter {
+		position: absolute;
+		font-weight: 700;
+		font-size: 1.5rem;
+	}
+
+	.saSidenavItemWrapper {
+		display: flex;
+		min-height: 2.5rem;
+		flex-direction: row;
+		border-radius: 0.5rem;
+		box-sizing: border-box;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5rem;
+
+		&:active .saSidenavItem {
+			background-color: var(--Sa-Color-Primary100);
+		}
+	}
+
+	.saSidenavItem {
+		padding: 0 0.5rem;
+		max-width: 14.5rem;
+		box-sizing: border-box;
+	}
+
+	a {
+		text-decoration: none;
+	}
+
+	.saSidenavContainer {
+		align-items: center;
+	}
+
+	.saSidenavItem.saSidenavItemRow {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		gap: 0;
+
+		.saSidenavItemWrapper {
+			position: relative;
+			height: 2.5rem;
+			max-width: fit-content;
+			width: fit-content;
+			padding: 0;
+			justify-content: center;
+			min-width: 0;
+
+			.saSidenavItem {
+				max-width: 2.5rem;
+				min-width: 2.5rem;
+				overflow: hidden;
+				align-items: center;
+				justify-content: center;
+			}
+		}
+
+		.saSidenavItemText {
+			display: none;
+		}
+	}
+
+	.saNotificationBadge {
+		height: 1rem;
+		min-width: 1rem;
+		right: 0.1875rem;
+		top: 0.1875rem;
+	}
+
+	.saAvatarWrapper {
+		gap: 0;
+		display: flex;
+	}
+
+	.saUserNameWrapper {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.saSoftadminLogo {
+		height: 2rem;
+		display: flex;
+	}
+
+	.saLogo {
+		width: 2rem;
+		height: 2rem;
+	}
+
+	.saWordmark {
+		opacity: 0;
+		transform: translateX(-0.5rem);
+		width: 0;
+		height: 0;
+		position: relative;
+	}
+}
+
+//-----------Mobile mode------------//
+.saSmallscreensidebar .saSideBar {
+	width: 100%;
+	height: 100%;
+	line-height: 1;
+}
+
+.saSmallscreensidebar .saHasLogotypeHeader .saCustomerLogo {
+	display: none;
+}
+
+.saSmallscreensidebar .saSidenav {
+	gap: 0.5rem;
+	background-color: @ColorWhite;
+	overflow-x: hidden;
+	z-index: 2;
+	padding: @m;
+	box-sizing: border-box;
+	border-right: transparent;
+	align-items: stretch;
+	position: relative;
+	height: calc(100% - 3.5rem);
+	overflow: auto;
+
+	.saInputTextWrapper {
+		width: 100%;
+	}
+
+	.saInputTextWrapper .saInputText {
+		font-size: 1rem;
+		line-height: 1.1875rem;
+	}
+
+	.saDivider {
+		height: 1px;
+		background: @ColorGray100;
+	}
+
+	.saSidenavSection {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.saSidenavLists {
+		width: 100%;
+	}
+
+	.saFirstLetter {
+		display: none;
+	}
+
+	.saSidenavItemText {
+		font-size: 1rem;
+		text-align: left;
+	}
+
+	.saSelectLabel {
+		padding-left: 0;
+	}
+
+	select {
+		min-width: 100%;
+	}
+
+	.saAvatarWrapperOuter {
+		.saIcon {
+			right: 0.5rem;
+		}
+	}
+
+	.saHelpBadge {
+		left: 1.5rem;
+		top: 0.375rem;
+	}
+
+	.saActive {
+		background-color: @ColorWhite;
+		box-shadow: 0 2px 2px rgba(56, 73, 93, 0.32);
+	}
+
+	.saExpander {
+		display: none;
+	}
+
+	a {
+		text-decoration: none;
+	}
+
+	.saSidenavContainer {
+		flex: 1;
+		gap: 0.5rem;
+	}
+
+	.saSidenavSectionLast {
+		margin-bottom: 1rem;
+
+		&::before {
+			content: '';
+			height: 1px;
+			width: 100%;
+			border-radius: 1px;
+			position: relative;
+			background: @ColorGray100;
+		}
+	}
+
+	.saSidenavItemWrapper {
+		gap: 0.5rem;
+		flex-direction: row;
+		border-radius: 0.5rem;
+		justify-content: flex-start;
+		align-items: center;
+		color: var(--Sa-Color-TextSecondary);
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+		position: relative;
+
+		&.saNotificationLinkLargeScreen {
+			display: none;
+		}
+
+		&:active .saSidenavItem {
+			background-color: var(--Sa-Color-Primary100);
+		}
+	}
+
+	.saHideWhenExpanded {
+		display: none;
+	}
+
+	.saSidenavItem {
+		display: flex;
+		flex-direction: row;
+		gap: 0.5rem;
+		min-height: 3rem;
+		width: 100%;
+		border-radius: 0.5rem;
+		padding: 0.5rem;
+		align-items: center;
+		box-sizing: border-box;
+		position: relative;
+
+		&.saSidenavItemRow {
+			height: 100%;
+			padding: 0;
+			max-height: fit-content;
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	}
+
+	.saSearch .saSidenavItem {
+		min-height: 2.5rem;
+	}
+
+	.saMenuDropdowns {
+		width: 100%;
+
+		.saSidenavItemWrapper {
+			padding: 0;
+		}
+	}
+
+	.saCustomerLogo {
+		img {
+			max-width: 100%;
+			max-height: 14.5rem;
+		}
+	}
+
+	.saLogo {
+		width: 2rem;
+	}
+
+	.saWordmark {
+		opacity: 1;
+		height: 2rem;
+		width: 7rem;
+		position: relative;
+	}
+
+	.saSoftadminLogo {
+		margin-top: 0.75rem;
+		min-width: 10rem;
+		height: 2rem;
+		display: flex;
+		flex-direction: row;
+	}
+}
+
+@keyframes ring {
+	6% {
+		transform: rotate(-15deg);
+	}
+
+	12% {
+		transform: rotate(15deg);
+	}
+
+	18% {
+		transform: rotate(-22deg);
+	}
+
+	24% {
+		transform: rotate(22deg);
+	}
+
+	30% {
+		transform: rotate(-28deg);
+	}
+
+	36% {
+		transform: rotate(28deg);
+	}
+
+	42% {
+		transform: rotate(-22deg);
+	}
+
+	48% {
+		transform: rotate(22deg);
+	}
+
+	54% {
+		transform: rotate(-12deg);
+	}
+
+	60% {
+		transform: rotate(12deg);
+	}
+
+	66%,
+	100% {
+		transform: rotate(0deg);
+	}
+}
+
+// Toggle.
+.saProfileMenu {
+	ul.saContextMenu {
+		a,
+		label {
+			height: 2.5rem;
+
+			.Hover({
+				.saContextMenu {
+					background-color: var(--Sa-Color-Primary50);
+				}
+			});
+
+			&:active .saContextMenu {
+				background-color: var(--Sa-Color-Primary100);
+			}
+
+			.saIcon {
+				min-width: 2rem;
+			}
+		}
+	}
+
+	.saToggleCompactText {
+		display: flex;
+		flex-direction: column;
+
+		span {
+			line-height: 1 !important;
+		}
+
+		.saExtraText {
+			font-size: 0.75rem;
+			color: var(--Sa-Color-TextSecondary);
+		}
+	}
+
+	input.saToggle {
+		.AppearanceNone();
+		background: @ColorGray200;
+		margin: 0;
+		min-width: 2rem;
+		height: 1.5rem;
+		border-radius: 0.75rem;
+		box-sizing: border-box;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		cursor: pointer;
+		transition: all 0.3s;
+		position: relative;
+
+		&:active {
+			&::before {
+				width: 1.5rem;
+			}
+		}
+
+		&::before {
+			content: "";
+			margin: 0 2px;
+			border-radius: 0.625rem;
+			box-shadow: 0 2px 2px fade(@ColorGray900, 10);
+			box-sizing: border-box;
+			transition: 0.3s ease all, left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
+			background: @ColorWhite;
+			width: 1.25rem;
+			height: 1.25rem;
+			border: solid @ColorGray50 1px;
+			position: absolute;
+			top: 2px;
+			left: 0;
+		}
+
+		&:checked {
+			background: @ColorGreen400;
+
+			&::before {
+				transform: translateX(0.5rem);
+			}
+
+			&:active {
+				&::before {
+					width: 1.5rem;
+					margin-left: -2px;
+				}
+			}
+		}
+	}
+}
+
+.saSideBar {
+	box-sizing: border-box;
+
+	.saLargeScreen & {
+		height: 100%;
+		position: relative;
+		transition: ease width 0.2s;
+
+		nav {
+			height: 100%;
+		}
+
+		form:first-child {
+			height: 100%;
+		}
+	}
+
+	//EXPANDED
+	.saLargeScreen &.saExpanded {
+		width: 16.5rem;
+
+		.saSidenavSection {
+			width: 16.5rem;
+		}
+
+		.saHideWhenExpanded {
+			display: none;
+		}
+
+		.saSidenavLists {
+			width: 100%;
+			margin-top: -0.75rem;
+		}
+
+		.saSidenavItemWrapper {
+			box-sizing: border-box;
+			position: relative;
+			width: 16.5rem;
+		}
+
+		.saSidenavItem {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			width: 14.5rem;
+			border-radius: 0.5rem;
+			min-height: 2.5rem;
+		}
+
+		.saSidenavItemText {
+			font-size: 0.875rem;
+			line-height: 1.125rem;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.saUserName {
+			font-size: 0.75rem;
+		}
+
+		.saFirstLetter {
+			display: none;
+		}
+
+		.saSidenavItem.saSidenavItemRow .saSidenavItem.saShowTitleWhenExpanded {
+			max-width: max-content;
+
+			.saSidenavItemText {
+				max-width: max-content;
+				display: flex;
+			}
+		}
+
+		select,
+		input[role="combobox"] {
+			width: 14.5rem;
+		}
+
+		.saToggleIconText {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border-radius: 0.375rem;
+			height: 2.125rem;
+			width: 6.9375rem;
+			cursor: pointer;
+			text-decoration: none;
+
+			.saIcon {
+				min-width: 0;
+				max-width: 1.6875rem;
+			}
+
+			&:first-child::before {
+				content: '';
+				width: 8.25rem;
+				height: 2.5rem;
+				left: 0;
+				opacity: .2;
+				position: absolute;
+			}
+
+			&:last-child::before {
+				content: '';
+				width: 8.25rem;
+				height: 2.5rem;
+				right: 0;
+				opacity: .2;
+				position: absolute;
+			}
+
+			.Hover({ box-shadow: 0 2px 2px rgba(56, 73, 93, 0.32); });
+
+			&:active {
+				box-shadow: inset 0 2px 2px rgba(56, 73, 93, 0.32);
+			}
+
+			&:first-child {
+				margin-right: 2px;
+			}
+
+			&:last-child {
+				margin-left: 2px;
+			}
+
+			.saToggleText {
+				margin-left: 0.5rem;
+			}
+		}
+
+		.saActive {
+			background-color: @ColorWhite;
+			box-shadow: 0 2px 2px rgba(56, 73, 93, 0.32);
+		}
+
+		.saCustomerLogo {
+			max-width: 14.5rem;
+
+			img {
+				max-width: 14.5rem;
+				max-height: 7rem;
+			}
+		}
+
+		.saSidenavFooter {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 14.5rem;
+		}
+
+		.saExpander {
+			order: 2;
+		}
+
+		.saAvatarWrapperOuter {
+			padding: 0 2rem 0 0.25rem;
+		}
+
+		.saSoftadminLogo {
+			display: flex;
+			flex-direction: row;
+			align-items: flex-start;
+			order: 1;
+			margin-left: 0.1875rem;
+		}
+
+		.saLogo {
+			width: 2rem;
+		}
+
+		.saWordmark {
+			opacity: 1;
+			transform: translateX(0);
+			height: 2rem;
+			width: 7rem;
+			position: relative;
+		}
+	}
+
+	//Minimized
+	.saLargeScreen &.saMinimized {
+		width: 4.5rem;
+
+		.saHideWhenMinimized {
+			display: none;
+		}
+
+		.saMenuDropdownsOuter {
+			margin: 0;
+			gap: 0;
+		}
+
+		.saSidenavItemWrapper {
+			height: 2.5rem;
+			width: 4.5rem;
+			justify-content: center;
+		}
+
+		.saInputTextWrapper {
+			justify-content: center;
+			align-items: center;
+			color: var(--Sa-Color-Text);
+			height: 2rem;
+
+			.saLabeledLabel {
+				display: none;
+			}
+
+			.saTrailingIconsWrapper {
+				display: none;
+			}
+		}
+
+		.saSidenavItem {
+			width: 2.5rem;
+			min-height: 2.5rem;
+			border-radius: 0.5rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.saSidenavItemText {
+			display: none;
+		}
+
+		.saSidenavItem.saSidenavItemRow {
+			flex-direction: column;
+			position: relative;
+
+			.saSidenavItemWrapper {
+				&::after {
+					content: '';
+					height: 100%;
+					width: 100%;
+					position: absolute;
+					padding: 0 1rem;
+				}
+			}
+		}
+
+		.saSidenavLists {
+			width: 4.5rem;
+		}
+
+		.SidenavItems() {
+			min-width: 4.5rem;
+		}
+
+		.saSelectLabel {
+			width: 0;
+			height: 0;
+			margin-bottom: -0.5rem;
+			display: none;
+		}
+
+		select,
+		input[role="combobox"] {
+			.AppearanceNone();
+			padding: 0;
+			padding-left: 2rem;
+			max-width: 2rem;
+			cursor: pointer;
+		}
+
+		.saMenuDropdowns {
+			gap: 0;
+			padding: 0;
+		}
+
+		.saFirstLetter {
+			pointer-events: none;
+			text-align: center;
+			color: var(--Sa-Color-Text);
+			position: absolute;
+			box-sizing: border-box;
+		}
+
+		.saSearch.saSidenavItemWrapper .saSidenavItem {
+			min-width: 2.5rem;
+			min-height: 2.5rem;
+			cursor: pointer;
+
+			.saIcon {
+				margin: 0;
+			}
+		}
+
+		.saSidenavItemText {
+			width: 0;
+			opacity: 0;
+		}
+
+		.saUserName {
+			width: 0;
+		}
+
+		.saCustomerLogo {
+			max-width: 3rem;
+
+			img {
+				max-width: 3rem;
+				max-height: 3rem;
+			}
+		}
+
+		.saAvatarWrapperOuter {
+			.saIcon {
+				display: none;
+			}
+		}
+
+		.saSidenavFooter {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 4.5rem;
+		}
+
+		.saExpander {
+			width: 2.5rem;
+			margin-bottom: 0.5rem;
+			order: 1;
+
+			.saIcon {
+				-webkit-transform: rotate(180deg);
+				transform: rotate(180deg);
+			}
+		}
+
+		.saSoftadminLogo {
+			order: 2;
+		}
+
+		.saWordmark {
+			display: none;
+		}
+	}
+}

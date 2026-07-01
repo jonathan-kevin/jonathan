@@ -1,0 +1,197 @@
+.saSignatureCanvasRoot {
+	.saSignatureOuter {
+		position: relative;
+		background: @ColorWhite;
+		border-radius: 0.5rem;
+		box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+		transition: ease box-shadow .2s;
+
+		.Hover({
+			box-shadow: inset 0 0 0 2px @ColorBlue600;
+		});
+
+		&::after {
+			content: '';
+			height: 0.25rem;
+			background-image: radial-gradient(circle at 2px 2px, @ColorGray200 1px, transparent 0);
+			background-size: 0.375rem 0.25rem;
+			background-position: 0 0;
+			position: absolute;
+			pointer-events: none;
+			user-select: none;
+		}
+
+		.saDisabled & {
+			pointer-events: none;
+		}
+	}
+
+	.saSignature {
+		border-radius: 0.5rem;
+		cursor: crosshair;
+	}
+
+	&.saSignatureLargeScreen {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+
+		.saSignatureOuter {
+			&::after {
+				bottom: 2.5rem;
+				right: 2.5rem;
+				width: calc(100% - 5rem);
+			}
+
+			.saDisabled & {
+				.DisabledControl();
+			}
+		}
+
+		.saCanvasButton {
+			.Button();
+			.ButtonGhost();
+			.ButtonSizeCompact();
+		}
+
+		.saSignatureButtons {
+			display: flex;
+			align-self: flex-end;
+		}
+
+		.saSmallScreen & {
+			.saSignatureOuter::after {
+				bottom: 1.25rem;
+			}
+		}
+	}
+
+	&.saSignatureSmallScreen {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+
+		.saSignatureField {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: #f8f9fB;
+			border-radius: 1rem;
+			font-size: 1rem;
+			height: 9rem;
+			width: 100%;
+			margin-top: 0.625rem;
+			border: 1px solid #ccd5e2;
+
+			.saDisabled & {
+				.DisabledControl();
+
+				.saButtonField .saIcon {
+					color: #1010104d;
+				}
+			}
+		}
+
+		.saButtonField {
+			background-color: #fff;
+			padding: 0.5rem;
+			border-radius: 0.5rem;
+			gap: 0.5rem;
+			display: flex;
+			align-items: center;
+			border: 1px solid #ccd5e2;
+			justify-content: center;
+			text-align: center;
+
+			.saIcon {
+				color: @ColorGray600;
+			}
+		}
+
+		.saEditButton {
+			.ButtonSecondary();
+			width: fit-content;
+			height: fit-content;
+			border-radius: 0.5rem;
+			margin-top: 0.625rem;
+			padding: 0.5rem;
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+			display: flex;
+			align-self: center;
+		}
+
+		.saPreviewImage {
+			max-width: 100%;
+			max-height: 100%;
+		}
+	}
+
+	&.saSignatureCanvasPopupRoot {
+		display: flex;
+		justify-content: flex-start;
+		flex-direction: column;
+		width: 100%;
+		height: fit-content;
+
+		.saSignaturePopup {
+			display: flex;
+			flex-direction: column;
+			width: calc(100% - 2rem);
+			max-height: 98%;
+			transform: scale(1);
+			transition: all 0.2s ease;
+			padding: 1rem;
+			gap: 0.5rem;
+			margin: 0.5rem;
+			align-self: center;
+		}
+
+		.saSignatureScroll {
+			overflow: auto;
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			margin-top: -1px;
+		}
+
+		.saPopupHeading {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+		}
+
+		.saClosePopup {
+			.Button();
+			.IconButtonSizeStandard();
+			.ButtonGhost();
+			font-size: 1.25rem;
+			width: 2.75rem;
+			height: 2.75rem;
+			max-width: 2.75rem;
+		}
+
+		.saSignatureOuter {
+			width: fit-content;
+			height: fit-content;
+
+			&::after {
+				bottom: 20%;
+				right: 10%;
+				width: 80%;
+			}
+		}
+
+		.saSignatureButtons {
+			display: flex;
+			align-self: flex-start;
+			align-items: center;
+			justify-content: space-between;
+			flex-direction: row;
+			gap: 0.5rem;
+		}
+	}
+}
+

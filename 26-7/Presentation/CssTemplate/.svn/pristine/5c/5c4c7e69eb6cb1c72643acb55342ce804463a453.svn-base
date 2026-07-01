@@ -1,0 +1,1832 @@
+﻿@charset "utf-8";
+@import "Colors.less";
+@import "Variables.less";
+@import "Headings.less";
+@import "ZIndex.less";
+
+@font-face {
+	font-family: "Lexend";
+	src: url(../Fonts/Lexend-VariableFont_wght.ttf) format("truetype");
+	font-weight: 100 900;
+}
+
+a,
+button,
+input {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+p a:hover {
+	text-decoration: underline;
+}
+
+input {
+	border-radius: 0;
+	-webkit-border-radius: 0;
+}
+
+input[type="number"] {
+	-moz-appearance: textfield !important;
+}
+
+abbr,
+acronym,
+address,
+aggregate,
+applet,
+article,
+aside,
+audio,
+b,
+big,
+blockquote,
+body,
+canvas,
+caption,
+center,
+cite,
+dd,
+del,
+details,
+dfn,
+div,
+dl,
+dt,
+em,
+embed,
+fieldset,
+figcaption,
+figure,
+footer,
+form,
+header,
+hgroup,
+html,
+i,
+iframe,
+img,
+ins,
+kbd,
+label,
+legend,
+li,
+mark,
+menu,
+nav,
+object,
+output,
+p,
+q,
+ruby,
+s,
+samp,
+section,
+small,
+span,
+strike,
+strong,
+table,
+tbody,
+td,
+tfoot,
+th,
+thead,
+time,
+tr,
+tt,
+u,
+ul,
+var,
+video {
+	margin: 0;
+	padding: 0;
+	border: 0
+}
+
+fieldset {
+	margin-inline-start: 0;
+	margin-inline-end: 0;
+	padding-block-start: 0;
+	padding-inline-start: 0;
+	padding-inline-end: 0;
+	padding-block-end: 0;
+	min-inline-size: 0;
+	border-width: 0;
+	border-style: none;
+	border-color: transparent;
+	border-image: none;
+}
+
+input[type=button],
+input[type=submit],
+button {
+	cursor: pointer;
+
+	&:disabled {
+		cursor: default;
+		pointer-events: none;
+	}
+}
+
+pre:has(code) {
+	margin: 0;
+}
+
+.saHtmlViewWrapper {
+	.UserHtmlContent();
+
+	table {
+		border: 1px solid @ColorGray150;
+		border-right: none;
+		margin-left: 0 !important;
+	}
+
+	th,
+	td {
+		border-right: 1px solid @ColorGray150;
+		padding-right: 0.3125rem;
+		padding-left: 0.3125rem
+	}
+
+	tr:nth-child(2n) {
+		background: @ColorGray50
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	ul {
+		list-style: disc;
+		padding-left: 2rem
+	}
+
+	ol {
+		list-style: decimal;
+		padding-left: 2rem
+	}
+
+	em {
+		font-style: italic
+	}
+}
+
+ul, menu {
+	list-style: none
+}
+
+strong {
+	font-weight: 700;
+	line-height: 1
+}
+
+i {
+	font-style: italic
+}
+
+blockquote,
+q {
+	quotes: none
+}
+
+blockquote::after,
+blockquote::before,
+q::after,
+q::before {
+	content: '';
+	content: none
+}
+
+table {
+	border-spacing: 0
+}
+
+.clearer {
+	clear: both;
+	display: block;
+	padding: 0;
+	margin: 0
+}
+
+body,
+button,
+input,
+legend,
+option,
+select,
+table,
+td,
+textarea,
+th {
+	font-family: 'Lexend', Arial, sans-serif;
+	font-size: 100%
+}
+
+code {
+	font-family: 'Lucida Console', monospace;
+	tab-size: 4;
+}
+
+b {
+	font-weight: 600
+}
+
+img {
+	text-decoration: none
+}
+
+a {
+	text-decoration: none
+}
+
+[data-sa-admin-link] {
+	cursor: pointer;
+}
+
+[data-api-link] {
+	cursor: pointer;
+}
+
+.nowrap {
+	white-space: nowrap
+}
+
+.interface {
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+.fieldandbuttonwrapper {
+	display: flex;
+}
+
+.fieldwrapper.search {
+	position: relative
+}
+
+.maincolbodyinner {
+	padding: 1rem
+}
+
+.interface,
+.pagecontentframe,
+body,
+html {
+	height: 100%
+}
+
+.maincol,
+.maincolbodyinner {
+	height: 100%;
+}
+
+.scrollcontent {
+	height: 100%;
+	overflow: auto;
+	margin-top: 0;
+
+	&:has(.saInputPage) {
+		scroll-padding-top: 0.5rem;
+		scroll-behavior: smooth;
+	}
+
+	.saLargeScreen & {
+		scrollbar-gutter: stable;
+	}
+
+	.saMiniView.saLargeScreen & {
+		scrollbar-gutter: unset;
+	}
+}
+
+.scrollcontent.parameterinput {
+	height: 100%;
+}
+
+.scrollcontent.parameterinput .btnfield {
+	position: relative
+}
+
+.scrollcontent-inner {
+	position: relative;
+
+	.saMiniView.saLargeScreen & {
+		padding-bottom: 2px;
+	}
+
+	.saPopup.saLargeScreen & {
+		padding: 1rem 0 1rem 1rem;
+	}
+
+	.saLargeScreen & {
+		padding: 0 0.5rem 1.5rem 1.5rem;
+
+		@supports not (scrollbar-gutter: stable) {
+			padding: 0 1.5rem 1.5rem 1.5rem;
+		}
+
+		&:has(.saTabView) {
+			padding: 0;
+
+			.saInfoArea {
+				padding-left: 1.5rem;
+			}
+		}
+	}
+}
+
+.scrollindicator {
+	right: 0;
+	height: 1px;
+	margin-top: 2px;
+	margin-left: -1.5rem;
+	background: linear-gradient(to right,
+			fade(@ColorGray200, 4),
+			@ColorGray200,
+			@ColorGray200,
+			@ColorGray200,
+			fade(@ColorGray200, 4));
+	transition: ease opacity 0.2s;
+	opacity: 0;
+
+	&.scrolled {
+		opacity: 1;
+	}
+
+	.smallscreen & {
+		display: none;
+	}
+}
+
+.col {
+	float: left
+}
+
+span.marked {
+	display: block;
+	float: left;
+	padding: 2px 0 0 2rem
+}
+
+tr.hascontextmenu {
+	cursor: pointer
+}
+
+span[data-sa-admin-link] {
+	cursor: pointer;
+}
+
+a.sort {
+	line-height: 1rem;
+	color: var(--Sa-Color-Text);
+	font-size: 0.875rem;
+	min-width: 1px;
+	cursor: pointer;
+}
+
+a.notSortable:hover {
+	cursor: default;
+}
+
+a.link {
+	cursor: pointer;
+}
+
+nobr:has(.gridtext, .saIcon) {
+	display: inline;
+
+	.saLinkText {
+		display: inline;
+	}
+
+	.saIcon {
+		display: inline;
+	}
+
+	.gridtext {
+		display: inline;
+		.Ellipsis();
+	}
+}
+
+.gridtext {
+	display: inline-block;
+}
+
+tr.opened {
+	background: #fff4b9 !important;
+}
+
+tr.opened+tr.extratext {
+	display: table-row;
+}
+
+.innerframe {
+	width: 100%;
+	height: 100%
+}
+
+.outerframe {
+	position: relative;
+	width: 100%
+}
+
+.paragraphs p.lead {
+	margin-bottom: 1rem;
+	font-weight: 700
+}
+
+.paragraphs h2,
+.paragraphs h3,
+.paragraphs h4,
+.paragraphs p {
+	margin: 0 0 0.5rem;
+	padding: 0;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+}
+
+.paragraphs ol,
+.paragraphs ul {
+	margin: 0;
+	padding-left: 2rem
+}
+
+.paragraphs ul {
+	list-style: square
+}
+
+.paragraphs italic {
+	font-style: italic
+}
+
+.paragraphs bold,
+.paragraphs strong {
+	font-weight: 700
+}
+
+.paragraphs a:hover span {
+	text-decoration: underline
+}
+
+.smallscreen .iconwrapper {
+	display: none
+}
+
+.smallscreen .rightwrapper {
+	width: 100%;
+	float: auto
+}
+
+.flexfill {
+	flex-grow: 1;
+}
+
+input[type=file].big {
+	width: 100%;
+	border: 2px dashed #3F53A1;
+	min-height: 10rem;
+	background-color: #f2f4fb;
+}
+
+.smallscreen input[type=file].big {
+	border: none;
+	min-height: 0;
+	background-color: transparent;
+}
+
+body.right.smallscreen {
+	padding: 0;
+	background: @ColorWhite;
+	margin-right: 0
+}
+
+body.right.smallscreen::before {
+	display: none !important
+}
+
+body.saPopup {
+	background-image: none;
+	width: 100%;
+	overflow: hidden;
+}
+
+.labelcell {
+	width: 1px;
+	display: table-cell;
+	padding-top: 0;
+	padding-left: 2px;
+	height: 1px; // Hack to be able to calculate percentage height of child elements.
+}
+
+.labelcell .labelcontainer {
+	height: 100%;
+	border-left: 0.25rem solid transparent;
+	white-space: nowrap;
+}
+
+.smallscreen .fielddescription {
+	display: none !important
+}
+
+.fielddescription2 {
+	display: none;
+	font-style: italic;
+	max-width: 93vw;
+	white-space: normal;
+}
+
+*:not(input, textarea, select),
+input.saCheckbox,
+input.saToggle,
+input[type=Radio] {
+	.saSmallScreen:not(.saUseAccessibilityMode) &:focus-visible {
+		outline: black solid 2px !important;
+		outline-offset: -1px !important;
+	}
+}
+
+.saUseAccessibilityMode {
+	*:focus-visible {
+		outline: black dashed 4px !important;
+		outline-offset: -2px !important;
+		box-shadow: inset 0 0 0 2px white, 0 0 0 2px white !important;
+	}
+}
+
+.smallscreen .inputlayoutfieldgrouprow.opened .fielddescription2 {
+	display: block
+}
+
+.smallscreen .descriptionwrapper .opened {
+	display: block
+}
+
+.descriptiontogglewrapper {
+	position: relative;
+	display: inline
+}
+
+.descriptiontoggle {
+	height: 1.5rem;
+	width: 1.5rem;
+	text-align: center;
+	margin-left: 0.5rem;
+	display: none;
+	cursor: pointer;
+	position: absolute;
+	background: none;
+}
+
+.descriptiontogglemultirow {
+	cursor: default;
+	padding-left: 2px;
+	background: none;
+}
+
+.smallscreen .descriptiontoggle {
+	display: inline-block
+}
+
+.smallscreen .descriptiontogglemultirow {
+	cursor: pointer;
+}
+
+.editableindicator {
+	color: rgba(51, 80, 121, 0.58);
+	padding: 0 2px 0 0.3125rem;
+}
+
+.saLargeScreen .listpage .editableindicator {
+	margin: 0 1px 0 0.5rem;
+}
+
+.smallscreen .labelcell {
+	padding: 0.1875rem 0 0 0;
+	height: auto;
+}
+
+.smallscreen .labelcell label {
+	-webkit-text-size-adjust: 100%;
+	font-size: 1rem;
+	padding-left: 0;
+	margin-bottom: 0.1875rem;
+	padding-top: 0;
+	padding-bottom: 0;
+	border-left: 0;
+}
+
+.labelcell label {
+	padding-right: 1rem;
+	padding-left: 0.5rem;
+	padding-top: 0.625rem;
+	padding-bottom: 0.625rem;
+	display: inline-block;
+	white-space: nowrap;
+}
+
+.sibling .labelcell label {
+	padding-left: 0;
+}
+
+.smallscreen .sibling .labelcell label {
+	margin-left: 0;
+	margin-bottom: 0.1875rem;
+}
+
+.smallscreen .nolabel {
+	padding-left: 0;
+}
+
+.nolabel {
+	padding-left: 1rem
+}
+
+.smallscreen .fieldcell,
+.smallscreen .sibling-fieldcell {
+	margin-bottom: 0.3125rem;
+	padding-bottom: 0;
+	display: block;
+}
+
+.btnfield {
+	padding: 0.5rem 0 0 0;
+	gap: 0.5rem;
+	display: flex;
+}
+
+.saFormButtonGroup {
+	gap: 0.5rem;
+	display: flex;
+}
+
+.saSmallScreen .btnfield {
+	flex-direction: column;
+}
+
+select option {
+	padding: 2px 0.5rem;
+	cursor: pointer
+}
+
+input[type=checkbox]:enabled {
+	cursor: pointer;
+}
+
+button.saFormButton:not(.busy) .icon {
+	visibility: hidden;
+}
+
+.btnfield .saFormButton {
+	.Button();
+	.ButtonSizeModeDependent();
+
+	.maincolinner & {
+		padding-right: 2.0313rem;
+	}
+}
+
+.inputPageScriptButtonCell .saJavaScriptButton {
+	margin-right: 0.25rem;
+}
+
+:-ms-input-placeholder {
+	color: gray
+}
+
+.maincolbody.search {
+	position: relative
+}
+
+.inputlayoutfieldgrouphead label {
+	pointer-events: auto;
+}
+
+.menuitemtable {
+	width: 100%
+}
+
+.inputlayoutfieldgrouprow.border {
+	border: 1px solid @ColorGray150;
+	background: @ColorWhite;
+	border-bottom: none;
+	border-top: none
+}
+
+.inputlayoutfieldgrouphead {
+	border: 1px solid @ColorGray150;
+	border-bottom: none;
+	background: #fff
+}
+
+.inputlayoutfieldgroupfoot {
+	border-bottom: 1px solid @ColorGray150;
+	border-left: 1px solid @ColorGray150;
+	border-right: 1px solid @ColorGray150;
+}
+
+.btnfield.borders {
+	padding-left: 0
+}
+
+.inputlayoutgroup {
+	min-width: 50%;
+}
+
+.smallscreen .inputlayoutgroup {
+	min-width: 100%
+}
+
+.inputlayoutgroup.border {
+	border-style: solid;
+	border-width: 1px;
+	border-collapse: separate;
+	background: #fff
+}
+
+table.inputlayoutgroup.border.inputlayoutgroup .inputlayouttable .inputlayoutcolumn>table {
+	border: none !important;
+	box-shadow: none
+}
+
+.inputlayouttable .hidden {
+	display: none;
+}
+
+.smallscreen .inputlayoutgroup.border {
+	border: none;
+	border-radius: 0
+}
+
+.inputlayoutgroup.border.headless {
+	padding-top: 0.5rem
+}
+
+.smallscreen .inputlayoutgroup.border.headless {
+	padding: 0
+}
+
+.inputlayoutgrouphead {
+	border-radius: 2px 0.1875rem 0 0;
+	min-height: 1rem
+}
+
+.inputlayoutgroupfoot {
+	border-radius: 0 0 0.1875rem 0.1875rem;
+	min-height: 0.1875rem;
+	padding-bottom: 0.5rem
+}
+
+.smallscreen .inputlayouttable {
+	display: block;
+	margin-left: 0.3125rem
+}
+
+.smallscreen .inputlayouttable td {
+	display: block
+}
+
+.smallscreen .inputlayouttable td.hidden {
+	display: none
+}
+
+.inputlayoutcolumn>table {
+	padding: 0.5rem 0;
+	background: @ColorWhite;
+	border: 1px solid @ColorGray150;
+	border-radius: 2px;
+}
+
+.inputlayoutgroup.headless .inputlayoutcolumn>table {
+	width: 100%;
+}
+
+.maincolbody.input.borders .inputlayoutcolumn>table {
+	padding-top: 0;
+	border-collapse: collapse;
+	border: none;
+	background: 0 0 !important;
+	box-shadow: none;
+}
+
+.inputlayoutcolumnpadding {
+	min-width: 1rem
+}
+
+.smallscreen {
+	.inputlayoutcolumnpadding {
+		display: none
+	}
+
+	.inputlayoutfieldgrouphead {
+		border: none;
+		border-radius: 0
+	}
+
+	.inputlayoutfieldgrouprow.border {
+		border: none;
+		border-radius: 0
+	}
+
+	.inputlayoutfieldgroupfoot {
+		border: none;
+		border-radius: 0
+	}
+}
+
+.inputlayoutfieldgrouppadding {
+	overflow: hidden;
+	padding-top: 0.5rem;
+}
+
+.smallscreen .inputlayoutfieldgrouppadding {
+	display: none
+}
+
+.fldwrapper .help {
+	left: 0;
+	position: absolute
+}
+
+.right.saMobile li a:focus,
+.right.saMobile button:focus,
+.right.saMobile input:focus {
+	outline: none;
+}
+
+.gridbottompadding {
+	height: 1rem;
+
+	.saSmallScreen & {
+		display: none;
+	}
+}
+
+.color1 {
+	background: #0018c4
+}
+
+.color2 {
+	background: #e69b00
+}
+
+.color3 {
+	background: #363a79
+}
+
+.color4 {
+	background: #ca264a
+}
+
+.color5 {
+	background: #4a5ace
+}
+
+.color6 {
+	background: #f62323
+}
+
+.color7 {
+	background: #5e6391
+}
+
+.color8 {
+	background: #9ec821
+}
+
+.color9 {
+	background: #762f9d
+}
+
+.color10 {
+	background: #d8da21
+}
+
+.color11 {
+	background: #41a2a3
+}
+
+.color12 {
+	background: #006200
+}
+
+.color13 {
+	background: #8b1a69
+}
+
+.color14 {
+	background: #f6e423
+}
+
+.color15 {
+	background: #8f0304
+}
+
+.color16 {
+	background: #c4c4c4
+}
+
+.color17 {
+	background: #592777
+}
+
+.color18 {
+	background: #8f5c03
+}
+
+.color19 {
+	background: #1a1a1a
+}
+
+.color20 {
+	background: #26676f
+}
+
+.color21 {
+	background: #98a2e7
+}
+
+.color22 {
+	background: #f5e399
+}
+
+.color23 {
+	background: #8689af
+}
+
+.color24 {
+	background: #df7d92
+}
+
+.color25 {
+	background: #929ce2
+}
+
+.color26 {
+	background: #fa7b7b
+}
+
+.color27 {
+	background: #9ea1bd
+}
+
+.color28 {
+	background: #c5de7a
+}
+
+.color29 {
+	background: #ad82c4
+}
+
+.color30 {
+	background: #f6f7ac
+}
+
+.color31 {
+	background: #8dc7c8
+}
+
+.color32 {
+	background: #98c098
+}
+
+.color33 {
+	background: #d0a3c2
+}
+
+.color34 {
+	background: #faef7b
+}
+
+.color36 {
+	background: #dcdcdc
+}
+
+.color37 {
+	background: #9b7dad
+}
+
+.color38 {
+	background: #bc9d68
+}
+
+.color39 {
+	background: #a4a3a3
+}
+
+.color40 {
+	background: #a8c2c5
+}
+
+.calendarresizehandle {
+	left: 0;
+	height: 0.25rem;
+	width: 100%;
+	background-color: transparent;
+	cursor: n-resize;
+	position: absolute;
+}
+
+.calendarresizehandle.active,
+.calendarresizehandle:hover {
+	background-color: #0000000f;
+}
+
+.calendarresizehandle.top {
+	top: 0;
+}
+
+.calendarresizehandle.bottom {
+	bottom: 0;
+}
+
+.calendarresizehandle:focus {
+	outline: 0;
+}
+
+.smallscreen .maincolinner.frame {
+	border-radius: 0
+}
+
+.smallscreen {
+	.inputlayoutcolumn>table {
+		border: none;
+		width: 100%;
+		box-shadow: none
+	}
+
+	.labelcell label {
+		top: 0;
+		padding-left: 0;
+	}
+}
+
+.right.smallscreen input,
+.right.smallscreen select {
+	font-size: 1rem
+}
+
+.smallscreen .scrollcontent {
+	border: none;
+	box-shadow: none;
+	padding: 0;
+	min-width: 100%;
+	width: 1px;
+	-webkit-overflow-scrolling: touch;
+	position: relative;
+	margin-top: 0;
+}
+
+.smallscreen .scrollcontent-inner {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.smallscreen .maincolinner {
+	padding: 0;
+	margin: 0;
+}
+
+.scrollZoneLeft {
+	position: fixed;
+	background-color: teal;
+	opacity: 0;
+	top: 0;
+	height: 100%;
+	width: 1rem;
+	left: 0
+}
+
+.scrollZoneRight {
+	position: fixed;
+	background-color: teal;
+	opacity: 0;
+	top: 0;
+	height: 100%;
+	width: 1rem;
+	right: 0
+}
+
+.scrollZoneTop {
+	position: fixed;
+	background-color: teal;
+	opacity: 0;
+	left: 0;
+	width: 100%;
+	height: 1rem;
+	top: 0
+}
+
+.scrollZoneBottom {
+	position: fixed;
+	background-color: teal;
+	opacity: 0;
+	left: 0;
+	width: 100%;
+	height: 1rem;
+	bottom: 0
+}
+
+body.right {
+	background: @ColorWhite;
+}
+
+.body.smallscreen::before {
+	background: 0 0 !important
+}
+
+.saSqlSelectPane {
+	position: fixed;
+	z-index: @ZIndexSqlSelectPane;
+	min-width: 25rem;
+	right: 10%;
+	top: 3.5rem;
+	background-color: @ColorWhite;
+	border: 2px solid var(--Sa-Color-Primary600);
+}
+
+.saSqlSelectPane #CloseButton {
+	position: absolute;
+	right: 0.3125rem;
+	top: 0.3125rem;
+	cursor: pointer
+}
+
+.saSqlSelectChoices {
+	margin: 0.9375rem;
+	font-size: 0.875rem;
+	line-height: 1.7
+}
+
+.saSqlSelectChoices span {
+	cursor: pointer;
+	color: var(--Sa-Color-Link);
+}
+
+.saSqlSelectChoices span:hover {
+	text-decoration: underline;
+}
+
+.indicatedragdrop .saDragged,
+.indicatedragdrop .saDropOn {
+	border-radius: 0.5rem;
+	background: var(--Sa-Color-Primary100);
+	border: 1px dotted var(--Sa-Color-Primary600);
+}
+
+.externalframe {
+	width: 100%;
+	border: 1px solid @ColorGray150;
+}
+
+.externalframe.autoheight {
+	min-height: 15.625rem;
+}
+
+.labelmobile {
+	display: none !important
+}
+
+.smallscreen .fieldrow {
+	display: block
+}
+
+.smallscreen .inputPageScriptButtonCell {
+	display: block;
+	padding-top: 0;
+}
+
+.smallscreen .sibling .inputPageScriptButtonCell {
+	display: block;
+	float: left;
+}
+
+.smallscreen {
+	.controlcell,
+	.inputlayoutfieldgrouprow>.labelcell {
+		padding-right: 0 !important;
+		margin-left: 0.3125rem !important;
+		margin-right: 0.3125rem !important
+	}
+
+	.datetime {
+		width: calc(98.5% - 3.875rem) !important;
+	}
+
+	.datetimefield .saEditableGridButton.leftposition {
+		right: 2.125rem;
+	}
+
+	.fieldextras {
+		float: left;
+		width: 100%;
+	}
+
+	.maincolbody.input {
+		border: none !important;
+		padding-bottom: 1.25rem;
+
+	}
+
+	.maincolbody.input .inputlayoutcolumn>table {
+		box-shadow: none;
+		border: none;
+		width: 100%
+	}
+
+	.pagingbottom {
+		display: none !important
+	}
+
+	.labelmobile {
+		display: inline-block !important;
+		padding: 0.625rem 0 0.625rem 0;
+	}
+
+	.labeldesktop {
+		display: none !important
+	}
+
+	.fieldcell {
+		padding-top: 0;
+	}
+
+	.inputlayoutgroupfoot {
+		padding-bottom: 0;
+	}
+
+	.inputlayoutfieldgroupfoot {
+		padding-top: 0;
+		border: 0;
+	}
+}
+
+.logo a {
+	background: url(../img/softadmin.png) top center no-repeat;
+	width: 100%;
+	display: block;
+	height: 3.125rem;
+	cursor: pointer;
+	margin-top: 0.9375rem;
+	margin-bottom: 0.625rem;
+}
+
+div.footerarea {
+	position: absolute;
+	bottom: 0;
+	width: 100%
+}
+
+div.footerarea.dock {
+	position: relative !important
+}
+
+span.marked {
+	display: block;
+	float: left;
+	padding: 2px 0 0 2rem;
+}
+
+.iconpreview .saIcon {
+	color: var(--Sa-Color-Icon);
+	font-size: 3.0625rem;
+	padding: 0.3125rem;
+	position: relative;
+	z-index: 1;
+	margin-top: -0.3125rem
+}
+
+.iconpreview .saBadge {
+	border: 2px solid @ColorWhite;
+	border-radius: 50%;
+	color: @ColorWhite;
+	font-size: 1rem;
+	margin-left: -1.75rem;
+	padding: 0.1875rem;
+	background: var(--Sa-Color-Icon);
+	z-index: 20;
+	margin-top: 1.5rem;
+	position: absolute
+}
+
+.iconpreview.saDestructive {
+	.saIcon {
+		color: var(--Sa-Color-DestructiveButtonBackground);
+	}
+
+	.saBadge {
+		background: var(--Sa-Color-DestructiveButtonBackground);
+	}
+}
+
+.saGridCell,
+.saInfoBoxContent {
+	.systemicon {
+		.icon {
+			font-size: 1rem;
+		}
+
+		.icon.fa-2x,
+		.icon.sa-2x {
+			font-size: 2rem;
+		}
+
+		.icon.fa-3x,
+		.icon.sa-3x {
+			font-size: 3rem;
+		}
+
+		.icon.fa-4x,
+		.icon.sa-4x {
+			font-size: 4rem;
+		}
+
+		.icon.fa-5x,
+		.icon.sa-5x {
+			font-size: 5rem;
+		}
+	}
+}
+
+.saInfoBoxContent .systemicon {
+	top: 1px;
+	position: relative;
+	padding-right: 0.1875rem;
+}
+
+.iconpreview.iconred .icon {
+	color: var(--Sa-Color-SystemIconRed);
+}
+
+.iconpreview.iconyellow .icon {
+	color: var(--Sa-Color-SystemIconYellow);
+}
+
+.iconpreview.icongreen .icon {
+	color: var(--Sa-Color-SystemIconGreen);
+}
+
+.iconpreview.iconblue .icon {
+	color: var(--Sa-Color-SystemIconBlue);
+}
+
+.iconpreview.iconblack .icon {
+	color: var(--Sa-Color-SystemIconBlack);
+}
+
+.iconpreview.iconwhite .icon {
+	color: @ColorWhite;
+}
+
+.iconpreview.iconwhite .icon {
+	background: var(--Sa-Color-Primary600);
+	border-radius: 2px;
+}
+
+.saInfoBoxContent .systemicon.customcolor .icon {
+	color: inherit;
+}
+
+.grid .gridtext {
+	display: inline-block;
+	clear: both;
+}
+
+.smallscreen .grid .draghandle {
+	display: none;
+}
+
+.checkboxDisabled {
+	pointer-events: none;
+}
+
+.iconpreview.small .icon {
+	font-size: 2rem !important;
+}
+
+/* Animation */
+
+.fa-pulse {
+	-webkit-animation: fa-spin 1s infinite linear;
+	animation: fa-spin 1s infinite linear;
+}
+
+.meter {
+	overflow: hidden;
+	backface-visibility: hidden;
+}
+
+.meter .interval.red {
+	stroke: #fb5555;
+}
+
+.meter .interval.yellow {
+	stroke: #fbdf2c;
+}
+
+.meter .interval.green {
+	stroke: #95f176;
+}
+
+.meter .interval.defaultcolor {
+	stroke: #bfbebe;
+}
+
+.meter .interval {
+	opacity: 0.7;
+}
+
+.meter .valueindicator {
+	transition: 1s cubic-bezier(0.39, 0.9, 0.62, 1);
+}
+
+.meter .interval:hover {
+	opacity: 0.99;
+}
+
+.meter .extravalueindicator {
+	stroke: black;
+	opacity: 0.7;
+}
+
+.meter .extravalueindicator:hover {
+	opacity: 0.99;
+}
+
+.saPixelated {
+	-ms-interpolation-mode: nearest-neighbor;
+	image-rendering: crisp-edges;
+	image-rendering: pixelated;
+}
+
+@keyframes drawerslidein {
+	from {
+		right: -25rem;
+	}
+
+	to {
+		right: 0;
+	}
+}
+
+@keyframes drawerslideout {
+	from {
+		right: 0;
+	}
+
+	to {
+		right: -25rem;
+	}
+}
+
+.drawerLoadingSpinner {
+	color: var(--Sa-Color-Primary600);
+	text-align: center;
+	margin-top: 5rem;
+}
+
+/* new input controls */
+
+.grid .inputControl {
+	position: relative;
+	float: left;
+	height: 1.875rem;
+}
+
+.grid .textarea {
+	border: none;
+	width: calc(~'100% - 0.5625rem');
+	padding-left: 0.4375rem;
+	padding-right: 0.25rem;
+}
+
+.grid .dropdown {
+	width: calc(~'100% + 2px');
+	padding-left: 0.1875rem;
+	border: 1px solid #fffeee !important;
+}
+
+.grid .editButtonsWrapper {
+	position: relative;
+	background: #fffeee;
+}
+
+.grid .editButtonsWrapper.edit-field-type-textarea {
+	float: right;
+}
+
+.grid .editButtons {
+	position: absolute;
+	right: -0.9375rem;
+	top: -1.75rem;
+	display: flex;
+	border-radius: 0.5rem;
+	box-shadow: 2px 2px 2px #eef1f5, -2px -2px 2px #eef1f5;
+	background: #313a44;
+	align-items: center;
+	z-index: 2;
+	height: 2rem;
+	padding: 0 2px;
+}
+
+.fieldextras {
+	display: table-cell;
+	vertical-align: top;
+}
+
+.fieldextrascontainer {
+	display: flex;
+
+	.labelcell,
+	.sibling-fieldcell,
+	.inputPageScriptButtonCell,
+	.fielddescription {
+		vertical-align: top;
+	}
+
+	.sibling {
+		display: inline-block;
+	}
+}
+
+.smallscreen .fieldextrascontainer {
+	display: block;
+}
+
+.fieldcell {
+	padding-bottom: 0.25rem;
+	padding-top: 0.25rem;
+	position: relative;
+	min-height: 2rem;
+	display: table-cell;
+}
+
+.fieldcell input[type=file] {
+	width: 100%;
+	margin: 0.25rem 0;
+}
+
+.inputPageScriptButtonCell {
+	display: table-cell;
+}
+
+.fieldbuttoncontainer {
+	display: flex;
+}
+
+.fielddescription {
+	display: table-cell;
+	padding-top: 0.625rem;
+	margin-bottom: 0.625rem;
+	z-index: 1;
+	position: relative;
+	font-style: italic;
+	padding-right: 1rem;
+}
+
+.sibling {
+	display: inline-flex;
+}
+
+.sibling .labelcell {
+	width: auto;
+	height: auto;
+	padding-top: 0;
+	padding-left: 0;
+}
+
+.sibling .labelcell .labelcontainer {
+	height: auto;
+	border: 0;
+}
+
+.sibling-fieldcell {
+	display: table-cell;
+	padding-top: 0.25rem;
+}
+
+.smallscreen .labelcell {
+	margin-top: 0.625rem;
+	display: block
+}
+
+.fieldextras .inputPageScriptButtonCell {
+	padding-top: 0.25rem;
+}
+
+/* HELP */
+
+.blinking-help {
+	animation: blinking-help 2s linear infinite;
+}
+
+@keyframes blinking-help {
+	50% {
+		color: transparent;
+	}
+}
+
+.helpContent {
+	overflow: auto;
+	flex: 1 1 auto;
+	padding: 0.5rem 0.5rem 2rem;
+	-webkit-overflow-scrolling: touch;
+}
+
+.smallscreen .calendar {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.sa-2x {
+	font-size: 2rem;
+}
+
+.sa-3x {
+	font-size: 3rem;
+}
+
+.sa-4x {
+	font-size: 4rem;
+}
+
+.sa-5x {
+	font-size: 5rem;
+}
+
+/* Hack to not stop spinner from spinning even if the user has @media (prefers-reduced-motion: reduce). */
+.fa-spinner.fa-spin {
+	-webkit-animation-name: fa-spin !important;
+	animation-name: fa-spin !important;
+	-webkit-animation-delay: var(--fa-animation-delay, 0) !important;
+	animation-delay: var(--fa-animation-delay, 0) !important;
+	-webkit-animation-direction: var(--fa-animation-direction, normal) !important;
+	animation-direction: var(--fa-animation-direction, normal) !important;
+	-webkit-animation-duration: var(--fa-animation-duration, 2s) !important;
+	animation-duration: var(--fa-animation-duration, 2s) !important;
+	-webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite) !important;
+	animation-iteration-count: var(--fa-animation-iteration-count, infinite) !important;
+	-webkit-animation-timing-function: var(--fa-animation-timing, linear) !important;
+	animation-timing-function: var(--fa-animation-timing, linear) !important;
+}
+
+.maincolinner {
+	padding: 0
+}
+
+.saScrollable {
+	height: 100%;
+}
+
+span.subject {
+	display: block;
+	width: 100%
+}
+
+body.pageheader {
+	padding-top: 0
+}
+
+.interface .infoarea {
+	margin-top: 0;
+}
+
+body .gradients,
+body .scrollcontent {
+	background: 0 0
+}
+
+.tableintabs {
+	box-shadow: none;
+	border: none;
+	background: 0 0
+}
+
+.scrollcontent {
+	width: 100%;
+	background: 0 0;
+	box-shadow: none;
+}
+
+.smallscreen .scrollcontent-inner {
+	min-height: 0;
+}
+
+.navigatorbuttonrow .navigator-wrapper {
+	margin-top: 0
+}
+
+.interface .tableintabs table.scrollable {
+	box-shadow: none;
+}
+
+.interface .infobox {
+	box-shadow: none;
+}
+
+.interface .multipartpanel {
+	box-shadow: none;
+}
+
+.interface .navigatorbuttons .btnrow {
+	box-shadow: none;
+}
+
+.interface .inputlayoutcolumn>table {
+	border: none;
+	box-shadow: none;
+}
+
+.saGridTop .saGridTopInner {
+	box-shadow: none !important;
+}
+
+.saGrid {
+	box-shadow: none !important;
+}
+
+@import "Basic.less";
+@import "EmptyState.less";
+@import "AccessibilityBanner.less";
+@import "SystemIcons.less";
+@import "UserContent.less";
+@import "InfoBoxes.less";
+@import "BoxTable.less";
+@import "Pagination.less";
+@import "Grid.less";
+@import "Notifications.less";
+@import "Sidebar.less";
+@import "PageHeader.less";
+@import "Alert.less";
+@import "Button.less";
+@import "ErrorView.less";
+@import "Login.less";
+@import "ColumnManager.less";
+@import "ImageGallery.less";
+@import "InlineDocument.less";
+@import "InputGeneral.less";
+@import "InputPage.less";
+@import "InputCards.less";
+@import "InputCheckboxTree.less";
+@import "InputColorPicker";
+@import "InputDateRange.less";
+@import "InputDateTimePicker.less";
+@import "InputFileUploadArea.less";
+@import "InputHtmlEditor.less";
+@import "InputMultiAutoSearch.less";
+@import "InputMultiPicker.less";
+@import "InputMultiRow.less";
+@import "InputPassword.less";
+@import "InputRadioCommon.less";
+@import "InputRadioButtons.less";
+@import "InputSignatureCanvas.less";
+@import "InputTextArea.less";
+@import "InputTextboxWithPopup.less";
+@import "InputUneditable.less";
+@import "LinearProcess.less";
+@import "ListCommon.less";
+@import "LinkList.less";
+@import "LinkCards.less";
+@import "MenuGroup.less";
+@import "Timeline.less";
+@import "MagicBox.less";
+@import "MessageBanner.less";
+@import "NavigationBar.less";
+@import "NodeGraph.less";
+@import "TabView.less";
+@import "TreeWrapperCommon.less";
+@import "Multipart.less";
+@import "NumberStepper.less";
+@import "GroupView.less";
+@import "Tooltip.less";
+@import "PdfTemplateEditor.less";
+@import "PivotGrid.less";
+@import "ProgressBar.less";
+@import "Help.less";
+@import "DiffView.less";
+@import "Calendar.less";
+@import "CalendarSmallScreen.less";
+@import "Toggle.less";
+@import "VisibleParameters.less";
+@import "Kpi.less";
+@import "Meter.less";
+@import "BankgiroLink.less";
+@import "BankId.less";
+@import "ErrorSummary.less";
+@import "Treeview.less";
+@import "Toolbox.less";
+@import "Planner.less";
+@import "Chart.less";
+@import "Pill.less";
+@import "MenuItem.less";
+@import "Api.less";
+@import "TableOfContents.less";
+@import "ValidationBubble.less";
+/* Let this be the last import */
+@import "InternalMenuItems.less";
