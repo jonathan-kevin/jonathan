@@ -2,11 +2,13 @@
 	let lastDebugResult = null;
 	const undoStack = [];
 	const logoStorageKey = 'softadmin.mockup.logo';
+	const avatarStorageKey = 'softadmin.mockup.avatar';
 	const manualEdits = new Map();
 	let initialState = null;
 	let isBusy = false;
 	let lastTokenEstimate = null;
 	let preferredLogoSource = null;
+	let preferredAvatarSource = null;
 	let selectedElement = null;
 	let draggedElement = null;
 	let dropTargetElement = null;
@@ -79,7 +81,11 @@
 		});
 
 		document.querySelector('.saAccountName').textContent = 'Anna Andersson';
-		document.querySelector('.saAccountAvatar').textContent = 'AA';
+		const accountAvatar = document.querySelector('.saAccountAvatar');
+		if (accountAvatar && accountAvatar.tagName !== 'IMG') {
+			accountAvatar.textContent = 'AA';
+		}
+		applyAvatarPreference();
 
 		const breadcrumbs = desktopHeader.querySelector('.saBreadcrumbs');
 		if (breadcrumbs) {
@@ -250,6 +256,33 @@
 		return Array.from(document.querySelectorAll('.saCustomerLogo, .saSideBarHeaderSmallScreenLogo'));
 	}
 
+	function accountAvatarElement() {
+		return document.querySelector('.saAccountAvatar');
+	}
+
+	function accountNameElement() {
+		return document.querySelector('.saAccountName');
+	}
+
+	function accountInitials(name) {
+		const parts = String(name || '')
+			.trim()
+			.split(/\s+/)
+			.filter(Boolean);
+
+		return (parts.length ? parts.slice(0, 2).map(part => part.charAt(0)).join('') : 'AA').toUpperCase();
+	}
+
+	function updateAccountInitials() {
+		const avatar = accountAvatarElement();
+
+		if (!avatar || avatar.tagName === 'IMG') {
+			return;
+		}
+
+		avatar.textContent = accountInitials(accountNameElement()?.textContent || '');
+	}
+
 	function saveLogoPreference(source) {
 		try {
 			window.localStorage.setItem(logoStorageKey, source);
@@ -263,6 +296,22 @@
 			preferredLogoSource = window.localStorage.getItem(logoStorageKey) || null;
 		} catch (error) {
 			preferredLogoSource = null;
+		}
+	}
+
+	function saveAvatarPreference(source) {
+		try {
+			window.localStorage.setItem(avatarStorageKey, source);
+		} catch (error) {
+			// Local storage can be unavailable for file URLs or large data URLs.
+		}
+	}
+
+	function loadAvatarPreference() {
+		try {
+			preferredAvatarSource = window.localStorage.getItem(avatarStorageKey) || null;
+		} catch (error) {
+			preferredAvatarSource = null;
 		}
 	}
 
@@ -296,6 +345,48 @@
 		}
 	}
 
+	function applyAvatarPreference() {
+		if (!preferredAvatarSource) {
+			updateAccountInitials();
+			return;
+		}
+
+		const avatar = accountAvatarElement();
+
+		if (!avatar) {
+			return;
+		}
+
+		if (avatar.tagName === 'IMG') {
+			avatar.setAttribute('src', preferredAvatarSource);
+			avatar.setAttribute('alt', accountNameElement()?.textContent?.trim() || 'Account avatar');
+			return;
+		}
+
+		const image = document.createElement('img');
+		image.className = avatar.className;
+		image.src = preferredAvatarSource;
+		image.alt = accountNameElement()?.textContent?.trim() || 'Account avatar';
+		avatar.replaceWith(image);
+	}
+
+	function setAvatarPreference(source, message) {
+		const status = document.getElementById('SoftadminPromptStatus');
+		const normalizedSource = String(source || '').trim();
+
+		if (!normalizedSource) {
+			return;
+		}
+
+		preferredAvatarSource = normalizedSource;
+		saveAvatarPreference(normalizedSource);
+		applyAvatarPreference();
+
+		if (status) {
+			status.textContent = message || 'Avatar updated.';
+		}
+	}
+
 	function handleLogoFileChange(event) {
 		const file = event.target.files && event.target.files[0];
 		const status = document.getElementById('SoftadminPromptStatus');
@@ -319,6 +410,29 @@
 		reader.readAsDataURL(file);
 	}
 
+	function handleAvatarFileChange(event) {
+		const file = event.target.files && event.target.files[0];
+		const status = document.getElementById('SoftadminPromptStatus');
+
+		if (!file) {
+			return;
+		}
+
+		if (!file.type.startsWith('image/')) {
+			if (status) {
+				status.textContent = 'Choose an image file for the avatar.';
+			}
+			return;
+		}
+
+		const reader = new FileReader();
+		reader.addEventListener('load', function () {
+			setAvatarPreference(reader.result, `Avatar updated: ${file.name}.`);
+			event.target.value = '';
+		});
+		reader.readAsDataURL(file);
+	}
+
 	function openLogoFilePicker() {
 		const input = document.getElementById('SoftadminLogoFile');
 
@@ -336,6 +450,25 @@
 
 		event.preventDefault();
 		openLogoFilePicker();
+	}
+
+	function openAvatarFilePicker() {
+		const input = document.getElementById('SoftadminAvatarFile');
+
+		if (input) {
+			input.click();
+		}
+	}
+
+	function handleAvatarClick(event) {
+		const avatar = event.target.closest('.saAccountAvatar');
+
+		if (!avatar) {
+			return;
+		}
+
+		event.preventDefault();
+		openAvatarFilePicker();
 	}
 
 	function logoUrlInput() {
@@ -506,6 +639,7 @@
 			'#pageheader .saBreadcrumb a',
 			'#pageheader .saNoLinkBreadcrumb',
 			'#pageheader .saButtonText',
+			'.saAccountName',
 			'.saSideBarBody .saSideBarFavoritesHeader span',
 			'.saSideBarBody .saSideBarGroup > h3',
 			'.saSideBarBody .saItemInner > span',
@@ -530,7 +664,7 @@
 			return 'frame';
 		}
 
-		if (element.closest('.saSideBarBody')) {
+		if (element.closest('.saSideBarOuter')) {
 			return 'sidebar';
 		}
 
@@ -570,7 +704,7 @@
 		const root = scope === 'frame'
 			? document.getElementById('pageheader')
 			: scope === 'sidebar'
-				? document.querySelector('.saSideBarBody')
+				? document.querySelector('.saSideBarOuter')
 				: document.querySelector('[data-softadmin-component-root]');
 		const matches = root ? Array.from(root.querySelectorAll(editableTextSelector())) : [];
 		const index = matches.indexOf(element);
@@ -617,6 +751,9 @@
 			element.dataset.softadminEditBound = 'true';
 			element.addEventListener('input', function () {
 				rememberManualEdit(element);
+				if (element.matches('.saAccountName')) {
+					updateAccountInitials();
+				}
 			});
 			element.addEventListener('keydown', function (event) {
 				if (event.key === 'Enter') {
@@ -1103,6 +1240,7 @@
 		}
 
 		applyLogoPreference();
+		applyAvatarPreference();
 
 		if (root) {
 			root.innerHTML = state.rootHtml;
@@ -1115,6 +1253,7 @@
 		enableInlineEditing();
 		enableDragAndDrop();
 		applyManualEdits();
+		updateAccountInitials();
 
 		lastDebugResult = cloneDebugResult(state.debugResult);
 		lastTokenEstimate = lastDebugResult?.tokenEstimate || lastTokenEstimate;
@@ -1259,6 +1398,7 @@
 		const undoButton = document.getElementById('SoftadminUndo');
 		const resetButton = document.getElementById('SoftadminReset');
 		const logoFileInput = document.getElementById('SoftadminLogoFile');
+		const avatarFileInput = document.getElementById('SoftadminAvatarFile');
 		const logoUploadButton = document.getElementById('SoftadminLogoUpload');
 		const logoUrlButton = document.getElementById('SoftadminLogoUrl');
 		const logoUrlInputElement = document.getElementById('SoftadminLogoUrlInput');
@@ -1287,6 +1427,10 @@
 		if (logoUploadButton && logoFileInput) {
 			logoUploadButton.addEventListener('click', openLogoFilePicker);
 			logoFileInput.addEventListener('change', handleLogoFileChange);
+		}
+
+		if (avatarFileInput) {
+			avatarFileInput.addEventListener('change', handleAvatarFileChange);
 		}
 
 		if (logoUrlButton) {
@@ -1354,6 +1498,7 @@
 		document.addEventListener('mouseup', handlePointerDragEnd);
 		document.addEventListener('click', handleSelectionClick);
 		document.addEventListener('click', handleLogoClick);
+		document.addEventListener('click', handleAvatarClick);
 		document.addEventListener('click', handleSidebarExpanderClick);
 		document.addEventListener('dragstart', handleDragStart);
 		document.addEventListener('dragover', handleDragOver);
@@ -1368,7 +1513,9 @@
 		enableInlineEditing();
 		enableDragAndDrop();
 		loadLogoPreference();
+		loadAvatarPreference();
 		applyLogoPreference();
+		applyAvatarPreference();
 		initialState = captureState();
 		updateUndoButton();
 	});
