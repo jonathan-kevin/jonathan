@@ -705,6 +705,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const visibleIndices = [];
 		let activeI = -1;
 		let prevActiveEl = null;
+		let rangeAnchorI = -1;
 
 		const fragment = document.createDocumentFragment();
 		birdTypes.forEach((item, index) => {
@@ -797,6 +798,21 @@ document.addEventListener('DOMContentLoaded', () => {
 			setOption(item, !selectedValues.has(item.dataset.value));
 		}
 
+		function setRange(anchorAllItemsIndex, clickedAllItemsIndex, checked) {
+			const anchorVisibleIndex = visibleIndices.indexOf(anchorAllItemsIndex);
+			const clickedVisibleIndex = visibleIndices.indexOf(clickedAllItemsIndex);
+			if (anchorVisibleIndex === -1 || clickedVisibleIndex === -1) {
+				setOption(allItems[clickedAllItemsIndex], checked);
+				return;
+			}
+
+			const start = Math.min(anchorVisibleIndex, clickedVisibleIndex);
+			const end = Math.max(anchorVisibleIndex, clickedVisibleIndex);
+			for (let i = start; i <= end; i++) {
+				setOption(allItems[visibleIndices[i]], checked);
+			}
+		}
+
 		function filterList(query) {
 			const val = query.trim().toLowerCase();
 			visibleIndices.length = 0;
@@ -869,7 +885,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				case 'Enter':
 				case ' ':
 					e.preventDefault();
-					if (visibleIndices.length && activeI >= 0) toggleOption(allItems[visibleIndices[activeI]]);
+					if (visibleIndices.length && activeI >= 0) {
+						toggleOption(allItems[visibleIndices[activeI]]);
+						rangeAnchorI = visibleIndices[activeI];
+					}
 					break;
 				case 'Escape': closeDropdown({ returnFocus: true }); break;
 				case 'Tab': closeDropdown(); break;
@@ -885,8 +904,19 @@ document.addEventListener('DOMContentLoaded', () => {
 			const item = e.target.closest('.saOptionWrapper');
 			if (!item || item.classList.contains('saNoResults')) return;
 
+			const clickedI = parseInt(item.dataset.index, 10);
+			const nextChecked = !selectedValues.has(item.dataset.value);
+
 			anchorActiveItem(item);
-			toggleOption(item);
+
+			if (e.shiftKey) {
+				const anchorI = rangeAnchorI !== -1 ? rangeAnchorI : clickedI;
+				setRange(anchorI, clickedI, nextChecked);
+				if (rangeAnchorI === -1) rangeAnchorI = clickedI;
+			} else {
+				toggleOption(item);
+				rangeAnchorI = clickedI;
+			}
 		});
 
 		document.addEventListener('click', e => {
