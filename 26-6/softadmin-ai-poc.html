@@ -42,12 +42,26 @@
 			display: none !important;
 		}
 
-		.saMockPromptPanel {
+		.saMockAiTools {
 			position: fixed;
 			right: 1.5rem;
 			bottom: 1.5rem;
 			z-index: 1020;
 			width: min(34rem, calc(100vw - 3rem));
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			max-height: calc(100vh - 3rem);
+		}
+
+		.saMockAiTools.saDragging {
+			cursor: grabbing;
+			user-select: none;
+		}
+
+		.saMockPromptPanel {
+			position: relative;
+			width: 100%;
 			margin: 0;
 			box-sizing: border-box;
 			border: 1px solid rgba(148, 163, 184, 0.32);
@@ -65,6 +79,11 @@
 			justify-content: space-between;
 			gap: 1rem;
 			margin-bottom: 0.75rem;
+			cursor: grab;
+		}
+
+		.saMockAiTools.saDragging .saMockPromptHeader {
+			cursor: grabbing;
 		}
 
 		.saMockPromptTitle {
@@ -366,11 +385,14 @@
 			margin-top: 0.375rem;
 		}
 
-		.saSmallScreen .saMockPromptPanel {
+		.saSmallScreen .saMockAiTools {
 			right: 0.75rem;
 			bottom: 0.75rem;
 			width: calc(100vw - 1.5rem);
 			max-height: calc(100vh - 1.5rem);
+		}
+
+		.saSmallScreen .saMockPromptPanel {
 			overflow: auto;
 		}
 
@@ -406,6 +428,93 @@
 		.saMockDropTarget {
 			outline: 2px dashed #16a34a !important;
 			outline-offset: 3px;
+		}
+
+		.saMockFormBuilderPanel {
+			display: none;
+			width: 100%;
+			box-sizing: border-box;
+			border: 1px solid rgba(148, 163, 184, 0.32);
+			border-radius: 0.875rem;
+			background: rgba(255, 255, 255, 0.96);
+			box-shadow: 0 1rem 2.5rem rgba(15, 23, 42, 0.18);
+			backdrop-filter: blur(16px);
+			padding: 0.75rem;
+			font-family: Inter, Lexend, Arial, sans-serif;
+		}
+
+		.saMockFormBuilderPanel.saOpen {
+			display: block;
+		}
+
+		.saMockFormBuilderHeader {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 0.75rem;
+			margin-bottom: 0.625rem;
+			cursor: grab;
+		}
+
+		.saMockAiTools.saDragging .saMockFormBuilderHeader {
+			cursor: grabbing;
+		}
+
+		.saMockFormBuilderHeader h2 {
+			margin: 0;
+			color: #0f172a;
+			font-size: 0.8125rem;
+			font-weight: 800;
+			line-height: 1rem;
+		}
+
+		.saMockFormBuilderHeader span {
+			color: #64748b;
+			font-size: 0.6875rem;
+			font-weight: 700;
+			line-height: 1rem;
+		}
+
+		.saMockFieldPalette {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.375rem;
+		}
+
+		.saMockFieldPaletteButton {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.375rem;
+			min-height: 2rem;
+			border: 1px solid rgba(148, 163, 184, 0.42);
+			border-radius: 999px;
+			background: #fff;
+			color: #334155;
+			cursor: grab;
+			font: inherit;
+			font-size: 0.75rem;
+			font-weight: 700;
+			line-height: 1rem;
+			padding: 0 0.625rem;
+		}
+
+		.saMockFieldPaletteButton:hover {
+			border-color: rgba(37, 99, 235, 0.45);
+			color: #2563eb;
+		}
+
+		.saMockFieldPaletteButton:active {
+			cursor: grabbing;
+		}
+
+		.saMockFormBuilderDropTarget {
+			outline: 2px dashed #7c3aed !important;
+			outline-offset: 4px;
+			background: rgba(124, 58, 237, 0.05);
+		}
+
+		.saSmallScreen .saMockFormBuilderPanel {
+			width: 100%;
 		}
 
 		[data-softadmin-component-root] .saFieldButtonGroup {
@@ -518,10 +627,10 @@
 
 	<script src="../src/jquery-4.0.0.slim.min.js"></script>
 	<script src="./script.js?v=2"></script>
-	<script src="./softadmin-component-registry.js?v=76"></script>
-	<script src="./softadmin-prompt-to-spec.js?v=76"></script>
-	<script src="./softadmin-spec-runtime.js?v=76"></script>
-	<script src="./softadmin-ai-spec.js?v=76"></script>
+	<script src="./softadmin-component-registry.js?v=79"></script>
+	<script src="./softadmin-prompt-to-spec.js?v=79"></script>
+	<script src="./softadmin-spec-runtime.js?v=79"></script>
+	<script src="./softadmin-ai-spec.js?v=79"></script>
 	<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -932,7 +1041,27 @@
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable" style="overflow: auto; height: calc(100dvh - 7.75rem);">
 									<div class="scrollcontent-inner">
 
-										<div class="saMockPromptPanel">
+										<div id="SoftadminAiTools" class="saMockAiTools">
+											<div id="SoftadminFormBuilder" class="saMockFormBuilderPanel" aria-hidden="true">
+												<div class="saMockFormBuilderHeader">
+													<h2>Form builder</h2>
+													<span>Drag into NewEdit</span>
+												</div>
+												<div class="saMockFieldPalette" aria-label="NewEdit field palette">
+													<button class="saMockFieldPaletteButton" type="button" draggable="true" data-softadmin-form-field="textbox"><i class="far fa-input-text"></i><span>Textbox</span></button>
+													<button class="saMockFieldPaletteButton" type="button" draggable="true" data-softadmin-form-field="textarea"><i class="far fa-align-left"></i><span>Textarea</span></button>
+													<button class="saMockFieldPaletteButton" type="button" draggable="true" data-softadmin-form-field="dropdown"><i class="far fa-list-dropdown"></i><span>Dropdown</span></button>
+													<button class="saMockFieldPaletteButton" type="button" draggable="true" data-softadmin-form-field="checkbox"><i class="far fa-square-check"></i><span>Checkbox</span></button>
+													<button class="saMockFieldPaletteButton" type="button" draggable="true" data-softadmin-form-field="dateRange"><i class="far fa-calendar-days"></i><span>Date range</span></button>
+													<button class="saMockFieldPaletteButton" type="button" draggable="true" data-softadmin-form-field="time"><i class="far fa-clock"></i><span>Time</span></button>
+													<button class="saMockFieldPaletteButton" type="button" draggable="true" data-softadmin-form-field="autosearch"><i class="far fa-magnifying-glass"></i><span>Autosearch</span></button>
+													<button class="saMockFieldPaletteButton" type="button" draggable="true" data-softadmin-form-field="multiAutosearch"><i class="far fa-tags"></i><span>Multi-autosearch</span></button>
+													<button class="saMockFieldPaletteButton" type="button" draggable="true" data-softadmin-form-field="radioCards"><i class="far fa-table-cells-large"></i><span>Radio cards</span></button>
+													<button class="saMockFieldPaletteButton" type="button" draggable="true" data-softadmin-form-field="fileUploadArea"><i class="far fa-file-arrow-up"></i><span>File upload</span></button>
+												</div>
+											</div>
+
+											<div class="saMockPromptPanel">
 											<div class="saMockPromptHeader">
 												<div class="saMockPromptTitle">
 													<span class="saMockPromptSpark" aria-hidden="true"><i class="far fa-wand-magic-sparkles"></i></span>
@@ -1001,6 +1130,7 @@
 												</div>
 												<span id="SoftadminPromptStatus" class="saMockPromptStatus" aria-live="polite"></span>
 											</div>
+										</div>
 										</div>
 
 										<aside id="SoftadminDebugDrawer" class="saMockDebugDrawer" aria-hidden="true">

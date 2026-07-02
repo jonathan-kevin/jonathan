@@ -1894,6 +1894,7 @@
 
 	window.SoftadminMockups = {
 		registry,
+		renderNewEditField: renderField,
 		renderSpec
 	};
 }());

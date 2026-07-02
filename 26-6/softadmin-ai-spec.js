@@ -3,6 +3,7 @@
 	const undoStack = [];
 	const logoStorageKey = 'softadmin.mockup.logo';
 	const avatarStorageKey = 'softadmin.mockup.avatar';
+	const aiToolsPositionStorageKey = 'softadmin.mockup.aiToolsPosition';
 	const manualEdits = new Map();
 	let initialState = null;
 	let isBusy = false;
@@ -12,6 +13,9 @@
 	let selectedElement = null;
 	let draggedElement = null;
 	let dropTargetElement = null;
+	let draggedFormFieldType = null;
+	let formBuilderDropTargetElement = null;
+	let aiToolsDragState = null;
 	let pendingDragElement = null;
 	let pendingDragStart = null;
 	let suppressNextClick = false;
@@ -916,7 +920,132 @@
 	}
 
 	function isInteractiveEditingTarget(target) {
-		return Boolean(target.closest('.saMockPromptPanel, .saMockDebugDrawer, .saMockSelectionToolbar, input, textarea, select'));
+		return Boolean(target.closest('.saMockPromptPanel, .saMockDebugDrawer, .saMockSelectionToolbar, .saMockFormBuilderPanel, input, textarea, select'));
+	}
+
+	function hasNewEditForm() {
+		return Boolean(document.querySelector('[data-softadmin-component-root] .saInputPage .saFieldCollection'));
+	}
+
+	function updateFormBuilderVisibility() {
+		const builder = document.getElementById('SoftadminFormBuilder');
+
+		if (!builder) {
+			return;
+		}
+
+		builder.classList.toggle('saOpen', hasNewEditForm());
+		builder.setAttribute('aria-hidden', hasNewEditForm() ? 'false' : 'true');
+		requestAnimationFrame(clampAiToolsToViewport);
+	}
+
+	function viewportClamp(value, min, max) {
+		return Math.min(Math.max(value, min), Math.max(min, max));
+	}
+
+	function setAiToolsPosition(left, top) {
+		const tools = document.getElementById('SoftadminAiTools');
+
+		if (!tools) {
+			return;
+		}
+
+		const rect = tools.getBoundingClientRect();
+		const padding = 8;
+		const clampedLeft = viewportClamp(left, padding, window.innerWidth - rect.width - padding);
+		const clampedTop = viewportClamp(top, padding, window.innerHeight - rect.height - padding);
+
+		tools.style.left = `${Math.round(clampedLeft)}px`;
+		tools.style.top = `${Math.round(clampedTop)}px`;
+		tools.style.right = 'auto';
+		tools.style.bottom = 'auto';
+	}
+
+	function saveAiToolsPosition() {
+		const tools = document.getElementById('SoftadminAiTools');
+
+		if (!tools || !tools.style.left || !tools.style.top) {
+			return;
+		}
+
+		try {
+			localStorage.setItem(aiToolsPositionStorageKey, JSON.stringify({
+				left: parseFloat(tools.style.left),
+				top: parseFloat(tools.style.top)
+			}));
+		} catch (error) {
+			// Ignore storage failures; dragging should still work.
+		}
+	}
+
+	function loadAiToolsPosition() {
+		try {
+			const stored = JSON.parse(localStorage.getItem(aiToolsPositionStorageKey) || 'null');
+
+			if (stored && Number.isFinite(stored.left) && Number.isFinite(stored.top)) {
+				requestAnimationFrame(() => setAiToolsPosition(stored.left, stored.top));
+			}
+		} catch (error) {
+			// Ignore malformed stored positions.
+		}
+	}
+
+	function clampAiToolsToViewport() {
+		const tools = document.getElementById('SoftadminAiTools');
+
+		if (!tools || !tools.style.left || !tools.style.top) {
+			return;
+		}
+
+		setAiToolsPosition(parseFloat(tools.style.left), parseFloat(tools.style.top));
+	}
+
+	function isAiToolsDragHandle(target) {
+		return Boolean(target.closest('.saMockPromptHeader, .saMockFormBuilderHeader'));
+	}
+
+	function handleAiToolsMouseDown(event) {
+		if (event.button !== 0 || !isAiToolsDragHandle(event.target)) {
+			return;
+		}
+
+		if (event.target.closest('button, input, textarea, select, a, [contenteditable="true"], [draggable="true"]')) {
+			return;
+		}
+
+		const tools = document.getElementById('SoftadminAiTools');
+
+		if (!tools) {
+			return;
+		}
+
+		const rect = tools.getBoundingClientRect();
+		aiToolsDragState = {
+			offsetX: event.clientX - rect.left,
+			offsetY: event.clientY - rect.top
+		};
+		tools.classList.add('saDragging');
+		event.preventDefault();
+	}
+
+	function handleAiToolsMouseMove(event) {
+		if (!aiToolsDragState) {
+			return;
+		}
+
+		setAiToolsPosition(event.clientX - aiToolsDragState.offsetX, event.clientY - aiToolsDragState.offsetY);
+	}
+
+	function handleAiToolsMouseUp() {
+		const tools = document.getElementById('SoftadminAiTools');
+
+		if (!aiToolsDragState) {
+			return;
+		}
+
+		aiToolsDragState = null;
+		tools?.classList.remove('saDragging');
+		saveAiToolsPosition();
 	}
 
 	function clearSelectedElement() {
@@ -1031,13 +1160,23 @@
 		dropTargetElement = null;
 	}
 
+	function clearFormBuilderDropTarget() {
+		if (formBuilderDropTargetElement) {
+			formBuilderDropTargetElement.classList.remove('saMockFormBuilderDropTarget');
+		}
+
+		formBuilderDropTargetElement = null;
+	}
+
 	function clearDragState() {
 		if (draggedElement) {
 			draggedElement.classList.remove('saMockDraggingElement');
 		}
 
 		clearDropTarget();
+		clearFormBuilderDropTarget();
 		draggedElement = null;
+		draggedFormFieldType = null;
 		pendingDragElement = null;
 		pendingDragStart = null;
 	}
@@ -1054,6 +1193,163 @@
 		clearDropTarget();
 		dropTargetElement = target;
 		dropTargetElement.classList.add('saMockDropTarget');
+	}
+
+	function setFormBuilderDropTarget(target) {
+		if (formBuilderDropTargetElement === target) {
+			return;
+		}
+
+		clearFormBuilderDropTarget();
+		formBuilderDropTargetElement = target;
+		formBuilderDropTargetElement.classList.add('saMockFormBuilderDropTarget');
+	}
+
+	function fieldPaletteLabel(type) {
+		const labels = {
+			autosearch: 'Autosearch',
+			checkbox: 'Checkbox',
+			dateRange: 'Date range',
+			dropdown: 'Dropdown',
+			fileUploadArea: 'Files',
+			multiAutosearch: 'Participants',
+			radioCards: 'Choice',
+			textarea: 'Description',
+			textbox: 'Textbox',
+			time: 'Time'
+		};
+
+		return labels[type] || 'Field';
+	}
+
+	function formBuilderFieldCount() {
+		return document.querySelectorAll('[data-softadmin-component-root] .saFieldAndLabelWrapper, [data-softadmin-component-root] .saSiblingRow').length + 1;
+	}
+
+	function formBuilderFieldSpec(type) {
+		const number = formBuilderFieldCount();
+		const label = `${fieldPaletteLabel(type)} ${number}`;
+		const id = `mock_builder_${type}_${Date.now()}_${number}`;
+		const base = {
+			control: type,
+			id,
+			label,
+			value: '',
+			width: 'mediumLong'
+		};
+
+		if (type === 'textarea') {
+			return { ...base, width: 'long', value: 'Notes and details.' };
+		}
+
+		if (type === 'dropdown') {
+			return { ...base, options: ['Option 1', 'Option 2', 'Option 3'], value: 'Option 1' };
+		}
+
+		if (type === 'checkbox') {
+			return { ...base, checked: true };
+		}
+
+		if (type === 'dateRange') {
+			return { ...base, from: '2026-07-01', to: '2026-07-31' };
+		}
+
+		if (type === 'time') {
+			return { ...base, value: '09:00:00', displayValue: '09:00' };
+		}
+
+		if (type === 'autosearch') {
+			return { ...base, value: 'Anna Andersson' };
+		}
+
+		if (type === 'multiAutosearch') {
+			return { ...base, values: ['Anna Andersson', 'Maria Lindberg'] };
+		}
+
+		if (type === 'radioCards') {
+			return {
+				...base,
+				value: 'standard',
+				options: [
+					{ title: 'Standard', value: 'standard', description: 'Use the normal workflow.' },
+					{ title: 'Manual', value: 'manual', description: 'Let the user decide later.' }
+				]
+			};
+		}
+
+		if (type === 'fileUploadArea') {
+			return {
+				...base,
+				width: 'long',
+				heading: 'Drop files here, or ',
+				linkText: 'browse',
+				description: 'Maximum file size 30 MB',
+				files: []
+			};
+		}
+
+		return { ...base, value: 'New value' };
+	}
+
+	function renderFormBuilderField(type) {
+		const renderer = window.SoftadminMockups?.renderNewEditField;
+
+		if (!renderer) {
+			return '';
+		}
+
+		return renderer(formBuilderFieldSpec(type));
+	}
+
+	function findFormBuilderDropTarget(target) {
+		if (!target || !hasNewEditForm()) {
+			return null;
+		}
+
+		const field = target.closest('[data-softadmin-component-root] .saFieldAndLabelWrapper, [data-softadmin-component-root] .saSiblingRow');
+		if (field) {
+			return field;
+		}
+
+		return target.closest('[data-softadmin-component-root] .saFieldCollection');
+	}
+
+	function insertFormBuilderField(type, target, event) {
+		const html = renderFormBuilderField(type);
+		const status = document.getElementById('SoftadminPromptStatus');
+
+		if (!html || !target) {
+			return;
+		}
+
+		undoStack.push(captureUndoState());
+
+		if (target.matches('.saFieldCollection')) {
+			target.insertAdjacentHTML('beforeend', html);
+		} else {
+			const rect = target.getBoundingClientRect();
+			const insertAfter = event ? event.clientY > rect.top + rect.height / 2 : true;
+			target.insertAdjacentHTML(insertAfter ? 'afterend' : 'beforebegin', html);
+		}
+
+		const inserted = target.matches('.saFieldCollection')
+			? target.lastElementChild
+			: (event && event.clientY <= target.getBoundingClientRect().top + target.getBoundingClientRect().height / 2 ? target.previousElementSibling : target.nextElementSibling);
+
+		clearFormBuilderDropTarget();
+		if (inserted) {
+			selectElement(inserted);
+		}
+
+		enableInlineEditing();
+		enableFormValueEditing();
+		enableDragAndDrop();
+		updateFormBuilderVisibility();
+		updateUndoButton();
+
+		if (status) {
+			status.textContent = `Added ${fieldPaletteLabel(type)} field.`;
+		}
 	}
 
 	function insertDraggedElement(source, target, event) {
@@ -1145,6 +1441,7 @@
 		enableInlineEditing();
 		enableFormValueEditing();
 		enableDragAndDrop();
+		updateFormBuilderVisibility();
 
 		if (status) {
 			status.textContent = 'Duplicated selection.';
@@ -1223,6 +1520,7 @@
 		selectedElement.remove();
 		clearSelectedElement();
 		syncTopButtonLayoutAfterDeletion();
+		updateFormBuilderVisibility();
 
 		if (status) {
 			status.textContent = 'Deleted selection.';
@@ -1341,6 +1639,14 @@
 	}
 
 	function handleDragStart(event) {
+		const paletteButton = event.target.closest('[data-softadmin-form-field]');
+		if (paletteButton) {
+			draggedFormFieldType = paletteButton.dataset.softadminFormField;
+			event.dataTransfer.effectAllowed = 'copy';
+			event.dataTransfer.setData('text/plain', draggedFormFieldType || '');
+			return;
+		}
+
 		if (isInteractiveEditingTarget(event.target)) {
 			return;
 		}
@@ -1359,6 +1665,20 @@
 	}
 
 	function handleDragOver(event) {
+		if (draggedFormFieldType) {
+			const target = findFormBuilderDropTarget(event.target);
+
+			if (!target) {
+				clearFormBuilderDropTarget();
+				return;
+			}
+
+			event.preventDefault();
+			event.dataTransfer.dropEffect = 'copy';
+			setFormBuilderDropTarget(target);
+			return;
+		}
+
 		if (!draggedElement) {
 			return;
 		}
@@ -1376,6 +1696,20 @@
 	}
 
 	function handleDrop(event) {
+		if (draggedFormFieldType) {
+			const target = formBuilderDropTargetElement || findFormBuilderDropTarget(event.target);
+
+			if (!target) {
+				clearDragState();
+				return;
+			}
+
+			event.preventDefault();
+			insertFormBuilderField(draggedFormFieldType, target, event);
+			clearDragState();
+			return;
+		}
+
 		if (!draggedElement || !dropTargetElement || !canDropOn(draggedElement, dropTargetElement)) {
 			clearDragState();
 			return;
@@ -1383,6 +1717,25 @@
 
 		event.preventDefault();
 		moveDraggedElement(event);
+	}
+
+	function addFormBuilderFieldToEnd(type) {
+		const collections = Array.from(document.querySelectorAll('[data-softadmin-component-root] .saInputPage .saFieldCollection'));
+		const target = collections[collections.length - 1];
+
+		if (target) {
+			insertFormBuilderField(type, target);
+		}
+	}
+
+	function handleFormBuilderClick(event) {
+		const button = event.target.closest('[data-softadmin-form-field]');
+
+		if (!button) {
+			return;
+		}
+
+		addFormBuilderFieldToEnd(button.dataset.softadminFormField);
 	}
 
 	function resetManualEdits() {
@@ -1461,6 +1814,88 @@
 				<h3>Raw spec</h3>
 				${debugPre(lastDebugResult.rawSpec)}
 			</section>`;
+	}
+
+	function newEditBuilderStarterSpec() {
+		return {
+			frame: {
+				title: 'Build NewEdit form',
+				documentTitle: 'Build NewEdit form - Softadmin mockup',
+				breadcrumbs: ['Home', 'Mockups', 'Build NewEdit form'],
+				actions: []
+			},
+			components: [
+				{
+					type: 'NewEdit',
+					sections: [
+						{
+							heading: 'New section',
+							fields: [
+								{ label: 'Name', control: 'textbox', value: '', required: true },
+								{ label: 'Description', control: 'textarea', value: '' }
+							]
+						}
+					],
+					buttons: [
+						{ label: 'Save', variant: 'primary' },
+						{ label: 'Cancel', variant: 'secondary' }
+					]
+				}
+			]
+		};
+	}
+
+	function renderDirectSpec(spec, message) {
+		const root = document.querySelector('[data-softadmin-component-root]');
+		const renderer = window.SoftadminMockups;
+		const status = document.getElementById('SoftadminPromptStatus');
+
+		if (!root || !renderer || !spec) {
+			return;
+		}
+
+		undoStack.push(captureState());
+		clearSelectedElement();
+		suppressTopActionsForComponent(spec);
+
+		if (hasOwnProperties(spec.frame)) {
+			updateFrame(spec.frame);
+		}
+
+		renderer.renderSpec(spec, root);
+		resetManualEdits();
+		enableInlineEditing();
+		enableFormValueEditing();
+		enableDragAndDrop();
+		updateFormBuilderVisibility();
+
+		lastDebugResult = {
+			diagnostics: { aliases: [], dropped: [], warnings: [] },
+			prompt: 'Direct component picker: NewEdit',
+			rawSpec: spec,
+			source: 'direct',
+			spec,
+			tokenEstimate: {
+				normalizedSpecTokens: estimateTokens(spec),
+				promptTokens: 0,
+				rawSpecTokens: estimateTokens(spec),
+				totalTokens: estimateTokens(spec)
+			}
+		};
+		lastTokenEstimate = lastDebugResult.tokenEstimate;
+		updateDebugDrawer();
+
+		if (status) {
+			status.textContent = message || `${componentNames(spec).join(', ')} ready.`;
+		}
+
+		updateUndoButton();
+	}
+
+	function handleComponentPickerChange(event) {
+		if (event.target.value === 'NewEdit') {
+			renderDirectSpec(newEditBuilderStarterSpec(), 'NewEdit form ready. Drag fields from the form builder.');
+		}
 	}
 
 	function setDebugDrawerOpen(isOpen) {
@@ -1548,6 +1983,7 @@
 		enableDragAndDrop();
 		applyManualEdits();
 		updateAccountInitials();
+		updateFormBuilderVisibility();
 
 		lastDebugResult = cloneDebugResult(state.debugResult);
 		lastTokenEstimate = lastDebugResult?.tokenEstimate || lastTokenEstimate;
@@ -1653,6 +2089,7 @@
 			enableInlineEditing();
 			enableFormValueEditing();
 			enableDragAndDrop();
+			updateFormBuilderVisibility();
 			if (!shouldResetManualEdits) {
 				applyManualEdits();
 			}
@@ -1708,12 +2145,14 @@
 		}
 
 		lastTokenEstimate = null;
+		updateFormBuilderVisibility();
 		updateUndoButton();
 	}
 
 	document.addEventListener('DOMContentLoaded', function () {
 		const promptInput = document.getElementById('SoftadminPrompt');
 		const generateButton = document.getElementById('SoftadminGenerate');
+		const componentPicker = document.getElementById('SoftadminComponentPicker');
 		const undoButton = document.getElementById('SoftadminUndo');
 		const resetButton = document.getElementById('SoftadminReset');
 		const logoFileInput = document.getElementById('SoftadminLogoFile');
@@ -1733,6 +2172,10 @@
 			generateButton.addEventListener('click', function () {
 				renderFromPrompt(promptWithComponentPreference(promptInput.value));
 			});
+		}
+
+		if (componentPicker) {
+			componentPicker.addEventListener('change', handleComponentPickerChange);
 		}
 
 		if (undoButton) {
@@ -1813,9 +2256,13 @@
 		});
 
 		document.addEventListener('mousedown', handleSelectionMouseDown, true);
+		document.addEventListener('mousedown', handleAiToolsMouseDown);
 		document.addEventListener('mousemove', handlePointerDragMove);
+		document.addEventListener('mousemove', handleAiToolsMouseMove);
 		document.addEventListener('mouseup', handlePointerDragEnd);
+		document.addEventListener('mouseup', handleAiToolsMouseUp);
 		document.addEventListener('click', handleSelectionToolbarClick);
+		document.addEventListener('click', handleFormBuilderClick);
 		document.addEventListener('click', handleSelectionClick);
 		document.addEventListener('click', handleLogoClick);
 		document.addEventListener('click', handleAvatarClick);
@@ -1824,7 +2271,10 @@
 		document.addEventListener('dragover', handleDragOver);
 		document.addEventListener('drop', handleDrop);
 		document.addEventListener('dragend', clearDragState);
-		window.addEventListener('resize', updateSelectionToolbar);
+		window.addEventListener('resize', function () {
+			updateSelectionToolbar();
+			clampAiToolsToViewport();
+		});
 		document.addEventListener('scroll', updateSelectionToolbar, true);
 
 		const status = document.getElementById('SoftadminPromptStatus');
@@ -1835,6 +2285,8 @@
 		enableInlineEditing();
 		enableFormValueEditing();
 		enableDragAndDrop();
+		updateFormBuilderVisibility();
+		loadAiToolsPosition();
 		loadLogoPreference();
 		loadAvatarPreference();
 		applyLogoPreference();
