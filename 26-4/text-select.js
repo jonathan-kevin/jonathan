@@ -197,105 +197,6 @@ const countries = [
 	{ "code": "zw", "country": "Zimbabwe" }
 ];
 
-const birdTypes = [
-	{ value: 'albatross', label: 'Albatross' },
-	{ value: 'auk', label: 'Auk' },
-	{ value: 'avocet', label: 'Avocet' },
-	{ value: 'bittern', label: 'Bittern' },
-	{ value: 'blackbird', label: 'Blackbird' },
-	{ value: 'bobolink', label: 'Bobolink' },
-	{ value: 'booby', label: 'Booby' },
-	{ value: 'budgerigar', label: 'Budgerigar' },
-	{ value: 'bulbul', label: 'Bulbul' },
-	{ value: 'bustard', label: 'Bustard' },
-	{ value: 'butterfly-warbler', label: 'Butterfly Warbler' },
-	{ value: 'cormorant', label: 'Cormorant' },
-	{ value: 'coot', label: 'Coot' },
-	{ value: 'corvid', label: 'Corvid' },
-	{ value: 'crane', label: 'Crane' },
-	{ value: 'crow', label: 'Crow' },
-	{ value: 'cuckoo', label: 'Cuckoo' },
-	{ value: 'curlew', label: 'Curlew' },
-	{ value: 'dove', label: 'Dove' },
-	{ value: 'dowitcher', label: 'Dowitcher' },
-	{ value: 'duck', label: 'Duck' },
-	{ value: 'eagle', label: 'Eagle' },
-	{ value: 'egret', label: 'Egret' },
-	{ value: 'auklet', label: 'Eurasian Auklet' },
-	{ value: 'falcon', label: 'Falcon' },
-	{ value: 'fennec', label: 'Fennec', },
-	{ value: 'finch', label: 'Finch' },
-	{ value: 'flamingo', label: 'Flamingo' },
-	{ value: 'gannet', label: 'Gannet' },
-	{ value: 'goldfinch', label: 'Goldfinch' },
-	{ value: 'goose', label: 'Goose' },
-	{ value: 'goshawk', label: 'Goshawk' },
-	{ value: 'grebe', label: 'Grebe' },
-	{ value: 'grouse', label: 'Grouse' },
-	{ value: 'gull', label: 'Gull' },
-	{ value: 'hawk', label: 'Hawk' },
-	{ value: 'heron', label: 'Heron' },
-	{ value: 'hoopoe', label: 'Hoopoe' },
-	{ value: 'hornbill', label: 'Hornbill' },
-	{ value: 'hummingbird', label: 'Hummingbird' },
-	{ value: 'ibis', label: 'Ibis' },
-	{ value: 'jay', label: 'Jay' },
-	{ value: 'kite', label: 'Kite' },
-	{ value: 'kingfisher', label: 'Kingfisher' },
-	{ value: 'kookaburra', label: 'Kookaburra' },
-	{ value: 'lapwing', label: 'Lapwing' },
-	{ value: 'lark', label: 'Lark' },
-	{ value: 'loon', label: 'Loon' },
-	{ value: 'macaw', label: 'Macaw' },
-	{ value: 'magpie', label: 'Magpie' },
-	{ value: 'manakin', label: 'Manakin' },
-	{ value: 'myna', label: 'Myna' },
-	{ value: 'mockingbird', label: 'Mockingbird' },
-	{ value: 'nightingingale', label: 'Nightingale' },
-	{ value: 'nuthatch', label: 'Nuthatch' },
-	{ value: 'oystercatcher', label: 'Oystercatcher' },
-	{ value: 'osprey', label: 'Osprey' },
-	{ value: 'owl', label: 'Owl' },
-	{ value: 'parakeet', label: 'Parakeet' },
-	{ value: 'parrot', label: 'Parrot' },
-	{ value: 'partridge', label: 'Partridge' },
-	{ value: 'pelican', label: 'Pelican' },
-	{ value: 'penguin', label: 'Penguin' },
-	{ value: 'peacock', label: 'Peacock' },
-	{ value: 'pheasant', label: 'Pheasant' },
-	{ value: 'pigeon', label: 'Pigeon' },
-	{ value: 'ptarmigan', label: 'Ptarmigan' },
-	{ value: 'quail', label: 'Quail' },
-	{ value: 'rail', label: 'Rail' },
-	{ value: 'raven', label: 'Raven' },
-	{ value: 'reedwarbler', label: 'Reed Warbler' },
-	{ value: 'roadrunner', label: 'Roadrunner' },
-	{ value: 'robin', label: 'Robin' },
-	{ value: 'sandpiper', label: 'Sandpiper' },
-	{ value: 'sapsucker', label: 'Sapsucker' },
-	{ value: 'sandgrouse', label: 'Sandgrouse' },
-	{ value: 'skua', label: 'Skua' },
-	{ value: 'skylark', label: 'Skylark' },
-	{ value: 'snipe', label: 'Snipe' },
-	{ value: 'sparrow', label: 'Sparrow' },
-	{ value: 'starling', label: 'Starling' },
-	{ value: 'stilt', label: 'Stilt' },
-	{ value: 'stork', label: 'Stork' },
-	{ value: 'swallow', label: 'Swallow' },
-	{ value: 'swan', label: 'Swan' },
-	{ value: 'swift', label: 'Swift' },
-	{ value: 'thrush', label: 'Thrush' },
-	{ value: 'tit', label: 'Tit' },
-	{ value: 'turnstone', label: 'Turnstone' },
-	{ value: 'turkey', label: 'Turkey' },
-	{ value: 'vireos', label: 'Vireo' },
-	{ value: 'vulture', label: 'Vulture' },
-	{ value: 'whimbrel', label: 'Whimbrel' },
-	{ value: 'woodcock', label: 'Woodcock' },
-	{ value: 'woodpecker', label: 'Woodpecker' },
-	{ value: 'wren', label: 'Wren' }
-];
-
 
 document.addEventListener('DOMContentLoaded', () => {
 	countries.forEach(item => {
@@ -701,36 +602,229 @@ document.addEventListener('DOMContentLoaded', () => {
 				.map(value => value.trim())
 				.filter(Boolean)
 		);
-		const allItems = [];
-		const visibleIndices = [];
-		let activeI = -1;
-		let prevActiveEl = null;
-		let rangeAnchorI = -1;
-
-		const fragment = document.createDocumentFragment();
-		birdTypes.forEach((item, index) => {
-			const li = document.createElement('li');
-			li.className = 'saOptionWrapper';
-			li.setAttribute('role', 'option');
-			li.setAttribute('aria-checked', 'false');
-			li.id = `${idPrefix}-opt-${item.value}`;
-			li.dataset.value = item.value;
-			li.dataset.label = item.label;
-			li.dataset.index = index;
-			li.innerHTML = `
-      <div class="saOption">
-        <input class="saCheckbox" type="checkbox" tabindex="-1" aria-hidden="true">
-        <span class="saOptionText">${item.label}</span>
-      </div>`;
-
-			fragment.appendChild(li);
-			allItems.push(li);
-			visibleIndices.push(index);
+		const selectedLabels = new Map();
+		countries.forEach(item => {
+			if (selectedValues.has(item.code)) selectedLabels.set(item.code, item.country);
 		});
-		listContainer.appendChild(fragment);
+
+		const PAGE_SIZE = 50;
+		const ITEM_HEIGHT = 32;
+		const OVERSCAN = 6;
+		const dataSource = countries.map(item => ({
+			value: item.code,
+			label: item.country,
+			searchTerms: item.searchTerms
+		}));
+
+		let optionItems = [];
+		let loadMoreItem = null;
+		let loadedItems = new Map();
+		let loadedPages = new Set();
+		let pendingPages = new Map();
+		let totalCount = 0;
+		let loadedCount = 0;
+		let activeI = -1;
+		let rangeAnchorI = -1;
+		let prevActiveEl = null;
+		let renderedStart = -1;
+		let renderedEnd = -1;
+		let currentQuery = '';
+		let requestSeq = 0;
+		let filterTimer = null;
+
+		function getScrollContainer() {
+			let el = listContainer;
+			while (el) {
+				const ov = getComputedStyle(el).overflowY;
+				if (ov === 'auto' || ov === 'scroll') return el;
+				el = el.parentElement;
+			}
+			return listContainer;
+		}
+		const scrollContainer = getScrollContainer();
+
+		function fetchCountryPage({ query, offset, limit }) {
+			const val = query.trim().toLowerCase();
+			const filtered = val
+				? dataSource.filter(item => item.searchTerms.some(term => term.toLowerCase().includes(val)))
+				: dataSource;
+
+			return Promise.resolve({
+				items: filtered.slice(offset, offset + limit),
+				total: filtered.length
+			});
+		}
 
 		function updateNoResults() {
-			if (noResults) noResults.style.display = visibleIndices.length === 0 ? '' : 'none';
+			if (noResults) noResults.style.display = totalCount === 0 ? '' : 'none';
+		}
+
+		function ensureOptionCount(count) {
+			optionItems.forEach(item => item.remove());
+			if (loadMoreItem) loadMoreItem.remove();
+			optionItems = [];
+			loadMoreItem = null;
+
+			const fragment = document.createDocumentFragment();
+			for (let i = 0; i < count; i++) {
+				const li = document.createElement('li');
+				li.className = 'saOptionWrapper';
+				li.setAttribute('role', 'option');
+				li.setAttribute('aria-checked', 'false');
+				li.id = `${idPrefix}-opt-${i}`;
+				li.dataset.index = i;
+				li.style.height = `${ITEM_HEIGHT}px`;
+				li.style.overflow = 'hidden';
+				li.style.visibility = 'hidden';
+				optionItems.push(li);
+				fragment.appendChild(li);
+			}
+			if (count < totalCount) {
+				loadMoreItem = document.createElement('li');
+				loadMoreItem.className = 'saOptionWrapper saLoadMoreOption';
+				loadMoreItem.setAttribute('role', 'option');
+				loadMoreItem.dataset.loadMore = 'true';
+				loadMoreItem.innerHTML = `
+      <button class="saOption" type="button">
+        <i class="far fa-plus saOptionIcon saIcon" aria-hidden="true"></i>
+        <span class="saOptionText">Load more</span>
+      </button>`;
+				fragment.appendChild(loadMoreItem);
+			}
+			listContainer.appendChild(fragment);
+		}
+
+		function applyPage(offset, result) {
+			totalCount = result.total;
+			loadedCount = Math.max(loadedCount, offset + result.items.length);
+			if (optionItems.length !== loadedCount || Boolean(loadMoreItem) !== loadedCount < totalCount) {
+				ensureOptionCount(loadedCount);
+			}
+
+			result.items.forEach((item, i) => {
+				const index = offset + i;
+				loadedItems.set(index, item);
+				if (selectedValues.has(item.value)) selectedLabels.set(item.value, item.label);
+			});
+
+			updateNoResults();
+			updateButton();
+		}
+
+		async function fetchPage(offset, seq = requestSeq) {
+			const pageOffset = Math.floor(offset / PAGE_SIZE) * PAGE_SIZE;
+			if (loadedPages.has(pageOffset)) return;
+			if (pendingPages.has(pageOffset)) return pendingPages.get(pageOffset);
+
+			const promise = (async () => {
+				const result = await fetchCountryPage({
+					query: currentQuery,
+					offset: pageOffset,
+					limit: PAGE_SIZE
+				});
+				if (seq !== requestSeq) return;
+
+				loadedPages.add(pageOffset);
+				applyPage(pageOffset, result);
+				resetRenderState();
+				renderVirtualList();
+			})().finally(() => {
+				pendingPages.delete(pageOffset);
+			});
+
+			pendingPages.set(pageOffset, promise);
+			return promise;
+		}
+
+		function getVirtualRange() {
+			const scrollTop = scrollContainer.scrollTop;
+			const viewportH = scrollContainer.clientHeight;
+			const start = Math.max(0, Math.floor(scrollTop / ITEM_HEIGHT) - OVERSCAN);
+			const end = Math.min(
+				optionItems.length,
+				Math.ceil((scrollTop + viewportH) / ITEM_HEIGHT) + OVERSCAN
+			);
+			return { start, end };
+		}
+
+		function highlightMatch(label, query) {
+			const i = label.toLowerCase().indexOf(query);
+			if (i === -1) return label;
+			return label.slice(0, i)
+				+ '<mark>' + label.slice(i, i + query.length) + '</mark>'
+				+ label.slice(i + query.length);
+		}
+
+		function renderItem(index) {
+			const item = optionItems[index];
+			const data = loadedItems.get(index);
+			if (!item) return;
+
+			item.style.height = '';
+			item.style.overflow = '';
+			item.style.visibility = '';
+			item.dataset.index = index;
+
+			if (!data) {
+				item.removeAttribute('data-value');
+				item.removeAttribute('data-label');
+				item.setAttribute('aria-disabled', 'true');
+				item.innerHTML = `
+      <div class="saOption">
+        <span class="saOptionText">Loading...</span>
+      </div>`;
+				return;
+			}
+
+			item.dataset.value = data.value;
+			item.dataset.label = data.label;
+			item.removeAttribute('aria-disabled');
+			item.setAttribute('aria-checked', selectedValues.has(data.value) ? 'true' : 'false');
+			item.innerHTML = `
+      <div class="saOption">
+        <input class="saCheckbox" type="checkbox" tabindex="-1" aria-hidden="true">
+        <span class="saOptionText">${currentQuery ? highlightMatch(data.label, currentQuery) : data.label}</span>
+      </div>`;
+
+			const checkbox = item.querySelector('input[type="checkbox"]');
+			if (checkbox) checkbox.checked = selectedValues.has(data.value);
+		}
+
+		function blankItem(index) {
+			const item = optionItems[index];
+			if (!item) return;
+			item.innerHTML = '';
+			item.style.height = `${ITEM_HEIGHT}px`;
+			item.style.overflow = 'hidden';
+			item.style.visibility = 'hidden';
+		}
+
+		function renderVirtualList() {
+			const { start, end } = getVirtualRange();
+			if (start === renderedStart && end === renderedEnd) return;
+			const isFirstRender = renderedStart === -1 && renderedEnd === -1;
+
+			if (isFirstRender) {
+				for (let i = 0; i < optionItems.length; i++) {
+					if (i < start || i >= end) blankItem(i);
+				}
+			} else {
+				for (let i = renderedStart; i < renderedEnd; i++) {
+					if (i < start || i >= end) blankItem(i);
+				}
+			}
+
+			for (let i = start; i < end; i++) {
+				if (isFirstRender || i < renderedStart || i >= renderedEnd || pendingPages.size) renderItem(i);
+			}
+
+			renderedStart = start;
+			renderedEnd = end;
+		}
+
+		function resetRenderState() {
+			renderedStart = -1;
+			renderedEnd = -1;
 		}
 
 		function clearActive({ keepIndex = false } = {}) {
@@ -742,101 +836,117 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (!keepIndex) activeI = -1;
 		}
 
-		function setActive(visibleIndex) {
-			if (!visibleIndices.length) return;
-			if (visibleIndex < 0) visibleIndex = visibleIndices.length - 1;
-			if (visibleIndex >= visibleIndices.length) visibleIndex = 0;
+		function setActive(index) {
+			if (!optionItems.length) return;
+			if (index < 0) index = optionItems.length - 1;
+			if (index >= optionItems.length) index = 0;
 
 			clearActive();
 
-			activeI = visibleIndex;
-			const el = allItems[visibleIndices[activeI]];
-			el.classList.add('saFocus');
-			input.setAttribute('aria-activedescendant', el.id);
-			prevActiveEl = el;
-			el.scrollIntoView({ block: 'nearest' });
+			activeI = index;
+			const item = optionItems[activeI];
+			item.classList.add('saFocus');
+			input.setAttribute('aria-activedescendant', item.id);
+			prevActiveEl = item;
+			item.scrollIntoView({ block: 'nearest' });
 		}
 
 		function anchorActiveItem(item) {
-			const visibleIndex = visibleIndices.indexOf(parseInt(item.dataset.index, 10));
 			clearActive({ keepIndex: true });
-			if (visibleIndex !== -1) activeI = visibleIndex;
+			activeI = parseInt(item.dataset.index, 10);
 			input.focus({ preventScroll: true });
 		}
 
 		function updateButton() {
-			const selected = birdTypes.filter(item => selectedValues.has(item.value));
+			const selected = [...selectedValues]
+				.map(value => selectedLabels.get(value) ?? value)
+				.filter(Boolean);
 			const buttonText = button.querySelector('.saDropdownText');
 
 			if (selected.length === 0) {
-				buttonText.textContent = 'Select birds';
+				buttonText.textContent = 'Select countries';
 			} else if (selected.length <= 2) {
-				buttonText.textContent = selected.map(item => item.label).join(', ');
+				buttonText.textContent = selected.join(', ');
 			} else {
 				buttonText.textContent = `${selected.length} selected`;
 			}
 
-			root.dataset.selectedValues = selected.map(item => item.value).join(',');
+			root.dataset.selectedValues = [...selectedValues].join(',');
 		}
 
-		function setOption(item, checked) {
-			const value = item.dataset.value;
-			const checkbox = item.querySelector('input[type="checkbox"]');
-
+		function setOptionData(data, checked) {
 			if (checked) {
-				selectedValues.add(value);
+				selectedValues.add(data.value);
+				selectedLabels.set(data.value, data.label);
 			} else {
-				selectedValues.delete(value);
+				selectedValues.delete(data.value);
 			}
-
-			item.setAttribute('aria-checked', checked ? 'true' : 'false');
-			checkbox.checked = checked;
 			updateButton();
 		}
 
-		function toggleOption(item) {
-			setOption(item, !selectedValues.has(item.dataset.value));
+		function setOption(index, checked) {
+			const data = loadedItems.get(index);
+			if (!data) return;
+
+			setOptionData(data, checked);
+
+			const item = optionItems[index];
+			item.setAttribute('aria-checked', checked ? 'true' : 'false');
+			const checkbox = item.querySelector('input[type="checkbox"]');
+			if (checkbox) checkbox.checked = checked;
 		}
 
-		function setRange(anchorAllItemsIndex, clickedAllItemsIndex, checked) {
-			const anchorVisibleIndex = visibleIndices.indexOf(anchorAllItemsIndex);
-			const clickedVisibleIndex = visibleIndices.indexOf(clickedAllItemsIndex);
-			if (anchorVisibleIndex === -1 || clickedVisibleIndex === -1) {
-				setOption(allItems[clickedAllItemsIndex], checked);
-				return;
-			}
-
-			const start = Math.min(anchorVisibleIndex, clickedVisibleIndex);
-			const end = Math.max(anchorVisibleIndex, clickedVisibleIndex);
-			for (let i = start; i <= end; i++) {
-				setOption(allItems[visibleIndices[i]], checked);
-			}
+		function toggleOption(index) {
+			const data = loadedItems.get(index);
+			if (!data) return;
+			setOption(index, !selectedValues.has(data.value));
 		}
 
-		function highlightMatch(label, query) {
-			const i = label.toLowerCase().indexOf(query);
-			if (i === -1) return label;
-			return label.slice(0, i)
-				+ '<mark>' + label.slice(i, i + query.length) + '</mark>'
-				+ label.slice(i + query.length);
+		function setRange(anchorIndex, clickedIndex, checked) {
+			const start = Math.min(anchorIndex, clickedIndex);
+			const end = Math.max(anchorIndex, clickedIndex);
+			for (let i = start; i <= end; i++) setOption(i, checked);
+			renderVirtualList();
 		}
 
-		function filterList(query) {
-			const val = query.trim().toLowerCase();
-			visibleIndices.length = 0;
+		function loadNextPage() {
+			if (loadedCount >= totalCount) return;
+			clearActive({ keepIndex: true });
+			fetchPage(loadedCount);
+			input.focus({ preventScroll: true });
+		}
 
-			allItems.forEach((item, index) => {
-				const label = item.dataset.label;
-				const isVisible = label.toLowerCase().includes(val);
-				const text = item.querySelector('.saOptionText');
-
-				item.style.display = isVisible ? '' : 'none';
-				if (text) text.innerHTML = val ? highlightMatch(label, val) : label;
-				if (isVisible) visibleIndices.push(index);
-			});
-
-			updateNoResults();
+		async function loadQuery(query) {
+			const seq = ++requestSeq;
+			currentQuery = query.trim().toLowerCase();
+			loadedItems = new Map();
+			loadedPages = new Set();
+			pendingPages = new Map();
+			totalCount = 0;
+			loadedCount = 0;
+			activeI = -1;
+			rangeAnchorI = -1;
 			clearActive();
+			ensureOptionCount(0);
+			resetRenderState();
+			updateNoResults();
+
+			const firstPage = await fetchCountryPage({
+				query: currentQuery,
+				offset: 0,
+				limit: PAGE_SIZE
+			});
+			if (seq !== requestSeq) return;
+
+			loadedPages.add(0);
+			applyPage(0, firstPage);
+			resetRenderState();
+			renderVirtualList();
+		}
+
+		function scheduleLoadQuery(query) {
+			clearTimeout(filterTimer);
+			filterTimer = setTimeout(() => loadQuery(query), 150);
 		}
 
 		function openDropdown() {
@@ -845,7 +955,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			panel.classList.add('saOpen');
 			button.setAttribute('aria-expanded', 'true');
 			input.value = '';
-			filterList('');
+			scrollContainer.scrollTop = 0;
+			loadQuery('');
 
 			setTimeout(() => input.focus(), 0);
 		}
@@ -853,14 +964,17 @@ document.addEventListener('DOMContentLoaded', () => {
 		function closeDropdown({ returnFocus = false } = {}) {
 			if (!panel.classList.contains('saOpen')) return;
 
+			clearTimeout(filterTimer);
 			panel.classList.remove('saOpen');
 			button.setAttribute('aria-expanded', 'false');
 			input.value = '';
-			filterList('');
 			clearActive();
+			resetRenderState();
 
 			if (returnFocus) button.focus();
 		}
+
+		scrollContainer.addEventListener('scroll', renderVirtualList, { passive: true });
 
 		button.addEventListener('click', () => {
 			panel.classList.contains('saOpen') ? closeDropdown({ returnFocus: true }) : openDropdown();
@@ -880,7 +994,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		});
 
-		input.addEventListener('input', () => filterList(input.value));
+		input.addEventListener('input', () => scheduleLoadQuery(input.value));
 
 		input.addEventListener('keydown', e => {
 			switch (e.key) {
@@ -890,16 +1004,16 @@ document.addEventListener('DOMContentLoaded', () => {
 					break;
 				case 'ArrowUp':
 					e.preventDefault();
-					setActive(activeI < 0 || !prevActiveEl ? (activeI >= 0 ? activeI : visibleIndices.length - 1) : activeI - 1);
+					setActive(activeI < 0 || !prevActiveEl ? (activeI >= 0 ? activeI : optionItems.length - 1) : activeI - 1);
 					break;
 				case 'Home': e.preventDefault(); setActive(0); break;
-				case 'End': e.preventDefault(); setActive(visibleIndices.length - 1); break;
+				case 'End': e.preventDefault(); setActive(optionItems.length - 1); break;
 				case 'Enter':
 				case ' ':
 					e.preventDefault();
-					if (visibleIndices.length && activeI >= 0) {
-						toggleOption(allItems[visibleIndices[activeI]]);
-						rangeAnchorI = visibleIndices[activeI];
+					if (optionItems.length && activeI >= 0) {
+						toggleOption(activeI);
+						rangeAnchorI = activeI;
 					}
 					break;
 				case 'Escape': closeDropdown({ returnFocus: true }); break;
@@ -914,11 +1028,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		listContainer.addEventListener('click', e => {
 			const item = e.target.closest('.saOptionWrapper');
-			if (!item || item.classList.contains('saNoResults')) return;
+			if (!item || item.classList.contains('saNoResults') || item.getAttribute('aria-disabled') === 'true') return;
+			if (item.dataset.loadMore === 'true') {
+				e.preventDefault();
+				e.stopPropagation();
+				loadNextPage();
+				return;
+			}
 
 			const clickedI = parseInt(item.dataset.index, 10);
-			const nextChecked = !selectedValues.has(item.dataset.value);
+			const data = loadedItems.get(clickedI);
+			if (!data) return;
 
+			const nextChecked = !selectedValues.has(data.value);
 			anchorActiveItem(item);
 
 			if (e.shiftKey) {
@@ -926,7 +1048,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				setRange(anchorI, clickedI, nextChecked);
 				if (rangeAnchorI === -1) rangeAnchorI = clickedI;
 			} else {
-				toggleOption(item);
+				toggleOption(clickedI);
 				rangeAnchorI = clickedI;
 			}
 		});
@@ -939,8 +1061,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (panel.classList.contains('saOpen') && !root.contains(e.target)) closeDropdown();
 		});
 
-		allItems.forEach(item => setOption(item, selectedValues.has(item.dataset.value)));
-		updateNoResults();
 		updateButton();
 	});
 });
