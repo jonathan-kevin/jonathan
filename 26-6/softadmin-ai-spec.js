@@ -1216,7 +1216,8 @@
 			radioCards: 'Choice',
 			textarea: 'Description',
 			textbox: 'Textbox',
-			time: 'Time'
+			time: 'Time',
+			timeSiblingRow: 'Time row'
 		};
 
 		return labels[type] || 'Field';
@@ -1256,6 +1257,32 @@
 
 		if (type === 'time') {
 			return { ...base, value: '09:00:00', displayValue: '09:00' };
+		}
+
+		if (type === 'timeSiblingRow') {
+			return {
+				layout: 'siblings',
+				fields: [
+					{
+						id: `${id}_from`,
+						label: 'From',
+						control: 'time',
+						value: '09:00:00',
+						displayValue: '09:00',
+						required: true,
+						inputWrapper: 'saMediumShortValidation mediumLong'
+					},
+					{
+						id: `${id}_to`,
+						label: 'To',
+						control: 'time',
+						value: '17:00:00',
+						displayValue: '17:00',
+						required: true,
+						inputWrapper: 'saMediumShortValidation mediumLong'
+					}
+				]
+			};
 		}
 
 		if (type === 'autosearch') {
@@ -1349,6 +1376,105 @@
 
 		if (status) {
 			status.textContent = `Added ${fieldPaletteLabel(type)} field.`;
+		}
+	}
+
+	function fieldWrapperToSiblingParts(fieldWrapper) {
+		const label = fieldWrapper?.querySelector(':scope > .saLabelCell');
+		const fieldCell = fieldWrapper?.querySelector(':scope > .saFieldCell');
+
+		if (!label || !fieldCell) {
+			return null;
+		}
+
+		return { fieldCell, label };
+	}
+
+	function makeFieldSiblingRow(fieldWrapper) {
+		const status = document.getElementById('SoftadminPromptStatus');
+		const parts = fieldWrapperToSiblingParts(fieldWrapper);
+
+		if (!fieldWrapper?.matches('[data-softadmin-component-root] .saFieldAndLabelWrapper') || !parts) {
+			if (status) {
+				status.textContent = 'Select a NewEdit field first.';
+			}
+			return null;
+		}
+
+		undoStack.push(captureUndoState());
+
+		const row = document.createElement('div');
+		row.className = 'saSiblingRow';
+		const fields = document.createElement('div');
+		fields.className = 'saSiblingFields';
+
+		row.appendChild(parts.label);
+		fields.appendChild(parts.fieldCell);
+		row.appendChild(fields);
+		fieldWrapper.replaceWith(row);
+		selectElement(row);
+		enableInlineEditing();
+		enableFormValueEditing();
+		enableDragAndDrop();
+		updateUndoButton();
+
+		if (status) {
+			status.textContent = 'Made field a sibling row.';
+		}
+
+		return row;
+	}
+
+	function newSiblingFieldParts() {
+		const html = renderFormBuilderField('textbox');
+		const template = document.createElement('template');
+		template.innerHTML = html.trim();
+		const wrapper = template.content.firstElementChild;
+		const parts = fieldWrapperToSiblingParts(wrapper);
+
+		if (!parts) {
+			return null;
+		}
+
+		const labelText = parts.label.querySelector('.saLabel span');
+		if (labelText) {
+			labelText.textContent = `Sibling ${formBuilderFieldCount()}`;
+		}
+
+		const input = parts.fieldCell.querySelector('input.saInputText');
+		if (input) {
+			input.value = 'New value';
+		}
+
+		return parts;
+	}
+
+	function addSiblingFieldToRow(row) {
+		const status = document.getElementById('SoftadminPromptStatus');
+		const siblingRow = row?.matches('[data-softadmin-component-root] .saSiblingRow')
+			? row
+			: row?.closest('[data-softadmin-component-root] .saSiblingRow');
+		const fields = siblingRow?.querySelector(':scope > .saSiblingFields');
+		const parts = newSiblingFieldParts();
+
+		if (!siblingRow || !fields || !parts) {
+			if (status) {
+				status.textContent = 'Select a sibling row first.';
+			}
+			return;
+		}
+
+		undoStack.push(captureUndoState());
+		fields.appendChild(parts.label);
+		fields.appendChild(parts.fieldCell);
+		selectElement(siblingRow);
+		enableInlineEditing();
+		enableFormValueEditing();
+		enableDragAndDrop();
+		updateUndoButton();
+
+		if (status) {
+			status.textContent = 'Added sibling field.';
 		}
 	}
 
@@ -1505,6 +1631,18 @@
 			moveSelectedElement('up');
 		} else if (action === 'move-down') {
 			moveSelectedElement('down');
+		} else if (action === 'make-sibling-row') {
+			if (selectedElement?.matches('[data-softadmin-component-root] .saFieldAndLabelWrapper')) {
+				makeFieldSiblingRow(selectedElement);
+			} else {
+				addSiblingFieldToRow(selectedElement);
+			}
+		} else if (action === 'add-sibling') {
+			if (selectedElement?.matches('[data-softadmin-component-root] .saFieldAndLabelWrapper')) {
+				addSiblingFieldToRow(makeFieldSiblingRow(selectedElement));
+			} else {
+				addSiblingFieldToRow(selectedElement);
+			}
 		}
 	}
 

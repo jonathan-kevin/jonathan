@@ -14220,6 +14220,7 @@ select.saInputText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
 }
 .saInputTextWrapper .saInputText {
   max-width: 100%;
@@ -34499,15 +34500,15 @@ body.saPopup::before {
   border-color: currentColor;
   color: light-dark(var(--Red700), var(--Red300));
 }
-.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"]) .saOption {
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"]) .saOption {
   background-color: var(--Sa-Color-Primary100);
   color: var(--Sa-Color-Primary700);
 }
-.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"]) .saOption .saOptionDescription,
-.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"]) .saOption :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"]) .saOption .saOptionDescription,
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"]) .saOption :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
   color: inherit;
 }
-.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"]) .saOption .saBadge {
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"]) .saOption .saBadge {
   background-color: var(--Sa-Color-Primary700);
   color: var(--Sa-Color-Primary100);
   border-color: currentColor;
@@ -34527,6 +34528,19 @@ body.saPopup::before {
 .saContextMenu .saOptionWrapper.saInactive .saBadgeCount {
   background-color: light-dark(var(--Gray100), var(--Gray900));
   color: light-dark(var(--Gray300), var(--Gray600));
+}
+.saContextMenu :not([aria-multiselectable="true"]) > .saOptionWrapper[aria-checked="true"] .saOption {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+}
+.saContextMenu :not([aria-multiselectable="true"]) > .saOptionWrapper[aria-checked="true"] .saOption .saOptionDescription,
+.saContextMenu :not([aria-multiselectable="true"]) > .saOptionWrapper[aria-checked="true"] .saOption :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
+  color: inherit;
+}
+.saContextMenu :not([aria-multiselectable="true"]) > .saOptionWrapper[aria-checked="true"] .saOption .saBadge {
+  background-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary100);
+  border-color: currentColor;
 }
 .saContextMenu .saOption {
   display: flex;
