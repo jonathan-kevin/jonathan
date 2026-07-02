@@ -813,13 +813,25 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		}
 
+		function highlightMatch(label, query) {
+			const i = label.toLowerCase().indexOf(query);
+			if (i === -1) return label;
+			return label.slice(0, i)
+				+ '<mark>' + label.slice(i, i + query.length) + '</mark>'
+				+ label.slice(i + query.length);
+		}
+
 		function filterList(query) {
 			const val = query.trim().toLowerCase();
 			visibleIndices.length = 0;
 
 			allItems.forEach((item, index) => {
-				const isVisible = item.dataset.label.toLowerCase().includes(val);
+				const label = item.dataset.label;
+				const isVisible = label.toLowerCase().includes(val);
+				const text = item.querySelector('.saOptionText');
+
 				item.style.display = isVisible ? '' : 'none';
+				if (text) text.innerHTML = val ? highlightMatch(label, val) : label;
 				if (isVisible) visibleIndices.push(index);
 			});
 
