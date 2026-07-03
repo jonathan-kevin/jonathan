@@ -2159,19 +2159,77 @@
 		updateUndoButton();
 	}
 
+	function referenceCatalog() {
+		return window.SoftadminReferenceCatalog || null;
+	}
+
+	function renderableComponentEntries() {
+		return Object.entries(referenceCatalog()?.components || {})
+			.filter(([, entry]) => entry.renderable)
+			.map(([name, entry]) => ({
+				description: entry.description || '',
+				name,
+				specType: entry.specType || entry.renderType || name,
+				specTypes: entry.specTypes || []
+			}))
+			.sort((left, right) => left.name.localeCompare(right.name));
+	}
+
+	function populateComponentPicker(picker) {
+		if (!picker) {
+			return;
+		}
+
+		const currentValue = picker.value;
+		picker.innerHTML = '';
+
+		const defaultOption = document.createElement('option');
+		defaultOption.value = '';
+		defaultOption.textContent = 'AI decides';
+		picker.append(defaultOption);
+
+		renderableComponentEntries().forEach((entry) => {
+			const option = document.createElement('option');
+			option.value = entry.specType;
+			option.textContent = entry.name;
+			if (entry.description) {
+				option.title = entry.description;
+			}
+			picker.append(option);
+		});
+
+		if (Array.from(picker.options).some((option) => option.value === currentValue)) {
+			picker.value = currentValue;
+		}
+	}
+
+	function selectedComponentEntry(value) {
+		if (!value) {
+			return null;
+		}
+
+		return renderableComponentEntries().find((entry) => {
+			return value === entry.name
+				|| value === entry.specType
+				|| entry.specTypes.includes(value);
+		}) || null;
+	}
+
 	function componentPickerInstruction(value) {
-		const instructions = {
-			NewEdit: 'Use the Softadmin NewEdit component as the main component.',
-			ResultGrid: 'Use the Softadmin Grid component as the main component.',
-			DetailView: 'Use the Softadmin Detailview component with tabs as the main component.',
-			EnterpriseSearch: 'Use the Softadmin Enterprise Search component as the main component.',
+		const entry = selectedComponentEntry(value);
+
+		if (!entry) {
+			return '';
+		}
+
+		const descriptions = {
 			CalendarWeekdays: 'Use the Softadmin Calendar component in Weekdays mode as the main component.',
-			Multipart: 'Use the Softadmin Multipart component as the main component.',
-			MenuGroups: 'Use Softadmin menu groups as the main component.',
-			InfoBoxes: 'Use Softadmin InfoSQL-style information boxes as the main component.'
+			DetailView: 'Use the Softadmin Detailview component with tabs as the main component.',
+			InfoBoxes: 'Use Softadmin InfoSQL-style information boxes as the main component.',
+			MenuGroups: 'Use Softadmin menu groups as the main component.'
 		};
 
-		return instructions[value] || '';
+		return `${descriptions[entry.specType] || `Use the Softadmin ${entry.name} component as the main component.`} Emit component type "${entry.specType}".`;
 	}
 
 	function promptWithComponentPreference(prompt) {
@@ -2313,6 +2371,7 @@
 		}
 
 		if (componentPicker) {
+			populateComponentPicker(componentPicker);
 			componentPicker.addEventListener('change', handleComponentPickerChange);
 		}
 

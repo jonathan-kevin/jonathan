@@ -27,6 +27,15 @@
 		return registry && registry.controls ? registry.controls.items : {};
 	}
 
+	function referenceCatalog() {
+		return window.SoftadminReferenceCatalog || null;
+	}
+
+	function catalogEntries(kind) {
+		const catalog = referenceCatalog();
+		return catalog && catalog[kind] ? catalog[kind] : null;
+	}
+
 	function aliasMapFromRegistry(entries) {
 		const aliases = {};
 
@@ -43,7 +52,59 @@
 		return aliases;
 	}
 
+	function aliasMapFromCatalog(kind) {
+		const entries = catalogEntries(kind);
+		const aliases = {};
+
+		Object.entries(entries || {}).forEach(([name, entry]) => {
+			if (!entry.renderable) {
+				return;
+			}
+
+			const target = entry.specType || entry.renderType || name;
+
+			aliases[name] = target;
+			(entry.specTypes || []).forEach(type => {
+				aliases[type] = target;
+			});
+			(entry.aliases || []).forEach(alias => {
+				aliases[alias] = target;
+			});
+		});
+
+		return aliases;
+	}
+
+	function implementedTypesFromCatalog(kind) {
+		const entries = catalogEntries(kind);
+
+		if (!entries) {
+			return null;
+		}
+
+		const result = new Set();
+
+		Object.entries(entries).forEach(([name, entry]) => {
+			if (!entry.renderable) {
+				return;
+			}
+
+			result.add(name);
+			result.add(entry.specType || entry.renderType || name);
+			(entry.specTypes || []).forEach(type => result.add(type));
+			(entry.aliases || []).forEach(alias => result.add(alias));
+		});
+
+		return result;
+	}
+
 	function implementedComponentTypes() {
+		const catalogTypes = implementedTypesFromCatalog('components');
+
+		if (catalogTypes) {
+			return catalogTypes;
+		}
+
 		const components = registryComponents();
 		const result = new Set();
 
@@ -63,6 +124,12 @@
 	}
 
 	function implementedControlTypes() {
+		const catalogTypes = implementedTypesFromCatalog('controls');
+
+		if (catalogTypes) {
+			return catalogTypes;
+		}
+
 		const controls = registryControls();
 		const result = new Set(['textbox']);
 
@@ -88,7 +155,11 @@
 		}
 
 		const implementedTypes = implementedComponentTypes();
-		const normalizedType = aliasMapFromRegistry(registryComponents())[component.type] || component.type;
+		const componentAliases = {
+			...aliasMapFromRegistry(registryComponents()),
+			...aliasMapFromCatalog('components')
+		};
+		const normalizedType = componentAliases[component.type] || component.type;
 
 		if (normalizedType !== component.type) {
 			diagnostics.aliases.push(`${path}: ${component.type} -> ${normalizedType}`);
@@ -140,7 +211,10 @@
 
 	function normalizeFields(fields, diagnostics, path) {
 		const implementedControls = implementedControlTypes();
-		const controlAliases = aliasMapFromRegistry(registryControls());
+		const controlAliases = {
+			...aliasMapFromRegistry(registryControls()),
+			...aliasMapFromCatalog('controls')
+		};
 
 		return fields.map((field, index) => {
 			const fieldPath = `${path}[${index}]`;
@@ -210,6 +284,69 @@
 		return normalizedSpec;
 	}
 
+	function namesByRenderableFlag(entries, renderable) {
+		return Object.entries(entries || {})
+			.filter(([, entry]) => Boolean(entry.renderable) === renderable)
+			.map(([name]) => name);
+	}
+
+	function renderableSpecValues(entries) {
+		const values = new Set();
+
+		Object.entries(entries || {}).forEach(([name, entry]) => {
+			if (!entry.renderable) {
+				return;
+			}
+
+			values.add(entry.specType || entry.renderType || name);
+			(entry.specTypes || []).forEach(type => values.add(type));
+		});
+
+		return Array.from(values);
+	}
+
+	function compactReferenceCatalog() {
+		const catalog = referenceCatalog();
+
+		if (!catalog) {
+			return null;
+		}
+
+		return {
+			componentTypes: renderableSpecValues(catalog.components),
+			components: namesByRenderableFlag(catalog.components, true),
+			controlTypes: renderableSpecValues(catalog.controls),
+			controls: namesByRenderableFlag(catalog.controls, true)
+		};
+	}
+
+	function catalogPromptInstructions() {
+		const catalog = referenceCatalog();
+
+		if (!catalog) {
+			return '';
+		}
+
+		const compactCatalog = compactReferenceCatalog();
+
+		return [
+			'Softadmin mockup generator constraints:',
+			`Allowed component type values: ${compactCatalog.componentTypes.join(', ')}.`,
+			`Allowed NewEdit field control values: ${compactCatalog.controlTypes.join(', ')}.`,
+			'Do not emit any other component or control types.',
+			'If the user asks for something unsupported, choose the closest renderable Softadmin component/control instead.',
+			'Return only the compact Softadmin JSON spec.'
+		].join('\n');
+	}
+
+	function constrainedPrompt(prompt) {
+		const instructions = catalogPromptInstructions();
+
+		return instructions
+			? `${instructions}\n\nUser request:\n${prompt}`
+			: prompt;
+	}
+
 	async function fetchRemoteSpec(prompt) {
 		if (!config.specEndpoint) {
 			throw new Error('Spec endpoint is not configured.');
@@ -222,7 +359,9 @@
 				'content-type': 'application/json'
 			},
 			body: JSON.stringify({
-				prompt,
+				prompt: constrainedPrompt(prompt),
+				userPrompt: prompt,
+				referenceCatalog: compactReferenceCatalog(),
 				registry: window.SoftadminMockups.registry
 			})
 		});
@@ -255,6 +394,8 @@
 	window.SoftadminSpecRuntime = {
 		config,
 		createSpec,
-		normalizeSpec
+		compactReferenceCatalog,
+		normalizeSpec,
+		referenceCatalog
 	};
 }());

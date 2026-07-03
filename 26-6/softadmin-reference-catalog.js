@@ -1,0 +1,213 @@
+(function () {
+	const catalog = {
+		components: {
+			BankID: {
+				description: 'BankID signing or authentication screen.',
+				file: 'html/components/bankid.html',
+				renderable: false
+			},
+			Calendar: {
+				description: 'Calendar in Weekdays mode.',
+				file: 'html/components/calendar-weekdays.html',
+				renderable: true,
+				specType: 'CalendarWeekdays',
+				specTypes: ['Calendar', 'CalendarWeekdays']
+			},
+			Chat: {
+				description: 'Softadmin chat conversation layout.',
+				file: 'html/components/chat.html',
+				renderable: false
+			},
+			Detailview: {
+				description: 'Detail page with info boxes and tabs.',
+				file: 'html/components/detailview.html',
+				renderable: true,
+				specType: 'DetailView',
+				specTypes: ['Detailview', 'DetailView']
+			},
+			'Enterprise Search': {
+				description: 'Grouped search results with search field and filters.',
+				file: 'html/components/enterprise-search.html',
+				renderable: true,
+				specType: 'EnterpriseSearch',
+				specTypes: ['Enterprise Search', 'EnterpriseSearch']
+			},
+			Grid: {
+				description: 'Result grid with toolbar, sortable columns, row actions and mobile list-grid.',
+				file: 'html/components/grid.html',
+				renderable: true,
+				specType: 'ResultGrid',
+				specTypes: ['Grid', 'ResultGrid']
+			},
+			'Image Gallery': {
+				description: 'Image gallery component.',
+				file: 'html/components/image-gallery.html',
+				renderable: false
+			},
+			'Inline Document': {
+				description: 'Inline document viewer.',
+				file: 'html/components/inline-document.html',
+				renderable: false
+			},
+			'InfoBoxes': {
+				description: 'InfoSQL-style information boxes and warning messages.',
+				file: 'html/components/detailview.html',
+				pattern: true,
+				renderable: true,
+				specType: 'InfoBoxes',
+				specTypes: ['InfoBoxes']
+			},
+			'Linear Process': {
+				description: 'Linear process/progress component.',
+				file: 'html/components/linear-process.html',
+				renderable: false
+			},
+			'Link Card': {
+				description: 'Softadmin link card pattern.',
+				file: 'html/components/link-card.html',
+				pattern: true,
+				renderable: false
+			},
+			'Link List': {
+				description: 'Link list component.',
+				file: 'html/components/link-list.html',
+				renderable: false
+			},
+			'MenuGroups': {
+				description: 'Grouped menu item cards used as main content.',
+				file: 'html/components/menu-group.html',
+				pattern: true,
+				renderable: true,
+				specType: 'MenuGroups',
+				specTypes: ['MenuGroups']
+			},
+			Multipart: {
+				description: 'Page composed from multiple component parts.',
+				file: 'html/components/multipart.html',
+				renderable: true,
+				specType: 'Multipart',
+				specTypes: ['Multipart']
+			},
+			NewEdit: {
+				description: 'Form component for creating or editing records.',
+				file: 'html/components/newedit.html',
+				renderable: true,
+				specType: 'NewEdit',
+				specTypes: ['NewEdit']
+			},
+			'PDF Template Editor': {
+				description: 'PDF template editor component.',
+				file: 'html/components/pdf-template-editor.html',
+				renderable: false
+			},
+			'Pivot Grid': {
+				description: 'Pivot grid component.',
+				file: 'html/components/pivot-grid.html',
+				renderable: false
+			},
+			Planner: {
+				description: 'Planner component with and without timescale examples.',
+				file: 'html/components/planner-with-timescale.html',
+				referenceFiles: ['html/components/planner-with-timescale.html', 'html/components/planner-without-timescale.html'],
+				renderable: false
+			},
+			Treeview: {
+				description: 'Treeview component.',
+				file: 'html/components/treeview.html',
+				renderable: false
+			}
+		},
+		controls: {
+			'Boolean Dropdown': { file: 'html/control/boolean-dropdown.html', renderable: false },
+			Chart: { file: 'html/control/chart.html', renderable: false },
+			Checkbox: { file: 'html/control/checkbox.html', renderable: true, specType: 'checkbox', specTypes: ['Checkbox', 'checkbox'] },
+			'Checkbox Cards': { file: 'html/control/checkbox-cards.html', renderable: false },
+			'Checkbox Tree': { file: 'html/control/checkbox-tree.html', renderable: false },
+			Colorpicker: { file: 'html/control/colorpicker.html', renderable: false },
+			'Consent Checkbox': { file: 'html/control/consent-checkbox.html', renderable: false },
+			Date: { file: 'html/control/date.html', renderable: false },
+			'Date Range': { file: 'html/control/date-range.html', renderable: true, specType: 'dateRange', specTypes: ['Date Range', 'dateRange'] },
+			Datetime: { file: 'html/control/datetime.html', renderable: false },
+			Dropdown: { file: 'html/control/dropdown.html', renderable: true, specType: 'dropdown', specTypes: ['Dropdown', 'dropdown'] },
+			File: { file: 'html/control/file.html', renderable: false },
+			'File Upload Area': { file: 'html/control/file-upload-area.html', renderable: true, specType: 'fileUploadArea', specTypes: ['File Upload Area', 'fileUploadArea'] },
+			Heading: { file: 'html/control/heading.html', renderable: false },
+			'Heading (Collapsible)': { file: 'html/control/heading-collapsible.html', renderable: false },
+			'Heading with Checkbox': { file: 'html/control/heading-with-checkbox.html', renderable: false },
+			'HTML Editor': { file: 'html/control/html-editor.html', renderable: false },
+			'Info Text': { file: 'html/control/info-text.html', renderable: false },
+			Listbox: { file: 'html/control/listbox.html', renderable: false },
+			Meter: { file: 'html/control/meter.html', renderable: false },
+			'Multi-autosearch': { file: 'html/control/multi-autosearch.html', renderable: true, specType: 'multiAutosearch', specTypes: ['Multi-autosearch', 'multiAutosearch'] },
+			'Multi-control': { file: 'html/control/multi-control.html', renderable: false },
+			'Multi-listbox': { file: 'html/control/multi-listbox.html', renderable: false },
+			'Multi-picker': { file: 'html/control/multi-picker.html', renderable: false },
+			Multirow: { file: 'html/control/multirow.html', renderable: true, specType: 'multirow', specTypes: ['Multirow', 'multirow'] },
+			'Multirow Row Heading': { file: 'html/control/multirow-row-heading.html', renderable: false },
+			Password: { file: 'html/control/password.html', renderable: false },
+			'Radio Button Column': { file: 'html/control/radio-button-column.html', renderable: false },
+			'Radio Buttons': { file: 'html/control/radio-buttons.html', renderable: false },
+			'Radio Cards': { file: 'html/control/radio-cards.html', renderable: true, specType: 'radioCards', specTypes: ['Radio Cards', 'RadioCards', 'radioCards'] },
+			Separator: { file: 'html/control/separator.html', renderable: false },
+			Signature: { file: 'html/control/signature.html', renderable: false },
+			Textarea: { file: 'html/control/textarea.html', renderable: true, specType: 'textarea', specTypes: ['Textarea', 'textarea'] },
+			Textbox: { file: 'html/control/textbox.html', renderable: true, specType: 'textbox', specTypes: ['Textbox', 'textbox'] },
+			'Textbox with Autosearch': { file: 'html/control/textbox-with-autosearch.html', renderable: true, specType: 'autosearch', specTypes: ['Textbox with Autosearch', 'autosearch'] },
+			'Textbox with Autosuggest': { file: 'html/control/textbox-with-autosuggest.html', renderable: true, specType: 'autosuggest', specTypes: ['Textbox with Autosuggest', 'autosuggest'] },
+			'Textbox with Dropdown': { file: 'html/control/textbox-with-dropdown.html', renderable: true, specType: 'textboxDropdown', specTypes: ['Textbox with Dropdown', 'textboxDropdown'] },
+			'Textbox with Popup': { file: 'html/control/textbox-with-popup.html', renderable: false },
+			'Textbox with Redirect': { file: 'html/control/textbox-with-redirect.html', renderable: false },
+			Time: { file: 'html/control/time.html', renderable: true, specType: 'time', specTypes: ['Time', 'time'] },
+			'Uneditable Text': { file: 'html/control/uneditable-text.html', renderable: true, specType: 'uneditable', specTypes: ['Uneditable Text', 'uneditable'] }
+		},
+		excludedComponents: [
+			'Active Directory',
+			'Bankgiro',
+			'Chart',
+			'Coordinator',
+			'Custom Component',
+			'Delete',
+			'Download File',
+			'Email',
+			'Embedding',
+			'Excel',
+			'Execute',
+			'External Embed',
+			'External Redirect',
+			'File Manager',
+			'FTP',
+			'GenAI',
+			'HTML View',
+			'HTTP Request',
+			'Image Process',
+			'JavaScript',
+			'Log Out',
+			'Magic Box',
+			'Markdown',
+			'Microsoft Exchange',
+			'Microsoft Graph',
+			'Node Graph',
+			'PDF Document',
+			'Publish',
+			'Redirect',
+			'RTF Document',
+			'SIE',
+			'SMS',
+			'Text Extractor',
+			'Web Service Call',
+			'Zip Archive'
+		],
+		excludedControls: ['Hidden', 'Picture']
+	};
+
+	function renderableNames(entries) {
+		return Object.entries(entries)
+			.filter(([, entry]) => entry.renderable)
+			.map(([name]) => name);
+	}
+
+	catalog.renderableComponents = renderableNames(catalog.components);
+	catalog.renderableControls = renderableNames(catalog.controls);
+
+	window.SoftadminReferenceCatalog = catalog;
+}());
