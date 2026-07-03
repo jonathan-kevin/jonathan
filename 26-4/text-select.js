@@ -209,382 +209,448 @@ document.addEventListener('DOMContentLoaded', () => {
 	countries.sort((a, b) => a.country.localeCompare(b.country));
 
 	document.querySelectorAll('[data-country-select]').forEach((root, selectIndex) => {
-	const listContainer = root.querySelector('[role="listbox"]');
-	const button = root.querySelector('button[aria-haspopup="listbox"]');
-	const panel = root.querySelector('.saContextMenu');
-	const input = root.querySelector('input[role="combobox"]');
-	if (!listContainer || !button || !panel || !input) return;
+		const listContainer = root.querySelector('[role="listbox"]');
+		const button = root.querySelector('button[aria-haspopup="listbox"]');
+		const panel = root.querySelector('.saContextMenu');
+		const input = root.querySelector('input[role="combobox"]');
+		if (!listContainer || !button || !panel || !input) return;
 
-	const idPrefix = listContainer.id || `country-select-${selectIndex}`;
-	const noResults = listContainer.querySelector('.saNoResults');
+		const idPrefix = listContainer.id || `country-select-${selectIndex}`;
+		const noResults = listContainer.querySelector('.saNoResults');
+		const PAGE_SIZE = 50;
+		const dataSource = countries.map(item => ({
+			value: item.code,
+			label: item.country,
+			searchTerms: item.searchTerms
+		}));
+		const labelsLower = dataSource.map(item => item.label.toLowerCase());
 
-	const allItems = [];
-	const labels = [];
-	const labelsLower = [];
-	const searchTermsLower = [];
-	const textSpans = [];
+		let optionItems = [];
+		let loadPreviousItem = null;
+		let loadMoreItem = null;
+		let loadedItems = [];
+		let loadedOffset = 0;
+		let totalCount = 0;
+		let selectedValue = root.dataset.selectedCode || dataSource[0]?.value || '';
+		let activeI = -1;
+		let prevActiveEl = null;
+		let currentQuery = '';
+		let requestSeq = 0;
+		let filterTimer = null;
 
-	// === Build the list (once) ===
-	const fragment = document.createDocumentFragment();
+		let typeBuffer = '';
+		let typeTimer = null;
+		let typeMatchIndices = [];
+		let typeMatchPos = 0;
 
-	countries.forEach((item, index) => {
-		const li = document.createElement('li');
-		li.className = 'saOptionWrapper';
-		li.setAttribute('role', 'option');
-		li.id = `${idPrefix}-opt-${item.code}`;
-		li.dataset.code = item.code;
-		li.dataset.label = item.country;
-		li.dataset.index = index;
-
-		li.innerHTML = `
-      <div class="saOption">
-        <img src="https://flagcdn.com/${item.code}.svg" loading="lazy" aria-hidden="true">
-        <span class="saOptionText">${item.country}</span>
-      </div>`;
-
-		fragment.appendChild(li);
-		allItems.push(li);
-		labels.push(item.country);
-		labelsLower.push(item.country.toLowerCase());
-		searchTermsLower.push(item.searchTerms.map(t => t.toLowerCase()));
-	});
-
-	listContainer.appendChild(fragment);
-
-	// Cache text spans after DOM insertion
-	allItems.forEach(li => textSpans.push(li.querySelector('.saOptionText')));
-
-	// === Search index: first-letter buckets ===
-	const searchIndex = new Map();
-	labelsLower.forEach((label, i) => {
-		const key = label[0];
-		if (!searchIndex.has(key)) searchIndex.set(key, []);
-		searchIndex.get(key).push(i);
-	});
-
-	// === Virtual list state ===
-	const ITEM_HEIGHT = 32;
-	const OVERSCAN = 3;
-
-	let visibleIndices = allItems.map((_, i) => i);
-	let activeVI = -1;
-	let selectedI = Math.max(0, countries.findIndex(item => item.code === root.dataset.selectedCode));
-	let prevActiveEl = null;
-	let renderedStart = -1;
-	let renderedEnd = -1;
-	let rafId = null;
-
-	// === Type-ahead state ===
-	let typeBuffer = '';
-	let typeTimer = null;
-	let typeMatchIndices = [];
-	let typeMatchPos = 0;
-
-	// === Scroll container ===
-	function getScrollContainer() {
-		let el = listContainer;
-		while (el) {
-			const ov = getComputedStyle(el).overflowY;
-			if (ov === 'auto' || ov === 'scroll') return el;
-			el = el.parentElement;
-		}
-		return listContainer;
-	}
-	const scrollContainer = getScrollContainer();
-
-	// === Virtual rendering ===
-	function getVirtualRange() {
-		const scrollTop = scrollContainer.scrollTop;
-		const viewportH = scrollContainer.clientHeight;
-		const start = Math.max(0, Math.floor(scrollTop / ITEM_HEIGHT) - OVERSCAN);
-		const end = Math.min(
-			visibleIndices.length,
-			Math.ceil((scrollTop + viewportH) / ITEM_HEIGHT) + OVERSCAN
-		);
-		return { start, end };
-	}
-
-	function renderItem(vi) {
-		const i = visibleIndices[vi];
-		const el = allItems[i];
-		el.style.height = '';
-		el.style.overflow = '';
-		el.style.visibility = '';
-		if (!el.querySelector('.saOption')) {
-			el.innerHTML = `
-        <div class="saOption">
-          <img src="https://flagcdn.com/${el.dataset.code}.svg" loading="lazy" alt="" aria-hidden="true">
-          <span class="saOptionText">${labels[i]}</span>
-        </div>`;
-			textSpans[i] = el.querySelector('.saOptionText');
-		}
-	}
-
-	function blankItem(vi) {
-		if (vi < 0 || vi >= visibleIndices.length) return;
-		const el = allItems[visibleIndices[vi]];
-		el.innerHTML = '';
-		el.style.height = `${ITEM_HEIGHT}px`;
-		el.style.overflow = 'hidden';
-		el.style.visibility = 'hidden';
-	}
-
-	function renderVirtualList() {
-		const { start, end } = getVirtualRange();
-		if (start === renderedStart && end === renderedEnd) return;
-
-		for (let vi = renderedStart; vi < renderedEnd; vi++) {
-			if (vi < start || vi >= end) blankItem(vi);
-		}
-		for (let vi = start; vi < end; vi++) {
-			if (vi < renderedStart || vi >= renderedEnd) renderItem(vi);
-		}
-
-		renderedStart = start;
-		renderedEnd = end;
-	}
-
-	function resetRenderState() {
-		renderedStart = -1;
-		renderedEnd = -1;
-	}
-
-	scrollContainer.addEventListener('scroll', renderVirtualList, { passive: true });
-
-	// === Helpers ===
-	function updateNoResults() {
-		if (noResults) noResults.style.display = visibleIndices.length === 0 ? '' : 'none';
-	}
-
-	function clearActive() {
-		if (prevActiveEl) {
-			prevActiveEl.classList.remove('saActive');
-			prevActiveEl.setAttribute('aria-selected', 'false');
-			prevActiveEl = null;
-		}
-		input.removeAttribute('aria-activedescendant');
-		activeVI = -1;
-	}
-
-	function scrollActiveIntoView() {
-		if (activeVI < 0 || !visibleIndices.length) return;
-		allItems[visibleIndices[activeVI]]?.scrollIntoView({ block: 'nearest' });
-	}
-
-	function setActive(vi) {
-		if (!visibleIndices.length) return;
-		if (vi < 0) vi = visibleIndices.length - 1;
-		if (vi >= visibleIndices.length) vi = 0;
-
-		clearActive();
-
-		activeVI = vi;
-		const el = allItems[visibleIndices[activeVI]];
-		el.classList.add('saActive');
-		el.setAttribute('aria-selected', 'true');
-		input.setAttribute('aria-activedescendant', el.id);
-		prevActiveEl = el;
-
-		scrollActiveIntoView();
-	}
-
-	function highlightMatch(label, query) {
-		const i = label.toLowerCase().indexOf(query);
-		if (i === -1) return label;
-		return label.slice(0, i)
-			+ '<mark>' + label.slice(i, i + query.length) + '</mark>'
-			+ label.slice(i + query.length);
-	}
-
-	function filterList(query) {
-		const val = query.toLowerCase();
-
-		const candidates = val.length === 1
-			? (searchIndex.get(val[0]) ?? [])
-			: allItems.map((_, i) => i);
-
-		const nextVisible = candidates.filter(i =>
-			searchTermsLower[i].some(term => term.includes(val))
-		);
-
-		const prevSet = new Set(visibleIndices);
-		const nextSet = new Set(nextVisible);
-
-		for (const i of prevSet) {
-			if (!nextSet.has(i)) {
-				allItems[i].style.display = 'none';
-				textSpans[i].innerHTML = labels[i];
+		function getScrollContainer() {
+			let el = listContainer;
+			while (el) {
+				const ov = getComputedStyle(el).overflowY;
+				if (ov === 'auto' || ov === 'scroll') return el;
+				el = el.parentElement;
 			}
+			return listContainer;
 		}
-		for (const i of nextSet) {
-			if (!prevSet.has(i)) allItems[i].style.display = '';
-			textSpans[i].innerHTML = val ? highlightMatch(labels[i], query) : labels[i];
-		}
+		const scrollContainer = getScrollContainer();
 
-		visibleIndices = nextVisible;
-		resetRenderState();
-		renderVirtualList();
-		updateNoResults();
-		clearActive();
-		if (visibleIndices.length) setActive(0);
-	}
+		function fetchCountryPage({ query, offset, limit }) {
+			const val = query.trim().toLowerCase();
+			const filtered = val
+				? dataSource.filter(item => item.searchTerms.some(term => term.toLowerCase().includes(val)))
+				: dataSource;
 
-	function updateButton(allItemsIndex) {
-		selectedI = allItemsIndex;
-		const code = allItems[allItemsIndex].dataset.code;
-		button.querySelector('.saDropdownText').textContent = labels[allItemsIndex];
-		button.querySelector('img').src = `https://flagcdn.com/${code}.svg`;
-		root.dataset.selectedCode = code;
-	}
-
-	// === Open / Close ===
-	function resetToAll() {
-		if (visibleIndices.length !== allItems.length) {
-			allItems.forEach((el, i) => {
-				el.style.display = '';
-				textSpans[i].innerHTML = labels[i];
+			return Promise.resolve({
+				items: filtered.slice(offset, offset + limit),
+				total: filtered.length
 			});
-			visibleIndices = allItems.map((_, i) => i);
-		}
-		updateNoResults();
-	}
-
-	function scrollToSelected() {
-		const vi = visibleIndices.indexOf(selectedI);
-		if (vi === -1) return;
-		allItems[selectedI].scrollIntoView({ block: 'nearest' });
-	}
-
-	function openDropdown() {
-		if (panel.classList.contains('saOpen')) return;
-
-		panel.classList.add('saOpen');
-		button.setAttribute('aria-expanded', 'true');
-		input.value = '';
-
-		resetToAll();
-		clearActive();
-		resetRenderState();
-		renderVirtualList();
-
-		const sel = allItems[selectedI];
-		if (sel) {
-			sel.classList.add('saActive');
-			sel.setAttribute('aria-selected', 'true');
-			input.setAttribute('aria-activedescendant', sel.id);
-			prevActiveEl = sel;
-			activeVI = visibleIndices.indexOf(selectedI);
 		}
 
-		setTimeout(() => { input.focus(); scrollToSelected(); }, 0);
-	}
-
-	function closeDropdown({ returnFocus = false } = {}) {
-		if (!panel.classList.contains('saOpen')) return;
-
-		panel.classList.remove('saOpen');
-		button.setAttribute('aria-expanded', 'false');
-		input.value = '';
-
-		resetToAll();
-		clearActive();
-		resetRenderState();
-
-		if (returnFocus) button.focus();
-	}
-
-	// === Events ===
-	button.addEventListener('click', () => {
-		panel.classList.contains('saOpen') ? closeDropdown({ returnFocus: true }) : openDropdown();
-	});
-
-	input.addEventListener('input', () => {
-		if (rafId) cancelAnimationFrame(rafId);
-		rafId = requestAnimationFrame(() => filterList(input.value));
-	});
-
-	input.addEventListener('keydown', e => {
-		switch (e.key) {
-			case 'ArrowDown': e.preventDefault(); setActive(activeVI + 1); break;
-			case 'ArrowUp': e.preventDefault(); setActive(activeVI - 1); break;
-			case 'Home': e.preventDefault(); setActive(0); break;
-			case 'End': e.preventDefault(); setActive(visibleIndices.length - 1); break;
-			case 'Enter':
-				e.preventDefault();
-				if (!visibleIndices.length || activeVI < 0) return;
-				updateButton(visibleIndices[activeVI]);
-				closeDropdown({ returnFocus: true });
-				break;
-			case 'Escape': closeDropdown({ returnFocus: true }); break;
-			case 'Tab': closeDropdown(); break;
+		function updateNoResults() {
+			if (noResults) noResults.style.display = totalCount === 0 ? '' : 'none';
 		}
-	});
 
-	button.addEventListener('keydown', e => {
-		if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
-			const ch = e.key.toLowerCase();
-			clearTimeout(typeTimer);
-
-			const isSameChar = typeBuffer.length > 0 && [...typeBuffer].every(c => c === ch);
-
-			if (isSameChar) {
-				typeMatchPos = (typeMatchPos + 1) % typeMatchIndices.length;
-				if (typeMatchIndices.length) updateButton(typeMatchIndices[typeMatchPos]);
+		function setListBusy(isBusy) {
+			if (isBusy) {
+				listContainer.setAttribute('aria-busy', 'true');
 			} else {
-				typeBuffer += ch;
-				typeMatchIndices = labelsLower
-					.map((l, i) => ({ l, i }))
-					.filter(({ l }) => l.startsWith(typeBuffer))
-					.map(({ i }) => i);
-				typeMatchPos = 0;
-				if (typeMatchIndices.length) updateButton(typeMatchIndices[0]);
+				listContainer.removeAttribute('aria-busy');
+			}
+		}
+
+		function highlightMatch(label, query) {
+			const i = label.toLowerCase().indexOf(query);
+			if (i === -1) return label;
+			return label.slice(0, i)
+				+ '<mark>' + label.slice(i, i + query.length) + '</mark>'
+				+ label.slice(i + query.length);
+		}
+
+		function clearActive() {
+			if (prevActiveEl) {
+				prevActiveEl.classList.remove('saActive');
+				prevActiveEl.setAttribute('aria-selected', 'false');
+				prevActiveEl = null;
+			}
+			input.removeAttribute('aria-activedescendant');
+			activeI = -1;
+		}
+
+		function renderOption(item, index) {
+			const li = document.createElement('li');
+			li.className = 'saOptionWrapper';
+			li.setAttribute('role', 'option');
+			li.setAttribute('aria-selected', item.value === selectedValue ? 'true' : 'false');
+			li.id = `${idPrefix}-opt-${index}`;
+			li.dataset.index = index;
+			li.dataset.code = item.value;
+			li.dataset.label = item.label;
+			li.innerHTML = `
+      <div class="saOption">
+        <img src="https://flagcdn.com/${item.value}.svg" loading="lazy" alt="" aria-hidden="true">
+        <span class="saOptionText">${currentQuery ? highlightMatch(item.label, currentQuery) : item.label}</span>
+      </div>`;
+			return li;
+		}
+
+		function renderList() {
+			optionItems.forEach(item => item.remove());
+			if (loadPreviousItem) loadPreviousItem.remove();
+			if (loadMoreItem) loadMoreItem.remove();
+			optionItems = [];
+			loadPreviousItem = null;
+			loadMoreItem = null;
+
+			const fragment = document.createDocumentFragment();
+			if (loadedOffset > 0) {
+				loadPreviousItem = document.createElement('li');
+				loadPreviousItem.className = 'saOptionWrapper saLoadMoreOption';
+				loadPreviousItem.setAttribute('role', 'presentation');
+				loadPreviousItem.dataset.loadPrevious = 'true';
+				loadPreviousItem.innerHTML = `
+      <button class="saOption" type="button" id="${idPrefix}-load-previous" tabindex="-1" aria-controls="${idPrefix}">
+        <i class="far fa-plus saOptionIcon saIcon" aria-hidden="true"></i>
+        <span class="saOptionText">Load previous</span>
+      </button>`;
+				fragment.appendChild(loadPreviousItem);
 			}
 
-			typeTimer = setTimeout(() => {
-				typeBuffer = '';
-				typeMatchIndices = [];
-				typeMatchPos = 0;
-			}, 700);
-			return;
-		}
-		switch (e.key) {
-			case 'ArrowDown':
-				e.preventDefault();
-				if (e.altKey) { openDropdown(); break; }
-				if (selectedI + 1 < allItems.length) updateButton(selectedI + 1);
-				break;
-			case 'ArrowUp':
-				e.preventDefault();
-				if (e.altKey) { openDropdown(); break; }
-				if (selectedI - 1 >= 0) updateButton(selectedI - 1);
-				break;
-			case 'Enter':
-			case ' ':
-				e.preventDefault(); openDropdown(); break;
-			case 'Home': e.preventDefault(); updateButton(0); break;
-			case 'End': e.preventDefault(); updateButton(allItems.length - 1); break;
-		}
-	});
+			loadedItems.forEach((item, index) => {
+				const li = renderOption(item, index);
+				optionItems.push(li);
+				fragment.appendChild(li);
+			});
 
-	listContainer.addEventListener('click', e => {
-		const item = e.target.closest('.saOptionWrapper');
-		if (item && !item.classList.contains('saNoResults')) {
-			updateButton(parseInt(item.dataset.index, 10));
+			if (loadedOffset + loadedItems.length < totalCount) {
+				loadMoreItem = document.createElement('li');
+				loadMoreItem.className = 'saOptionWrapper saLoadMoreOption';
+				loadMoreItem.setAttribute('role', 'presentation');
+				loadMoreItem.dataset.loadMore = 'true';
+				loadMoreItem.innerHTML = `
+      <button class="saOption" type="button" id="${idPrefix}-load-more" tabindex="-1" aria-controls="${idPrefix}">
+        <i class="far fa-plus saOptionIcon saIcon" aria-hidden="true"></i>
+        <span class="saOptionText">Load more</span>
+      </button>`;
+				fragment.appendChild(loadMoreItem);
+			}
+
+			listContainer.appendChild(fragment);
+			updateNoResults();
+		}
+
+		function getInitialOffset(query) {
+			if (query.trim()) return 0;
+			const selectedIndex = dataSource.findIndex(item => item.value === selectedValue);
+			if (selectedIndex === -1) return 0;
+			return Math.max(0, Math.min(
+				selectedIndex - Math.floor(PAGE_SIZE / 2),
+				Math.max(0, dataSource.length - PAGE_SIZE)
+			));
+		}
+
+		function applyPage(result, mode = 'append', offset = loadedOffset) {
+			totalCount = result.total;
+			if (mode === 'prepend') {
+				loadedOffset = offset;
+				loadedItems = result.items.concat(loadedItems);
+				if (activeI >= 0) activeI += result.items.length;
+			} else if (mode === 'append') {
+				loadedItems = loadedItems.concat(result.items);
+			} else {
+				loadedOffset = offset;
+				loadedItems = result.items;
+			}
+
+			renderList();
+			if (mode === 'replace' && loadedItems.length) {
+				const selectedI = loadedItems.findIndex(item => item.value === selectedValue);
+				setActive(selectedI === -1 ? 0 : getFocusableIndexForOption(selectedI));
+			}
+		}
+
+		async function loadQuery(query) {
+			const seq = ++requestSeq;
+			currentQuery = query.trim().toLowerCase();
+			loadedItems = [];
+			loadedOffset = 0;
+			totalCount = 0;
+			clearActive();
+			renderList();
+
+			setListBusy(true);
+			const offset = getInitialOffset(currentQuery);
+			try {
+				const firstPage = await fetchCountryPage({
+					query: currentQuery,
+					offset,
+					limit: PAGE_SIZE
+				});
+				if (seq !== requestSeq) return;
+				applyPage(firstPage, 'replace', offset);
+			} finally {
+				if (seq === requestSeq) setListBusy(false);
+			}
+		}
+
+		async function loadPreviousPage({ focusNewItem = false } = {}) {
+			if (loadedOffset <= 0) return;
+			clearActive();
+			const seq = requestSeq;
+			const offset = Math.max(0, loadedOffset - PAGE_SIZE);
+			setListBusy(true);
+			try {
+				const result = await fetchCountryPage({
+					query: currentQuery,
+					offset,
+					limit: loadedOffset - offset
+				});
+				if (seq !== requestSeq || currentQuery !== input.value.trim().toLowerCase()) return;
+				applyPage(result, 'prepend', offset);
+				if (focusNewItem && result.items.length) setActive(getFocusableIndexForOption(0));
+				input.focus({ preventScroll: true });
+			} finally {
+				if (seq === requestSeq) setListBusy(false);
+			}
+		}
+
+		async function loadNextPage({ focusNewItem = false } = {}) {
+			if (loadedOffset + loadedItems.length >= totalCount) return;
+			clearActive();
+			const focusIndex = loadedItems.length;
+			const seq = requestSeq;
+			setListBusy(true);
+			try {
+				const result = await fetchCountryPage({
+					query: currentQuery,
+					offset: loadedOffset + loadedItems.length,
+					limit: PAGE_SIZE
+				});
+				if (seq !== requestSeq || currentQuery !== input.value.trim().toLowerCase()) return;
+				applyPage(result);
+				if (focusNewItem && result.items.length) setActive(getFocusableIndexForOption(focusIndex));
+				input.focus({ preventScroll: true });
+			} finally {
+				if (seq === requestSeq) setListBusy(false);
+			}
+		}
+
+		function scheduleLoadQuery(query) {
+			clearTimeout(filterTimer);
+			filterTimer = setTimeout(() => loadQuery(query), 150);
+		}
+
+		function getFocusableItems() {
+			return [loadPreviousItem, ...optionItems, loadMoreItem].filter(Boolean);
+		}
+
+		function getActiveItem() {
+			return getFocusableItems()[activeI] || null;
+		}
+
+		function getFocusableIndexForOption(index) {
+			return getFocusableItems().indexOf(optionItems[index]);
+		}
+
+		function setActive(index) {
+			const focusableItems = getFocusableItems();
+			if (!focusableItems.length) return;
+			if (index < 0) index = focusableItems.length - 1;
+			if (index >= focusableItems.length) index = 0;
+
+			clearActive();
+
+			activeI = index;
+			const item = focusableItems[activeI];
+			item.classList.add('saActive');
+			if (!item.classList.contains('saLoadMoreOption')) item.setAttribute('aria-selected', 'true');
+			input.setAttribute('aria-activedescendant', (item.querySelector('button.saOption') || item).id);
+			prevActiveEl = item;
+			item.scrollIntoView({ block: 'nearest' });
+		}
+
+		function updateButtonByData(data) {
+			if (!data) return;
+			selectedValue = data.value;
+			button.querySelector('.saDropdownText').textContent = data.label;
+			button.querySelector('img').src = `https://flagcdn.com/${data.value}.svg`;
+			root.dataset.selectedCode = data.value;
+		}
+
+		function updateButtonByIndex(index) {
+			updateButtonByData(dataSource[index]);
+		}
+
+		function openDropdown() {
+			if (panel.classList.contains('saOpen')) return;
+
+			panel.classList.add('saOpen');
+			button.setAttribute('aria-expanded', 'true');
+			input.value = '';
+			scrollContainer.scrollTop = 0;
+			loadQuery('');
+
+			setTimeout(() => input.focus(), 0);
+		}
+
+		function closeDropdown({ returnFocus = false } = {}) {
+			if (!panel.classList.contains('saOpen')) return;
+
+			clearTimeout(filterTimer);
+			panel.classList.remove('saOpen');
+			button.setAttribute('aria-expanded', 'false');
+			input.value = '';
+			clearActive();
+
+			if (returnFocus) button.focus();
+		}
+
+		button.addEventListener('click', () => {
+			panel.classList.contains('saOpen') ? closeDropdown({ returnFocus: true }) : openDropdown();
+		});
+
+		input.addEventListener('input', () => scheduleLoadQuery(input.value));
+
+		input.addEventListener('keydown', e => {
+			switch (e.key) {
+				case 'ArrowDown': e.preventDefault(); setActive(activeI + 1); break;
+				case 'ArrowUp': e.preventDefault(); setActive(activeI - 1); break;
+				case 'Home': e.preventDefault(); setActive(0); break;
+				case 'End': e.preventDefault(); setActive(getFocusableItems().length - 1); break;
+				case ' ':
+					if (getActiveItem()?.dataset.loadPrevious === 'true') {
+						e.preventDefault();
+						loadPreviousPage({ focusNewItem: true });
+					} else if (getActiveItem()?.dataset.loadMore === 'true') {
+						e.preventDefault();
+						loadNextPage({ focusNewItem: true });
+					}
+					break;
+				case 'Enter':
+					e.preventDefault();
+					const activeItem = getActiveItem();
+					if (!activeItem) return;
+					if (activeItem.dataset.loadPrevious === 'true') {
+						loadPreviousPage({ focusNewItem: true });
+						return;
+					}
+					if (activeItem.dataset.loadMore === 'true') {
+						loadNextPage({ focusNewItem: true });
+						return;
+					}
+					updateButtonByData(loadedItems[parseInt(activeItem.dataset.index, 10)]);
+					closeDropdown({ returnFocus: true });
+					break;
+				case 'Escape': closeDropdown({ returnFocus: true }); break;
+				case 'Tab': closeDropdown(); break;
+			}
+		});
+
+		button.addEventListener('keydown', e => {
+			if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+				const ch = e.key.toLowerCase();
+				clearTimeout(typeTimer);
+
+				const isSameChar = typeBuffer.length > 0 && [...typeBuffer].every(c => c === ch);
+
+				if (isSameChar) {
+					if (typeMatchIndices.length) {
+						typeMatchPos = (typeMatchPos + 1) % typeMatchIndices.length;
+						updateButtonByIndex(typeMatchIndices[typeMatchPos]);
+					}
+				} else {
+					typeBuffer += ch;
+					typeMatchIndices = labelsLower
+						.map((l, i) => ({ l, i }))
+						.filter(({ l }) => l.startsWith(typeBuffer))
+						.map(({ i }) => i);
+					typeMatchPos = 0;
+					if (typeMatchIndices.length) updateButtonByIndex(typeMatchIndices[0]);
+				}
+
+				typeTimer = setTimeout(() => {
+					typeBuffer = '';
+					typeMatchIndices = [];
+					typeMatchPos = 0;
+				}, 700);
+				return;
+			}
+			const selectedI = Math.max(0, dataSource.findIndex(item => item.value === selectedValue));
+			switch (e.key) {
+				case 'ArrowDown':
+					e.preventDefault();
+					if (e.altKey) { openDropdown(); break; }
+					if (selectedI + 1 < dataSource.length) updateButtonByIndex(selectedI + 1);
+					break;
+				case 'ArrowUp':
+					e.preventDefault();
+					if (e.altKey) { openDropdown(); break; }
+					if (selectedI - 1 >= 0) updateButtonByIndex(selectedI - 1);
+					break;
+				case 'Enter':
+				case ' ':
+					e.preventDefault(); openDropdown(); break;
+				case 'Home': e.preventDefault(); updateButtonByIndex(0); break;
+				case 'End': e.preventDefault(); updateButtonByIndex(dataSource.length - 1); break;
+			}
+		});
+
+		listContainer.addEventListener('mousedown', e => {
+			const item = e.target.closest('.saOptionWrapper');
+			if (item && !item.classList.contains('saNoResults')) e.preventDefault();
+		});
+
+		listContainer.addEventListener('click', e => {
+			const item = e.target.closest('.saOptionWrapper');
+			if (!item || item.classList.contains('saNoResults')) return;
+			if (item.dataset.loadPrevious === 'true') {
+				e.preventDefault();
+				e.stopPropagation();
+				loadPreviousPage();
+				return;
+			}
+			if (item.dataset.loadMore === 'true') {
+				e.preventDefault();
+				e.stopPropagation();
+				loadNextPage();
+				return;
+			}
+
+			const data = loadedItems[parseInt(item.dataset.index, 10)];
+			updateButtonByData(data);
 			closeDropdown({ returnFocus: true });
-		}
-	});
+		});
 
-	document.addEventListener('click', e => {
-		if (panel.classList.contains('saOpen') && !root.contains(e.target))
-			closeDropdown();
-	});
+		document.addEventListener('click', e => {
+			if (panel.classList.contains('saOpen') && !root.contains(e.target))
+				closeDropdown();
+		});
 
-	document.addEventListener('focusin', e => {
-		if (panel.classList.contains('saOpen') && !root.contains(e.target))
-			closeDropdown();
-	});
+		document.addEventListener('focusin', e => {
+			if (panel.classList.contains('saOpen') && !root.contains(e.target))
+				closeDropdown();
+		});
 
-	updateButton(selectedI);
+		updateButtonByData(dataSource.find(item => item.value === selectedValue) || dataSource[0]);
 	});
 
 	document.querySelectorAll('[data-multi-select]').forEach((root, selectIndex) => {
@@ -608,8 +674,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 
 		const PAGE_SIZE = 50;
-		const ITEM_HEIGHT = 32;
-		const OVERSCAN = 6;
 		const dataSource = countries.map(item => ({
 			value: item.code,
 			label: item.country,
@@ -617,17 +681,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		}));
 
 		let optionItems = [];
+		let loadPreviousItem = null;
 		let loadMoreItem = null;
-		let loadedItems = new Map();
-		let loadedPages = new Set();
-		let pendingPages = new Map();
+		let loadedItems = [];
+		let loadedOffset = 0;
 		let totalCount = 0;
-		let loadedCount = 0;
 		let activeI = -1;
 		let rangeAnchorI = -1;
 		let prevActiveEl = null;
-		let renderedStart = -1;
-		let renderedEnd = -1;
 		let currentQuery = '';
 		let requestSeq = 0;
 		let filterTimer = null;
@@ -659,13 +720,36 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (noResults) noResults.style.display = totalCount === 0 ? '' : 'none';
 		}
 
+		function setListBusy(isBusy) {
+			if (isBusy) {
+				listContainer.setAttribute('aria-busy', 'true');
+			} else {
+				listContainer.removeAttribute('aria-busy');
+			}
+		}
+
 		function ensureOptionCount(count) {
 			optionItems.forEach(item => item.remove());
+			if (loadPreviousItem) loadPreviousItem.remove();
 			if (loadMoreItem) loadMoreItem.remove();
 			optionItems = [];
+			loadPreviousItem = null;
 			loadMoreItem = null;
 
 			const fragment = document.createDocumentFragment();
+			if (loadedOffset > 0) {
+				loadPreviousItem = document.createElement('li');
+				loadPreviousItem.className = 'saOptionWrapper saLoadMoreOption';
+				loadPreviousItem.setAttribute('role', 'presentation');
+				loadPreviousItem.dataset.loadPrevious = 'true';
+				loadPreviousItem.innerHTML = `
+      <button class="saOption" type="button" id="${idPrefix}-load-previous" tabindex="-1" aria-controls="${idPrefix}">
+        <i class="far fa-plus saOptionIcon saIcon" aria-hidden="true"></i>
+        <span class="saOptionText">Load previous</span>
+      </button>`;
+				fragment.appendChild(loadPreviousItem);
+			}
+
 			for (let i = 0; i < count; i++) {
 				const li = document.createElement('li');
 				li.className = 'saOptionWrapper';
@@ -673,19 +757,16 @@ document.addEventListener('DOMContentLoaded', () => {
 				li.setAttribute('aria-checked', 'false');
 				li.id = `${idPrefix}-opt-${i}`;
 				li.dataset.index = i;
-				li.style.height = `${ITEM_HEIGHT}px`;
-				li.style.overflow = 'hidden';
-				li.style.visibility = 'hidden';
 				optionItems.push(li);
 				fragment.appendChild(li);
 			}
-			if (count < totalCount) {
+			if (loadedOffset + count < totalCount) {
 				loadMoreItem = document.createElement('li');
 				loadMoreItem.className = 'saOptionWrapper saLoadMoreOption';
-				loadMoreItem.setAttribute('role', 'option');
+				loadMoreItem.setAttribute('role', 'presentation');
 				loadMoreItem.dataset.loadMore = 'true';
 				loadMoreItem.innerHTML = `
-      <button class="saOption" type="button">
+      <button class="saOption" type="button" id="${idPrefix}-load-more" tabindex="-1" aria-controls="${idPrefix}">
         <i class="far fa-plus saOptionIcon saIcon" aria-hidden="true"></i>
         <span class="saOptionText">Load more</span>
       </button>`;
@@ -694,57 +775,45 @@ document.addEventListener('DOMContentLoaded', () => {
 			listContainer.appendChild(fragment);
 		}
 
-		function applyPage(offset, result) {
+		function getInitialOffset(query) {
+			if (query.trim()) return 0;
+			const selectedValue = [...selectedValues].find(value =>
+				dataSource.some(item => item.value === value)
+			);
+			const selectedIndex = dataSource.findIndex(item => item.value === selectedValue);
+			if (selectedIndex === -1) return 0;
+			return Math.max(0, Math.min(
+				selectedIndex - Math.floor(PAGE_SIZE / 2),
+				Math.max(0, dataSource.length - PAGE_SIZE)
+			));
+		}
+
+		function applyPage(offset, result, mode = 'append') {
 			totalCount = result.total;
-			loadedCount = Math.max(loadedCount, offset + result.items.length);
-			if (optionItems.length !== loadedCount || Boolean(loadMoreItem) !== loadedCount < totalCount) {
-				ensureOptionCount(loadedCount);
+			if (mode === 'prepend') {
+				loadedOffset = offset;
+				loadedItems = result.items.concat(loadedItems);
+				if (activeI >= 0) activeI += result.items.length;
+				if (rangeAnchorI >= 0) rangeAnchorI += result.items.length;
+			} else if (mode === 'append') {
+				loadedItems = loadedItems.concat(result.items);
+			} else {
+				loadedOffset = offset;
+				loadedItems = result.items;
 			}
 
-			result.items.forEach((item, i) => {
-				const index = offset + i;
-				loadedItems.set(index, item);
+			if (optionItems.length !== loadedItems.length
+				|| Boolean(loadPreviousItem) !== (loadedOffset > 0)
+				|| Boolean(loadMoreItem) !== (loadedOffset + loadedItems.length < totalCount)) {
+				ensureOptionCount(loadedItems.length);
+			}
+
+			result.items.forEach(item => {
 				if (selectedValues.has(item.value)) selectedLabels.set(item.value, item.label);
 			});
 
 			updateNoResults();
 			updateButton();
-		}
-
-		async function fetchPage(offset, seq = requestSeq) {
-			const pageOffset = Math.floor(offset / PAGE_SIZE) * PAGE_SIZE;
-			if (loadedPages.has(pageOffset)) return;
-			if (pendingPages.has(pageOffset)) return pendingPages.get(pageOffset);
-
-			const promise = (async () => {
-				const result = await fetchCountryPage({
-					query: currentQuery,
-					offset: pageOffset,
-					limit: PAGE_SIZE
-				});
-				if (seq !== requestSeq) return;
-
-				loadedPages.add(pageOffset);
-				applyPage(pageOffset, result);
-				resetRenderState();
-				renderVirtualList();
-			})().finally(() => {
-				pendingPages.delete(pageOffset);
-			});
-
-			pendingPages.set(pageOffset, promise);
-			return promise;
-		}
-
-		function getVirtualRange() {
-			const scrollTop = scrollContainer.scrollTop;
-			const viewportH = scrollContainer.clientHeight;
-			const start = Math.max(0, Math.floor(scrollTop / ITEM_HEIGHT) - OVERSCAN);
-			const end = Math.min(
-				optionItems.length,
-				Math.ceil((scrollTop + viewportH) / ITEM_HEIGHT) + OVERSCAN
-			);
-			return { start, end };
 		}
 
 		function highlightMatch(label, query) {
@@ -757,12 +826,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		function renderItem(index) {
 			const item = optionItems[index];
-			const data = loadedItems.get(index);
+			const data = loadedItems[index];
 			if (!item) return;
 
-			item.style.height = '';
-			item.style.overflow = '';
-			item.style.visibility = '';
 			item.dataset.index = index;
 
 			if (!data) {
@@ -790,41 +856,21 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (checkbox) checkbox.checked = selectedValues.has(data.value);
 		}
 
-		function blankItem(index) {
-			const item = optionItems[index];
-			if (!item) return;
-			item.innerHTML = '';
-			item.style.height = `${ITEM_HEIGHT}px`;
-			item.style.overflow = 'hidden';
-			item.style.visibility = 'hidden';
+		function renderLoadedItems() {
+			for (let i = 0; i < optionItems.length; i++) renderItem(i);
 		}
 
-		function renderVirtualList() {
-			const { start, end } = getVirtualRange();
-			if (start === renderedStart && end === renderedEnd) return;
-			const isFirstRender = renderedStart === -1 && renderedEnd === -1;
-
-			if (isFirstRender) {
-				for (let i = 0; i < optionItems.length; i++) {
-					if (i < start || i >= end) blankItem(i);
-				}
-			} else {
-				for (let i = renderedStart; i < renderedEnd; i++) {
-					if (i < start || i >= end) blankItem(i);
-				}
-			}
-
-			for (let i = start; i < end; i++) {
-				if (isFirstRender || i < renderedStart || i >= renderedEnd || pendingPages.size) renderItem(i);
-			}
-
-			renderedStart = start;
-			renderedEnd = end;
+		function scrollFirstSelectedIntoView() {
+			const selectedI = loadedItems.findIndex(item => selectedValues.has(item.value));
+			if (selectedI !== -1) optionItems[selectedI]?.scrollIntoView({ block: 'nearest' });
 		}
 
-		function resetRenderState() {
-			renderedStart = -1;
-			renderedEnd = -1;
+		function getFocusableItems() {
+			return [loadPreviousItem, ...optionItems, loadMoreItem].filter(Boolean);
+		}
+
+		function getActiveItem() {
+			return getFocusableItems()[activeI] || null;
 		}
 
 		function clearActive({ keepIndex = false } = {}) {
@@ -837,23 +883,24 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 
 		function setActive(index) {
-			if (!optionItems.length) return;
-			if (index < 0) index = optionItems.length - 1;
-			if (index >= optionItems.length) index = 0;
+			const focusableItems = getFocusableItems();
+			if (!focusableItems.length) return;
+			if (index < 0) index = focusableItems.length - 1;
+			if (index >= focusableItems.length) index = 0;
 
 			clearActive();
 
 			activeI = index;
-			const item = optionItems[activeI];
+			const item = focusableItems[activeI];
 			item.classList.add('saFocus');
-			input.setAttribute('aria-activedescendant', item.id);
+			input.setAttribute('aria-activedescendant', (item.querySelector('button.saOption') || item).id);
 			prevActiveEl = item;
 			item.scrollIntoView({ block: 'nearest' });
 		}
 
 		function anchorActiveItem(item) {
 			clearActive({ keepIndex: true });
-			activeI = parseInt(item.dataset.index, 10);
+			activeI = getFocusableItems().indexOf(item);
 			input.focus({ preventScroll: true });
 		}
 
@@ -885,7 +932,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 
 		function setOption(index, checked) {
-			const data = loadedItems.get(index);
+			const data = loadedItems[index];
 			if (!data) return;
 
 			setOptionData(data, checked);
@@ -897,7 +944,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 
 		function toggleOption(index) {
-			const data = loadedItems.get(index);
+			const data = loadedItems[index];
 			if (!data) return;
 			setOption(index, !selectedValues.has(data.value));
 		}
@@ -906,42 +953,82 @@ document.addEventListener('DOMContentLoaded', () => {
 			const start = Math.min(anchorIndex, clickedIndex);
 			const end = Math.max(anchorIndex, clickedIndex);
 			for (let i = start; i <= end; i++) setOption(i, checked);
-			renderVirtualList();
+			renderLoadedItems();
 		}
 
-		function loadNextPage() {
-			if (loadedCount >= totalCount) return;
-			clearActive({ keepIndex: true });
-			fetchPage(loadedCount);
-			input.focus({ preventScroll: true });
+		async function loadPreviousPage({ focusNewItem = false } = {}) {
+			if (loadedOffset <= 0) return;
+			clearActive();
+			const seq = requestSeq;
+			const offset = Math.max(0, loadedOffset - PAGE_SIZE);
+			setListBusy(true);
+			try {
+				const result = await fetchCountryPage({
+					query: currentQuery,
+					offset,
+					limit: loadedOffset - offset
+				});
+				if (seq !== requestSeq || currentQuery !== input.value.trim().toLowerCase()) return;
+				applyPage(offset, result, 'prepend');
+				renderLoadedItems();
+				if (focusNewItem && result.items.length) setActive(getFocusableItems().indexOf(optionItems[0]));
+				input.focus({ preventScroll: true });
+			} finally {
+				if (seq === requestSeq) setListBusy(false);
+			}
+		}
+
+		async function loadNextPage({ focusNewItem = false } = {}) {
+			if (loadedOffset + loadedItems.length >= totalCount) return;
+			clearActive();
+			const focusIndex = loadedItems.length;
+			const seq = requestSeq;
+			const offset = loadedOffset + loadedItems.length;
+			setListBusy(true);
+			try {
+				const result = await fetchCountryPage({
+					query: currentQuery,
+					offset,
+					limit: PAGE_SIZE
+				});
+				if (seq !== requestSeq || currentQuery !== input.value.trim().toLowerCase()) return;
+				applyPage(offset, result);
+				renderLoadedItems();
+				if (focusNewItem && result.items.length) setActive(getFocusableItems().indexOf(optionItems[focusIndex]));
+				input.focus({ preventScroll: true });
+			} finally {
+				if (seq === requestSeq) setListBusy(false);
+			}
 		}
 
 		async function loadQuery(query) {
 			const seq = ++requestSeq;
 			currentQuery = query.trim().toLowerCase();
-			loadedItems = new Map();
-			loadedPages = new Set();
-			pendingPages = new Map();
+			loadedItems = [];
+			loadedOffset = 0;
 			totalCount = 0;
-			loadedCount = 0;
 			activeI = -1;
 			rangeAnchorI = -1;
 			clearActive();
 			ensureOptionCount(0);
-			resetRenderState();
 			updateNoResults();
 
-			const firstPage = await fetchCountryPage({
-				query: currentQuery,
-				offset: 0,
-				limit: PAGE_SIZE
-			});
-			if (seq !== requestSeq) return;
+			setListBusy(true);
+			const offset = getInitialOffset(currentQuery);
+			try {
+				const firstPage = await fetchCountryPage({
+					query: currentQuery,
+					offset,
+					limit: PAGE_SIZE
+				});
+				if (seq !== requestSeq) return;
 
-			loadedPages.add(0);
-			applyPage(0, firstPage);
-			resetRenderState();
-			renderVirtualList();
+				applyPage(offset, firstPage, 'replace');
+				renderLoadedItems();
+				scrollFirstSelectedIntoView();
+			} finally {
+				if (seq === requestSeq) setListBusy(false);
+			}
 		}
 
 		function scheduleLoadQuery(query) {
@@ -969,12 +1056,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			button.setAttribute('aria-expanded', 'false');
 			input.value = '';
 			clearActive();
-			resetRenderState();
 
 			if (returnFocus) button.focus();
 		}
-
-		scrollContainer.addEventListener('scroll', renderVirtualList, { passive: true });
 
 		button.addEventListener('click', () => {
 			panel.classList.contains('saOpen') ? closeDropdown({ returnFocus: true }) : openDropdown();
@@ -1004,17 +1088,27 @@ document.addEventListener('DOMContentLoaded', () => {
 					break;
 				case 'ArrowUp':
 					e.preventDefault();
-					setActive(activeI < 0 || !prevActiveEl ? (activeI >= 0 ? activeI : optionItems.length - 1) : activeI - 1);
+					setActive(activeI < 0 || !prevActiveEl ? (activeI >= 0 ? activeI : getFocusableItems().length - 1) : activeI - 1);
 					break;
 				case 'Home': e.preventDefault(); setActive(0); break;
-				case 'End': e.preventDefault(); setActive(optionItems.length - 1); break;
+				case 'End': e.preventDefault(); setActive(getFocusableItems().length - 1); break;
 				case 'Enter':
 				case ' ':
 					e.preventDefault();
-					if (optionItems.length && activeI >= 0) {
-						toggleOption(activeI);
-						rangeAnchorI = activeI;
+					const activeItem = getActiveItem();
+					if (!activeItem) return;
+					if (activeItem.dataset.loadPrevious === 'true') {
+						loadPreviousPage({ focusNewItem: true });
+						return;
 					}
+					if (activeItem.dataset.loadMore === 'true') {
+						loadNextPage({ focusNewItem: true });
+						return;
+					}
+					const activeOptionI = parseInt(activeItem.dataset.index, 10);
+					if (Number.isNaN(activeOptionI)) return;
+					toggleOption(activeOptionI);
+					rangeAnchorI = activeOptionI;
 					break;
 				case 'Escape': closeDropdown({ returnFocus: true }); break;
 				case 'Tab': closeDropdown(); break;
@@ -1029,6 +1123,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		listContainer.addEventListener('click', e => {
 			const item = e.target.closest('.saOptionWrapper');
 			if (!item || item.classList.contains('saNoResults') || item.getAttribute('aria-disabled') === 'true') return;
+			if (item.dataset.loadPrevious === 'true') {
+				e.preventDefault();
+				e.stopPropagation();
+				loadPreviousPage();
+				return;
+			}
 			if (item.dataset.loadMore === 'true') {
 				e.preventDefault();
 				e.stopPropagation();
@@ -1037,7 +1137,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 
 			const clickedI = parseInt(item.dataset.index, 10);
-			const data = loadedItems.get(clickedI);
+			const data = loadedItems[clickedI];
 			if (!data) return;
 
 			const nextChecked = !selectedValues.has(data.value);
