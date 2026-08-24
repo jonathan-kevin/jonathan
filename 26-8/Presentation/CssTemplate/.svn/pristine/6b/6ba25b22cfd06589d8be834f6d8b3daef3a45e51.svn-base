@@ -1,0 +1,298 @@
+.saMenuBoxWrapper {
+	display: flex;
+	gap: 1rem;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: row;
+
+	@media screen and (max-width: 900px) {
+		/* this is always active even when the browser does not support :has. it gives us a tradeoff that works acceptably for both two and three columns */
+		flex-direction: column;
+	}
+
+	&:not(:has(.saColumn:nth-child(3))) {
+		/* if the browser supports :has, for two columns we shift the breakpoint from 56.25rem to 47.5rem */
+		@media screen and (max-width: 900px) {
+			flex-direction: row;
+		}
+
+		@media screen and (max-width: 760px) {
+			flex-direction: column;
+		}
+	}
+
+	&:focus {
+		outline: none;
+	}
+
+	.saColumn {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		width: 100%;
+		min-width: 10rem;
+		max-width: 30rem;
+	}
+
+	.saMenuBox {
+		display: flex;
+		flex-direction: column;
+		padding: 0.5rem;
+		border-radius: 1rem;
+		min-width: 0;
+		height: fit-content;
+		gap: 0.5rem;
+		.Border();
+
+		.saMultiPartContent & {
+			border-radius: 0.5rem;
+		}
+	}
+
+	.saMenuBox .saDivider {
+		height: 1px;
+		border-radius: 1px;
+		width: calc(100% - 0.5rem);
+		background: @ColorGray100;
+		margin: 0.5rem 0;
+		align-self: center;
+	}
+
+	ul {
+		display: flex;
+		flex-direction: column;
+		list-style-type: none;
+		list-style-type: none;
+		margin-block-start: 0;
+		margin-block-end: 0;
+		margin-inline-start: 0;
+		margin-inline-end: 0;
+		padding-inline-start: 0;
+	}
+
+	li.saMenuItemWrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: relative;
+		min-width: 0;
+	}
+
+	li.saMenuItemWrapper.saInactive {
+		opacity: .5;
+		pointer-events: none;
+	}
+
+	.saMenuBoxHeading {
+		font-size: 1rem;
+		color: var(--Sa-Color-HeadingText);
+		padding-left: 0.5rem;
+		padding-top: 0.5rem;
+		font-weight: 600;
+	}
+
+	.saIconWrapper,
+	.saIconHolder {
+		position: relative;
+		transition: ease all .2s;
+		text-decoration: none;
+	}
+
+	.saMenuItem {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		height: 2.5rem;
+		flex-grow: 2;
+		flex-shrink: 1;
+		color: var(--Sa-Color-Label);
+		width: 100%;
+		padding: 0 4rem 0 0.5rem;
+		border-radius: 0.5rem;
+		transition: ease .2s;
+		transition-property: color, background-color;
+		min-width: 0;
+		text-decoration: none;
+		.BadgeCount();
+
+		.saIcon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-width: 1.625rem;
+			color: var(--Sa-Color-Icon);
+			font-size: 1.25rem;
+		}
+
+		.saBadge {
+			font-size: 0.5rem;
+			height: 0.75rem;
+			width: 0.75rem;
+			min-width: 0.75rem;
+			bottom: -0.25rem;
+			right: -0.375rem;
+			transition: ease .2s;
+			transition-property: color, background-color, border;
+		}
+
+		.Hover({
+			color: var(--Sa-Color-Primary600);
+			background-color: var(--Sa-Color-Primary50);
+
+			.saIcon {
+				color: var(--Sa-Color-Primary600);
+			}
+
+			.saBadge {
+				color: var(--Sa-Color-Primary50);
+				border-color: var(--Sa-Color-Primary50);
+				background: var(--Sa-Color-Primary600);
+			}
+		});
+
+		&:active {
+			color: var(--Sa-Color-Primary600);
+			background-color: var(--Sa-Color-Primary100);
+			border-radius: 0.75rem;
+		}
+
+		&::after {
+			content: '';
+			position: absolute;
+			width: calc(100% + 1.125rem);
+			left: -0.5625rem;
+			height: 100%;
+		}
+	}
+
+	.saMenuItemText {
+		.Ellipsis();
+		min-width: 0;
+		font-size: 0.875rem;
+	}
+
+	.saEmpty .saMenuItemText {
+		padding-left: 4rem;
+	}
+
+	.saMenuItemTools {
+		display: flex;
+		align-items: center;
+		z-index: 2;
+		position: absolute;
+		right: 0;
+
+		.saIconWrapper {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			height: 2rem;
+			min-width: 2rem;
+			border-radius: 0.5rem;
+			background: none;
+
+			&.saHelpLink {
+				color: var(--Sa-Color-Icon);
+
+				.Hover({
+					background: @ColorGray100;
+					color: var(--Sa-Color-Primary600);
+
+					&:active {
+						background: @ColorGray150;
+						transform: scale(.96);
+					}
+				});
+			}
+		}
+
+		.saFavoriteIcon {
+			.Hover({
+				background: @ColorYellow50;
+				color: @ColorYellow200;
+			});
+
+			&:active {
+				background: @ColorYellow100;
+				color: @ColorYellow200;
+			}
+		}
+
+		&.saHighContrast .saFavoriteIcon {
+			.Hover({
+				background: @ColorOrange50;
+				color: @ColorOrange500;
+			});
+
+			&:active {
+				background: @ColorOrange100;
+				color: @ColorOrange500;
+			}
+		}
+
+		.saIcon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-width: 1.25rem;
+			color: fade(@ColorGray600, 64);
+		}
+	}
+}
+
+.saCompact .saMenuBoxWrapper {
+	.saMenuBoxHeading {
+		font-size: 0.875rem;
+		padding: 2px 0 0 0.25rem;
+	}
+
+	.saMenuBox {
+		gap: 0.25rem;
+	}
+
+	.saMenuItem {
+		gap: 0.5rem;
+		height: 2rem;
+		padding: 0 4rem 0 0.5rem;
+
+		.saIcon {
+			min-width: 1.25rem;
+			font-size: 1rem;
+		}
+
+		.saBadge {
+			font-size: 0.5rem;
+			height: 0.75rem;
+			width: 0.75rem;
+			min-width: 0.75rem;
+			bottom: -0.25rem;
+			right: -0.375rem;
+		}
+	}
+}
+
+.saSmallScreen .saMenuBoxWrapper {
+	margin: 1rem;
+	flex-wrap: wrap;
+
+	.saColumn {
+		flex-basis: 100%;
+		max-width: 100%;
+	}
+
+	.saMenuItem {
+		height: 3rem;
+	}
+
+	.saMenuItemTools {
+		right: 0;
+
+		.saIconWrapper::after {
+			content: '';
+			height: 2.5rem;
+			width: 2.5rem;
+			position: absolute;
+		}
+	}
+}

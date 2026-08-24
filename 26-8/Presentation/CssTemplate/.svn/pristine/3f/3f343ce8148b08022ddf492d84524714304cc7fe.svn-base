@@ -1,0 +1,792 @@
+softadmin-nodegraph {
+	position: relative;
+	display: block;
+	background: @ColorGray50;
+	background-image: radial-gradient(
+		circle at 0.5rem 0.5rem,
+		@ColorGray200 1px,
+		transparent 0
+	);
+	background-size: 1rem 1rem;
+	background-position: 0.5rem 0.5rem;
+	overflow: hidden;
+	min-width: 100%;
+	min-height: calc(100vh - @LongHeaderHeightStandard - 3rem);
+	box-shadow: inset @ColorGray50 0 0 0 1px;
+	border-radius: 0.5rem;
+
+	* {
+		box-sizing: border-box;
+	}
+
+	&.saHasLinks {
+		cursor: pointer;
+	}
+
+	.saCompact & {
+		/* this should ideally leave a thin white margin between the bottom of the node graph and the bottom of the window */
+		min-height: calc(100vh - @LongHeaderHeightCompact - 3rem);
+	}
+
+	.saNode {
+		position: absolute;
+		min-width: 13rem;
+		min-height: 3rem;
+		max-width: 18rem;
+		background-color: @ColorWhite;
+		z-index: 3;
+		border: 1px solid @ColorGray300;
+		border-radius: 0.75rem;
+		background: @ColorWhite;
+		color: @ColorGray900;
+		font-size: 0.875rem;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+
+		&:hover {
+			box-shadow: 0 0 0 1px @ColorBlue600;
+			border-color: @ColorBlue600 !important;
+
+			.saCreateConnection {
+				opacity: 1;
+				transition: ease 0.1s opacity;
+			}
+		}
+
+		//Shapes
+		&.saDecision,
+		&.saSubroutine,
+		&.saProcess,
+		&.saInput,
+		&.saOutput,
+		&.saStart,
+		&.saEnd,
+		&.saComment {
+			border-radius: 0.25rem;
+			min-height: 4rem;
+			max-height: 4rem;
+			text-align: center;
+			justify-content: center;
+			width: 18rem;
+			box-sizing: border-box;
+			transition: ease transform 0.2s, ease border-radius 0.2s;
+
+			.saNodeHead,
+			.saNodeContent {
+				padding: 0.5rem 0.75rem;
+			}
+
+			.saNodeHead {
+				align-items: center;
+				justify-content: center;
+			}
+
+			.saNodeTitle {
+				.LineClamp(2);
+				text-wrap: wrap;
+
+				&:only-child {
+					.LineClamp(3);
+					text-wrap: wrap;
+				}
+			}
+		}
+
+		&.saDecision {
+			.FlexCentered();
+			border-color: @ColorYellow300;
+			background-color: @ColorYellow100;
+			min-width: 10.625rem;
+			width: 10.625rem;
+			max-height: unset;
+			height: unset;
+			aspect-ratio: 1/1;
+			transform: translate(3.6875rem, -3.3125rem) rotate(-45deg) skew(10deg, 10deg);
+
+			.saNodeHead {
+				width: calc(100% + 3rem);
+				transform: skew(-10deg, -10deg) rotate(45deg);
+			}
+
+			.saNodeTools {
+				top: -2.5rem;
+				right: 6rem;
+			}
+
+			.saCreateConnection {
+				width: 1.5rem;
+				height: 1.5rem;
+				transform: skew(-10deg, -10deg) rotate(45deg);
+				top: unset;
+				right: unset;
+				bottom: unset;
+				left: unset;
+
+				.saCreateConnectionIndicator {
+					inset: 0;
+				}
+
+				&Top {
+					top: -0.75rem;
+					right: -0.75rem;
+				}
+
+				&Right {
+					bottom: -0.75rem;
+					right: -0.75rem;
+				}
+
+				&Bottom {
+					top: -0.75rem;
+					left: -0.75rem;
+				}
+
+				&Left {
+					bottom: -0.75rem;
+					left: -0.75rem;
+				}
+			}
+		}
+
+		&.saSubroutine {
+			border-color: @ColorPurple600;
+			background-color: @ColorPurple100;
+
+			&::after {
+				content: "";
+				height: 100%;
+				width: calc(100% - 1rem);
+				border-left: inherit;
+				border-right: inherit;
+				position: absolute;
+				top: 0;
+				left: 0.5rem;
+				pointer-events: none;
+			}
+
+			.saNodeHead,
+			.saNodeContent {
+				padding: 0.5rem 1rem;
+			}
+
+			.saNodeTools {
+				right: 0.75rem;
+			}
+		}
+
+		&.saProcess {
+			border-radius: 0.25rem;
+			border-color: @ColorBlue600;
+			background-color: @ColorBlue100;
+		}
+
+		&.saInput,
+		&.saOutput {
+			transform: skew(-20deg);
+			border-color: @ColorSky400;
+			background-color: @ColorSky100;
+
+			.saNodeHead,
+			.saNodeContent {
+				transform: skew(20deg);
+			}
+
+			.saNodeTools {
+				top: -0.25rem;
+			}
+
+			.saCreateConnection:hover .saCreateConnectionIndicator {
+				transform: skew(20deg) scale(1.5);
+			}
+
+			.saCreateConnectionIndicator {
+				transform: skew(20deg);
+			}
+		}
+
+		&.saStart,
+		&.saEnd {
+			background-color: @ColorOrange100;
+			border-color: @ColorOrange400;
+			border-radius: 62.4375rem;
+
+			.saNodeHead,
+			.saNodeContent {
+				padding: 0.5rem 1rem;
+			}
+
+			.saNodeTools {
+				right: 1rem;
+			}
+		}
+
+		&.saComment {
+			background-color: @ColorGray50;
+			border-style: hidden;
+			border-radius: 2px;
+			width: fit-content;
+			height: fit-content;
+			max-height: unset;
+			background-image: repeating-linear-gradient(
+					0deg,
+					@ColorGray400,
+					@ColorGray400 1rem,
+					transparent 1rem,
+					transparent 1.5rem,
+					@ColorGray400 1.5rem
+				),
+				repeating-linear-gradient(
+					90deg,
+					@ColorGray400,
+					@ColorGray400 1rem,
+					transparent 1rem,
+					transparent 1.5rem,
+					@ColorGray400 1.5rem
+				),
+				repeating-linear-gradient(
+					180deg,
+					@ColorGray400,
+					@ColorGray400 1rem,
+					transparent 1rem,
+					transparent 1.5rem,
+					@ColorGray400 1.5rem
+				),
+				repeating-linear-gradient(
+					270deg,
+					@ColorGray400,
+					@ColorGray400 1rem,
+					transparent 1rem,
+					transparent 1.5rem,
+					@ColorGray400 1.5rem
+				);
+			background-size: 2px 100%, 100% 2px, 2px 100%, 100% 2px;
+			background-position: 0 0, 0 0, 100% 0, 0 100%;
+			background-repeat: no-repeat;
+
+			&:hover,
+			&.saSelected,
+			&.saTempSelected {
+				background-image: repeating-linear-gradient(
+						0deg,
+						@ColorBlue600,
+						@ColorBlue600 1rem,
+						transparent 1rem,
+						transparent 1.5rem,
+						@ColorBlue600 1.5rem
+					),
+					repeating-linear-gradient(
+						90deg,
+						@ColorBlue600,
+						@ColorBlue600 1rem,
+						transparent 1rem,
+						transparent 1.5rem,
+						@ColorBlue600 1.5rem
+					),
+					repeating-linear-gradient(
+						180deg,
+						@ColorBlue600,
+						@ColorBlue600 1rem,
+						transparent 1rem,
+						transparent 1.5rem,
+						@ColorBlue600 1.5rem
+					),
+					repeating-linear-gradient(
+						270deg,
+						@ColorBlue600,
+						@ColorBlue600 1rem,
+						transparent 1rem,
+						transparent 1.5rem,
+						@ColorBlue600 1.5rem
+					);
+			}
+
+			.saNodeHead {
+				padding: 0.5rem;
+			}
+
+			.saNodeContent {
+				background: unset;
+				border-radius: unset;
+				padding-top: 0;
+				border: none;
+				text-align: left;
+			}
+		}
+
+		&.saCanDrag {
+			cursor: grab;
+		}
+
+		&.saSelected,
+		&.saTempSelected {
+			box-shadow: 0 0 0 1px @ColorBlue600;
+			border-color: @ColorBlue600 !important;
+			z-index: 5;
+
+			&.saExpanded {
+				z-index: 6;
+			}
+		}
+
+		&.saExpanded {
+			z-index: 4;
+			height: fit-content;
+
+			.saNodeHead {
+				border-radius: 0.6875rem 0.6875rem 0 0;
+				height: fit-content;
+			}
+
+			.saNodeTitleWrapper {
+				text-wrap: wrap;
+				max-width: 38rem;
+			}
+
+			.saNodeTitle {
+				display: block;
+			}
+
+			.saNodeContent {
+				display: flex;
+			}
+
+			&.saHtmlContent {
+				max-width: 38rem;
+			}
+
+			&.saTextContent {
+				max-width: 38rem;
+			}
+
+			&.saTableContent {
+				max-width: fit-content;
+			}
+		}
+
+		.saNodeTable tr th,
+		.saNodeTable tr td {
+			max-width: 18rem;
+		}
+	}
+
+	&:not(.saIsDragging) {
+		.saConnectionWrapper {
+			.Hover( {
+
+					.saConnection {
+						z-index: 7;
+						fill: @ColorBlue600;
+						stroke: @ColorBlue600;
+						stroke-width: 0.25rem;
+
+						marker {
+							path,
+							polygon {
+							fill: @ColorBlue600;
+							stroke: @ColorBlue600;
+						}
+					}
+					}
+
+					.saHitIndicator {
+						stroke: @ColorBlue600;
+						stroke-width: 0.25rem;
+					}
+
+					.saConnectionLabel {
+						color: @ColorBlue600 !important;
+						border: 2px solid @ColorBlue600 !important;
+						background-color: @ColorBlue100 !important;
+						z-index: 8;
+					}
+				}
+
+			);
+		}
+	}
+
+	.saNodeGroup {
+		position: absolute;
+		display: flex;
+		justify-content: flex-start;
+		gap: 0.5rem;
+		outline-style: dashed;
+		outline-width: 2px;
+		outline-color: @ColorPurple500;
+		outline-offset: -3px;
+		background-color: fade(@ColorPurple200, 10);
+		border-radius: 1.5rem;
+		z-index: 0;
+		padding: 1rem;
+
+		.saNodeTools {
+			position: unset;
+		}
+
+		&:hover .saNodeTools,
+		.saNodeTools:has(.open) {
+			display: flex;
+		}
+
+		&.saSelected {
+			outline-style: solid;
+			outline-width: 3px;
+		}
+	}
+
+	.saNodeGroupTitle {
+		display: flex;
+		align-items: center;
+		padding: 0 0.5rem;
+		border-radius: 0.5rem;
+		background-color: @ColorPurple600;
+		color: @ColorWhite;
+		height: 1.5rem;
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		font-weight: 400;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: clip;
+	}
+
+	.saConnection {
+		position: absolute;
+		z-index: 1;
+		pointer-events: none;
+		fill: @ColorGray500;
+		stroke: @ColorGray500;
+
+		polyline {
+			stroke-width: 2px;
+
+			&.saHitZone,
+			&.saHitIndicator {
+				stroke: transparent;
+			}
+
+			&.saHitZone {
+				stroke-width: 1rem;
+				pointer-events: stroke;
+			}
+		}
+	}
+	.saConnectionLabel {
+		position: absolute;
+		z-index: 2;
+		font-size: 0.625rem;
+		line-height: 0.75rem;
+		transform: translate(-50%, -50%);
+		padding: 2px 0.25rem 2px 0.25rem;
+		border-radius: 0.25rem;
+		border: 1px solid @ColorGray500;
+		background: @ColorGray100;
+		color: @ColorGray800;
+		max-width: 30rem;
+		min-width: 2.5rem;
+		text-align: center;
+		overflow-wrap: anywhere;
+
+		&.saCanDrag {
+			cursor: grab;
+		}
+	}
+
+	.saNodeHead {
+		padding: 0.4375rem; //Not 0.5rem because of border of parent element
+		display: flex;
+		flex-direction: row;
+		gap: 0.5rem;
+		border-radius: 0.6875rem;
+		width: 100%;
+
+		&:not(:has(.saNodeIcon)) {
+			padding: 0.4375rem 0.6875rem; //Not 0.5rem because of border of parent element
+
+			& + .saNodeContent {
+				padding: 0.4375rem 0.6875rem;
+			}
+		}
+	}
+
+	.saNodeIcon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 2rem;
+		width: 2rem;
+		min-width: 2rem;
+		font-size: 1.25rem;
+		text-align: center;
+		border-radius: 0.5rem;
+		background-color: @ColorGray600;
+	}
+
+	.saNodeTitleWrapper {
+		flex-grow: 1;
+		flex-shrink: 1;
+		text-wrap: wrap;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		min-height: 1.5rem;
+		word-wrap: break-word;
+	}
+
+	.saNodeTitle {
+		font-size: 0.875rem;
+		line-height: 1rem;
+		font-weight: 500;
+		text-wrap: wrap;
+	}
+	.saNode.saExpanded .saNodeTitle {
+		display: block;
+
+		&:only-child {
+			display: block;
+		}
+	}
+
+	.saNodeSubtitle {
+		font-size: 0.75rem;
+		line-height: 0.875rem;
+		color: @ColorGray700;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		height: 0.875rem;
+	}
+
+	.saExpanded .saNodeSubtitle {
+		height: unset;
+	}
+
+	.saNodeTools {
+		position: absolute;
+		top: 0.25rem;
+		right: 0.25rem;
+		display: none;
+
+		button {
+			.Button();
+			.ButtonSizeMini();
+			.ButtonSecondary();
+
+			position: relative;
+			width: 1.5rem;
+			left: -0.5rem;
+			color: @ColorGray500;
+
+			/* Larger hitboxes for buttons */
+			&::after {
+				content: "";
+				position: absolute;
+				height: 2rem;
+				width: 2rem;
+				opacity: 0;
+			}
+		}
+
+		:last-child {
+			left: 0;
+		}
+	}
+
+	.saNode:not(.saDragged) {
+		.saNodeTools:has(.open) {
+			display: flex;
+		}
+
+		&:hover {
+			.saNodeTools {
+				display: flex;
+			}
+		}
+	}
+
+	.saNode.saExpanded {
+		.saExpandButton i {
+			transform: rotate(180deg);
+		}
+	}
+
+	.saNodeContent {
+		border-top-width: 1px;
+		border-top-style: solid;
+		border-top-color: inherit;
+		padding: 0.4375rem; //Not 0.5rem because of border of parent element
+		display: none;
+		background: @ColorWhite;
+		width: 100%;
+		border-radius: 0 0 0.6875rem 0.6875rem;
+		flex-direction: column;
+
+		img {
+			max-width: 36.875rem;
+		}
+	}
+
+	.saNodeTable {
+		min-width: 100%;
+		background: @ColorWhite;
+		border-radius: 0 0 0.6875rem 0.6875rem;
+
+		.saCompact & {
+			font-size: 0.75rem;
+		}
+
+		tr {
+			min-height: 1.5rem;
+		}
+
+		th {
+			font-weight: 500;
+			text-align: left;
+			vertical-align: bottom;
+		}
+
+		th,
+		td {
+			height: 1.5rem;
+			overflow-wrap: break-word;
+
+			&.center {
+				text-align: center;
+			}
+
+			&.right {
+				text-align: right;
+			}
+
+			&:not(:last-child) {
+				padding-right: 0.5rem;
+			}
+		}
+	}
+
+	.saCreateConnection {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: copy;
+		opacity: 0;
+		transition: ease 0.1s opacity;
+
+		&:hover {
+			opacity: 1;
+
+			.saCreateConnectionIndicator {
+				background-color: @ColorBlue400;
+				transform: scale(1.5);
+			}
+		}
+
+		@HitRectPadding: 1rem;
+
+		.saCreateConnectionIndicator {
+			width: 0.75rem;
+			height: 0.75rem;
+			border-radius: 0.75rem;
+			background-color: @ColorBlue100;
+			border: 1px solid @ColorBlue600;
+			position: relative;
+			transition: ease 0.1s background-color, ease transform 0.1s;
+		}
+
+		&Top,
+		&Bottom {
+			width: 2rem;
+			height: @HitRectPadding;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+
+		&Top {
+			top: -@HitRectPadding;
+
+			.saCreateConnectionIndicator {
+				top: 0.4375rem;
+			}
+		}
+
+		&Bottom {
+			bottom: -@HitRectPadding;
+
+			.saCreateConnectionIndicator {
+				bottom: 0.4375rem;
+			}
+		}
+
+		&Left,
+		&Right {
+			height: 2rem;
+			width: @HitRectPadding;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		&Right {
+			right: -@HitRectPadding;
+
+			.saCreateConnectionIndicator {
+				right: 0.4375rem;
+			}
+		}
+
+		&Left {
+			left: -@HitRectPadding;
+
+			.saCreateConnectionIndicator {
+				left: 0.4375rem;
+			}
+		}
+	}
+
+	.saConnectionBeingCreated {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 98;
+
+		line {
+			stroke: @ColorBlue600;
+			stroke-width: 0.1875rem;
+		}
+
+		&.saHasTarget {
+			line {
+				stroke: @ColorBlue600;
+				stroke-width: 0.3125rem;
+			}
+		}
+	}
+
+	.saNode.saCreateConnectionFrom {
+		box-shadow: 0 0 0 1px @ColorBlue600, 0 0 0 0.25rem @ColorBlue300;
+		border-color: @ColorBlue600 !important;
+		cursor: copy;
+	}
+
+	.saNode.saCreateConnectionTo {
+		box-shadow: 0 0 0 1px @ColorBlue600, 0 0 0 0.25rem @ColorBlue300;
+		border-color: @ColorBlue600 !important;
+		cursor: copy;
+	}
+
+	.saDragged {
+		z-index: 99;
+	}
+}
+
+.saSelectionRect {
+	position: absolute;
+	background: fade(@ColorBlue600, 20);
+	box-shadow: inset 0 0 0 1px @ColorBlue600;
+	pointer-events: none;
+	z-index: 90;
+}

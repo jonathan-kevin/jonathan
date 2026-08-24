@@ -17,16 +17,6 @@
 		return 'https://jonathankevin.netlify.app/.netlify/functions/softadmin-spec';
 	}
 
-	function registryComponents() {
-		const registry = window.SoftadminMockups && window.SoftadminMockups.registry;
-		return registry ? registry.components : {};
-	}
-
-	function registryControls() {
-		const registry = window.SoftadminMockups && window.SoftadminMockups.registry;
-		return registry && registry.controls ? registry.controls.items : {};
-	}
-
 	function referenceCatalog() {
 		return window.SoftadminReferenceCatalog || null;
 	}
@@ -34,22 +24,6 @@
 	function catalogEntries(kind) {
 		const catalog = referenceCatalog();
 		return catalog && catalog[kind] ? catalog[kind] : null;
-	}
-
-	function aliasMapFromRegistry(entries) {
-		const aliases = {};
-
-		Object.entries(entries || {}).forEach(([name, entry]) => {
-			if (entry.renderType) {
-				aliases[name] = entry.renderType;
-			}
-
-			if (entry.aliasFor && entries[entry.aliasFor] && entries[entry.aliasFor].renderType) {
-				aliases[name] = entries[entry.aliasFor].renderType;
-			}
-		});
-
-		return aliases;
 	}
 
 	function aliasMapFromCatalog(kind) {
@@ -99,53 +73,11 @@
 	}
 
 	function implementedComponentTypes() {
-		const catalogTypes = implementedTypesFromCatalog('components');
-
-		if (catalogTypes) {
-			return catalogTypes;
-		}
-
-		const components = registryComponents();
-		const result = new Set();
-
-		Object.entries(components).forEach(([name, component]) => {
-			if (!component.implemented) {
-				return;
-			}
-
-			result.add(name);
-
-			if (component.renderType) {
-				result.add(component.renderType);
-			}
-		});
-
-		return result;
+		return implementedTypesFromCatalog('components') || new Set();
 	}
 
 	function implementedControlTypes() {
-		const catalogTypes = implementedTypesFromCatalog('controls');
-
-		if (catalogTypes) {
-			return catalogTypes;
-		}
-
-		const controls = registryControls();
-		const result = new Set(['textbox']);
-
-		Object.entries(controls || {}).forEach(([name, control]) => {
-			if (!control.implemented) {
-				return;
-			}
-
-			result.add(name);
-
-			if (control.renderType) {
-				result.add(control.renderType);
-			}
-		});
-
-		return result;
+		return implementedTypesFromCatalog('controls') || new Set();
 	}
 
 	function normalizeComponent(component, diagnostics, path) {
@@ -155,10 +87,7 @@
 		}
 
 		const implementedTypes = implementedComponentTypes();
-		const componentAliases = {
-			...aliasMapFromRegistry(registryComponents()),
-			...aliasMapFromCatalog('components')
-		};
+		const componentAliases = aliasMapFromCatalog('components');
 		const normalizedType = componentAliases[component.type] || component.type;
 
 		if (normalizedType !== component.type) {
@@ -211,10 +140,7 @@
 
 	function normalizeFields(fields, diagnostics, path) {
 		const implementedControls = implementedControlTypes();
-		const controlAliases = {
-			...aliasMapFromRegistry(registryControls()),
-			...aliasMapFromCatalog('controls')
-		};
+		const controlAliases = aliasMapFromCatalog('controls');
 
 		return fields.map((field, index) => {
 			const fieldPath = `${path}[${index}]`;
@@ -320,50 +246,18 @@
 		};
 	}
 
-	function catalogPromptInstructions() {
-		const catalog = referenceCatalog();
-
-		if (!catalog) {
-			return '';
-		}
-
-		const compactCatalog = compactReferenceCatalog();
-
-		return [
-			'Softadmin mockup generator constraints:',
-			`Allowed component type values: ${compactCatalog.componentTypes.join(', ')}.`,
-			`Allowed NewEdit field control values: ${compactCatalog.controlTypes.join(', ')}.`,
-			'Do not emit any other component or control types.',
-			'If the user asks for something unsupported, choose the closest renderable Softadmin component/control instead.',
-			'Return only the compact Softadmin JSON spec.'
-		].join('\n');
-	}
-
-	function constrainedPrompt(prompt) {
-		const instructions = catalogPromptInstructions();
-
-		return instructions
-			? `${instructions}\n\nUser request:\n${prompt}`
-			: prompt;
-	}
-
 	async function fetchRemoteSpec(prompt) {
 		if (!config.specEndpoint) {
 			throw new Error('Spec endpoint is not configured.');
 		}
 
-		// Endpoint contract: POST { prompt, registry } and return the compact Softadmin spec only.
+		// The endpoint owns the catalog and prompt contract; the browser sends user intent only.
 		const response = await fetch(config.specEndpoint, {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json'
 			},
-			body: JSON.stringify({
-				prompt: constrainedPrompt(prompt),
-				userPrompt: prompt,
-				referenceCatalog: compactReferenceCatalog(),
-				registry: window.SoftadminMockups.registry
-			})
+			body: JSON.stringify({ prompt })
 		});
 
 		if (!response.ok) {
@@ -378,13 +272,16 @@
 		const source = 'endpoint';
 		const diagnostics = createDiagnostics();
 
-		const spec = await fetchRemoteSpec(prompt);
+		const response = await fetchRemoteSpec(prompt);
+		const spec = response.spec || response;
 
 		const rawSpec = spec;
 		const normalizedSpec = normalizeSpec(spec, diagnostics);
+		window.SoftadminSpecContract?.assertSpec(normalizedSpec);
 
 		return {
 			diagnostics,
+			usage: response.usage || null,
 			rawSpec,
 			source,
 			spec: normalizedSpec

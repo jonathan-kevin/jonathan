@@ -1,6 +1,7 @@
 (function () {
 	let lastDebugResult = null;
 	const undoStack = [];
+	const maxUndoStates = 40;
 	const logoStorageKey = 'softadmin.mockup.logo';
 	const avatarStorageKey = 'softadmin.mockup.avatar';
 	const aiToolsPositionStorageKey = 'softadmin.mockup.aiToolsPosition';
@@ -1313,7 +1314,7 @@
 			return;
 		}
 
-		undoStack.push(captureUndoState());
+		pushUndoState();
 
 		if (target.matches('.saFieldCollection')) {
 			target.insertAdjacentHTML('beforeend', html);
@@ -1365,7 +1366,7 @@
 			return null;
 		}
 
-		undoStack.push(captureUndoState());
+		pushUndoState();
 
 		const row = document.createElement('div');
 		row.className = 'saSiblingRow';
@@ -1428,7 +1429,7 @@
 			return;
 		}
 
-		undoStack.push(captureUndoState());
+		pushUndoState();
 		fields.appendChild(parts.label);
 		fields.appendChild(parts.fieldCell);
 		selectElement(siblingRow);
@@ -1490,6 +1491,13 @@
 		return state;
 	}
 
+	function pushUndoState(state = captureUndoState()) {
+		undoStack.push(state);
+		if (undoStack.length > maxUndoStates) {
+			undoStack.splice(0, undoStack.length - maxUndoStates);
+		}
+	}
+
 	function cleanDuplicatedElement(element) {
 		element.classList.remove('saMockSelectedElement', 'saMockDraggingElement', 'saMockDropTarget');
 		delete element.dataset.softadminEditBound;
@@ -1523,7 +1531,7 @@
 			return;
 		}
 
-		undoStack.push(captureUndoState());
+		pushUndoState();
 		const clone = selectedElement.cloneNode(true);
 		cleanDuplicatedElement(clone);
 		selectedElement.insertAdjacentElement('afterend', clone);
@@ -1557,7 +1565,7 @@
 			return;
 		}
 
-		undoStack.push(captureUndoState());
+		pushUndoState();
 
 		if (direction === 'up') {
 			selectedElement.parentElement.insertBefore(selectedElement, sibling);
@@ -1618,7 +1626,7 @@
 			return;
 		}
 
-		undoStack.push(captureUndoState());
+		pushUndoState();
 		selectedElement.remove();
 		clearSelectedElement();
 		syncTopButtonLayoutAfterDeletion();
@@ -1712,7 +1720,7 @@
 
 		elementToMove.classList.remove('saMockDraggingElement');
 		clearDropTarget();
-		undoStack.push(captureUndoState());
+		pushUndoState();
 		insertDraggedElement(elementToMove, targetElement, event);
 		selectElement(elementToMove);
 		draggedElement = null;
@@ -1956,7 +1964,7 @@
 			return;
 		}
 
-		undoStack.push(captureState());
+		pushUndoState(captureState());
 		clearSelectedElement();
 		suppressTopActionsForComponent(spec);
 
@@ -2035,6 +2043,17 @@
 		};
 	}
 
+	function clearRestoredBindingMarkers(root) {
+		if (!root) {
+			return;
+		}
+
+		root.querySelectorAll('[data-softadmin-edit-bound], [data-softadmin-value-edit-bound]').forEach(element => {
+			delete element.dataset.softadminEditBound;
+			delete element.dataset.softadminValueEditBound;
+		});
+	}
+
 	function restoreState(state) {
 		const header = document.getElementById('pageheader');
 		const sidebar = document.querySelector('.saSideBarOuter');
@@ -2075,6 +2094,10 @@
 		if (root) {
 			root.innerHTML = state.rootHtml;
 		}
+
+		clearRestoredBindingMarkers(header);
+		clearRestoredBindingMarkers(sidebar);
+		clearRestoredBindingMarkers(root);
 
 		manualEdits.clear();
 		(state.manualEdits || []).forEach(([key, value]) => {
@@ -2248,7 +2271,7 @@
 				applyManualEdits();
 			}
 
-			undoStack.push(previousState);
+			pushUndoState(previousState);
 			lastDebugResult = {
 				diagnostics: result.diagnostics || { aliases: [], dropped: [], warnings: [] },
 				prompt,

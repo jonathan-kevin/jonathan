@@ -1,0 +1,108 @@
+.saVisibleParametersWrapper {
+	display: flex;
+	flex-direction: column;
+	padding: 1rem;
+	border-radius: 1rem;
+	gap: 0.5rem;
+	width: fit-content;
+	background: @ColorGray50;
+	border: 1px solid @ColorGray200;
+	margin-bottom: 1rem;
+
+	.saLargeScreen & {
+		min-width: 20.25rem;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	.saVisibleParametersHeading {
+		font-weight: 600;
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		color: @ColorGray900;
+
+		h2 {
+			font-size: 1rem;
+			line-height: 1rem;
+		}
+	}
+
+	.saVisibleParametersGroup {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+		flex-direction: column;
+	}
+
+	.saVisibleParameter {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.saVisibleParameterLabel {
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		color: @ColorGray700;
+	}
+
+	.saVisibleParameterValue {
+		font-size: 0.875rem;
+		color: @ColorGray900;
+		word-break: break-word;
+	}
+
+	.saVisibleParametersButton {
+		.Button();
+		.ButtonGhost();
+		.ButtonSizeCompact();
+		position: relative;
+		margin-top: -0.5rem;
+		margin-right: -0.5rem;
+
+		.saIcon.saExpanded {
+			transform: rotate(180deg);
+			transition: transform ease .2s;
+		}
+
+		&::after {
+			content: '';
+			height: 3rem;
+			width: calc(100% + 0.5rem);
+			right: -0.5rem;
+			top: -0.5rem;
+			opacity: 0;
+			position: absolute;
+		}
+
+		.Hover({
+			background: @ColorGray100;
+		});
+
+		&:active {
+			background: @ColorGray150;
+		}
+	}
+}
+
+.saSmallScreen .saVisibleParametersRoot {
+	display: flex;
+	padding: 0 1rem;
+
+	.saVisibleParametersWrapper {
+		margin-bottom: 1rem;
+		margin-top: 1rem;
+		width: 100%;
+	}
+
+	.saVisibleParametersButton {
+		flex: unset;
+
+		&::after {
+			left: unset;
+			right: -0.5rem;
+		}
+	}
+}

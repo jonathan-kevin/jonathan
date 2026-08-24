@@ -340,5 +340,6 @@
 	catalog.renderableComponents = renderableNames(catalog.components);
 	catalog.renderableControls = renderableNames(catalog.controls);
 
-	window.SoftadminReferenceCatalog = catalog;
+	const target = typeof window !== 'undefined' ? window : globalThis;
+	target.SoftadminReferenceCatalog = catalog;
 }());

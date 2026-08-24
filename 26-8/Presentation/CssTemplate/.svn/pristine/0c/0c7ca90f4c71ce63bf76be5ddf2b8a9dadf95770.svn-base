@@ -1,0 +1,238 @@
+.saCheckboxTreeWrapper {
+	.DefaultFieldWrapper();
+	max-height: 80vh;
+
+	.saCheckboxTree {
+		overflow-y: auto;
+		box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+		border-radius: 0 0 0.5rem 0.5rem;
+		padding: 0.5rem;
+		background-color: @ColorWhite;
+		transition: ease color 0.2s, ease background-color 0.2s, ease box-shadow 0.2s;
+	}
+
+	.saDisabled & {
+		color: @ColorGray400;
+	}
+
+	.saInputText {
+		height: 2.5rem;
+		border-radius: 0.5rem;
+		padding: 0 0.75rem;
+		min-width: 5rem;
+		max-width: 100%;
+		font: inherit;
+		outline: 0;
+		padding-left: 2.625rem;
+	}
+
+	.saInputValidation {
+		display: flex;
+		position: unset;
+		right: unset;
+		top: unset;
+		padding: 0.5rem 0.5rem 0.5rem 0.875rem;
+		min-width: 0;
+		gap: 0.375rem;
+		pointer-events: none;
+		align-items: center;
+		margin-top: -1px;
+		transition: ease color 0.2s, ease background-color 0.2s, ease box-shadow 0.2s;
+
+		.saInputValidationIcon {
+			display: flex;
+			border-radius: 0;
+			font-size: 1.25rem;
+			transition: inherit;
+		}
+
+		.saInputErrorMessage {
+			display: flex;
+			color: @ColorGray900;
+			transform: translateY(0);
+			word-break: break-word;
+			transition: inherit;
+		}
+
+		&.saError {
+			box-shadow: inset 0 0 0 1px @ColorRed600;
+			background-color: @ColorRed50;
+
+			.saInputValidationIcon {
+				color: @ColorRed600;
+			}
+		}
+
+		&.saInfo {
+			box-shadow: inset 0 0 0 1px @ColorBlue600;
+			background-color: @ColorBlue100;
+
+			.saInputValidationIcon {
+				color: @ColorBlue600;
+			}
+		}
+
+		&.saWarning {
+			box-shadow: inset 0 0 0 1px @ColorYellow200;
+			background-color: @ColorYellow50;
+
+			.saInputValidationIcon {
+				color: @ColorYellow500;
+			}
+		}
+
+		.saDisabled & {
+			box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+			background-color: @ColorGray100;
+
+			.saInputErrorMessage {
+				color: @ColorGray400;
+			}
+
+			.saInputValidationIcon {
+				color: @ColorGray400;
+			}
+		}
+	}
+
+	.saCheckboxTreeHeader {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem;
+		background-color: @ColorGray100;
+		border-radius: 0.5rem 0.5rem 0 0;
+		padding: 0.75rem 0.875rem;
+		box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+		margin-bottom: -1px;
+		transition: ease color 0.2s, ease background-color 0.2s, ease box-shadow 0.2s;
+
+		label.saCheckboxWrapper {
+			transition: none;
+		}
+	}
+
+	.saCheckboxTreeSticky {
+		width: 100%;
+		z-index: 2;
+		background-color: @ColorWhite;
+		margin-bottom: -1px;
+		transition: ease color 0.2s, ease background-color 0.2s, ease box-shadow 0.2s;
+
+		.saInputTextWrapper {
+			box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+			transition: inherit;
+
+			.saDisabled & {
+				background-color: @ColorGray50;
+			}
+
+			.saLeadingIcon {
+				position: absolute;
+				padding-left: 1rem;
+				top: 0.625rem;
+				left: 0;
+				z-index: 1;
+				font-size: 1.25rem;
+				pointer-events: none;
+				color: @ColorGray500;
+				transition: inherit;
+
+				.saDisabled & {
+					color: @ColorGray200 !important;
+				}
+			}
+
+			.saInputText::placeholder {
+				transition: ease color 0.2s;
+
+				.saDisabled & {
+					color: @ColorGray200;
+				}
+			}
+
+			&:focus-within,
+			&:hover {
+				.saLeadingIcon {
+					color: @ColorBlue600;
+				}
+			}
+		}
+
+		.saInputText {
+			border-radius: 0;
+			background-color: transparent;
+			padding: 0 0.75rem 0 2.75rem;
+		}
+
+		.saInputTextWrapper {
+			margin-right: 0;
+		}
+	}
+
+	.saCheckboxTreeNumberOfChecked {
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		transition: ease color 0.1s;
+
+		.saDisabled & {
+			color: @ColorGray400;
+		}
+	}
+
+	.saNoResults {
+		display: flex;
+		align-items: center;
+		color: @ColorGray600;
+		min-height: 2.5rem;
+		padding: 0.5rem;
+	}
+
+	.saCheckboxOuter{
+		label.saCheckboxWrapper {
+			transition: none;
+		}
+	}
+}
+
+.saHighlightFieldError:not(.saDisabled) .saCheckboxTreeWrapper {
+	.saCheckboxTree {
+		box-shadow: inset 0 0 0 1px @ColorRed600;
+	}
+
+	.saCheckboxTreeHeader {
+		box-shadow: inset 0 0 0 1px @ColorRed600;
+		background-color: @ColorRed50;
+	}
+
+	.saCheckboxTreeSticky .saInputText {
+		box-shadow: inset 0 0 0 1px @ColorRed600;
+	}
+}
+
+.saHighlightFieldWarning:not(.saDisabled) .saCheckboxTreeWrapper {
+	.saCheckboxTree {
+		box-shadow: inset 0 0 0 1px @ColorYellow200;
+	}
+
+	.saCheckboxTreeHeader {
+		box-shadow: inset 0 0 0 1px @ColorYellow200;
+		background-color: @ColorYellow50;
+		}
+
+	.saCheckboxTreeSticky .saInputText {
+		box-shadow: inset 0 0 0 1px @ColorYellow200;
+	}
+}
+
+.saCompact .saCheckboxTreeWrapper {
+	.saError.saInputValidation {
+		padding: 0.5rem 0.5rem 0.5rem 0.875rem;
+		gap: 0.5rem;
+	}
+
+	.saNoResults {
+		min-height: 2rem;
+		max-height: 2rem;
+	}
+}

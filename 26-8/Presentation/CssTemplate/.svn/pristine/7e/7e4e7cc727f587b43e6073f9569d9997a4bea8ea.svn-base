@@ -1,0 +1,54 @@
+.saAccessibilityBanner {
+	.FlexCentered();
+	width: 100vw;
+	height: 0;
+	background: @ColorGray900;
+	position: fixed;
+	opacity: 0;
+	top: 0;
+	z-index: @ZIndexAccessibilityBanner;
+
+	&:focus-within {
+		opacity: 1;
+	}
+
+	li {
+		.FlexCentered();
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+	}
+
+	a {
+		.FlexCentered();
+		font-size: 0.875rem;
+		line-height: 1.25rem;
+		padding: 1rem 1.125rem;
+		width: calc(100% - 2.25rem);
+		text-align: center;
+		color: @ColorWhite;
+		position: absolute;
+		text-decoration: none;
+		z-index: @ZIndexAccessibilityBanner;
+		top: -12.5rem;
+		transition: none;
+		background: @ColorGray900;
+
+		&:hover {
+			text-decoration: underline;
+		}
+
+		&:active {
+			background: @ColorBlue600;
+			color: @ColorWhite;
+			text-decoration: underline;
+		}
+
+		&:focus,
+		&:active {
+			box-shadow: inset 0 0 0 2px @ColorWhite;
+			top: 0;
+		}
+	}
+}
