@@ -1,17 +1,638 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Jonathan</title>
+	<title>Softadmin mockup</title>
 	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css">
 	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+	<style>
+		.saRadioCardsMock {
+			margin-top: 1rem;
+		}
+
+		.saValidationMessage {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			margin-top: 0.5rem;
+			font-size: 0.875rem;
+			line-height: 1.25rem;
+			font-weight: 500;
+		}
+
+		.saValidationMessage.saWarning {
+			color: #9c6700;
+		}
+
+		.saValidationMessage.saError {
+			color: #e0173e;
+		}
+
+		.saLargeScreen .saMockSmallScreenOnly {
+			display: none !important;
+		}
+
+		.saSmallScreen .saMockLargeScreenOnly {
+			display: none !important;
+		}
+
+		.saSmallScreen .saMockMobileOverflowAction {
+			display: none !important;
+		}
+
+		.saMockAiTools {
+			position: fixed;
+			right: 1.5rem;
+			bottom: 1.5rem;
+			z-index: 1020;
+			width: min(34rem, calc(100vw - 3rem));
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			max-height: calc(100vh - 3rem);
+		}
+
+		.saMockAiTools.saDragging {
+			cursor: grabbing;
+			user-select: none;
+		}
+
+		.saMockPromptPanel {
+			position: relative;
+			width: 100%;
+			margin: 0;
+			box-sizing: border-box;
+			border: 1px solid rgba(148, 163, 184, 0.32);
+			border-radius: 1rem;
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.96));
+			box-shadow: 0 1.25rem 3.5rem rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.72) inset;
+			backdrop-filter: blur(18px);
+			padding: 0.875rem;
+			font-family: Inter, Lexend, Arial, sans-serif;
+		}
+
+		.saMockPromptHeader {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1rem;
+			margin-bottom: 0.75rem;
+			cursor: grab;
+		}
+
+		.saMockAiTools.saDragging .saMockPromptHeader {
+			cursor: grabbing;
+		}
+
+		.saMockPromptTitle {
+			display: flex;
+			align-items: center;
+			gap: 0.625rem;
+			min-width: 0;
+			color: #0f172a;
+			font-size: 0.9375rem;
+			font-weight: 700;
+			line-height: 1.25rem;
+		}
+
+		.saMockPromptSpark {
+			display: grid;
+			place-items: center;
+			flex: 0 0 auto;
+			width: 2rem;
+			height: 2rem;
+			border-radius: 999px;
+			color: #fff;
+			background: linear-gradient(135deg, #2563eb, #7c3aed);
+			box-shadow: 0 0.5rem 1.25rem rgba(37, 99, 235, 0.3);
+		}
+
+		.saMockPromptHint {
+			color: #64748b;
+			font-size: 0.75rem;
+			line-height: 1rem;
+			white-space: nowrap;
+		}
+
+		.saMockPromptInput {
+			display: block;
+			width: 100%;
+			min-height: 6rem;
+			box-sizing: border-box;
+			border: 1px solid rgba(148, 163, 184, 0.45);
+			border-radius: 0.75rem;
+			background: #fff;
+			color: #0f172a;
+			font: inherit;
+			font-size: 0.875rem;
+			line-height: 1.375rem;
+			outline: none;
+			padding: 0.875rem 1rem;
+			resize: vertical;
+		}
+
+		.saMockPromptInput:focus {
+			border-color: #2563eb;
+			box-shadow: 0 0 0 0.1875rem rgba(37, 99, 235, 0.14);
+		}
+
+		.saMockPromptOptions {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			margin-top: 0.625rem;
+		}
+
+		.saMockComponentPicker {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			color: #475569;
+			font-size: 0.75rem;
+			font-weight: 700;
+			line-height: 1rem;
+		}
+
+		.saMockComponentPicker select {
+			min-height: 2rem;
+			border: 1px solid rgba(148, 163, 184, 0.45);
+			border-radius: 999px;
+			background: #fff;
+			color: #0f172a;
+			font: inherit;
+			font-size: 0.8125rem;
+			font-weight: 700;
+			outline: none;
+			padding: 0 2rem 0 0.75rem;
+		}
+
+		.saMockComponentPicker select:focus {
+			border-color: #2563eb;
+			box-shadow: 0 0 0 0.1875rem rgba(37, 99, 235, 0.14);
+		}
+
+		.saMockExamplePrompts {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.375rem;
+			margin-top: 0.625rem;
+		}
+
+		.saMockExamplePrompt {
+			display: inline-flex;
+			align-items: center;
+			min-height: 1.875rem;
+			border: 1px solid rgba(148, 163, 184, 0.42);
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.86);
+			color: #334155;
+			cursor: pointer;
+			font: inherit;
+			font-size: 0.75rem;
+			font-weight: 700;
+			line-height: 1rem;
+			padding: 0 0.625rem;
+		}
+
+		.saMockExamplePrompt:hover {
+			border-color: rgba(37, 99, 235, 0.45);
+			color: #2563eb;
+		}
+
+		.saMockPromptActions {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 0.75rem;
+			margin-top: 0.75rem;
+		}
+
+		.saMockPromptActionGroup {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+		}
+
+		.saMockPromptButton {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
+			min-height: 2.5rem;
+			border: 0;
+			border-radius: 999px;
+			background: #0f172a;
+			color: #fff;
+			cursor: pointer;
+			font: inherit;
+			font-size: 0.875rem;
+			font-weight: 700;
+			line-height: 1rem;
+			padding: 0 1rem;
+			transition: transform 0.12s ease, background 0.12s ease, box-shadow 0.12s ease;
+		}
+
+		.saMockPromptButton:hover {
+			background: #1e293b;
+			box-shadow: 0 0.75rem 1.5rem rgba(15, 23, 42, 0.18);
+			transform: translateY(-1px);
+		}
+
+		.saMockPromptButton:active {
+			transform: translateY(0);
+		}
+
+		.saMockDebugToggle {
+			display: inline-grid;
+			place-items: center;
+			width: 2.5rem;
+			height: 2.5rem;
+			border: 1px solid rgba(148, 163, 184, 0.4);
+			border-radius: 999px;
+			background: #fff;
+			color: #334155;
+			cursor: pointer;
+			font-size: 0.875rem;
+		}
+
+		.saMockDebugToggle:hover {
+			border-color: rgba(37, 99, 235, 0.45);
+			color: #2563eb;
+		}
+
+		.saMockDebugToggle:disabled {
+			cursor: default;
+			opacity: 0.45;
+		}
+
+		.saMockPromptButton:disabled {
+			cursor: default;
+			opacity: 0.72;
+			transform: none;
+		}
+
+		.saMockPromptButtonLoading .fa-sparkles {
+			animation: saMockPromptSpin 0.9s linear infinite;
+		}
+
+		@keyframes saMockPromptSpin {
+			from {
+				transform: rotate(0deg);
+			}
+
+			to {
+				transform: rotate(360deg);
+			}
+		}
+
+		.saMockPromptStatus {
+			min-width: 0;
+			overflow: hidden;
+			color: #475569;
+			font-size: 0.75rem;
+			line-height: 1rem;
+			text-align: right;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.saMockDebugDrawer {
+			position: fixed;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 1030;
+			display: flex;
+			flex-direction: column;
+			width: min(42rem, 100vw);
+			box-sizing: border-box;
+			background: #0f172a;
+			color: #e2e8f0;
+			box-shadow: -1rem 0 3rem rgba(15, 23, 42, 0.28);
+			font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+			transform: translateX(100%);
+			transition: transform 0.18s ease;
+		}
+
+		.saMockDebugDrawer.saOpen {
+			transform: translateX(0);
+		}
+
+		.saMockDebugHeader {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1rem;
+			border-bottom: 1px solid rgba(148, 163, 184, 0.24);
+			padding: 1rem;
+		}
+
+		.saMockDebugHeader h2 {
+			margin: 0;
+			color: #f8fafc;
+			font: 700 1rem/1.25rem Inter, Lexend, Arial, sans-serif;
+		}
+
+		.saMockDebugClose {
+			display: grid;
+			place-items: center;
+			width: 2rem;
+			height: 2rem;
+			border: 0;
+			border-radius: 999px;
+			background: rgba(148, 163, 184, 0.16);
+			color: #e2e8f0;
+			cursor: pointer;
+		}
+
+		.saMockDebugContent {
+			overflow: auto;
+			padding: 1rem;
+		}
+
+		.saMockDebugSection {
+			margin-bottom: 1rem;
+		}
+
+		.saMockDebugSection h3 {
+			margin: 0 0 0.5rem;
+			color: #93c5fd;
+			font: 700 0.75rem/1rem Inter, Lexend, Arial, sans-serif;
+			text-transform: uppercase;
+		}
+
+		.saMockDebugSection pre,
+		.saMockDebugList {
+			margin: 0;
+			border: 1px solid rgba(148, 163, 184, 0.2);
+			border-radius: 0.75rem;
+			background: rgba(15, 23, 42, 0.72);
+			color: #e2e8f0;
+			font-size: 0.75rem;
+			line-height: 1.35;
+			overflow: auto;
+			padding: 0.75rem;
+			white-space: pre-wrap;
+		}
+
+		.saMockDebugList {
+			list-style: none;
+		}
+
+		.saMockDebugList li + li {
+			margin-top: 0.375rem;
+		}
+
+		.saSmallScreen .saMockAiTools {
+			right: 0.75rem;
+			bottom: 0.75rem;
+			width: calc(100vw - 1.5rem);
+			max-height: calc(100vh - 1.5rem);
+		}
+
+		.saSmallScreen .saMockPromptPanel {
+			overflow: auto;
+		}
+
+		[data-softadmin-editable="true"] {
+			border-radius: 0.25rem;
+			outline: none;
+		}
+
+		[data-softadmin-editable="true"]:hover {
+			box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.18);
+		}
+
+		[data-softadmin-editable="true"]:focus {
+			background: rgba(37, 99, 235, 0.08);
+			box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.22);
+		}
+
+		[data-softadmin-user-edited="true"] {
+			text-decoration: underline dotted rgba(37, 99, 235, 0.36);
+			text-underline-offset: 0.18em;
+		}
+
+		.saMockSelectedElement {
+			outline: 2px solid #2563eb !important;
+			outline-offset: 2px;
+			box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14) !important;
+		}
+
+		.saMockDraggingElement {
+			opacity: 0.48;
+		}
+
+		.saMockDropTarget {
+			outline: 2px dashed #16a34a !important;
+			outline-offset: 3px;
+		}
+
+		.saMockFormBuilderPanel {
+			display: none;
+			width: 100%;
+			box-sizing: border-box;
+			border: 1px solid rgba(148, 163, 184, 0.32);
+			border-radius: 0.875rem;
+			background: rgba(255, 255, 255, 0.96);
+			box-shadow: 0 1rem 2.5rem rgba(15, 23, 42, 0.18);
+			backdrop-filter: blur(16px);
+			padding: 0.75rem;
+			font-family: Inter, Lexend, Arial, sans-serif;
+		}
+
+		.saMockFormBuilderPanel.saOpen {
+			display: block;
+		}
+
+		.saMockFormBuilderHeader {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 0.75rem;
+			margin-bottom: 0.625rem;
+			cursor: grab;
+		}
+
+		.saMockAiTools.saDragging .saMockFormBuilderHeader {
+			cursor: grabbing;
+		}
+
+		.saMockFormBuilderHeader h2 {
+			margin: 0;
+			color: #0f172a;
+			font-size: 0.8125rem;
+			font-weight: 800;
+			line-height: 1rem;
+		}
+
+		.saMockFormBuilderHeader span {
+			color: #64748b;
+			font-size: 0.6875rem;
+			font-weight: 700;
+			line-height: 1rem;
+		}
+
+		.saMockFieldPalette {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.375rem;
+		}
+
+		.saMockFieldPaletteButton {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.375rem;
+			min-height: 2rem;
+			border: 1px solid rgba(148, 163, 184, 0.42);
+			border-radius: 999px;
+			background: #fff;
+			color: #334155;
+			cursor: grab;
+			font: inherit;
+			font-size: 0.75rem;
+			font-weight: 700;
+			line-height: 1rem;
+			padding: 0 0.625rem;
+		}
+
+		.saMockFieldPaletteButton:hover {
+			border-color: rgba(37, 99, 235, 0.45);
+			color: #2563eb;
+		}
+
+		.saMockFieldPaletteButton:active {
+			cursor: grabbing;
+		}
+
+		.saMockFormBuilderDropTarget {
+			outline: 2px dashed #7c3aed !important;
+			outline-offset: 4px;
+			background: rgba(124, 58, 237, 0.05);
+		}
+
+		.saSmallScreen .saMockFormBuilderPanel {
+			width: 100%;
+		}
+
+		[data-softadmin-component-root] .saFieldButtonGroup {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.375rem;
+			margin-left: 0.5rem;
+		}
+
+		[data-softadmin-component-root] .saFieldButtonGroup .saLabeledFieldButton {
+			min-height: 2rem;
+			white-space: nowrap;
+		}
+
+		[data-softadmin-component-root] .saSectionHeaderWithCheckbox {
+			align-items: center;
+			display: flex;
+			gap: 0.5rem;
+		}
+
+		[data-softadmin-component-root] .saSectionHeaderWithCheckbox .saCheckboxWrapper {
+			margin: 0;
+		}
+
+		.saMockLogoFileInput {
+			display: none;
+		}
+
+		.saCustomerLogo,
+		.saSideBarHeaderSmallScreenLogo,
+		.saAccountAvatar {
+			cursor: pointer;
+		}
+
+		.saMockLogoUrlInput {
+			width: 0;
+			min-width: 0;
+			opacity: 0;
+			border: 1px solid rgba(148, 163, 184, 0.38);
+			border-radius: 0.5rem;
+			background: rgba(255, 255, 255, 0.96);
+			color: #0f172a;
+			font: inherit;
+			height: 2.125rem;
+			padding: 0;
+			pointer-events: none;
+			transition: width 0.16s ease, opacity 0.16s ease, padding 0.16s ease;
+		}
+
+		.saMockLogoUrlInput.saOpen {
+			width: 13rem;
+			opacity: 1;
+			padding: 0 0.625rem;
+			pointer-events: auto;
+		}
+
+		.saMockSelectionToolbar {
+			position: fixed;
+			z-index: 100000;
+			display: none;
+			align-items: center;
+			gap: 0.25rem;
+			max-width: min(30rem, calc(100vw - 1rem));
+			border: 1px solid rgba(15, 23, 42, 0.14);
+			border-radius: 0.75rem;
+			background: rgba(15, 23, 42, 0.94);
+			box-shadow: 0 1rem 2.5rem rgba(15, 23, 42, 0.22);
+			color: #fff;
+			padding: 0.3125rem;
+		}
+
+		.saMockSelectionToolbar.saOpen {
+			display: flex;
+		}
+
+		.saMockSelectionLabel {
+			max-width: 10rem;
+			overflow: hidden;
+			padding: 0 0.5rem;
+			color: #cbd5e1;
+			font-size: 0.6875rem;
+			font-weight: 800;
+			line-height: 1.75rem;
+			text-overflow: ellipsis;
+			text-transform: uppercase;
+			white-space: nowrap;
+		}
+
+		.saMockSelectionToolbar button {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 1.875rem;
+			height: 1.875rem;
+			border: 0;
+			border-radius: 0.5rem;
+			background: transparent;
+			color: #e2e8f0;
+			cursor: pointer;
+		}
+
+		.saMockSelectionToolbar button:hover {
+			background: rgba(255, 255, 255, 0.12);
+			color: #fff;
+		}
+
+	</style>
 	<meta name="description" content="Demo">
 	<meta property="og:image" content="./Presentation/img/og-img.png">
 
 	<script src="../src/jquery-4.0.0.slim.min.js"></script>
-	<script src="./script.js"></script>
+	<script src="./script.js?v=2"></script>
+	<script src="./softadmin-reference-catalog.js?v=86"></script>
+	<script src="./softadmin-spec-contract.js?v=86"></script>
+	<script src="./softadmin-editor-patches.js?v=86"></script>
+	<script src="./softadmin-component-registry.js?v=86"></script>
+	<script src="./softadmin-spec-runtime.js?v=86"></script>
+	<script src="./softadmin-ai-spec.js?v=86"></script>
 	<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -24,39 +645,40 @@
 					<nav id="SideBar" class="saSideBar saSideBarJs saExpanded">
 						<div class="saAccessibilityBannerHolderJs">
 							<ul class="saAccessibilityBanner">
-								<li><a tabindex="0">Gå till innehåll</a></li>
-								<li><a tabindex="0">Gå till meny</a></li>
+								<li><a tabindex="0">Go to content</a></li>
+								<li><a tabindex="0">Go to menu</a></li>
 							</ul>
 						</div>
 						<section class="saSideBarSection saSideBarHeaderSmallScreen">
 							<img class="saSideBarHeaderSmallScreenLogo">
 							<div class="saTitle">
-								<h1>Softadmin® Utvecklingssystem</h1>
+								<h1>Anna Andersson</h1>
 							</div>
 							<button class="saNavigator saButtonHeader" type="button">
 								<i class="saIcon far fa-xmark"></i>
 							</button>
 						</section>
 						<section class="saSideBarSection saSideBarHeader saSideBarSectionJs">
-							<img class="saCustomerLogo" alt="Softadmin® Utvecklingssystem logotyp" src="../src/img/logo.svg">
+							<img class="saCustomerLogo" alt="Contact details logo" src="../src/img/logo.svg">
 							<ul class="saSideBarInputGroup">
 								<li>
 									<a class="saSideBarSearchLink" tabindex="0">
 										<div><i class="far fa-magnifying-glass saIcon"></i></div>
 									</a>
 									<label class="saSideBarSearch">
-										<input id="SideBarSearchInput" class="saSearchInput saInputText" type="search" placeholder="Sök...">
+										<input id="SideBarSearchInput" class="saSearchInput saInputText" type="search"
+											placeholder="Search...">
 										<i class="far fa-magnifying-glass saIcon"></i>
 									</label>
 								</li>
 								<li>
 									<div class="saLabeled saImpersonator">
-										<label class="saLabel" for="autoSearch">Användare</label>
-										<span class="saFirstLetter">J</span>
+										<label class="saLabel" for="autoSearch">User</label>
+										<span class="saFirstLetter">A</span>
 										<button class="saActionIcon" type="button" tabindex="-1">
 											<i class="saIcon far fa-search"></i>
 										</button>
-										<input class="saInputText" id="autoSearch" value="jonathan.kevin@multisoft.se">
+										<input class="saInputText" id="autoSearch" value="anna.andersson@example.se">
 									</div>
 								</li>
 							</ul>
@@ -64,55 +686,169 @@
 						<section class="saSideBarSection saSideBarBody saSideBarSectionJs">
 							<div class="saSideBarGroup saSideBarFavorites">
 								<div class="saSideBarFavoritesHeader">
-									<button class="saButtonFavorites" type="button"><span>Favoriter</span><i class="saIcon saIcon far fa-angle-down"></i></button>
-									<button class="saButtonFavoritesMinimized" type="button"><i class="saIcon saIcon far fa-angle-down"></i></button>
-									<button class="saButtonFavoritesEdit" type="button">Redigera</button>
+									<button class="saButtonFavorites" type="button"><span>Favorites</span><i
+											class="saIcon saIcon far fa-angle-down"></i></button>
+									<button class="saButtonFavoritesMinimized" type="button"><i
+											class="saIcon saIcon far fa-angle-down"></i></button>
+									<button class="saButtonFavoritesEdit" type="button">Edit</button>
 								</div>
 								<ul class="saItemList">
 									<li><a class="saItem saFavorite" tabindex="0">
 											<div class="saItemInner">
-												<div class="saIconWrapper"><i
-														class="far fa-bolt icon saIcon"></i></div>
-												<span>Quick fixes</span>
+												<div class="saIconWrapper"><i class="far fa-calendar-check icon saIcon"></i></div>
+												<span>Today's bookings</span>
 											</div>
 										</a></li>
 									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
 											<div class="saItemInner">
-												<div class="saIconWrapper"><i class="far fa-message icon saIcon"></i>
-												</div><span>Chat</span>
+												<div class="saIconWrapper"><i class="far fa-file-invoice-dollar icon saIcon"></i>
+												</div><span>Invoices to approve</span>
 											</div>
 										</a></li>
 									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
 											<div class="saItemInner">
-												<div class="saIconWrapper"><i class="far fa-compass icon saIcon"></i>
-												</div><span>Location finder</span>
+												<div class="saIconWrapper"><i class="far fa-triangle-exclamation icon saIcon"></i>
+												</div><span>Booking conflicts</span>
 											</div>
 										</a></li>
 								</ul>
 							</div>
 							<div class="saSideBarGroup">
-								<h3>Models</h3>
+								<h3>Economy</h3>
 								<ul class="saItemList">
 									<li>
 										<a class="saItem saDynamicTooltipJs" tabindex="0">
 											<div class="saItemInner">
 												<div class="saIconWrapper">
-													<i class="far fa-brain icon saIcon"></i>
+													<i class="far fa-chart-line icon saIcon"></i>
 												</div>
-												<span>4.1<span class="saMenuItemPill saAdminOnly">Admin</span>
+												<span>Overview</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-file-invoice icon saIcon"></i>
+												</div>
+												<span>Customer invoices</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-receipt icon saIcon"></i>
+												</div>
+												<span>Supplier invoices</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-credit-card icon saIcon"></i>
+												</div>
+												<span>Payments</span>
 											</div>
 										</a>
 									</li>
 								</ul>
 							</div>
 							<div class="saSideBarGroup">
-								<h3>Summer</h3>
+								<h3>Bookings</h3>
 								<ul class="saItemList">
 									<li>
 										<a class="saItem" tabindex="0">
 											<div class="saItemInner">
-												<div class="saIconWrapper"><i class="far fa-sun-alt icon saIcon"></i></div>
-												<span>Sun</span>
+												<div class="saIconWrapper"><i class="far fa-calendar-days icon saIcon"></i>
+												</div>
+												<span>Booking calendar</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-inbox icon saIcon"></i>
+												</div>
+												<span>Booking requests<span class="saMenuItemPill saBeta">Beta</span></span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-user-check icon saIcon"></i>
+												</div>
+												<span>Participants</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-tags icon saIcon"></i>
+												</div>
+												<span>Price rules</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Resources</h3>
+								<ul class="saItemList">
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-door-open icon saIcon"></i>
+												</div>
+												<span>Rooms</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-people-group icon saIcon"></i>
+												</div>
+												<span>Instructors</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-boxes-stacked icon saIcon"></i>
+												</div>
+												<span>Equipment</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Reports</h3>
+								<ul class="saItemList">
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-chart-pie icon saIcon"></i>
+												</div>
+												<span>Revenue report</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-chart-simple icon saIcon"></i>
+												</div>
+												<span>Occupancy report</span>
 											</div>
 										</a>
 									</li>
@@ -123,8 +859,8 @@
 							<div class="saSideBarFooterPrimary">
 								<div class="saListItem">
 									<button class="saAccountDropdown" type="button">
-										<div class="saAccountAvatar">JK</div>
-										<span class="saAccountName">Jonathan Kevin</span>
+										<div class="saAccountAvatar">AA</div>
+										<span class="saAccountName">Anna Andersson</span>
 										<i class="far fa-angle-down saIcon"></i>
 									</button>
 								</div>
@@ -134,26 +870,30 @@
 											<div class="saIconWrapper">
 												<i class="far fa-gear icon saIcon"></i>
 											</div>
-											<span>Admin</span>
+											<span>Settings</span>
 										</button>
 									</li>
 									<li>
 										<button type="button">
-											<div class="saIconWrapper"><i class="far fa-chart-network icon saIcon"></i></div>
-											<span>Database designer</span>
+											<div class="saIconWrapper"><i class="far fa-chart-network icon saIcon"></i>
+											</div>
+											<span>Economy setup</span>
 										</button>
 									</li>
 									<li>
 										<button type="button">
-											<div class="saIconWrapper"><i class="far fa-window-restore icon saIcon"></i></div>
-											<span>Ny flik</span>
+											<div class="saIconWrapper"><i class="far fa-window-restore icon saIcon"></i>
+											</div>
+											<span>New tab</span>
 										</button>
 									</li>
 									<li>
 										<button type="button">
-											<div class="saIconWrapper"><i class="far fa-circle-question icon saIcon"></i></div>
-												<span>Visa hjälpsida - Allmän hjälpsida</span>
-										</button></li>
+											<div class="saIconWrapper"><i
+													class="far fa-circle-question icon saIcon"></i></div>
+											<span>Help</span>
+										</button>
+									</li>
 									<li class="saNotificationsItem">
 										<button id="largeScreenNotifications" type="button">
 											<div class="saSidenavItem"><i class="far fa-bell saIcon"></i></div>
@@ -163,11 +903,13 @@
 								</ul>
 							</div>
 							<div class="saSideBarFooterSecondary">
-								<a class="saSoftadminLogo" target="_blank" rel="noopener noreferrer" tabindex="-1" href="https://www.softadmin.com/">
+								<a class="saSoftadminLogo" target="_blank" rel="noopener noreferrer" tabindex="-1"
+									href="https://www.softadmin.com/">
 									<img class="saLogo" src="./Presentation/img/softadmin-logo-minimized.svg">
 									<img class="saWordmark" src="./Presentation/img/softadmin-logo-expanded.svg">
 								</a>
-								<button class="saExpander saDynamicTooltipJs" type="button"><i class="far fa-angles-left saIcon"></i></button>
+								<button class="saExpander saDynamicTooltipJs" type="button"><i
+										class="far fa-angles-left saIcon"></i></button>
 							</div>
 						</section>
 					</nav>
@@ -176,7 +918,8 @@
 		</div>
 		<div class="saSideBarSmallScreenOverlay" id="SideBarSmallScreenOverlay" style="display: none;"></div>
 		<div class="saRightFrameRoot">
-			<div id="body" class="right standardview saPc saLargeScreen saCompact saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
+			<div id="body"
+				class="right standardview saPc saLargeScreen saCompact saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
 				<div class="pagecontentframe">
 					<form class="interface">
 						<header id="pageheader" class="saPageHeaderHolder">
@@ -184,15 +927,28 @@
 								<div class="saHeader">
 									<div class="saRowWrapper">
 										<div class="saTopRow">
-											<nav class="saBreadcrumbs">
-												<div class="saBackButtonWrapper"><button class="saBackButton" type="button"><i class="far fa-arrow-left saBack saIcon"></i></button></div>
+											<nav class="saBreadcrumbs" aria-label="Breadcrumbs">
+												<div class="saBackButtonWrapper">
+													<button class="saBackButton" type="button">
+														<i class="far fa-arrow-left saBack saIcon"></i>
+													</button>
+												</div>
+												<span class="saBreadcrumb">
+													<a tabindex="0">Home</a></span>
+													<span class="saBreadcrumbSeparator" aria-hidden="true">&gt;</span>
+													<span class="saBreadcrumb">
+														<a tabindex="0">Search contacts</a></span>
+													<span class="saBreadcrumbSeparator" aria-hidden="true">&gt;</span>
+													<span class="saBreadcrumb saNoLinkBreadcrumb">Anna Andersson</span>
 											</nav>
 										</div>
 										<div class="saBottomRow">
 											<div class="saTitle">
-												<h1 class="saHeaderText">Jonathan</h1>
+												<h1 class="saHeaderText">Anna Andersson</h1>
 												<div class="saNoSpinner">
-													<button type="button" class="saFavoriteToggle"><i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i></button>
+													<button type="button" class="saFavoriteToggle"><i
+															class="saIcon far fa-star"></i><i
+															class="saIcon fas fa-star"></i></button>
 												</div>
 												<ul class="saSpecialLinksWrapper"></ul>
 											</div>
@@ -200,24 +956,29 @@
 										<nav class="saNavigationBar">
 											<div class="saTopButtons">
 												<div class="saActionLinks">
-													<button class="saTopLink saActionLink saButtonPrimary" type="button">
-														<div class="saIconHolder saOptionIcon"><i class="far fa-plus icon saIcon"></i></div><span class="saButtonText saOptionText">New bird</span>
+													<button class="saTopLink saActionLink saButtonPrimary"
+														type="button">
+														<div class="saIconHolder saOptionIcon"><i
+																class="far fa-folder-plus icon saIcon"></i></div><span
+															class="saButtonText saOptionText">Create case</span>
 													</button>
-													<button class="saTopLink saActionLink saButtonSecondary" type="button">
-														<div class="saIconHolder saOptionIcon"><i class="far fa-copy icon saIcon"></i></div><span class="saButtonText saOptionText">copy bird</span>
+													<button class="saTopLink saActionLink saButtonSecondary saMockMobileOverflowAction"
+														type="button">
+														<div class="saIconHolder saOptionIcon"><i
+															class="far fa-address-book icon saIcon"></i></div><span
+															class="saButtonText saOptionText">Show addresses</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary saMockMobileOverflowAction"
+														type="button">
+														<div class="saIconHolder saOptionIcon"><i
+															class="far fa-shield-check icon saIcon"></i></div><span
+															class="saButtonText saOptionText">Identity check</span>
 													</button>
 													<div class="saCollectorWrapper">
-														<button class="saMoreButton" type="button"><i class="far fa-ellipsis-vertical icon saIcon"></i></button>
+														<button class="saMoreButton" type="button"><i
+																class="far fa-ellipsis-vertical icon saIcon"></i></button>
 													</div>
 												</div>
-											</div>
-											<div class="saBrowseButtons">
-												<button class="saBrowseButton" type="button" aria-label="Föregående post (PgUp)">
-													<i class="fas fa-caret-up saIcon"></i>
-												</button>
-												<button class="saBrowseButton" type="button" aria-label="Nästa post (PgDn)">
-													<i class="fas fa-caret-down saIcon"></i>
-												</button>
 											</div>
 										</nav>
 									</div>
@@ -227,17 +988,20 @@
 								<div class="saHeader">
 									<div class="saHeaderInner">
 										<div class="saTopRow">
-											<button class="saSmallScreenBackButton saButtonHeader" type="button"><i class="far fa-arrow-left saBack saIcon"></i></button>
+											<button class="saSmallScreenBackButton saButtonHeader" type="button"><i
+													class="far fa-arrow-left saBack saIcon"></i></button>
 											<div class="saHeaderWrapper">
 												<div class="saTitle">
-													<h1 class="saHeaderText">Jonathan</h1>
+													<h1 class="saHeaderText">Anna Andersson</h1>
 												</div>
 											</div>
-											<button class="saNotifications saButtonHeader" type="button" aria-expanded="false">
+											<button class="saNotifications saButtonHeader" type="button"
+												aria-expanded="false">
 												<i class="far fa-bell saIcon"></i>
 												<div class="saBadgeCount saUrgent">2</div>
 											</button>
-											<button class="saNavigator saButtonHeader" type="button" aria-label="Öppna meny" data-tooltip="Öppna meny">
+											<button class="saNavigator saButtonHeader" type="button"
+												aria-label="Open menu" data-tooltip="Open menu">
 												<div class="saNavBar"><i class="saIcon far fa-bars"></i>
 												</div>
 											</button>
@@ -247,29 +1011,27 @@
 										<div class="saTopButtons saActionLinks">
 											<button class="saTopLink saActionLink saButtonPrimary" type="button">
 												<div class="saIconHolder saOptionIcon" aria-hidden="true">
-													<i class="far fa-plus icon saIcon"></i>
+													<i class="far fa-folder-plus icon saIcon"></i>
 												</div>
-												<span class="saButtonText saOptionText">New bird</span>
+												<span class="saButtonText saOptionText">Create case</span>
 											</button>
-											<button class="saTopLink saActionLink saButtonSecondary" type="button">
+											<button class="saTopLink saActionLink saButtonSecondary saMockMobileOverflowAction" type="button">
 												<div class="saIconHolder saOptionIcon" aria-hidden="true">
-													<i class="far fa-copy icon saIcon"></i>
+													<i class="far fa-address-book icon saIcon"></i>
 												</div>
-												<span class="saButtonText saOptionText">Copy bird</span>
+												<span class="saButtonText saOptionText">Show addresses</span>
+											</button>
+											<button class="saTopLink saActionLink saButtonSecondary saMockMobileOverflowAction" type="button">
+												<div class="saIconHolder saOptionIcon" aria-hidden="true">
+													<i class="far fa-shield-check icon saIcon"></i>
+												</div>
+												<span class="saButtonText saOptionText">Identity check</span>
 											</button>
 											<div class="saCollectorWrapper">
 												<button class="saMoreButton" aria-expanded="false" type="button">
 													<i class="far fa-ellipsis-vertical icon saIcon"></i>
 												</button>
 											</div>
-										</div>
-										<div class="saBrowseButtons">
-											<button class="saBrowseButton saPrevious" type="button" aria-label="Föregående post (PgUp)">
-												<i class="fas fa-caret-up saIcon"></i>
-											</button>
-											<button class="saBrowseButton saNext" type="button" aria-label="Nästa post (PgDn)">
-												<i class="fas fa-caret-down saIcon"></i>
-											</button>
 										</div>
 									</nav>
 								</div>
@@ -278,114 +1040,94 @@
 						<div class="maincolinner gradients">
 							<main id="MI_M" class="menuitem pagecontentframe">
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
-								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable" style="overflow: auto; height: calc(100dvh - 7.75rem);">
 									<div class="scrollcontent-inner">
-										<softadmin-menuitems class="maincolbody saMenuGroup">
-											<div class="saMenuBoxWrapper" tabindex="-1">
-												<div class="saColumn">
-													<div class="saMenuBox">
-														<span class="saMenuBoxHeading">Users</span>
-														<ul>
-															<li class="saMenuItemWrapper saFeatured saFeatured1 saSelectable"
-																draggable="true" data-sa-dragid="MI90387"
-																data-sa-candrag="1" data-sa-canreordery="1">
-																<a class="saMenuItem" tabindex="0" role="link">
-																	<div class="saIconHolder saIconHolderFeatured"
-																		aria-hidden="true">
-																		<i class="far fa-snowflake icon saIcon"></i>
-																	</div>
-																	<div class="saMenuItemText">
-																		<div class="saMenuItemTextHeading">Snow and
-																			weather</div>
-																		<div class="saMenuItemTextDesc">This is a
-																			placeholder for future updates and
-																			improvements.</div>
-																	</div>
-																</a>
-																<div class="saMenuItemTools">
-																	<button class="saFavoriteToggle" type="button"
-																		tabindex="-1" aria-checked="false"
-																		aria-label="Save as favorite">
-																		<i aria-hidden="true"
-																			class="saIcon far fa-star"></i>
-																		<i aria-hidden="true"
-																			class="saIcon fas fa-star"></i>
-																	</button>
-																</div>
-															</li>
-															<li class="saMenuItemWrapper saSelectable">
-																<a class="saMenuItem" tabindex="0">
-																	<div class="saIconHolder" aria-hidden="true">
-																		<i class="far fa-flag icon saIcon"></i>
-																	</div>
-																	<span class="saMenuItemText">Oscar Larsen</span>
-																</a>
-																<div class="saMenuItemTools">
-																	<button class="saFavoriteToggle" type="button"
-																		tabindex="-1" aria-checked="false"
-																		aria-label="Save as favorite">
-																		<i aria-hidden="true"
-																			class="saIcon far fa-star"></i>
-																		<i aria-hidden="true"
-																			class="saIcon fas fa-star"></i>
-																	</button>
-																</div>
-															</li>
-															<li class="saMenuItemWrapper saSelectable saHighContrast">
-																<a class="saMenuItem" tabindex="0">
-																	<div class="saIconHolder" aria-hidden="true">
-																		<i
-																			class="fas fa-circle-half-stroke icon saIcon"></i>
-																	</div>
-																	<div class="saMenuItemText">High contrast</div>
-																</a>
-																<div class="saMenuItemTools">
-																	<button class="saHelpLink" type="button"
-																		tabindex="-1"><i
-																			class="saIcon far fa-life-ring"></i></button>
-																	<button class="saFavoriteToggle" type="button"
-																		tabindex="-1" aria-checked="false"
-																		aria-label="Save as favorite">
-																		<i aria-hidden="true"
-																			class="saIcon far fa-star"></i>
-																		<i aria-hidden="true"
-																			class="saIcon fas fa-star"></i>
-																	</button>
-																</div>
-															</li>
-															<li class="saMenuItemWrapper saSelectable saHighContrast">
-																<a class="saMenuItem" tabindex="0">
-																	<div class="saIconHolder" aria-hidden="true">
-																		<i
-																			class="far fa-flag-checkered icon saIcon"></i>
-																	</div>
-																	<div class="saMenuItemText">
-																		<div class="saMenuItemTextHeading">Loppan i
-																			Moran</div>
-																		<div class="saMenuItemTextDesc">
-																			Det sprider sig som en löpeld.
-																		</div>
-																	</div>
-																</a>
-																<div class="saMenuItemTools">
-																	<button class="saHelpLink" type="button"
-																		tabindex="-1"><i
-																			class="saIcon far fa-life-ring"></i></button>
-																	<button class="saFavoriteToggle" type="button"
-																		tabindex="-1" aria-checked="false"
-																		aria-label="Save as favorite">
-																		<i aria-hidden="true"
-																			class="saIcon far fa-heart"></i>
-																		<i aria-hidden="true"
-																			class="saIcon fas fa-heart"></i>
-																	</button>
-																</div>
-															</li>
-														</ul>
-													</div>
+
+										<div id="SoftadminAiTools" class="saMockAiTools">
+											<div id="SoftadminFormBuilder" class="saMockFormBuilderPanel" aria-hidden="true">
+												<div class="saMockFormBuilderHeader">
+													<h2>Form builder</h2>
+													<span>Drag into NewEdit</span>
 												</div>
+								<div id="SoftadminFieldPalette" class="saMockFieldPalette" aria-label="NewEdit field palette"></div>
 											</div>
-										</softadmin-menuitems>
+
+											<div class="saMockPromptPanel">
+											<div class="saMockPromptHeader">
+												<div class="saMockPromptTitle">
+													<span class="saMockPromptSpark" aria-hidden="true"><i class="far fa-wand-magic-sparkles"></i></span>
+													<span>AI mockup prompt</span>
+												</div>
+												<span class="saMockPromptHint">Prompt to Softadmin</span>
+											</div>
+											<textarea id="SoftadminPrompt" class="saMockPromptInput" aria-label="AI mockup prompt">Create a NewEdit form for entering a person's contact information.</textarea>
+											<div class="saMockPromptOptions">
+												<label class="saMockComponentPicker" for="SoftadminComponentPicker">
+													<span>Component</span>
+													<select id="SoftadminComponentPicker">
+														<option value="">AI decides</option>
+													</select>
+												</label>
+											</div>
+											<div class="saMockExamplePrompts" aria-label="Example prompts">
+												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create a NewEdit form for entering a person's contact information.">Person form</button>
+												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create a customer details page with contact info boxes, overdue invoice warning, related cases tabs, invoices, payments, and realistic action buttons.">Customer detail</button>
+												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create an 15 row invoice grid for an economy system with customer, invoice number, due date, status, amount, and realistic row actions.">Invoice grid</button>
+												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Add five more random favorites in the sidebar.">Sidebar favorites</button>
+												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Remove item 'Rooms' in sidebar and add five more menu items in that group about economy.">Sidebar patch</button>
+											</div>
+											<div class="saMockPromptActions">
+												<div class="saMockPromptActionGroup">
+													<button id="SoftadminGenerate" class="saMockPromptButton" type="button">
+														<i class="far fa-sparkles" aria-hidden="true"></i>
+														<span>Generate</span>
+													</button>
+													<button id="SoftadminUndo" class="saMockDebugToggle" type="button" aria-label="Undo last generation" title="Undo last generation" disabled>
+														<i class="far fa-arrow-rotate-left"></i>
+													</button>
+													<button id="SoftadminReset" class="saMockDebugToggle" type="button" aria-label="Reset mockup" title="Reset mockup">
+														<i class="far fa-arrow-rotate-right"></i>
+													</button>
+													<input id="SoftadminLogoFile" class="saMockLogoFileInput" type="file" accept="image/*">
+													<input id="SoftadminAvatarFile" class="saMockLogoFileInput" type="file" accept="image/*">
+													<button id="SoftadminLogoUpload" class="saMockDebugToggle" type="button" aria-label="Upload logo" title="Upload logo">
+														<i class="far fa-image"></i>
+													</button>
+													<button id="SoftadminLogoUrl" class="saMockDebugToggle" type="button" aria-label="Use logo URL" title="Use logo URL">
+														<i class="far fa-link"></i>
+													</button>
+													<input id="SoftadminLogoUrlInput" class="saMockLogoUrlInput" type="url" aria-label="Logo image URL" placeholder="Logo URL">
+													<button id="SoftadminDebugToggle" class="saMockDebugToggle" type="button" aria-label="Open developer debug drawer">
+														<i class="far fa-code"></i>
+													</button>
+												</div>
+												<span id="SoftadminPromptStatus" class="saMockPromptStatus" aria-live="polite"></span>
+											</div>
+										</div>
+										</div>
+
+										<aside id="SoftadminDebugDrawer" class="saMockDebugDrawer" aria-hidden="true">
+											<div class="saMockDebugHeader">
+												<h2>Spec debug</h2>
+												<button id="SoftadminDebugClose" class="saMockDebugClose" type="button" aria-label="Close developer debug drawer">
+													<i class="far fa-xmark"></i>
+												</button>
+											</div>
+											<div id="SoftadminDebugContent" class="saMockDebugContent"></div>
+										</aside>
+
+										<div id="SoftadminSelectionToolbar" class="saMockSelectionToolbar" aria-hidden="true">
+											<span id="SoftadminSelectionLabel" class="saMockSelectionLabel">Selected</span>
+											<button type="button" data-softadmin-selection-action="move-up" aria-label="Move selection up" title="Move up"><i class="far fa-arrow-up"></i></button>
+											<button type="button" data-softadmin-selection-action="move-down" aria-label="Move selection down" title="Move down"><i class="far fa-arrow-down"></i></button>
+											<button type="button" data-softadmin-selection-action="make-sibling-row" aria-label="Make field a sibling row" title="Make sibling row"><i class="far fa-table-columns"></i></button>
+											<button type="button" data-softadmin-selection-action="add-sibling" aria-label="Add sibling field" title="Add sibling"><i class="far fa-plus"></i></button>
+											<button type="button" data-softadmin-selection-action="duplicate" aria-label="Duplicate selection" title="Duplicate"><i class="far fa-copy"></i></button>
+											<button type="button" data-softadmin-selection-action="delete" aria-label="Delete selection" title="Delete"><i class="far fa-trash-alt"></i></button>
+										</div>
+
+										<div data-softadmin-component-root></div>
+
 									</div>
 								</div>
 							</main>
@@ -395,9 +1137,4 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		$('.saFavoriteToggle').click(function () {
-			$(this).attr('aria-checked', function (i, attr) { return attr === 'true' ? 'false' : 'true'; });
-		});
-	</script>
 </body>
