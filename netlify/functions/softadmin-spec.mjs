@@ -1,5 +1,13 @@
+import '../../26-6/softadmin-reference-catalog.js';
+import '../../26-6/softadmin-spec-contract.js';
+
 const OPENAI_RESPONSES_URL = 'https://api.openai.com/v1/responses';
 const DEFAULT_AZURE_API_VERSION = '2025-04-01-preview';
+const MAX_REQUEST_BYTES = 16_384;
+const MAX_PROMPT_LENGTH = 4_000;
+const MAX_REQUESTS_PER_MINUTE = 12;
+const REQUEST_TIMEOUT_MS = 45_000;
+const rateBuckets = new Map();
 
 function jsonResponse(body, status = 200) {
 	return new Response(JSON.stringify(body), {
@@ -11,21 +19,66 @@ function jsonResponse(body, status = 200) {
 	});
 }
 
-function implementedNames(entries = {}) {
+function renderableNames(entries = {}) {
 	return Object.entries(entries)
-		.filter(([, entry]) => entry && entry.implemented)
-		.map(([name, entry]) => entry.renderType ? `${name} (${entry.renderType})` : name);
+		.filter(([, entry]) => entry && entry.renderable)
+		.map(([name, entry]) => entry.specType && entry.specType !== name ? `${name} (${entry.specType})` : name);
 }
 
-function registrySummary(registry) {
-	const components = implementedNames(registry?.components);
-	const controls = implementedNames(registry?.controls?.items);
+function catalogSummary() {
+	const catalog = globalThis.SoftadminReferenceCatalog || {};
 
 	return {
-		components,
-		controls,
-		designRules: registry?.designRules || []
+		components: renderableNames(catalog.components),
+		controls: renderableNames(catalog.controls)
 	};
+}
+
+function clientAddress(request) {
+	return request.headers.get('x-nf-client-connection-ip')
+		|| request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+		|| 'unknown';
+}
+
+function isRateLimited(request) {
+	const now = Date.now();
+	const key = clientAddress(request);
+	const previous = rateBuckets.get(key);
+	const bucket = !previous || now - previous.startedAt >= 60_000
+		? { count: 0, startedAt: now }
+		: previous;
+
+	bucket.count += 1;
+	rateBuckets.set(key, bucket);
+	return bucket.count > MAX_REQUESTS_PER_MINUTE;
+}
+
+function isAllowedOrigin(request, env) {
+	const origin = request.headers.get('origin');
+	if (!origin) {
+		return true;
+	}
+
+	const configured = envValue(env, 'SOFTADMIN_ALLOWED_ORIGINS')
+		.split(',')
+		.map(value => value.trim())
+		.filter(Boolean);
+
+	try {
+		const url = new URL(origin);
+		return configured.includes(origin)
+			|| origin === 'https://jonathankevin.netlify.app'
+			|| url.hostname === 'localhost'
+			|| url.hostname === '127.0.0.1';
+	} catch {
+		return false;
+	}
+}
+
+function providerError(message, status) {
+	const error = new Error(message);
+	error.status = status;
+	return error;
 }
 
 function extractOutputText(responseJson) {
@@ -160,16 +213,18 @@ async function fetchAzureResponsesSpec(config, prompt, summary) {
 				format: {
 					type: 'json_object'
 				}
-			}
-		})
+			},
+			max_output_tokens: 5_000
+		}),
+		signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
 	});
 	const responseJson = await response.json();
 
 	if (!response.ok) {
-		throw new Error(responseJson.error?.message || `Azure OpenAI request failed with ${response.status}.`);
+		throw providerError(responseJson.error?.message || `Azure OpenAI request failed with ${response.status}.`, response.status);
 	}
 
-	return parseJsonObject(extractOutputText(responseJson));
+	return { spec: parseJsonObject(extractOutputText(responseJson)), usage: responseJson.usage || null };
 }
 
 async function fetchAzureChatCompletionsSpec(config, prompt, summary) {
@@ -194,16 +249,18 @@ async function fetchAzureChatCompletionsSpec(config, prompt, summary) {
 			response_format: {
 				type: 'json_object'
 			},
-			temperature: 0.2
-		})
+			temperature: 0.2,
+			max_tokens: 5_000
+		}),
+		signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
 	});
 	const responseJson = await response.json();
 
 	if (!response.ok) {
-		throw new Error(responseJson.error?.message || `Azure OpenAI request failed with ${response.status}.`);
+		throw providerError(responseJson.error?.message || `Azure OpenAI request failed with ${response.status}.`, response.status);
 	}
 
-	return parseJsonObject(responseJson.choices?.[0]?.message?.content || '');
+	return { spec: parseJsonObject(responseJson.choices?.[0]?.message?.content || ''), usage: responseJson.usage || null };
 }
 
 async function fetchOpenAiSpec(config, prompt, summary) {
@@ -229,16 +286,18 @@ async function fetchOpenAiSpec(config, prompt, summary) {
 				format: {
 					type: 'json_object'
 				}
-			}
-		})
+			},
+			max_output_tokens: 5_000
+		}),
+		signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
 	});
 	const responseJson = await response.json();
 
 	if (!response.ok) {
-		throw new Error(responseJson.error?.message || `OpenAI request failed with ${response.status}.`);
+		throw providerError(responseJson.error?.message || `OpenAI request failed with ${response.status}.`, response.status);
 	}
 
-	return parseJsonObject(extractOutputText(responseJson));
+	return { spec: parseJsonObject(extractOutputText(responseJson)), usage: responseJson.usage || null };
 }
 
 export default async (request) => {
@@ -251,6 +310,14 @@ export default async (request) => {
 	}
 
 	const netlifyEnv = typeof Netlify !== 'undefined' && Netlify.env ? Netlify.env : null;
+	if (!isAllowedOrigin(request, netlifyEnv)) {
+		return jsonResponse({ error: 'Origin is not allowed.' }, 403);
+	}
+
+	if (isRateLimited(request)) {
+		return jsonResponse({ error: 'Too many requests. Try again in a minute.' }, 429);
+	}
+
 	const azure = azureConfig(netlifyEnv);
 	const openai = openAiConfig(netlifyEnv);
 
@@ -260,10 +327,19 @@ export default async (request) => {
 		}, 503);
 	}
 
+	const declaredLength = Number(request.headers.get('content-length') || 0);
+	if (declaredLength > MAX_REQUEST_BYTES) {
+		return jsonResponse({ error: 'Request body is too large.' }, 413);
+	}
+
 	let payload;
 
 	try {
-		payload = await request.json();
+		const body = await request.text();
+		if (body.length > MAX_REQUEST_BYTES) {
+			return jsonResponse({ error: 'Request body is too large.' }, 413);
+		}
+		payload = JSON.parse(body);
 	} catch {
 		return jsonResponse({ error: 'Invalid JSON body.' }, 400);
 	}
@@ -273,8 +349,11 @@ export default async (request) => {
 	if (!prompt) {
 		return jsonResponse({ error: 'Missing prompt.' }, 400);
 	}
+	if (prompt.length > MAX_PROMPT_LENGTH) {
+		return jsonResponse({ error: `Prompt may contain at most ${MAX_PROMPT_LENGTH} characters.` }, 413);
+	}
 
-	const summary = registrySummary(payload.registry || {});
+	const summary = catalogSummary();
 
 	try {
 		if (azure) {
@@ -286,14 +365,17 @@ export default async (request) => {
 				}, 503);
 			}
 
-			return jsonResponse(await fetchAzureSpec(azure, prompt, summary));
+			const result = await fetchAzureSpec(azure, prompt, summary);
+			globalThis.SoftadminSpecContract.assertSpec(result.spec);
+			return jsonResponse(result);
 		}
 
-		const spec = await fetchOpenAiSpec(openai, prompt, summary);
-		return jsonResponse(spec);
+		const result = await fetchOpenAiSpec(openai, prompt, summary);
+		globalThis.SoftadminSpecContract.assertSpec(result.spec);
+		return jsonResponse(result);
 	} catch (error) {
 		return jsonResponse({
 			error: error.message || 'Could not parse model output.'
-		}, 502);
+		}, error.status === 429 ? 429 : 502);
 	}
 };

@@ -627,6 +627,15 @@
 	}
 
 	function generationTokenEstimate(prompt, result) {
+		if (result.usage) {
+			return {
+				inputTokens: result.usage.input_tokens ?? result.usage.prompt_tokens ?? null,
+				outputTokens: result.usage.output_tokens ?? result.usage.completion_tokens ?? null,
+				totalTokens: result.usage.total_tokens ?? null,
+				source: 'provider'
+			};
+		}
+
 		const promptTokens = estimateTokens(prompt);
 		const rawSpecTokens = estimateTokens(result.rawSpec);
 		const normalizedSpecTokens = estimateTokens(result.spec);
@@ -2278,7 +2287,8 @@
 				rawSpec: result.rawSpec,
 				source: result.source,
 				spec,
-				tokenEstimate: null
+				tokenEstimate: null,
+				usage: result.usage || null
 			};
 			lastTokenEstimate = generationTokenEstimate(prompt, lastDebugResult);
 			lastDebugResult.tokenEstimate = lastTokenEstimate;
@@ -2337,9 +2347,7 @@
 		const logoUploadButton = document.getElementById('SoftadminLogoUpload');
 		const logoUrlButton = document.getElementById('SoftadminLogoUrl');
 		const logoUrlInputElement = document.getElementById('SoftadminLogoUrlInput');
-		const defaultPrompt = window.SoftadminPromptToSpec && window.SoftadminPromptToSpec.defaultPrompt
-			? window.SoftadminPromptToSpec.defaultPrompt
-			: 'Create a customer detail page with contact summary, cases, invoices, and payments.';
+		const defaultPrompt = 'Create a customer detail page with contact summary, cases, invoices, and payments.';
 
 		if (promptInput) {
 			promptInput.value = defaultPrompt;

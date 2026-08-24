@@ -30,7 +30,10 @@ Optional:
 
 ```text
 AZURE_OPENAI_API_VERSION=2024-10-21
+SOFTADMIN_ALLOWED_ORIGINS=https://your-preview.example
 ```
+
+The endpoint also applies a 4,000-character prompt limit, a 16 KB request limit, a 45-second provider timeout, and best-effort per-instance throttling. For a wider rollout, protect the Netlify site with your organization login or Netlify access control as well.
 
 For OpenAI Platform instead, set this in Netlify:
 
@@ -44,7 +47,7 @@ Optional:
 OPENAI_MODEL=gpt-4.1-mini
 ```
 
-If credentials are missing or invalid, the function returns an error and the browser falls back to the local rule-based prompt mapper.
+If credentials are missing or invalid, the function returns an error and the browser keeps the current mockup unchanged.
 
 ## Smoke Test
 
@@ -66,10 +69,4 @@ The status line should say:
 AI spec: ...
 ```
 
-If it says:
-
-```text
-Local spec: ...
-```
-
-then the function failed or the API key is missing.
+If generation fails, the status line shows the endpoint error and the current mockup remains available.
