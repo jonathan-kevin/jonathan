@@ -1206,21 +1206,51 @@
 	}
 
 	function fieldPaletteLabel(type) {
-		const labels = {
-			autosearch: 'Autosearch',
-			checkbox: 'Checkbox',
-			dateRange: 'Date range',
-			dropdown: 'Dropdown',
-			fileUploadArea: 'Files',
-			multiAutosearch: 'Participants',
-			radioCards: 'Choice',
-			textarea: 'Description',
-			textbox: 'Textbox',
-			time: 'Time',
-			timeSiblingRow: 'Time row'
-		};
+		return formBuilderEntries().find(entry => entry.type === type)?.label || 'Field';
+	}
 
-		return labels[type] || 'Field';
+	function cloneCatalogValue(value) {
+		return value === undefined ? undefined : JSON.parse(JSON.stringify(value));
+	}
+
+	function formBuilderEntries() {
+		const catalog = referenceCatalog();
+		const controls = Object.entries(catalog?.controls || {})
+			.filter(([, entry]) => entry.renderable && entry.builder)
+			.map(([name, entry]) => ({
+				...entry.builder,
+				name,
+				type: entry.specType || name
+			}));
+		const layouts = Object.entries(catalog?.formBuilderLayouts || {})
+			.map(([type, entry]) => ({ ...entry, type }));
+
+		return [...controls, ...layouts]
+			.sort((left, right) => (left.order || 0) - (right.order || 0) || left.label.localeCompare(right.label));
+	}
+
+	function populateFormBuilderPalette() {
+		const palette = document.getElementById('SoftadminFieldPalette');
+
+		if (!palette) {
+			return;
+		}
+
+		palette.replaceChildren(...formBuilderEntries().map(entry => {
+			const button = document.createElement('button');
+			const icon = document.createElement('i');
+			const label = document.createElement('span');
+
+			button.className = 'saMockFieldPaletteButton';
+			button.type = 'button';
+			button.draggable = true;
+			button.dataset.softadminFormField = entry.type;
+			button.title = entry.name || entry.label;
+			icon.className = entry.icon || 'far fa-input-text';
+			label.textContent = entry.label;
+			button.append(icon, label);
+			return button;
+		}));
 	}
 
 	function formBuilderFieldCount() {
@@ -1229,93 +1259,27 @@
 
 	function formBuilderFieldSpec(type) {
 		const number = formBuilderFieldCount();
-		const label = `${fieldPaletteLabel(type)} ${number}`;
 		const id = `mock_builder_${type}_${Date.now()}_${number}`;
+		const entry = formBuilderEntries().find(item => item.type === type);
+		const starter = cloneCatalogValue(entry?.starter) || {};
+
+		if (starter.layout === 'siblings') {
+			starter.fields = (starter.fields || []).map((field, index) => ({
+				...field,
+				id: `${id}_${index + 1}`
+			}));
+			return starter;
+		}
+
 		const base = {
 			control: type,
 			id,
-			label,
+			label: `${entry?.label || 'Field'} ${number}`,
 			value: '',
 			width: 'mediumLong'
 		};
 
-		if (type === 'textarea') {
-			return { ...base, width: 'long', value: 'Notes and details.' };
-		}
-
-		if (type === 'dropdown') {
-			return { ...base, options: ['Option 1', 'Option 2', 'Option 3'], value: 'Option 1' };
-		}
-
-		if (type === 'checkbox') {
-			return { ...base, checked: true };
-		}
-
-		if (type === 'dateRange') {
-			return { ...base, from: '2026-07-01', to: '2026-07-31' };
-		}
-
-		if (type === 'time') {
-			return { ...base, value: '09:00:00', displayValue: '09:00' };
-		}
-
-		if (type === 'timeSiblingRow') {
-			return {
-				layout: 'siblings',
-				fields: [
-					{
-						id: `${id}_from`,
-						label: 'From',
-						control: 'time',
-						value: '09:00:00',
-						displayValue: '09:00',
-						required: true,
-						inputWrapper: 'saMediumShortValidation mediumLong'
-					},
-					{
-						id: `${id}_to`,
-						label: 'To',
-						control: 'time',
-						value: '17:00:00',
-						displayValue: '17:00',
-						required: true,
-						inputWrapper: 'saMediumShortValidation mediumLong'
-					}
-				]
-			};
-		}
-
-		if (type === 'autosearch') {
-			return { ...base, value: 'Anna Andersson' };
-		}
-
-		if (type === 'multiAutosearch') {
-			return { ...base, values: ['Anna Andersson', 'Maria Lindberg'] };
-		}
-
-		if (type === 'radioCards') {
-			return {
-				...base,
-				value: 'standard',
-				options: [
-					{ title: 'Standard', value: 'standard', description: 'Use the normal workflow.' },
-					{ title: 'Manual', value: 'manual', description: 'Let the user decide later.' }
-				]
-			};
-		}
-
-		if (type === 'fileUploadArea') {
-			return {
-				...base,
-				width: 'long',
-				heading: 'Drop files here, or ',
-				linkText: 'browse',
-				description: 'Maximum file size 30 MB',
-				files: []
-			};
-		}
-
-		return { ...base, value: 'New value' };
+		return { ...base, ...starter };
 	}
 
 	function renderFormBuilderField(type) {
@@ -2169,6 +2133,7 @@
 			.map(([name, entry]) => ({
 				description: entry.description || '',
 				name,
+				promptInstruction: entry.promptInstruction || '',
 				specType: entry.specType || entry.renderType || name,
 				specTypes: entry.specTypes || []
 			}))
@@ -2222,14 +2187,7 @@
 			return '';
 		}
 
-		const descriptions = {
-			CalendarWeekdays: 'Use the Softadmin Calendar component in Weekdays mode as the main component.',
-			DetailView: 'Use the Softadmin Detailview component with tabs as the main component.',
-			InfoBoxes: 'Use Softadmin InfoSQL-style information boxes as the main component.',
-			MenuGroups: 'Use Softadmin menu groups as the main component.'
-		};
-
-		return `${descriptions[entry.specType] || `Use the Softadmin ${entry.name} component as the main component.`} Emit component type "${entry.specType}".`;
+		return `${entry.promptInstruction || `Use the Softadmin ${entry.name} component as the main component.`} Emit component type "${entry.specType}".`;
 	}
 
 	function promptWithComponentPreference(prompt) {
@@ -2374,6 +2332,8 @@
 			populateComponentPicker(componentPicker);
 			componentPicker.addEventListener('change', handleComponentPickerChange);
 		}
+
+		populateFormBuilderPalette();
 
 		if (undoButton) {
 			undoButton.addEventListener('click', undoLastGeneration);
