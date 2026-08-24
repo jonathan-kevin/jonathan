@@ -483,7 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			activeI = index;
 			const item = focusableItems[activeI];
 			item.classList.add('saActive');
-			if (!item.classList.contains('saLoadMoreOption')) item.setAttribute('aria-selected', 'true');
+			item.setAttribute('aria-selected', 'true');
 			input.setAttribute('aria-activedescendant', (item.querySelector('button.saOption') || item).id);
 			prevActiveEl = item;
 			item.scrollIntoView({ block: 'nearest' });
