@@ -2,10 +2,12 @@ global.window = global;
 
 require('./softadmin-reference-catalog.js');
 require('./softadmin-spec-contract.js');
+require('./softadmin-editor-patches.js');
 
 const assert = require('node:assert/strict');
 const catalog = global.SoftadminReferenceCatalog;
 const contract = global.SoftadminSpecContract;
+const editPatches = global.SoftadminEditorPatches;
 
 function validNewEdit() {
 	return {
@@ -62,6 +64,15 @@ const advertisedControls = Object.values(catalog.controls).filter(entry => entry
 assert.ok(advertisedComponents.length > 0, 'Catalog must advertise components.');
 assert.ok(advertisedControls.length > 0, 'Catalog must advertise controls.');
 assert.ok(advertisedControls.every(entry => entry.specType), 'Every renderable control needs a canonical specType.');
+assert.equal(editPatches.segment(' First name '), 'first-name');
+
+const patchStore = editPatches.createStore();
+patchStore.set('main/newedit/field/first-name/value/text', { op: 'replaceValue', value: 'Anna' });
+patchStore.set('sidebar/group/economy/item/invoices/text', { op: 'replaceText', value: 'Invoices' });
+assert.deepEqual(patchStore.setResolvedPaths(new Set(['main/newedit/field/first-name/value/text'])), [
+	'sidebar/group/economy/item/invoices/text'
+]);
+assert.equal(patchStore.snapshot()[0][1].path, 'main/newedit/field/first-name/value/text');
 
 async function testEndpointContract() {
 	process.env.AZURE_OPENAI_ENDPOINT = 'https://example.openai.azure.com';
@@ -95,7 +106,7 @@ async function testEndpointContract() {
 }
 
 testEndpointContract()
-	.then(() => console.log(`Passed ${cases.length + 6} Softadmin contract and endpoint checks.`))
+	.then(() => console.log(`Passed ${cases.length + 10} Softadmin contract, edit patch, and endpoint checks.`))
 	.catch(error => {
 		console.error(error);
 		process.exitCode = 1;

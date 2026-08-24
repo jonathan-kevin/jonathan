@@ -5,7 +5,7 @@
 	const logoStorageKey = 'softadmin.mockup.logo';
 	const avatarStorageKey = 'softadmin.mockup.avatar';
 	const aiToolsPositionStorageKey = 'softadmin.mockup.aiToolsPosition';
-	const manualEdits = new Map();
+	const manualEdits = window.SoftadminEditorPatches.createStore();
 	let initialState = null;
 	let isBusy = false;
 	let lastTokenEstimate = null;
@@ -674,59 +674,8 @@
 		].join(', ');
 	}
 
-	function editableScope(element) {
-		if (element.closest('#pageheader')) {
-			return 'frame';
-		}
-
-		if (element.closest('.saSideBarOuter')) {
-			return 'sidebar';
-		}
-
-		return 'main';
-	}
-
 	function editableKey(element) {
-		if (element.dataset.softadminEditKey) {
-			return element.dataset.softadminEditKey;
-		}
-
-		const scope = editableScope(element);
-
-		if (scope === 'frame') {
-			if (element.matches('.saHeaderText')) {
-				element.dataset.softadminEditKey = 'frame:title';
-				return element.dataset.softadminEditKey;
-			}
-
-			if (element.matches('.saButtonText')) {
-				const actionBar = element.closest('.saActionLinks');
-				const actionIndex = actionBar ? Array.from(actionBar.querySelectorAll('.saButtonText')).indexOf(element) : 0;
-
-				element.dataset.softadminEditKey = `frame:action:${Math.max(actionIndex, 0)}`;
-				return element.dataset.softadminEditKey;
-			}
-
-			if (element.matches('.saBreadcrumb a, .saNoLinkBreadcrumb')) {
-				const breadcrumbs = element.closest('.saBreadcrumbs');
-				const breadcrumbIndex = breadcrumbs ? Array.from(breadcrumbs.querySelectorAll('.saBreadcrumb a, .saNoLinkBreadcrumb')).indexOf(element) : 0;
-
-				element.dataset.softadminEditKey = `frame:breadcrumb:${Math.max(breadcrumbIndex, 0)}`;
-				return element.dataset.softadminEditKey;
-			}
-		}
-
-		const root = scope === 'frame'
-			? document.getElementById('pageheader')
-			: scope === 'sidebar'
-				? document.querySelector('.saSideBarOuter')
-				: document.querySelector('[data-softadmin-component-root]');
-		const matches = root ? Array.from(root.querySelectorAll(editableTextSelector())) : [];
-		const index = matches.indexOf(element);
-		const key = `${scope}:${element.tagName.toLowerCase()}:${Math.max(index, 0)}`;
-
-		element.dataset.softadminEditKey = key;
-		return key;
+		return window.SoftadminEditorPatches.textPath(element, editableTextSelector());
 	}
 
 	function canMakeEditable(element) {
@@ -744,7 +693,7 @@
 	function rememberManualEdit(element) {
 		const key = editableKey(element);
 
-		manualEdits.set(key, { type: 'text', value: element.textContent });
+		manualEdits.set(key, { op: 'replaceText', value: element.textContent });
 		element.dataset.softadminUserEdited = 'true';
 	}
 
@@ -763,40 +712,20 @@
 		].join(', ');
 	}
 
-	function formControlLabel(control) {
-		const field = control.closest('.saFieldAndLabelWrapper, .saSiblingRow, .saMultiRowCellWrapper, .saSideBarInputGroup > li');
-		const label = field?.querySelector('.saLabel, .saLabelCell, label')?.textContent?.trim().replace(/\s+/g, ' ');
-
-		return label || control.getAttribute('aria-label') || control.getAttribute('placeholder') || control.name || control.id || '';
-	}
-
 	function formControlKey(control) {
-		if (control.dataset.softadminValueEditKey) {
-			return control.dataset.softadminValueEditKey;
-		}
-
-		const root = control.closest('[data-softadmin-component-root], .saSideBarInputGroup') || document;
-		const controls = Array.from(root.querySelectorAll(formValueSelector()));
-		const index = controls.indexOf(control);
-		const label = formControlLabel(control).toLowerCase();
-		const scope = control.closest('.saSideBarInputGroup') ? 'sidebar-input' : 'main-value';
-		const type = control.matches('select') ? 'select' : control.type || control.tagName.toLowerCase();
-		const key = `${scope}:${type}:${label}:${Math.max(index, 0)}`;
-
-		control.dataset.softadminValueEditKey = key;
-		return key;
+		return window.SoftadminEditorPatches.controlPath(control, formValueSelector());
 	}
 
 	function formControlEdit(control) {
 		if (control.matches('input[type="checkbox"], input[type="radio"], input.saCheckbox, input.saRadio')) {
-			return { type: 'field-state', checked: control.checked };
+			return { op: 'replaceChecked', checked: control.checked };
 		}
 
 		if (control.matches('select')) {
-			return { type: 'field-value', value: control.value, selectedIndex: control.selectedIndex };
+			return { op: 'replaceValue', value: control.value, selectedIndex: control.selectedIndex };
 		}
 
-		return { type: 'field-value', value: control.value };
+		return { op: 'replaceValue', value: control.value };
 	}
 
 	function rememberFormValueEdit(control) {
@@ -870,16 +799,19 @@
 	}
 
 	function applyManualEdits() {
+		const resolvedPaths = new Set();
+
 		document.querySelectorAll(editableTextSelector()).forEach(element => {
 			const key = editableKey(element);
 			const edit = manualEdits.get(key);
 
-			if (!canMakeEditable(element) || !edit || edit.type !== 'text') {
+			if (!canMakeEditable(element) || !edit || edit.op !== 'replaceText') {
 				return;
 			}
 
 			element.textContent = edit.value;
 			element.dataset.softadminUserEdited = 'true';
+			resolvedPaths.add(key);
 		});
 
 		document.querySelectorAll(formValueSelector()).forEach(control => {
@@ -890,9 +822,9 @@
 				return;
 			}
 
-			if (edit.type === 'field-state') {
+			if (edit.op === 'replaceChecked') {
 				control.checked = Boolean(edit.checked);
-			} else if (edit.type === 'field-value') {
+			} else if (edit.op === 'replaceValue') {
 				if (control.matches('select') && edit.selectedIndex >= 0 && edit.selectedIndex < control.options.length) {
 					control.selectedIndex = edit.selectedIndex;
 				} else {
@@ -901,7 +833,10 @@
 			}
 
 			control.dataset.softadminUserEdited = 'true';
+			resolvedPaths.add(key);
 		});
+
+		return manualEdits.setResolvedPaths(resolvedPaths);
 	}
 
 	function selectableElementSelector() {
@@ -1926,6 +1861,10 @@
 				${debugList(lastDebugResult.diagnostics.warnings)}
 			</section>
 			<section class="saMockDebugSection">
+				<h3>Unresolved manual edits</h3>
+				${debugList(manualEdits.unresolved())}
+			</section>
+			<section class="saMockDebugSection">
 				<h3>Normalized spec</h3>
 				${debugPre(lastDebugResult.spec)}
 			</section>
@@ -2048,7 +1987,7 @@
 			rootHtml: document.querySelector('[data-softadmin-component-root]')?.innerHTML || '',
 			statusText: document.getElementById('SoftadminPromptStatus')?.textContent || '',
 			debugResult: cloneDebugResult(lastDebugResult),
-			manualEdits: Array.from(manualEdits.entries())
+			manualEdits: manualEdits.snapshot()
 		};
 	}
 
@@ -2108,10 +2047,7 @@
 		clearRestoredBindingMarkers(sidebar);
 		clearRestoredBindingMarkers(root);
 
-		manualEdits.clear();
-		(state.manualEdits || []).forEach(([key, value]) => {
-			manualEdits.set(key, value);
-		});
+		manualEdits.restore(state.manualEdits);
 		enableInlineEditing();
 		enableFormValueEditing();
 		enableDragAndDrop();
@@ -2276,9 +2212,8 @@
 			enableFormValueEditing();
 			enableDragAndDrop();
 			updateFormBuilderVisibility();
-			if (!shouldResetManualEdits) {
-				applyManualEdits();
-			}
+			const unresolvedEdits = shouldResetManualEdits ? [] : applyManualEdits();
+			updateAccountInitials();
 
 			pushUndoState(previousState);
 			lastDebugResult = {
@@ -2296,7 +2231,10 @@
 
 			if (status) {
 				const sourceLabel = result.source === 'endpoint' ? 'AI spec' : 'Local spec';
-				status.textContent = `${sourceLabel}: ${componentNames(spec).join(', ')}.`;
+				const unresolvedMessage = unresolvedEdits.length
+					? ` ${unresolvedEdits.length} manual edit${unresolvedEdits.length === 1 ? '' : 's'} could not be reapplied.`
+					: '';
+				status.textContent = `${sourceLabel}: ${componentNames(spec).join(', ')}.${unresolvedMessage}`;
 			}
 		} catch (error) {
 			if (status) {
