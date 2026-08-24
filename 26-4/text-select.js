@@ -216,6 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (!listContainer || !button || !panel || !input) return;
 
 		const idPrefix = listContainer.id || `country-select-${selectIndex}`;
+		const useFlags = !root.closest('[data-destination-country]');
 		const noResults = listContainer.querySelector('.saNoResults');
 		const PAGE_SIZE = 50;
 		const dataSource = countries.map(item => ({
@@ -307,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			li.dataset.label = item.label;
 			li.innerHTML = `
       <div class="saOption">
-        <img src="https://flagcdn.com/${item.value}.svg" loading="lazy" alt="" aria-hidden="true">
+				${useFlags ? `<img src="https://flagcdn.com/${item.value}.svg" loading="lazy" alt="" aria-hidden="true">` : ''}
         <span class="saOptionText">${currentQuery ? highlightMatch(item.label, currentQuery) : item.label}</span>
       </div>`;
 			return li;
@@ -492,7 +493,12 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (!data) return;
 			selectedValue = data.value;
 			button.querySelector('.saDropdownText').textContent = data.label;
-			button.querySelector('img').src = `https://flagcdn.com/${data.value}.svg`;
+			const flag = button.querySelector('img');
+			if (useFlags) {
+				if (flag) flag.src = `https://flagcdn.com/${data.value}.svg`;
+			} else if (flag) {
+				flag.remove();
+			}
 			root.dataset.selectedCode = data.value;
 		}
 
