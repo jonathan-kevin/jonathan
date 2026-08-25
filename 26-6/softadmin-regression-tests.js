@@ -103,8 +103,9 @@ async function testEndpointContract() {
 	process.env.AZURE_OPENAI_DEPLOYMENT = 'test-deployment';
 
 	const originalFetch = global.fetch;
+	let providerOutput = validNewEdit();
 	global.fetch = async () => new Response(JSON.stringify({
-		output_text: JSON.stringify(validNewEdit()),
+		output_text: JSON.stringify(providerOutput),
 		usage: { input_tokens: 100, output_tokens: 50, total_tokens: 150 }
 	}), { status: 200, headers: { 'content-type': 'application/json' } });
 
@@ -120,6 +121,24 @@ async function testEndpointContract() {
 		assert.equal(response.status, 200, body.error || 'Endpoint should accept a valid generated spec.');
 		assert.equal(body.spec.components[0].type, 'NewEdit');
 		assert.equal(body.usage.total_tokens, 150);
+
+		providerOutput = {
+			operations: [{ op: 'replace', path: '/frame/title', value: 'Edit person' }]
+		};
+		const revisionResponse = await handler(new Request('https://example.test', {
+			method: 'POST',
+			headers: { 'content-type': 'application/json', origin: 'http://localhost' },
+			body: JSON.stringify({
+				prompt: 'Change the title to Edit person.',
+				currentSpec: validNewEdit()
+			})
+		}));
+		const revisionBody = await revisionResponse.json();
+
+		assert.equal(revisionResponse.status, 200, revisionBody.error || 'Endpoint should apply a valid revision patch.');
+		assert.equal(revisionBody.spec.frame.title, 'Edit person');
+		assert.deepEqual(revisionBody.spec.components, validNewEdit().components);
+		assert.equal(revisionBody.operations.length, 1);
 	} finally {
 		global.fetch = originalFetch;
 		delete process.env.AZURE_OPENAI_ENDPOINT;

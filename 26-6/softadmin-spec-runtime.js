@@ -246,18 +246,18 @@
 		};
 	}
 
-	async function fetchRemoteSpec(prompt) {
+	async function fetchRemoteSpec(prompt, currentSpec) {
 		if (!config.specEndpoint) {
 			throw new Error('Spec endpoint is not configured.');
 		}
 
-		// The endpoint owns the catalog and prompt contract; the browser sends user intent only.
+		// The endpoint owns the catalog and prompt contract. Follow-up turns also send the current compact spec.
 		const response = await fetch(config.specEndpoint, {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json'
 			},
-			body: JSON.stringify({ prompt })
+			body: JSON.stringify({ prompt, currentSpec: currentSpec || undefined })
 		});
 
 		if (!response.ok) {
@@ -268,14 +268,14 @@
 		return response.json();
 	}
 
-	async function createSpec(prompt) {
+	async function createSpec(prompt, currentSpec) {
 		const source = 'endpoint';
 		const diagnostics = createDiagnostics();
 
-		const response = await fetchRemoteSpec(prompt);
+		const response = await fetchRemoteSpec(prompt, currentSpec);
 		const spec = response.spec || response;
 
-		const rawSpec = spec;
+		const rawSpec = response.operations ? { operations: response.operations } : spec;
 		const normalizedSpec = normalizeSpec(spec, diagnostics);
 		window.SoftadminSpecContract?.assertSpec(normalizedSpec);
 

@@ -2205,7 +2205,8 @@
 				status.textContent = 'Generating...';
 			}
 
-			const result = await specRuntime.createSpec(prompt);
+			const currentSpec = shouldResetManualEdits ? null : lastDebugResult?.spec || null;
+			const result = await specRuntime.createSpec(prompt, currentSpec);
 			const spec = result.spec;
 
 			clearSelectedElement();

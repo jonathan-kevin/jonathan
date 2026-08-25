@@ -3,7 +3,7 @@ import '../../26-6/softadmin-spec-contract.js';
 
 const OPENAI_RESPONSES_URL = 'https://api.openai.com/v1/responses';
 const DEFAULT_AZURE_API_VERSION = '2025-04-01-preview';
-const MAX_REQUEST_BYTES = 16_384;
+const MAX_REQUEST_BYTES = 65_536;
 const MAX_PROMPT_LENGTH = 4_000;
 const MAX_REQUESTS_PER_MINUTE = 12;
 const REQUEST_TIMEOUT_MS = 45_000;
@@ -113,10 +113,69 @@ function parseJsonObject(text) {
 	}
 }
 
-function systemInstructions(summary) {
-	return [
+function pointerSegments(path) {
+	if (typeof path !== 'string' || !path.startsWith('/') || path.length > 500) {
+		throw new Error('Invalid patch path.');
+	}
+
+	return path.slice(1).split('/').map(segment => {
+		const decoded = segment.replace(/~1/g, '/').replace(/~0/g, '~');
+		if (['__proto__', 'prototype', 'constructor'].includes(decoded)) {
+			throw new Error('Unsafe patch path.');
+		}
+		return decoded;
+	});
+}
+
+function applyOperations(currentSpec, operations) {
+	if (!Array.isArray(operations) || operations.length === 0 || operations.length > 50) {
+		throw new Error('Revision must contain between 1 and 50 patch operations.');
+	}
+
+	const result = structuredClone(currentSpec);
+	for (const operation of operations) {
+		if (!operation || !['add', 'remove', 'replace'].includes(operation.op)) {
+			throw new Error('Unsupported patch operation.');
+		}
+
+		const segments = pointerSegments(operation.path);
+		const key = segments.pop();
+		let parent = result;
+		for (const segment of segments) {
+			if (parent == null || !Object.prototype.hasOwnProperty.call(parent, segment)) {
+				throw new Error(`Patch path does not exist: ${operation.path}`);
+			}
+			parent = parent[segment];
+		}
+
+		if (Array.isArray(parent)) {
+			const index = key === '-' ? parent.length : Number(key);
+			if (!Number.isInteger(index) || index < 0 || index > parent.length) {
+				throw new Error(`Invalid array patch path: ${operation.path}`);
+			}
+			if (operation.op === 'add') parent.splice(index, 0, structuredClone(operation.value));
+			else if (operation.op === 'remove' && index < parent.length) parent.splice(index, 1);
+			else if (operation.op === 'replace' && index < parent.length) parent[index] = structuredClone(operation.value);
+			else throw new Error(`Patch path does not exist: ${operation.path}`);
+		} else {
+			if (!parent || typeof parent !== 'object') throw new Error(`Invalid patch path: ${operation.path}`);
+			if (operation.op !== 'add' && !Object.prototype.hasOwnProperty.call(parent, key)) {
+				throw new Error(`Patch path does not exist: ${operation.path}`);
+			}
+			if (operation.op === 'remove') delete parent[key];
+			else parent[key] = structuredClone(operation.value);
+		}
+	}
+
+	return result;
+}
+
+function systemInstructions(summary, isRevision = false) {
+	const instructions = [
 		'You generate compact JSON specs for Softadmin UI mockups.',
-		'Return only a JSON object with this shape: { "frame": {...}, "components": [...] }.',
+		isRevision
+			? 'Return only a JSON object with this shape: { "operations": [...] }.'
+			: 'Return only a JSON object with this shape: { "frame": {...}, "components": [...] }.',
 		'Do not return markdown, prose, comments, or raw HTML.',
 		'The browser renderer owns Softadmin HTML and CSS. You only choose semantic components, fields, rows, labels, and realistic sample data.',
 		'Use English UI text.',
@@ -136,7 +195,23 @@ function systemInstructions(summary) {
 		'ImageGallery: { type:"ImageGallery", size:"small|large", fit:"cover|contain", groups:[{ heading, open?, items:[{ caption, description?, alt?, src? }] }] }. Usually omit src; the renderer supplies safe sample images.',
 		'Multirow field: { label, control:"multirow", columns:[{ key, label, control:"textbox|radio|affix|uneditable|empty", width?, prefix?, suffix? }], rows:[{...}], aggregate? }. Use for repeated editable rows inside NewEdit.',
 		'Supported controls include textbox, textarea, dropdown, checkbox, radioCards, time, dateRange, fileUploadArea, multiAutosearch, multirow, autosearch, autosuggest, textboxDropdown, uneditable.'
-	].join('\n');
+	];
+
+	if (isRevision) {
+		instructions.push(
+			'This is an edit turn. Return only {"operations":[...]} using JSON Patch operations add, remove, or replace.',
+			'Change only what the edit request explicitly asks for. Preserve every unrelated value and array item.',
+			'Use JSON Pointer paths rooted in the supplied current spec. Do not return the complete spec.'
+		);
+	}
+
+	return instructions.join('\n');
+}
+
+function modelInput(prompt, currentSpec) {
+	return currentSpec
+		? `Current spec:\n${JSON.stringify(currentSpec)}\n\nEdit request:\n${prompt}`
+		: prompt;
 }
 
 function envValue(env, name) {
@@ -178,19 +253,19 @@ function missingAzureConfig(config) {
 	].filter(Boolean);
 }
 
-async function fetchAzureSpec(config, prompt, summary) {
+async function fetchAzureSpec(config, prompt, summary, currentSpec) {
 	if (config.wireApi === 'chat_completions') {
-		return fetchAzureChatCompletionsSpec(config, prompt, summary);
+		return fetchAzureChatCompletionsSpec(config, prompt, summary, currentSpec);
 	}
 
-	return fetchAzureResponsesSpec(config, prompt, summary);
+	return fetchAzureResponsesSpec(config, prompt, summary, currentSpec);
 }
 
 function azureOpenAiBaseUrl(endpoint) {
 	return endpoint.endsWith('/openai') ? endpoint : `${endpoint}/openai`;
 }
 
-async function fetchAzureResponsesSpec(config, prompt, summary) {
+async function fetchAzureResponsesSpec(config, prompt, summary, currentSpec) {
 	const url = `${azureOpenAiBaseUrl(config.endpoint)}/responses?api-version=${encodeURIComponent(config.apiVersion)}`;
 	const response = await fetch(url, {
 		method: 'POST',
@@ -203,11 +278,11 @@ async function fetchAzureResponsesSpec(config, prompt, summary) {
 			input: [
 				{
 					role: 'system',
-					content: systemInstructions(summary)
+					content: systemInstructions(summary, Boolean(currentSpec))
 				},
 				{
 					role: 'user',
-					content: prompt
+					content: modelInput(prompt, currentSpec)
 				}
 			],
 			text: {
@@ -228,7 +303,7 @@ async function fetchAzureResponsesSpec(config, prompt, summary) {
 	return { spec: parseJsonObject(extractOutputText(responseJson)), usage: responseJson.usage || null };
 }
 
-async function fetchAzureChatCompletionsSpec(config, prompt, summary) {
+async function fetchAzureChatCompletionsSpec(config, prompt, summary, currentSpec) {
 	const url = `${azureOpenAiBaseUrl(config.endpoint)}/deployments/${encodeURIComponent(config.deployment)}/chat/completions?api-version=${encodeURIComponent(config.apiVersion)}`;
 	const response = await fetch(url, {
 		method: 'POST',
@@ -240,11 +315,11 @@ async function fetchAzureChatCompletionsSpec(config, prompt, summary) {
 			messages: [
 				{
 					role: 'system',
-					content: systemInstructions(summary)
+					content: systemInstructions(summary, Boolean(currentSpec))
 				},
 				{
 					role: 'user',
-					content: prompt
+					content: modelInput(prompt, currentSpec)
 				}
 			],
 			response_format: {
@@ -264,7 +339,7 @@ async function fetchAzureChatCompletionsSpec(config, prompt, summary) {
 	return { spec: parseJsonObject(responseJson.choices?.[0]?.message?.content || ''), usage: responseJson.usage || null };
 }
 
-async function fetchOpenAiSpec(config, prompt, summary) {
+async function fetchOpenAiSpec(config, prompt, summary, currentSpec) {
 	const response = await fetch(OPENAI_RESPONSES_URL, {
 		method: 'POST',
 		headers: {
@@ -276,11 +351,11 @@ async function fetchOpenAiSpec(config, prompt, summary) {
 			input: [
 				{
 					role: 'system',
-					content: systemInstructions(summary)
+					content: systemInstructions(summary, Boolean(currentSpec))
 				},
 				{
 					role: 'user',
-					content: prompt
+					content: modelInput(prompt, currentSpec)
 				}
 			],
 			text: {
@@ -346,12 +421,19 @@ export default async (request) => {
 	}
 
 	const prompt = String(payload.prompt || '').trim();
+	const currentSpec = payload.currentSpec || null;
 
 	if (!prompt) {
 		return jsonResponse({ error: 'Missing prompt.' }, 400);
 	}
 	if (prompt.length > MAX_PROMPT_LENGTH) {
 		return jsonResponse({ error: `Prompt may contain at most ${MAX_PROMPT_LENGTH} characters.` }, 413);
+	}
+	if (currentSpec) {
+		const currentValidation = globalThis.SoftadminSpecContract.validateSpec(currentSpec);
+		if (!currentValidation.valid) {
+			return jsonResponse({ error: 'Current mockup spec is invalid.' }, 400);
+		}
 	}
 
 	const summary = catalogSummary();
@@ -366,14 +448,18 @@ export default async (request) => {
 				}, 503);
 			}
 
-			const result = await fetchAzureSpec(azure, prompt, summary);
-			globalThis.SoftadminSpecContract.assertSpec(result.spec);
-			return jsonResponse(result);
+			const result = await fetchAzureSpec(azure, prompt, summary, currentSpec);
+			const operations = currentSpec ? result.spec.operations : null;
+			const spec = currentSpec ? applyOperations(currentSpec, operations) : result.spec;
+			globalThis.SoftadminSpecContract.assertSpec(spec);
+			return jsonResponse({ ...result, spec, operations });
 		}
 
-		const result = await fetchOpenAiSpec(openai, prompt, summary);
-		globalThis.SoftadminSpecContract.assertSpec(result.spec);
-		return jsonResponse(result);
+		const result = await fetchOpenAiSpec(openai, prompt, summary, currentSpec);
+		const operations = currentSpec ? result.spec.operations : null;
+		const spec = currentSpec ? applyOperations(currentSpec, operations) : result.spec;
+		globalThis.SoftadminSpecContract.assertSpec(spec);
+		return jsonResponse({ ...result, spec, operations });
 	} catch (error) {
 		return jsonResponse({
 			error: error.message || 'Could not parse model output.'
