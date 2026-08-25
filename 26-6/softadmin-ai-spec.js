@@ -6,7 +6,6 @@
 	const avatarStorageKey = 'softadmin.mockup.avatar';
 	const aiToolsPositionStorageKey = 'softadmin.mockup.aiToolsPosition';
 	const manualEdits = window.SoftadminEditorPatches.createStore();
-	let initialState = null;
 	let isBusy = false;
 	let lastTokenEstimate = null;
 	let preferredLogoSource = null;
@@ -477,32 +476,70 @@
 		openAvatarFilePicker();
 	}
 
-	function logoUrlInput() {
-		return document.getElementById('SoftadminLogoUrlInput');
+	function screenshotFileName() {
+		const title = document.querySelector('.saDesktopHeader .saHeaderText')?.textContent?.trim() || 'softadmin-mockup';
+		const slug = title.toLowerCase()
+			.replace(/[^a-z0-9]+/g, '-')
+			.replace(/^-|-$/g, '');
+
+		return `${slug || 'softadmin-mockup'}.png`;
 	}
 
-	function openLogoUrlInput() {
-		const input = logoUrlInput();
+	async function saveMockupScreenshot() {
+		const status = document.getElementById('SoftadminPromptStatus');
+		const target = document.getElementById('body') || document.body;
+		const hiddenElements = Array.from(document.querySelectorAll('.saMockAiTools, .saMockSelectionToolbar, .saMockDebugDrawer'));
+		const originalVisibility = hiddenElements.map(element => element.style.visibility);
 
-		if (!input) {
+		if (typeof window.html2canvas !== 'function') {
+			if (status) {
+				status.textContent = 'Screenshot tool could not be loaded.';
+			}
 			return;
 		}
 
-		input.value = preferredLogoSource || input.value || '';
-		input.classList.add('saOpen');
-		input.focus();
-		input.select();
-	}
-
-	function applyLogoUrlInput() {
-		const input = logoUrlInput();
-
-		if (!input) {
-			return;
+		if (status) {
+			status.textContent = 'Creating screenshot...';
 		}
 
-		setLogoPreference(input.value, 'Logo URL applied.');
-		input.classList.remove('saOpen');
+		hiddenElements.forEach(element => {
+			element.style.visibility = 'hidden';
+		});
+
+		try {
+			const canvas = await window.html2canvas(target, {
+				backgroundColor: '#ffffff',
+				logging: false,
+				scale: Math.min(window.devicePixelRatio || 1, 2),
+				useCORS: true
+			});
+			const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+
+			if (!blob) {
+				throw new Error('Could not create screenshot image.');
+			}
+
+			const url = URL.createObjectURL(blob);
+			const link = document.createElement('a');
+			link.href = url;
+			link.download = screenshotFileName();
+			document.body.appendChild(link);
+			link.click();
+			link.remove();
+			setTimeout(() => URL.revokeObjectURL(url), 0);
+
+			if (status) {
+				status.textContent = 'Screenshot saved.';
+			}
+		} catch (error) {
+			if (status) {
+				status.textContent = error?.message || 'Could not save screenshot.';
+			}
+		} finally {
+			hiddenElements.forEach((element, index) => {
+				element.style.visibility = originalVisibility[index];
+			});
+		}
 	}
 
 	function sidebarItemTitle(element) {
@@ -2082,14 +2119,9 @@
 
 	function updateUndoButton() {
 		const undoButton = document.getElementById('SoftadminUndo');
-		const resetButton = document.getElementById('SoftadminReset');
 
 		if (undoButton) {
 			undoButton.disabled = isBusy || undoStack.length === 0;
-		}
-
-		if (resetButton) {
-			resetButton.disabled = isBusy || !initialState;
 		}
 	}
 
@@ -2295,38 +2327,14 @@
 		restoreState(undoStack.pop());
 	}
 
-	function resetMockup() {
-		const status = document.getElementById('SoftadminPromptStatus');
-
-		if (isBusy || !initialState) {
-			return;
-		}
-
-		undoStack.length = 0;
-		clearSelectedElement();
-		resetManualEdits();
-		restoreState(initialState);
-
-		if (status) {
-			status.textContent = 'Reset.';
-		}
-
-		lastTokenEstimate = null;
-		updateFormBuilderVisibility();
-		updateUndoButton();
-	}
-
 	document.addEventListener('DOMContentLoaded', function () {
 		const promptInput = document.getElementById('SoftadminPrompt');
 		const generateButton = document.getElementById('SoftadminGenerate');
 		const componentPicker = document.getElementById('SoftadminComponentPicker');
 		const undoButton = document.getElementById('SoftadminUndo');
-		const resetButton = document.getElementById('SoftadminReset');
 		const logoFileInput = document.getElementById('SoftadminLogoFile');
 		const avatarFileInput = document.getElementById('SoftadminAvatarFile');
-		const logoUploadButton = document.getElementById('SoftadminLogoUpload');
-		const logoUrlButton = document.getElementById('SoftadminLogoUrl');
-		const logoUrlInputElement = document.getElementById('SoftadminLogoUrlInput');
+		const screenshotButton = document.getElementById('SoftadminScreenshot');
 		const defaultPrompt = 'Create a customer detail page with contact summary, cases, invoices, and payments.';
 
 		if (promptInput) {
@@ -2350,12 +2358,7 @@
 			undoButton.addEventListener('click', undoLastGeneration);
 		}
 
-		if (resetButton) {
-			resetButton.addEventListener('click', resetMockup);
-		}
-
-		if (logoUploadButton && logoFileInput) {
-			logoUploadButton.addEventListener('click', openLogoFilePicker);
+		if (logoFileInput) {
 			logoFileInput.addEventListener('change', handleLogoFileChange);
 		}
 
@@ -2363,27 +2366,8 @@
 			avatarFileInput.addEventListener('change', handleAvatarFileChange);
 		}
 
-		if (logoUrlButton) {
-			logoUrlButton.addEventListener('click', function () {
-				if (logoUrlInputElement?.classList.contains('saOpen') && logoUrlInputElement.value.trim()) {
-					applyLogoUrlInput();
-				} else {
-					openLogoUrlInput();
-				}
-			});
-		}
-
-		if (logoUrlInputElement) {
-			logoUrlInputElement.addEventListener('keydown', function (event) {
-				if (event.key === 'Enter') {
-					event.preventDefault();
-					applyLogoUrlInput();
-				}
-
-				if (event.key === 'Escape') {
-					logoUrlInputElement.classList.remove('saOpen');
-				}
-			});
+		if (screenshotButton) {
+			screenshotButton.addEventListener('click', saveMockupScreenshot);
 		}
 
 		document.querySelectorAll('[data-softadmin-example-prompt]').forEach(button => {
@@ -2459,7 +2443,6 @@
 		loadAvatarPreference();
 		applyLogoPreference();
 		applyAvatarPreference();
-		initialState = captureState();
 		updateUndoButton();
 	});
 }());

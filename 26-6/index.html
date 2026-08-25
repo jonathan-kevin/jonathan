@@ -97,18 +97,6 @@
 			line-height: 1.25rem;
 		}
 
-		.saMockPromptSpark {
-			display: grid;
-			place-items: center;
-			flex: 0 0 auto;
-			width: 2rem;
-			height: 2rem;
-			border-radius: 999px;
-			color: #fff;
-			background: linear-gradient(135deg, #2563eb, #7c3aed);
-			box-shadow: 0 0.5rem 1.25rem rgba(37, 99, 235, 0.3);
-		}
-
 		.saMockPromptHint {
 			color: #64748b;
 			font-size: 0.75rem;
@@ -570,28 +558,6 @@
 			cursor: pointer;
 		}
 
-		.saMockLogoUrlInput {
-			width: 0;
-			min-width: 0;
-			opacity: 0;
-			border: 1px solid rgba(148, 163, 184, 0.38);
-			border-radius: 0.5rem;
-			background: rgba(255, 255, 255, 0.96);
-			color: #0f172a;
-			font: inherit;
-			height: 2.125rem;
-			padding: 0;
-			pointer-events: none;
-			transition: width 0.16s ease, opacity 0.16s ease, padding 0.16s ease;
-		}
-
-		.saMockLogoUrlInput.saOpen {
-			width: 13rem;
-			opacity: 1;
-			padding: 0 0.625rem;
-			pointer-events: auto;
-		}
-
 		.saMockSelectionToolbar {
 			position: fixed;
 			z-index: 100000;
@@ -653,7 +619,8 @@
 	<script src="./softadmin-editor-patches.js?v=86"></script>
 	<script src="./softadmin-component-registry.js?v=87"></script>
 	<script src="./softadmin-spec-runtime.js?v=87"></script>
-	<script src="./softadmin-ai-spec.js?v=90"></script>
+	<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+	<script src="./softadmin-ai-spec.js?v=91"></script>
 	<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -1076,7 +1043,6 @@
 											<div class="saMockPromptPanel">
 											<div class="saMockPromptHeader">
 												<div class="saMockPromptTitle">
-													<span class="saMockPromptSpark" aria-hidden="true"><i class="far fa-wand-magic-sparkles"></i></span>
 													<span>AI mockup prompt</span>
 												</div>
 												<span class="saMockPromptHint">Prompt to Softadmin</span>
@@ -1093,9 +1059,12 @@
 											<div class="saMockExamplePrompts" aria-label="Example prompts">
 												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create a NewEdit form for entering a person's contact information.">Person form</button>
 												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create a customer details page with contact info boxes, overdue invoice warning, related cases tabs, invoices, payments, and realistic action buttons.">Customer detail</button>
-												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create an 15 row invoice grid for an economy system with customer, invoice number, due date, status, amount, and realistic row actions.">Invoice grid</button>
+												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create a 15-row invoice grid for an economy system with customer, invoice number, due date, status, amount, and realistic row actions.">Invoice grid</button>
 												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Add five more random favorites in the sidebar.">Sidebar favorites</button>
 												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Remove item 'Rooms' in sidebar and add five more menu items in that group about economy.">Sidebar patch</button>
+												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create an employee image gallery grouped by department with names and job titles.">Employee gallery</button>
+												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create a NewEdit booking form with customer autosearch, room dropdown, date range, start and end time, participants, and notes.">Booking form</button>
+												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create a menu page for an economy system with groups for invoicing, payments, accounting, and reports.">Economy menu</button>
 											</div>
 											<div class="saMockPromptActions">
 												<div class="saMockPromptActionGroup">
@@ -1106,18 +1075,11 @@
 													<button id="SoftadminUndo" class="saMockDebugToggle" type="button" aria-label="Undo last generation" title="Undo last generation" disabled>
 														<i class="far fa-arrow-rotate-left"></i>
 													</button>
-													<button id="SoftadminReset" class="saMockDebugToggle" type="button" aria-label="Reset mockup" title="Reset mockup">
-														<i class="far fa-arrow-rotate-right"></i>
-													</button>
-													<input id="SoftadminLogoFile" class="saMockLogoFileInput" type="file" accept="image/*">
-													<input id="SoftadminAvatarFile" class="saMockLogoFileInput" type="file" accept="image/*">
-													<button id="SoftadminLogoUpload" class="saMockDebugToggle" type="button" aria-label="Upload logo" title="Upload logo">
-														<i class="far fa-image"></i>
-													</button>
-													<button id="SoftadminLogoUrl" class="saMockDebugToggle" type="button" aria-label="Use logo URL" title="Use logo URL">
-														<i class="far fa-link"></i>
-													</button>
-													<input id="SoftadminLogoUrlInput" class="saMockLogoUrlInput" type="url" aria-label="Logo image URL" placeholder="Logo URL">
+												<input id="SoftadminLogoFile" class="saMockLogoFileInput" type="file" accept="image/*">
+												<input id="SoftadminAvatarFile" class="saMockLogoFileInput" type="file" accept="image/*">
+												<button id="SoftadminScreenshot" class="saMockDebugToggle" type="button" aria-label="Save as screenshot" title="Save as screenshot">
+													<i class="far fa-camera"></i>
+												</button>
 													<button id="SoftadminDebugToggle" class="saMockDebugToggle" type="button" aria-label="Open developer debug drawer">
 														<i class="far fa-code"></i>
 													</button>
