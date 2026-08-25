@@ -872,6 +872,16 @@
 		return Boolean(document.querySelector('[data-softadmin-component-root] .saInputPage .saFieldCollection'));
 	}
 
+	function shouldShowFormBuilder() {
+		const selectedComponent = document.getElementById('SoftadminComponentPicker')?.value;
+
+		if (selectedComponent) {
+			return selectedComponent === 'NewEdit' && hasNewEditForm();
+		}
+
+		return hasNewEditForm();
+	}
+
 	function updateFormBuilderVisibility() {
 		const builder = document.getElementById('SoftadminFormBuilder');
 
@@ -879,8 +889,9 @@
 			return;
 		}
 
-		builder.classList.toggle('saOpen', hasNewEditForm());
-		builder.setAttribute('aria-hidden', hasNewEditForm() ? 'false' : 'true');
+		const isVisible = shouldShowFormBuilder();
+		builder.classList.toggle('saOpen', isVisible);
+		builder.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
 		requestAnimationFrame(clampAiToolsToViewport);
 	}
 
@@ -1953,7 +1964,10 @@
 	function handleComponentPickerChange(event) {
 		if (event.target.value === 'NewEdit') {
 			renderDirectSpec(newEditBuilderStarterSpec(), 'NewEdit form ready. Drag fields from the form builder.');
+			return;
 		}
+
+		updateFormBuilderVisibility();
 	}
 
 	function setDebugDrawerOpen(isOpen) {
