@@ -2188,6 +2188,8 @@
 		const renderer = window.SoftadminMockups;
 		const shouldResetManualEdits = promptClearsManualEdits(prompt);
 		const previousState = captureState();
+		const startedAt = Date.now();
+		let progressTimer = null;
 
 		if (!root || !specRuntime || !renderer) {
 			return;
@@ -2202,7 +2204,11 @@
 			}
 
 			if (status) {
-				status.textContent = 'Generating...';
+				const updateProgress = () => {
+					status.textContent = `Generating... ${Math.floor((Date.now() - startedAt) / 1000)}s`;
+				};
+				updateProgress();
+				progressTimer = window.setInterval(updateProgress, 1000);
 			}
 
 			const currentSpec = shouldResetManualEdits ? null : lastDebugResult?.spec || null;
@@ -2256,6 +2262,9 @@
 				status.textContent = error.message || 'Could not generate mockup.';
 			}
 		} finally {
+			if (progressTimer) {
+				window.clearInterval(progressTimer);
+			}
 			setBusy(false);
 		}
 	}
