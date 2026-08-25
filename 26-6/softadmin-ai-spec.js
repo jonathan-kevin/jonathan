@@ -2022,8 +2022,6 @@
 		const sideBarNav = document.querySelector('.saSideBar');
 		const root = document.querySelector('[data-softadmin-component-root]');
 		const status = document.getElementById('SoftadminPromptStatus');
-		const progress = document.getElementById('SoftadminPromptProgress');
-		const progressBar = document.getElementById('SoftadminPromptProgressBar');
 
 		clearSelectedElement();
 		document.title = state.documentTitle;
@@ -2186,6 +2184,8 @@
 	async function renderFromPrompt(prompt) {
 		const root = document.querySelector('[data-softadmin-component-root]');
 		const status = document.getElementById('SoftadminPromptStatus');
+		const progress = document.getElementById('SoftadminPromptProgress');
+		const progressBar = document.getElementById('SoftadminPromptProgressBar');
 		const specRuntime = window.SoftadminSpecRuntime;
 		const renderer = window.SoftadminMockups;
 		const shouldResetManualEdits = promptClearsManualEdits(prompt);
