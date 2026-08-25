@@ -4,7 +4,7 @@ The browser demo can call a Netlify Function to turn prompts into real AI-genera
 
 ## Files
 
-- `26-6/softadmin-ai-poc.html`
+- `26-6/index.html`
 - `26-6/softadmin-spec-runtime.js`
 - `netlify/functions/softadmin-spec.mjs`
 
@@ -54,7 +54,7 @@ If credentials are missing or invalid, the function returns an error and the bro
 After deploy, open:
 
 ```text
-https://jonathankevin.netlify.app/26-6/softadmin-ai-poc
+https://jonathankevin.netlify.app/26-6/
 ```
 
 Try a prompt that is not one of the local canned examples, for example:
