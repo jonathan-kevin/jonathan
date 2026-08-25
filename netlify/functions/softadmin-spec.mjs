@@ -7,6 +7,7 @@ const MAX_REQUEST_BYTES = 65_536;
 const MAX_PROMPT_LENGTH = 4_000;
 const MAX_REQUESTS_PER_MINUTE = 12;
 const REQUEST_TIMEOUT_MS = 45_000;
+const MAX_OUTPUT_TOKENS = 3_200;
 const rateBuckets = new Map();
 
 function jsonResponse(body, status = 200) {
@@ -182,6 +183,7 @@ function systemInstructions(summary, isRevision = false) {
 		'Prefer one main component per screen. InfoBoxes may appear before a component.',
 		'Prefer label/value pairs as stacked columns.',
 		'Do not right-align non-numeric grid cells.',
+		'Keep mockups concise. Use at most 3 sample rows per grid unless the user explicitly requests more.',
 		'Use numeric:true and align:"right" only for numeric, amount, total, balance, count, or quantity columns.',
 		'Use realistic Font Awesome icon names without style prefixes, for example "eye", "trash", "file-invoice", "calendar-days".',
 		`Available components: ${summary.components.join(', ')}.`,
@@ -290,7 +292,8 @@ async function fetchAzureResponsesSpec(config, prompt, summary, currentSpec) {
 					type: 'json_object'
 				}
 			},
-			max_output_tokens: 5_000
+			reasoning: { effort: 'low' },
+			max_output_tokens: MAX_OUTPUT_TOKENS
 		}),
 		signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
 	});
@@ -326,7 +329,8 @@ async function fetchAzureChatCompletionsSpec(config, prompt, summary, currentSpe
 				type: 'json_object'
 			},
 			temperature: 0.2,
-			max_tokens: 5_000
+			reasoning_effort: 'low',
+			max_tokens: MAX_OUTPUT_TOKENS
 		}),
 		signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
 	});
@@ -363,7 +367,8 @@ async function fetchOpenAiSpec(config, prompt, summary, currentSpec) {
 					type: 'json_object'
 				}
 			},
-			max_output_tokens: 5_000
+			reasoning: { effort: 'low' },
+			max_output_tokens: MAX_OUTPUT_TOKENS
 		}),
 		signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
 	});
