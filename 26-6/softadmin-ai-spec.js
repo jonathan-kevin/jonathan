@@ -2022,6 +2022,8 @@
 		const sideBarNav = document.querySelector('.saSideBar');
 		const root = document.querySelector('[data-softadmin-component-root]');
 		const status = document.getElementById('SoftadminPromptStatus');
+		const progress = document.getElementById('SoftadminPromptProgress');
+		const progressBar = document.getElementById('SoftadminPromptProgressBar');
 
 		clearSelectedElement();
 		document.title = state.documentTitle;
@@ -2205,10 +2207,21 @@
 
 			if (status) {
 				const updateProgress = () => {
-					status.textContent = `Generating... ${Math.floor((Date.now() - startedAt) / 1000)}s`;
+					const elapsed = Date.now() - startedAt;
+					const percentage = Math.min(100, Math.round(elapsed / 200));
+					status.textContent = `Generating... ${Math.floor(elapsed / 1000)}s`;
+					if (progress && progressBar) {
+						progress.setAttribute('aria-valuenow', String(percentage));
+						progressBar.style.width = `${percentage}%`;
+					}
 				};
+				if (progress && progressBar) {
+					progress.classList.add('saVisible');
+					progress.setAttribute('aria-valuenow', '0');
+					progressBar.style.width = '0%';
+				}
 				updateProgress();
-				progressTimer = window.setInterval(updateProgress, 1000);
+				progressTimer = window.setInterval(updateProgress, 100);
 			}
 
 			const currentSpec = shouldResetManualEdits ? null : lastDebugResult?.spec || null;
@@ -2264,6 +2277,11 @@
 		} finally {
 			if (progressTimer) {
 				window.clearInterval(progressTimer);
+			}
+			if (progress && progressBar) {
+				progress.setAttribute('aria-valuenow', '100');
+				progressBar.style.width = '100%';
+				window.setTimeout(() => progress.classList.remove('saVisible'), 400);
 			}
 			setBusy(false);
 		}

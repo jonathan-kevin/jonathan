@@ -298,6 +298,27 @@
 			white-space: nowrap;
 		}
 
+		.saMockPromptProgress {
+			display: none;
+			height: 0.25rem;
+			overflow: hidden;
+			border-radius: 999px;
+			background: #dbe3ee;
+		}
+
+		.saMockPromptProgress.saVisible {
+			display: block;
+		}
+
+		.saMockPromptProgressBar {
+			display: block;
+			width: 0;
+			height: 100%;
+			border-radius: inherit;
+			background: #2563eb;
+			transition: width 0.1s linear;
+		}
+
 		.saMockDebugDrawer {
 			position: fixed;
 			top: 0;
@@ -632,7 +653,7 @@
 	<script src="./softadmin-editor-patches.js?v=86"></script>
 	<script src="./softadmin-component-registry.js?v=87"></script>
 	<script src="./softadmin-spec-runtime.js?v=87"></script>
-	<script src="./softadmin-ai-spec.js?v=88"></script>
+	<script src="./softadmin-ai-spec.js?v=89"></script>
 	<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -1101,9 +1122,12 @@
 														<i class="far fa-code"></i>
 													</button>
 												</div>
-												<span id="SoftadminPromptStatus" class="saMockPromptStatus" aria-live="polite"></span>
-											</div>
+											<span id="SoftadminPromptStatus" class="saMockPromptStatus" aria-live="polite"></span>
 										</div>
+										<div id="SoftadminPromptProgress" class="saMockPromptProgress" role="progressbar" aria-label="Estimated generation progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+											<span id="SoftadminPromptProgressBar" class="saMockPromptProgressBar"></span>
+										</div>
+									</div>
 										</div>
 
 										<aside id="SoftadminDebugDrawer" class="saMockDebugDrawer" aria-hidden="true">
