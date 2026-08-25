@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Jonathan</title>
+	<title>Impersonator</title>
 	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css">
 	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
 	<meta name="description" content="Demo">
@@ -12,7 +12,7 @@
 
 	<script src="../src/jquery-4.0.0.slim.min.js"></script>
 	<script src="./script.js"></script>
-	<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
+	<script src="./text-select.js"></script>
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
 
@@ -49,72 +49,41 @@
 										<i class="far fa-magnifying-glass saIcon"></i>
 									</label>
 								</li>
-								<li>
-									<div class="saLabeled saImpersonator">
-										<label class="saLabel" for="autoSearch">Användare</label>
-										<span class="saFirstLetter">J</span>
-										<input class="saInputText" id="autoSearch" value="nils.bergstrom@multisoft.se" list="userlist" style="padding-right: 0.5rem;">
-										<datalist id="userlist">
-											<option value="Agnes Berglund">agnes.berglund@multisoft.se</option>
-											<option value="Andreas Moss">andreas.moss@multisoft.se</option>
-											<option value="Anna Berg">anna.berg@multisoft.se</option>
-											<option value="Axel Gran">axel.gran@multisoft.se</option>
-											<option value="Axelandra Quist">axelandra.gran@multisoft.se</option>
-											<option value="Cecilia Öhman">cecilia.ohman@multisoft.se</option>
-											<option value="Clara Bergman">clara.bergman@multisoft.se</option>
-											<option value="Daniel Ryd">daniel.ryd@multisoft.se</option>
-											<option value="Ebba Åslund">ebba.aslund@multisoft.se</option>
-											<option value="Edgar Golk">edgar.golk@multisoft.se</option>
-											<option value="Elin Sand">elin.sand@multisoft.se</option>
-											<option value="Emma Dahl">emma.dahl@multisoft.se</option>
-											<option value="Erik Lind">erik.lind@multisoft.se</option>
-											<option value="Fredrik Håkansson">fredrik.hakansson@multisoft.se</option>
-											<option value="Frida Jansson">frida.jansson@multisoft.se</option>
-											<option value="Gustav Wik">gustav.wik@multisoft.se</option>
-											<option value="Helena Söder">helena.soder@multisoft.se</option>
-											<option value="Henrik Öberg">henrik.oberg@multisoft.se</option>
-											<option value="Ida Blom">ida.blom@multisoft.se</option>
-											<option value="Jenny Norén">jenny.noren@multisoft.se</option>
-											<option value="Johan Ek">johan.ek@multisoft.se</option>
-											<option value="Johannes Ozkarzon">jonna.ek@multisoft.se</option>
-											<option value="Jon Sunesson">jon.sunesson@multisoft.se</option>
-											<option value="Jonna Ek">jonna.ek@multisoft.se</option>
-											<option value="Josefin Linde">josefin.linde@multisoft.se</option>
-											<option value="Julia Sten">julia.sten@multisoft.se</option>
-											<option value="Karin Lund">karin.lund@multisoft.se</option>
-											<option value="Kristoffer Borg">kristoffer.borg@multisoft.se</option>
-											<option value="Lars Larsson">lars.larsson@multisoft.se</option>
-											<option value="Lina Falk">lina.falk@multisoft.se</option>
-											<option value="Lisa Wallin">lisa.wallin@multisoft.se</option>
-											<option value="Lovisa Palm">lovisa.palm@multisoft.se</option>
-											<option value="Maja Lindström">maja.lindstrom@multisoft.se</option>
-											<option value="Malin Fors">malin.fors@multisoft.se</option>
-											<option value="Marcus Törn">marcus.torn@multisoft.se</option>
-											<option value="Maria Holm">maria.holm@multisoft.se</option>
-											<option value="Martin Kihl">martin.kihl@multisoft.se</option>
-											<option value="Matilda Ekström">matilda.ekstrom@multisoft.se</option>
-											<option value="Mats Åberg">mats.aberg@multisoft.se</option>
-											<option value="Nathalie Roos">nathalie.roos@multisoft.se</option>
-											<option value="Niklas Vahl">niklas.vahl@multisoft.se</option>
-											<option value="Nils Bergström">nils.bergstrom@multisoft.se</option>
-											<option value="Operas">operas@multisoft.se</option>
-											<option value="Oskar Sjöberg">oskar.sjoberg@multisoft.se</option>
-											<option value="Patrik Hellström">patrik.hellstrom@multisoft.se</option>
-											<option value="Per Åkesson">per.akesson@multisoft.se</option>
-											<option value="Pontus Bäck">pontus.back@multisoft.se</option>
-											<option value="Rasmus Hall">rasmus.hall@multisoft.se</option>
-											<option value="Rebecka Öst">rebecka.ost@multisoft.se</option>
-											<option value="Robert Åström">robert.astrom@multisoft.se</option>
-											<option value="Sara Nilsson">sara.nilsson@multisoft.se</option>
-											<option value="Sara Östman">sara.ostman@multisoft.se</option>
-											<option value="Simon Edman">simon.edman@multisoft.se</option>
-											<option value="Sofia Nyström">sofia.nystrom@multisoft.se</option>
-											<option value="Stefan Norberg">stefan.norberg@multisoft.se</option>
-											<option value="Therese Vik">therese.vik@multisoft.se</option>
-											<option value="Tommy Englund">tommy.englund@multisoft.se</option>
-											<option value="Viktor Eklund">viktor.eklund@multisoft.se</option>
-											<option value="William Friberg">william.friberg@multisoft.se</option>
-										</datalist>
+								<li style="position: relative;" data-country-select data-selected-code="af" data-destination-country>
+									<div class="saInputTextWrapper saLabeled"  style="margin-right: 0; padding: 0 0.5rem; position: relative;">
+										<button
+											type="button"
+											class="saDropdown saInputText "
+											id="impCountryButton"
+											aria-haspopup="listbox"
+											aria-expanded="false"
+											aria-controls="impCountryDropdown">
+											<div class="saDropdownText">Afghanistan</div>
+										</button>
+										<label class="saLabel" style="position: absolute; top: 0.25rem; left: 1rem; pointer-events: none; font-size: 0.75rem; color: #6c757d;">User</label>
+									</div>
+									<div class="saContextMenu" id="impCountryContextMenu" style="top: 2.25rem; left: 0.5rem; width: 200px;">
+										<div class="saInputTextWrapper" style="margin-right: 0;">
+											<input
+												type="search"
+												id="impCountrySearch"
+												placeholder="Search"
+												class="saInputText"
+												autocomplete="off"
+												role="combobox"
+												aria-autocomplete="list"
+												aria-controls="impCountryDropdown"
+												aria-activedescendant="impCountryDropdown-opt-sl"
+											>
+										</div>
+										<ul id="impCountryDropdown" role="listbox">
+											<li class="saOptionWrapper saNoResults" role="option" id="impCountryDropdown-opt-empty" aria-disabled="true" style="display: none;">
+												<div class="saOption">
+													<i class="far fa-search saOptionIcon saIcon"></i>
+													<span class="saOptionText">No results found</span>
+												</div>
+											</li>
+										</ul>
 									</div>
 								</li>
 								<li>
@@ -191,8 +160,8 @@
 							<div class="saSideBarFooterPrimary">
 								<div class="saListItem">
 									<button class="saAccountDropdown" type="button">
-										<div class="saAccountAvatar">JK</div>
-										<span class="saAccountName">Jonathan Kevin</span>
+										<div class="saAccountAvatar">IL</div>
+										<span class="saAccountName">Impersonator Lastname</span>
 										<i class="far fa-angle-down saIcon"></i>
 									</button>
 								</div>
@@ -258,7 +227,7 @@
 										</div>
 										<div class="saBottomRow">
 											<div class="saTitle">
-												<h1 class="saHeaderText">Jonathan</h1>
+												<h1 class="saHeaderText">Impersonator</h1>
 												<div class="saNoSpinner">
 													<button type="button" class="saFavoriteToggle"><i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i></button>
 												</div>
@@ -298,7 +267,7 @@
 											<button class="saSmallScreenBackButton saButtonHeader" type="button"><i class="far fa-arrow-left saBack saIcon"></i></button>
 											<div class="saHeaderWrapper">
 												<div class="saTitle">
-													<h1 class="saHeaderText">Jonathan</h1>
+													<h1 class="saHeaderText">Impersonator</h1>
 												</div>
 											</div>
 											<button class="saNotifications saButtonHeader" type="button" aria-expanded="false">
