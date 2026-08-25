@@ -60,6 +60,17 @@
 				return;
 			}
 
+			const galleryHeading = target.closest('.saGalleryGroup .saHeadingButton');
+			if (galleryHeading) {
+				const itemList = galleryHeading.nextElementSibling;
+				const isOpen = galleryHeading.classList.toggle('saOpen');
+				galleryHeading.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+				if (itemList) {
+					itemList.hidden = !isOpen;
+				}
+				return;
+			}
+
 			const favoriteToggle = target.closest('.saFavoriteToggle');
 			if (favoriteToggle) {
 				const isChecked = favoriteToggle.getAttribute('aria-checked') === 'true';
@@ -97,6 +108,20 @@
 			if (target.closest('.saSideBarHeaderSmallScreen .saNavigator') || target.closest('#SideBarSmallScreenOverlay')) {
 				closeSideBar();
 			}
+		});
+
+		document.addEventListener('change', function (event) {
+			const input = event.target.closest('.saGalleryWrapper .saToggleGrid input');
+			if (!input) {
+				return;
+			}
+
+			const wrapper = input.closest('.saGalleryWrapper');
+			wrapper.classList.toggle('saColumnsSmall', input.value === 'small');
+			wrapper.classList.toggle('saColumnsLarge', input.value !== 'small');
+			input.closest('.saToggleGrid').querySelectorAll('label').forEach(label => {
+				label.classList.toggle('saSelected', label.contains(input));
+			});
 		});
 
 		document.addEventListener('keydown', function (event) {

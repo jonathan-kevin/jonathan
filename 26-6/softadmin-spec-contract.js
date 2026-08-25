@@ -77,6 +77,14 @@
 			requireArray(component, 'groups', path, errors);
 		}
 
+		if (component.type === 'ImageGallery') {
+			requireArray(component, 'groups', path, errors).forEach((group, index) => {
+				if (!group || !Array.isArray(group.items)) {
+					errors.push(`${path}.groups[${index}].items must be an array.`);
+				}
+			});
+		}
+
 		if (component.type === 'DetailView') {
 			requireArray(component, 'tabs', path, errors).forEach((tab, index) => {
 				if (tab?.component) {

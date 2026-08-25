@@ -133,6 +133,7 @@ function systemInstructions(summary) {
 		'ResultGrid: { type:"ResultGrid", variant?, title, caption, hitCounter, columns:[{ key, label, width?, sorted?, sortDirection?, align?, numeric? }], rows:[{...}] }',
 		'DetailView: { type:"DetailView", infoBoxes?, visibleTabs?, tabs:[{ label, icon?, badge?, selected?, component? }] }',
 		'InfoBoxes: { type:"InfoBoxes", messages?, boxes:[{ heading, fields:[{ label, value }] }] }',
+		'ImageGallery: { type:"ImageGallery", size:"small|large", fit:"cover|contain", groups:[{ heading, open?, items:[{ caption, description?, alt?, src? }] }] }. Usually omit src; the renderer supplies safe sample images.',
 		'Multirow field: { label, control:"multirow", columns:[{ key, label, control:"textbox|radio|affix|uneditable|empty", width?, prefix?, suffix? }], rows:[{...}], aggregate? }. Use for repeated editable rows inside NewEdit.',
 		'Supported controls include textbox, textarea, dropdown, checkbox, radioCards, time, dateRange, fileUploadArea, multiAutosearch, multirow, autosearch, autosuggest, textboxDropdown, uneditable.'
 	].join('\n');

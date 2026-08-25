@@ -44,7 +44,10 @@
 			'Image Gallery': {
 				description: 'Image gallery component.',
 				file: 'html/components/image-gallery.html',
-				renderable: false
+				promptInstruction: 'Use the Softadmin Image Gallery component as the main component.',
+				renderable: true,
+				specType: 'ImageGallery',
+				specTypes: ['Image Gallery', 'ImageGallery']
 			},
 			'Inline Document': {
 				description: 'Inline document viewer.',

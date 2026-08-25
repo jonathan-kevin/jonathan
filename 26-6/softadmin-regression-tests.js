@@ -3,6 +3,7 @@ global.window = global;
 require('./softadmin-reference-catalog.js');
 require('./softadmin-spec-contract.js');
 require('./softadmin-editor-patches.js');
+require('./softadmin-component-registry.js');
 
 const assert = require('node:assert/strict');
 const catalog = global.SoftadminReferenceCatalog;
@@ -51,6 +52,16 @@ const cases = [
 		name: 'accepts nested Multipart components',
 		spec: { components: [{ type: 'Multipart', parts: [{ component: validNewEdit().components[0] }] }] },
 		valid: true
+	},
+	{
+		name: 'accepts an Image Gallery with grouped items',
+		spec: { components: [{ type: 'ImageGallery', groups: [{ heading: 'Team', items: [{ caption: 'Anna' }] }] }] },
+		valid: true
+	},
+	{
+		name: 'rejects an Image Gallery without group items',
+		spec: { components: [{ type: 'ImageGallery', groups: [{ heading: 'Team' }] }] },
+		valid: false
 	}
 ];
 
@@ -73,6 +84,18 @@ assert.deepEqual(patchStore.setResolvedPaths(new Set(['main/newedit/field/first-
 	'sidebar/group/economy/item/invoices/text'
 ]);
 assert.equal(patchStore.snapshot()[0][1].path, 'main/newedit/field/first-name/value/text');
+
+const galleryRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'ImageGallery',
+		size: 'large',
+		groups: [{ heading: 'Team', items: [{ caption: 'Anna', description: 'Project manager' }] }]
+	}]
+}, galleryRoot);
+assert.match(galleryRoot.innerHTML, /<softadmin-imagegallery/);
+assert.match(galleryRoot.innerHTML, /saGalleryWrapper saColumnsLarge/);
+assert.match(galleryRoot.innerHTML, /saGalleryItemCaption">Anna/);
 
 async function testEndpointContract() {
 	process.env.AZURE_OPENAI_ENDPOINT = 'https://example.openai.azure.com';

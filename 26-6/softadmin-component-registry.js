@@ -156,6 +156,12 @@
 				implemented: true,
 				renderType: 'ResultGrid'
 			},
+			'Image Gallery': {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Image+Gallery',
+				description: 'Grouped image gallery with small and large tile modes.',
+				implemented: true,
+				renderType: 'ImageGallery'
+			},
 			MenuGroups: {
 				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=3',
 				description: 'Grouped menu choices displayed in the main content area.',
@@ -363,6 +369,64 @@
 						</div>`).join('')}
 				</div>
 			</softadmin-menuitems>`;
+	}
+
+	const galleryFallbackImages = [
+		'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80',
+		'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+		'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+		'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80'
+	];
+
+	function galleryImageUrl(value, index) {
+		const url = String(value || '');
+		return /^(https?:\/\/|\.\/|\.\.\/)/i.test(url) ? url : galleryFallbackImages[index % galleryFallbackImages.length];
+	}
+
+	function renderGalleryItem(item, index) {
+		const caption = item.caption || item.alt || `Image ${index + 1}`;
+		return `
+			<li class="saGalleryItem saGalleryItemJs" tabindex="0">
+				<div class="saGalleryItemImg"><img src="${escapeHtml(galleryImageUrl(item.src, index))}" alt="${escapeHtml(item.alt || caption)}"></div>
+				<div class="saGalleryItemBody">
+					<span class="saGalleryItemCaption">${escapeHtml(caption)}</span>
+					${item.description ? `<span class="saGalleryItemDescription">${escapeHtml(item.description)}</span>` : ''}
+				</div>
+			</li>`;
+	}
+
+	function renderGalleryGroup(group, groupIndex) {
+		const items = group.items || [];
+		const isOpen = group.open !== false;
+		return `
+			<div class="saGalleryGroup">
+				<button class="saHeadingButton${isOpen ? ' saOpen' : ''}" type="button" aria-expanded="${isOpen}">
+					<h2>${escapeHtml(group.heading || `Group ${groupIndex + 1}`)}</h2>
+					<div class="saBadgeCount">${escapeHtml(group.count ?? items.length)}</div>
+					<i class="saIcon far fa-angle-down"></i>
+				</button>
+				<ul${isOpen ? '' : ' hidden'}>${items.map(renderGalleryItem).join('')}</ul>
+			</div>`;
+	}
+
+	function renderImageGallery(component) {
+		const isSmall = component.size === 'small';
+		const fitClass = component.fit === 'contain' ? 'saGalleryContain' : 'saGalleryCover';
+		return `
+			<softadmin-imagegallery class="saMenuItemRoot">
+				<div class="saGalleryWrapper ${isSmall ? 'saColumnsSmall' : 'saColumnsLarge'}">
+					<div class="saGalleryToolbarWrapper">
+						<div class="saGalleryToolbar">
+							<fieldset class="saToggleGrid">
+								<legend class="saScreenReaderOnly">Change image size</legend>
+								<label${isSmall ? ' class="saSelected"' : ''}><input type="radio" name="gallery-size" value="small"${isSmall ? ' checked' : ''}><i class="saIcon fas fa-grid-3"></i></label>
+								<label${isSmall ? '' : ' class="saSelected"'}><input type="radio" name="gallery-size" value="large"${isSmall ? '' : ' checked'}><i class="saIcon fas fa-grid-2"></i></label>
+							</fieldset>
+						</div>
+					</div>
+					<div class="saGallery ${fitClass}">${(component.groups || []).map(renderGalleryGroup).join('')}</div>
+				</div>
+			</softadmin-imagegallery>`;
 	}
 
 	function renderSearchSegments(value) {
@@ -1875,6 +1939,7 @@
 		CalendarWeekdays: renderCalendarWeekdays,
 		DetailView: renderDetailView,
 		EnterpriseSearch: renderEnterpriseSearch,
+		ImageGallery: renderImageGallery,
 		InfoBoxes: renderInfoBoxes,
 		MenuGroups: renderMenuGroups,
 		Multipart: renderMultipart,
