@@ -487,7 +487,7 @@
 
 	async function saveMockupScreenshot() {
 		const status = document.getElementById('SoftadminPromptStatus');
-		const target = document.getElementById('body') || document.body;
+		const target = document.querySelector('[data-softadmin-screenshot-root]') || document.body;
 		const hiddenElements = Array.from(document.querySelectorAll('.saMockAiTools, .saMockSelectionToolbar, .saMockDebugDrawer'));
 		const originalVisibility = hiddenElements.map(element => element.style.visibility);
 
