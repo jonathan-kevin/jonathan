@@ -31,9 +31,43 @@ $(document).ready(function () {
 		updateClasses();
 	});
 
-	$('button.saExpander').on('click', function () {
-		$('#SideBar').toggleClass('saExpanded saMinimized');
+	const $sideBar = $('#SideBar');
+	const $sideBarExpander = $('button.saExpander');
+
+	function updateSidebarToggleState() {
+		const isExpanded = $sideBar.hasClass('saExpanded');
+		const action = isExpanded ? 'Minimize sidebar' : 'Expand sidebar';
+
+		$sideBarExpander.attr({
+			'aria-expanded': String(isExpanded),
+			'aria-label': action,
+			'title': `${action} (Alt+M)`
+		});
+	}
+
+	function toggleSidebar() {
+		const shouldMinimize = $sideBar.hasClass('saExpanded');
+		$sideBar.toggleClass('saExpanded', !shouldMinimize);
+		$sideBar.toggleClass('saMinimized', shouldMinimize);
+		updateSidebarToggleState();
+	}
+
+	$sideBarExpander.on('click', toggleSidebar);
+
+	$(document).on('keydown', function (event) {
+		const isSidebarShortcut = event.altKey
+			&& !event.ctrlKey
+			&& !event.metaKey
+			&& !event.shiftKey
+			&& event.key.toLowerCase() === 'm';
+
+		if (!isSidebarShortcut || event.repeat || $('body').hasClass('saSmallScreen')) return;
+
+		event.preventDefault();
+		toggleSidebar();
 	});
+
+	updateSidebarToggleState();
 
 	$('button.saNavigator').on('click', function () {
 		$('.saSideBarOuter').toggleClass('saClosed')
