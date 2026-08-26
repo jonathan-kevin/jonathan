@@ -490,8 +490,10 @@
 		const target = document.querySelector('[data-softadmin-screenshot-root]') || document.body;
 		const hiddenElements = Array.from(document.querySelectorAll('.saMockAiTools, .saMockSelectionToolbar, .saMockDebugDrawer'));
 		const originalVisibility = hiddenElements.map(element => element.style.visibility);
+		const editorStateElements = Array.from(document.querySelectorAll('.saMockSelectedElement, .saMockDraggingElement, .saMockDropTarget'));
+		const editorStateClasses = editorStateElements.map(element => element.className);
 
-		if (typeof window.html2canvas !== 'function') {
+		if (typeof window.htmlToImage?.toBlob !== 'function') {
 			if (status) {
 				status.textContent = 'Screenshot tool could not be loaded.';
 			}
@@ -505,15 +507,16 @@
 		hiddenElements.forEach(element => {
 			element.style.visibility = 'hidden';
 		});
+		editorStateElements.forEach(element => {
+			element.classList.remove('saMockSelectedElement', 'saMockDraggingElement', 'saMockDropTarget');
+		});
 
 		try {
-			const canvas = await window.html2canvas(target, {
+			const blob = await window.htmlToImage.toBlob(target, {
 				backgroundColor: '#ffffff',
-				logging: false,
-				scale: Math.min(window.devicePixelRatio || 1, 2),
-				useCORS: true
+				cacheBust: true,
+				pixelRatio: Math.min(window.devicePixelRatio || 1, 2)
 			});
-			const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
 
 			if (!blob) {
 				throw new Error('Could not create screenshot image.');
@@ -538,6 +541,9 @@
 		} finally {
 			hiddenElements.forEach((element, index) => {
 				element.style.visibility = originalVisibility[index];
+			});
+			editorStateElements.forEach((element, index) => {
+				element.className = editorStateClasses[index];
 			});
 		}
 	}
