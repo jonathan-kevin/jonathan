@@ -515,6 +515,7 @@
 			const blob = await window.htmlToImage.toBlob(target, {
 				backgroundColor: '#ffffff',
 				cacheBust: true,
+				filter: node => !(node instanceof HTMLImageElement && !node.getAttribute('src')),
 				pixelRatio: Math.min(window.devicePixelRatio || 1, 2)
 			});
 
