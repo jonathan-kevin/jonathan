@@ -127,38 +127,78 @@
 		}
 
 		.saMockPromptOptions {
-			display: flex;
-			align-items: center;
-			gap: 0.5rem;
 			margin-top: 0.625rem;
 		}
 
 		.saMockComponentPicker {
-			display: inline-flex;
-			align-items: center;
-			gap: 0.5rem;
+			width: 100%;
+			margin: 0;
+			padding: 0;
+			border: 0;
 			color: #475569;
 			font-size: 0.75rem;
 			font-weight: 700;
 			line-height: 1rem;
 		}
 
-		.saMockComponentPicker select {
-			min-height: 2rem;
-			border: 1px solid rgba(148, 163, 184, 0.45);
-			border-radius: 999px;
-			background: #fff;
-			color: #0f172a;
-			font: inherit;
-			font-size: 0.8125rem;
-			font-weight: 700;
-			outline: none;
-			padding: 0 2rem 0 0.75rem;
+		.saMockComponentPicker legend {
+			margin-bottom: 0.375rem;
+			padding: 0;
 		}
 
-		.saMockComponentPicker select:focus {
+		.saMockComponentCards {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.3125rem;
+		}
+
+		.saMockComponentCard {
+			position: relative;
+			display: inline-flex;
+		}
+
+		.saMockComponentCard input {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		.saMockComponentCard span {
+			display: inline-flex;
+			align-items: center;
+			min-height: 1.625rem;
+			box-sizing: border-box;
+			border: 1px solid rgba(148, 163, 184, 0.45);
+			border-radius: 0.375rem;
+			background: #fff;
+			color: #334155;
+			cursor: pointer;
+			font-size: 0.6875rem;
+			font-weight: 700;
+			line-height: 0.875rem;
+			padding: 0.25rem 0.5rem;
+		}
+
+		.saMockComponentCard input:checked + span {
 			border-color: #2563eb;
-			box-shadow: 0 0 0 0.1875rem rgba(37, 99, 235, 0.14);
+			background: #eff6ff;
+			color: #1d4ed8;
+			box-shadow: 0 0 0 1px #2563eb inset;
+		}
+
+		.saMockComponentCard input:focus-visible + span {
+			outline: 2px solid #2563eb;
+			outline-offset: 2px;
+		}
+
+		.saMockComponentCard input:disabled + span {
+			border-style: dashed;
+			background: #f8fafc;
+			color: #94a3b8;
+			cursor: not-allowed;
+			opacity: 0.72;
 		}
 
 		.saMockExamplePrompts {
@@ -620,7 +660,7 @@
 	<script src="./softadmin-component-registry.js?v=87"></script>
 	<script src="./softadmin-spec-runtime.js?v=87"></script>
 	<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
-	<script src="./softadmin-ai-spec.js?v=94"></script>
+	<script src="./softadmin-ai-spec.js?v=95"></script>
 	<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -1049,12 +1089,10 @@
 											</div>
 											<textarea id="SoftadminPrompt" class="saMockPromptInput" aria-label="AI mockup prompt">Create a NewEdit form for entering a person's contact information.</textarea>
 											<div class="saMockPromptOptions">
-												<label class="saMockComponentPicker" for="SoftadminComponentPicker">
-													<span>Component</span>
-													<select id="SoftadminComponentPicker">
-														<option value="">AI decides</option>
-													</select>
-												</label>
+												<fieldset id="SoftadminComponentPicker" class="saMockComponentPicker">
+													<legend>Component</legend>
+													<div class="saMockComponentCards"></div>
+												</fieldset>
 											</div>
 											<div class="saMockExamplePrompts" aria-label="Example prompts">
 												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create a NewEdit form for entering a person's contact information.">Person form</button>

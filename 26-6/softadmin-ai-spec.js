@@ -917,7 +917,7 @@
 	}
 
 	function shouldShowFormBuilder() {
-		const selectedComponent = document.getElementById('SoftadminComponentPicker')?.value;
+		const selectedComponent = selectedComponentValue();
 
 		if (selectedComponent) {
 			return selectedComponent === 'NewEdit' && hasNewEditForm();
@@ -2006,6 +2006,10 @@
 	}
 
 	function handleComponentPickerChange(event) {
+		if (!event.target.matches('input[type="radio"]')) {
+			return;
+		}
+
 		if (event.target.value === 'NewEdit') {
 			renderDirectSpec(newEditBuilderStarterSpec(), 'NewEdit form ready. Drag fields from the form builder.');
 			return;
@@ -2161,32 +2165,58 @@
 			.sort((left, right) => left.name.localeCompare(right.name));
 	}
 
+	function componentPickerEntries() {
+		return Object.entries(referenceCatalog()?.components || {})
+			.filter(([, entry]) => !entry.pattern)
+			.map(([name, entry]) => ({
+				description: entry.description || '',
+				name,
+				renderable: Boolean(entry.renderable),
+				value: entry.specType || entry.renderType || name
+			}))
+			.sort((left, right) => left.name.localeCompare(right.name));
+	}
+
+	function selectedComponentValue() {
+		return document.querySelector('input[name="SoftadminComponent"]:checked')?.value || '';
+	}
+
 	function populateComponentPicker(picker) {
 		if (!picker) {
 			return;
 		}
 
-		const currentValue = picker.value;
-		picker.innerHTML = '';
+		const cards = picker.querySelector('.saMockComponentCards');
+		const currentValue = selectedComponentValue();
 
-		const defaultOption = document.createElement('option');
-		defaultOption.value = '';
-		defaultOption.textContent = 'AI decides';
-		picker.append(defaultOption);
-
-		renderableComponentEntries().forEach((entry) => {
-			const option = document.createElement('option');
-			option.value = entry.specType;
-			option.textContent = entry.name;
-			if (entry.description) {
-				option.title = entry.description;
-			}
-			picker.append(option);
-		});
-
-		if (Array.from(picker.options).some((option) => option.value === currentValue)) {
-			picker.value = currentValue;
+		if (!cards) {
+			return;
 		}
+
+		cards.innerHTML = '';
+
+		const entries = [
+			{ description: 'Let AI choose the most suitable component.', name: 'AI decides', renderable: true, value: '' },
+			...componentPickerEntries()
+		];
+
+		entries.forEach((entry, index) => {
+			const label = document.createElement('label');
+			const input = document.createElement('input');
+			const text = document.createElement('span');
+
+			label.className = 'saMockComponentCard';
+			label.title = entry.renderable ? entry.description : `${entry.description} Not available yet.`;
+			input.type = 'radio';
+			input.name = 'SoftadminComponent';
+			input.value = entry.value;
+			input.id = `SoftadminComponent-${index}`;
+			input.disabled = !entry.renderable;
+			input.checked = entry.value === currentValue || (!currentValue && index === 0);
+			text.textContent = entry.name;
+			label.append(input, text);
+			cards.append(label);
+		});
 	}
 
 	function selectedComponentEntry(value) {
@@ -2212,8 +2242,7 @@
 	}
 
 	function promptWithComponentPreference(prompt) {
-		const picker = document.getElementById('SoftadminComponentPicker');
-		const instruction = componentPickerInstruction(picker?.value);
+		const instruction = componentPickerInstruction(selectedComponentValue());
 
 		return instruction
 			? `${instruction}\n\n${prompt}`
