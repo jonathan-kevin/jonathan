@@ -1,35 +1,35 @@
 const employees = [
-	{ code: 'eg', name: 'Emil Gyllenring', email: 'emil.gyllenring@multisoft.se' },
-	{ code: 'as', name: 'Anna Sjöberg', email: 'anna.sjoberg@multisoft.se' },
-	{ code: 'jl', name: 'Johan Lindqvist', email: 'johan.lindqvist@multisoft.se' },
-	{ code: 'ml', name: 'Maria Lindgren', email: 'maria.lindgren@multisoft.se' },
-	{ code: 'ek', name: 'Erik Karlsson', email: 'erik.karlsson@multisoft.se' },
-	{ code: 'sn', name: 'Sara Nyström', email: 'sara.nystrom@multisoft.se' },
-	{ code: 'ph', name: 'Peter Holm', email: 'peter.holm@multisoft.se' },
-	{ code: 'le', name: 'Linnea Ek', email: 'linnea.ek@multisoft.se' },
-	{ code: 'ab', name: 'Anders Berg', email: 'anders.berg@multisoft.se' },
-	{ code: 'ca', name: 'Caroline Ahlberg', email: 'caroline.ahlberg@multisoft.se' },
-	{ code: 'df', name: 'David Forsberg', email: 'david.forsberg@multisoft.se' },
-	{ code: 'hw', name: 'Hanna Wallin', email: 'hanna.wallin@multisoft.se' },
-	{ code: 'mo', name: 'Mikael Olsson', email: 'mikael.olsson@multisoft.se' },
-	{ code: 'es', name: 'Elin Ström', email: 'elin.strom@multisoft.se' },
-	{ code: 'th', name: 'Thomas Hedström', email: 'thomas.hedstrom@multisoft.se' },
-	{ code: 'kb', name: 'Kristina Bergman', email: 'kristina.bergman@multisoft.se' },
-	{ code: 'no', name: 'Niklas Olofsson', email: 'niklas.olofsson@multisoft.se' },
-	{ code: 'ja', name: 'Jenny Andersson', email: 'jenny.andersson@multisoft.se' },
-	{ code: 'rl', name: 'Robert Larsson', email: 'robert.larsson@multisoft.se' },
-	{ code: 'ip', name: 'Ida Pettersson', email: 'ida.pettersson@multisoft.se' },
-	{ code: 'fm', name: 'Fredrik Mattsson', email: 'fredrik.mattsson@multisoft.se' },
-	{ code: 'cn', name: 'Cecilia Nilsson', email: 'cecilia.nilsson@multisoft.se' },
-	{ code: 'gs', name: 'Gustav Sandberg', email: 'gustav.sandberg@multisoft.se' },
-	{ code: 'am', name: 'Alexandra Möller', email: 'alexandra.moller@multisoft.se' },
-	{ code: 'bw', name: 'Björn Widell', email: 'bjorn.widell@multisoft.se' },
-	{ code: 'sf', name: 'Sofia Falk', email: 'sofia.falk@multisoft.se' },
-	{ code: 'mr', name: 'Martin Rehn', email: 'martin.rehn@multisoft.se' },
-	{ code: 'ea', name: 'Emma Åkesson', email: 'emma.akesson@multisoft.se' },
-	{ code: 'od', name: 'Oskar Dahl', email: 'oskar.dahl@multisoft.se' },
-	{ code: 'vh', name: 'Anna-Viktoria Hjalmarsson Efternamnetmednamnmednamn', email: 'viktoria.hjalmarsson@multisoft.se' },
-	{ code: 'pl', name: 'Patrik Lundqvist', email: 'patrik.lundqvist@multisoft.se' }
+	{ code: 'eg', name: 'emil.gyllenring@multisoft.se' },
+	{ code: 'as', name: 'anna.sjoberg@multisoft.se' },
+	{ code: 'jl', name: 'johan.lindqvist@multisoft.se' },
+	{ code: 'ml', name: 'maria.lindgren@multisoft.se' },
+	{ code: 'ek', name: 'erik.karlsson@multisoft.se' },
+	{ code: 'sn', name: 'sara.nystrom@multisoft.se' },
+	{ code: 'ph', name: 'peter.holm@multisoft.se' },
+	{ code: 'le', name: 'linnea.ek@multisoft.se' },
+	{ code: 'ab', name: 'anders.berg@multisoft.se' },
+	{ code: 'ca', name: 'caroline.ahlberg@multisoft.se' },
+	{ code: 'df', name: 'david.forsberg@multisoft.se' },
+	{ code: 'hw', name: 'hanna.wallin@multisoft.se' },
+	{ code: 'mo', name: 'mikael.olsson@multisoft.se' },
+	{ code: 'es', name: 'elin.strom@multisoft.se' },
+	{ code: 'th', name: 'thomas.hedstrom@multisoft.se' },
+	{ code: 'kb', name: 'kristina.bergman@multisoft.se' },
+	{ code: 'no', name: 'niklas.olofsson@multisoft.se' },
+	{ code: 'ja', name: 'jenny.andersson@multisoft.se' },
+	{ code: 'rl', name: 'robert.larsson@multisoft.se' },
+	{ code: 'ip', name: 'ida.pettersson@multisoft.se' },
+	{ code: 'fm', name: 'fredrik.mattsson@multisoft.se' },
+	{ code: 'cn', name: 'cecilia.nilsson@multisoft.se' },
+	{ code: 'gs', name: 'gustav.sandberg@multisoft.se' },
+	{ code: 'am', name: 'alexandra.moller@multisoft.se' },
+	{ code: 'bw', name: 'bjorn.widell@multisoft.se' },
+	{ code: 'sf', name: 'sofia.falk@multisoft.se' },
+	{ code: 'mr', name: 'martin.rehn@multisoft.se' },
+	{ code: 'ea', name: 'emma.akesson@multisoft.se' },
+	{ code: 'od', name: 'oskar.dahl@multisoft.se' },
+	{ code: 'vh', name: 'viktoria.hjalmarsson@multisoft.se' },
+	{ code: 'pl', name: 'patrik.lundqvist@multisoft.se' }
 ];
 
 function createPersonSelect({ button, panel, input, list, people }) {
@@ -112,8 +112,7 @@ function createPersonSelect({ button, panel, input, list, people }) {
 		const normalizedQuery = normalize(query.trim());
 		const matches = sortedPeople.filter(person => {
 			return !normalizedQuery
-				|| normalize(person.name).includes(normalizedQuery)
-				|| normalize(person.email).includes(normalizedQuery);
+				|| normalize(person.name).includes(normalizedQuery);
 		});
 
 		const fragment = document.createDocumentFragment();
@@ -200,6 +199,24 @@ function createPersonSelect({ button, panel, input, list, people }) {
 		closeDropdown({ returnFocus: true });
 	}
 
+	function moveFocusFromSearch(backwards) {
+		const focusableElements = [...document.querySelectorAll(
+			'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+		)].filter(element => element.getClientRects().length && !element.closest('[aria-hidden="true"]'));
+		const direction = backwards ? -1 : 1;
+		const inputIndex = focusableElements.indexOf(input);
+
+		for (let offset = 1; offset < focusableElements.length; offset++) {
+			const index = (inputIndex + direction * offset + focusableElements.length) % focusableElements.length;
+			const target = focusableElements[index];
+			if (panel.contains(target)) continue;
+
+			closeDropdown();
+			target.focus();
+			return;
+		}
+	}
+
 	button.addEventListener('click', () => {
 		panel.classList.contains('saOpen')
 			? closeDropdown({ returnFocus: true })
@@ -269,7 +286,8 @@ function createPersonSelect({ button, panel, input, list, people }) {
 				closeDropdown({ returnFocus: true });
 				break;
 			case 'Tab':
-				closeDropdown();
+				event.preventDefault();
+				moveFocusFromSearch(event.shiftKey);
 				break;
 		}
 	});
