@@ -1,6 +1,7 @@
 (function () {
 	let lastDebugResult = null;
 	const undoStack = [];
+	const redoStack = [];
 	const maxUndoStates = 40;
 	const logoStorageKey = 'softadmin.mockup.logo';
 	const avatarStorageKey = 'softadmin.mockup.avatar';
@@ -10,6 +11,7 @@
 	let lastTokenEstimate = null;
 	let preferredLogoSource = null;
 	let preferredAvatarSource = null;
+	let lastComponentSelection = '';
 	let selectedElement = null;
 	let draggedElement = null;
 	let dropTargetElement = null;
@@ -342,6 +344,7 @@
 		}
 
 		preferredLogoSource = normalizedSource;
+		clearRedoHistory();
 		saveLogoPreference(normalizedSource);
 		applyLogoPreference();
 
@@ -384,6 +387,7 @@
 		}
 
 		preferredAvatarSource = normalizedSource;
+		clearRedoHistory();
 		saveAvatarPreference(normalizedSource);
 		applyAvatarPreference();
 
@@ -739,6 +743,7 @@
 
 		manualEdits.set(key, { op: 'replaceText', value: element.textContent });
 		element.dataset.softadminUserEdited = 'true';
+		clearRedoHistory();
 	}
 
 	function formValueSelector() {
@@ -779,6 +784,7 @@
 
 		manualEdits.set(formControlKey(control), formControlEdit(control));
 		control.dataset.softadminUserEdited = 'true';
+		clearRedoHistory();
 	}
 
 	function enableFormValueEditing() {
@@ -1490,11 +1496,25 @@
 		return state;
 	}
 
-	function pushUndoState(state = captureUndoState()) {
-		undoStack.push(state);
-		if (undoStack.length > maxUndoStates) {
-			undoStack.splice(0, undoStack.length - maxUndoStates);
+	function pushHistoryState(stack, state) {
+		stack.push(state);
+		if (stack.length > maxUndoStates) {
+			stack.splice(0, stack.length - maxUndoStates);
 		}
+	}
+
+	function clearRedoHistory() {
+		if (!redoStack.length) {
+			return;
+		}
+
+		redoStack.length = 0;
+		updateUndoButton();
+	}
+
+	function pushUndoState(state = captureUndoState()) {
+		pushHistoryState(undoStack, state);
+		clearRedoHistory();
 	}
 
 	function cleanDuplicatedElement(element) {
@@ -1958,7 +1978,7 @@
 		};
 	}
 
-	function renderDirectSpec(spec, message) {
+	function renderDirectSpec(spec, message, previousState = captureState()) {
 		const root = document.querySelector('[data-softadmin-component-root]');
 		const renderer = window.SoftadminMockups;
 		const status = document.getElementById('SoftadminPromptStatus');
@@ -1967,7 +1987,7 @@
 			return;
 		}
 
-		pushUndoState(captureState());
+		pushUndoState(previousState);
 		clearSelectedElement();
 		suppressTopActionsForComponent(spec);
 
@@ -2010,11 +2030,16 @@
 			return;
 		}
 
+		const previousState = captureState();
+		previousState.componentValue = lastComponentSelection;
+		lastComponentSelection = event.target.value;
+
 		if (event.target.value === 'NewEdit') {
-			renderDirectSpec(newEditBuilderStarterSpec(), 'NewEdit form ready. Drag fields from the form builder.');
+			renderDirectSpec(newEditBuilderStarterSpec(), 'NewEdit form ready. Drag fields from the form builder.', previousState);
 			return;
 		}
 
+		clearRedoHistory();
 		updateFormBuilderVisibility();
 	}
 
@@ -2047,6 +2072,7 @@
 			sidebarClassName: document.querySelector('.saSideBar')?.className || '',
 			sidebarHtml: document.querySelector('.saSideBarOuter')?.innerHTML || '',
 			rootHtml: document.querySelector('[data-softadmin-component-root]')?.innerHTML || '',
+			componentValue: selectedComponentValue(),
 			statusText: document.getElementById('SoftadminPromptStatus')?.textContent || '',
 			debugResult: cloneDebugResult(lastDebugResult),
 			manualEdits: manualEdits.snapshot()
@@ -2064,7 +2090,7 @@
 		});
 	}
 
-	function restoreState(state) {
+	function restoreState(state, statusMessage = 'Undone.') {
 		const header = document.getElementById('pageheader');
 		const sidebar = document.querySelector('.saSideBarOuter');
 		const sideBarNav = document.querySelector('.saSideBar');
@@ -2105,6 +2131,11 @@
 			root.innerHTML = state.rootHtml;
 		}
 
+		document.querySelectorAll('input[name="SoftadminComponent"]').forEach(input => {
+			input.checked = input.value === (state.componentValue || '');
+		});
+		lastComponentSelection = state.componentValue || '';
+
 		clearRestoredBindingMarkers(header);
 		clearRestoredBindingMarkers(sidebar);
 		clearRestoredBindingMarkers(root);
@@ -2122,7 +2153,7 @@
 		updateDebugDrawer();
 
 		if (status) {
-			status.textContent = 'Undone.';
+			status.textContent = statusMessage;
 		}
 
 		updateUndoButton();
@@ -2130,9 +2161,14 @@
 
 	function updateUndoButton() {
 		const undoButton = document.getElementById('SoftadminUndo');
+		const redoButton = document.getElementById('SoftadminRedo');
 
 		if (undoButton) {
 			undoButton.disabled = isBusy || undoStack.length === 0;
+		}
+
+		if (redoButton) {
+			redoButton.disabled = isBusy || redoStack.length === 0;
 		}
 	}
 
@@ -2217,6 +2253,8 @@
 			label.append(input, text);
 			cards.append(label);
 		});
+
+		lastComponentSelection = selectedComponentValue();
 	}
 
 	function selectedComponentEntry(value) {
@@ -2360,7 +2398,17 @@
 			return;
 		}
 
-		restoreState(undoStack.pop());
+		pushHistoryState(redoStack, captureUndoState());
+		restoreState(undoStack.pop(), 'Undone.');
+	}
+
+	function redoLastChange() {
+		if (isBusy || !redoStack.length) {
+			return;
+		}
+
+		pushHistoryState(undoStack, captureUndoState());
+		restoreState(redoStack.pop(), 'Redone.');
 	}
 
 	document.addEventListener('DOMContentLoaded', function () {
@@ -2368,6 +2416,7 @@
 		const generateButton = document.getElementById('SoftadminGenerate');
 		const componentPicker = document.getElementById('SoftadminComponentPicker');
 		const undoButton = document.getElementById('SoftadminUndo');
+		const redoButton = document.getElementById('SoftadminRedo');
 		const logoFileInput = document.getElementById('SoftadminLogoFile');
 		const avatarFileInput = document.getElementById('SoftadminAvatarFile');
 		const screenshotButton = document.getElementById('SoftadminScreenshot');
@@ -2392,6 +2441,10 @@
 
 		if (undoButton) {
 			undoButton.addEventListener('click', undoLastGeneration);
+		}
+
+		if (redoButton) {
+			redoButton.addEventListener('click', redoLastChange);
 		}
 
 		if (logoFileInput) {
