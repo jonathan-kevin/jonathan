@@ -5609,6 +5609,118 @@ div.saPopupOverlay {
     left: -25rem;
   }
 }
+.saImpersonatorWrapper {
+  width: 100%;
+  color: var(--Sa-Color-Text);
+  text-align: left;
+  background-color: transparent;
+  padding: 0 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.saSmallScreen .saImpersonatorWrapper {
+  padding: 0 1rem;
+}
+@media (pointer: fine) {
+  .saImpersonatorWrapper:hover .saImpersonator {
+    outline-color: var(--Sa-Color-Primary600);
+  }
+  .saImpersonatorWrapper:hover .saImpersonatorLetter {
+    color: var(--Sa-Color-Primary600);
+  }
+}
+.saImpersonatorWrapper:focus,
+.saImpersonatorWrapper:focus-visible {
+  outline: none;
+}
+.saImpersonatorWrapper:focus .saImpersonator,
+.saImpersonatorWrapper:focus-visible .saImpersonator {
+  outline: 0.125rem solid var(--Sa-Color-Primary600);
+  outline-offset: -0.125rem;
+}
+.saImpersonatorWrapper:focus .saImpersonatorLetter,
+.saImpersonatorWrapper:focus-visible .saImpersonatorLetter {
+  color: var(--Sa-Color-Primary600);
+}
+@media (pointer: fine) {
+  .saMinimized .saImpersonatorWrapper:hover .saImpersonator {
+    background-color: var(--Sa-Color-Primary50);
+  }
+}
+.saMinimized .saImpersonatorWrapper:active .saImpersonator {
+  border-radius: 0.75rem;
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+  outline-color: var(--Sa-Color-Primary700);
+}
+.saImpersonator {
+  display: flex;
+  height: 2rem;
+  width: 100%;
+  padding: 0.75rem 2rem 0 0.5rem;
+  border-radius: 0.5rem;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none"%3E%3Cpath d="M12 14L16 18L20 14" stroke="%237088a4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 0 top 0;
+  background-size: 2rem;
+  outline: 0.0625rem solid var(--Sa-Color-InputFieldBorder);
+  outline-offset: -0.0625rem;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+}
+.saMinimized .saImpersonator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: none;
+  padding: 0;
+}
+.saImpersonatorValue {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.25rem;
+}
+.saMinimized .saImpersonatorValue {
+  opacity: 0;
+  position: absolute;
+  height: 0;
+  pointer-events: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.saImpersonatorLabel {
+  position: absolute;
+  font-size: 0.75rem;
+  line-height: 1;
+  inset: 0.25rem auto auto 1rem;
+  color: var(--Sa-Color-TextSecondary);
+  pointer-events: none;
+}
+.saMinimized .saImpersonatorLabel {
+  opacity: 0;
+  position: absolute;
+  height: 0;
+  pointer-events: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.saImpersonatorLetter {
+  font-size: 1rem;
+  font-weight: 500;
+  display: none;
+}
+.saMinimized .saImpersonatorLetter {
+  display: block;
+}
 .saLargeScreen .saSideBarOuter form:first-child {
   height: 100%;
 }
@@ -5782,6 +5894,9 @@ div.saPopupOverlay {
 .saSideBar .saSideBarInputGroup {
   width: 100%;
   gap: 0.5rem;
+}
+.saSideBar .saSideBarInputGroup li {
+  position: relative;
 }
 .saSideBar .saSideBarBody {
   display: flex;
@@ -6792,7 +6907,6 @@ div.saPopupOverlay {
   flex-direction: column;
   gap: 0.5rem;
 }
-.saSideBar .saImpersonator,
 .saSideBar .saMenuDropdown {
   display: flex;
   justify-content: center;
@@ -6802,28 +6916,21 @@ div.saPopupOverlay {
   width: 100%;
 }
 @media (pointer: fine) {
-  .saSideBar .saImpersonator:hover .saFirstLetter,
   .saSideBar .saMenuDropdown:hover .saFirstLetter,
-  .saSideBar .saImpersonator:hover .saTrailing,
   .saSideBar .saMenuDropdown:hover .saTrailing {
     color: var(--Sa-Color-Primary600);
   }
 }
-.saSideBar .saImpersonator:focus-within .saFirstLetter,
 .saSideBar .saMenuDropdown:focus-within .saFirstLetter,
-.saSideBar .saImpersonator:focus-within .saTrailing,
 .saSideBar .saMenuDropdown:focus-within .saTrailing {
   color: var(--Sa-Color-Primary600);
 }
-.saLargeScreen .saMinimized.saSideBar .saImpersonator,
 .saLargeScreen .saMinimized.saSideBar .saMenuDropdown {
   padding: 0;
 }
-.saSmallScreen .saSideBar .saImpersonator,
 .saSmallScreen .saSideBar .saMenuDropdown {
   padding: 0 1rem;
 }
-.saSideBar .saImpersonator .saLabel,
 .saSideBar .saMenuDropdown .saLabel {
   position: absolute;
   top: 0.25rem;
@@ -6833,16 +6940,13 @@ div.saPopupOverlay {
   color: #60748b;
   pointer-events: none;
 }
-.saLargeScreen .saMinimized.saSideBar .saImpersonator .saLabel,
 .saLargeScreen .saMinimized.saSideBar .saMenuDropdown .saLabel {
   display: none;
 }
-.saSmallScreen .saSideBar .saImpersonator .saLabel,
 .saSmallScreen .saSideBar .saMenuDropdown .saLabel {
   top: 0.5rem;
   left: 1.625rem;
 }
-.saSideBar .saImpersonator .saTrailing,
 .saSideBar .saMenuDropdown .saTrailing {
   position: absolute;
   right: 0.5rem;
@@ -6851,17 +6955,14 @@ div.saPopupOverlay {
   font-size: 1rem;
   pointer-events: none;
 }
-.saSmallScreen .saSideBar .saImpersonator .saTrailing,
 .saSmallScreen .saSideBar .saMenuDropdown .saTrailing {
   height: 2.75rem;
   width: 2.75rem;
   right: 1rem;
 }
-.saLargeScreen .saMinimized.saSideBar .saImpersonator .saTrailing,
 .saLargeScreen .saMinimized.saSideBar .saMenuDropdown .saTrailing {
   display: none;
 }
-.saSideBar .saImpersonator button,
 .saSideBar .saMenuDropdown button {
   display: flex;
   justify-content: center;
@@ -6879,7 +6980,6 @@ div.saPopupOverlay {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
 }
-.saSideBar .saImpersonator button::after,
 .saSideBar .saMenuDropdown button::after {
   content: '';
   position: absolute;
@@ -6888,49 +6988,40 @@ div.saPopupOverlay {
   top: -0.25rem;
   left: -0.25rem;
 }
-.saSmallScreen .saSideBar .saImpersonator button,
 .saSmallScreen .saSideBar .saMenuDropdown button {
   height: 2.5rem;
   width: 2.5rem;
   right: 1.125rem;
 }
-.saSmallScreen .saSideBar .saImpersonator button::after,
 .saSmallScreen .saSideBar .saMenuDropdown button::after {
   content: '';
   position: absolute;
   height: 2.75rem;
   width: 2.75rem;
 }
-.saLargeScreen .saMinimized.saSideBar .saImpersonator button,
 .saLargeScreen .saMinimized.saSideBar .saMenuDropdown button {
   display: none;
 }
 @media (pointer: fine) {
-  .saSideBar .saImpersonator button:hover,
   .saSideBar .saMenuDropdown button:hover {
     background-color: var(--Sa-Color-Primary100);
     color: var(--Sa-Color-Primary600);
   }
 }
-.saSideBar .saImpersonator button:active,
 .saSideBar .saMenuDropdown button:active {
   background-color: var(--Sa-Color-Primary200);
   color: var(--Sa-Color-Primary700);
   border-radius: 0.5rem;
 }
-.saOpen .saSideBar .saImpersonator button,
 .saOpen .saSideBar .saMenuDropdown button {
   background-color: var(--Sa-Color-Primary600);
   color: #fff;
 }
-.saSideBar .saImpersonator button .saIcon,
 .saSideBar .saMenuDropdown button .saIcon {
   color: inherit;
   min-width: 1.5rem;
 }
-.saSideBar .saImpersonator select,
 .saSideBar .saMenuDropdown select,
-.saSideBar .saImpersonator input,
 .saSideBar .saMenuDropdown input {
   appearance: none;
   width: 100%;
@@ -6947,55 +7038,42 @@ div.saPopupOverlay {
   transition-duration: 0.2s;
 }
 @media (pointer: fine) {
-  .saSideBar .saImpersonator select:hover,
   .saSideBar .saMenuDropdown select:hover,
-  .saSideBar .saImpersonator input:hover,
   .saSideBar .saMenuDropdown input:hover {
     outline: 1px solid var(--Sa-Color-Primary600);
     outline-offset: -1px;
   }
 }
-.saSideBar .saImpersonator select:focus,
 .saSideBar .saMenuDropdown select:focus,
-.saSideBar .saImpersonator input:focus,
 .saSideBar .saMenuDropdown input:focus {
   outline: 2px solid var(--Sa-Color-Primary600);
   outline-offset: -2px;
   background-color: var(--Sa-Color-Primary50);
 }
-.saLargeScreen .saMinimized.saSideBar .saImpersonator select,
 .saLargeScreen .saMinimized.saSideBar .saMenuDropdown select,
-.saLargeScreen .saMinimized.saSideBar .saImpersonator input,
 .saLargeScreen .saMinimized.saSideBar .saMenuDropdown input {
   color: transparent;
   padding: 0.5rem;
   width: 2rem;
 }
-.saSmallScreen .saSideBar .saImpersonator select,
 .saSmallScreen .saSideBar .saMenuDropdown select,
-.saSmallScreen .saSideBar .saImpersonator input,
 .saSmallScreen .saSideBar .saMenuDropdown input {
   height: 2.75rem;
   padding: 1rem 2.5rem 0 0.625rem;
   font-size: 1rem;
 }
-.saSideBar .saImpersonator:not(:has(.saLabel)) select,
 .saSideBar .saMenuDropdown:not(:has(.saLabel)) select {
   padding: 0rem 2.25rem 0rem 0.5rem;
 }
-.saLargeScreen .saMinimized.saSideBar .saImpersonator:not(:has(.saLabel)) select,
 .saLargeScreen .saMinimized.saSideBar .saMenuDropdown:not(:has(.saLabel)) select {
   padding: 0.5rem;
 }
-.saSmallScreen .saSideBar .saImpersonator:not(:has(.saLabel)) select,
 .saSmallScreen .saSideBar .saMenuDropdown:not(:has(.saLabel)) select {
   padding: 0 2.5rem 0 0.625rem;
 }
-.saSideBar .saImpersonator input,
 .saSideBar .saMenuDropdown input {
   cursor: text;
 }
-.saLargeScreen .saMinimized.saSideBar .saImpersonator input,
 .saLargeScreen .saMinimized.saSideBar .saMenuDropdown input {
   appearance: none;
   -webkit-appearance: none;
@@ -7003,11 +7081,9 @@ div.saPopupOverlay {
   padding-left: 1.5rem;
   cursor: pointer;
 }
-.saSideBar .saImpersonator select,
 .saSideBar .saMenuDropdown select {
   cursor: pointer;
 }
-.saSideBar .saImpersonator option,
 .saSideBar .saMenuDropdown option {
   color: var(--Sa-Color-Text);
 }
@@ -33821,6 +33897,17 @@ body.saPopup::before {
 .saBottomSheetOptionListWrapper {
   width: 100%;
 }
+.saContextMenuWrapper {
+  display: none;
+  flex-direction: column;
+  border-radius: 2 box-shadow: 0 1px 2px rgba(49, 58, 68, 0.07), 0 2px 0.25rem rgba(49, 58, 68, 0.07), 0 0.25rem 0.5rem rgba(49, 58, 68, 0.07), 0 0.5rem 1rem rgba(49, 58, 68, 0.07);;
+  outline: 1px solid #f8f9fb;
+  outline-offset: -1px;
+  transform-origin: top;
+}
+.saContextMenuWrapper.saOpen {
+  display: flex;
+}
 .saContextMenu {
   z-index: 1000;
   flex-direction: column;
@@ -34063,6 +34150,22 @@ body.saPopup::before {
   width: 1.5rem;
   margin-left: -2px;
 }
+.saContextMenu .saInputTextWrapper {
+  padding: 0 0.25rem 0.25rem 0.25rem;
+}
+.saContextMenu ul {
+  overflow: auto;
+}
+.saContextMenu img {
+  max-width: 1.25rem;
+  max-height: 1rem;
+  min-width: 1.25rem;
+  border: 0.0625rem solid #ccd5e2;
+  border-radius: 0.125rem;
+}
+.saContextMenu mark {
+  background-color: var(--Sa-Color-Primary300);
+}
 .saContextMenu .saOptionRow {
   display: table-row;
   border-radius: 0.5rem;
@@ -34221,15 +34324,15 @@ body.saPopup::before {
   border-color: currentColor;
   color: #bf0024;
 }
-.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"]) .saOption {
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"]) .saOption {
   background-color: var(--Sa-Color-Primary100);
   color: var(--Sa-Color-Primary700);
 }
-.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"]) .saOption .saOptionDescription,
-.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"]) .saOption :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"]) .saOption .saOptionDescription,
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"]) .saOption :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
   color: inherit;
 }
-.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"]) .saOption .saBadge {
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"]) .saOption .saBadge {
   background-color: var(--Sa-Color-Primary700);
   color: var(--Sa-Color-Primary100);
   border-color: currentColor;
@@ -34250,13 +34353,26 @@ body.saPopup::before {
   background-color: #eef1f5;
   color: #adbdd1;
 }
+.saContextMenu :not([aria-multiselectable="true"]) > .saOptionWrapper[aria-checked="true"] .saOption {
+  background-color: var(--Sa-Color-Primary100);
+  color: var(--Sa-Color-Primary700);
+}
+.saContextMenu :not([aria-multiselectable="true"]) > .saOptionWrapper[aria-checked="true"] .saOption .saOptionDescription,
+.saContextMenu :not([aria-multiselectable="true"]) > .saOptionWrapper[aria-checked="true"] .saOption :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
+  color: inherit;
+}
+.saContextMenu :not([aria-multiselectable="true"]) > .saOptionWrapper[aria-checked="true"] .saOption .saBadge {
+  background-color: var(--Sa-Color-Primary700);
+  color: var(--Sa-Color-Primary100);
+  border-color: currentColor;
+}
 .saContextMenu .saOption {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 0.5rem;
   min-height: 2rem;
-  padding: 0.25rem 0.75rem 0.25rem 0.5rem;
+  padding: 0.25rem 0.5rem;
   margin: 0 0.25rem;
   border-radius: 0.5rem;
   transition: ease border-radius 0.2s, ease color 0.2s, ease background-color 0.2s;
@@ -34264,6 +34380,15 @@ body.saPopup::before {
 .saSmallScreen .saContextMenu .saOption {
   min-height: 2.75rem;
   padding: 0.5rem 1rem 0.5rem 0.5rem;
+}
+.saContextMenu button.saOption {
+  apprearance: none;
+  width: calc(100% - 0.25rem);
+  background-color: transparent;
+  color: inherit;
+}
+.saContextMenu button.saOption .saOptionText {
+  font-weight: 500;
 }
 .saContextMenu :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
   min-width: 1.25rem;
