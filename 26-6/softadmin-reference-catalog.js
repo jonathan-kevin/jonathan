@@ -4,7 +4,10 @@
 			BankID: {
 				description: 'BankID signing or authentication screen.',
 				file: 'html/components/bankid.html',
-				renderable: false
+				promptInstruction: 'Use the Softadmin BankID component as the main component. Shape: { type:"BankID", heading?, message?, progress?, countdown?, deviceButtonLabel?, cancelLabel? }.',
+				renderable: true,
+				specType: 'BankID',
+				specTypes: ['BankID']
 			},
 			Calendar: {
 				description: 'Calendar in Weekdays mode.',

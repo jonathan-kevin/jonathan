@@ -34,6 +34,11 @@ const cases = [
 		valid: true
 	},
 	{
+		name: 'accepts a BankID spec',
+		spec: { components: [{ type: 'BankID', heading: 'Sign agreement', countdown: '4 minutes left' }] },
+		valid: true
+	},
+	{
 		name: 'rejects a Grid without rows',
 		spec: { components: [{ type: 'ResultGrid', columns: [] }] },
 		valid: false
@@ -126,6 +131,15 @@ assert.match(pdfEditorRoot.innerHTML, /<softadmin-pdftemplateeditor/);
 assert.match(pdfEditorRoot.innerHTML, /saAvailableValue saPlaced saMarked/);
 assert.match(pdfEditorRoot.innerHTML, />2\/4</);
 assert.match(pdfEditorRoot.innerHTML, /saPlaceholder saSelected/);
+
+const bankIdRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{ type: 'BankID', heading: 'Sign agreement', progress: 75, countdown: '4 minutes left' }]
+}, bankIdRoot);
+assert.match(bankIdRoot.innerHTML, /<softadmin-bankid/);
+assert.match(bankIdRoot.innerHTML, /Sign agreement/);
+assert.match(bankIdRoot.innerHTML, /value="75"/);
+assert.match(bankIdRoot.innerHTML, /Use BankID on this device/);
 
 async function testEndpointContract() {
 	process.env.AZURE_OPENAI_ENDPOINT = 'https://example.openai.azure.com';

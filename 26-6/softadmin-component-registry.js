@@ -125,6 +125,12 @@
 		],
 		components: {
 			...makeDictionary(officialComponentNames, 5, 'Component'),
+			BankID: {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=BankID',
+				description: 'BankID signing or authentication screen with QR code and same-device action.',
+				implemented: true,
+				renderType: 'BankID'
+			},
 			Calendar: {
 				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Calendar',
 				description: 'Calendar component. The mock renderer currently supports the Weekdays mode.',
@@ -445,6 +451,38 @@
 					<div class="saGallery ${fitClass}">${(component.groups || []).map(renderGalleryGroup).join('')}</div>
 				</div>
 			</softadmin-imagegallery>`;
+	}
+
+	function renderBankId(component) {
+		const progress = finiteNumber(component.progress, 92, 0, 100);
+		const heading = component.heading || 'Sign with BankID';
+		const message = component.message || 'Open the BankID app and scan the QR code.';
+		const countdown = component.countdown || '5 minutes left';
+
+		return `
+			<softadmin-bankid class="saBankIdWrapper saMenuItemRoot">
+				<div class="saBankId" tabindex="-1">
+					<div class="saBankIdBody">
+						<div class="saBankIdHeader">
+							<img class="saBankIdLogo" src="./Presentation/img/bankid.svg" alt="BankID">
+							<h2>${escapeHtml(heading)}</h2>
+							<span class="saStatusMessage" aria-live="polite">${escapeHtml(message)}</span>
+						</div>
+						<div class="saQrWrapper">
+							<img class="saQr saPixelated" alt="QR" src="./Presentation/img/bankid-qr-placeholder.png">
+							<div class="saQrCountdown">
+								<progress max="100" value="${progress}"></progress>
+								<div class="saQrCountdownText">${escapeHtml(countdown)}</div>
+							</div>
+							<div class="saScreenReaderOnly" aria-live="polite">${escapeHtml(countdown)}</div>
+						</div>
+					</div>
+					<div class="saBankIdFooter">
+						<button class="saButtonSecondary saButton" type="button"><i class="saBankIdLogo"></i><span>${escapeHtml(component.deviceButtonLabel || 'Use BankID on this device')}</span></button>
+						<button class="saButtonGhost saButton" type="button">${escapeHtml(component.cancelLabel || 'Cancel')}</button>
+					</div>
+				</div>
+			</softadmin-bankid>`;
 	}
 
 	function finiteNumber(value, fallback, minimum, maximum) {
@@ -2071,6 +2109,7 @@
 	}
 
 	const componentRenderers = {
+		BankID: renderBankId,
 		CalendarWeekdays: renderCalendarWeekdays,
 		DetailView: renderDetailView,
 		EnterpriseSearch: renderEnterpriseSearch,
