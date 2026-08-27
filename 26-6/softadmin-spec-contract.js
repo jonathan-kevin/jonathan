@@ -62,6 +62,14 @@
 			});
 		}
 
+		if (component.type === 'LinkList') {
+			requireArray(component, 'groups', path, errors).forEach((group, index) => {
+				if (!group || !Array.isArray(group.items)) {
+					errors.push(`${path}.groups[${index}].items must be an array.`);
+				}
+			});
+		}
+
 		if (component.type === 'Chat') {
 			requireArray(component, 'messages', path, errors);
 		}

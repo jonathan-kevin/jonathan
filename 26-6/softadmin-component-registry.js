@@ -174,6 +174,18 @@
 				implemented: true,
 				renderType: 'ImageGallery'
 			},
+			'Link List': {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Link+List',
+				description: 'Compact list of navigable rows with optional group heading, date or label, and unread state.',
+				implemented: true,
+				renderType: 'LinkList'
+			},
+			LinkList: {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Link+List',
+				description: 'Mock renderer alias for the Link List component.',
+				implemented: true,
+				aliasFor: 'Link List'
+			},
 			'PDF Template Editor': {
 				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=PDF+Template+Editor',
 				description: 'Visual PDF template editor with draggable available values, formatting tools and a page canvas.',
@@ -399,6 +411,36 @@
 						</div>`).join('')}
 				</div>
 			</softadmin-menuitems>`;
+	}
+
+	function renderLinkListItem(item) {
+		const label = item.date || item.label;
+		return `
+			<li class="saMenuItemWrapper${item.unread ? ' saUnread' : ''}">
+				<a class="saMenuItem" tabindex="0">
+					${label ? `<span class="saLinkListRowLabel">${escapeHtml(label)}</span>` : ''}
+					<div class="saLinkListRowHeading"><span>${escapeHtml(item.title)}</span></div>
+				</a>
+			</li>`;
+	}
+
+	function renderLinkListGroup(group) {
+		const items = group.items || [];
+		const hasUnread = items.some(item => item.unread);
+		return `
+			<div class="saMenuBox${hasUnread ? ' saHasUnread' : ''}">
+				${group.heading ? `<h2 class="saMenuBoxHeading">${escapeHtml(group.heading)}</h2>` : ''}
+				<ul>${items.map(renderLinkListItem).join('')}</ul>
+			</div>`;
+	}
+
+	function renderLinkList(component) {
+		return `
+			<softadmin-linklist class="maincolbody linklist saMenuItemRoot">
+				<div class="saMenuBoxWrapper saLinkList">
+					<div class="saColumn">${(component.groups || []).map(renderLinkListGroup).join('')}</div>
+				</div>
+			</softadmin-linklist>`;
 	}
 
 	const galleryFallbackImages = [
@@ -2181,6 +2223,7 @@
 		EnterpriseSearch: renderEnterpriseSearch,
 		ImageGallery: renderImageGallery,
 		InfoBoxes: renderInfoBoxes,
+		LinkList: renderLinkList,
 		MenuGroups: renderMenuGroups,
 		Multipart: renderMultipart,
 		NewEdit: renderNewEdit,

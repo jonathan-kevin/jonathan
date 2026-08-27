@@ -81,9 +81,12 @@
 				renderable: false
 			},
 			'Link List': {
-				description: 'Link list component.',
+				description: 'Link list with optional group headings, row labels or dates, and unread states.',
 				file: 'html/components/link-list.html',
-				renderable: false
+				promptInstruction: 'Use the Softadmin Link List component as the main component. Shape: { type:"LinkList", groups:[{ heading?, items:[{ title, label?, date?, unread? }] }] }.',
+				renderable: true,
+				specType: 'LinkList',
+				specTypes: ['Link List', 'LinkList']
 			},
 			'MenuGroups': {
 				description: 'Grouped menu item cards used as main content.',

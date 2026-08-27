@@ -59,6 +59,16 @@ const cases = [
 		valid: false
 	},
 	{
+		name: 'accepts a Link List with unread and dated rows',
+		spec: { components: [{ type: 'LinkList', groups: [{ heading: 'Messages', items: [{ title: 'Booking changed', date: '2026-08-27', unread: true }] }] }] },
+		valid: true
+	},
+	{
+		name: 'rejects a Link List group without items',
+		spec: { components: [{ type: 'LinkList', groups: [{ heading: 'Messages' }] }] },
+		valid: false
+	},
+	{
 		name: 'rejects unsupported controls',
 		spec: { components: [{ type: 'NewEdit', sections: [{ fields: [{ label: 'Mystery', control: 'notReal' }] }] }] },
 		valid: false
@@ -165,6 +175,24 @@ assert.match(chatRoot.innerHTML, /<softadmin-chat/);
 assert.match(chatRoot.innerHTML, /saChatMessage saChatSender/);
 assert.match(chatRoot.innerHTML, /saChatAiResponse/);
 assert.match(chatRoot.innerHTML, /The booking is confirmed for Friday/);
+
+const linkListRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'LinkList',
+		groups: [{
+			heading: 'Recent documents',
+			items: [
+				{ title: 'Meeting notes', date: '2026-08-27', unread: true },
+				{ title: 'Project plan', date: '2026-08-25' }
+			]
+		}]
+	}]
+}, linkListRoot);
+assert.match(linkListRoot.innerHTML, /<softadmin-linklist/);
+assert.match(linkListRoot.innerHTML, /saMenuBox saHasUnread/);
+assert.match(linkListRoot.innerHTML, /saMenuItemWrapper saUnread/);
+assert.match(linkListRoot.innerHTML, /saLinkListRowLabel">2026-08-27/);
 
 async function testEndpointContract() {
 	process.env.AZURE_OPENAI_ENDPOINT = 'https://example.openai.azure.com';
