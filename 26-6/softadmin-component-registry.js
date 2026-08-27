@@ -186,6 +186,18 @@
 				implemented: true,
 				aliasFor: 'Link List'
 			},
+			'Pivot Grid': {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Pivot+Grid',
+				description: 'Cross-tabulated grid with sortable row and column headings, actions, export and numeric measures.',
+				implemented: true,
+				renderType: 'PivotGrid'
+			},
+			PivotGrid: {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Pivot+Grid',
+				description: 'Mock renderer alias for the Pivot Grid component.',
+				implemented: true,
+				aliasFor: 'Pivot Grid'
+			},
 			'PDF Template Editor': {
 				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=PDF+Template+Editor',
 				description: 'Visual PDF template editor with draggable available values, formatting tools and a page canvas.',
@@ -441,6 +453,71 @@
 					<div class="saColumn">${(component.groups || []).map(renderLinkListGroup).join('')}</div>
 				</div>
 			</softadmin-linklist>`;
+	}
+
+	function pivotSortIcon(item) {
+		if (!item.sorted) {
+			return '';
+		}
+
+		const direction = item.sortDirection === 'desc' ? 'down' : 'up';
+		return `<i class="saIcon saSortIcon fas fa-caret-${direction}"></i>`;
+	}
+
+	function renderPivotColumnActions() {
+		return `
+			<div class="saLinkButtonWrapper">
+				<button class="saLinkButton" type="button" title="Fields"><i class="far fa-heat icon saIcon"></i></button>
+				<button class="saLinkButton" type="button" title="Inspect"><i class="far fa-binoculars icon saIcon"></i></button>
+				<button class="saLinkButton saMoreButtonJs" type="button"><i class="saIcon far fa-ellipsis-vertical"></i></button>
+			</div>`;
+	}
+
+	function renderPivotGrid(component) {
+		const columns = component.columns || [];
+		const showColumnActions = component.columnActions !== false;
+		const wrapperClasses = `saPivotGridWrapper${showColumnActions ? ' saMultipleColumnButtons' : ''} stickyheader`;
+		const columnHeadings = columns.map(column => `
+			<th class="saPivotGridHeading">
+				<div class="saPivotGridHeadingInner">
+					${showColumnActions ? renderPivotColumnActions() : ''}
+					<a class="sortableJs${column.sorted ? ' saSorted' : ''}" tabindex="0"><span>${escapeHtml(column.label || column.key)}</span>${pivotSortIcon(column)}</a>
+				</div>
+			</th>`).join('');
+		const bodyRows = (component.rows || []).map(row => {
+			const clickable = new Set(row.clickable || []);
+			const cells = columns.map(column => {
+				const value = row.values?.[column.key] ?? '';
+				const numeric = column.numeric !== false && (column.numeric === true || typeof value === 'number');
+				const cellClasses = `saPivotGridCellJs${clickable.has(column.key) ? ' saClickable' : ''}${numeric ? ' right' : ''}`;
+				return `<td class="${cellClasses}"><span>${escapeHtml(value)}</span></td>`;
+			}).join('');
+
+			return `
+				<tr>
+					<th class="saPivotGridHeading">
+						<div class="saPivotGridHeadingInner">
+							<div class="saLinkButtonWrapper"><button class="saLinkButton" type="button"><i class="far fa-${escapeHtml(row.icon || 'chart-line')} icon saIcon"></i></button></div>
+							<a class="sortableJs${row.sorted ? ' saSorted' : ''}" tabindex="0"><span>${escapeHtml(row.label)}</span>${pivotSortIcon(row)}</a>
+						</div>
+					</th>
+					${cells}
+				</tr>`;
+		}).join('');
+
+		return `
+			<softadmin-pivotgrid class="pivotgrid saMenuItemRoot">
+				<div class="${wrapperClasses}">
+					<table class="saPivotGrid">
+						<caption>${escapeHtml(component.caption || 'Pivot grid')}</caption>
+						<thead><tr>
+							<th class="saPivotGridHeading saPivotGridFiller"><div class="saTopLeftCell">${component.exportable === false ? '' : '<button class="saPivotGridTopButton saNoSpinner saExcel" type="button" title="Open in Excel"><i class="saIcon far fa-file-excel"></i></button>'}</div></th>
+							${columnHeadings}
+						</tr></thead>
+						<tbody>${bodyRows}</tbody>
+					</table>
+				</div>
+			</softadmin-pivotgrid>`;
 	}
 
 	const galleryFallbackImages = [
@@ -2228,6 +2305,7 @@
 		Multipart: renderMultipart,
 		NewEdit: renderNewEdit,
 		PdfTemplateEditor: renderPdfTemplateEditor,
+		PivotGrid: renderPivotGrid,
 		RadioCards: renderRadioCards,
 		ResultGrid: renderResultGrid
 	};

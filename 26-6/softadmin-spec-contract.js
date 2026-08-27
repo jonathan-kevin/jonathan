@@ -85,6 +85,11 @@
 			requireArray(component, 'rows', path, errors);
 		}
 
+		if (component.type === 'PivotGrid') {
+			requireArray(component, 'columns', path, errors);
+			requireArray(component, 'rows', path, errors);
+		}
+
 		if (component.type === 'EnterpriseSearch') {
 			requireArray(component, 'groups', path, errors);
 		}

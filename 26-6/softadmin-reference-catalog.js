@@ -120,9 +120,12 @@
 				specTypes: ['PDF Template Editor', 'PDFTemplateEditor', 'PdfTemplateEditor']
 			},
 			'Pivot Grid': {
-				description: 'Pivot grid component.',
+				description: 'Cross-tabulated grid with sortable row and column headings, actions, export and numeric measures.',
 				file: 'html/components/pivot-grid.html',
-				renderable: false
+				promptInstruction: 'Use the Softadmin Pivot Grid as the main component. Shape: { type:"PivotGrid", caption?, exportable?, columns:[{ key, label, sorted?, sortDirection?:"asc|desc", numeric? }], rows:[{ label, icon?, sorted?, values:{ [columnKey]: value }, clickable?:[columnKey] }] }. Do not add per-cell colors unless the user explicitly requests them.',
+				renderable: true,
+				specType: 'PivotGrid',
+				specTypes: ['Pivot Grid', 'PivotGrid']
 			},
 			Planner: {
 				description: 'Planner component with and without timescale examples.',

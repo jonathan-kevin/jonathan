@@ -103,6 +103,16 @@ const cases = [
 		name: 'rejects a PDF Template Editor without placeholders',
 		spec: { components: [{ type: 'PdfTemplateEditor', groups: [] }] },
 		valid: false
+	},
+	{
+		name: 'accepts a Pivot Grid with columns and rows',
+		spec: { components: [{ type: 'PivotGrid', columns: [{ key: 'jan', label: 'Jan' }], rows: [{ label: 'Consulting', values: { jan: 125000 } }] }] },
+		valid: true
+	},
+	{
+		name: 'rejects a Pivot Grid without rows',
+		spec: { components: [{ type: 'PivotGrid', columns: [] }] },
+		valid: false
 	}
 ];
 
@@ -193,6 +203,26 @@ assert.match(linkListRoot.innerHTML, /<softadmin-linklist/);
 assert.match(linkListRoot.innerHTML, /saMenuBox saHasUnread/);
 assert.match(linkListRoot.innerHTML, /saMenuItemWrapper saUnread/);
 assert.match(linkListRoot.innerHTML, /saLinkListRowLabel">2026-08-27/);
+
+const pivotGridRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'PivotGrid',
+		caption: 'Revenue by month',
+		columns: [
+			{ key: 'jan', label: 'Jan', sorted: true },
+			{ key: 'feb', label: 'Feb' },
+			{ key: 'owner', label: 'Owner', numeric: false }
+		],
+		rows: [{ label: 'Consulting', values: { jan: 125000, feb: 98000, owner: 'Anna' }, clickable: ['jan'] }]
+	}]
+}, pivotGridRoot);
+assert.match(pivotGridRoot.innerHTML, /<softadmin-pivotgrid/);
+assert.match(pivotGridRoot.innerHTML, /saPivotGridWrapper saMultipleColumnButtons stickyheader/);
+assert.match(pivotGridRoot.innerHTML, /saPivotGridCellJs saClickable right/);
+assert.match(pivotGridRoot.innerHTML, /fas fa-caret-up/);
+assert.match(pivotGridRoot.innerHTML, /saPivotGridCellJs"><span>Anna/);
+assert.doesNotMatch(pivotGridRoot.innerHTML, /style="(?:background|color)/);
 
 async function testEndpointContract() {
 	process.env.AZURE_OPENAI_ENDPOINT = 'https://example.openai.azure.com';

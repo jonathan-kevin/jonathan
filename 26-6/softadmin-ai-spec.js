@@ -151,6 +151,7 @@
 			CalendarWeekdays: 'Calendar',
 			EnterpriseSearch: 'Enterprise Search',
 			PdfTemplateEditor: 'PDF Template Editor',
+			PivotGrid: 'Pivot Grid',
 			ResultGrid: 'Grid'
 		};
 
