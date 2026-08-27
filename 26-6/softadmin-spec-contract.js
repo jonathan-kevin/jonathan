@@ -62,6 +62,10 @@
 			});
 		}
 
+		if (component.type === 'Chat') {
+			requireArray(component, 'messages', path, errors);
+		}
+
 		if (component.type === 'NewEdit') {
 			requireArray(component, 'sections', path, errors).forEach((section, index) => {
 				validateFields(section?.fields, `${path}.sections[${index}].fields`, errors, controlTypes);

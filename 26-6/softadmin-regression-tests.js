@@ -39,6 +39,16 @@ const cases = [
 		valid: true
 	},
 	{
+		name: 'accepts a Chat spec',
+		spec: { components: [{ type: 'Chat', messages: [{ role: 'user', text: 'Hello', time: '09:42' }, { role: 'assistant', text: 'How can I help?' }] }] },
+		valid: true
+	},
+	{
+		name: 'rejects a Chat spec without messages',
+		spec: { components: [{ type: 'Chat' }] },
+		valid: false
+	},
+	{
 		name: 'rejects a Grid without rows',
 		spec: { components: [{ type: 'ResultGrid', columns: [] }] },
 		valid: false
@@ -140,6 +150,21 @@ assert.match(bankIdRoot.innerHTML, /<softadmin-bankid/);
 assert.match(bankIdRoot.innerHTML, /Sign agreement/);
 assert.match(bankIdRoot.innerHTML, /value="75"/);
 assert.match(bankIdRoot.innerHTML, /Use BankID on this device/);
+
+const chatRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'Chat',
+		messages: [
+			{ role: 'user', text: 'Can you summarize the booking?', time: '09:42', date: 'Today' },
+			{ role: 'assistant', text: 'The booking is confirmed for Friday.' }
+		]
+	}]
+}, chatRoot);
+assert.match(chatRoot.innerHTML, /<softadmin-chat/);
+assert.match(chatRoot.innerHTML, /saChatMessage saChatSender/);
+assert.match(chatRoot.innerHTML, /saChatAiResponse/);
+assert.match(chatRoot.innerHTML, /The booking is confirmed for Friday/);
 
 async function testEndpointContract() {
 	process.env.AZURE_OPENAI_ENDPOINT = 'https://example.openai.azure.com';

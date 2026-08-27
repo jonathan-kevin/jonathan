@@ -131,6 +131,12 @@
 				implemented: true,
 				renderType: 'BankID'
 			},
+			Chat: {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Chat',
+				description: 'Conversation log with sender, AI and system messages plus a message composer.',
+				implemented: true,
+				renderType: 'Chat'
+			},
 			Calendar: {
 				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Calendar',
 				description: 'Calendar component. The mock renderer currently supports the Weekdays mode.',
@@ -483,6 +489,65 @@
 					</div>
 				</div>
 			</softadmin-bankid>`;
+	}
+
+	function renderChatText(message) {
+		const paragraphs = Array.isArray(message.paragraphs) ? message.paragraphs : [message.text || ''];
+		return paragraphs.map(text => `<p>${escapeHtml(text)}</p>`).join('');
+	}
+
+	function renderChatMessage(message) {
+		if (message.role === 'assistant') {
+			return `
+				<li class="saChatAiResponse">
+					<article><div class="saChatAiMessageBody" tabindex="0"><div class="saChatMessageContent saMarkDownContent">${renderChatText(message)}</div></div></article>
+				</li>`;
+		}
+
+		const systemClass = message.role === 'system' ? ' saChatSystem' : ' saChatSender';
+		return `
+			<li class="saChatMessage${systemClass}">
+				<article class="saChatMessageInner">
+					<div class="saChatMessageBody" tabindex="0">${renderChatText(message)}</div>
+					${message.time ? `<footer class="saChatMessageFooter"><time class="saChatMessageTime">${escapeHtml(message.time)}</time></footer>` : ''}
+				</article>
+			</li>`;
+	}
+
+	function renderChatLog(messages, defaultDate) {
+		let previousDate = null;
+		return messages.map((message, index) => {
+			const date = message.date || (index === 0 ? defaultDate : previousDate);
+			const dateRow = date && date !== previousDate
+				? `<li class="saChatDate"><time>${escapeHtml(date)}</time></li>`
+				: '';
+			previousDate = date;
+			return `${dateRow}${renderChatMessage(message)}`;
+		}).join('');
+	}
+
+	function renderChat(component) {
+		const messages = component.messages || [];
+		const composerValue = component.composerValue || '';
+		const isEmpty = !composerValue;
+
+		return `
+			<softadmin-chat class="saMenuItemRoot">
+				<div class="saChatWrapper" style="min-height: calc(100dvh - 145px);">
+					<div class="saChat">
+						<button class="saLoadMessagesButton${component.loadEarlier ? '' : ' saHidden'}" type="button">${escapeHtml(component.loadEarlierLabel || 'Show earlier messages')}</button>
+						<ol class="saChatLog">${renderChatLog(messages, component.dateLabel || 'Today')}</ol>
+					</div>
+					<div class="saChatComposerWrapper">
+						<button class="saChatLatest saReached" type="button" tabindex="-1"><i class="far fa-arrow-down saIcon"></i></button>
+						<div class="saChatComposer">
+							<div class="saChatTextarea${isEmpty ? ' saEmpty' : ''}" contenteditable="plaintext-only" role="textbox" aria-multiline="true" data-placeholder="${escapeHtml(component.placeholder || 'Write a message...')}">${escapeHtml(composerValue)}</div>
+							<button class="saChatButtonSend" type="button"${isEmpty ? ' disabled' : ''}><i class="far fa-arrow-up saIcon"></i></button>
+						</div>
+						<p class="saChatComposerInstruction">${escapeHtml(component.instruction || 'AI-generated content may be incorrect')}</p>
+					</div>
+				</div>
+			</softadmin-chat>`;
 	}
 
 	function finiteNumber(value, fallback, minimum, maximum) {
@@ -2111,6 +2176,7 @@
 	const componentRenderers = {
 		BankID: renderBankId,
 		CalendarWeekdays: renderCalendarWeekdays,
+		Chat: renderChat,
 		DetailView: renderDetailView,
 		EnterpriseSearch: renderEnterpriseSearch,
 		ImageGallery: renderImageGallery,

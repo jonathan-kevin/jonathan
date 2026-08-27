@@ -20,7 +20,10 @@
 			Chat: {
 				description: 'Softadmin chat conversation layout.',
 				file: 'html/components/chat.html',
-				renderable: false
+				promptInstruction: 'Use the Softadmin Chat component as the main component. Shape: { type:"Chat", messages:[{ role:"user|assistant|system", text, time?, date? }], loadEarlier?, loadEarlierLabel?, placeholder?, composerValue?, instruction? }.',
+				renderable: true,
+				specType: 'Chat',
+				specTypes: ['Chat']
 			},
 			Detailview: {
 				description: 'Detail page with info boxes and tabs.',
