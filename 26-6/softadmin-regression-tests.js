@@ -62,6 +62,22 @@ const cases = [
 		name: 'rejects an Image Gallery without group items',
 		spec: { components: [{ type: 'ImageGallery', groups: [{ heading: 'Team' }] }] },
 		valid: false
+	},
+	{
+		name: 'accepts a PDF Template Editor with values and placeholders',
+		spec: {
+			components: [{
+				type: 'PdfTemplateEditor',
+				groups: [{ heading: 'Invoice', values: [{ label: 'Invoice number', placed: true }] }],
+				placeholders: [{ label: 'Invoice number', value: 'INV-1042', x: 96, y: 80, selected: true }]
+			}]
+		},
+		valid: true
+	},
+	{
+		name: 'rejects a PDF Template Editor without placeholders',
+		spec: { components: [{ type: 'PdfTemplateEditor', groups: [] }] },
+		valid: false
 	}
 ];
 
@@ -96,6 +112,20 @@ global.SoftadminMockups.renderSpec({
 assert.match(galleryRoot.innerHTML, /<softadmin-imagegallery/);
 assert.match(galleryRoot.innerHTML, /saGalleryWrapper saColumnsLarge/);
 assert.match(galleryRoot.innerHTML, /saGalleryItemCaption">Anna/);
+
+const pdfEditorRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'PdfTemplateEditor',
+		page: { current: 2, count: 4 },
+		groups: [{ heading: 'Invoice', values: [{ label: 'Invoice number', placed: true, selected: true }] }],
+		placeholders: [{ label: 'Invoice number', value: 'INV-1042', x: 96, y: 80, selected: true }]
+	}]
+}, pdfEditorRoot);
+assert.match(pdfEditorRoot.innerHTML, /<softadmin-pdftemplateeditor/);
+assert.match(pdfEditorRoot.innerHTML, /saAvailableValue saPlaced saMarked/);
+assert.match(pdfEditorRoot.innerHTML, />2\/4</);
+assert.match(pdfEditorRoot.innerHTML, /saPlaceholder saSelected/);
 
 async function testEndpointContract() {
 	process.env.AZURE_OPENAI_ENDPOINT = 'https://example.openai.azure.com';

@@ -150,6 +150,7 @@
 			DetailView: 'Detailview',
 			CalendarWeekdays: 'Calendar',
 			EnterpriseSearch: 'Enterprise Search',
+			PdfTemplateEditor: 'PDF Template Editor',
 			ResultGrid: 'Grid'
 		};
 
@@ -2464,6 +2465,16 @@
 				if (promptInput) {
 					promptInput.value = button.dataset.softadminExamplePrompt || '';
 					promptInput.focus();
+				}
+
+				const componentValue = button.dataset.softadminComponent;
+				if (componentValue && componentPicker) {
+					const componentInput = Array.from(componentPicker.querySelectorAll('input[type="radio"]'))
+						.find(input => input.value === componentValue && !input.disabled);
+					if (componentInput) {
+						componentInput.checked = true;
+						componentInput.dispatchEvent(new Event('change', { bubbles: true }));
+					}
 				}
 			});
 		});

@@ -103,9 +103,12 @@
 				specTypes: ['NewEdit']
 			},
 			'PDF Template Editor': {
-				description: 'PDF template editor component.',
+				description: 'PDF template editor with available values, formatting tools and a page canvas.',
 				file: 'html/components/pdf-template-editor.html',
-				renderable: false
+				promptInstruction: 'Use the Softadmin PDF Template Editor as the main component. Shape: { type:"PdfTemplateEditor", page:{ current, count }, lastSaved?, groups:[{ heading, values:[{ label, kind?:"text|image", placed?, selected?, info? }] }], placeholders:[{ label, value?, kind?:"text|image", x, y, font?, fontSize?, selected? }] }.',
+				renderable: true,
+				specType: 'PdfTemplateEditor',
+				specTypes: ['PDF Template Editor', 'PDFTemplateEditor', 'PdfTemplateEditor']
 			},
 			'Pivot Grid': {
 				description: 'Pivot grid component.',

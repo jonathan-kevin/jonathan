@@ -162,6 +162,24 @@
 				implemented: true,
 				renderType: 'ImageGallery'
 			},
+			'PDF Template Editor': {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=PDF+Template+Editor',
+				description: 'Visual PDF template editor with draggable available values, formatting tools and a page canvas.',
+				implemented: true,
+				renderType: 'PdfTemplateEditor'
+			},
+			PDFTemplateEditor: {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=PDF+Template+Editor',
+				description: 'Mock renderer alias for the PDF Template Editor component.',
+				implemented: true,
+				aliasFor: 'PDF Template Editor'
+			},
+			PdfTemplateEditor: {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=PDF+Template+Editor',
+				description: 'Mock renderer for the PDF Template Editor component.',
+				implemented: true,
+				aliasFor: 'PDF Template Editor'
+			},
 			MenuGroups: {
 				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=3',
 				description: 'Grouped menu choices displayed in the main content area.',
@@ -427,6 +445,123 @@
 					<div class="saGallery ${fitClass}">${(component.groups || []).map(renderGalleryGroup).join('')}</div>
 				</div>
 			</softadmin-imagegallery>`;
+	}
+
+	function finiteNumber(value, fallback, minimum, maximum) {
+		const number = Number(value);
+		return Number.isFinite(number) ? Math.min(maximum, Math.max(minimum, number)) : fallback;
+	}
+
+	function renderPdfAvailableValue(value) {
+		const classes = [
+			'saAvailableValue',
+			value.placed ? 'saPlaced' : '',
+			value.selected ? 'saMarked' : '',
+			value.disabled ? 'saDisabled' : ''
+		].filter(Boolean).join(' ');
+
+		return `
+			<li class="${classes}">
+				<div class="saAvailableValueLabel">
+					<i class="saIcon saDragHandle far fa-grip-dots-vertical"></i>
+					${value.kind === 'image' ? '<i class="saIcon far fa-image"></i>' : ''}
+					<label>${escapeHtml(value.label)}</label>
+				</div>
+				<div class="saIconsWrapper">
+					${value.info ? '<i class="saIcon saInfoIcon far fa-circle-info"></i>' : ''}
+					<i class="saIcon saCheckMark far fa-check"></i>
+				</div>
+			</li>`;
+	}
+
+	function renderPdfValueGroup(group) {
+		return `
+			<div class="saAvailableValuesGroupWrapper">
+				${group.heading ? `<div class="saAvailableValuesGroupName">${escapeHtml(group.heading)}</div>` : ''}
+				<ul class="saAvailableValuesGroup">${(group.values || []).map(renderPdfAvailableValue).join('')}</ul>
+			</div>`;
+	}
+
+	function renderPdfPlaceholder(placeholder, index) {
+		const left = finiteNumber(placeholder.x, 96 + index * 32, 0, 560);
+		const top = finiteNumber(placeholder.y, 80 + index * 54, 0, 740);
+		const fontSize = finiteNumber(placeholder.fontSize, 18, 8, 72);
+		const classes = `saPlaceholder${placeholder.selected ? ' saSelected' : ''}`;
+		const valueClasses = `saPlaceholderValue${placeholder.width ? '' : ' saNoWidth'}${placeholder.kind === 'image' ? ' saImagePlaceholder' : ''}`;
+		const value = placeholder.kind === 'image'
+			? '<i class="saIcon far fa-image"></i>'
+			: escapeHtml(placeholder.value || placeholder.label);
+
+		return `
+			<div class="${classes}" style="left: ${left}px; top: ${top}px;">
+				<span class="saPlaceholderTitle">${escapeHtml(placeholder.label)}</span>
+				<div class="saPlaceholderValueWrapper">
+					<span class="${valueClasses}" style="font-size: ${fontSize}px;">${value}</span>
+				</div>
+			</div>`;
+	}
+
+	function pdfToolbarButton(icon, tooltip, disabled = false, destructive = false) {
+		return `<li><button class="saToolbarButton${destructive ? ' saDestructive' : ''}" type="button" data-tooltip="${escapeHtml(tooltip)}"${disabled ? ' disabled' : ''}><i class="saIcon far fa-${escapeHtml(icon)}"></i></button></li>`;
+	}
+
+	function renderPdfTemplateEditor(component) {
+		const groups = component.groups || [];
+		const placeholders = component.placeholders || [];
+		const selected = placeholders.find(placeholder => placeholder.selected) || placeholders[0] || {};
+		const currentPage = finiteNumber(component.page?.current, 1, 1, 999);
+		const pageCount = finiteNumber(component.page?.count, currentPage, currentPage, 999);
+		const x = finiteNumber(selected.x, 0, 0, 560);
+		const y = finiteNumber(selected.y, 0, 0, 740);
+		const fontSize = finiteNumber(selected.fontSize, 18, 8, 72);
+		const font = selected.font || component.font || 'Roboto';
+
+		return `
+			<softadmin-pdftemplateeditor class="saMenuItemRoot saPdfTemplateEditor" style="height: calc(100dvh - 113px);">
+				<aside class="saPdfTemplateEditorSidebar">
+					<span class="saLastSavedText">${escapeHtml(component.lastSaved || '')}</span>
+					<div class="saAvailableValuesWrapper">${groups.map(renderPdfValueGroup).join('')}</div>
+					<div class="saPdfPagination">
+						<button class="saPageButton" type="button" data-tooltip="Previous page"${currentPage <= 1 ? ' disabled' : ''}><i class="saIcon far fa-arrow-left"></i></button>
+						<span>${currentPage}/${pageCount}</span>
+						<button class="saPageButton" type="button" data-tooltip="Next page"${currentPage >= pageCount ? ' disabled' : ''}><i class="saIcon far fa-arrow-right"></i></button>
+					</div>
+				</aside>
+				<div class="saPdfTemplate">
+					<div class="saPdfTemplateToolbarWrapper">
+						<div class="saPdfTemplateToolbar">
+							<div class="saPdfTemplateToolbarGroup">
+								<ul class="saInputPair">
+									<li><label class="saInputTextWrapper saLabeled"><span class="saLabeledLabel">X</span><input class="saInputText" type="number" value="${x}"></label></li>
+									<li><label class="saInputTextWrapper saLabeled"><span class="saLabeledLabel">Y</span><input class="saInputText" type="number" value="${y}"></label></li>
+								</ul>
+								<ul class="saInputPair saHideBorder">
+									<li><label class="saInputTextWrapper saLabeled"><span class="saLabeledLabel">Font</span><select class="saInputText saDropdown"><option>${escapeHtml(font)}</option></select><div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div></label></li>
+									<li><div class="saNumberStepper"><button class="saDecreaseButton" type="button"><i class="saIcon far fa-minus"></i></button><input class="saInputText saNumberStepper" type="number" value="${fontSize}"><button class="saIncreaseButton" type="button"><i class="saIcon far fa-plus"></i></button></div></li>
+								</ul>
+							</div>
+							<div class="saPdfTemplateToolbarGroup">
+								<ul class="saPdfTemplateToolbarAlign">
+									${pdfToolbarButton('objects-align-left', 'Align objects left')}
+									${pdfToolbarButton('objects-align-center-horizontal', 'Center objects horizontally', true)}
+									${pdfToolbarButton('objects-align-top', 'Align objects to top')}
+									${pdfToolbarButton('objects-align-center-vertical', 'Center objects vertically')}
+									${pdfToolbarButton('objects-align-bottom', 'Align objects to bottom')}
+								</ul>
+								<ul class="saToolbarDistribute">
+									${pdfToolbarButton('distribute-spacing-vertical', 'Distribute objects vertically', true)}
+									${pdfToolbarButton('distribute-spacing-horizontal', 'Distribute objects horizontally', true)}
+								</ul>
+								<ul>${pdfToolbarButton('trash-alt', 'Delete object', false, true)}</ul>
+							</div>
+						</div>
+					</div>
+					<div class="saCanvasOuter"><div class="saCanvasInner"><div class="saCanvasWrapper">
+						<canvas height="792" width="612" style="background: #fff; box-shadow: 0 1px 4px rgba(15, 23, 42, 0.24);"></canvas>
+						${placeholders.map(renderPdfPlaceholder).join('')}
+					</div></div></div>
+				</div>
+			</softadmin-pdftemplateeditor>`;
 	}
 
 	function renderSearchSegments(value) {
@@ -1944,6 +2079,7 @@
 		MenuGroups: renderMenuGroups,
 		Multipart: renderMultipart,
 		NewEdit: renderNewEdit,
+		PdfTemplateEditor: renderPdfTemplateEditor,
 		RadioCards: renderRadioCards,
 		ResultGrid: renderResultGrid
 	};
