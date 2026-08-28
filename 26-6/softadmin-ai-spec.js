@@ -150,6 +150,7 @@
 			DetailView: 'Detailview',
 			CalendarWeekdays: 'Calendar',
 			EnterpriseSearch: 'Enterprise Search',
+			InlineDocument: 'Inline Document',
 			PdfTemplateEditor: 'PDF Template Editor',
 			PivotGrid: 'Pivot Grid',
 			ResultGrid: 'Grid'

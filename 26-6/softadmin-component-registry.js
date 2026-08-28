@@ -174,6 +174,18 @@
 				implemented: true,
 				renderType: 'ImageGallery'
 			},
+			'Inline Document': {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Inline+Document',
+				description: 'Document selector and viewer with navigation and a download fallback for unsupported files.',
+				implemented: true,
+				renderType: 'InlineDocument'
+			},
+			InlineDocument: {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Inline+Document',
+				description: 'Mock renderer alias for the Inline Document component.',
+				implemented: true,
+				aliasFor: 'Inline Document'
+			},
 			'Link List': {
 				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Link+List',
 				description: 'Compact list of navigable rows with optional group heading, date or label, and unread state.',
@@ -576,6 +588,63 @@
 					<div class="saGallery ${fitClass}">${(component.groups || []).map(renderGalleryGroup).join('')}</div>
 				</div>
 			</softadmin-imagegallery>`;
+	}
+
+	function safeDocumentUrl(value) {
+		const url = String(value || '').trim();
+		return /^(?:javascript|vbscript):/i.test(url) ? '#' : url || '#';
+	}
+
+	function documentIcon(document) {
+		if (document.icon) {
+			return document.icon;
+		}
+
+		const extension = String(document.name || document.src || '').split('.').pop().toLowerCase();
+		return {
+			doc: 'file-word',
+			docx: 'file-word',
+			html: 'code',
+			pdf: 'file-pdf',
+			ppt: 'file-powerpoint',
+			pptx: 'file-powerpoint',
+			xls: 'file-excel',
+			xlsx: 'file-excel',
+			zip: 'file-zipper'
+		}[extension] || 'file';
+	}
+
+	function renderInlineDocument(component) {
+		const documents = component.documents || [];
+		const selectedIndex = Math.round(finiteNumber(component.selectedIndex, 0, 0, Math.max(0, documents.length - 1)));
+		const selected = documents[selectedIndex] || { name: 'Document', src: '#', previewable: false };
+		const source = safeDocumentUrl(selected.src);
+		const options = documents.map((document, index) => `<option value="${index}"${index === selectedIndex ? ' selected' : ''}>${escapeHtml(document.name || `Document ${index + 1}`)}</option>`).join('');
+		const viewer = selected.previewable
+			? `<iframe class="saInlineFrame" src="${escapeHtml(source)}" title="${escapeHtml(selected.name || 'Document')}"></iframe>`
+			: `
+				<a class="saInlineDownload" download href="${escapeHtml(source)}">
+					<i class="far saIcon fa-${escapeHtml(documentIcon(selected))}"></i>
+					<div class="saInlineDownloadHeading">${escapeHtml(selected.name || 'Document')}</div>
+					<div class="saInlineDownloadDescription">${escapeHtml(selected.description || "This document can't be viewed inline, but you can download it and open it anytime.")}</div>
+					<div class="saInlineDownloadButton"><i class="far fa-arrow-down-to-bracket"></i><div>${escapeHtml(component.downloadLabel || 'Download')}</div></div>
+				</a>`;
+
+		return `
+			<softadmin-inlinedocument class="saInlineDocumentWrapper saMenuItemRoot">
+				<div class="saInlineHeader">
+					<label class="saInputTextWrapper saLabeled">
+						<span class="saLabeledLabel">${escapeHtml(component.label || 'Document')}</span>
+						<select class="saInputText saDropdown">${options}</select>
+						<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
+					</label>
+					<div class="saInlineButtonGroup">
+						<button type="button" title="Previous document"${selectedIndex === 0 ? ' disabled' : ''}><i class="saIcon fa-caret-up fas"></i></button>
+						<button type="button" title="Next document"${selectedIndex >= documents.length - 1 ? ' disabled' : ''}><i class="saIcon fa-caret-down fas"></i></button>
+					</div>
+				</div>
+				<div class="saViewWrapper" style="height: calc(-148px + 100vh);">${viewer}</div>
+			</softadmin-inlinedocument>`;
 	}
 
 	function renderBankId(component) {
@@ -2299,6 +2368,7 @@
 		DetailView: renderDetailView,
 		EnterpriseSearch: renderEnterpriseSearch,
 		ImageGallery: renderImageGallery,
+		InlineDocument: renderInlineDocument,
 		InfoBoxes: renderInfoBoxes,
 		LinkList: renderLinkList,
 		MenuGroups: renderMenuGroups,

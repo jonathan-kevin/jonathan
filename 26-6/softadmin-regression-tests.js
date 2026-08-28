@@ -113,6 +113,16 @@ const cases = [
 		name: 'rejects a Pivot Grid without rows',
 		spec: { components: [{ type: 'PivotGrid', columns: [] }] },
 		valid: false
+	},
+	{
+		name: 'accepts an Inline Document with selectable documents',
+		spec: { components: [{ type: 'InlineDocument', documents: [{ name: 'Agreement.pdf', src: 'agreement.pdf', previewable: false }] }] },
+		valid: true
+	},
+	{
+		name: 'rejects an Inline Document without documents',
+		spec: { components: [{ type: 'InlineDocument' }] },
+		valid: false
 	}
 ];
 
@@ -223,6 +233,29 @@ assert.match(pivotGridRoot.innerHTML, /saPivotGridCellJs saClickable right/);
 assert.match(pivotGridRoot.innerHTML, /fas fa-caret-up/);
 assert.match(pivotGridRoot.innerHTML, /saPivotGridCellJs"><span>Anna/);
 assert.doesNotMatch(pivotGridRoot.innerHTML, /style="(?:background|color)/);
+
+const inlineDocumentRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'InlineDocument',
+		selectedIndex: 0,
+		documents: [
+			{ name: 'Customer agreement.pdf', src: 'agreement.pdf', previewable: false },
+			{ name: 'Terms.pdf', src: 'terms.pdf', previewable: true }
+		]
+	}]
+}, inlineDocumentRoot);
+assert.match(inlineDocumentRoot.innerHTML, /<softadmin-inlinedocument/);
+assert.match(inlineDocumentRoot.innerHTML, /saInlineDownload/);
+assert.match(inlineDocumentRoot.innerHTML, /fa-file-pdf/);
+assert.match(inlineDocumentRoot.innerHTML, /Customer agreement\.pdf/);
+assert.match(inlineDocumentRoot.innerHTML, /Previous document" disabled/);
+assert.doesNotMatch(inlineDocumentRoot.innerHTML, /type="hidden"|aria-hidden|aria-label/);
+
+global.SoftadminMockups.renderSpec({
+	components: [{ type: 'InlineDocument', documents: [{ name: 'Terms.pdf', src: 'terms.pdf', previewable: true }] }]
+}, inlineDocumentRoot);
+assert.match(inlineDocumentRoot.innerHTML, /<iframe class="saInlineFrame" src="terms\.pdf" title="Terms\.pdf"><\/iframe>/);
 
 async function testEndpointContract() {
 	process.env.AZURE_OPENAI_ENDPOINT = 'https://example.openai.azure.com';

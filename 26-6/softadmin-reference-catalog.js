@@ -56,9 +56,12 @@
 				specTypes: ['Image Gallery', 'ImageGallery']
 			},
 			'Inline Document': {
-				description: 'Inline document viewer.',
+				description: 'Document selector and viewer with navigation and a download fallback for unsupported files.',
 				file: 'html/components/inline-document.html',
-				renderable: false
+				promptInstruction: 'Use the Softadmin Inline Document component as the main component. Shape: { type:"InlineDocument", label?, selectedIndex?, documents:[{ name, src, previewable?, description?, icon? }] }. Set previewable:false for files that should show the download fallback.',
+				renderable: true,
+				specType: 'InlineDocument',
+				specTypes: ['Inline Document', 'InlineDocument']
 			},
 			'InfoBoxes': {
 				description: 'InfoSQL-style information boxes and warning messages.',
