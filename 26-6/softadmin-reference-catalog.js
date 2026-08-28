@@ -73,9 +73,13 @@
 				specTypes: ['InfoBoxes']
 			},
 			'Linear Process': {
-				description: 'Linear process/progress component.',
+				description: 'Linked process steps with captions, status tones and straight or wrapped connectors.',
 				file: 'html/components/linear-process.html',
-				renderable: false
+				referenceFiles: ['html/components/linear-process.html', 'html/components/linear-process-wrapped.html'],
+				promptInstruction: 'Use the Softadmin Linear Process as the main component. Shape: { type:"LinearProcess", size?:"short|medium|long", wrapped?, wrapAfter?, steps:[{ heading, body?, caption?, link?, tone?:"primary|success|warning|neutral" }] }. wrapAfter is the number of steps shown before the wrapped connector.',
+				renderable: true,
+				specType: 'LinearProcess',
+				specTypes: ['Linear Process', 'LinearProcess']
 			},
 			'Link Card': {
 				description: 'Softadmin link card pattern.',

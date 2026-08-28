@@ -106,6 +106,10 @@
 			requireArray(component, 'documents', path, errors);
 		}
 
+		if (component.type === 'LinearProcess') {
+			requireArray(component, 'steps', path, errors);
+		}
+
 		if (component.type === 'PdfTemplateEditor') {
 			requireArray(component, 'groups', path, errors).forEach((group, index) => {
 				if (!group || !Array.isArray(group.values)) {

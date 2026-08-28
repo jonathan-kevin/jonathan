@@ -186,6 +186,18 @@
 				implemented: true,
 				aliasFor: 'Inline Document'
 			},
+			'Linear Process': {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Linear+Process',
+				description: 'Linked process steps with captions, status tones and straight or wrapped connectors.',
+				implemented: true,
+				renderType: 'LinearProcess'
+			},
+			LinearProcess: {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Linear+Process',
+				description: 'Mock renderer alias for the Linear Process component.',
+				implemented: true,
+				aliasFor: 'Linear Process'
+			},
 			'Link List': {
 				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Link+List',
 				description: 'Compact list of navigable rows with optional group heading, date or label, and unread state.',
@@ -645,6 +657,62 @@
 				</div>
 				<div class="saViewWrapper" style="height: calc(-148px + 100vh);">${viewer}</div>
 			</softadmin-inlinedocument>`;
+	}
+
+	const linearProcessTones = {
+		neutral: { background: 'rgb(233, 237, 242)', accent: 'rgb(80, 96, 114)' },
+		primary: { background: 'rgb(218, 234, 255)', accent: 'rgb(22, 104, 224)' },
+		success: { background: 'rgb(220, 245, 228)', accent: 'rgb(8, 120, 62)' },
+		warning: { background: 'rgb(255, 244, 214)', accent: 'rgb(138, 91, 0)' }
+	};
+
+	function renderLinearProcess(component) {
+		const steps = component.steps || [];
+		const size = ['short', 'medium', 'long'].includes(component.size) ? component.size : 'medium';
+		const wrapped = component.wrapped === true;
+		const wrapAfter = steps.length > 1
+			? Math.round(finiteNumber(component.wrapAfter, Math.ceil(steps.length / 2), 1, steps.length - 1))
+			: 0;
+		const renderedSteps = steps.map((step, index) => {
+			const tone = linearProcessTones[step.tone] || linearProcessTones.primary;
+			const wrapsAfter = wrapped && index === wrapAfter - 1;
+			const wrapsBefore = wrapped && index === wrapAfter;
+			const stepTag = step.link ? 'a' : 'div';
+			const beforeConnector = index > 0
+				? `<i class="saIcon saStepBetween saStepBefore" style="height: 4.7rem;${wrapsBefore ? '' : ' display: none;'}"></i>`
+				: '';
+			const afterConnector = index < steps.length - 1
+				? `<i class="saIcon saStepBetween saStepAfter" style="height: 4.7rem;${wrapsAfter ? '' : ' display: none;'}"></i>`
+				: '';
+			const betweenArrow = index < steps.length - 1
+				? `<i class="saIcon far fa-arrow-right saStepBetween saStepBetweenArrow" style="height: 4.7rem; visibility: ${wrapsAfter ? 'hidden' : 'visible'};"></i>`
+				: '';
+
+			return `
+				<div class="saStepOuter ${size}">
+					<div class="saStepWrapper ${size}">
+						<${stepTag} class="saStep${step.link ? ' saHasLink' : ''}"${step.link ? ' tabindex="0"' : ''} style="min-height: 4.8rem;">
+							<div class="saStepInnerWrapper" style="background-color: ${tone.background};">
+								<div class="saStepInner">
+									<div class="saStepLine" style="background-color: ${tone.accent};"></div>
+									<div class="saStepTextWrapper" style="color: ${tone.accent};">
+										<span class="saStepHeading">${escapeHtml(step.heading)}</span>
+										${step.body ? `<span class="saStepBody">${escapeHtml(step.body)}</span>` : ''}
+									</div>
+								</div>
+							</div>
+						</${stepTag}>
+						${step.caption ? `<div class="saStepCaption ${size}">${escapeHtml(step.caption)}</div>` : ''}
+						${beforeConnector}${afterConnector}
+					</div>
+					${betweenArrow}
+				</div>`;
+		}).join('');
+
+		return `
+			<softadmin-linearprocess class="maincolbody saMenuItemRoot">
+				<div class="saLinearProcess${wrapped ? ' saHasWrapped' : ''}">${renderedSteps}</div>
+			</softadmin-linearprocess>`;
 	}
 
 	function renderBankId(component) {
@@ -2370,6 +2438,7 @@
 		ImageGallery: renderImageGallery,
 		InlineDocument: renderInlineDocument,
 		InfoBoxes: renderInfoBoxes,
+		LinearProcess: renderLinearProcess,
 		LinkList: renderLinkList,
 		MenuGroups: renderMenuGroups,
 		Multipart: renderMultipart,

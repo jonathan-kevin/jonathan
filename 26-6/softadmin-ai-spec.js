@@ -151,6 +151,7 @@
 			CalendarWeekdays: 'Calendar',
 			EnterpriseSearch: 'Enterprise Search',
 			InlineDocument: 'Inline Document',
+			LinearProcess: 'Linear Process',
 			PdfTemplateEditor: 'PDF Template Editor',
 			PivotGrid: 'Pivot Grid',
 			ResultGrid: 'Grid'

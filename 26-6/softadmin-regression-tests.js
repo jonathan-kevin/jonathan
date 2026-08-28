@@ -123,6 +123,16 @@ const cases = [
 		name: 'rejects an Inline Document without documents',
 		spec: { components: [{ type: 'InlineDocument' }] },
 		valid: false
+	},
+	{
+		name: 'accepts a wrapped Linear Process with steps',
+		spec: { components: [{ type: 'LinearProcess', wrapped: true, wrapAfter: 1, steps: [{ heading: 'Review' }, { heading: 'Approved' }] }] },
+		valid: true
+	},
+	{
+		name: 'rejects a Linear Process without steps',
+		spec: { components: [{ type: 'LinearProcess' }] },
+		valid: false
 	}
 ];
 
@@ -256,6 +266,27 @@ global.SoftadminMockups.renderSpec({
 	components: [{ type: 'InlineDocument', documents: [{ name: 'Terms.pdf', src: 'terms.pdf', previewable: true }] }]
 }, inlineDocumentRoot);
 assert.match(inlineDocumentRoot.innerHTML, /<iframe class="saInlineFrame" src="terms\.pdf" title="Terms\.pdf"><\/iframe>/);
+
+const linearProcessRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'LinearProcess',
+		wrapped: true,
+		wrapAfter: 2,
+		steps: [
+			{ heading: 'Application received', body: 'Submitted today', caption: 'Complete', link: true, tone: 'success' },
+			{ heading: 'Review', body: 'In progress', caption: 'Current step', tone: 'primary' },
+			{ heading: 'Agreement', body: 'Waiting', tone: 'neutral' }
+		]
+	}]
+}, linearProcessRoot);
+assert.match(linearProcessRoot.innerHTML, /<softadmin-linearprocess/);
+assert.match(linearProcessRoot.innerHTML, /saLinearProcess saHasWrapped/);
+assert.match(linearProcessRoot.innerHTML, /saStep saHasLink/);
+assert.match(linearProcessRoot.innerHTML, /saStepAfter" style="height: 4\.7rem;"/);
+assert.match(linearProcessRoot.innerHTML, /saStepBefore" style="height: 4\.7rem;"/);
+assert.match(linearProcessRoot.innerHTML, /saStepBetweenArrow" style="height: 4\.7rem; visibility: hidden/);
+assert.equal((linearProcessRoot.innerHTML.match(/saStepCaption/g) || []).length, 2);
 
 async function testEndpointContract() {
 	process.env.AZURE_OPENAI_ENDPOINT = 'https://example.openai.azure.com';
