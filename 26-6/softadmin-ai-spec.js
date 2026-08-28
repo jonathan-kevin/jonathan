@@ -6,6 +6,8 @@
 	const logoStorageKey = 'softadmin.mockup.logo';
 	const avatarStorageKey = 'softadmin.mockup.avatar';
 	const aiToolsPositionStorageKey = 'softadmin.mockup.aiToolsPosition';
+	const savedPagesStorageKey = 'softadmin.mockup.savedPages.v1';
+	const maxSavedPages = 20;
 	const manualEdits = window.SoftadminEditorPatches.createStore();
 	let isBusy = false;
 	let lastTokenEstimate = null;
@@ -2163,6 +2165,75 @@
 		updateUndoButton();
 	}
 
+	function readSavedPages() {
+		try {
+			const pages = JSON.parse(window.localStorage.getItem(savedPagesStorageKey) || '[]');
+			return Array.isArray(pages) ? pages.filter(page => page && page.id && page.state) : [];
+		} catch (_) {
+			return [];
+		}
+	}
+
+	function writeSavedPages(pages) {
+		window.localStorage.setItem(savedPagesStorageKey, JSON.stringify(pages.slice(0, maxSavedPages)));
+	}
+
+	function updateSavedPageControls(selectedId) {
+		const select = document.getElementById('SoftadminSavedPages');
+		const openButton = document.getElementById('SoftadminOpenPage');
+		const saveButton = document.getElementById('SoftadminSavePage');
+		if (!select) return;
+
+		const pages = readSavedPages();
+		select.innerHTML = '<option value="">Saved pages</option>' + pages.map(page => {
+			const savedDate = page.savedAt ? new Date(page.savedAt).toLocaleDateString() : '';
+			return `<option value="${escapeHtml(page.id)}">${escapeHtml(page.name)}${savedDate ? ` - ${escapeHtml(savedDate)}` : ''}</option>`;
+		}).join('');
+		select.value = pages.some(page => page.id === selectedId) ? selectedId : '';
+		select.disabled = isBusy || pages.length === 0;
+		if (openButton) openButton.disabled = isBusy || !select.value;
+		if (saveButton) saveButton.disabled = isBusy;
+	}
+
+	function saveCurrentPage() {
+		const status = document.getElementById('SoftadminPromptStatus');
+		const promptInput = document.getElementById('SoftadminPrompt');
+		const suggestedName = lastDebugResult?.spec?.frame?.title || document.title || 'Softadmin mockup';
+		const name = window.prompt('Name this saved page', suggestedName)?.trim();
+		if (!name) return;
+
+		try {
+			collectManualEdits();
+			const pages = readSavedPages();
+			const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+			pages.unshift({
+				id,
+				name,
+				savedAt: new Date().toISOString(),
+				prompt: promptInput?.value || '',
+				state: captureState()
+			});
+			writeSavedPages(pages);
+			updateSavedPageControls(id);
+			if (status) status.textContent = `Saved "${name}" for later.`;
+		} catch (_) {
+			if (status) status.textContent = 'Could not save this page in the browser.';
+		}
+	}
+
+	function openSavedPage() {
+		const select = document.getElementById('SoftadminSavedPages');
+		const promptInput = document.getElementById('SoftadminPrompt');
+		const savedPage = readSavedPages().find(page => page.id === select?.value);
+		if (!savedPage) return;
+
+		pushUndoState(captureState());
+		clearRedoHistory();
+		restoreState(savedPage.state, `Opened "${savedPage.name}".`);
+		if (promptInput) promptInput.value = savedPage.prompt || '';
+		updateSavedPageControls(savedPage.id);
+	}
+
 	function updateUndoButton() {
 		const undoButton = document.getElementById('SoftadminUndo');
 		const redoButton = document.getElementById('SoftadminRedo');
@@ -2186,6 +2257,7 @@
 		}
 
 		updateUndoButton();
+		updateSavedPageControls(document.getElementById('SoftadminSavedPages')?.value || '');
 	}
 
 	function referenceCatalog() {
@@ -2424,6 +2496,9 @@
 		const logoFileInput = document.getElementById('SoftadminLogoFile');
 		const avatarFileInput = document.getElementById('SoftadminAvatarFile');
 		const screenshotButton = document.getElementById('SoftadminScreenshot');
+		const savedPagesSelect = document.getElementById('SoftadminSavedPages');
+		const savePageButton = document.getElementById('SoftadminSavePage');
+		const openPageButton = document.getElementById('SoftadminOpenPage');
 		const defaultPrompt = 'Create a customer detail page with contact summary, cases, invoices, and payments.';
 
 		if (promptInput) {
@@ -2461,6 +2536,20 @@
 
 		if (screenshotButton) {
 			screenshotButton.addEventListener('click', saveMockupScreenshot);
+		}
+
+		if (savedPagesSelect) {
+			savedPagesSelect.addEventListener('change', function () {
+				if (openPageButton) openPageButton.disabled = isBusy || !savedPagesSelect.value;
+			});
+		}
+
+		if (savePageButton) {
+			savePageButton.addEventListener('click', saveCurrentPage);
+		}
+
+		if (openPageButton) {
+			openPageButton.addEventListener('click', openSavedPage);
 		}
 
 		document.querySelectorAll('[data-softadmin-example-prompt]').forEach(button => {
@@ -2547,5 +2636,6 @@
 		applyLogoPreference();
 		applyAvatarPreference();
 		updateUndoButton();
+		updateSavedPageControls();
 	});
 }());
