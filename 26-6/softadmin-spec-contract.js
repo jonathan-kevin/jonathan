@@ -110,6 +110,22 @@
 			requireArray(component, 'steps', path, errors);
 		}
 
+		if (component.type === 'Planner') {
+			requireArray(component, 'days', path, errors);
+			requireArray(component, 'resources', path, errors).forEach((resource, index) => {
+				if (!resource || !Array.isArray(resource.activities)) {
+					errors.push(`${path}.resources[${index}].activities must be an array.`);
+				}
+			});
+			if (component.unbookedGroups !== undefined) {
+				requireArray(component, 'unbookedGroups', path, errors).forEach((group, index) => {
+					if (!group || !Array.isArray(group.items)) {
+						errors.push(`${path}.unbookedGroups[${index}].items must be an array.`);
+					}
+				});
+			}
+		}
+
 		if (component.type === 'PdfTemplateEditor') {
 			requireArray(component, 'groups', path, errors).forEach((group, index) => {
 				if (!group || !Array.isArray(group.values)) {

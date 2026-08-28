@@ -198,6 +198,12 @@
 				implemented: true,
 				aliasFor: 'Linear Process'
 			},
+			Planner: {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Planner',
+				description: 'Resource schedule with optional timescale, sidebar filters, unbooked groups and aggregate values.',
+				implemented: true,
+				renderType: 'Planner'
+			},
 			'Link List': {
 				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Link+List',
 				description: 'Compact list of navigable rows with optional group heading, date or label, and unread state.',
@@ -713,6 +719,165 @@
 			<softadmin-linearprocess class="maincolbody saMenuItemRoot">
 				<div class="saLinearProcess${wrapped ? ' saHasWrapped' : ''}">${renderedSteps}</div>
 			</softadmin-linearprocess>`;
+	}
+
+	const plannerTones = {
+		neutral: { background: '#dce2ea', color: '#243143' },
+		primary: { background: '#2d6ce1', color: '#ffffff' },
+		success: { background: '#0b9f62', color: '#ffffff' },
+		warning: { background: '#ffdc5d', color: '#513700' },
+		danger: { background: '#e6535f', color: '#ffffff' },
+		purple: { background: '#8055c9', color: '#ffffff' }
+	};
+
+	function plannerTone(activity) {
+		return plannerTones[activity.tone] || plannerTones.primary;
+	}
+
+	function renderPlannerActivity(activity, width, flow) {
+		const tone = plannerTone(activity);
+		const description = activity.description ? `<span class="saActivityDescription saIgnoreOnDropJs">${escapeHtml(activity.description)}</span>` : '';
+		const position = flow ? 'position: relative; display: inline-flex; margin: 2px;' : 'position: absolute; left: 1px; top: 1px;';
+		return `
+			<div class="saActivity saIgnoreOnDropJs saCanDrag${activity.link ? ' saHasLinks' : ''} saDynamicWidthJs saLight" style="${position} height: calc(-5px + 4.025rem); background-color: ${tone.background}; color: ${tone.color}; width: ${Math.max(20, width - 4)}px; min-width: ${Math.max(20, width - 4)}px;">
+				<div class="saActivityInner saIgnoreOnDropJs">
+					<div class="saActivityHeadingWrapper saIgnoreOnDropJs"><span class="saBoxIcons"></span><span class="saActivityHeading saIgnoreOnDropJs">${escapeHtml(activity.title || 'Activity')}</span></div>
+					${description}
+				</div>
+			</div>`;
+	}
+
+	function renderPlannerHeader(component) {
+		const period = component.period || 'Week';
+		const year = Math.round(finiteNumber(component.year, new Date().getFullYear(), 2000, 2100));
+		const periodNumber = Math.round(finiteNumber(component.periodNumber, 35, 1, 366));
+		const width = ['narrow', 'medium', 'wide'].includes(component.columnWidth) ? component.columnWidth : 'medium';
+		return `
+			<div class="saCalendarHeader">
+				<div class="saCalendarHeaderInner">
+					<h2 class="saCalendarHeading">${escapeHtml(component.heading || component.periodLabel || `${period} ${periodNumber} ${year}`)}</h2>
+					<div class="saPeriodButtons">
+						<button type="button" title="Previous period"><i class="saIcon far fa-angle-left"></i></button>
+						<button type="button" title="Next period"><i class="saIcon far fa-angle-right"></i></button>
+					</div>
+					<label class="saInputTextWrapper saLabeled">
+						<span class="saLabeledLabel">Period</span>
+						<select class="saInputText saDropdown">${['Day', 'Work week', 'Week', 'Month'].map(option => `<option${option === period ? ' selected' : ''}>${option}</option>`).join('')}</select>
+						<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
+					</label>
+					<label class="saInputTextWrapper saLabeled shortest"><span class="saLabeledLabel">${escapeHtml(component.periodNumberLabel || (period === 'Week' ? 'Week' : 'Day'))}</span><input class="saInputText" type="number" value="${periodNumber}"></label>
+					<label class="saInputTextWrapper saLabeled shortest"><span class="saLabeledLabel">Year</span><input class="saInputText" type="number" value="${year}"></label>
+					<button class="saTodayButton" type="button">Today</button>
+					<div class="saToggleGroup">
+						${[['narrow', 'fa-grid-4'], ['medium', 'fa-grid-3'], ['wide', 'fa-grid-2']].map(([value, icon]) => `<label title="${value}"><input type="radio" name="planner-width"${value === width ? ' checked' : ''}><i class="${icon} saIcon fas"></i></label>`).join('')}
+					</div>
+				</div>
+			</div>`;
+	}
+
+	function renderPlannerMiniCalendar(component) {
+		const dates = [27, 28, 29, 30, 31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
+		const rows = Array.from({ length: 5 }, (_, row) => `
+			<div class="saDateRow"><div class="saWeekNr">${34 + row}</div>${dates.slice(row * 7, row * 7 + 7).map((date, index) => `<div class="saDate saDateElement${row === 1 && index < 5 ? ' saMarked' : ''}${row === 1 && index === 2 ? ' saToday' : ''}">${date}</div>`).join('')}</div>`).join('');
+		return `
+			<div class="saCalendarSidebar${component.sidebarOpen === false ? ' saClosed' : ''}">
+				<div class="saCalendarSidebarInner">
+					<div class="saCalendarSidebarSection saSidebarCalendar">
+						<div class="saDatePicker saDatePickerRoot saManyWeeks">
+							<div class="saDatePickerMonthHeading"><span class="saCalendarSidebarHeading">${escapeHtml(component.monthLabel || 'August 2026')}</span><div class="saMonthBrowser"><button type="button"><i class="saIcon far fa-angle-left"></i></button><button type="button"><i class="saIcon far fa-angle-right"></i></button></div></div>
+							<div class="saDayRow"><div class="saWeekNr saEmpty"></div>${['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => `<div class="saDay">${day}</div>`).join('')}</div>
+							${rows}
+						</div>
+					</div>
+					<div class="saCalendarSidebarSection saSidebarFilters">${(component.filters || []).map(filter => `
+						<label class="saInputTextWrapper saLabeled"><span class="saLabeledLabel">${escapeHtml(filter.label)}</span><select class="saInputText saDropdown">${(filter.options || [filter.value]).map(option => `<option${option === filter.value ? ' selected' : ''}>${escapeHtml(option)}</option>`).join('')}</select><div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div></label>`).join('')}</div>
+				</div>
+			</div>`;
+	}
+
+	function renderPlannerSticky(component, dayWidth, showAggregate) {
+		const days = component.days || [];
+		return `
+			<div class="saStickyTop">
+				<div class="saWeek">
+					<div class="saRowSticky"><div class="saPlannerCell saDateRowHeading"><button type="button" class="saIcon far fa-angles-left saCalendarSidebarExpander" title="Collapse sidebar"></button></div>${showAggregate ? '<div class="saPlannerAggregateCell"></div>' : ''}</div>
+					${days.map(day => `<div class="saWeekDay saDynamicWidthJs${day.today ? ' saDateIsToday' : ''}${day.redDay ? ' saRedDay' : ''}" style="width: ${dayWidth}px; min-width: ${dayWidth}px;">${escapeHtml(day.label)}<span class="saDateNumber">${escapeHtml(day.date || '')}</span></div>`).join('')}
+				</div>
+				<div class="saWeek saWeekExtra">
+					<div class="saRowSticky"><div class="saPlannerCell"></div>${showAggregate ? '<div class="saPlannerAggregateCell"></div>' : ''}</div>
+					${days.map(day => `<div class="saWeekExtraInner saDynamicWidthJs" style="width: ${dayWidth}px; min-width: ${dayWidth}px;">${(day.allDay || []).map(item => renderPlannerActivity(item, dayWidth)).join('')}</div>`).join('')}
+				</div>
+			</div>`;
+	}
+
+	function renderPlannerUnbooked(component, showAggregate) {
+		return (component.unbookedGroups || []).map(group => `
+			<div class="saUnbookedWrapper">
+				<div class="saWeek saUnbooked saUnbookedRow${group.expanded === false ? ' saClosed' : ''}">
+					<div class="saRowSticky"><div class="saPlannerCell"><div class="saPlannerCellInner"><div class="saPlannerCellHeading">${escapeHtml(group.heading || 'Unbooked items')}</div></div></div>${showAggregate ? '<div class="saPlannerAggregateCell"><button class="saExpandButton" type="button"><i class="saIcon far fa-angle-down"></i></button></div>' : ''}</div>
+					<div class="saUnbookedItems saPlannerCell">${group.expanded === false ? '' : (group.items || []).map(item => renderPlannerActivity(item, 150, true)).join('')}</div>
+					<div class="saPlannerCell saCounterCell">${(group.items || []).length}</div>
+				</div>
+			</div>`).join('');
+	}
+
+	function renderPlannerResource(component, resource, dayWidth, showAggregate) {
+		const days = component.days || [];
+		const rowHeading = `<div class="saRowSticky"><div class="saPlannerCell saResourceHeadingCell"><span class="saPlannerCellHeading">${escapeHtml(resource.label || 'Resource')}</span>${resource.description ? `<span class="saPlannerCellDescription">${escapeHtml(resource.description)}</span>` : ''}</div>${showAggregate ? `<div class="saPlannerAggregateCell"><span>${escapeHtml(resource.aggregate ?? '')}</span></div>` : ''}</div>`;
+		if (!component.timescale) {
+			return `<div class="saWeek">${rowHeading}${days.map(day => {
+				const activities = (resource.activities || []).filter(activity => activity.day === day.key);
+				return `<div class="saPlannerCell saBookedCellJs saDynamicWidthJs" style="width: ${dayWidth}px; min-width: ${dayWidth}px;"><div class="saPlannerHoverTarget"></div>${activities.map(activity => renderPlannerActivity(activity, dayWidth)).join('')}</div>`;
+			}).join('')}</div>`;
+		}
+
+		const startHour = finiteNumber(component.startHour, 8, 0, 23);
+		const endHour = finiteNumber(component.endHour, 18, startHour + 1, 24);
+		const step = finiteNumber(component.hourStep, 2, 0.5, 6);
+		const slotCount = Math.max(1, Math.ceil((endHour - startHour) / step));
+		const slotWidth = dayWidth / slotCount;
+		const cells = days.flatMap(day => Array.from({ length: slotCount }, (_, slotIndex) => {
+			const slotStart = startHour + slotIndex * step;
+			const activity = (resource.activities || []).find(item => item.day === day.key && finiteNumber(item.start, startHour, 0, 24) >= slotStart && finiteNumber(item.start, startHour, 0, 24) < slotStart + step);
+			const duration = activity ? Math.max(step, finiteNumber(activity.end, slotStart + step, slotStart + step, 24) - finiteNumber(activity.start, slotStart, 0, 24)) : step;
+			return `<div class="saPlannerCell saTimeCell saBookedCellJs saDynamicWidthJs${slotIndex === slotCount - 1 ? ' saLastCellInBlock' : ''}" style="width: ${slotWidth}px; min-width: ${slotWidth}px;"><div class="saPlannerHoverTarget"></div>${activity ? renderPlannerActivity(activity, Math.min(dayWidth, slotWidth * (duration / step))) : ''}</div>`;
+		})).join('');
+		return `<div class="saWeek">${rowHeading}${cells}</div>`;
+	}
+
+	function renderPlannerTimeScale(component, dayWidth, showAggregate) {
+		if (!component.timescale) return '';
+		const startHour = finiteNumber(component.startHour, 8, 0, 23);
+		const endHour = finiteNumber(component.endHour, 18, startHour + 1, 24);
+		const step = finiteNumber(component.hourStep, 2, 0.5, 6);
+		const slots = Array.from({ length: Math.max(1, Math.ceil((endHour - startHour) / step)) }, (_, index) => startHour + index * step);
+		const slotWidth = dayWidth / slots.length;
+		return `<div class="saWeek saPlannerTimeHeading"><div class="saRowSticky"><div class="saPlannerCell"></div>${showAggregate ? '<div class="saPlannerAggregateCell"></div>' : ''}</div>${(component.days || []).flatMap(() => slots.map((hour, index) => `<div class="saPlannerCell saTimeCell saDynamicWidthJs${index === slots.length - 1 ? ' saLastCellInBlock' : ''}" style="width: ${slotWidth}px; min-width: ${slotWidth}px;"><span>${String(Math.floor(hour)).padStart(2, '0')}</span></div>`)).join('')}</div>`;
+	}
+
+	function renderPlanner(component) {
+		const width = ['narrow', 'medium', 'wide'].includes(component.columnWidth) ? component.columnWidth : 'medium';
+		const dayWidth = component.timescale ? { narrow: 160, medium: 240, wide: 320 }[width] : { narrow: 144, medium: 192, wide: 240 }[width];
+		const showAggregate = component.timescale || (component.resources || []).some(resource => resource.aggregate !== undefined);
+		const classes = ['saCalendarSection', 'saDesktopCalendar', 'saResourceCalendar', 'saPlanner'];
+		if (component.timescale) classes.push('saShowTime');
+		if (width === 'narrow') classes.push('saNarrow');
+		if (component.timescale && finiteNumber(component.hourStep, 2, 0.5, 6) > 1) classes.push('saSkipHours');
+		return `
+			<softadmin-planner class="saMenuItemRoot">
+				<div class="${classes.join(' ')}">
+					${renderPlannerHeader(component)}
+					<div class="saCalendarSectionInner">
+						${renderPlannerMiniCalendar(component)}
+						<div class="saCalendar">
+							${renderPlannerSticky(component, dayWidth, showAggregate)}
+							${renderPlannerTimeScale(component, dayWidth, showAggregate)}
+							${renderPlannerUnbooked(component, showAggregate)}
+							${(component.resources || []).map(resource => renderPlannerResource(component, resource, dayWidth, showAggregate)).join('')}
+						</div>
+					</div>
+				</div>
+			</softadmin-planner>`;
 	}
 
 	function renderBankId(component) {
@@ -2444,6 +2609,7 @@
 		Multipart: renderMultipart,
 		NewEdit: renderNewEdit,
 		PdfTemplateEditor: renderPdfTemplateEditor,
+		Planner: renderPlanner,
 		PivotGrid: renderPivotGrid,
 		RadioCards: renderRadioCards,
 		ResultGrid: renderResultGrid

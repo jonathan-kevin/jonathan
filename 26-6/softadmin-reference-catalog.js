@@ -135,10 +135,13 @@
 				specTypes: ['Pivot Grid', 'PivotGrid']
 			},
 			Planner: {
-				description: 'Planner component with and without timescale examples.',
+				description: 'Resource planner with shared period controls, sidebar filters, unbooked items and modes with or without a timescale.',
 				file: 'html/components/planner-with-timescale.html',
 				referenceFiles: ['html/components/planner-with-timescale.html', 'html/components/planner-without-timescale.html'],
-				renderable: false
+				promptInstruction: 'Use the Softadmin Planner as the main component. Shape: { type:"Planner", heading?, period?:"Day|Work week|Week|Month", periodLabel?, year?, periodNumber?, periodNumberLabel?, timescale?, columnWidth?:"narrow|medium|wide", sidebarOpen?, monthLabel?, filters?:[{ label, value, options? }], days:[{ key, label, date, today?, redDay?, allDay?:[{ title, description?, tone? }] }], unbookedGroups?:[{ heading, expanded?, items:[{ title, description?, tone? }] }], resources:[{ key, label, description?, aggregate?, activities:[{ title, description?, day, start?, end?, tone?, link? }] }], startHour?, endHour?, hourStep? }. Use timescale:true for hour-based schedules and false for day-column planning.',
+				renderable: true,
+				specType: 'Planner',
+				specTypes: ['Planner']
 			},
 			Treeview: {
 				description: 'Treeview component.',

@@ -133,6 +133,21 @@ const cases = [
 		name: 'rejects a Linear Process without steps',
 		spec: { components: [{ type: 'LinearProcess' }] },
 		valid: false
+	},
+	{
+		name: 'accepts a Planner with resources and days',
+		spec: { components: [{ type: 'Planner', timescale: true, days: [{ key: 'mon', label: 'Monday', date: '24 Aug' }], resources: [{ label: 'Room 1', activities: [{ title: 'Workshop', day: 'mon', start: 9, end: 11 }] }] }] },
+		valid: true
+	},
+	{
+		name: 'rejects a Planner without resources',
+		spec: { components: [{ type: 'Planner', days: [] }] },
+		valid: false
+	},
+	{
+		name: 'rejects a Planner resource without activities',
+		spec: { components: [{ type: 'Planner', days: [], resources: [{ label: 'Room 1' }] }] },
+		valid: false
 	}
 ];
 
@@ -287,6 +302,35 @@ assert.match(linearProcessRoot.innerHTML, /saStepAfter" style="height: 4\.7rem;"
 assert.match(linearProcessRoot.innerHTML, /saStepBefore" style="height: 4\.7rem;"/);
 assert.match(linearProcessRoot.innerHTML, /saStepBetweenArrow" style="height: 4\.7rem; visibility: hidden/);
 assert.equal((linearProcessRoot.innerHTML.match(/saStepCaption/g) || []).length, 2);
+
+const plannerRoot = { innerHTML: '' };
+const plannerBase = {
+	type: 'Planner',
+	heading: 'Booking schedule',
+	period: 'Week',
+	periodNumber: 35,
+	columnWidth: 'narrow',
+	monthLabel: 'August 2026',
+	filters: [{ label: 'Facility', value: 'Bromma Strand', options: ['Bromma Strand', 'City'] }],
+	days: [
+		{ key: 'mon', label: 'Monday', date: '24 Aug', allDay: [{ title: 'Maintenance', tone: 'warning' }] },
+		{ key: 'tue', label: 'Tuesday', date: '25', today: true }
+	],
+	unbookedGroups: [{ heading: 'To schedule', expanded: true, items: [{ title: 'New request', tone: 'neutral' }] }],
+	resources: [{ key: 'room-1', label: 'Room 1', aggregate: 2, activities: [{ title: 'Workshop', day: 'mon', start: 9, end: 11, tone: 'primary', link: true }] }]
+};
+global.SoftadminMockups.renderSpec({ components: [{ ...plannerBase, timescale: true, startHour: 8, endHour: 18, hourStep: 2 }] }, plannerRoot);
+assert.match(plannerRoot.innerHTML, /<softadmin-planner/);
+assert.match(plannerRoot.innerHTML, /saPlanner saShowTime saNarrow saSkipHours/);
+assert.match(plannerRoot.innerHTML, /saPlannerTimeHeading/);
+assert.match(plannerRoot.innerHTML, /saUnbookedWrapper/);
+assert.match(plannerRoot.innerHTML, /saResourceHeadingCell/);
+assert.match(plannerRoot.innerHTML, /Workshop/);
+
+global.SoftadminMockups.renderSpec({ components: [{ ...plannerBase, timescale: false, columnWidth: 'medium' }] }, plannerRoot);
+assert.match(plannerRoot.innerHTML, /saResourceCalendar saPlanner"/);
+assert.doesNotMatch(plannerRoot.innerHTML, /saShowTime|saPlannerTimeHeading/);
+assert.match(plannerRoot.innerHTML, /width: 192px; min-width: 192px/);
 
 async function testEndpointContract() {
 	process.env.AZURE_OPENAI_ENDPOINT = 'https://example.openai.azure.com';
