@@ -180,11 +180,11 @@ $(document).ready(function () {
 			if (isSelected && isCorrectOption) {
 				return {
 					className: 'saCorrectChoice',
-					label: 'Your answer'
+					label: 'You answered'
 				};
 			}
 			if (isCorrectOption) return { className: 'saCorrect', label: '' };
-			if (isSelected) return { className: 'saIncorrectChoice', label: 'Your answer' };
+			if (isSelected) return { className: 'saIncorrectChoice', label: 'You answered' };
 			return { className: '', label: '' };
 		}
 
