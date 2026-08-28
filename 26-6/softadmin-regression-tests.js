@@ -148,6 +148,21 @@ const cases = [
 		name: 'rejects a Planner resource without activities',
 		spec: { components: [{ type: 'Planner', days: [], resources: [{ label: 'Room 1' }] }] },
 		valid: false
+	},
+	{
+		name: 'accepts a nested Treeview',
+		spec: { components: [{ type: 'Treeview', nodes: [{ label: 'Knowledge base', children: [{ label: 'R & D', children: [{ label: 'AI' }] }] }] }] },
+		valid: true
+	},
+	{
+		name: 'rejects a Treeview without nodes',
+		spec: { components: [{ type: 'Treeview' }] },
+		valid: false
+	},
+	{
+		name: 'rejects malformed nested Treeview children',
+		spec: { components: [{ type: 'Treeview', nodes: [{ label: 'Knowledge base', children: {} }] }] },
+		valid: false
 	}
 ];
 
@@ -331,6 +346,28 @@ global.SoftadminMockups.renderSpec({ components: [{ ...plannerBase, timescale: f
 assert.match(plannerRoot.innerHTML, /saResourceCalendar saPlanner"/);
 assert.doesNotMatch(plannerRoot.innerHTML, /saShowTime|saPlannerTimeHeading/);
 assert.match(plannerRoot.innerHTML, /width: 192px; min-width: 192px/);
+
+const treeviewRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'Treeview',
+		nodes: [{
+			label: 'Knowledge base', icon: 'book-open', expanded: true,
+			children: [
+				{ label: 'Operations' },
+				{ label: 'R & D', expanded: true, tone: 'primary', children: [{ label: 'AI' }, { label: 'Hidden drafts', hidden: true }] },
+				{ label: 'Labels', link: false, expanded: false, children: [{ label: 'HR' }] }
+			]
+		}]
+	}]
+}, treeviewRoot);
+assert.match(treeviewRoot.innerHTML, /<softadmin-treeview/);
+assert.match(treeviewRoot.innerHTML, /class="saTreeView saRoot"/);
+assert.match(treeviewRoot.innerHTML, /saExpander saMinus/);
+assert.match(treeviewRoot.innerHTML, /saExpander" type="checkbox" disabled/);
+assert.match(treeviewRoot.innerHTML, /saCustomColor/);
+assert.match(treeviewRoot.innerHTML, /<i>Hidden drafts<\/i>/);
+assert.match(treeviewRoot.innerHTML, /<span>Labels<\/span>/);
 
 async function testEndpointContract() {
 	process.env.AZURE_OPENAI_ENDPOINT = 'https://example.openai.azure.com';

@@ -43,6 +43,24 @@
 		return component[key];
 	}
 
+	function validateTreeNodes(nodes, path, errors) {
+		if (!Array.isArray(nodes)) {
+			errors.push(`${path} must be an array.`);
+			return;
+		}
+
+		nodes.forEach((node, index) => {
+			const nodePath = `${path}[${index}]`;
+			if (!node || typeof node !== 'object' || Array.isArray(node)) {
+				errors.push(`${nodePath} must be an object.`);
+				return;
+			}
+			if (node.children !== undefined) {
+				validateTreeNodes(node.children, `${nodePath}.children`, errors);
+			}
+		});
+	}
+
 	function validateComponent(component, path, errors, componentTypes, controlTypes) {
 		if (!component || typeof component !== 'object' || Array.isArray(component)) {
 			errors.push(`${path} must be an object.`);
@@ -124,6 +142,10 @@
 					}
 				});
 			}
+		}
+
+		if (component.type === 'Treeview') {
+			validateTreeNodes(component.nodes, `${path}.nodes`, errors);
 		}
 
 		if (component.type === 'PdfTemplateEditor') {

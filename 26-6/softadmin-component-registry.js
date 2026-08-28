@@ -204,6 +204,12 @@
 				implemented: true,
 				renderType: 'Planner'
 			},
+			Treeview: {
+				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Treeview',
+				description: 'Hierarchical navigation with expandable branches, leaf links and optional node styling.',
+				implemented: true,
+				renderType: 'Treeview'
+			},
 			'Link List': {
 				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Link+List',
 				description: 'Compact list of navigable rows with optional group heading, date or label, and unread state.',
@@ -878,6 +884,44 @@
 					</div>
 				</div>
 			</softadmin-planner>`;
+	}
+
+	const treeviewTones = {
+		neutral: '#4f6072',
+		primary: '#1768d9',
+		success: '#087743',
+		warning: '#8a5b00',
+		danger: '#bd2633'
+	};
+
+	function renderTreeNode(node, depth) {
+		const children = Array.isArray(node.children) ? node.children : [];
+		const hasChildren = children.length > 0;
+		const expanded = hasChildren && node.expanded !== false;
+		const tone = treeviewTones[node.tone];
+		const label = node.hidden ? `<i>${escapeHtml(node.label || 'Node')}</i>` : escapeHtml(node.label || 'Node');
+		const content = node.link === false
+			? label
+			: `<a class="saNodeLinkJs" tabindex="0">${label}</a>`;
+		const childList = hasChildren
+			? `<ul${expanded ? '' : ' style="display: none;"'}>${children.map(child => renderTreeNode(child, depth + 1)).join('')}</ul>`
+			: '';
+		return `
+			<li class="saNode">
+				<label class="saNodeContent${hasChildren ? ' saNodeExpand' : ''} saCanNotDropFile">
+					<div class="saExpandIconDiv"><input class="saExpander${expanded ? ' saMinus' : ''}" type="checkbox"${expanded ? ' checked' : ''}${hasChildren ? '' : ' disabled'}></div>
+					${node.icon ? `<button class="saTreeViewButton" type="button">${iconHtml(node.icon)}</button>` : ''}
+					<span${tone ? ` class="saCustomColor" style="color: ${tone};"` : ''}>${depth === 0 && node.bold !== false ? `<b>${content}</b>` : content}</span>
+				</label>
+				${childList}
+			</li>`;
+	}
+
+	function renderTreeview(component) {
+		return `
+			<softadmin-treeview class="maincolbody saMenuItemRoot saTreeViewWrapper">
+				<ul class="saTreeView saRoot">${(component.nodes || []).map(node => renderTreeNode(node, 0)).join('')}</ul>
+			</softadmin-treeview>`;
 	}
 
 	function renderBankId(component) {
@@ -2612,7 +2656,8 @@
 		Planner: renderPlanner,
 		PivotGrid: renderPivotGrid,
 		RadioCards: renderRadioCards,
-		ResultGrid: renderResultGrid
+		ResultGrid: renderResultGrid,
+		Treeview: renderTreeview
 	};
 
 	function renderComponent(component) {

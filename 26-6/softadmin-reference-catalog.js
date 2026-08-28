@@ -144,9 +144,12 @@
 				specTypes: ['Planner']
 			},
 			Treeview: {
-				description: 'Treeview component.',
+				description: 'Hierarchical navigation tree with expandable branches, linked or plain nodes, icons and hidden-item styling.',
 				file: 'html/components/treeview.html',
-				renderable: false
+				promptInstruction: 'Use the Softadmin Treeview as the main component. Shape: { type:"Treeview", nodes:[{ label, icon?, link?, expanded?, hidden?, tone?:"primary|success|warning|danger|neutral", children?:[...] }] }. Nodes with children are expandable branches; leaf nodes do not get an active expander. Use link:false only for headings or non-navigable nodes.',
+				renderable: true,
+				specType: 'Treeview',
+				specTypes: ['Treeview']
 			}
 		},
 		controls: {
