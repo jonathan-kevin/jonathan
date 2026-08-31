@@ -1955,12 +1955,13 @@
 			</section>`;
 	}
 
-	function newEditBuilderStarterSpec() {
+	function newEditBuilderStarterSpec(language = selectedLanguageValue()) {
+		const swedish = language === 'sv';
 		return {
 			frame: {
-				title: 'Build NewEdit form',
-				documentTitle: 'Build NewEdit form - Softadmin mockup',
-				breadcrumbs: ['Home', 'Mockups', 'Build NewEdit form'],
+				title: swedish ? 'Bygg NewEdit-formulär' : 'Build NewEdit form',
+				documentTitle: swedish ? 'Bygg NewEdit-formulär - Softadmin mockup' : 'Build NewEdit form - Softadmin mockup',
+				breadcrumbs: swedish ? ['Hem', 'Mockups', 'Bygg NewEdit-formulär'] : ['Home', 'Mockups', 'Build NewEdit form'],
 				actions: []
 			},
 			components: [
@@ -1968,16 +1969,16 @@
 					type: 'NewEdit',
 					sections: [
 						{
-							heading: 'New section',
+							heading: swedish ? 'Nytt avsnitt' : 'New section',
 							fields: [
-								{ label: 'Name', control: 'textbox', value: '', required: true },
-								{ label: 'Description', control: 'textarea', value: '' }
+								{ label: swedish ? 'Namn' : 'Name', control: 'textbox', value: '', required: true },
+								{ label: swedish ? 'Beskrivning' : 'Description', control: 'textarea', value: '' }
 							]
 						}
 					],
 					buttons: [
-						{ label: 'Save', variant: 'primary' },
-						{ label: 'Cancel', variant: 'secondary' }
+						{ label: swedish ? 'Spara' : 'Save', variant: 'primary' },
+						{ label: swedish ? 'Avbryt' : 'Cancel', variant: 'secondary' }
 					]
 				}
 			]
@@ -2079,6 +2080,7 @@
 			sidebarHtml: document.querySelector('.saSideBarOuter')?.innerHTML || '',
 			rootHtml: document.querySelector('[data-softadmin-component-root]')?.innerHTML || '',
 			componentValue: selectedComponentValue(),
+			languageValue: selectedLanguageValue(),
 			statusText: document.getElementById('SoftadminPromptStatus')?.textContent || '',
 			debugResult: cloneDebugResult(lastDebugResult),
 			manualEdits: manualEdits.snapshot()
@@ -2141,6 +2143,9 @@
 			input.checked = input.value === (state.componentValue || '');
 		});
 		lastComponentSelection = state.componentValue || '';
+		document.querySelectorAll('input[name="SoftadminLanguage"]').forEach(input => {
+			input.checked = input.value === (state.languageValue || 'en');
+		});
 
 		clearRestoredBindingMarkers(header);
 		clearRestoredBindingMarkers(sidebar);
@@ -2293,6 +2298,18 @@
 		return document.querySelector('input[name="SoftadminComponent"]:checked')?.value || '';
 	}
 
+	function selectedLanguageValue() {
+		return document.querySelector('input[name="SoftadminLanguage"]:checked')?.value || 'en';
+	}
+
+	function languageInstruction(value) {
+		if (value === 'sv') {
+			return 'Output language: Swedish. Write every user-facing string in Swedish, including titles, breadcrumbs, actions, sidebar groups and items, labels, messages, statuses, table headings and realistic sample data. Keep JSON keys, Softadmin component and control type names, icon names, and CSS class names unchanged.';
+		}
+
+		return 'Output language: English. Write every user-facing string in English, including titles, breadcrumbs, actions, sidebar groups and items, labels, messages, statuses, table headings and realistic sample data. Keep JSON keys, Softadmin component and control type names, icon names, and CSS class names unchanged.';
+	}
+
 	function populateComponentPicker(picker) {
 		if (!picker) {
 			return;
@@ -2356,11 +2373,12 @@
 	}
 
 	function promptWithComponentPreference(prompt) {
-		const instruction = componentPickerInstruction(selectedComponentValue());
+		const instructions = [
+			componentPickerInstruction(selectedComponentValue()),
+			languageInstruction(selectedLanguageValue())
+		].filter(Boolean);
 
-		return instruction
-			? `${instruction}\n\n${prompt}`
-			: prompt;
+		return [...instructions, prompt].join('\n\n');
 	}
 
 	async function renderFromPrompt(prompt) {
@@ -2491,6 +2509,7 @@
 		const promptInput = document.getElementById('SoftadminPrompt');
 		const generateButton = document.getElementById('SoftadminGenerate');
 		const componentPicker = document.getElementById('SoftadminComponentPicker');
+		const languagePicker = document.getElementById('SoftadminLanguagePicker');
 		const undoButton = document.getElementById('SoftadminUndo');
 		const redoButton = document.getElementById('SoftadminRedo');
 		const logoFileInput = document.getElementById('SoftadminLogoFile');
@@ -2514,6 +2533,10 @@
 		if (componentPicker) {
 			populateComponentPicker(componentPicker);
 			componentPicker.addEventListener('change', handleComponentPickerChange);
+		}
+
+		if (languagePicker) {
+			languagePicker.addEventListener('change', clearRedoHistory);
 		}
 
 		populateFormBuilderPalette();
