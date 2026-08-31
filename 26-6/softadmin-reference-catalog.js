@@ -64,10 +64,11 @@
 				specTypes: ['Inline Document', 'InlineDocument']
 			},
 			'InfoBoxes': {
-				description: 'InfoSQL-style information boxes and warning messages.',
-				file: 'html/components/detailview.html',
+				description: 'InfoSQL-style information boxes with text, fields, warning messages and meters.',
+				file: 'html/components/infobox-meters.html',
+				referenceFiles: ['html/components/infobox-meters.html', 'html/components/detailview.html'],
 				pattern: true,
-				promptInstruction: 'Use Softadmin InfoSQL-style information boxes as the main component.',
+				promptInstruction: 'Use Softadmin InfoSQL-style information boxes as the main component. Shape: { type:"InfoBoxes", messages?:[{ type:"info|warning|error|success", text, action? }], boxes:[{ heading?, collapsed?, text?, fields?:[{ label, value }], meters?:[{ heading, value, displayValue?, unit?, min, max, tone?:"green|yellow|red", intervals?:[{ from, to, tone:"green|yellow|red" }] }] }] }. Meters are InfoSQL visualizations, not NewEdit controls.',
 				renderable: true,
 				specType: 'InfoBoxes',
 				specTypes: ['InfoBoxes']

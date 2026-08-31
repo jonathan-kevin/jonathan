@@ -165,8 +165,24 @@
 			});
 		}
 
-		if (component.type === 'InfoBoxes' && !Array.isArray(component.boxes) && !Array.isArray(component.messages)) {
-			errors.push(`${path} must contain boxes or messages.`);
+		if (component.type === 'InfoBoxes') {
+			if (!Array.isArray(component.boxes) && !Array.isArray(component.messages)) {
+				errors.push(`${path} must contain boxes or messages.`);
+			}
+			(component.boxes || []).forEach((box, boxIndex) => {
+				if (box?.meters !== undefined && !Array.isArray(box.meters)) {
+					errors.push(`${path}.boxes[${boxIndex}].meters must be an array.`);
+				}
+				(box?.meters || []).forEach((meter, meterIndex) => {
+					if (!meter || typeof meter !== 'object' || Array.isArray(meter)) {
+						errors.push(`${path}.boxes[${boxIndex}].meters[${meterIndex}] must be an object.`);
+					} else if (meter.value === undefined) {
+						errors.push(`${path}.boxes[${boxIndex}].meters[${meterIndex}].value is required.`);
+					} else if (meter.intervals !== undefined && !Array.isArray(meter.intervals)) {
+						errors.push(`${path}.boxes[${boxIndex}].meters[${meterIndex}].intervals must be an array.`);
+					}
+				});
+			});
 		}
 
 		if (component.type === 'Multipart') {

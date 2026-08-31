@@ -79,6 +79,16 @@ const cases = [
 		valid: true
 	},
 	{
+		name: 'accepts InfoBoxes with meters',
+		spec: { components: [{ type: 'InfoBoxes', boxes: [{ meters: [{ heading: 'Utilization', value: 47, unit: '%', min: 35, max: 79, intervals: [{ from: 35, to: 51, tone: 'red' }, { from: 51, to: 53, tone: 'yellow' }, { from: 53, to: 79, tone: 'green' }] }] }] }] },
+		valid: true
+	},
+	{
+		name: 'rejects an InfoBox meter without a value',
+		spec: { components: [{ type: 'InfoBoxes', boxes: [{ meters: [{ heading: 'Utilization' }] }] }] },
+		valid: false
+	},
+	{
 		name: 'accepts an Image Gallery with grouped items',
 		spec: { components: [{ type: 'ImageGallery', groups: [{ heading: 'Team', items: [{ caption: 'Anna' }] }] }] },
 		valid: true
@@ -235,6 +245,32 @@ assert.match(chatRoot.innerHTML, /<softadmin-chat/);
 assert.match(chatRoot.innerHTML, /saChatMessage saChatSender/);
 assert.match(chatRoot.innerHTML, /saChatAiResponse/);
 assert.match(chatRoot.innerHTML, /The booking is confirmed for Friday/);
+
+const meterRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'InfoBoxes',
+		boxes: [{
+			meters: [{
+				heading: 'Utilization Aug',
+				value: 47,
+				unit: '%',
+				min: 35,
+				max: 79,
+				intervals: [
+					{ from: 35, to: 51, tone: 'red' },
+					{ from: 51, to: 53, tone: 'yellow' },
+					{ from: 53, to: 62, tone: 'green' },
+					{ from: 62, to: 79, tone: 'yellow' }
+				]
+			}]
+		}]
+	}]
+}, meterRoot);
+assert.match(meterRoot.innerHTML, /saInfoSqlMeterWrapper/);
+assert.match(meterRoot.innerHTML, /saMeterOuter/);
+assert.match(meterRoot.innerHTML, /saMeterGreen saIntervalVisibleArc/);
+assert.match(meterRoot.innerHTML, />47<\/tspan>/);
 
 const linkListRoot = { innerHTML: '' };
 global.SoftadminMockups.renderSpec({

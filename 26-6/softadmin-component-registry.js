@@ -1846,19 +1846,96 @@
 			</div>`;
 	}
 
+	function meterNumber(value, fallback) {
+		const number = Number(value);
+		return Number.isFinite(number) ? number : fallback;
+	}
+
+	function meterPoint(value, min, max, radius) {
+		const ratio = Math.max(0, Math.min(1, (value - min) / (max - min)));
+		const angle = Math.PI * (1 - ratio);
+		return {
+			x: Number((130 + radius * Math.cos(angle)).toFixed(3)),
+			y: Number((115 - radius * Math.sin(angle)).toFixed(3))
+		};
+	}
+
+	function meterArc(from, to, min, max, radius) {
+		const start = meterPoint(from, min, max, radius);
+		const end = meterPoint(to, min, max, radius);
+		return `M${start.x},${start.y}A${radius},${radius},0,0,1,${end.x},${end.y}`;
+	}
+
+	function meterToneClass(tone) {
+		return {
+			green: 'saMeterGreen',
+			yellow: 'saMeterYellow',
+			red: 'saMeterRed'
+		}[String(tone || '').toLowerCase()] || 'saMeterValueDefaultColor';
+	}
+
+	function renderInfoBoxMeter(meter) {
+		const min = meterNumber(meter.min, 0);
+		const proposedMax = meterNumber(meter.max, 100);
+		const max = proposedMax > min ? proposedMax : min + 100;
+		const value = Math.max(min, Math.min(max, meterNumber(meter.value, min)));
+		const intervals = (Array.isArray(meter.intervals) && meter.intervals.length
+			? meter.intervals
+			: [{ from: min, to: max, tone: meter.tone }])
+			.map(interval => ({
+				from: Math.max(min, Math.min(max, meterNumber(interval.from, min))),
+				to: Math.max(min, Math.min(max, meterNumber(interval.to, max))),
+				tone: interval.tone || 'default'
+			}))
+			.filter(interval => interval.to > interval.from)
+			.sort((left, right) => left.from - right.from);
+		const valueInterval = intervals.find(interval => value >= interval.from && value <= interval.to) || intervals[0];
+		const reachedClass = meterToneClass(meter.tone || valueInterval?.tone);
+		const displayValue = meter.displayValue ?? meter.value ?? min;
+		const unit = meter.unit || '';
+		const boundaries = intervals.length
+			? [intervals[0].from, ...intervals.map(interval => interval.to)]
+			: [min, max];
+
+		return `
+			<div class="saMeterOuter" aria-label="${escapeHtml(`${meter.heading || 'Meter'} ${displayValue}${unit}`)}">
+				<h3 class="saMeterHeading">${escapeHtml(meter.heading || 'Meter')}</h3>
+				<svg width="100%" viewBox="0 0 260 120" role="img">
+					<path fill="none" class="${reachedClass} saMeterValue" d="${meterArc(min, value, min, max, 70)}"></path>
+					<path fill="none" class="saMeterUnreachedValue saMeterValue" d="${meterArc(value, max, min, max, 70)}"></path>
+					<text class="saMeterValueText" x="130" y="115"><tspan font-size="${unit.length > 2 ? '24px' : '32px'}">${escapeHtml(displayValue)}</tspan>${unit ? `<tspan font-size="${unit.length > 2 ? '12px' : '16px'}" dx="2">${escapeHtml(unit)}</tspan>` : ''}</text>
+					${intervals.map(interval => `
+						<g class="saMeterIntervalWithTooltip">
+							<path fill="none" class="${meterToneClass(interval.tone)} saIntervalVisibleArc" d="${meterArc(interval.from, interval.to, min, max, 95)}"></path>
+							<path fill="none" class="saIntervalTooltip" d="${meterArc(interval.from, interval.to, min, max, 95)}" data-tooltip="${escapeHtml(`${interval.from}${unit} - ${interval.to}${unit}`)}"></path>
+						</g>`).join('')}
+					${boundaries.map((boundary, index) => {
+						const point = meterPoint(boundary, min, max, 99);
+						const positionClass = index === 0 ? 'saMeterTextLeft' : index === boundaries.length - 1 ? 'saMeterTextRight' : 'saMeterTextCenter';
+						return `<text class="saMeterIntervalText ${positionClass}" x="${point.x}" y="${point.y}">${escapeHtml(boundary)}</text>`;
+					}).join('')}
+				</svg>
+			</div>`;
+	}
+
+	function renderInfoBoxMeters(meters) {
+		return `<div class="saInfoSqlMeterWrapper">${meters.map(renderInfoBoxMeter).join('')}</div>`;
+	}
+
 	function renderInfoBox(box) {
 		return `
 			<div class="saInfoBox${box.collapsed ? ' saClosed' : ' saOpen'}">
-				<button class="saInfoBoxHeading saInfoBoxHeadingButton" type="button" aria-expanded="${box.collapsed ? 'false' : 'true'}">
+				${box.heading ? `<button class="saInfoBoxHeading saInfoBoxHeadingButton" type="button" aria-expanded="${box.collapsed ? 'false' : 'true'}">
 					<div class="saInfoBoxHeaderWrapper">
 						${box.icon ? `<span class="saInfoBoxHeaderIcon">${iconHtml(box.icon)}</span>` : ''}
 						<h3>${escapeHtml(box.heading)}</h3>
 					</div>
 					<i class="far fa-angle-down saIcon saInfoBoxExpandIcon"></i>
-				</button>
+				</button>` : ''}
 				<div class="saInfoBoxInner">
 					${box.text ? `<div class="saUserHtmlContent">${escapeHtml(box.text)}</div>` : ''}
 					${box.fields && box.fields.length ? (box.layout === 'grid' ? renderInfoBoxGrid(box) : box.fields.map(renderInfoBoxField).join('')) : ''}
+					${box.meters && box.meters.length ? `<div class="saInfoBoxCol"><div class="saInfoBoxContent">${renderInfoBoxMeters(box.meters)}</div></div>` : ''}
 				</div>
 			</div>`;
 	}
