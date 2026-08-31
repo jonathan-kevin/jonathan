@@ -1922,6 +1922,31 @@
 		return `<div class="saInfoSqlMeterWrapper">${meters.map(renderInfoBoxMeter).join('')}</div>`;
 	}
 
+	function renderInfoBoxKpi(kpi) {
+		const trendTone = ['positive', 'negative', 'neutral'].includes(String(kpi.trendTone || '').toLowerCase())
+			? String(kpi.trendTone).toLowerCase()
+			: 'neutral';
+		const trendDirection = ['up', 'down'].includes(String(kpi.trendDirection || '').toLowerCase())
+			? String(kpi.trendDirection).toLowerCase()
+			: null;
+		const hasTrend = kpi.trendValue !== undefined && kpi.trendValue !== null;
+		const trendIcon = trendDirection ? `<i class="far fa-arrow-trend-${trendDirection}"></i>` : '';
+
+		return `
+			<div class="saKpiOuter">
+				${kpi.heading ? `<span class="saKpiHeading">${escapeHtml(kpi.heading)}</span>` : ''}
+				<div class="saKpiWrapper">
+					<div class="saKpi"><span class="saKpiValue">${escapeHtml(kpi.value)}</span>${kpi.suffix ? `<span class="saKpiSuffix">${escapeHtml(kpi.suffix)}</span>` : ''}</div>
+					${hasTrend ? `<div class="saTrendWrapper"><div class="saTrend sa${trendTone[0].toUpperCase()}${trendTone.slice(1)}">${trendIcon}<div class="saTrendInner"><span class="saTrendValue">${escapeHtml(kpi.trendValue)}</span>${kpi.trendSuffix ? `<span class="saTrendSuffix">${escapeHtml(kpi.trendSuffix)}</span>` : ''}</div></div>${kpi.period ? `<span class="saTrendPeriod">${escapeHtml(kpi.period)}</span>` : ''}</div>` : ''}
+				</div>
+				${kpi.description ? `<span class="saInfoBoxTextContent">${escapeHtml(kpi.description)}</span>` : ''}
+			</div>`;
+	}
+
+	function renderInfoBoxKpis(kpis) {
+		return `<div class="saInfoSqlKpiWrapper">${kpis.map(renderInfoBoxKpi).join('')}</div>`;
+	}
+
 	function chartNumber(value, fallback) {
 		const number = Number(value);
 		return Number.isFinite(number) ? number : fallback;
@@ -1991,8 +2016,55 @@
 			</div>`;
 	}
 
+	function piePoint(centerX, centerY, radius, angle) {
+		return {
+			x: Number((centerX + radius * Math.cos(angle)).toFixed(3)),
+			y: Number((centerY + radius * Math.sin(angle)).toFixed(3))
+		};
+	}
+
+	function renderInfoBoxPieChart(chart) {
+		const palette = ['#0f44a6', '#2d6ce1', '#6ea3ff', '#8b4af1', '#3591a8', '#e0173e', '#009b36'];
+		const series = (Array.isArray(chart.series) ? chart.series : []).map((item, index) => ({
+			...item,
+			value: Math.max(0, chartNumber(item.value, 0)),
+			color: item.color || palette[index % palette.length]
+		}));
+		const total = series.reduce((sum, item) => sum + item.value, 0) || 1;
+		let angle = -Math.PI / 2;
+		const center = { x: 210, y: 210, radius: 180 };
+
+		const arcs = series.map((item, index) => {
+			const startAngle = angle;
+			const sliceAngle = (item.value / total) * Math.PI * 2;
+			angle += sliceAngle;
+			const endAngle = angle;
+			const start = piePoint(center.x, center.y, center.radius, startAngle);
+			const end = piePoint(center.x, center.y, center.radius, endAngle);
+			const fullCircle = sliceAngle >= Math.PI * 2 - 0.0001;
+			const path = fullCircle
+				? `M${center.x},${center.y - center.radius}A${center.radius},${center.radius},0,1,1,${center.x - 0.001},${center.y - center.radius}L${center.x},${center.y}Z`
+				: `M${center.x},${center.y}L${start.x},${start.y}A${center.radius},${center.radius},0,${sliceAngle > Math.PI ? 1 : 0},1,${end.x},${end.y}Z`;
+			return `<g class="saPieArc" data-sa-legend-index="${index}"><path d="${path}" fill="${escapeHtml(item.color)}" data-tooltip="${escapeHtml(`${item.label || `Series ${index + 1}`}: ${chartLabel(item.value)}${chart.unit ? ` ${chart.unit}` : ''}`)}"></path></g>`;
+		}).join('');
+
+		return `
+			<div class="saChartWrapper">
+				${chart.heading ? `<h3 class="saChartHeading">${escapeHtml(chart.heading)}</h3>` : ''}
+				${chart.description ? `<div class="saChartDescription">${escapeHtml(chart.description)}</div>` : ''}
+				<svg viewBox="0 0 1000 440" preserveAspectRatio="xMinYMin meet" role="img">
+					<g class="saPieChart">
+						${arcs}
+						<g class="saChartLegend" transform="translate(450,90)">
+							${series.map((item, index) => `<g class="saLegendItem" transform="translate(0,${index * 48})" data-sa-legend-index="${index}"><rect width="24" height="24" fill="${escapeHtml(item.color)}"></rect><text class="saLegendText" x="38" y="18">${escapeHtml(item.label || `Series ${index + 1}`)}</text></g>`).join('')}
+						</g>
+					</g>
+				</svg>
+			</div>`;
+	}
+
 	function renderInfoBoxCharts(charts) {
-		return `<div class="saInfoSqlChartWrapper"><div class="saInfoSqlChartScrollable">${charts.map(renderInfoBoxLineChart).join('')}</div></div>`;
+		return `<div class="saInfoSqlChartWrapper"><div class="saInfoSqlChartScrollable">${charts.map((chart, index) => String(chart.type || 'line').toLowerCase() === 'pie' ? renderInfoBoxPieChart(chart) : renderInfoBoxLineChart(chart, index)).join('')}</div></div>`;
 	}
 
 	function renderInfoBox(box) {
@@ -2008,6 +2080,7 @@
 				<div class="saInfoBoxInner">
 					${box.text ? `<div class="saUserHtmlContent">${escapeHtml(box.text)}</div>` : ''}
 					${box.fields && box.fields.length ? (box.layout === 'grid' ? renderInfoBoxGrid(box) : box.fields.map(renderInfoBoxField).join('')) : ''}
+					${box.kpis && box.kpis.length ? `<div class="saInfoBoxCol"><div class="saInfoBoxContent">${renderInfoBoxKpis(box.kpis)}</div></div>` : ''}
 					${box.meters && box.meters.length ? `<div class="saInfoBoxCol"><div class="saInfoBoxContent">${renderInfoBoxMeters(box.meters)}</div></div>` : ''}
 					${box.charts && box.charts.length ? `<div class="saInfoBoxCol saInfoBoxChartCol"><div class="saInfoBoxContent saInfoBoxChartContent">${renderInfoBoxCharts(box.charts)}</div></div>` : ''}
 				</div>

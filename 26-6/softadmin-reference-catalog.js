@@ -64,11 +64,11 @@
 				specTypes: ['Inline Document', 'InlineDocument']
 			},
 			'InfoBoxes': {
-				description: 'InfoSQL-style information boxes with text, fields, warning messages, meters and charts.',
+				description: 'InfoSQL-style information boxes with text, fields, warning messages, KPIs, meters and charts.',
 				file: 'html/components/infobox-meters.html',
-				referenceFiles: ['html/components/infobox-meters.html', 'html/components/infobox-line-chart.html', 'html/components/detailview.html'],
+				referenceFiles: ['html/components/infobox-kpis.html', 'html/components/infobox-meters.html', 'html/components/infobox-line-chart.html', 'html/components/infobox-pie-chart.html', 'html/components/detailview.html'],
 				pattern: true,
-				promptInstruction: 'Use Softadmin InfoSQL-style information boxes as the main component. Shape: { type:"InfoBoxes", messages?:[{ type:"info|warning|error|success", text, action? }], boxes:[{ heading?, collapsed?, text?, fields?:[{ label, value }], meters?:[{ heading, value, displayValue?, unit?, min, max, tone?:"green|yellow|red", intervals?:[{ from, to, tone:"green|yellow|red" }] }], charts?:[{ type?:"line", heading?, description?, yAxisTitle?, unit?, min?, max?, showArea?, labels:[string], series:[{ label, color?, values:[number] }] }] }] }. Meters and charts are InfoSQL visualizations, not NewEdit controls.',
+				promptInstruction: 'Use Softadmin InfoSQL-style information boxes as the main component. Shape: { type:"InfoBoxes", messages?:[{ type:"info|warning|error|success", text, action? }], boxes:[{ heading?, collapsed?, text?, fields?:[{ label, value }], kpis?:[{ heading?, value, suffix?, trendValue?, trendSuffix?, trendTone?:"positive|negative|neutral", trendDirection?:"up|down", period?, description? }], meters?:[{ heading, value, displayValue?, unit?, min, max, tone?:"green|yellow|red", intervals?:[{ from, to, tone:"green|yellow|red" }] }], charts?:[{ type?:"line", heading?, description?, yAxisTitle?, unit?, min?, max?, showArea?, labels:[string], series:[{ label, color?, values:[number] }] }|{ type:"pie", heading?, description?, unit?, series:[{ label, value, color? }] }] }] }. KPIs, meters and charts are InfoSQL visualizations, not NewEdit controls.',
 				renderable: true,
 				specType: 'InfoBoxes',
 				specTypes: ['InfoBoxes']

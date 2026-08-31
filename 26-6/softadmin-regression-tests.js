@@ -89,6 +89,16 @@ const cases = [
 		valid: false
 	},
 	{
+		name: 'accepts InfoBoxes with KPIs',
+		spec: { components: [{ type: 'InfoBoxes', boxes: [{ kpis: [{ heading: 'Average time', value: 343, suffix: 'ms', trendValue: -18, trendSuffix: '%', trendTone: 'positive', trendDirection: 'down' }] }] }] },
+		valid: true
+	},
+	{
+		name: 'rejects an InfoBox KPI without a value',
+		spec: { components: [{ type: 'InfoBoxes', boxes: [{ kpis: [{ heading: 'Average time' }] }] }] },
+		valid: false
+	},
+	{
 		name: 'accepts InfoBoxes with a line chart',
 		spec: { components: [{ type: 'InfoBoxes', boxes: [{ charts: [{ heading: 'Revenue', labels: ['Jan', 'Feb'], series: [{ label: 'North', values: [12, 14] }] }] }] }] },
 		valid: true
@@ -96,6 +106,16 @@ const cases = [
 	{
 		name: 'rejects an InfoBox chart without series',
 		spec: { components: [{ type: 'InfoBoxes', boxes: [{ charts: [{ heading: 'Revenue', labels: ['Jan'] }] }] }] },
+		valid: false
+	},
+	{
+		name: 'accepts InfoBoxes with a pie chart',
+		spec: { components: [{ type: 'InfoBoxes', boxes: [{ charts: [{ type: 'pie', heading: 'Server time', series: [{ label: 'Tasks', value: 80 }, { label: 'Menu items', value: 20 }] }] }] }] },
+		valid: true
+	},
+	{
+		name: 'rejects a pie chart series without a value',
+		spec: { components: [{ type: 'InfoBoxes', boxes: [{ charts: [{ type: 'pie', series: [{ label: 'Tasks' }] }] }] }] },
 		valid: false
 	},
 	{
@@ -304,6 +324,22 @@ assert.match(lineChartRoot.innerHTML, /saInfoSqlChartWrapper/);
 assert.match(lineChartRoot.innerHTML, /saChartLine/);
 assert.match(lineChartRoot.innerHTML, /saLineArea/);
 assert.match(lineChartRoot.innerHTML, /Enterprise/);
+
+const kpiRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{ type: 'InfoBoxes', boxes: [{ kpis: [{ heading: 'Average time', value: '343', suffix: 'ms', trendValue: '-18', trendSuffix: '%', trendTone: 'positive', trendDirection: 'down', period: 'compared to previous 31 days' }] }] }]
+}, kpiRoot);
+assert.match(kpiRoot.innerHTML, /saInfoSqlKpiWrapper/);
+assert.match(kpiRoot.innerHTML, /saTrend saPositive/);
+assert.match(kpiRoot.innerHTML, /fa-arrow-trend-down/);
+
+const pieChartRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{ type: 'InfoBoxes', boxes: [{ charts: [{ type: 'pie', heading: 'Server time', unit: 's', series: [{ label: 'Background tasks', value: 80 }, { label: 'Menu items', value: 20 }] }] }] }]
+}, pieChartRoot);
+assert.match(pieChartRoot.innerHTML, /saPieChart/);
+assert.match(pieChartRoot.innerHTML, /saPieArc/);
+assert.match(pieChartRoot.innerHTML, /Background tasks/);
 
 const linkListRoot = { innerHTML: '' };
 global.SoftadminMockups.renderSpec({

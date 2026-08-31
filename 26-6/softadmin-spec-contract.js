@@ -170,6 +170,16 @@
 				errors.push(`${path} must contain boxes or messages.`);
 			}
 			(component.boxes || []).forEach((box, boxIndex) => {
+				if (box?.kpis !== undefined && !Array.isArray(box.kpis)) {
+					errors.push(`${path}.boxes[${boxIndex}].kpis must be an array.`);
+				}
+				(box?.kpis || []).forEach((kpi, kpiIndex) => {
+					if (!kpi || typeof kpi !== 'object' || Array.isArray(kpi)) {
+						errors.push(`${path}.boxes[${boxIndex}].kpis[${kpiIndex}] must be an object.`);
+					} else if (kpi.value === undefined) {
+						errors.push(`${path}.boxes[${boxIndex}].kpis[${kpiIndex}].value is required.`);
+					}
+				});
 				if (box?.meters !== undefined && !Array.isArray(box.meters)) {
 					errors.push(`${path}.boxes[${boxIndex}].meters must be an array.`);
 				}
@@ -191,12 +201,15 @@
 						errors.push(`${chartPath} must be an object.`);
 						return;
 					}
-					if (!Array.isArray(chart.labels)) errors.push(`${chartPath}.labels must be an array.`);
+					const chartType = String(chart.type || 'line').toLowerCase();
+					if (!['line', 'pie'].includes(chartType)) errors.push(`${chartPath}.type must be line or pie.`);
+					if (chartType === 'line' && !Array.isArray(chart.labels)) errors.push(`${chartPath}.labels must be an array.`);
 					if (!Array.isArray(chart.series)) {
 						errors.push(`${chartPath}.series must be an array.`);
 					} else {
 						chart.series.forEach((series, seriesIndex) => {
-							if (!series || !Array.isArray(series.values)) errors.push(`${chartPath}.series[${seriesIndex}].values must be an array.`);
+							if (!series || (chartType === 'line' && !Array.isArray(series.values))) errors.push(`${chartPath}.series[${seriesIndex}].values must be an array.`);
+							if (series && chartType === 'pie' && series.value === undefined) errors.push(`${chartPath}.series[${seriesIndex}].value is required.`);
 						});
 					}
 				});
