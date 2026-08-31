@@ -1922,6 +1922,79 @@
 		return `<div class="saInfoSqlMeterWrapper">${meters.map(renderInfoBoxMeter).join('')}</div>`;
 	}
 
+	function chartNumber(value, fallback) {
+		const number = Number(value);
+		return Number.isFinite(number) ? number : fallback;
+	}
+
+	function chartLabel(value) {
+		const number = Number(value);
+		if (!Number.isFinite(number)) return String(value ?? '');
+		return Number.isInteger(number) ? String(number) : String(Number(number.toFixed(1)));
+	}
+
+	function renderInfoBoxLineChart(chart, chartIndex) {
+		const palette = ['#2d6ce1', '#8b4af1', '#3591a8', '#e0173e', '#e641b2', '#ca6d34', '#009b36', '#b67a00', '#313a44', '#0f44a6', '#6123b4'];
+		const labels = Array.isArray(chart.labels) ? chart.labels : [];
+		const series = (Array.isArray(chart.series) ? chart.series : []).map((item, index) => ({
+			...item,
+			color: item.color || palette[index % palette.length],
+			values: Array.isArray(item.values) ? item.values.map(value => chartNumber(value, null)) : []
+		}));
+		const values = series.flatMap(item => item.values).filter(Number.isFinite);
+		const dataMin = values.length ? Math.min(...values) : 0;
+		const dataMax = values.length ? Math.max(...values) : 1;
+		const min = chartNumber(chart.min, Math.min(0, dataMin));
+		const proposedMax = chartNumber(chart.max, dataMax === min ? min + 1 : dataMax * 1.1);
+		const max = proposedMax > min ? proposedMax : min + 1;
+		const plot = { left: 76, top: 24, width: 670, height: 380 };
+		const baseline = plot.top + plot.height;
+		const x = index => plot.left + (labels.length <= 1 ? plot.width / 2 : (index / (labels.length - 1)) * plot.width);
+		const y = value => plot.top + (1 - ((value - min) / (max - min))) * plot.height;
+		const gridTicks = Array.from({ length: 6 }, (_, index) => min + ((max - min) * index / 5));
+		const labelStep = Math.max(1, Math.ceil(labels.length / 6));
+		const visibleLabelIndexes = labels.map((_, index) => index).filter(index => index % labelStep === 0 || index === labels.length - 1);
+		const chartId = `InfoChart${chartIndex}-${String(chart.heading || 'chart').replace(/[^a-z0-9]/gi, '')}`;
+
+		return `
+			<div class="saChartWrapper">
+				${chart.heading ? `<h3 class="saChartHeading">${escapeHtml(chart.heading)}</h3>` : ''}
+				${chart.description ? `<div class="saChartDescription">${escapeHtml(chart.description)}</div>` : ''}
+				<svg viewBox="0 0 1000 480" preserveAspectRatio="xMinYMin meet" role="img" aria-label="${escapeHtml(chart.heading || 'Line chart')}">
+					<defs>
+						${series.map((item, index) => `<linearGradient id="${chartId}-gradient-${index}" x1="0%" x2="0%" y1="0%" y2="100%"><stop offset="0%" stop-color="${escapeHtml(item.color)}" stop-opacity=".12"></stop><stop offset="100%" stop-color="${escapeHtml(item.color)}" stop-opacity=".01"></stop></linearGradient>`).join('')}
+					</defs>
+					<g class="saXYChart">
+						<g class="saGridLine">
+							${gridTicks.map((tick, index) => {
+								const tickY = y(tick);
+								return `<g class="${index === 0 ? 'saStrongLine' : ''}"><line stroke="currentColor" x1="${plot.left}" x2="${plot.left + plot.width}" y1="${tickY}" y2="${tickY}"></line><text class="saXYChartLabel" text-anchor="end" x="${plot.left - 12}" y="${tickY + 4}">${escapeHtml(chartLabel(tick))}</text></g>`;
+							}).join('')}
+						</g>
+						<g class="saXAxis saStrongLine">
+							<path class="domain" stroke="currentColor" d="M${plot.left},${baseline}H${plot.left + plot.width}"></path>
+							${visibleLabelIndexes.map(index => `<text class="saXYChartLabel" text-anchor="middle" x="${x(index)}" y="${baseline + 28}">${escapeHtml(labels[index])}</text>`).join('')}
+						</g>
+						${chart.yAxisTitle ? `<text class="saChartAxisTitle" text-anchor="middle" transform="rotate(-90)" x="${-(plot.top + plot.height / 2)}" y="18">${escapeHtml(chart.yAxisTitle)}</text>` : ''}
+						${series.map((item, seriesIndex) => {
+							const points = item.values.map((value, index) => Number.isFinite(value) && index < labels.length ? { x: x(index), y: y(value), value, label: labels[index] } : null).filter(Boolean);
+							if (!points.length) return '';
+							const linePath = points.map((point, index) => `${index ? 'L' : 'M'}${point.x},${point.y}`).join('');
+							const areaPath = `M${points[0].x},${baseline}${points.map(point => `L${point.x},${point.y}`).join('')}L${points[points.length - 1].x},${baseline}Z`;
+							return `${chart.showArea === false ? '' : `<path class="saLineArea" d="${areaPath}" style="fill:url(#${chartId}-gradient-${seriesIndex})"></path>`}<path fill="none" stroke="${escapeHtml(item.color)}" class="saChartLine" d="${linePath}" data-tooltip="${escapeHtml(item.label || `Series ${seriesIndex + 1}`)}"></path>${points.map(point => `<circle cx="${point.x}" cy="${point.y}" r="5" class="saLineMarker saHidden" stroke="${escapeHtml(item.color)}" fill="#fff" data-tooltip="${escapeHtml(`${point.label}: ${chartLabel(point.value)}${chart.unit ? ` ${chart.unit}` : ''}`)}"></circle>`).join('')}`;
+						}).join('')}
+						<g class="saChartLegend" transform="translate(780,24)">
+							${series.map((item, index) => `<g class="saLegendItem" transform="translate(0,${index * 34})"><rect width="18" height="18" rx="2" fill="${escapeHtml(item.color)}"></rect><text class="saLegendText" x="28" y="14">${escapeHtml(item.label || `Series ${index + 1}`)}</text></g>`).join('')}
+						</g>
+					</g>
+				</svg>
+			</div>`;
+	}
+
+	function renderInfoBoxCharts(charts) {
+		return `<div class="saInfoSqlChartWrapper"><div class="saInfoSqlChartScrollable">${charts.map(renderInfoBoxLineChart).join('')}</div></div>`;
+	}
+
 	function renderInfoBox(box) {
 		return `
 			<div class="saInfoBox${box.collapsed ? ' saClosed' : ' saOpen'}">
@@ -1936,6 +2009,7 @@
 					${box.text ? `<div class="saUserHtmlContent">${escapeHtml(box.text)}</div>` : ''}
 					${box.fields && box.fields.length ? (box.layout === 'grid' ? renderInfoBoxGrid(box) : box.fields.map(renderInfoBoxField).join('')) : ''}
 					${box.meters && box.meters.length ? `<div class="saInfoBoxCol"><div class="saInfoBoxContent">${renderInfoBoxMeters(box.meters)}</div></div>` : ''}
+					${box.charts && box.charts.length ? `<div class="saInfoBoxCol saInfoBoxChartCol"><div class="saInfoBoxContent saInfoBoxChartContent">${renderInfoBoxCharts(box.charts)}</div></div>` : ''}
 				</div>
 			</div>`;
 	}

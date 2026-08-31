@@ -89,6 +89,16 @@ const cases = [
 		valid: false
 	},
 	{
+		name: 'accepts InfoBoxes with a line chart',
+		spec: { components: [{ type: 'InfoBoxes', boxes: [{ charts: [{ heading: 'Revenue', labels: ['Jan', 'Feb'], series: [{ label: 'North', values: [12, 14] }] }] }] }] },
+		valid: true
+	},
+	{
+		name: 'rejects an InfoBox chart without series',
+		spec: { components: [{ type: 'InfoBoxes', boxes: [{ charts: [{ heading: 'Revenue', labels: ['Jan'] }] }] }] },
+		valid: false
+	},
+	{
 		name: 'accepts an Image Gallery with grouped items',
 		spec: { components: [{ type: 'ImageGallery', groups: [{ heading: 'Team', items: [{ caption: 'Anna' }] }] }] },
 		valid: true
@@ -271,6 +281,29 @@ assert.match(meterRoot.innerHTML, /saInfoSqlMeterWrapper/);
 assert.match(meterRoot.innerHTML, /saMeterOuter/);
 assert.match(meterRoot.innerHTML, /saMeterGreen saIntervalVisibleArc/);
 assert.match(meterRoot.innerHTML, />47<\/tspan>/);
+
+const lineChartRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'InfoBoxes',
+		boxes: [{
+			charts: [{
+				heading: 'Rolling revenue',
+				yAxisTitle: 'MSEK',
+				unit: 'MSEK',
+				labels: ['Jan', 'Feb', 'Mar'],
+				series: [
+					{ label: 'Enterprise', values: [12.8, 13.4, 15.2] },
+					{ label: 'Public', values: [9.4, 10.1, 11.8] }
+				]
+			}]
+		}]
+	}]
+}, lineChartRoot);
+assert.match(lineChartRoot.innerHTML, /saInfoSqlChartWrapper/);
+assert.match(lineChartRoot.innerHTML, /saChartLine/);
+assert.match(lineChartRoot.innerHTML, /saLineArea/);
+assert.match(lineChartRoot.innerHTML, /Enterprise/);
 
 const linkListRoot = { innerHTML: '' };
 global.SoftadminMockups.renderSpec({

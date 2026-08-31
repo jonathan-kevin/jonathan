@@ -182,6 +182,24 @@
 						errors.push(`${path}.boxes[${boxIndex}].meters[${meterIndex}].intervals must be an array.`);
 					}
 				});
+				if (box?.charts !== undefined && !Array.isArray(box.charts)) {
+					errors.push(`${path}.boxes[${boxIndex}].charts must be an array.`);
+				}
+				(box?.charts || []).forEach((chart, chartIndex) => {
+					const chartPath = `${path}.boxes[${boxIndex}].charts[${chartIndex}]`;
+					if (!chart || typeof chart !== 'object' || Array.isArray(chart)) {
+						errors.push(`${chartPath} must be an object.`);
+						return;
+					}
+					if (!Array.isArray(chart.labels)) errors.push(`${chartPath}.labels must be an array.`);
+					if (!Array.isArray(chart.series)) {
+						errors.push(`${chartPath}.series must be an array.`);
+					} else {
+						chart.series.forEach((series, seriesIndex) => {
+							if (!series || !Array.isArray(series.values)) errors.push(`${chartPath}.series[${seriesIndex}].values must be an array.`);
+						});
+					}
+				});
 			});
 		}
 
