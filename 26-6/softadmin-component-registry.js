@@ -2509,7 +2509,7 @@
 					<label class="saInputTextWrapper saLabeled">
 						<span class="saLabeledLabel">${escapeHtml(component.monthLabel || 'Month')}</span>
 						<select class="saInputText saDropdown">
-							${(component.months || ['January', 'February', 'March', 'April', 'May', 'June']).map(month => `<option ${month === component.month ? 'selected' : ''}>${escapeHtml(month)}</option>`).join('')}
+							${(component.months || ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']).map(month => `<option ${month === component.month ? 'selected' : ''}>${escapeHtml(month)}</option>`).join('')}
 						</select>
 						<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
 					</label>
@@ -2536,13 +2536,10 @@
 			<div class="saCalendarSidebar">
 				<div class="saCalendarSidebarInner">
 					<div class="saCalendarSidebarSection saSidebarCalendar">
-						<div class="saCalendarSidebarHeadingWrapper">
-							<span class="saCalendarSidebarHeading">${escapeHtml(component.sidebarHeading || 'Calendar')}</span>
-						</div>
 						<div class="saDatePickerRoot">
 							<div class="saDatePickerMonthHeading">
 								<a><i class="saIcon far fa-angle-left"></i></a>
-								<span>${escapeHtml(component.month || 'June')} ${escapeHtml(component.year || '2026')}</span>
+								<span class="saCalendarSidebarHeading">${escapeHtml(component.sidebarHeading || `${component.month || 'June'} ${component.year || '2026'}`)}</span>
 								<a><i class="saIcon far fa-angle-right"></i></a>
 							</div>
 							<div class="saDayRow">

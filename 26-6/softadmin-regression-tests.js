@@ -49,6 +49,16 @@ const cases = [
 		valid: false
 	},
 	{
+		name: 'accepts a multi-week Calendar',
+		spec: { components: [{ type: 'CalendarWeekdays', weeks: [{ number: 36, days: [{ day: '31 Aug', date: '2026-08-31', today: true, activities: [{ title: 'Morning meeting', description: '10:00-11:00' }] }] }, { number: 37, days: [{ day: '7', date: '2026-09-07', activities: [] }] }] }] },
+		valid: true
+	},
+	{
+		name: 'rejects a Calendar week without days',
+		spec: { components: [{ type: 'CalendarWeekdays', weeks: [{ number: 36 }] }] },
+		valid: false
+	},
+	{
 		name: 'rejects a Grid without rows',
 		spec: { components: [{ type: 'ResultGrid', columns: [] }] },
 		valid: false
@@ -340,6 +350,31 @@ global.SoftadminMockups.renderSpec({
 assert.match(pieChartRoot.innerHTML, /saPieChart/);
 assert.match(pieChartRoot.innerHTML, /saPieArc/);
 assert.match(pieChartRoot.innerHTML, /Background tasks/);
+
+const calendarRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'CalendarWeekdays',
+		heading: 'Week 36 2026',
+		month: 'September',
+		year: '2026',
+		week: 36,
+		resources: ['Viktor Lindgren', 'Anna Andersson'],
+		resource: 'Viktor Lindgren',
+		weeks: [
+			{ number: 36, days: [{ day: '31 Aug', date: '2026-08-31', today: true, activities: [{ title: 'Morning meeting', description: '10:00-11:00' }] }, { day: '1 Sep', date: '2026-09-01', activities: [] }] },
+			{ number: 37, days: [{ day: '7', date: '2026-09-07', activities: [] }, { day: '8', date: '2026-09-08', redDay: true, activities: [] }] }
+		]
+	}]
+}, calendarRoot);
+assert.match(calendarRoot.innerHTML, /<softadmin-calendar/);
+assert.equal((calendarRoot.innerHTML.match(/class="saWeek" role="row"/g) || []).length, 2);
+assert.match(calendarRoot.innerHTML, /saDateIsToday/);
+assert.match(calendarRoot.innerHTML, /saRedDay/);
+assert.match(calendarRoot.innerHTML, /Morning meeting/);
+assert.match(calendarRoot.innerHTML, /Viktor Lindgren/);
+assert.match(calendarRoot.innerHTML, /<option selected>September<\/option>/);
+assert.equal((calendarRoot.innerHTML.match(/>September 2026<\/span>/g) || []).length, 1);
 
 const linkListRoot = { innerHTML: '' };
 global.SoftadminMockups.renderSpec({

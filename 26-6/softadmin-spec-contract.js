@@ -92,6 +92,22 @@
 			requireArray(component, 'messages', path, errors);
 		}
 
+		if (component.type === 'CalendarWeekdays') {
+			requireArray(component, 'weeks', path, errors).forEach((week, weekIndex) => {
+				if (!week || !Array.isArray(week.days)) {
+					errors.push(`${path}.weeks[${weekIndex}].days must be an array.`);
+					return;
+				}
+				week.days.forEach((day, dayIndex) => {
+					if (!day || typeof day !== 'object' || Array.isArray(day)) {
+						errors.push(`${path}.weeks[${weekIndex}].days[${dayIndex}] must be an object.`);
+					} else if (day.activities !== undefined && !Array.isArray(day.activities)) {
+						errors.push(`${path}.weeks[${weekIndex}].days[${dayIndex}].activities must be an array.`);
+					}
+				});
+			});
+		}
+
 		if (component.type === 'NewEdit') {
 			requireArray(component, 'sections', path, errors).forEach((section, index) => {
 				validateFields(section?.fields, `${path}.sections[${index}].fields`, errors, controlTypes);

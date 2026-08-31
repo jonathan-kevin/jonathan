@@ -10,9 +10,10 @@
 				specTypes: ['BankID']
 			},
 			Calendar: {
-				description: 'Calendar in Weekdays mode.',
+				description: 'Calendar in Weekdays mode, including single-week and dense multi-week views.',
 				file: 'html/components/calendar-weekdays.html',
-				promptInstruction: 'Use the Softadmin Calendar component in Weekdays mode as the main component.',
+				referenceFiles: ['html/components/calendar-weekdays.html', 'html/components/calendar-weekdays-multiweek.html', 'html/components/calendar-weekdays-timescale.html', 'html/components/calendar-resource-timescale.html'],
+				promptInstruction: 'Use the Softadmin Calendar component in Weekdays mode as the main component. Shape: { type:"CalendarWeekdays", heading?, previousLabel?, nextLabel?, todayLabel?, year?, years?:[string], month?, months?:[string], week?, sidebar?, sidebarHeading?, sidebarDays?:[[weekNumber, day1, day2, day3, day4, day5, day6, day7]], resourceLabel?, resources?:[string], resource?, filters?:[{ label, checked? }], dayHeadings?:[string], dayHeadingsShort?:[string], weeks:[{ number, id?, label?, days:[{ day, date, dateHeading?, today?, current?, redDay?, clickable?, activities?:[{ title, description?, time?, color?, allDay?, clickable? }] }] }] }. Use several weeks for a dense month-like Weekdays calendar; use one week for a focused weekly view. Saturdays and Sundays normally use redDay:true.',
 				renderable: true,
 				specType: 'CalendarWeekdays',
 				specTypes: ['Calendar', 'CalendarWeekdays']
