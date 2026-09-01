@@ -24,6 +24,9 @@
 	let pendingDragStart = null;
 	let suppressNextClick = false;
 	const promptHistory = [];
+	const promptVersions = new Map();
+	const maxPromptVersions = 12;
+	let activePromptVersionId = null;
 
 	function escapeHtml(value) {
 		return String(value ?? '')
@@ -67,10 +70,19 @@
 		history.innerHTML = promptHistory.map(entry => {
 			const user = entry.role === 'user';
 			const label = user ? (selectedLanguageValue() === 'sv' ? 'Du' : 'You') : 'Softadmin AI';
+			const current = entry.versionId && entry.versionId === activePromptVersionId;
+			const versionAction = entry.versionId ? `
+				<div class="saMockPromptMessageActions">
+					<button class="saMockPromptVersionButton" type="button" data-softadmin-prompt-version="${escapeHtml(entry.versionId)}"${current ? ' disabled' : ''}>
+						<i class="far fa-clock-rotate-left"></i>
+						<span>${selectedLanguageValue() === 'sv' ? (current ? 'Aktuell version' : 'Återställ den här versionen') : (current ? 'Current version' : 'Restore this version')}</span>
+					</button>
+				</div>` : '';
 			return `
 				<div class="saMockPromptMessage ${user ? 'saUser' : 'saAssistant'}">
 					<div class="saMockPromptMessageMeta">${escapeHtml(label)}${entry.time ? ` · ${escapeHtml(entry.time)}` : ''}</div>
 					<div class="saMockPromptMessageBubble"${user ? ' data-softadmin-no-localize' : ''}>${escapeHtml(promptHistoryMessage(entry))}</div>
+					${versionAction}
 				</div>`;
 		}).join('');
 		history.scrollTop = history.scrollHeight;
@@ -93,6 +105,37 @@
 			promptHistory.push({ role: 'assistant', kind: 'welcome', time: '' });
 		}
 		renderPromptHistory();
+	}
+
+	function cloneState(value) {
+		return value ? JSON.parse(JSON.stringify(value)) : value;
+	}
+
+	function rememberPromptVersion(versionId, state) {
+		promptVersions.set(versionId, cloneState(state));
+		while (promptVersions.size > maxPromptVersions) {
+			promptVersions.delete(promptVersions.keys().next().value);
+		}
+	}
+
+	function restorePromptVersion(versionId) {
+		const state = promptVersions.get(versionId);
+
+		if (!state || isBusy || versionId === activePromptVersionId) {
+			return;
+		}
+
+		pushUndoState();
+		activePromptVersionId = versionId;
+		restoreState(cloneState(state), selectedLanguageValue() === 'sv' ? 'Versionen har återställts.' : 'Version restored.');
+		renderPromptHistory();
+	}
+
+	function handlePromptHistoryClick(event) {
+		const button = event.target.closest('[data-softadmin-prompt-version]');
+		if (button) {
+			restorePromptVersion(button.dataset.softadminPromptVersion);
+		}
 	}
 
 	function buttonHtml(action, mobileOverflow) {
@@ -2134,8 +2177,8 @@
 		return value ? JSON.parse(JSON.stringify(value)) : null;
 	}
 
-	function captureState() {
-		return {
+	function captureState(includePromptVersions = true) {
+		const state = {
 			bodyClassName: document.body.className,
 			documentTitle: document.title,
 			headerHtml: document.getElementById('pageheader')?.innerHTML || '',
@@ -2148,9 +2191,16 @@
 			languageValue: selectedLanguageValue(),
 			statusText: document.getElementById('SoftadminPromptStatus')?.textContent || '',
 			promptHistory: promptHistory.map(entry => ({ ...entry, components: entry.components ? [...entry.components] : undefined })),
+			activePromptVersionId,
 			debugResult: cloneDebugResult(lastDebugResult),
 			manualEdits: manualEdits.snapshot()
 		};
+
+		if (includePromptVersions) {
+			state.promptVersions = Array.from(promptVersions.entries()).map(([id, versionState]) => [id, cloneState(versionState)]);
+		}
+
+		return state;
 	}
 
 	function clearRestoredBindingMarkers(root) {
@@ -2218,7 +2268,16 @@
 		clearRestoredBindingMarkers(root);
 
 		manualEdits.restore(state.manualEdits);
-		restorePromptHistory(state.promptHistory);
+		if (Array.isArray(state.promptVersions)) {
+			promptVersions.clear();
+			state.promptVersions.forEach(([id, versionState]) => rememberPromptVersion(id, versionState));
+		}
+		if (Object.prototype.hasOwnProperty.call(state, 'activePromptVersionId')) {
+			activePromptVersionId = state.activePromptVersionId;
+		}
+		if (Array.isArray(state.promptHistory)) {
+			restorePromptHistory(state.promptHistory);
+		}
 		enableInlineEditing();
 		enableFormValueEditing();
 		enableDragAndDrop();
@@ -2568,8 +2627,6 @@
 			lastTokenEstimate = generationTokenEstimate(prompt, lastDebugResult);
 			lastDebugResult.tokenEstimate = lastTokenEstimate;
 			updateDebugDrawer();
-			appendPromptHistory({ role: 'assistant', kind: 'success', components: componentNames(spec) });
-
 			if (status) {
 				const sourceLabel = result.source === 'endpoint' ? 'AI spec' : 'Local spec';
 				const unresolvedMessage = unresolvedEdits.length
@@ -2578,6 +2635,13 @@
 				status.textContent = `${sourceLabel}: ${componentNames(spec).join(', ')}.${unresolvedMessage}`;
 				applyCurrentLanguage();
 			}
+
+			const versionId = `version-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+			activePromptVersionId = versionId;
+			appendPromptHistory({ role: 'assistant', kind: 'success', components: componentNames(spec), versionId });
+			const versionState = captureState(false);
+			delete versionState.promptHistory;
+			rememberPromptVersion(versionId, versionState);
 		} catch (error) {
 			appendPromptHistory({ role: 'assistant', kind: 'error', text: error.message || 'Could not generate mockup.' });
 			if (promptInput && !promptInput.value) {
@@ -2622,6 +2686,7 @@
 		const generateButton = document.getElementById('SoftadminGenerate');
 		const componentPicker = document.getElementById('SoftadminComponentPicker');
 		const languagePicker = document.getElementById('SoftadminLanguagePicker');
+		const promptHistoryElement = document.getElementById('SoftadminPromptHistory');
 		const undoButton = document.getElementById('SoftadminUndo');
 		const redoButton = document.getElementById('SoftadminRedo');
 		const logoFileInput = document.getElementById('SoftadminLogoFile');
@@ -2657,6 +2722,10 @@
 
 		if (languagePicker) {
 			languagePicker.addEventListener('change', handleLanguagePickerChange);
+		}
+
+		if (promptHistoryElement) {
+			promptHistoryElement.addEventListener('click', handlePromptHistoryClick);
 		}
 
 		populateFormBuilderPalette();
