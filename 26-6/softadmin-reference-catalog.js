@@ -44,6 +44,7 @@
 			Grid: {
 				description: 'Result grid with toolbar, sortable columns, row actions and mobile list-grid.',
 				file: 'html/components/grid.html',
+				promptInstruction: 'Use the Softadmin Grid as the main component. Shape: { type:"ResultGrid", title?, caption?, hitCounter?, columns:[{ key, label, width?, sorted?, sortDirection?, numeric?, align? }], rowActions?:[{ key, label, icon, iconStyle?, shortLabel? }], rows:[{ [columnKey]: value, disabledActions?:[actionKey] }] }. Define row buttons exactly once in component.rowActions. Every row always renders the same actions in the same order. A row may only disable shared actions with disabledActions; never put actions on an individual row.',
 				renderable: true,
 				specType: 'ResultGrid',
 				specTypes: ['Grid', 'ResultGrid']
@@ -131,7 +132,7 @@
 			'Pivot Grid': {
 				description: 'Cross-tabulated grid with sortable row and column headings, actions, export and numeric measures.',
 				file: 'html/components/pivot-grid.html',
-				promptInstruction: 'Use the Softadmin Pivot Grid as the main component. Shape: { type:"PivotGrid", caption?, exportable?, columns:[{ key, label, sorted?, sortDirection?:"asc|desc", numeric? }], rows:[{ label, icon?, sorted?, values:{ [columnKey]: value }, clickable?:[columnKey] }] }. Do not add per-cell colors unless the user explicitly requests them.',
+				promptInstruction: 'Use the Softadmin Pivot Grid as the main component. Shape: { type:"PivotGrid", caption?, exportable?, rowActions?:[{ key, label, icon, iconStyle? }], columns:[{ key, label, sorted?, sortDirection?:"asc|desc", numeric? }], rows:[{ label, sorted?, values:{ [columnKey]: value }, clickable?:[columnKey], disabledActions?:[actionKey] }] }. Define row buttons exactly once in component.rowActions. Every row always renders the same actions in the same order. A row may only disable shared actions with disabledActions. Do not add per-cell colors unless explicitly requested.',
 				renderable: true,
 				specType: 'PivotGrid',
 				specTypes: ['Pivot Grid', 'PivotGrid']

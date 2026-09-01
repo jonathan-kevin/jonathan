@@ -509,8 +509,26 @@
 			</div>`;
 	}
 
+	function actionIdentifier(action, index) {
+		return String(action.key || action.label || index);
+	}
+
+	function isRowActionDisabled(action, index, row) {
+		const disabledActions = new Set((row.disabledActions || []).map(String));
+		return Boolean(action.inactive || disabledActions.has(actionIdentifier(action, index)) || disabledActions.has(String(index)));
+	}
+
+	function renderPivotRowActions(actions, row) {
+		return `<div class="saLinkButtonWrapper">${actions.map((action, index) => {
+			const disabled = isRowActionDisabled(action, index, row);
+			const moreClass = action.icon === 'ellipsis-vertical' ? ' saMoreButtonJs' : '';
+			return `<button class="saLinkButton${moreClass}${disabled ? ' saInactive' : ''}" type="button" title="${escapeHtml(action.label)}"${disabled ? ' disabled' : ''}><i class="${escapeHtml(action.iconStyle || 'far')} fa-${escapeHtml(action.icon || 'chart-line')} icon saIcon"></i></button>`;
+		}).join('')}</div>`;
+	}
+
 	function renderPivotGrid(component) {
 		const columns = component.columns || [];
+		const rowActions = component.rowActions?.length ? component.rowActions : [{ key: 'open', label: 'Open', icon: 'chart-line' }];
 		const showColumnActions = component.columnActions !== false;
 		const wrapperClasses = `saPivotGridWrapper${showColumnActions ? ' saMultipleColumnButtons' : ''} stickyheader`;
 		const columnHeadings = columns.map(column => `
@@ -533,7 +551,7 @@
 				<tr>
 					<th class="saPivotGridHeading">
 						<div class="saPivotGridHeadingInner">
-							<div class="saLinkButtonWrapper"><button class="saLinkButton" type="button"><i class="far fa-${escapeHtml(row.icon || 'chart-line')} icon saIcon"></i></button></div>
+							${renderPivotRowActions(rowActions, row)}
 							<a class="sortableJs${row.sorted ? ' saSorted' : ''}" tabindex="0"><span>${escapeHtml(row.label)}</span>${pivotSortIcon(row)}</a>
 						</div>
 					</th>
@@ -2145,11 +2163,19 @@
 			</softadmin-infosql>`;
 	}
 
-	function renderGridButton(button) {
+	function renderGridButton(button, disabled = false) {
 		return `
-			<button type="button" class="saGridRowButton${button.inactive ? ' inactive' : ''}" aria-label="${escapeHtml(button.label)}" data-tooltip="${escapeHtml(button.label)}">
+			<button type="button" class="saGridRowButton${disabled ? ' inactive' : ''}" aria-label="${escapeHtml(button.label)}" data-tooltip="${escapeHtml(button.label)}"${disabled ? ' disabled' : ''}>
 				<i class="${escapeHtml(button.iconStyle || 'far')} fa-${escapeHtml(button.icon || 'ellipsis-vertical')} icon saIcon"></i>
 			</button>`;
+	}
+
+	function gridRowActions(component) {
+		return component.rowActions?.length ? component.rowActions : [
+			{ key: 'open', label: 'Open', icon: 'eye', iconStyle: 'fas' },
+			{ key: 'edit', label: 'Edit', icon: 'pen' },
+			{ key: 'more', label: 'More...', icon: 'ellipsis-vertical' }
+		];
 	}
 
 	function renderGridRowControls(actions, rowIndex, row = {}, component = {}) {
@@ -2157,11 +2183,8 @@
 			<li class="saGridCheckbox">
 				<input class="saCheckbox" type="checkbox" value="${escapeHtml(row.id || rowIndex)}" ${row.selected ? 'checked' : ''}>
 			</li>` : '';
-		const buttons = (actions && actions.length ? actions : [
-			{ label: 'Open', icon: 'eye', iconStyle: 'fas' },
-			{ label: 'Edit', icon: 'pen' },
-			{ label: 'More...', icon: 'ellipsis-vertical' }
-		]).map(action => `<li>${renderGridButton(action)}</li>`).join('');
+		const sharedActions = actions && actions.length ? actions : gridRowActions(component);
+		const buttons = sharedActions.map((action, index) => `<li>${renderGridButton(action, isRowActionDisabled(action, index, row))}</li>`).join('');
 		const moreButton = component.moreRowButton ? `
 			<li><button type="button" class="saGridRowButton" data-tooltip="More..." aria-label="More..." aria-expanded="false"><span><i class="icon far fa-ellipsis-vertical"></i></span></button></li>` : '';
 		const expandButton = component.expandableRows ? `
@@ -2354,18 +2377,19 @@
 
 		return `
 			<tr class="${classes}" data-sa-row-id="${escapeHtml(row.id || index)}">
-				${renderGridRowControls(row.actions || component.rowActions, index, row, component)}
+				${renderGridRowControls(component.rowActions, index, row, component)}
 				${columns.map(column => renderGridCell(column, row)).join('')}
 			</tr>`;
 	}
 
-	function renderListGridAction(action, index) {
+	function renderListGridAction(action, index, row) {
 		const isMore = /more/i.test(action.label || '') || action.icon === 'ellipsis-vertical';
 		const classes = isMore ? 'saListGridMoreButton' : 'saListGridRowLink';
 		const text = isMore ? '' : `<span class="saButtonText">${escapeHtml(action.shortLabel || action.label)}</span>`;
+		const disabled = isRowActionDisabled(action, index, row);
 
 		return `
-			<button type="button" class="${classes}${action.inactive ? ' saDisabled' : ''}" aria-label="${escapeHtml(action.label)}" ${action.inactive ? 'disabled' : ''}>
+			<button type="button" class="${classes}${disabled ? ' saDisabled' : ''}" aria-label="${escapeHtml(action.label)}" ${disabled ? 'disabled' : ''}>
 				<i class="${escapeHtml(action.iconStyle || 'far')} fa-${escapeHtml(action.icon || 'ellipsis-vertical')} icon saIcon"></i>
 				${text}
 			</button>`;
@@ -2379,7 +2403,7 @@
 		const titleColumn = columns.find(column => column.key === component.mobileTitleKey) || columns[0];
 		const descriptionColumn = columns.find(column => column.key === component.mobileDescriptionKey) || columns[1];
 		const bodyColumns = columns.filter(column => column !== titleColumn && column !== descriptionColumn);
-		const actions = row.actions || component.rowActions || [];
+		const actions = gridRowActions(component);
 
 		return `
 			<div class="saRow saOpen" data-sa-row-id="${index}">
@@ -2399,7 +2423,7 @@
 							<div class="saCellText">${renderGridCellValue(row[column.key])}</div>
 						</div>`).join('')}
 					<div class="saActionRow">
-						${actions.map(renderListGridAction).join('')}
+						${actions.map((action, actionIndex) => renderListGridAction(action, actionIndex, row)).join('')}
 					</div>
 				</div>
 			</div>`;

@@ -64,6 +64,16 @@ const cases = [
 		valid: false
 	},
 	{
+		name: 'accepts shared Grid actions with row-level disabled state',
+		spec: { components: [{ type: 'ResultGrid', columns: [{ key: 'name', label: 'Name' }], rowActions: [{ key: 'open', label: 'Open', icon: 'eye' }], rows: [{ name: 'Alpha' }, { name: 'Beta', disabledActions: ['open'] }] }] },
+		valid: true
+	},
+	{
+		name: 'rejects row-specific Grid actions',
+		spec: { components: [{ type: 'ResultGrid', columns: [{ key: 'name', label: 'Name' }], rows: [{ name: 'Alpha', actions: [{ label: 'Special', icon: 'star' }] }] }] },
+		valid: false
+	},
+	{
 		name: 'rejects incomplete menu groups',
 		spec: { components: [{ type: 'MenuGroups' }] },
 		valid: false
@@ -162,6 +172,11 @@ const cases = [
 	{
 		name: 'rejects a Pivot Grid without rows',
 		spec: { components: [{ type: 'PivotGrid', columns: [] }] },
+		valid: false
+	},
+	{
+		name: 'rejects row-specific Pivot Grid actions',
+		spec: { components: [{ type: 'PivotGrid', columns: [{ key: 'jan', label: 'Jan' }], rows: [{ label: 'Consulting', values: { jan: 1 }, actions: [{ label: 'Special', icon: 'star' }] }] }] },
 		valid: false
 	},
 	{
@@ -399,12 +414,19 @@ global.SoftadminMockups.renderSpec({
 	components: [{
 		type: 'PivotGrid',
 		caption: 'Revenue by month',
+		rowActions: [
+			{ key: 'open', label: 'Open details', icon: 'chart-line' },
+			{ key: 'inspect', label: 'Inspect row', icon: 'binoculars' }
+		],
 		columns: [
 			{ key: 'jan', label: 'Jan', sorted: true },
 			{ key: 'feb', label: 'Feb' },
 			{ key: 'owner', label: 'Owner', numeric: false }
 		],
-		rows: [{ label: 'Consulting', values: { jan: 125000, feb: 98000, owner: 'Anna' }, clickable: ['jan'] }]
+		rows: [
+			{ label: 'Consulting', values: { jan: 125000, feb: 98000, owner: 'Anna' }, clickable: ['jan'] },
+			{ label: 'Support', values: { jan: 67000, feb: 72000, owner: 'Erik' }, disabledActions: ['inspect'] }
+		]
 	}]
 }, pivotGridRoot);
 assert.match(pivotGridRoot.innerHTML, /<softadmin-pivotgrid/);
@@ -413,6 +435,30 @@ assert.match(pivotGridRoot.innerHTML, /saPivotGridCellJs saClickable right/);
 assert.match(pivotGridRoot.innerHTML, /fas fa-caret-up/);
 assert.match(pivotGridRoot.innerHTML, /saPivotGridCellJs"><span>Anna/);
 assert.doesNotMatch(pivotGridRoot.innerHTML, /style="(?:background|color)/);
+assert.equal((pivotGridRoot.innerHTML.match(/title="Open details"/g) || []).length, 2);
+assert.equal((pivotGridRoot.innerHTML.match(/title="Inspect row"/g) || []).length, 2);
+assert.match(pivotGridRoot.innerHTML, /saLinkButton saInactive" type="button" title="Inspect row" disabled/);
+
+const sharedGridActionsRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'ResultGrid',
+		pagination: false,
+		columns: [{ key: 'case', label: 'Case' }, { key: 'subject', label: 'Subject' }],
+		rowActions: [
+			{ key: 'open', label: 'Open case', icon: 'eye' },
+			{ key: 'edit', label: 'Edit case', icon: 'pen' }
+		],
+		rows: [
+			{ case: 'C-10482', subject: 'Invoice question' },
+			{ case: 'C-10391', subject: 'Closed case', disabledActions: ['edit'] }
+		]
+	}]
+}, sharedGridActionsRoot);
+assert.equal((sharedGridActionsRoot.innerHTML.match(/aria-label="Open case"/g) || []).length, 4);
+assert.equal((sharedGridActionsRoot.innerHTML.match(/aria-label="Edit case"/g) || []).length, 4);
+assert.equal((sharedGridActionsRoot.innerHTML.match(/aria-label="Edit case" disabled/g) || []).length, 1);
+assert.equal((sharedGridActionsRoot.innerHTML.match(/aria-label="Edit case" class="saDisabled"/g) || []).length, 0);
 
 const inlineDocumentRoot = { innerHTML: '' };
 global.SoftadminMockups.renderSpec({

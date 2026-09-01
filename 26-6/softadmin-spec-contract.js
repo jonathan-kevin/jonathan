@@ -116,12 +116,20 @@
 
 		if (component.type === 'ResultGrid') {
 			requireArray(component, 'columns', path, errors);
-			requireArray(component, 'rows', path, errors);
+			if (component.rowActions !== undefined) requireArray(component, 'rowActions', path, errors);
+			requireArray(component, 'rows', path, errors).forEach((row, index) => {
+				if (row?.actions !== undefined) errors.push(`${path}.rows[${index}].actions is not allowed; define rowActions on the Grid.`);
+				if (row?.disabledActions !== undefined && !Array.isArray(row.disabledActions)) errors.push(`${path}.rows[${index}].disabledActions must be an array.`);
+			});
 		}
 
 		if (component.type === 'PivotGrid') {
 			requireArray(component, 'columns', path, errors);
-			requireArray(component, 'rows', path, errors);
+			if (component.rowActions !== undefined) requireArray(component, 'rowActions', path, errors);
+			requireArray(component, 'rows', path, errors).forEach((row, index) => {
+				if (row?.actions !== undefined) errors.push(`${path}.rows[${index}].actions is not allowed; define rowActions on the Pivot Grid.`);
+				if (row?.disabledActions !== undefined && !Array.isArray(row.disabledActions)) errors.push(`${path}.rows[${index}].disabledActions must be an array.`);
+			});
 		}
 
 		if (component.type === 'EnterpriseSearch') {
