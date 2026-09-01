@@ -23,6 +23,7 @@
 	let pendingDragElement = null;
 	let pendingDragStart = null;
 	let suppressNextClick = false;
+	const promptHistory = [];
 
 	function escapeHtml(value) {
 		return String(value ?? '')
@@ -30,6 +31,68 @@
 			.replace(/</g, '&lt;')
 			.replace(/>/g, '&gt;')
 			.replace(/"/g, '&quot;');
+	}
+
+	function historyTimestamp(date = new Date()) {
+		return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+	}
+
+	function promptHistoryMessage(entry) {
+		const swedish = selectedLanguageValue() === 'sv';
+
+		if (entry.kind === 'welcome') {
+			return swedish ? 'Beskriv Softadmin-mockupen du vill skapa.' : 'Describe the Softadmin mockup you want to create.';
+		}
+
+		if (entry.kind === 'success') {
+			const components = (entry.components || []).join(', ');
+			return swedish ? `Mockupen har uppdaterats: ${components}.` : `Mockup updated: ${components}.`;
+		}
+
+		if (entry.kind === 'error') {
+			return swedish ? `Genereringen misslyckades: ${entry.text}` : `Generation failed: ${entry.text}`;
+		}
+
+		return entry.text || '';
+	}
+
+	function renderPromptHistory() {
+		const history = document.getElementById('SoftadminPromptHistory');
+		const promptInput = document.getElementById('SoftadminPrompt');
+
+		if (!history) {
+			return;
+		}
+
+		history.innerHTML = promptHistory.map(entry => {
+			const user = entry.role === 'user';
+			const label = user ? (selectedLanguageValue() === 'sv' ? 'Du' : 'You') : 'Softadmin AI';
+			return `
+				<div class="saMockPromptMessage ${user ? 'saUser' : 'saAssistant'}">
+					<div class="saMockPromptMessageMeta">${escapeHtml(label)}${entry.time ? ` · ${escapeHtml(entry.time)}` : ''}</div>
+					<div class="saMockPromptMessageBubble"${user ? ' data-softadmin-no-localize' : ''}>${escapeHtml(promptHistoryMessage(entry))}</div>
+				</div>`;
+		}).join('');
+		history.scrollTop = history.scrollHeight;
+		if (promptInput) {
+			promptInput.placeholder = selectedLanguageValue() === 'sv' ? 'Beskriv nästa ändring...' : 'Describe the next change...';
+		}
+	}
+
+	function appendPromptHistory(entry) {
+		promptHistory.push({ time: historyTimestamp(), ...entry });
+		if (promptHistory.length > 40) {
+			promptHistory.splice(0, promptHistory.length - 40);
+		}
+		renderPromptHistory();
+	}
+
+	function restorePromptHistory(entries) {
+		promptHistory.splice(0, promptHistory.length, ...(Array.isArray(entries) ? entries : []));
+		if (!promptHistory.length) {
+			promptHistory.push({ role: 'assistant', kind: 'welcome', time: '' });
+		}
+		renderPromptHistory();
 	}
 
 	function buttonHtml(action, mobileOverflow) {
@@ -2084,6 +2147,7 @@
 			componentValue: selectedComponentValue(),
 			languageValue: selectedLanguageValue(),
 			statusText: document.getElementById('SoftadminPromptStatus')?.textContent || '',
+			promptHistory: promptHistory.map(entry => ({ ...entry, components: entry.components ? [...entry.components] : undefined })),
 			debugResult: cloneDebugResult(lastDebugResult),
 			manualEdits: manualEdits.snapshot()
 		};
@@ -2154,6 +2218,7 @@
 		clearRestoredBindingMarkers(root);
 
 		manualEdits.restore(state.manualEdits);
+		restorePromptHistory(state.promptHistory);
 		enableInlineEditing();
 		enableFormValueEditing();
 		enableDragAndDrop();
@@ -2336,6 +2401,7 @@
 		}
 
 		applyCurrentLanguage();
+		renderPromptHistory();
 		clearRedoHistory();
 	}
 
@@ -2410,7 +2476,7 @@
 		return [...instructions, prompt].join('\n\n');
 	}
 
-	async function renderFromPrompt(prompt) {
+	async function renderFromPrompt(prompt, visiblePrompt = prompt) {
 		const root = document.querySelector('[data-softadmin-component-root]');
 		const status = document.getElementById('SoftadminPromptStatus');
 		const progress = document.getElementById('SoftadminPromptProgress');
@@ -2419,6 +2485,8 @@
 		const renderer = window.SoftadminMockups;
 		const shouldResetManualEdits = promptClearsManualEdits(prompt);
 		const previousState = captureState();
+		const promptInput = document.getElementById('SoftadminPrompt');
+		const userPrompt = String(visiblePrompt || '').trim();
 		const startedAt = Date.now();
 		let progressTimer = null;
 
@@ -2426,7 +2494,15 @@
 			return;
 		}
 
+		if (!userPrompt) {
+			return;
+		}
+
 		try {
+			appendPromptHistory({ role: 'user', text: userPrompt });
+			if (promptInput) {
+				promptInput.value = '';
+			}
 			setBusy(true);
 			if (shouldResetManualEdits) {
 				resetManualEdits();
@@ -2492,6 +2568,7 @@
 			lastTokenEstimate = generationTokenEstimate(prompt, lastDebugResult);
 			lastDebugResult.tokenEstimate = lastTokenEstimate;
 			updateDebugDrawer();
+			appendPromptHistory({ role: 'assistant', kind: 'success', components: componentNames(spec) });
 
 			if (status) {
 				const sourceLabel = result.source === 'endpoint' ? 'AI spec' : 'Local spec';
@@ -2502,6 +2579,10 @@
 				applyCurrentLanguage();
 			}
 		} catch (error) {
+			appendPromptHistory({ role: 'assistant', kind: 'error', text: error.message || 'Could not generate mockup.' });
+			if (promptInput && !promptInput.value) {
+				promptInput.value = userPrompt;
+			}
 			if (status) {
 				status.textContent = error.message || 'Could not generate mockup.';
 			}
@@ -2557,7 +2638,15 @@
 
 		if (generateButton && promptInput) {
 			generateButton.addEventListener('click', function () {
-				renderFromPrompt(promptWithComponentPreference(promptInput.value));
+				renderFromPrompt(promptWithComponentPreference(promptInput.value), promptInput.value);
+			});
+			promptInput.addEventListener('keydown', function (event) {
+				if (event.key !== 'Enter' || event.shiftKey || event.isComposing || isBusy) {
+					return;
+				}
+
+				event.preventDefault();
+				generateButton.click();
 			});
 		}
 
@@ -2679,6 +2768,7 @@
 		if (status) {
 			status.textContent = 'Ready.';
 		}
+		restorePromptHistory([]);
 		applyCurrentLanguage();
 
 		enableInlineEditing();
