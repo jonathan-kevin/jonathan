@@ -1,16 +1,18 @@
 (function () {
+	const target = typeof window !== 'undefined' ? window : globalThis;
 	const config = {
 		specEndpoint: defaultSpecEndpoint()
 	};
 
 	function defaultSpecEndpoint() {
-		const endpoint = new URLSearchParams(window.location.search).get('specEndpoint');
+		const location = target.location || { search: '', hostname: '' };
+		const endpoint = new URLSearchParams(location.search).get('specEndpoint');
 
 		if (endpoint) {
 			return endpoint;
 		}
 
-		if (/\.netlify\.app$/i.test(window.location.hostname)) {
+		if (/\.netlify\.app$/i.test(location.hostname)) {
 			return '/.netlify/functions/softadmin-spec';
 		}
 
@@ -18,7 +20,7 @@
 	}
 
 	function referenceCatalog() {
-		return window.SoftadminReferenceCatalog || null;
+		return target.SoftadminReferenceCatalog || null;
 	}
 
 	function catalogEntries(kind) {
@@ -80,6 +82,85 @@
 		return implementedTypesFromCatalog('controls') || new Set();
 	}
 
+	function plannerKey(value, index) {
+		const key = String(value || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+		return key || `day-${index + 1}`;
+	}
+
+	function plannerHour(value) {
+		if (typeof value !== 'string' || !/^\d{1,2}:\d{2}$/.test(value)) return value;
+		const [hours, minutes] = value.split(':').map(Number);
+		return hours + minutes / 60;
+	}
+
+	function normalizePlannerDays(days) {
+		const source = Array.isArray(days)
+			? days
+			: days && typeof days === 'object'
+				? Object.entries(days).map(([key, value]) => typeof value === 'object' ? { key, ...value } : { key, label: value })
+				: [];
+
+		return source.map((day, index) => {
+			if (typeof day === 'string') return { key: plannerKey(day, index), label: day, date: '' };
+			const label = day.label || day.name || day.day || day.date || `Day ${index + 1}`;
+			return { ...day, key: day.key || plannerKey(label, index), label };
+		});
+	}
+
+	function normalizePlannerActivity(activity, days, index) {
+		const firstDay = days[0]?.key || 'today';
+		const requestedDay = activity.day || activity.dayKey || activity.date || firstDay;
+		const matchingDay = days.find(day => day.key === requestedDay || day.label === requestedDay || day.date === requestedDay);
+		return {
+			...activity,
+			title: activity.title || activity.service || activity.serviceName || activity.booking || `Booking ${index + 1}`,
+			day: matchingDay?.key || requestedDay,
+			start: plannerHour(activity.start ?? activity.startTime),
+			end: plannerHour(activity.end ?? activity.endTime)
+		};
+	}
+
+	function normalizePlanner(component, diagnostics, path) {
+		let days = normalizePlannerDays(component.days || component.dates);
+		const sourceResources = Array.isArray(component.resources) ? component.resources : [];
+		if (!days.length) {
+			const requestedDays = sourceResources.flatMap(resource => {
+				const activities = resource.activities || resource.bookings || resource.assignments || resource.items || [];
+				const activityDays = Array.isArray(activities) ? activities.map(activity => activity?.day || activity?.dayKey || activity?.date).filter(Boolean) : [];
+				return [resource.day || resource.dayKey || resource.date, ...activityDays].filter(Boolean);
+			});
+			const uniqueDays = [...new Set(requestedDays)];
+			days = normalizePlannerDays(uniqueDays.length ? uniqueDays : ['Today']);
+			diagnostics.warnings.push(`${path}.days was normalized for Planner.`);
+		}
+
+		const resources = sourceResources.map((resource, resourceIndex) => {
+			let activities = resource.activities || resource.bookings || resource.assignments || resource.items;
+			if (activities && !Array.isArray(activities) && typeof activities === 'object') activities = Object.values(activities);
+			if (!Array.isArray(activities)) {
+				const service = resource.service || resource.serviceName || resource.booking;
+				activities = service ? [{
+					title: service,
+					description: resource.activityDescription || resource.customer || '',
+					day: resource.day || resource.dayKey || resource.date || days[0].key,
+					start: resource.start ?? resource.startTime,
+					end: resource.end ?? resource.endTime,
+					tone: resource.tone
+				}] : [];
+				diagnostics.warnings.push(`${path}.resources[${resourceIndex}].activities was normalized for Planner.`);
+			}
+
+			return {
+				...resource,
+				key: resource.key || plannerKey(resource.label || resource.name, resourceIndex),
+				label: resource.label || resource.name || `Resource ${resourceIndex + 1}`,
+				activities: activities.map((activity, activityIndex) => normalizePlannerActivity(activity || {}, days, activityIndex))
+			};
+		});
+
+		return { ...component, days, resources };
+	}
+
 	function normalizeComponent(component, diagnostics, path) {
 		if (!component || typeof component !== 'object') {
 			diagnostics.warnings.push(`${path}: ignored empty component.`);
@@ -103,6 +184,10 @@
 			...component,
 			type: normalizedType
 		};
+
+		if (normalized.type === 'Planner') {
+			return normalizePlanner(normalized, diagnostics, path);
+		}
 
 		if (normalized.type === 'CalendarWeekdays') {
 			const mode = String(normalized.mode || 'Weekdays').trim().toLowerCase().replace(/[\s_-]+/g, ' ');
@@ -295,7 +380,7 @@
 
 		const rawSpec = response.operations ? { operations: response.operations } : spec;
 		const normalizedSpec = normalizeSpec(spec, diagnostics);
-		window.SoftadminSpecContract?.assertSpec(normalizedSpec);
+		target.SoftadminSpecContract?.assertSpec(normalizedSpec);
 
 		return {
 			diagnostics,
@@ -306,7 +391,7 @@
 		};
 	}
 
-	window.SoftadminSpecRuntime = {
+	target.SoftadminSpecRuntime = {
 		config,
 		createSpec,
 		compactReferenceCatalog,

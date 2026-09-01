@@ -1,5 +1,6 @@
 import '../../26-6/softadmin-reference-catalog.js';
 import '../../26-6/softadmin-spec-contract.js';
+import '../../26-6/softadmin-spec-runtime.js';
 
 const OPENAI_RESPONSES_URL = 'https://api.openai.com/v1/responses';
 const DEFAULT_AZURE_API_VERSION = '2025-04-01-preview';
@@ -31,7 +32,10 @@ function catalogSummary() {
 
 	return {
 		components: renderableNames(catalog.components),
-		controls: renderableNames(catalog.controls)
+		controls: renderableNames(catalog.controls),
+		promptInstructions: Object.values(catalog.components || {})
+			.filter(entry => entry?.renderable && entry.promptInstruction)
+			.map(entry => entry.promptInstruction)
 	};
 }
 
@@ -188,6 +192,7 @@ function systemInstructions(summary, isRevision = false) {
 		'Use realistic Font Awesome icon names without style prefixes, for example "eye", "trash", "file-invoice", "calendar-days".',
 		`Available components: ${summary.components.join(', ')}.`,
 		`Available controls: ${summary.controls.join(', ')}.`,
+		...summary.promptInstructions,
 		'Useful component shapes:',
 		'MenuGroups: { type:"MenuGroups", groups:[{ heading, items:[{ title, icon, description?, pill? }] }] }',
 		'NewEdit: { type:"NewEdit", sections:[{ heading, fields:[...] }], buttons:[{ label, variant }] }',
@@ -455,14 +460,16 @@ export default async (request) => {
 
 			const result = await fetchAzureSpec(azure, prompt, summary, currentSpec);
 			const operations = currentSpec ? result.spec.operations : null;
-			const spec = currentSpec ? applyOperations(currentSpec, operations) : result.spec;
+			const rawSpec = currentSpec ? applyOperations(currentSpec, operations) : result.spec;
+			const spec = globalThis.SoftadminSpecRuntime.normalizeSpec(rawSpec);
 			globalThis.SoftadminSpecContract.assertSpec(spec);
 			return jsonResponse({ ...result, spec, operations });
 		}
 
 		const result = await fetchOpenAiSpec(openai, prompt, summary, currentSpec);
 		const operations = currentSpec ? result.spec.operations : null;
-		const spec = currentSpec ? applyOperations(currentSpec, operations) : result.spec;
+		const rawSpec = currentSpec ? applyOperations(currentSpec, operations) : result.spec;
+		const spec = globalThis.SoftadminSpecRuntime.normalizeSpec(rawSpec);
 		globalThis.SoftadminSpecContract.assertSpec(spec);
 		return jsonResponse({ ...result, spec, operations });
 	} catch (error) {

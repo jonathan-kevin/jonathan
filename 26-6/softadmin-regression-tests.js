@@ -1,15 +1,18 @@
 global.window = global;
+global.location = { search: '', hostname: 'localhost' };
 
 require('./softadmin-reference-catalog.js');
 require('./softadmin-spec-contract.js');
 require('./softadmin-editor-patches.js');
 require('./softadmin-component-registry.js');
+require('./softadmin-spec-runtime.js');
 const localization = require('./softadmin-localization.js');
 
 const assert = require('node:assert/strict');
 const catalog = global.SoftadminReferenceCatalog;
 const contract = global.SoftadminSpecContract;
 const editPatches = global.SoftadminEditorPatches;
+const runtime = global.SoftadminSpecRuntime;
 
 assert.equal(localization.translateText('Favorites', 'sv'), 'Favoriter');
 assert.equal(localization.translateText('Favoriter', 'en'), 'Favorites');
@@ -288,6 +291,28 @@ cases.forEach(testCase => {
 	const result = contract.validateSpec(testCase.spec);
 	assert.equal(result.valid, testCase.valid, `${testCase.name}: ${result.errors.join(' ')}`);
 });
+
+const plannerDiagnostics = { aliases: [], dropped: [], warnings: [] };
+const normalizedPlannerSpec = runtime.normalizeSpec({
+	components: [{
+		type: 'Planner',
+		timescale: true,
+		days: { mon: 'Monday', tue: 'Tuesday' },
+		resources: [
+			{ name: 'Anna Andersson', service: 'Installation', day: 'mon', startTime: '09:30', endTime: '11:00' },
+			{ name: 'Erik Johansson', bookings: [{ service: 'Inspection', day: 'Tuesday', startTime: '13:00', endTime: '14:30' }] },
+			{ name: 'Maria Lindberg' }
+		]
+	}]
+}, plannerDiagnostics);
+assert.equal(contract.validateSpec(normalizedPlannerSpec).valid, true);
+assert.deepEqual(normalizedPlannerSpec.components[0].days.map(day => day.key), ['mon', 'tue']);
+assert.equal(normalizedPlannerSpec.components[0].resources[0].label, 'Anna Andersson');
+assert.equal(normalizedPlannerSpec.components[0].resources[0].activities[0].title, 'Installation');
+assert.equal(normalizedPlannerSpec.components[0].resources[0].activities[0].start, 9.5);
+assert.equal(normalizedPlannerSpec.components[0].resources[1].activities[0].day, 'tue');
+assert.deepEqual(normalizedPlannerSpec.components[0].resources[2].activities, []);
+assert.ok(plannerDiagnostics.warnings.some(warning => warning.includes('activities was normalized')));
 
 const advertisedComponents = Object.values(catalog.components).filter(entry => entry.renderable);
 const advertisedControls = Object.values(catalog.controls).filter(entry => entry.renderable);
@@ -717,10 +742,14 @@ async function testEndpointContract() {
 
 	const originalFetch = global.fetch;
 	let providerOutput = validNewEdit();
-	global.fetch = async () => new Response(JSON.stringify({
+	let lastProviderRequest = null;
+	global.fetch = async (url, options) => {
+		lastProviderRequest = JSON.parse(options.body);
+		return new Response(JSON.stringify({
 		output_text: JSON.stringify(providerOutput),
 		usage: { input_tokens: 100, output_tokens: 50, total_tokens: 150 }
-	}), { status: 200, headers: { 'content-type': 'application/json' } });
+		}), { status: 200, headers: { 'content-type': 'application/json' } });
+	};
 
 	try {
 		const { default: handler } = await import('../netlify/functions/softadmin-spec.mjs');
@@ -734,6 +763,31 @@ async function testEndpointContract() {
 		assert.equal(response.status, 200, body.error || 'Endpoint should accept a valid generated spec.');
 		assert.equal(body.spec.components[0].type, 'NewEdit');
 		assert.equal(body.usage.total_tokens, 150);
+		assert.match(lastProviderRequest.input[0].content, /Every resource MUST always contain an activities array/);
+
+		providerOutput = {
+			frame: { title: 'Booked resources' },
+			components: [{
+				type: 'Planner',
+				timescale: true,
+				days: { mon: 'Monday' },
+				resources: [
+					{ name: 'Anna Andersson', service: 'Installation', day: 'mon', startTime: '09:00', endTime: '11:00' },
+					{ name: 'Erik Johansson', service: 'Inspection', day: 'mon', startTime: '12:30', endTime: '14:00' }
+				]
+			}]
+		};
+		const plannerResponse = await handler(new Request('https://example.test', {
+			method: 'POST',
+			headers: { 'content-type': 'application/json', origin: 'http://localhost' },
+			body: JSON.stringify({ prompt: 'Set up a planner with booked resources and their services.' })
+		}));
+		const plannerBody = await plannerResponse.json();
+
+		assert.equal(plannerResponse.status, 200, plannerBody.error || 'Endpoint should normalize a reasonable Planner variant.');
+		assert.ok(Array.isArray(plannerBody.spec.components[0].days));
+		assert.equal(plannerBody.spec.components[0].resources[0].activities[0].title, 'Installation');
+		assert.equal(plannerBody.spec.components[0].resources[1].activities[0].start, 12.5);
 
 		providerOutput = {
 			operations: [{ op: 'replace', path: '/frame/title', value: 'Edit person' }]
