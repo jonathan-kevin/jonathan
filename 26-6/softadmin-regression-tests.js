@@ -44,6 +44,29 @@ const cases = [
 		valid: true
 	},
 	{
+		name: 'accepts a structured NewEdit with rows and columns',
+		spec: {
+			components: [{
+				type: 'NewEdit',
+				labels: 'before',
+				toc: true,
+				rows: [{
+					heading: 'Contact information',
+					columns: [
+						{ sections: [{ heading: 'Person', fields: [{ label: 'First name', control: 'textbox' }] }] },
+						{ sections: [{ heading: 'Address', fields: [{ label: 'City', control: 'textbox' }] }] }
+					]
+				}]
+			}]
+		},
+		valid: true
+	},
+	{
+		name: 'rejects a structured NewEdit column without sections',
+		spec: { components: [{ type: 'NewEdit', rows: [{ columns: [{}] }] }] },
+		valid: false
+	},
+	{
 		name: 'accepts a BankID spec',
 		spec: { components: [{ type: 'BankID', heading: 'Sign agreement', countdown: '4 minutes left' }] },
 		valid: true
@@ -270,6 +293,30 @@ assert.deepEqual(patchStore.setResolvedPaths(new Set(['main/newedit/field/first-
 	'sidebar/group/economy/item/invoices/text'
 ]);
 assert.equal(patchStore.snapshot()[0][1].path, 'main/newedit/field/first-name/value/text');
+
+const structuredNewEditRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'NewEdit',
+		labels: 'before',
+		toc: { heading: 'Contents', open: true },
+		rows: [{
+			heading: 'Customer information',
+			columns: [
+				{ sections: [{ heading: 'Person', fields: [{ label: 'First name', control: 'textbox', value: 'Anna' }] }] },
+				{ sections: [{ heading: 'Address', fields: [{ label: 'City', control: 'textbox', value: 'Stockholm' }] }] }
+			]
+		}],
+		buttons: [{ label: 'Save', variant: 'primary' }]
+	}]
+}, structuredNewEditRoot);
+assert.match(structuredNewEditRoot.innerHTML, /class="saFormRoot saLabelsBefore"/);
+assert.match(structuredNewEditRoot.innerHTML, /class="saToc saOpen"/);
+assert.match(structuredNewEditRoot.innerHTML, /Contents<i class="far fa-angle-down saIcon"><\/i>/);
+assert.equal((structuredNewEditRoot.innerHTML.match(/class="saFieldsColumn/g) || []).length, 2);
+assert.match(structuredNewEditRoot.innerHTML, /href="#Header_Row_0">Customer information<\/a>/);
+assert.match(structuredNewEditRoot.innerHTML, /href="#Header_0_0_0">Person<\/a>/);
+assert.match(structuredNewEditRoot.innerHTML, /id="Header_0_1_0"/);
 
 const galleryRoot = { innerHTML: '' };
 global.SoftadminMockups.renderSpec({

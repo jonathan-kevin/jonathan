@@ -119,9 +119,19 @@
 		}
 
 		if (component.type === 'NewEdit') {
-			requireArray(component, 'sections', path, errors).forEach((section, index) => {
-				validateFields(section?.fields, `${path}.sections[${index}].fields`, errors, controlTypes);
-			});
+			if (component.rows !== undefined) {
+				requireArray(component, 'rows', path, errors).forEach((row, rowIndex) => {
+					requireArray(row, 'columns', `${path}.rows[${rowIndex}]`, errors).forEach((column, columnIndex) => {
+						requireArray(column, 'sections', `${path}.rows[${rowIndex}].columns[${columnIndex}]`, errors).forEach((section, sectionIndex) => {
+							validateFields(section?.fields, `${path}.rows[${rowIndex}].columns[${columnIndex}].sections[${sectionIndex}].fields`, errors, controlTypes);
+						});
+					});
+				});
+			} else {
+				requireArray(component, 'sections', path, errors).forEach((section, index) => {
+					validateFields(section?.fields, `${path}.sections[${index}].fields`, errors, controlTypes);
+				});
+			}
 		}
 
 		if (component.type === 'ResultGrid') {

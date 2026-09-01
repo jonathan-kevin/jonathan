@@ -117,6 +117,7 @@
 			NewEdit: {
 				description: 'Form component for creating or editing records.',
 				file: 'html/components/newedit.html',
+				promptInstruction: 'Use the Softadmin NewEdit component as the main component. For a simple form use { type:"NewEdit", labels?:"above|before", toc?:boolean|{ heading?, open? }, sections:[{ id?, heading?, width?, fields:[...] }], buttons?:[{ label, variant:"primary|secondary" }] }. For a structured multi-column form replace sections with rows:[{ id?, heading?, columns:[{ sections:[{ id?, heading?, width?, fields:[...] }] }] }]. Use labels:"before" for dense administration forms and toc:true for long forms with several visible headings. Keep ordinary forms labels above. Fields use only supported control names from the control catalog; group adjacent compact fields with { layout:"siblings", fields:[...] }.',
 				renderable: true,
 				specType: 'NewEdit',
 				specTypes: ['NewEdit']

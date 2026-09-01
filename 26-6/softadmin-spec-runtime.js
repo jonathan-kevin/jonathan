@@ -140,6 +140,19 @@
 			}));
 		}
 
+		if (normalized.type === 'NewEdit' && Array.isArray(normalized.rows)) {
+			normalized.rows = normalized.rows.map((row, rowIndex) => ({
+				...row,
+				columns: (row.columns || []).map((column, columnIndex) => ({
+					...column,
+					sections: (column.sections || []).map((section, sectionIndex) => ({
+						...section,
+						fields: normalizeFields(section.fields || [], diagnostics, `${path}.rows[${rowIndex}].columns[${columnIndex}].sections[${sectionIndex}].fields`)
+					}))
+				}))
+			}));
+		}
+
 		return normalized;
 	}
 

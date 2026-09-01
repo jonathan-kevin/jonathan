@@ -1779,20 +1779,20 @@
 			</div>`;
 	}
 
-	function renderSectionHeader(section) {
+	function renderSectionHeader(section, sectionId) {
 		const checkbox = section.checkbox
 			? `<label class="saCheckboxControl saCheckboxWrapper"><input class="saCheckbox" type="checkbox" ${section.checkbox.checked ? 'checked' : ''}></label>`
 			: '';
 
 		return `
 			<legend class="saSectionHeaderWrapper">
-				<div class="saSectionHeader${section.checkbox ? ' saSectionHeaderWithCheckbox' : ''}">
+				<div class="saSectionHeader${section.checkbox ? ' saSectionHeaderWithCheckbox' : ''}" id="${escapeHtml(sectionId || '')}">
 					${checkbox}<h2>${escapeHtml(section.heading)}</h2>
 				</div>
 			</legend>`;
 	}
 
-	function renderNewEditSection(section, index, sections) {
+	function renderNewEditSection(section, index, sections, sectionId) {
 		const sectionClass = `saSectionWrapper${index === sections.length - 1 ? ' saLastVisible' : ''}`;
 
 		if (!section.heading) {
@@ -1806,14 +1806,86 @@
 
 		return `
 			<fieldset class="${sectionClass}">
-				${renderSectionHeader(section)}
+				${renderSectionHeader(section, sectionId || section.id || `Header_${index}`)}
 				<fieldset class="saFieldCollection ${escapeHtml(section.width || 'long')}">
 					${(section.fields || []).map(renderField).join('')}
 				</fieldset>
 			</fieldset>`;
 	}
 
+	function newEditSectionId(section, fallback) {
+		return section.id || fallback;
+	}
+
+	function renderNewEditRows(component) {
+		return (component.rows || []).map((row, rowIndex) => {
+			const rowId = newEditSectionId(row, `Header_Row_${rowIndex}`);
+			const columns = row.columns || [];
+			const rowContent = `
+				<div class="saFieldsRow">
+					${columns.map((column, columnIndex) => {
+						const sections = column.sections || [];
+						return `
+							<div class="saFieldsColumn${columnIndex === columns.length - 1 ? ' saLastVisible' : ''}">
+								${sections.map((section, sectionIndex) => renderNewEditSection(section, sectionIndex, sections, newEditSectionId(section, `Header_${rowIndex}_${columnIndex}_${sectionIndex}`))).join('')}
+							</div>`;
+					}).join('')}
+				</div>`;
+
+			if (!row.heading) {
+				return `<div class="saSectionWrapper${rowIndex === component.rows.length - 1 ? ' saLastVisible' : ''}">${rowContent}</div>`;
+			}
+
+			return `
+				<fieldset class="saSectionWrapper${rowIndex === component.rows.length - 1 ? ' saLastVisible' : ''}">
+					${renderSectionHeader(row, rowId)}
+					${rowContent}
+				</fieldset>`;
+		}).join('');
+	}
+
+	function newEditTocEntries(component) {
+		if (Array.isArray(component.toc)) {
+			return component.toc;
+		}
+
+		if (Array.isArray(component.rows)) {
+			const entries = [];
+			component.rows.forEach((row, rowIndex) => {
+				if (row.heading) entries.push({ label: row.heading, id: newEditSectionId(row, `Header_Row_${rowIndex}`) });
+				(row.columns || []).forEach((column, columnIndex) => {
+					(column.sections || []).forEach((section, sectionIndex) => {
+						if (section.heading) entries.push({ label: section.heading, id: newEditSectionId(section, `Header_${rowIndex}_${columnIndex}_${sectionIndex}`) });
+					});
+				});
+			});
+			return entries;
+		}
+
+		return (component.sections || []).filter(section => section.heading).map((section, index) => ({
+			label: section.heading,
+			id: newEditSectionId(section, `Header_${index}`)
+		}));
+	}
+
+	function renderNewEditToc(component) {
+		if (!component.toc) return '';
+		const toc = typeof component.toc === 'object' && !Array.isArray(component.toc) ? component.toc : {};
+		const entries = newEditTocEntries(component);
+
+		return `
+			<nav class="saToc${toc.open === false ? '' : ' saOpen'}">
+				<button class="saTocButton" type="button" aria-expanded="${toc.open === false ? 'false' : 'true'}">
+					${escapeHtml(toc.heading || component.tocHeading || 'Table of contents')}<i class="far fa-angle-down saIcon"></i>
+				</button>
+				<ul>
+					${entries.map(entry => `<li${entry.active === false ? '' : ' class="saActive"'}${entry.hidden ? ' hidden' : ''}><a class="saTocLink" href="#${escapeHtml(entry.id || '')}">${escapeHtml(entry.label || '')}</a></li>`).join('')}
+				</ul>
+			</nav>`;
+	}
+
 	function renderNewEdit(component) {
+		const labelsClass = String(component.labels || component.labelPlacement || 'above').toLowerCase() === 'before' ? 'saLabelsBefore' : 'saLabelsAbove';
 		return `
 			<div class="maincolbody saInputPage">
 				<div>
@@ -1825,9 +1897,12 @@
 						</div>
 					</div>
 					<div class="saFormRootAndTocWrapper">
-						<fieldset class="saFormRoot saLabelsAbove">
+						${renderNewEditToc(component)}
+						<fieldset class="saFormRoot ${labelsClass}">
 							<div class="saSectionWrapper">
-								${(component.sections || []).map(renderNewEditSection).join('')}
+								${Array.isArray(component.rows)
+									? renderNewEditRows(component)
+									: (component.sections || []).map((section, index, sections) => renderNewEditSection(section, index, sections, newEditSectionId(section, `Header_${index}`))).join('')}
 							</div>
 						</fieldset>
 					</div>
