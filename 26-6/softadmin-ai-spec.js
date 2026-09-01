@@ -27,6 +27,7 @@
 	const promptVersions = new Map();
 	const maxPromptVersions = 12;
 	let activePromptVersionId = null;
+	let expandedPromptVersionId = null;
 
 	function escapeHtml(value) {
 		return String(value ?? '')
@@ -71,18 +72,26 @@
 			const user = entry.role === 'user';
 			const label = user ? (selectedLanguageValue() === 'sv' ? 'Du' : 'You') : 'Softadmin AI';
 			const current = entry.versionId && entry.versionId === activePromptVersionId;
-			const versionAction = entry.versionId ? `
+			const hasVersion = entry.versionId && promptVersions.has(entry.versionId);
+			const expanded = hasVersion && entry.versionId === expandedPromptVersionId;
+			const versionAction = hasVersion ? `
 				<div class="saMockPromptMessageActions">
 					<button class="saMockPromptVersionButton" type="button" data-softadmin-prompt-version="${escapeHtml(entry.versionId)}"${current ? ' disabled' : ''}>
 						<i class="far fa-clock-rotate-left"></i>
 						<span>${selectedLanguageValue() === 'sv' ? (current ? 'Aktuell version' : 'Återställ den här versionen') : (current ? 'Current version' : 'Restore this version')}</span>
 					</button>
+					<button class="saMockPromptVersionButton" type="button" data-softadmin-prompt-spec="${escapeHtml(entry.versionId)}" aria-expanded="${expanded}">
+						<i class="far fa-code"></i>
+						<span>${selectedLanguageValue() === 'sv' ? (expanded ? 'Dölj spec' : 'Visa spec') : (expanded ? 'Hide spec' : 'View spec')}</span>
+					</button>
 				</div>` : '';
+			const debug = expanded ? promptVersionDebugHtml(entry.versionId) : '';
 			return `
 				<div class="saMockPromptMessage ${user ? 'saUser' : 'saAssistant'}">
 					<div class="saMockPromptMessageMeta">${escapeHtml(label)}${entry.time ? ` · ${escapeHtml(entry.time)}` : ''}</div>
 					<div class="saMockPromptMessageBubble"${user ? ' data-softadmin-no-localize' : ''}>${escapeHtml(promptHistoryMessage(entry))}</div>
 					${versionAction}
+					${debug}
 				</div>`;
 		}).join('');
 		history.scrollTop = history.scrollHeight;
@@ -131,7 +140,46 @@
 		renderPromptHistory();
 	}
 
+	function promptVersionDebugHtml(versionId) {
+		const debug = promptVersions.get(versionId)?.debugResult;
+
+		if (!debug) {
+			return '';
+		}
+
+		const diagnostics = debug.diagnostics || { aliases: [], dropped: [], warnings: [] };
+		const usage = debug.tokenEstimate || debug.usage || {};
+		return `
+			<div class="saMockPromptInlineDebug">
+				<div class="saMockPromptDebugMeta">
+					<span>Source: ${escapeHtml(debug.source || 'unknown')}</span>
+					<span>Tokens: ${escapeHtml(usage.totalTokens ?? usage.total_tokens ?? 'n/a')}</span>
+				</div>
+				<details open>
+					<summary>Normalized spec</summary>
+					<pre>${escapeHtml(JSON.stringify(debug.spec, null, 2))}</pre>
+				</details>
+				<details>
+					<summary>Diagnostics</summary>
+					<pre>${escapeHtml(JSON.stringify(diagnostics, null, 2))}</pre>
+				</details>
+				<details>
+					<summary>Raw response</summary>
+					<pre>${escapeHtml(typeof debug.rawSpec === 'string' ? debug.rawSpec : JSON.stringify(debug.rawSpec, null, 2))}</pre>
+				</details>
+			</div>`;
+	}
+
 	function handlePromptHistoryClick(event) {
+		const specButton = event.target.closest('[data-softadmin-prompt-spec]');
+		if (specButton) {
+			expandedPromptVersionId = expandedPromptVersionId === specButton.dataset.softadminPromptSpec
+				? null
+				: specButton.dataset.softadminPromptSpec;
+			renderPromptHistory();
+			return;
+		}
+
 		const button = event.target.closest('[data-softadmin-prompt-version]');
 		if (button) {
 			restorePromptVersion(button.dataset.softadminPromptVersion);
@@ -604,7 +652,7 @@
 	async function saveMockupScreenshot() {
 		const status = document.getElementById('SoftadminPromptStatus');
 		const target = document.querySelector('[data-softadmin-screenshot-root]') || document.body;
-		const hiddenElements = Array.from(document.querySelectorAll('.saMockAiTools, .saMockSelectionToolbar, .saMockDebugDrawer'));
+		const hiddenElements = Array.from(document.querySelectorAll('.saMockAiTools, .saMockSelectionToolbar'));
 		const originalVisibility = hiddenElements.map(element => element.style.visibility);
 		const editorStateElements = Array.from(document.querySelectorAll('.saMockSelectedElement, .saMockDraggingElement, .saMockDropTarget'));
 		const editorStateClasses = editorStateElements.map(element => element.className);
@@ -839,7 +887,7 @@
 	}
 
 	function canMakeEditable(element) {
-		if (!element || element.closest('.saMockPromptPanel, .saMockDebugDrawer')) {
+		if (!element || element.closest('.saMockPromptPanel')) {
 			return false;
 		}
 
@@ -1027,7 +1075,7 @@
 	}
 
 	function isInteractiveEditingTarget(target) {
-		return Boolean(target.closest('.saMockPromptPanel, .saMockDebugDrawer, .saMockSelectionToolbar, .saMockFormBuilderPanel, input, textarea, select'));
+		return Boolean(target.closest('.saMockPromptPanel, .saMockSelectionToolbar, .saMockFormBuilderPanel, input, textarea, select'));
 	}
 
 	function hasNewEditForm() {
@@ -1261,7 +1309,7 @@
 
 	function enableDragAndDrop() {
 		document.querySelectorAll(selectableElementSelector()).forEach(element => {
-			if (element.closest('.saMockPromptPanel, .saMockDebugDrawer')) {
+			if (element.closest('.saMockPromptPanel')) {
 				return;
 			}
 
@@ -1990,77 +2038,6 @@
 		return /\b(reset|discard|overwrite|replace everything|start over|from scratch|clear manual edits|ignore manual edits)\b/i.test(prompt || '');
 	}
 
-	function debugList(items) {
-		if (!items || !items.length) {
-			return '<ul class="saMockDebugList"><li>None</li></ul>';
-		}
-
-		return `<ul class="saMockDebugList">${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`;
-	}
-
-	function debugPre(value) {
-		return `<pre>${escapeHtml(typeof value === 'string' ? value : JSON.stringify(value, null, 2))}</pre>`;
-	}
-
-	function updateDebugDrawer() {
-		const content = document.getElementById('SoftadminDebugContent');
-
-		if (!content) {
-			return;
-		}
-
-		if (!lastDebugResult) {
-			content.innerHTML = `
-				<section class="saMockDebugSection">
-					<h3>Status</h3>
-					${debugPre('No generation yet.')}
-				</section>`;
-			return;
-		}
-
-		content.innerHTML = `
-			<section class="saMockDebugSection">
-				<h3>Prompt</h3>
-				${debugPre(lastDebugResult.prompt)}
-			</section>
-			<section class="saMockDebugSection">
-				<h3>Source</h3>
-				${debugPre(lastDebugResult.source)}
-			</section>
-			<section class="saMockDebugSection">
-				<h3>Rendered components</h3>
-				${debugList(componentNames(lastDebugResult.spec))}
-			</section>
-			<section class="saMockDebugSection">
-				<h3>Token estimate</h3>
-				${debugPre(lastDebugResult.tokenEstimate || 'No token estimate available.')}
-			</section>
-			<section class="saMockDebugSection">
-				<h3>Aliases</h3>
-				${debugList(lastDebugResult.diagnostics.aliases)}
-			</section>
-			<section class="saMockDebugSection">
-				<h3>Unsupported / dropped</h3>
-				${debugList(lastDebugResult.diagnostics.dropped)}
-			</section>
-			<section class="saMockDebugSection">
-				<h3>Warnings</h3>
-				${debugList(lastDebugResult.diagnostics.warnings)}
-			</section>
-			<section class="saMockDebugSection">
-				<h3>Unresolved manual edits</h3>
-				${debugList(manualEdits.unresolved())}
-			</section>
-			<section class="saMockDebugSection">
-				<h3>Normalized spec</h3>
-				${debugPre(lastDebugResult.spec)}
-			</section>
-			<section class="saMockDebugSection">
-				<h3>Raw spec</h3>
-				${debugPre(lastDebugResult.rawSpec)}
-			</section>`;
-	}
-
 	function newEditBuilderStarterSpec(language = selectedLanguageValue()) {
 		const swedish = language === 'sv';
 		return {
@@ -2130,8 +2107,6 @@
 			}
 		};
 		lastTokenEstimate = lastDebugResult.tokenEstimate;
-		updateDebugDrawer();
-
 		if (status) {
 			status.textContent = message || `${componentNames(spec).join(', ')} ready.`;
 			applyCurrentLanguage();
@@ -2156,21 +2131,6 @@
 
 		clearRedoHistory();
 		updateFormBuilderVisibility();
-	}
-
-	function setDebugDrawerOpen(isOpen) {
-		const drawer = document.getElementById('SoftadminDebugDrawer');
-
-		if (!drawer) {
-			return;
-		}
-
-		drawer.classList.toggle('saOpen', isOpen);
-		drawer.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
-
-		if (isOpen) {
-			updateDebugDrawer();
-		}
 	}
 
 	function cloneDebugResult(value) {
@@ -2287,8 +2247,6 @@
 
 		lastDebugResult = cloneDebugResult(state.debugResult);
 		lastTokenEstimate = lastDebugResult?.tokenEstimate || lastTokenEstimate;
-		updateDebugDrawer();
-
 		if (status) {
 			status.textContent = statusMessage;
 		}
@@ -2626,7 +2584,6 @@
 			};
 			lastTokenEstimate = generationTokenEstimate(prompt, lastDebugResult);
 			lastDebugResult.tokenEstimate = lastTokenEstimate;
-			updateDebugDrawer();
 			if (status) {
 				const sourceLabel = result.source === 'endpoint' ? 'AI spec' : 'Local spec';
 				const unresolvedMessage = unresolvedEdits.length
@@ -2638,10 +2595,10 @@
 
 			const versionId = `version-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
 			activePromptVersionId = versionId;
-			appendPromptHistory({ role: 'assistant', kind: 'success', components: componentNames(spec), versionId });
 			const versionState = captureState(false);
 			delete versionState.promptHistory;
 			rememberPromptVersion(versionId, versionState);
+			appendPromptHistory({ role: 'assistant', kind: 'success', components: componentNames(spec), versionId });
 		} catch (error) {
 			appendPromptHistory({ role: 'assistant', kind: 'error', text: error.message || 'Could not generate mockup.' });
 			if (promptInput && !promptInput.value) {
@@ -2783,21 +2740,6 @@
 			});
 		});
 
-		const debugToggle = document.getElementById('SoftadminDebugToggle');
-		const debugClose = document.getElementById('SoftadminDebugClose');
-
-		if (debugToggle) {
-			debugToggle.addEventListener('click', function () {
-				setDebugDrawerOpen(true);
-			});
-		}
-
-		if (debugClose) {
-			debugClose.addEventListener('click', function () {
-				setDebugDrawerOpen(false);
-			});
-		}
-
 		document.addEventListener('keydown', function (event) {
 			if ((event.key === 'Delete' || event.key === 'Backspace') && selectedElement && !isInteractiveEditingTarget(event.target)) {
 				event.preventDefault();
@@ -2807,7 +2749,10 @@
 
 			if (event.key === 'Escape') {
 				clearSelectedElement();
-				setDebugDrawerOpen(false);
+				if (expandedPromptVersionId) {
+					expandedPromptVersionId = null;
+					renderPromptHistory();
+				}
 			}
 		});
 
