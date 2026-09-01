@@ -4,11 +4,19 @@ require('./softadmin-reference-catalog.js');
 require('./softadmin-spec-contract.js');
 require('./softadmin-editor-patches.js');
 require('./softadmin-component-registry.js');
+const localization = require('./softadmin-localization.js');
 
 const assert = require('node:assert/strict');
 const catalog = global.SoftadminReferenceCatalog;
 const contract = global.SoftadminSpecContract;
 const editPatches = global.SoftadminEditorPatches;
+
+assert.equal(localization.translateText('Favorites', 'sv'), 'Favoriter');
+assert.equal(localization.translateText('Favoriter', 'en'), 'Favorites');
+assert.equal(localization.translateText('  2 of 2 hits  ', 'sv'), '  2 av 2 träffar  ');
+assert.equal(localization.translateText('Customers - Softadmin mockup', 'sv'), 'Customers - Softadmin-mockup');
+assert.equal(localization.translateText('NewEdit ready.', 'sv'), 'NewEdit klar.');
+assert.equal(localization.translateText('Custom customer wording', 'sv'), 'Custom customer wording');
 
 function validNewEdit() {
 	return {

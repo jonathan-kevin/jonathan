@@ -2004,6 +2004,7 @@
 
 		renderer.renderSpec(spec, root);
 		resetManualEdits();
+		applyCurrentLanguage();
 		enableInlineEditing();
 		enableFormValueEditing();
 		enableDragAndDrop();
@@ -2027,6 +2028,7 @@
 
 		if (status) {
 			status.textContent = message || `${componentNames(spec).join(', ')} ready.`;
+			applyCurrentLanguage();
 		}
 
 		updateUndoButton();
@@ -2166,6 +2168,7 @@
 		if (status) {
 			status.textContent = statusMessage;
 		}
+		applyCurrentLanguage();
 
 		updateUndoButton();
 	}
@@ -2310,6 +2313,32 @@
 		return 'Output language: English. Write every user-facing string in English, including titles, breadcrumbs, actions, sidebar groups and items, labels, messages, statuses, table headings and realistic sample data. Keep JSON keys, Softadmin component and control type names, icon names, and CSS class names unchanged.';
 	}
 
+	function applyCurrentLanguage() {
+		const language = selectedLanguageValue();
+		const localization = window.SoftadminLocalization;
+
+		if (!localization) {
+			return;
+		}
+
+		localization.localize(document, language);
+		document.documentElement.lang = language;
+		document.title = localization.translateText(document.title, language);
+	}
+
+	function localizedUiText(value) {
+		return window.SoftadminLocalization?.translateText(value, selectedLanguageValue()) || value;
+	}
+
+	function handleLanguagePickerChange(event) {
+		if (!event.target.matches('input[name="SoftadminLanguage"]')) {
+			return;
+		}
+
+		applyCurrentLanguage();
+		clearRedoHistory();
+	}
+
 	function populateComponentPicker(picker) {
 		if (!picker) {
 			return;
@@ -2409,7 +2438,7 @@
 				const updateProgress = () => {
 					const elapsed = Date.now() - startedAt;
 					const percentage = Math.min(100, Math.round(elapsed / 200));
-					status.textContent = `Generating... ${Math.floor(elapsed / 1000)}s`;
+					status.textContent = localizedUiText(`Generating... ${Math.floor(elapsed / 1000)}s`);
 					if (progress && progressBar) {
 						progress.setAttribute('aria-valuenow', String(percentage));
 						progressBar.style.width = `${percentage}%`;
@@ -2448,6 +2477,7 @@
 			updateFormBuilderVisibility();
 			const unresolvedEdits = shouldResetManualEdits ? [] : applyManualEdits();
 			updateAccountInitials();
+			applyCurrentLanguage();
 
 			pushUndoState(previousState);
 			lastDebugResult = {
@@ -2469,6 +2499,7 @@
 					? ` ${unresolvedEdits.length} manual edit${unresolvedEdits.length === 1 ? '' : 's'} could not be reapplied.`
 					: '';
 				status.textContent = `${sourceLabel}: ${componentNames(spec).join(', ')}.${unresolvedMessage}`;
+				applyCurrentLanguage();
 			}
 		} catch (error) {
 			if (status) {
@@ -2536,7 +2567,7 @@
 		}
 
 		if (languagePicker) {
-			languagePicker.addEventListener('change', clearRedoHistory);
+			languagePicker.addEventListener('change', handleLanguagePickerChange);
 		}
 
 		populateFormBuilderPalette();
@@ -2648,6 +2679,7 @@
 		if (status) {
 			status.textContent = 'Ready.';
 		}
+		applyCurrentLanguage();
 
 		enableInlineEditing();
 		enableFormValueEditing();
