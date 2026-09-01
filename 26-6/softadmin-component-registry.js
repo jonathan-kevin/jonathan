@@ -139,9 +139,9 @@
 			},
 			Calendar: {
 				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Calendar',
-				description: 'Calendar component. The mock renderer currently supports the Weekdays mode.',
+				description: 'Calendar component with weekdays, weekdays with time scale, and resources with time scale modes.',
 				implemented: true,
-				implementedModes: ['Weekdays'],
+				implementedModes: ['Weekdays', 'Weekdays with time scale', 'Resources with time scale'],
 				renderType: 'CalendarWeekdays'
 			},
 			Detailview: {
@@ -282,7 +282,7 @@
 			},
 			CalendarWeekdays: {
 				docs: 'https://documentation.softadmin.com/softadmin.aspx?id=5&Component=Calendar#calendar',
-				description: 'Mock renderer for Calendar in Weekdays mode.',
+				description: 'Mock renderer for the three visual Calendar modes.',
 				implemented: true,
 				aliasFor: 'Calendar'
 			},
@@ -2515,6 +2515,10 @@
 	}
 
 	function renderCalendarHeader(component) {
+		const isResourceMode = normalizeCalendarMode(component.mode) === 'Resources with time scale';
+		const periodLabel = isResourceMode ? (component.dayLabel || 'Day') : (component.weekLabel || 'Week');
+		const periodValue = isResourceMode ? (component.day || '') : (component.week || '');
+
 		return `
 			<div class="saCalendarHeader">
 				<div class="saCalendarHeaderInner">
@@ -2538,8 +2542,8 @@
 						<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
 					</label>
 					<label class="saInputTextWrapper saLabeled">
-						<span class="saLabeledLabel">${escapeHtml(component.weekLabel || 'Week')}</span>
-						<input class="saInputText saNumberInput" type="number" value="${escapeHtml(component.week || '')}">
+						<span class="saLabeledLabel">${escapeHtml(periodLabel)}</span>
+						<input class="saInputText saNumberInput" type="number" value="${escapeHtml(periodValue)}">
 					</label>
 					<button class="saTodayButton" type="button">${escapeHtml(component.todayLabel || 'Today')}</button>
 				</div>
@@ -2587,9 +2591,12 @@
 							<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
 						</label>
 						${filters.map(filter => `
-							<label class="saToggleWrapper">
-								<input class="saCheckbox" type="checkbox" ${filter.checked === false ? '' : 'checked'}>
-								<span>${escapeHtml(filter.label)}</span>
+							<label class="saToggleWrapper${filter.disabled ? ' saDisabled' : ''}">
+								<span class="saToggleLabelWrapper">
+									<span class="saToggleLabel">${escapeHtml(filter.label)}</span>
+									${filter.description ? `<span class="saToggleDescription">${escapeHtml(filter.description)}</span>` : ''}
+								</span>
+								<input class="saToggle" type="checkbox" ${filter.checked === false ? '' : 'checked'} ${filter.disabled ? 'disabled' : ''}>
 							</label>`).join('')}
 					</div>
 				</div>
@@ -2617,7 +2624,7 @@
 		return `
 			<div class="${classes}" role="cell" aria-label="${escapeHtml(day.date)}">
 				<div class="saDateInner">
-					<time class="saDateNumber" datetime="${escapeHtml(day.date)}">${escapeHtml(day.day)}</time>
+					<time class="saDateNumber" datetime="${escapeHtml(day.date)}">${escapeHtml(calendarDateNumber(day))}</time>
 					<ul class="saActivityGroup">
 						${(day.activities || []).map(renderCalendarActivity).join('')}
 					</ul>
@@ -2634,19 +2641,20 @@
 	}
 
 	function renderSmallCalendarDate(day) {
+		const dateNumber = calendarDateNumber(day);
 		const dateClasses = [
 			'saDateNumber',
 			(day.activities || []).length ? 'saHasItems' : '',
 			day.today ? 'saDateIsToday' : '',
 			day.current ? 'saDateIsCurrent' : '',
 			day.redDay ? 'saRedDay' : '',
-			String(day.day || '').length > 2 ? 'saWideDate' : ''
+			String(dateNumber).length > 2 ? 'saWideDate' : ''
 		].filter(Boolean).join(' ');
 
 		return `
 			<div class="saWeekDay">
 				<button class="${dateClasses}" type="button" aria-label="${escapeHtml(day.date)}">
-					<span class="saDateNumberInner">${escapeHtml(String(day.day || '').replace(/\s+\w+$/, ''))}</span>
+					<span class="saDateNumberInner">${escapeHtml(dateNumber)}</span>
 				</button>
 			</div>`;
 	}
@@ -2736,7 +2744,103 @@
 			</div>`;
 	}
 
+	function normalizeCalendarMode(mode) {
+		const key = String(mode || 'Weekdays').trim().toLowerCase().replace(/[\s_-]+/g, ' ');
+		if (key === 'weekdays with time scale' || key === 'weekday with time scale' || key === 'weekdays timescale') return 'Weekdays with time scale';
+		if (key === 'resources with time scale' || key === 'resource with time scale' || key === 'resources timescale') return 'Resources with time scale';
+		return 'Weekdays';
+	}
+
+	function calendarDateNumber(day) {
+		const isoMatch = String(day?.date || '').match(/^\d{4}-\d{2}-(\d{2})/);
+		if (isoMatch) return String(Number(isoMatch[1]));
+		const dayMatch = String(day?.day || '').match(/\b(\d{1,2})\b/);
+		return dayMatch ? String(Number(dayMatch[1])) : '';
+	}
+
+	function calendarMinutes(value) {
+		const match = String(value || '').match(/^(\d{1,2}):(\d{2})$/);
+		return match ? (Number(match[1]) * 60) + Number(match[2]) : null;
+	}
+
+	function renderCalendarScheduleActivity(activity, startMinutes, pixelsPerMinute) {
+		const activityStart = calendarMinutes(activity.start);
+		const activityEnd = calendarMinutes(activity.end);
+		const top = Number.isFinite(Number(activity.top))
+			? Number(activity.top)
+			: Math.max(0, ((activityStart ?? startMinutes) - startMinutes) * pixelsPerMinute);
+		const height = Number.isFinite(Number(activity.height))
+			? Number(activity.height)
+			: Math.max(24, ((activityEnd ?? ((activityStart ?? startMinutes) + 60)) - (activityStart ?? startMinutes)) * pixelsPerMinute - 2);
+		const color = activity.color || '#1668e0';
+		const textColor = activity.textColor || '#ffffff';
+		const description = activity.description || activity.time || (activity.start && activity.end ? `${activity.start}-${activity.end}` : '');
+
+		return `
+			<div class="saScheduleActivity saIgnoreOnDropJs${activity.clickable === false ? '' : ' saClickable'}" style="left: calc(0% + 4px); width: calc(100% - 4px); top: ${top}px; height: ${height}px; background-color: ${escapeHtml(color)};">
+				<div class="saScheduleActivityInner" style="color: ${escapeHtml(textColor)};">
+					<div class="saScheduleActivityHeadingWrapper"><span class="saListActivityHeading">${escapeHtml(activity.title || '')}</span></div>
+					${description ? `<span class="saListActivityDescription">${escapeHtml(description)}</span>` : ''}
+				</div>
+			</div>`;
+	}
+
+	function renderCalendarTimeScale(component, mode) {
+		const selectedWeek = (component.weeks || [])[0] || { days: [] };
+		const dayHeadings = component.dayHeadings || ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+		const columns = mode === 'Resources with time scale'
+			? (component.resourceColumns || []).map(resource => ({
+				label: resource.label || resource.name || '',
+				activities: resource.activities || [],
+				current: resource.current
+			}))
+			: (selectedWeek.days || []).map((day, index) => ({
+				...day,
+				label: day.weekday || dayHeadings[index] || day.day || ''
+			}));
+		const timeSlots = component.timeSlots || ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00'];
+		const slotHeight = Math.max(16, Number(component.slotHeight) || 30);
+		const startMinutes = calendarMinutes(timeSlots[0]) ?? 480;
+		const secondSlotMinutes = calendarMinutes(timeSlots[1]);
+		const slotMinutes = secondSlotMinutes === null ? 30 : Math.max(1, secondSlotMinutes - startMinutes);
+		const pixelsPerMinute = slotHeight / slotMinutes;
+		const stripeMarkup = timeSlots.map((slot, index) => `<div class="saCalendarStripe" style="height: ${slotHeight}px; top: ${index * slotHeight}px;"></div>`).join('');
+		const columnWidth = Math.max(96, Number(component.columnWidth) || 128);
+		const sectionClass = mode === 'Resources with time scale' ? 'saResourceCalendar' : 'saWeekdaysCalendar';
+
+		return `
+			<softadmin-calendar class="calendar maincolbody saMenuItemRoot">
+				<div class="saCalendarSection saDesktopCalendar saTimeScheduleCalendar ${sectionClass}">
+					${renderCalendarHeader(component)}
+					<div class="saCalendarSectionInner">
+						${component.sidebar === false ? '' : renderCalendarSidebar(component)}
+						<div class="saCalendar">
+							<div class="saWeek saWeekDays">
+								<time class="saWeekNumber"><button type="button" class="saIcon far fa-angles-left saCalendarSidebarExpander" aria-label="${escapeHtml(component.collapseSidebarLabel || 'Collapse menu')}"></button></time>
+								${columns.map(column => `<div class="saWeekDay" style="min-width: ${columnWidth}px;">${escapeHtml(column.label)}</div>`).join('')}
+							</div>
+							${mode === 'Weekdays with time scale' ? `
+								<div class="saWeek saWeekExtra saWeekDates">
+									<time class="saWeekNumber">${escapeHtml(selectedWeek.number || component.week || '')}</time>
+									${columns.map(day => `<div class="saWeekExtraInner saClickable" style="min-width: ${columnWidth}px;"><time class="saDateNumber" datetime="${escapeHtml(day.date || '')}">${escapeHtml(calendarDateNumber(day))}</time></div>`).join('')}
+								</div>` : ''}
+							<div class="saCalendarInnerWrapper">
+								<div class="saCalendarInner">
+									<div class="saWeek">
+										<div class="saSlotWrapper">${timeSlots.map(slot => `<div class="saSlot" style="min-height: ${slotHeight}px;"><div class="saSlotInner">${escapeHtml(slot)}</div></div>`).join('')}</div>
+										${columns.map(column => `<div class="saCalendarItemList" style="min-width: ${columnWidth}px;"><div class="saCalendarItemListInner">${stripeMarkup}${column.current && component.currentTime ? `<div class="saCurrentTime" style="top: ${Math.max(0, ((calendarMinutes(component.currentTime) ?? startMinutes) - startMinutes) * pixelsPerMinute)}px;"></div>` : ''}${(column.activities || []).map(activity => renderCalendarScheduleActivity(activity, startMinutes, pixelsPerMinute)).join('')}</div></div>`).join('')}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</softadmin-calendar>`;
+	}
+
 	function renderCalendarWeekdays(component) {
+		const mode = normalizeCalendarMode(component.mode);
+		if (mode !== 'Weekdays') return renderCalendarTimeScale(component, mode);
 		const dayHeadings = component.dayHeadings || ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 		return `

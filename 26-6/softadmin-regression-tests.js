@@ -67,6 +67,16 @@ const cases = [
 		valid: false
 	},
 	{
+		name: 'accepts Calendar weekdays with time scale',
+		spec: { components: [{ type: 'CalendarWeekdays', mode: 'Weekdays with time scale', timeSlots: ['08:00', '08:30'], weeks: [{ number: 36, days: [{ date: '2026-09-04', weekday: 'Friday', activities: [{ title: 'Review', start: '08:30', end: '09:00' }] }] }] }] },
+		valid: true
+	},
+	{
+		name: 'accepts Calendar resources with time scale',
+		spec: { components: [{ type: 'CalendarWeekdays', mode: 'Resources with time scale', timeSlots: ['08:00', '08:30'], resourceColumns: [{ label: 'Anna Andersson', activities: [{ title: 'Service', start: '08:00', end: '09:00' }] }] }] },
+		valid: true
+	},
+	{
 		name: 'rejects a Grid without rows',
 		spec: { components: [{ type: 'ResultGrid', columns: [] }] },
 		valid: false
@@ -384,6 +394,7 @@ global.SoftadminMockups.renderSpec({
 		week: 36,
 		resources: ['Viktor Lindgren', 'Anna Andersson'],
 		resource: 'Viktor Lindgren',
+		filters: [{ label: 'Meetings', description: 'Show scheduled meetings', checked: true }],
 		weeks: [
 			{ number: 36, days: [{ day: '31 Aug', date: '2026-08-31', today: true, activities: [{ title: 'Morning meeting', description: '10:00-11:00' }] }, { day: '1 Sep', date: '2026-09-01', activities: [] }] },
 			{ number: 37, days: [{ day: '7', date: '2026-09-07', activities: [] }, { day: '8', date: '2026-09-08', redDay: true, activities: [] }] }
@@ -398,6 +409,37 @@ assert.match(calendarRoot.innerHTML, /Morning meeting/);
 assert.match(calendarRoot.innerHTML, /Viktor Lindgren/);
 assert.match(calendarRoot.innerHTML, /<option selected>September<\/option>/);
 assert.equal((calendarRoot.innerHTML.match(/>September 2026<\/span>/g) || []).length, 1);
+assert.match(calendarRoot.innerHTML, /class="saToggle"/);
+assert.match(calendarRoot.innerHTML, /class="saToggleLabelWrapper"/);
+assert.doesNotMatch(calendarRoot.innerHTML, /class="saToggleWrapper">\s*<input class="saCheckbox"/);
+assert.match(calendarRoot.innerHTML, /datetime="2026-08-31">31<\/time>/);
+
+const calendarTimeScaleRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'CalendarWeekdays',
+		mode: 'Weekdays with time scale',
+		timeSlots: ['08:00', '08:30', '09:00'],
+		weeks: [{ number: 36, days: [{ weekday: 'Friday', day: 'Friday', date: '2026-09-04', activities: [{ title: 'Review', start: '08:30', end: '09:00' }] }] }]
+	}]
+}, calendarTimeScaleRoot);
+assert.match(calendarTimeScaleRoot.innerHTML, /saTimeScheduleCalendar saWeekdaysCalendar/);
+assert.match(calendarTimeScaleRoot.innerHTML, /datetime="2026-09-04">4<\/time>/);
+assert.match(calendarTimeScaleRoot.innerHTML, /top: 30px; height: 28px/);
+
+const calendarResourceRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'CalendarWeekdays',
+		mode: 'Resources with time scale',
+		day: 4,
+		timeSlots: ['08:00', '08:30', '09:00'],
+		resourceColumns: [{ label: 'Anna Andersson', current: true, activities: [{ title: 'Service', start: '08:00', end: '09:00' }] }]
+	}]
+}, calendarResourceRoot);
+assert.match(calendarResourceRoot.innerHTML, /saTimeScheduleCalendar saResourceCalendar/);
+assert.match(calendarResourceRoot.innerHTML, /Anna Andersson/);
+assert.match(calendarResourceRoot.innerHTML, />Day<\/span>/);
 
 const linkListRoot = { innerHTML: '' };
 global.SoftadminMockups.renderSpec({

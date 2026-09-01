@@ -105,7 +105,12 @@
 		};
 
 		if (normalized.type === 'CalendarWeekdays') {
-			normalized.mode = normalized.mode || 'Weekdays';
+			const mode = String(normalized.mode || 'Weekdays').trim().toLowerCase().replace(/[\s_-]+/g, ' ');
+			normalized.mode = mode === 'weekdays with time scale' || mode === 'weekday with time scale' || mode === 'weekdays timescale'
+				? 'Weekdays with time scale'
+				: mode === 'resources with time scale' || mode === 'resource with time scale' || mode === 'resources timescale'
+					? 'Resources with time scale'
+					: 'Weekdays';
 		}
 
 		if (normalized.type === 'DetailView' && Array.isArray(normalized.tabs)) {

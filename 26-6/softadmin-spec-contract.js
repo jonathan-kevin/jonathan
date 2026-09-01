@@ -93,7 +93,11 @@
 		}
 
 		if (component.type === 'CalendarWeekdays') {
-			requireArray(component, 'weeks', path, errors).forEach((week, weekIndex) => {
+			const calendarModes = ['Weekdays', 'Weekdays with time scale', 'Resources with time scale'];
+			const mode = component.mode || 'Weekdays';
+			if (!calendarModes.includes(mode)) errors.push(`${path}.mode must be Weekdays, Weekdays with time scale, or Resources with time scale.`);
+			const weeks = component.weeks === undefined && mode === 'Resources with time scale' ? [] : requireArray(component, 'weeks', path, errors);
+			weeks.forEach((week, weekIndex) => {
 				if (!week || !Array.isArray(week.days)) {
 					errors.push(`${path}.weeks[${weekIndex}].days must be an array.`);
 					return;
@@ -106,6 +110,12 @@
 					}
 				});
 			});
+			if (mode === 'Resources with time scale') {
+				requireArray(component, 'resourceColumns', path, errors).forEach((resource, resourceIndex) => {
+					if (!resource || !Array.isArray(resource.activities)) errors.push(`${path}.resourceColumns[${resourceIndex}].activities must be an array.`);
+				});
+			}
+			if (component.timeSlots !== undefined && !Array.isArray(component.timeSlots)) errors.push(`${path}.timeSlots must be an array.`);
 		}
 
 		if (component.type === 'NewEdit') {
