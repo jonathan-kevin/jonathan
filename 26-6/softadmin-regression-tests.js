@@ -422,12 +422,23 @@ global.SoftadminMockups.renderSpec({
 		type: 'CalendarWeekdays',
 		mode: 'Weekdays with time scale',
 		timeSlots: ['08:00', '08:30', '09:00'],
-		weeks: [{ number: 36, days: [{ weekday: 'Friday', day: 'Friday', date: '2026-09-04', activities: [{ title: 'Review', start: '08:30', end: '09:00' }] }] }]
+		filters: [{ label: 'Deleted shifts', control: 'dropdown', options: ['Hide', 'Show'], value: 'Show' }],
+		weeks: [
+			{ number: 36, days: [{ weekday: 'Friday', day: 'Friday', date: '2026-09-04', dateLabel: '4 Sep', activities: [{ title: 'Review', start: '08:30', end: '09:00' }, { title: 'Release day', allDay: true }] }] },
+			{ number: 37, days: [{ weekday: 'Monday', day: 'Monday', date: '2026-09-07', activities: [{ title: 'Planning', start: '08:00', end: '08:30' }] }] }
+		]
 	}]
 }, calendarTimeScaleRoot);
 assert.match(calendarTimeScaleRoot.innerHTML, /saTimeScheduleCalendar saWeekdaysCalendar/);
-assert.match(calendarTimeScaleRoot.innerHTML, /datetime="2026-09-04">4<\/time>/);
+assert.match(calendarTimeScaleRoot.innerHTML, /datetime="2026-09-04">4 Sep<\/time>/);
 assert.match(calendarTimeScaleRoot.innerHTML, /top: 30px; height: 28px/);
+assert.equal((calendarTimeScaleRoot.innerHTML.match(/saWeek saWeekExtra saWeekDates/g) || []).length, 2);
+assert.equal((calendarTimeScaleRoot.innerHTML.match(/class="saCalendarInnerWrapper"/g) || []).length, 2);
+assert.match(calendarTimeScaleRoot.innerHTML, /saScheduleActivity saAllDay saClickable/);
+assert.equal((calendarTimeScaleRoot.innerHTML.match(/Release day/g) || []).length, 1);
+assert.match(calendarTimeScaleRoot.innerHTML, /<span class="saLabeledLabel">Deleted shifts<\/span>/);
+assert.match(calendarTimeScaleRoot.innerHTML, /<option selected>Show<\/option>/);
+assert.match(calendarTimeScaleRoot.innerHTML, /saCalendarItemListInner saHasLinks/);
 
 const calendarResourceRoot = { innerHTML: '' };
 global.SoftadminMockups.renderSpec({

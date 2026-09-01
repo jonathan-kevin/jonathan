@@ -2590,17 +2590,37 @@
 							</select>
 							<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
 						</label>
-						${filters.map(filter => `
-							<label class="saToggleWrapper${filter.disabled ? ' saDisabled' : ''}">
-								<span class="saToggleLabelWrapper">
-									<span class="saToggleLabel">${escapeHtml(filter.label)}</span>
-									${filter.description ? `<span class="saToggleDescription">${escapeHtml(filter.description)}</span>` : ''}
-								</span>
-								<input class="saToggle" type="checkbox" ${filter.checked === false ? '' : 'checked'} ${filter.disabled ? 'disabled' : ''}>
-							</label>`).join('')}
+						${filters.map(renderCalendarFilter).join('')}
 					</div>
 				</div>
 			</div>`;
+	}
+
+	function renderCalendarFilter(filter) {
+		if (filter.control === 'dropdown' || Array.isArray(filter.options)) {
+			const options = filter.options || ['Hide', 'Show'];
+			return `
+				<label class="saInputTextWrapper saLabeled${filter.disabled ? ' saDisabled' : ''}">
+					<span class="saLabeledLabel">${escapeHtml(filter.label)}</span>
+					<select class="saInputText saDropdown" ${filter.disabled ? 'disabled' : ''}>
+						${options.map(option => {
+							const value = typeof option === 'object' ? option.value : option;
+							const label = typeof option === 'object' ? option.label : option;
+							return `<option${String(value) === String(filter.value) ? ' selected' : ''}>${escapeHtml(label)}</option>`;
+						}).join('')}
+					</select>
+					<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
+				</label>`;
+		}
+
+		return `
+			<label class="saToggleWrapper${filter.disabled ? ' saDisabled' : ''}">
+				<span class="saToggleLabelWrapper">
+					<span class="saToggleLabel">${escapeHtml(filter.label)}</span>
+					${filter.description ? `<span class="saToggleDescription">${escapeHtml(filter.description)}</span>` : ''}
+				</span>
+				<input class="saToggle" type="checkbox" ${filter.checked === false ? '' : 'checked'} ${filter.disabled ? 'disabled' : ''}>
+			</label>`;
 	}
 
 	function renderCalendarActivity(activity) {
@@ -2758,6 +2778,10 @@
 		return dayMatch ? String(Number(dayMatch[1])) : '';
 	}
 
+	function calendarDateLabel(day) {
+		return day?.dateLabel || calendarDateNumber(day);
+	}
+
 	function calendarMinutes(value) {
 		const match = String(value || '').match(/^(\d{1,2}):(\d{2})$/);
 		return match ? (Number(match[1]) * 60) + Number(match[2]) : null;
@@ -2785,8 +2809,42 @@
 			</div>`;
 	}
 
+	function renderCalendarAllDayActivity(activity) {
+		const color = activity.color || '#dbeaff';
+		const textColor = activity.textColor || '#172033';
+		return `
+			<div class="saScheduleActivity saAllDay${activity.clickable === false ? '' : ' saClickable'}" style="background-color: ${escapeHtml(color)};">
+				<div class="saScheduleActivityInner" style="color: ${escapeHtml(textColor)};">
+					<div class="saScheduleActivityHeadingWrapper"><span class="saListActivityHeading">${escapeHtml(activity.title || '')}</span></div>
+					${activity.description ? `<span class="saListActivityDescription">${escapeHtml(activity.description)}</span>` : ''}
+				</div>
+			</div>`;
+	}
+
+	function renderCalendarTimeScaleBody(columns, options) {
+		const { columnWidth, timeSlots, slotHeight, stripeMarkup, startMinutes, pixelsPerMinute, currentTime } = options;
+		return `
+			<div class="saCalendarInnerWrapper">
+				<div class="saCalendarInner" role="rowgroup">
+					<div class="saWeek saWeekExtra" role="row">
+						<div class="saSlotWrapper"></div>
+						${columns.map(column => `<div class="saWeekExtraInner" style="min-width: ${columnWidth}px;">${(column.activities || []).filter(activity => activity.allDay).map(renderCalendarAllDayActivity).join('')}</div>`).join('')}
+					</div>
+					<div class="saWeek" role="row">
+						<div class="saSlotWrapper">${timeSlots.map(slot => `<div class="saSlot" style="min-height: ${slotHeight}px;"><div class="saSlotInner">${escapeHtml(slot)}</div></div>`).join('')}</div>
+						${columns.map(column => {
+							const activities = (column.activities || []).filter(activity => !activity.allDay);
+							const hasLinks = activities.some(activity => activity.clickable !== false);
+							return `<div class="saCalendarItemList" role="cell" style="min-width: ${columnWidth}px;"><div class="saCalendarItemListInner${hasLinks ? ' saHasLinks' : ''}">${stripeMarkup}${column.current && currentTime ? `<div class="saCurrentTime" style="top: ${Math.max(0, ((calendarMinutes(currentTime) ?? startMinutes) - startMinutes) * pixelsPerMinute)}px;"></div>` : ''}${activities.map(activity => renderCalendarScheduleActivity(activity, startMinutes, pixelsPerMinute)).join('')}</div></div>`;
+						}).join('')}
+					</div>
+				</div>
+			</div>`;
+	}
+
 	function renderCalendarTimeScale(component, mode) {
-		const selectedWeek = (component.weeks || [])[0] || { days: [] };
+		const weeks = component.weeks || [];
+		const selectedWeek = weeks[0] || { days: [] };
 		const dayHeadings = component.dayHeadings || ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 		const columns = mode === 'Resources with time scale'
 			? (component.resourceColumns || []).map(resource => ({
@@ -2807,6 +2865,7 @@
 		const stripeMarkup = timeSlots.map((slot, index) => `<div class="saCalendarStripe" style="height: ${slotHeight}px; top: ${index * slotHeight}px;"></div>`).join('');
 		const columnWidth = Math.max(96, Number(component.columnWidth) || 128);
 		const sectionClass = mode === 'Resources with time scale' ? 'saResourceCalendar' : 'saWeekdaysCalendar';
+		const bodyOptions = { columnWidth, timeSlots, slotHeight, stripeMarkup, startMinutes, pixelsPerMinute, currentTime: component.currentTime };
 
 		return `
 			<softadmin-calendar class="calendar maincolbody saMenuItemRoot">
@@ -2819,19 +2878,17 @@
 								<time class="saWeekNumber"><button type="button" class="saIcon far fa-angles-left saCalendarSidebarExpander" aria-label="${escapeHtml(component.collapseSidebarLabel || 'Collapse menu')}"></button></time>
 								${columns.map(column => `<div class="saWeekDay" style="min-width: ${columnWidth}px;">${escapeHtml(column.label)}</div>`).join('')}
 							</div>
-							${mode === 'Weekdays with time scale' ? `
-								<div class="saWeek saWeekExtra saWeekDates">
-									<time class="saWeekNumber">${escapeHtml(selectedWeek.number || component.week || '')}</time>
-									${columns.map(day => `<div class="saWeekExtraInner saClickable" style="min-width: ${columnWidth}px;"><time class="saDateNumber" datetime="${escapeHtml(day.date || '')}">${escapeHtml(calendarDateNumber(day))}</time></div>`).join('')}
-								</div>` : ''}
-							<div class="saCalendarInnerWrapper">
-								<div class="saCalendarInner">
-									<div class="saWeek">
-										<div class="saSlotWrapper">${timeSlots.map(slot => `<div class="saSlot" style="min-height: ${slotHeight}px;"><div class="saSlotInner">${escapeHtml(slot)}</div></div>`).join('')}</div>
-										${columns.map(column => `<div class="saCalendarItemList" style="min-width: ${columnWidth}px;"><div class="saCalendarItemListInner">${stripeMarkup}${column.current && component.currentTime ? `<div class="saCurrentTime" style="top: ${Math.max(0, ((calendarMinutes(component.currentTime) ?? startMinutes) - startMinutes) * pixelsPerMinute)}px;"></div>` : ''}${(column.activities || []).map(activity => renderCalendarScheduleActivity(activity, startMinutes, pixelsPerMinute)).join('')}</div></div>`).join('')}
-									</div>
-								</div>
-							</div>
+							${mode === 'Weekdays with time scale'
+								? (weeks.length ? weeks : [selectedWeek]).map(week => {
+									const weekColumns = (week.days || []).map((day, index) => ({ ...day, label: day.weekday || dayHeadings[index] || day.day || '' }));
+									return `
+										<div class="saWeek saWeekExtra saWeekDates" role="row">
+											<time class="saWeekNumber" role="rowheader">${escapeHtml(week.number || component.week || '')}</time>
+											${weekColumns.map(day => `<div class="saWeekExtraInner${day.redDay ? ' saRedDay' : ''}${day.clickable === false ? '' : ' saClickable'}" style="min-width: ${columnWidth}px;"><time class="saDateNumber" datetime="${escapeHtml(day.date || '')}">${escapeHtml(calendarDateLabel(day))}</time></div>`).join('')}
+										</div>
+										${renderCalendarTimeScaleBody(weekColumns, bodyOptions)}`;
+								}).join('')
+								: renderCalendarTimeScaleBody(columns, bodyOptions)}
 						</div>
 					</div>
 				</div>
