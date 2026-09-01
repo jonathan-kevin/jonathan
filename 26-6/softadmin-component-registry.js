@@ -2295,7 +2295,7 @@
 			return value.link ? `<a class="saLink" tabindex="0">${text}</a>` : text;
 		}
 
-		return `<span class="saGridText">${escapeHtml(value || '')}</span>`;
+		return `<span class="saGridText">${escapeHtml(value ?? '')}</span>`;
 	}
 
 	function gridPlainText(value) {
@@ -2349,7 +2349,10 @@
 
 	function renderGridTop(component) {
 		const columns = component.columns || [];
-		const groupOptions = ['(Nothing)', ...columns.map(column => column.label)];
+		const isGrouped = component.grouped || (component.rows || []).some(row => row.type === 'groupHeader');
+		const configuredGroupOptions = component.groupOptions || columns.map(column => column.label);
+		const groupOptions = ['(Nothing)', ...configuredGroupOptions];
+		if (component.groupedBy && !groupOptions.includes(component.groupedBy)) groupOptions.push(component.groupedBy);
 		const selectedGroup = Math.max(0, groupOptions.indexOf(component.groupedBy || ''));
 
 		return `
@@ -2361,7 +2364,7 @@
 					</div>
 					${renderGridPagination(component)}
 					<div class="saButtons">
-						<label class="saInputTextWrapper saLabeled saGroupingGrid${component.grouped ? ' saIsGrouped' : ''}">
+						<label class="saInputTextWrapper saLabeled saGroupingGrid${isGrouped ? ' saIsGrouped' : ''}">
 							<span class="saLabeledLabel saGroupingGridLabel">Group by</span>
 							<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
 							<select class="saInputText saDropdown saGridGroupingDropdown">
@@ -2429,10 +2432,15 @@
 
 	function renderGridBodyRow(component, row, index, columns) {
 		if (row.type === 'groupHeader') {
+			const heading = `<span class="saLinkText">${escapeHtml(row.label || '')}</span>`;
 			return `
 				<tr class="saGridGroupedRowsHeader">
-					<th colspan="${columns.length + 1}" style="top: 141px;"><span class="saGridGroupedRowsHeaderText">${escapeHtml(row.label || '')}</span></th>
+					<th colspan="${columns.length + 1}" style="top: 141px;">${row.clickable === false ? `<span class="saGridGroupedRowsHeaderText">${heading}</span>` : `<a class="saLink saGridGroupedRowsHeaderText" tabindex="0">${heading}</a>`}</th>
 				</tr>`;
+		}
+
+		if (row.type === 'subtotal' || row.type === 'aggregate') {
+			return renderGridAggregateRow(row, columns);
 		}
 
 		if (row.type === 'extraText') {
@@ -2457,6 +2465,19 @@
 			</tr>`;
 	}
 
+	function renderGridAggregateRow(aggregate, columns) {
+		const values = aggregate.values || {};
+		return `
+			<tr class="aggregate">
+				<td colspan="1" class="right"><div class="saGridCell saAggregateLabel">${escapeHtml(aggregate.label || 'Subtotal')}</div></td>
+				${columns.map(column => {
+					const value = values[column.key];
+					const classes = value !== undefined && isNumericGridColumn(column, value) ? ' class="right"' : '';
+					return `<td${classes}><div class="saGridCell">${value === undefined || value === null || value === '' ? '' : `<nobr>${renderGridCellValue(value)}</nobr>`}</div></td>`;
+				}).join('')}
+			</tr>`;
+	}
+
 	function renderListGridAction(action, index, row) {
 		const isMore = /more/i.test(action.label || '') || action.icon === 'ellipsis-vertical';
 		const classes = isMore ? 'saListGridMoreButton' : 'saListGridRowLink';
@@ -2472,6 +2493,12 @@
 
 	function renderListGridRow(component, row, index) {
 		const columns = component.columns || [];
+		if (row.type === 'groupHeader') {
+			return `<span class="saGroupHead"><span class="saLinkText">${escapeHtml(row.label || '')}</span></span>`;
+		}
+		if (row.type === 'subtotal' || row.type === 'aggregate') {
+			return renderListGridAggregate(row, columns);
+		}
 		if (row.type) {
 			return '';
 		}
@@ -2504,6 +2531,18 @@
 			</div>`;
 	}
 
+	function renderListGridAggregate(aggregate, columns) {
+		const values = aggregate.values || {};
+		const populated = columns.filter(column => values[column.key] !== undefined && values[column.key] !== null && values[column.key] !== '');
+		return `
+			<div class="saRow saListGridAggregate">
+				<div class="saRowHeading"><div class="saRowHeadingInner"><span class="saRowHeadingTextWrapper"><h3>${escapeHtml(aggregate.label || 'Subtotal')}</h3></span></div></div>
+				<div class="saRowBody">
+					${populated.map(column => `<div class="saCellWrapper"><div class="saCellLabel">${escapeHtml(column.label)}</div><div class="saCellText">${renderGridCellValue(values[column.key])}</div></div>`).join('')}
+				</div>
+			</div>`;
+	}
+
 	function renderListGrid(component) {
 		const rows = component.rows || [];
 
@@ -2514,6 +2553,7 @@
 					<div class="saListGridInner">
 						${component.title ? `<span class="saGroupHead"><span class="saLinkText">${escapeHtml(component.title)}</span></span>` : ''}
 						${rows.map((row, index) => renderListGridRow(component, row, index)).join('')}
+						${component.total ? renderListGridAggregate(component.total, component.columns || []) : ''}
 					</div>
 				</div>
 			</div>`;
@@ -2538,6 +2578,7 @@
 						<tbody>
 							${rows.map((row, index) => renderGridBodyRow(component, row, index, columns)).join('')}
 						</tbody>
+						${component.total ? `<tfoot class="saGridFoot">${renderGridAggregateRow(component.total, columns)}</tfoot>` : ''}
 					</table>
 					${component.bottomPagination ? renderGridPagination(component) : ''}
 				</div>

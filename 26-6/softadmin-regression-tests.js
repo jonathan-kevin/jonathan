@@ -112,6 +112,16 @@ const cases = [
 		valid: true
 	},
 	{
+		name: 'accepts grouped Grid rows with subtotals and a total',
+		spec: { components: [{ type: 'ResultGrid', columns: [{ key: 'name', label: 'Name' }, { key: 'amount', label: 'Amount', numeric: true }], rows: [{ type: 'groupHeader', label: 'North' }, { name: 'Alpha', amount: 10 }, { type: 'subtotal', label: 'Subtotal', values: { amount: 10 } }], total: { label: 'Total', values: { amount: 10 } } }] },
+		valid: true
+	},
+	{
+		name: 'rejects a Grid subtotal without values',
+		spec: { components: [{ type: 'ResultGrid', columns: [], rows: [{ type: 'subtotal', label: 'Subtotal' }] }] },
+		valid: false
+	},
+	{
 		name: 'rejects row-specific Grid actions',
 		spec: { components: [{ type: 'ResultGrid', columns: [{ key: 'name', label: 'Name' }], rows: [{ name: 'Alpha', actions: [{ label: 'Special', icon: 'star' }] }] }] },
 		valid: false
@@ -569,6 +579,41 @@ assert.equal((sharedGridActionsRoot.innerHTML.match(/aria-label="Open case"/g) |
 assert.equal((sharedGridActionsRoot.innerHTML.match(/aria-label="Edit case"/g) || []).length, 4);
 assert.equal((sharedGridActionsRoot.innerHTML.match(/aria-label="Edit case" disabled/g) || []).length, 1);
 assert.equal((sharedGridActionsRoot.innerHTML.match(/aria-label="Edit case" class="saDisabled"/g) || []).length, 0);
+
+const groupedGridRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'ResultGrid',
+		variant: 'listpage',
+		groupedBy: 'Platform',
+		groupOptions: ['Title', 'Genre', 'Release date', 'Platform'],
+		pagination: false,
+		columns: [
+			{ key: 'title', label: 'Title' },
+			{ key: 'platform', label: 'Platform' },
+			{ key: 'rating', label: 'Rating', numeric: true, align: 'right' }
+		],
+		rows: [
+			{ type: 'groupHeader', label: 'PC' },
+			{ title: 'Mystic Realms', platform: 'PC', rating: 9 },
+			{ title: 'Code Hacker', platform: 'PC', rating: 0 },
+			{ type: 'subtotal', label: 'Subtotal', values: { rating: 9 } },
+			{ type: 'groupHeader', label: 'Console', clickable: false },
+			{ title: 'Urban Empire', platform: 'Console', rating: 7.5 },
+			{ type: 'subtotal', label: 'Subtotal', values: { rating: 7.5 } }
+		],
+		total: { label: 'Total', values: { rating: 16.5 } }
+	}]
+}, groupedGridRoot);
+assert.match(groupedGridRoot.innerHTML, /saGroupingGrid saIsGrouped/);
+assert.match(groupedGridRoot.innerHTML, /<option value="4" selected>Platform<\/option>/);
+assert.equal((groupedGridRoot.innerHTML.match(/class="saGridGroupedRowsHeader"/g) || []).length, 2);
+assert.equal((groupedGridRoot.innerHTML.match(/<tr class="aggregate">/g) || []).length, 3);
+assert.match(groupedGridRoot.innerHTML, /<tfoot class="saGridFoot">/);
+assert.match(groupedGridRoot.innerHTML, /saAggregateLabel">Total/);
+assert.match(groupedGridRoot.innerHTML, /saGridText">0<\/span>/);
+assert.match(groupedGridRoot.innerHTML, /saListGridAggregate/);
+assert.doesNotMatch(groupedGridRoot.innerHTML, /saMissingLabel|Missing label:/);
 
 const inlineDocumentRoot = { innerHTML: '' };
 global.SoftadminMockups.renderSpec({

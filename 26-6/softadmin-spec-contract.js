@@ -140,7 +140,9 @@
 			requireArray(component, 'rows', path, errors).forEach((row, index) => {
 				if (row?.actions !== undefined) errors.push(`${path}.rows[${index}].actions is not allowed; define rowActions on the Grid.`);
 				if (row?.disabledActions !== undefined && !Array.isArray(row.disabledActions)) errors.push(`${path}.rows[${index}].disabledActions must be an array.`);
+				if ((row?.type === 'subtotal' || row?.type === 'aggregate') && (!row.values || typeof row.values !== 'object' || Array.isArray(row.values))) errors.push(`${path}.rows[${index}].values must be an object.`);
 			});
+			if (component.total !== undefined && (!component.total || typeof component.total.values !== 'object' || Array.isArray(component.total.values))) errors.push(`${path}.total.values must be an object.`);
 		}
 
 		if (component.type === 'PivotGrid') {
