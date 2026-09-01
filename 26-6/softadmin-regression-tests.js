@@ -16,6 +16,8 @@ assert.equal(localization.translateText('Favoriter', 'en'), 'Favorites');
 assert.equal(localization.translateText('  2 of 2 hits  ', 'sv'), '  2 av 2 träffar  ');
 assert.equal(localization.translateText('Customers - Softadmin mockup', 'sv'), 'Customers - Softadmin-mockup');
 assert.equal(localization.translateText('NewEdit ready.', 'sv'), 'NewEdit klar.');
+assert.equal(localization.translateText('Calendar layout', 'sv'), 'Kalenderlayout');
+assert.equal(localization.translateText('Weekdays with time scale', 'sv'), 'Veckodagar med tidsskala');
 assert.equal(localization.translateText('Custom customer wording', 'sv'), 'Custom customer wording');
 
 function validNewEdit() {

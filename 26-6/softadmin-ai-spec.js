@@ -14,6 +14,7 @@
 	let preferredLogoSource = null;
 	let preferredAvatarSource = null;
 	let lastComponentSelection = '';
+	let lastCalendarModeSelection = 'Weekdays';
 	let selectedElement = null;
 	let draggedElement = null;
 	let dropTargetElement = null;
@@ -1094,14 +1095,20 @@
 
 	function updateFormBuilderVisibility() {
 		const builder = document.getElementById('SoftadminFormBuilder');
+		const calendarPicker = document.getElementById('SoftadminCalendarModePicker');
 
-		if (!builder) {
-			return;
+		if (builder) {
+			const isVisible = shouldShowFormBuilder();
+			builder.classList.toggle('saOpen', isVisible);
+			builder.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
 		}
 
-		const isVisible = shouldShowFormBuilder();
-		builder.classList.toggle('saOpen', isVisible);
-		builder.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
+		if (calendarPicker) {
+			const isCalendarVisible = selectedComponentValue() === 'CalendarWeekdays';
+			calendarPicker.classList.toggle('saOpen', isCalendarVisible);
+			calendarPicker.setAttribute('aria-hidden', isCalendarVisible ? 'false' : 'true');
+		}
+
 		requestAnimationFrame(clampAiToolsToViewport);
 	}
 
@@ -2068,6 +2075,91 @@
 		};
 	}
 
+	function selectedCalendarModeValue() {
+		return document.querySelector('input[name="SoftadminCalendarMode"]:checked')?.value || 'Weekdays';
+	}
+
+	function calendarStarterSpec(mode = selectedCalendarModeValue(), language = selectedLanguageValue()) {
+		const swedish = language === 'sv';
+		const weekdays = swedish
+			? ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag']
+			: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+		const shortDays = swedish ? ['Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör', 'Sön'] : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+		const base = {
+			type: 'CalendarWeekdays',
+			mode,
+			heading: swedish ? 'Vecka 36 2026' : 'Week 36 2026',
+			previousLabel: swedish ? 'Föregående' : 'Previous',
+			nextLabel: swedish ? 'Nästa' : 'Next',
+			todayLabel: swedish ? 'Idag' : 'Today',
+			yearLabel: swedish ? 'År' : 'Year',
+			monthLabel: swedish ? 'Månad' : 'Month',
+			weekLabel: swedish ? 'Vecka' : 'Week',
+			dayLabel: swedish ? 'Dag' : 'Day',
+			year: '2026',
+			month: swedish ? 'September' : 'September',
+			months: swedish
+				? ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December']
+				: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+			week: 36,
+			day: 4,
+			sidebarHeading: 'September 2026',
+			dayHeadings: weekdays,
+			dayHeadingsShort: shortDays,
+			resources: [swedish ? 'Alla resurser' : 'All resources', 'Anna Andersson', 'Viktor Lindgren'],
+			resource: swedish ? 'Alla resurser' : 'All resources',
+			resourceLabel: swedish ? 'Resurs' : 'Resource',
+			filterHeading: swedish ? 'Filter' : 'Filter',
+			filters: [
+				{ label: swedish ? 'Möten' : 'Meetings', checked: true },
+				{ label: swedish ? 'Frånvaro' : 'Absence', checked: true }
+			]
+		};
+		const days = [
+			{ day: '31', weekday: weekdays[0], date: '2026-08-31', activities: [{ title: swedish ? 'Veckoplanering' : 'Weekly planning', description: '09:00-10:00', start: '09:00', end: '10:00', color: '#1668e0' }] },
+			{ day: '1', weekday: weekdays[1], date: '2026-09-01', today: true, current: true, activities: [{ title: swedish ? 'Kundmöte' : 'Customer meeting', description: '10:00-11:30', start: '10:00', end: '11:30', color: '#198754' }] },
+			{ day: '2', weekday: weekdays[2], date: '2026-09-02', activities: [] },
+			{ day: '3', weekday: weekdays[3], date: '2026-09-03', activities: [{ title: swedish ? 'Projektavstämning' : 'Project review', description: '13:00-14:00', start: '13:00', end: '14:00', color: '#7c3aed' }] },
+			{ day: '4', weekday: weekdays[4], date: '2026-09-04', activities: [] }
+		];
+
+		if (mode === 'Resources with time scale') {
+			return {
+				frame: {
+					title: swedish ? 'Resurskalender' : 'Resource calendar',
+					documentTitle: swedish ? 'Resurskalender - Softadmin-mockup' : 'Resource calendar - Softadmin mockup',
+					breadcrumbs: swedish ? ['Hem', 'Planering', 'Resurskalender'] : ['Home', 'Planning', 'Resource calendar'],
+					actions: []
+				},
+				components: [{
+					...base,
+					heading: swedish ? 'Tisdag 1 september 2026' : 'Tuesday 1 September 2026',
+					timeSlots: ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
+					currentTime: '10:15',
+					resourceColumns: [
+						{ label: 'Anna Andersson', current: true, activities: [{ title: swedish ? 'Servicebesök' : 'Service visit', description: '09:00-10:30', start: '09:00', end: '10:30', color: '#1668e0' }] },
+						{ label: 'Viktor Lindgren', activities: [{ title: swedish ? 'Installation' : 'Installation', description: '10:00-12:00', start: '10:00', end: '12:00', color: '#198754' }] },
+						{ label: 'Maria Johansson', activities: [] }
+					]
+				}]
+			};
+		}
+
+		return {
+			frame: {
+				title: swedish ? 'Kalender' : 'Calendar',
+				documentTitle: swedish ? 'Kalender - Softadmin-mockup' : 'Calendar - Softadmin mockup',
+				breadcrumbs: swedish ? ['Hem', 'Planering', 'Kalender'] : ['Home', 'Planning', 'Calendar'],
+				actions: []
+			},
+			components: [{
+				...base,
+				...(mode === 'Weekdays with time scale' ? { timeSlots: ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00'] } : {}),
+				weeks: [{ number: 36, label: swedish ? 'Vecka 36' : 'Week 36', days }]
+			}]
+		};
+	}
+
 	function renderDirectSpec(spec, message, previousState = captureState()) {
 		const root = document.querySelector('[data-softadmin-component-root]');
 		const renderer = window.SoftadminMockups;
@@ -2095,7 +2187,7 @@
 
 		lastDebugResult = {
 			diagnostics: { aliases: [], dropped: [], warnings: [] },
-			prompt: 'Direct component picker: NewEdit',
+			prompt: `Direct component picker: ${componentNames(spec).join(', ')}`,
 			rawSpec: spec,
 			source: 'direct',
 			spec,
@@ -2129,8 +2221,24 @@
 			return;
 		}
 
+		if (event.target.value === 'CalendarWeekdays') {
+			renderDirectSpec(calendarStarterSpec(), `${selectedCalendarModeValue()} ready.`, previousState);
+			return;
+		}
+
 		clearRedoHistory();
 		updateFormBuilderVisibility();
+	}
+
+	function handleCalendarModeChange(event) {
+		if (!event.target.matches('input[name="SoftadminCalendarMode"]')) {
+			return;
+		}
+
+		const previousState = captureState();
+		previousState.calendarModeValue = lastCalendarModeSelection;
+		lastCalendarModeSelection = event.target.value;
+		renderDirectSpec(calendarStarterSpec(event.target.value), `${event.target.value} ready.`, previousState);
 	}
 
 	function cloneDebugResult(value) {
@@ -2148,6 +2256,7 @@
 			sidebarHtml: document.querySelector('.saSideBarOuter')?.innerHTML || '',
 			rootHtml: document.querySelector('[data-softadmin-component-root]')?.innerHTML || '',
 			componentValue: selectedComponentValue(),
+			calendarModeValue: selectedCalendarModeValue(),
 			languageValue: selectedLanguageValue(),
 			statusText: document.getElementById('SoftadminPromptStatus')?.textContent || '',
 			promptHistory: promptHistory.map(entry => ({ ...entry, components: entry.components ? [...entry.components] : undefined })),
@@ -2222,6 +2331,10 @@
 		document.querySelectorAll('input[name="SoftadminLanguage"]').forEach(input => {
 			input.checked = input.value === (state.languageValue || 'en');
 		});
+		document.querySelectorAll('input[name="SoftadminCalendarMode"]').forEach(input => {
+			input.checked = input.value === (state.calendarModeValue || 'Weekdays');
+		});
+		lastCalendarModeSelection = state.calendarModeValue || 'Weekdays';
 
 		clearRestoredBindingMarkers(header);
 		clearRestoredBindingMarkers(sidebar);
@@ -2484,9 +2597,18 @@
 		return `${entry.promptInstruction || `Use the Softadmin ${entry.name} component as the main component.`} Emit component type "${entry.specType}".`;
 	}
 
+	function calendarModeInstruction() {
+		if (selectedComponentValue() !== 'CalendarWeekdays') {
+			return '';
+		}
+
+		return `Use Calendar mode "${selectedCalendarModeValue()}". Keep this mode unless the user explicitly requests another Calendar mode.`;
+	}
+
 	function promptWithComponentPreference(prompt) {
 		const instructions = [
 			componentPickerInstruction(selectedComponentValue()),
+			calendarModeInstruction(),
 			languageInstruction(selectedLanguageValue())
 		].filter(Boolean);
 
@@ -2642,6 +2764,7 @@
 		const promptInput = document.getElementById('SoftadminPrompt');
 		const generateButton = document.getElementById('SoftadminGenerate');
 		const componentPicker = document.getElementById('SoftadminComponentPicker');
+		const calendarModePicker = document.getElementById('SoftadminCalendarModePicker');
 		const languagePicker = document.getElementById('SoftadminLanguagePicker');
 		const promptHistoryElement = document.getElementById('SoftadminPromptHistory');
 		const undoButton = document.getElementById('SoftadminUndo');
@@ -2675,6 +2798,11 @@
 		if (componentPicker) {
 			populateComponentPicker(componentPicker);
 			componentPicker.addEventListener('change', handleComponentPickerChange);
+		}
+
+		if (calendarModePicker) {
+			lastCalendarModeSelection = selectedCalendarModeValue();
+			calendarModePicker.addEventListener('change', handleCalendarModeChange);
 		}
 
 		if (languagePicker) {

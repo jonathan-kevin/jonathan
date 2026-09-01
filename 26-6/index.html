@@ -258,7 +258,8 @@
 		}
 
 		.saMockComponentPicker,
-		.saMockLanguagePicker {
+		.saMockLanguagePicker,
+		.saMockCalendarModePicker {
 			width: 100%;
 			margin: 0;
 			padding: 0;
@@ -270,7 +271,8 @@
 		}
 
 		.saMockComponentPicker legend,
-		.saMockLanguagePicker legend {
+		.saMockLanguagePicker legend,
+		.saMockCalendarModePicker legend {
 			margin-bottom: 0.375rem;
 			padding: 0;
 		}
@@ -328,6 +330,15 @@
 			color: #94a3b8;
 			cursor: not-allowed;
 			opacity: 0.72;
+		}
+
+		.saMockCalendarModePicker {
+			display: none;
+			margin-top: 0.625rem;
+		}
+
+		.saMockCalendarModePicker.saOpen {
+			display: block;
 		}
 
 		.saMockExamplePrompts {
@@ -739,9 +750,9 @@
 	<script src="./softadmin-editor-patches.js?v=86"></script>
 	<script src="./softadmin-component-registry.js?v=100"></script>
 	<script src="./softadmin-spec-runtime.js?v=88"></script>
-	<script src="./softadmin-localization.js?v=4"></script>
+	<script src="./softadmin-localization.js?v=5"></script>
 	<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
-	<script src="./softadmin-ai-spec.js?v=107"></script>
+	<script src="./softadmin-ai-spec.js?v=108"></script>
 	<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -1183,6 +1194,14 @@
 													</div>
 												</fieldset>
 											</div>
+											<fieldset id="SoftadminCalendarModePicker" class="saMockCalendarModePicker" aria-hidden="true">
+												<legend>Calendar layout</legend>
+												<div class="saMockComponentCards">
+													<label class="saMockComponentCard"><input type="radio" name="SoftadminCalendarMode" value="Weekdays" checked><span>Weekdays</span></label>
+													<label class="saMockComponentCard"><input type="radio" name="SoftadminCalendarMode" value="Weekdays with time scale"><span>Weekdays with time scale</span></label>
+													<label class="saMockComponentCard"><input type="radio" name="SoftadminCalendarMode" value="Resources with time scale"><span>Resources with time scale</span></label>
+												</div>
+											</fieldset>
 											<div class="saMockExamplePrompts" aria-label="Example prompts">
 												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create a NewEdit form for entering a person's contact information.">Person form</button>
 												<button class="saMockExamplePrompt" type="button" data-softadmin-example-prompt="Create a customer details page with contact info boxes, overdue invoice warning, related cases tabs, invoices, payments, and realistic action buttons.">Customer detail</button>
