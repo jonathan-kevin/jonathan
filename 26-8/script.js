@@ -167,13 +167,13 @@ $(document).ready(function () {
 			$message.empty();
 		}
 
-		function revealGroup(shouldFocusOption) {
+		function revealGroup(shouldFocusOption, fromPrevious) {
 			cancelAnimationFrame(revealFrame);
-			$group.addClass('saEntering');
+			$group.toggleClass('saEnteringPrevious', Boolean(fromPrevious)).addClass('saEntering');
 			void $group[0].offsetWidth;
 			revealFrame = requestAnimationFrame(() => {
 				revealFrame = requestAnimationFrame(() => {
-					$group.removeClass('saEntering');
+					$group.removeClass('saEntering saEnteringPrevious');
 					if (!shouldFocusOption) return;
 					const $selectedOption = $group.find('input[name="quiz-answer"]:checked:enabled').first();
 					const $focusTarget = $selectedOption.length ? $selectedOption : $group.find('input[name="quiz-answer"]:enabled').first();
@@ -221,7 +221,7 @@ $(document).ready(function () {
 			$next.prop('disabled', selectedValues.length === 0 || (requiresOtherText && !otherText));
 		}
 
-		function renderQuestion(shouldFocusOption = false) {
+		function renderQuestion(shouldFocusOption = false, fromPrevious = false) {
 			const item = questions[currentQuestion];
 			const answer = answers[currentQuestion];
 			$quiz.removeClass('saQuizComplete');
@@ -237,7 +237,7 @@ $(document).ready(function () {
 
 			$group.attr({ 'aria-labelledby': 'quiz-question', 'role': item.multiple ? 'group' : 'radiogroup' }).html(options);
 			updateOtherInput(false);
-			revealGroup(shouldFocusOption);
+			revealGroup(shouldFocusOption, fromPrevious);
 
 			clearMessage();
 			$previous.prop('disabled', currentQuestion === 0).show();
@@ -313,7 +313,7 @@ $(document).ready(function () {
 		$previous.on('click', function () {
 			saveAnswer();
 			if (currentQuestion > 0) currentQuestion -= 1;
-			renderQuestion(true);
+			renderQuestion(true, true);
 		});
 
 		$next.on('click', function () {
