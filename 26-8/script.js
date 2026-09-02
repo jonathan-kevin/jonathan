@@ -166,6 +166,37 @@ $(document).ready(function () {
 			$message.empty();
 		}
 
+		function animateGroup() {
+			$group.removeClass('saEntering');
+			void $group[0].offsetWidth;
+			$group.addClass('saEntering');
+		}
+
+		function updateOtherInput(shouldFocus) {
+			const item = questions[currentQuestion];
+			const answer = answers[currentQuestion];
+			const allowsText = item.options.some(option => option.allowsText && answer.values.includes(option.value));
+			let $other = $group.find('[name="other-answer"]');
+
+			if (!allowsText) {
+				$other.remove();
+				return;
+			}
+
+			if (!$other.length) {
+				$other = $('<input>', {
+					class: 'saInputText saQuizOther',
+					type: 'text',
+					name: 'other-answer',
+					placeholder: 'Enter your answer',
+					'aria-label': 'Other answer'
+				}).val(answer.otherText);
+				$group.append($other);
+			}
+
+			if (shouldFocus) $other.trigger('focus');
+		}
+
 		function updateNextState() {
 			if ($quiz.hasClass('saQuizComplete')) {
 				$next.prop('disabled', false);
@@ -187,17 +218,16 @@ $(document).ready(function () {
 			$step.text(`Question ${currentQuestion + 1} of ${questions.length}`);
 			$question.text(item.question);
 			$hint.text(`${item.hint} · Press ${item.options.map((_, index) => String.fromCharCode(65 + index)).join('–')} to select`);
-			$group.attr({ 'aria-labelledby': 'quiz-question', 'role': item.multiple ? 'group' : 'radiogroup' }).html(item.options.map((option, index) => {
+			const options = item.options.map((option, index) => {
 				const checked = answer.values.includes(option.value) ? ' checked' : '';
 				const disabled = option.disabled ? ' disabled' : '';
 				const description = option.description ? `<div class="saQuizDescription">${escapeHtml(option.description)}</div>` : '';
 				return `<label class="saQuizOption"><input type="${item.multiple ? 'checkbox' : 'radio'}" name="quiz-answer" value="${escapeHtml(option.value)}"${checked}${disabled}><div class="saQuizText"><div class="saQuizTitle">${escapeHtml(option.title)}</div>${description}</div><kbd>${String.fromCharCode(65 + index)}</kbd></label>`;
-			}).join(''));
+			}).join('');
 
-			const selected = item.options.find(option => answer.values.includes(option.value));
-			if (selected && selected.allowsText) {
-				$group.append(`<input class="saInputText saQuizOther" type="text" name="other-answer" placeholder="Enter your answer" aria-label="Other answer" value="${escapeHtml(answer.otherText)}">`);
-			}
+			$group.attr({ 'aria-labelledby': 'quiz-question', 'role': item.multiple ? 'group' : 'radiogroup' }).html(options);
+			updateOtherInput(false);
+			animateGroup();
 
 			clearMessage();
 			$previous.prop('disabled', currentQuestion === 0).show();
@@ -234,28 +264,28 @@ $(document).ready(function () {
 			$quiz.addClass('saQuizComplete');
 			$step.text('Complete');
 			$question.text('Answers submitted');
-			$hint.text('Thanks — your responses have been recorded successfully.');
-			$group.removeAttr('role aria-labelledby').html('<div class="saQuizSuccess" role="status"><i class="saIcon far fa-check" aria-hidden="true"></i><span>Submission confirmed</span></div>');
+			$hint.text('Thank you! Your responses have been recorded successfully.');
+			$group.removeAttr('role aria-labelledby').html('<div class="saQuizSuccess" role="status"><i class="saIcon fas fa-party-horn" aria-hidden="true"></i><span class="saScreenReaderOnly">Submission confirmed</span></div>');
+			animateGroup();
 			clearMessage();
 			$previous.hide();
 			$next.text('Start over').prop('disabled', false).show().trigger('focus');
 		}
 
-		$group.on('change', 'input[name="quiz-answer"]', function () {
+		$quiz.on('change', 'input[name="quiz-answer"]', function () {
 			saveAnswer();
 			clearMessage();
-			renderQuestion();
-			const $other = $group.find('[name="other-answer"]');
-			if ($other.length) $other.trigger('focus');
+			updateOtherInput(true);
+			updateNextState();
 		});
 
-		$group.on('input', '[name="other-answer"]', function () {
+		$quiz.on('input', '[name="other-answer"]', function () {
 			answers[currentQuestion].otherText = $(this).val();
 			clearMessage();
 			updateNextState();
 		});
 
-		$group.on('keydown', '[name="other-answer"]', function (event) {
+		$quiz.on('keydown', '[name="other-answer"]', function (event) {
 			if (event.key !== 'Enter') return;
 			event.preventDefault();
 			$next.trigger('click');

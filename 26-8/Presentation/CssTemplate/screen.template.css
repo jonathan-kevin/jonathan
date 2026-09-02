@@ -35103,11 +35103,33 @@ pre.saCode {
   font-size: 0.875rem;
   color: var(--Sa-Color-TextSecondary);
 }
+.saSmallScreen .saQuiz {
+  padding: 1rem;
+}
 .saQuizGroup {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   padding-top: 1rem;
+  min-height: 18.5rem;
+}
+.saQuizGroup.saEntering {
+  animation: saQuizGroupEnter 0.3s ease both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .saQuizGroup.saEntering {
+    animation: none;
+  }
+}
+@keyframes saQuizGroupEnter {
+  from {
+    transform: translateX(3rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 .saQuizStep {
   font-size: 0.75rem;
@@ -35199,27 +35221,33 @@ pre.saCode {
   justify-content: space-between;
 }
 .saQuizButton {
-  width: 5.5rem;
+  width: 6rem;
+}
+.saSmallScreen .saQuizButton {
+  width: 50%;
 }
 .saQuizSuccess {
   display: flex;
+  justify-content: center;
   align-items: center;
+  flex-direction: column;
   gap: 0.75rem;
-  padding: 1rem;
-  border: 0.0625rem solid #91e89b;
-  border-radius: 0.625rem;
-  color: #006d1e;
+  height: 100%;
+  flex: 1;
+  border-radius: 0.75rem;
+  color: #008429;
   background-color: #f2fcf2;
 }
 .saQuizSuccess .saIcon {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2rem;
-  height: 2rem;
+  width: 6rem;
+  height: 6rem;
+  font-size: 3rem;
   border-radius: 50%;
-  color: #fff;
-  background-color: #009b36;
+  background-color: #91e89b;
+  color: #008429;
 }
 .saQuizMessage {
   padding-top: 1rem;
