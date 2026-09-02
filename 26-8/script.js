@@ -116,7 +116,7 @@ $(document).ready(function () {
 
 		const questions = [
 			{
-				question: 'A user submits a form with an invalid email address. What should the interface do?',
+				question: 'Invalid email address. What should the interface do?',
 				hint: 'Choose the most helpful response',
 				options: [
 					{ value: 'preserve-and-focus', title: 'Preserve the form and focus the email field', description: 'Show a specific inline error without discarding valid input' },
@@ -138,18 +138,24 @@ $(document).ready(function () {
 			},
 			{
 				question: 'What does CSS primarily control on a web page?',
-				hint: 'One last question',
+				hint: 'Choose the best answer',
 				options: [
 					{ value: 'data', title: 'Database records', description: 'Persistent application data' },
 					{ value: 'presentation', title: 'Presentation and layout', description: 'Colors, spacing, typography, and positioning' },
 					{ value: 'server', title: 'Server routing', description: 'How requests reach a backend' },
 					{ value: 'encryption', title: 'Data encryption', description: 'Protecting information in transit' }
 				]
+			},
+			{
+				type: 'text',
+				question: 'What would you improve about this quiz?',
+				hint: 'Write a short response',
+				placeholder: 'Type your answer'
 			}
 		];
 
 		let currentQuestion = 0;
-		const answers = questions.map(() => ({ values: [], otherText: '' }));
+		const answers = questions.map(() => ({ values: [], otherText: '', text: '' }));
 		const $question = $quiz.find('#quiz-question');
 		const $hint = $quiz.find('.saQuizHint');
 		const $group = $quiz.find('.saQuizGroup');
@@ -176,7 +182,7 @@ $(document).ready(function () {
 					$group.removeClass('saEntering saEnteringPrevious');
 					if (!shouldFocusOption) return;
 					const $selectedOption = $group.find('input[name="quiz-answer"]:checked:enabled').first();
-					const $focusTarget = $selectedOption.length ? $selectedOption : $group.find('input[name="quiz-answer"]:enabled').first();
+					const $focusTarget = $selectedOption.length ? $selectedOption : $group.find('input[name="quiz-answer"]:enabled, input[name="quiz-text-answer"]:enabled').first();
 					$focusTarget.trigger('focus');
 				});
 			});
@@ -212,6 +218,11 @@ $(document).ready(function () {
 				$next.prop('disabled', false);
 				return;
 			}
+			if (questions[currentQuestion].type === 'text') {
+				const text = String($group.find('[name="quiz-text-answer"]').val() || '').trim();
+				$next.prop('disabled', !text);
+				return;
+			}
 
 			const selectedValues = $group.find('input[name="quiz-answer"]:checked').map(function () {
 				return this.value;
@@ -227,16 +238,21 @@ $(document).ready(function () {
 			$quiz.removeClass('saQuizComplete');
 			$step.text(`Question ${currentQuestion + 1} of ${questions.length}`);
 			$question.text(item.question);
-			$hint.text(`${item.hint} · Press ${item.options.map((_, index) => String.fromCharCode(65 + index)).join('–')} to select`);
-			const options = item.options.map((option, index) => {
-				const checked = answer.values.includes(option.value) ? ' checked' : '';
-				const disabled = option.disabled ? ' disabled' : '';
-				const description = option.description ? `<div class="saQuizDescription">${escapeHtml(option.description)}</div>` : '';
-				return `<label class="saQuizOption"><input type="${item.multiple ? 'checkbox' : 'radio'}" name="quiz-answer" value="${escapeHtml(option.value)}"${checked}${disabled}><div class="saQuizText"><div class="saQuizTitle">${escapeHtml(option.title)}</div>${description}</div><kbd>${String.fromCharCode(65 + index)}</kbd></label>`;
-			}).join('');
+			if (item.type === 'text') {
+				$hint.text(item.hint);
+				$group.removeAttr('role aria-labelledby').html(`<input class="saInputText saQuizTextAnswer" type="text" name="quiz-text-answer" value="${escapeHtml(answer.text)}" placeholder="${escapeHtml(item.placeholder)}" aria-labelledby="quiz-question">`);
+			} else {
+				$hint.text(`${item.hint} · Press ${item.options.map((_, index) => String.fromCharCode(65 + index)).join('–')} to select`);
+				const options = item.options.map((option, index) => {
+					const checked = answer.values.includes(option.value) ? ' checked' : '';
+					const disabled = option.disabled ? ' disabled' : '';
+					const description = option.description ? `<div class="saQuizDescription">${escapeHtml(option.description)}</div>` : '';
+					return `<label class="saQuizOption"><input type="${item.multiple ? 'checkbox' : 'radio'}" name="quiz-answer" value="${escapeHtml(option.value)}"${checked}${disabled}><div class="saQuizText"><div class="saQuizTitle">${escapeHtml(option.title)}</div>${description}</div><kbd>${String.fromCharCode(65 + index)}</kbd></label>`;
+				}).join('');
 
-			$group.attr({ 'aria-labelledby': 'quiz-question', 'role': item.multiple ? 'group' : 'radiogroup' }).html(options);
-			updateOtherInput(false);
+				$group.attr({ 'aria-labelledby': 'quiz-question', 'role': item.multiple ? 'group' : 'radiogroup' }).html(options);
+				updateOtherInput(false);
+			}
 			revealGroup(shouldFocusOption, fromPrevious);
 
 			clearMessage();
@@ -247,6 +263,10 @@ $(document).ready(function () {
 		}
 
 		function saveAnswer() {
+			if (questions[currentQuestion].type === 'text') {
+				answers[currentQuestion].text = String($group.find('[name="quiz-text-answer"]').val() || '').trim();
+				return;
+			}
 			answers[currentQuestion].values = $group.find('input[name="quiz-answer"]:checked').map(function () {
 				return this.value;
 			}).get();
@@ -256,6 +276,12 @@ $(document).ready(function () {
 		function validateAnswer() {
 			saveAnswer();
 			const answer = answers[currentQuestion];
+			if (questions[currentQuestion].type === 'text') {
+				if (answer.text) return true;
+				$message.text('Enter an answer before continuing.');
+				$group.find('[name="quiz-text-answer"]').trigger('focus');
+				return false;
+			}
 			const option = questions[currentQuestion].options.find(item => answer.values.includes(item.value) && item.allowsText);
 			if (!answer.values.length) {
 				$message.text(questions[currentQuestion].multiple ? 'Choose at least one answer before continuing.' : 'Choose an answer before continuing.');
@@ -289,13 +315,17 @@ $(document).ready(function () {
 			updateNextState();
 		});
 
-		$quiz.on('input', '[name="other-answer"]', function () {
-			answers[currentQuestion].otherText = $(this).val();
+		$quiz.on('input', '[name="other-answer"], [name="quiz-text-answer"]', function () {
+			if (this.name === 'quiz-text-answer') {
+				answers[currentQuestion].text = $(this).val();
+			} else {
+				answers[currentQuestion].otherText = $(this).val();
+			}
 			clearMessage();
 			updateNextState();
 		});
 
-		$quiz.on('keydown', '[name="other-answer"]', function (event) {
+		$quiz.on('keydown', '[name="other-answer"], [name="quiz-text-answer"]', function (event) {
 			if (event.key !== 'Enter') return;
 			event.preventDefault();
 			$next.trigger('click');
@@ -318,7 +348,7 @@ $(document).ready(function () {
 
 		$next.on('click', function () {
 			if ($quiz.hasClass('saQuizComplete')) {
-				answers.forEach(answer => { answer.values = []; answer.otherText = ''; });
+				answers.forEach(answer => { answer.values = []; answer.otherText = ''; answer.text = ''; });
 				currentQuestion = 0;
 				renderQuestion(true);
 				return;
@@ -335,8 +365,9 @@ $(document).ready(function () {
 		$(document).on('keydown.quiz', function (event) {
 			if (event.ctrlKey || event.metaKey || event.altKey) return;
 			if (!$quiz.is(':visible') || $quiz.hasClass('saQuizComplete') || $(event.target).is('input[type="text"], textarea, select, button, a')) return;
+			const options = questions[currentQuestion].options || [];
 			const optionIndex = /^[a-e]$/i.test(event.key) ? event.key.toUpperCase().charCodeAt(0) - 65 : -1;
-			if (optionIndex >= 0 && optionIndex < questions[currentQuestion].options.length) {
+			if (optionIndex >= 0 && optionIndex < options.length) {
 				const $input = $group.find('input[name="quiz-answer"]').eq(optionIndex);
 				if (!$input.prop('disabled')) {
 					event.preventDefault();
