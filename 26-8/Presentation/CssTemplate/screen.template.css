@@ -35112,23 +35112,15 @@ pre.saCode {
   gap: 0.5rem;
   padding-top: 1rem;
   min-height: 18.5rem;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 .saQuizGroup.saEntering {
-  animation: saQuizGroupEnter 0.3s ease both;
+  transform: translateX(3rem);
+  opacity: 0;
 }
 @media (prefers-reduced-motion: reduce) {
-  .saQuizGroup.saEntering {
-    animation: none;
-  }
-}
-@keyframes saQuizGroupEnter {
-  from {
-    transform: translateX(3rem);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
+  .saQuizGroup {
+    transition: none;
   }
 }
 .saQuizStep {

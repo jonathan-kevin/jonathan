@@ -166,10 +166,10 @@ $(document).ready(function () {
 			$message.empty();
 		}
 
-		function animateGroup() {
-			$group.removeClass('saEntering');
-			void $group[0].offsetWidth;
+		function revealGroup() {
 			$group.addClass('saEntering');
+			void $group[0].offsetWidth;
+			requestAnimationFrame(() => $group.removeClass('saEntering'));
 		}
 
 		function updateOtherInput(shouldFocus) {
@@ -227,7 +227,7 @@ $(document).ready(function () {
 
 			$group.attr({ 'aria-labelledby': 'quiz-question', 'role': item.multiple ? 'group' : 'radiogroup' }).html(options);
 			updateOtherInput(false);
-			animateGroup();
+			revealGroup();
 
 			clearMessage();
 			$previous.prop('disabled', currentQuestion === 0).show();
@@ -266,7 +266,7 @@ $(document).ready(function () {
 			$question.text('Answers submitted');
 			$hint.text('Thank you! Your responses have been recorded successfully.');
 			$group.removeAttr('role aria-labelledby').html('<div class="saQuizSuccess" role="status"><i class="saIcon fas fa-party-horn" aria-hidden="true"></i><span class="saScreenReaderOnly">Submission confirmed</span></div>');
-			animateGroup();
+			revealGroup();
 			clearMessage();
 			$previous.hide();
 			$next.text('Start over').prop('disabled', false).show().trigger('focus');
