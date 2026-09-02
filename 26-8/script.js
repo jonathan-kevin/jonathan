@@ -157,6 +157,7 @@ $(document).ready(function () {
 		const $message = $quiz.find('.saQuizMessage');
 		const $previous = $quiz.find('[data-quiz-previous]');
 		const $next = $quiz.find('[data-quiz-next]');
+		let revealFrame;
 
 		function escapeHtml(value) {
 			return $('<div>').text(value).html().replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -167,14 +168,17 @@ $(document).ready(function () {
 		}
 
 		function revealGroup(shouldFocusOption) {
+			cancelAnimationFrame(revealFrame);
 			$group.addClass('saEntering');
 			void $group[0].offsetWidth;
-			requestAnimationFrame(() => {
-				$group.removeClass('saEntering');
-				if (!shouldFocusOption) return;
-				const $selectedOption = $group.find('input[name="quiz-answer"]:checked:enabled').first();
-				const $focusTarget = $selectedOption.length ? $selectedOption : $group.find('input[name="quiz-answer"]:enabled').first();
-				$focusTarget.trigger('focus');
+			revealFrame = requestAnimationFrame(() => {
+				revealFrame = requestAnimationFrame(() => {
+					$group.removeClass('saEntering');
+					if (!shouldFocusOption) return;
+					const $selectedOption = $group.find('input[name="quiz-answer"]:checked:enabled').first();
+					const $focusTarget = $selectedOption.length ? $selectedOption : $group.find('input[name="quiz-answer"]:enabled').first();
+					$focusTarget.trigger('focus');
+				});
 			});
 		}
 
