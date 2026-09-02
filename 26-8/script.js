@@ -164,6 +164,7 @@ $(document).ready(function () {
 		const $previous = $quiz.find('[data-quiz-previous]');
 		const $next = $quiz.find('[data-quiz-next]');
 		let revealFrame;
+		let focusTimer;
 
 		function escapeHtml(value) {
 			return $('<div>').text(value).html().replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -175,15 +176,18 @@ $(document).ready(function () {
 
 		function revealGroup(shouldFocusOption, fromPrevious) {
 			cancelAnimationFrame(revealFrame);
+			clearTimeout(focusTimer);
 			$group.toggleClass('saEnteringPrevious', Boolean(fromPrevious)).addClass('saEntering');
 			void $group[0].offsetWidth;
 			revealFrame = requestAnimationFrame(() => {
 				revealFrame = requestAnimationFrame(() => {
 					$group.removeClass('saEntering saEnteringPrevious');
 					if (!shouldFocusOption) return;
-					const $selectedOption = $group.find('input[name="quiz-answer"]:checked:enabled').first();
-					const $focusTarget = $selectedOption.length ? $selectedOption : $group.find('input[name="quiz-answer"]:enabled, input[name="quiz-text-answer"]:enabled').first();
-					$focusTarget.trigger('focus');
+					focusTimer = setTimeout(() => {
+						const $selectedOption = $group.find('input[name="quiz-answer"]:checked:enabled').first();
+						const $focusTarget = $selectedOption.length ? $selectedOption : $group.find('input[name="quiz-answer"]:enabled, input[name="quiz-text-answer"]:enabled').first();
+						$focusTarget.trigger('focus');
+					}, 200);
 				});
 			});
 		}
