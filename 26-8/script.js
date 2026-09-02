@@ -207,7 +207,6 @@ $(document).ready(function () {
 			const answer = answers[currentQuestion];
 			$quiz.removeClass('saQuizComplete');
 			$step.text(`Question ${currentQuestion + 1} of ${questions.length}`);
-			$quiz.find('.saQuizProgress span').css('width', `${((currentQuestion + 1) / questions.length) * 100}%`);
 			$question.text(item.question);
 			$hint.text(`${item.hint} · Press ${item.options.map((_, index) => String.fromCharCode(65 + index)).join('–')} to select`);
 			$group.attr({ 'aria-labelledby': 'quiz-question', 'role': item.multiple ? 'group' : 'radiogroup' }).html(item.options.map((option, index) => {
@@ -290,7 +289,6 @@ $(document).ready(function () {
 			}).join('<hr>');
 
 			$quiz.addClass('saQuizComplete');
-			$quiz.find('.saQuizProgress span').css('width', '100%');
 			$step.text('Quiz complete');
 			$question.text(score === questions.length ? 'Perfect score!' : 'Here are your results');
 			$hint.text('');
@@ -343,6 +341,7 @@ $(document).ready(function () {
 		});
 
 		$(document).on('keydown.quiz', function (event) {
+			if (event.ctrlKey || event.metaKey || event.altKey) return;
 			if (!$quiz.is(':visible') || $quiz.hasClass('saQuizComplete') || $(event.target).is('input[type="text"], textarea, select, button, a')) return;
 			const optionIndex = /^[a-e]$/i.test(event.key) ? event.key.toUpperCase().charCodeAt(0) - 65 : -1;
 			if (optionIndex >= 0 && optionIndex < questions[currentQuestion].options.length) {

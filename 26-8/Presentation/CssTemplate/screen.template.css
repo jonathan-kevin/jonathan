@@ -35110,17 +35110,28 @@ pre.saCode {
 .saQuizStep {
   font-size: 0.75rem;
   color: var(--Sa-Color-TextSecondary);
+  padding-bottom: 0.75rem;
 }
 .saQuizOption {
   display: flex;
   gap: 0.5rem;
-  outline: 1px solid var(--Sa-Color-InputFieldBorder);
+  outline: 0.0625rem solid var(--Sa-Color-InputFieldBorder);
   border-radius: 0.625rem;
   padding: 0.75rem;
   position: relative;
 }
 .saQuizOption:has(:enabled) {
   cursor: pointer;
+}
+@media (pointer: fine) {
+  .saQuizOption:has(:enabled):hover {
+    background-color: var(--Sa-Color-Primary50);
+    outline-color: var(--Sa-Color-Primary600);
+  }
+  .saQuizOption:has(:enabled):hover input {
+    border-color: var(--Sa-Color-Primary600);
+    background-color: var(--Sa-Color-Primary50);
+  }
 }
 .saQuizOption:has(:disabled) {
   cursor: not-allowed;
@@ -35300,7 +35311,7 @@ pre.saCode {
 .saQuizNavigation {
   display: flex;
   gap: 0.5rem;
-  padding-top: 1rem;
+  padding: 1rem 0;
   justify-content: space-between;
 }
 .saQuizButton {
