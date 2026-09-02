@@ -291,6 +291,15 @@ $(document).ready(function () {
 			$next.trigger('click');
 		});
 
+		$quiz.on('keydown', 'input[type="checkbox"][name="quiz-answer"]', function (event) {
+			if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+			const $checkboxes = $group.find('input[type="checkbox"][name="quiz-answer"]:enabled');
+			const direction = event.key === 'ArrowDown' ? 1 : -1;
+			const nextIndex = ($checkboxes.index(this) + direction + $checkboxes.length) % $checkboxes.length;
+			event.preventDefault();
+			$checkboxes.eq(nextIndex).trigger('focus');
+		});
+
 		$previous.on('click', function () {
 			saveAnswer();
 			if (currentQuestion > 0) currentQuestion -= 1;
