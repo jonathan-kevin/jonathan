@@ -35048,6 +35048,7 @@ pre.saCode {
   box-sizing: border-box;
   font-size: 0.875rem;
   max-width: 30rem;
+  line-height: 1.25rem;
 }
 .saQuiz input.saRadio {
   appearance: none;
@@ -35095,7 +35096,8 @@ pre.saCode {
   box-sizing: border-box;
 }
 .saQuiz h2 {
-  font-size: 1.25rem;
+  font-size: 1rem;
+  line-height: 1.25rem;
 }
 .saQuiz p {
   font-size: 0.875rem;
@@ -35141,14 +35143,6 @@ pre.saCode {
   outline-offset: -0.125rem;
   background-color: var(--Sa-Color-Primary50);
 }
-.saQuizOption.saCorrectChoice {
-  outline-color: #009b36;
-  background-color: #f2fcf2;
-}
-.saQuizOption.saCorrect {
-  outline-color: #009b36;
-  background-color: #f2fcf2;
-}
 .saQuiz input[type="radio"] {
   appearance: none;
   height: 1rem;
@@ -35189,116 +35183,6 @@ pre.saCode {
   border: 1px solid #dde3ec;
   justify-content: center;
 }
-.saQuizAnswerState {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  gap: 0.25rem;
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-  font-weight: 500;
-  background-color: #eef1f5;
-  padding: 0.25rem 0.5rem;
-  width: fit-content;
-  height: 1.5rem;
-  transition: ease 0.2s background-color, ease 0.2s color, ease 0.2s box-shadow;
-  box-shadow: inset 0 0 0 0 transparent;
-  border-radius: 1rem;
-  color: #fff;
-  background-color: #313a44;
-  position: absolute;
-  inset: -0.5rem -0.5rem auto auto;
-}
-.saQuizAnswerState.saDisabled {
-  background: #eef1f5;
-  color: #adbdd1;
-  cursor: not-allowed;
-}
-.saQuizAnswerState:has(:enabled) {
-  cursor: pointer;
-}
-@media (pointer: fine) {
-  .saQuizAnswerState:has(:enabled):hover {
-    background-color: var(--Sa-Color-Primary100);
-    color: var(--Sa-Color-Primary700);
-  }
-  .saQuizAnswerState:has(:enabled):hover.saOutline {
-    box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
-  }
-}
-.saQuizAnswerState:has(:enabled):active {
-  background-color: var(--Sa-Color-Primary200);
-  color: var(--Sa-Color-Primary800);
-}
-.saQuizAnswerState::before {
-  content: "";
-  height: 2.75rem;
-  width: 100%;
-  background-color: transparent;
-  opacity: 0;
-  position: absolute;
-}
-.saQuizAnswerState.saSmall {
-  height: 1.5rem;
-  min-width: 2.5rem;
-  border-radius: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  gap: 0.25rem;
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-}
-.saQuizAnswerState.saMedium {
-  min-width: 4rem;
-  height: 2rem;
-  border-radius: 1rem;
-  padding: 0 0.75rem;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 0.875rem;
-}
-.saQuizAnswerState.saLarge {
-  min-width: 4rem;
-  height: 2.5rem;
-  border-radius: 1.25rem;
-  padding: 0 0.75rem;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 0.875rem;
-}
-.saQuizAnswerState.saOutline {
-  box-shadow: inset 0 0 0 1px #ccd5e2;
-}
-.saQuizAnswerState:has(:checked) {
-  background-color: var(--Sa-Color-Primary600);
-  color: #fff;
-}
-.saQuizAnswerState:has(:checked).saOutline {
-  background-color: var(--Sa-Color-Primary100);
-  color: var(--Sa-Color-Primary700);
-  box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
-}
-.saQuizAnswerState input {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  border: none;
-  margin: 0;
-  padding: 0;
-  padding-block: 0;
-  padding-inline: 0;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  left: 0;
-  top: 0;
-  background: none;
-  border-radius: 1rem;
-  cursor: inherit;
-}
-.saQuizAnswerState::before {
-  content: none;
-}
 .saQuizText {
   line-height: 1.25rem;
 }
@@ -35317,25 +35201,25 @@ pre.saCode {
 .saQuizButton {
   width: 5.5rem;
 }
-.saQuiz hr {
-  border-color: #eef1f5;
-  border-style: solid;
-  margin: 2rem 0;
-}
-.saQuizQuestionResult {
+.saQuizSuccess {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin: 0.5rem 0 0;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 0.0625rem solid #91e89b;
+  border-radius: 0.625rem;
+  color: #006d1e;
+  background-color: #f2fcf2;
 }
-.saQuizQuestionResult span {
-  color: var(--Sa-Color-Text);
-}
-.saQuizQuestionResult.saCorrect .saIcon {
-  color: #008429;
-}
-.saQuizQuestionResult.saIncorrect .saIcon {
-  color: #e0173e;
+.saQuizSuccess .saIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  color: #fff;
+  background-color: #009b36;
 }
 .saQuizMessage {
   padding-top: 1rem;

@@ -118,7 +118,6 @@ $(document).ready(function () {
 			{
 				question: 'A user submits a form with an invalid email address. What should the interface do?',
 				hint: 'Choose the most helpful response',
-				correct: ['preserve-and-focus'],
 				options: [
 					{ value: 'preserve-and-focus', title: 'Preserve the form and focus the email field', description: 'Show a specific inline error without discarding valid input' },
 					{ value: 'clear-form', title: 'Clear the entire form', description: 'Ask the user to enter everything again' },
@@ -130,7 +129,6 @@ $(document).ready(function () {
 				question: 'Which of these are gas giant planets?',
 				hint: 'Select all that apply',
 				multiple: true,
-				correct: ['jupiter', 'saturn'],
 				options: [
 					{ value: 'venus', title: 'Venus', description: 'The hottest planet' },
 					{ value: 'mars', title: 'Mars', description: 'A rocky planet rich in iron oxide' },
@@ -141,7 +139,6 @@ $(document).ready(function () {
 			{
 				question: 'What does CSS primarily control on a web page?',
 				hint: 'One last question',
-				correct: ['presentation'],
 				options: [
 					{ value: 'data', title: 'Database records', description: 'Persistent application data' },
 					{ value: 'presentation', title: 'Presentation and layout', description: 'Colors, spacing, typography, and positioning' },
@@ -166,26 +163,7 @@ $(document).ready(function () {
 		}
 
 		function clearMessage() {
-			$message.removeClass('saCorrect saIncorrect').empty();
-		}
-
-		function answersMatch(selected, correct) {
-			return selected.length === correct.length && correct.every(value => selected.includes(value));
-		}
-
-		function getAnswerState(answer, item, option) {
-			const isSelected = answer.values.includes(option.value);
-			const isCorrectOption = item.correct.includes(option.value);
-
-			if (isSelected && isCorrectOption) {
-				return {
-					className: 'saCorrectChoice',
-					label: 'You answered'
-				};
-			}
-			if (isCorrectOption) return { className: 'saCorrect', label: '' };
-			if (isSelected) return { className: 'saIncorrectChoice', label: 'You answered' };
-			return { className: '', label: '' };
+			$message.empty();
 		}
 
 		function updateNextState() {
@@ -237,7 +215,6 @@ $(document).ready(function () {
 
 		function validateAnswer() {
 			saveAnswer();
-			$message.removeClass('saCorrect saIncorrect');
 			const answer = answers[currentQuestion];
 			const option = questions[currentQuestion].options.find(item => answer.values.includes(item.value) && item.allowsText);
 			if (!answer.values.length) {
@@ -253,49 +230,15 @@ $(document).ready(function () {
 			return true;
 		}
 
-		function showResults() {
-			const score = questions.reduce((total, item, index) => total + (answersMatch(answers[index].values, item.correct) ? 1 : 0), 0);
-			const review = questions.map((item, questionIndex) => {
-				const answer = answers[questionIndex];
-				const questionIsCorrect = answersMatch(answer.values, item.correct);
-				const correctSelectionCount = item.correct.filter(value => answer.values.includes(value)).length;
-				const incorrectSelectionCount = answer.values.filter(value => !item.correct.includes(value)).length;
-				const resultClass = questionIsCorrect ? 'saCorrect' : 'saIncorrect';
-				const resultIcon = questionIsCorrect ? 'fa-check' : 'fa-xmark';
-				let resultText = questionIsCorrect ? 'You answered correctly.' : 'Your answer was incorrect.';
-
-				if (item.multiple) {
-					resultText = `You got ${correctSelectionCount} of ${item.correct.length} correct answers in this multiple-choice question.`;
-					if (incorrectSelectionCount) {
-						resultText += ` You also selected ${incorrectSelectionCount} incorrect ${incorrectSelectionCount === 1 ? 'answer' : 'answers'}.`;
-					}
-				}
-
-				const resultSummary = `<p class="saQuizQuestionResult ${resultClass}"><i class="${resultClass} saIcon far ${resultIcon}" aria-hidden="true"></i><span>${resultText}</span></p>`;
-				const options = item.options.map((option, optionIndex) => {
-					const isSelected = answer.values.includes(option.value);
-					const state = getAnswerState(answer, item, option);
-
-					const description = option.description ? `<div class="saQuizDescription">${escapeHtml(option.description)}</div>` : '';
-					const otherAnswer = isSelected && option.allowsText && answer.otherText
-						? `<div class="saQuizDescription">${escapeHtml(answer.otherText)}</div>`
-						: '';
-					const badge = state.label ? `<span class="saQuizAnswerState">${state.label}</span>` : '';
-
-					return `<label class="saQuizOption${state.className ? ` ${state.className}` : ''}"><input type="${item.multiple ? 'checkbox' : 'radio'}" name="quiz-result-${questionIndex}"${isSelected ? ' checked' : ''} disabled><div class="saQuizText"><div class="saQuizTitle">${escapeHtml(option.title)}</div>${description}${otherAnswer}</div><kbd>${String.fromCharCode(65 + optionIndex)}</kbd>${badge}</label>`;
-				}).join('');
-
-				return `<section class="saQuizReviewQuestion" aria-labelledby="quiz-result-question-${questionIndex}"><h3 id="quiz-result-question-${questionIndex}">${questionIndex + 1}. ${escapeHtml(item.question)}</h3><p class="saQuizHint">${escapeHtml(item.hint)}</p><div class="saQuizGroup" role="${item.multiple ? 'group' : 'radiogroup'}" aria-labelledby="quiz-result-question-${questionIndex}">${options}</div>${resultSummary}</section>`;
-			}).join('<hr>');
-
+		function showConfirmation() {
 			$quiz.addClass('saQuizComplete');
-			$step.text('Quiz complete');
-			$question.text(score === questions.length ? 'Perfect score!' : 'Here are your results');
-			$hint.text('');
-			$group.removeAttr('role aria-labelledby').html(`<div class="saQuizResult"><div class="saQuizScore">${score} / ${questions.length}</div><p>You answered ${score} ${score === 1 ? 'question' : 'questions'} correctly.</p></div><div class="saQuizReview">${review}</div>`);
+			$step.text('Complete');
+			$question.text('Answers submitted');
+			$hint.text('Thanks — your responses have been recorded successfully.');
+			$group.removeAttr('role aria-labelledby').html('<div class="saQuizSuccess" role="status"><i class="saIcon far fa-check" aria-hidden="true"></i><span>Submission confirmed</span></div>');
 			clearMessage();
 			$previous.hide();
-			$next.text('Try again').prop('disabled', false).show().trigger('focus');
+			$next.text('Start over').prop('disabled', false).show().trigger('focus');
 		}
 
 		$group.on('change', 'input[name="quiz-answer"]', function () {
@@ -336,7 +279,7 @@ $(document).ready(function () {
 				currentQuestion += 1;
 				renderQuestion();
 			} else {
-				showResults();
+				showConfirmation();
 			}
 		});
 
