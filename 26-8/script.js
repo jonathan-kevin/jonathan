@@ -195,11 +195,16 @@ $(document).ready(function () {
 			let $other = $group.find('[name="other-answer"]');
 
 			if (!allowsText) {
-				$other.remove();
+				const $otherWrapper = $other.closest('.saInputTextWrapper');
+				if ($otherWrapper.length) $otherWrapper.remove();
+				else $other.remove();
 				return;
 			}
 
 			if (!$other.length) {
+				const $otherWrapper = $('<div>', {
+					class: 'saInputTextWrapper'
+				});
 				$other = $('<input>', {
 					class: 'saInputText saQuizOther',
 					type: 'text',
@@ -207,7 +212,8 @@ $(document).ready(function () {
 					placeholder: 'Enter your answer',
 					'aria-label': 'Other answer'
 				}).val(answer.otherText);
-				$group.append($other);
+				$otherWrapper.append($other);
+				$group.append($otherWrapper);
 			}
 
 			if (shouldFocus) $other.trigger('focus');
@@ -240,7 +246,7 @@ $(document).ready(function () {
 			$question.text(item.question);
 			if (item.type === 'text') {
 				$hint.text(item.hint);
-				$group.removeAttr('role aria-labelledby').html(`<input class="saInputText saQuizTextAnswer" type="text" name="quiz-text-answer" value="${escapeHtml(answer.text)}" placeholder="${escapeHtml(item.placeholder)}" aria-labelledby="quiz-question">`);
+				$group.removeAttr('role aria-labelledby').html(`<div class="saInputTextWrapper"><input class="saInputText saQuizTextAnswer" type="text" name="quiz-text-answer" value="${escapeHtml(answer.text)}" placeholder="${escapeHtml(item.placeholder)}" aria-labelledby="quiz-question"></div>`);
 			} else {
 				$hint.text(`${item.hint} · Press ${item.options.map((_, index) => String.fromCharCode(65 + index)).join('–')} to select`);
 				const options = item.options.map((option, index) => {
