@@ -166,10 +166,16 @@ $(document).ready(function () {
 			$message.empty();
 		}
 
-		function revealGroup() {
+		function revealGroup(shouldFocusOption) {
 			$group.addClass('saEntering');
 			void $group[0].offsetWidth;
-			requestAnimationFrame(() => $group.removeClass('saEntering'));
+			requestAnimationFrame(() => {
+				$group.removeClass('saEntering');
+				if (!shouldFocusOption) return;
+				const $selectedOption = $group.find('input[name="quiz-answer"]:checked:enabled').first();
+				const $focusTarget = $selectedOption.length ? $selectedOption : $group.find('input[name="quiz-answer"]:enabled').first();
+				$focusTarget.trigger('focus');
+			});
 		}
 
 		function updateOtherInput(shouldFocus) {
@@ -211,7 +217,7 @@ $(document).ready(function () {
 			$next.prop('disabled', selectedValues.length === 0 || (requiresOtherText && !otherText));
 		}
 
-		function renderQuestion() {
+		function renderQuestion(shouldFocusOption = false) {
 			const item = questions[currentQuestion];
 			const answer = answers[currentQuestion];
 			$quiz.removeClass('saQuizComplete');
@@ -227,7 +233,7 @@ $(document).ready(function () {
 
 			$group.attr({ 'aria-labelledby': 'quiz-question', 'role': item.multiple ? 'group' : 'radiogroup' }).html(options);
 			updateOtherInput(false);
-			revealGroup();
+			revealGroup(shouldFocusOption);
 
 			clearMessage();
 			$previous.prop('disabled', currentQuestion === 0).show();
@@ -303,20 +309,20 @@ $(document).ready(function () {
 		$previous.on('click', function () {
 			saveAnswer();
 			if (currentQuestion > 0) currentQuestion -= 1;
-			renderQuestion();
+			renderQuestion(true);
 		});
 
 		$next.on('click', function () {
 			if ($quiz.hasClass('saQuizComplete')) {
 				answers.forEach(answer => { answer.values = []; answer.otherText = ''; });
 				currentQuestion = 0;
-				renderQuestion();
+				renderQuestion(true);
 				return;
 			}
 			if (!validateAnswer()) return;
 			if (currentQuestion < questions.length - 1) {
 				currentQuestion += 1;
-				renderQuestion();
+				renderQuestion(true);
 			} else {
 				showConfirmation();
 			}
