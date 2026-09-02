@@ -341,7 +341,7 @@ $(document).ready(function () {
 				if (!$input.prop('disabled')) {
 					event.preventDefault();
 					const shouldCheck = questions[currentQuestion].multiple ? !$input.prop('checked') : true;
-					$input.prop('checked', shouldCheck).trigger('change');
+					$input.trigger('focus').prop('checked', shouldCheck).trigger('change');
 				}
 			} else if (event.key === 'Enter') {
 				event.preventDefault();
