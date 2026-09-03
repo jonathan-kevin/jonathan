@@ -1,0 +1,86 @@
+.saValidationBubble {
+	position: absolute;
+	width: max-content;
+	min-height: 2rem;
+	display: flex;
+	z-index: 1000;
+	gap: 0.5rem;
+	align-items: center;
+	color: @ColorWhite;
+	background-color: @ColorGray900;
+	font-size: 0.875rem;
+	line-height: 1rem;
+	padding: 0.5rem 2.25rem 0.5rem 0.5rem;
+	border-radius: 0.5rem;
+	width: max-content;
+	box-sizing: border-box;
+	overflow: hidden;
+	cursor: default;
+
+	.saSmallScreen & {
+		min-height: 2.75rem;
+		padding-right: 3rem;
+	}
+
+	&.saWarning {
+		background-color: @ColorYellow300;
+		color: @ColorYellow900;
+
+		.saButton:not(:hover, :active) {
+			color: @ColorYellow900;
+		}
+	}
+
+	&.saError {
+		background-color: @ColorRed600;
+
+		.saButton:not(:hover, :active) {
+			color: @ColorRed200;
+		}
+	}
+
+	&.saInfo {
+		background-color: @ColorBlue600;
+
+		.saButton:not(:hover, :active)  {
+			color: @ColorBlue200;
+		}
+	}
+
+	&.saSuccess {
+		background-color: @ColorGreen600;
+
+		.saButton:not(:hover, :active)  {
+			color: @ColorGreen200;
+		}
+	}
+
+	button.saButton {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 2rem;
+		height: 100%;
+		background-color: transparent;
+		color: inherit;
+		.StandardTransition();
+
+		.saSmallScreen & {
+			width: 2.75rem;
+		}
+
+		.saIcon {
+			margin-top: 1px;
+		}
+
+		.Hover({
+			background-color: @ColorRed600;
+			color: @ColorWhite;
+		});
+
+		&:active {
+			background-color: @ColorRed700;
+			color: @ColorWhite;
+		}
+	}
+}

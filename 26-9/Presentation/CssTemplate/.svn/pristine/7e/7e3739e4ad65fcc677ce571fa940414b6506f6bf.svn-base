@@ -1,0 +1,80 @@
+.saDiffView {
+	tab-size: 4;
+
+	pre {
+		margin: 0;
+	}
+
+	table,
+	tr,
+	td,
+	th {
+		border: 1px solid @ColorWhite;
+		border-collapse: collapse;
+	}
+
+	del,
+	ins {
+		text-decoration: none;
+	}
+
+	.saLine {
+		text-align: right;
+		background: #f0f0f0;
+	}
+
+	.saDiffViewLine() {
+		font-family: @CodeFont;
+		white-space: pre-wrap;
+		tab-size: 4;
+	}
+
+	.saUnchanged {
+		.saDiffViewLine();
+		background: #f0f0ff;
+	}
+
+	.saAdded {
+		.saDiffViewLine();
+		background: #f0fff0;
+	}
+
+	.saDeleted {
+		.saDiffViewLine();
+		background: #fff0f0;
+	}
+
+	td,
+	th {
+		padding-top: 0;
+		padding-bottom: 0;
+		vertical-align: top;
+	}
+
+	.saToolbar {
+		display: inline-flex;
+		gap: 0.5rem;
+	}
+
+	.saNoVersionSelected {
+		color: @ColorRed600;
+	}
+
+	.saVersionHeading {
+		font-weight: 700;
+		font-size: 1.5rem;
+		line-height: 2rem;
+	}
+
+	.saDiffViewBefore,
+	.saDiffViewAfter {
+		text-align: center;
+		padding-bottom: 0.25rem;
+		color: @ColorGray900;
+
+		button {
+			float: right;
+			margin-left: 0.5rem;
+		}
+	}
+}

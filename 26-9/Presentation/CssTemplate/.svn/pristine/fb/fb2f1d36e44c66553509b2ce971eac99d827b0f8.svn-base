@@ -1,0 +1,270 @@
+.saLargeScreen .saLinearProcess {
+
+	.saStepWrapper.short,
+	.saStepCaption.short {
+		width: 15rem;
+	}
+
+	.saStepWrapper.medium,
+	.saStepCaption.medium {
+		width: 20rem;
+	}
+
+	.saStepWrapper.long,
+	.saStepCaption.long {
+		width: 25rem;
+	}
+
+	.saStepBetweenArrow {
+		width: 1rem;
+	}
+}
+
+.saLinearProcess {
+	display: flex;
+	gap: 1rem;
+	align-items: flex-start;
+	flex-wrap: wrap;
+
+	&.saHasWrapped {
+		padding-left: 2rem;
+	}
+
+	.saIcon.saStepBetween {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1rem;
+		color: @ColorGray600;
+		min-height: 4rem;
+	}
+
+	.saStepBefore {
+		position: absolute;
+		left: -2rem;
+		top: 0;
+		width: 1.5rem;
+		background: url(../img/arrow-turn-down-right-ellipsis.svg) no-repeat center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: @ColorBlue600;
+		left: -2rem;
+		top: 0;
+	}
+
+	.saStepAfter {
+		position: absolute;
+		right: -2rem;
+		top: 0;
+		width: 1.5rem;
+		background: url(../img/ellipsis-four.svg) no-repeat center;
+	}
+
+	.saStepOuter {
+		display: flex;
+		gap: 1rem;
+	}
+
+	.saStepWrapper {
+		position: relative;
+	}
+
+	.saStepIconWrapper {
+		align-items: center;
+		display: flex;
+		border-radius: 0.5rem;
+		.StandardTransition();
+		position: relative;
+
+		&::after {
+			content: '';
+			height: calc(100% + 2px);
+			min-width: calc(100% + 2px);
+			position: absolute;
+			left: -1px;
+			top: -1px;
+			background: @ColorWhite;
+			transition: ease-out background-color 0.1s;
+			border-radius: 0.4375rem;
+		}
+	}
+
+	.systemicon.customcolor {
+		z-index: 1;
+	}
+
+	.saStepInnerWrapper {
+		display: flex;
+		flex: 1;
+		width: 100%;
+		border-radius: 1rem;
+		align-items: stretch;
+		.StandardTransition();
+	}
+
+	.saStepInner {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		gap: 0.5rem;
+		background: @ColorWhite;
+		padding: 0.5rem;
+		border-radius: 1rem;
+		position: relative;
+		width: 100%;
+		.StandardTransition();
+	}
+
+	.saStep {
+		display: flex;
+		align-items: stretch;
+		background: @ColorWhite;
+		border-radius: 1rem;
+		position: relative;
+		font-size: 1rem;
+		.StandardTransition();
+		.Border();
+		flex: 1;
+
+		.saIcon {
+			.StandardTransition();
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.25rem;
+			min-width: 2.5rem;
+			height: 2.5rem;
+			border-radius: 0.5rem;
+			z-index: 2;
+		}
+
+		.saStepLine {
+			min-width: 0.25rem;
+			width: 0.25rem;
+			min-height: 2.5rem;
+			border-radius: 0.5rem;
+			margin-left: 0.25rem;
+
+			&::before {
+				content: '';
+			}
+		}
+
+		&.saHasLink {
+			cursor: pointer;
+
+			.Hover({
+				border-color: transparent;
+
+				.saStepHeading,
+				.saStepBody {
+					color: inherit;
+				}
+
+				.saStepInner {
+					background-color: transparent;
+				}
+
+				.saStepIconWrapper::after {
+					background: transparent;
+				}
+
+				.saIcon {
+					color: @ColorWhite;
+					background-color: transparent !important;
+				}
+			});
+
+			&:active .saStepInnerWrapper {
+				border-radius: 1.5rem;
+			}
+		}
+	}
+
+	.saStepTextWrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	.saStepHeading {
+		font-size: 0.875rem;
+		font-weight: 500;
+		line-height: 1rem;
+		word-break: break-word;
+		color: @ColorGray900;
+	}
+
+	.saStepBody {
+		font-size: 0.75rem;
+		font-weight: 400;
+		line-height: 0.875rem;
+		color: @ColorGray600;
+	}
+
+	.saStepCaption {
+		font-size: 0.75rem;
+		padding-left: 1rem;
+		padding-top: 0.5rem;
+		color: @ColorGray900;
+	}
+}
+
+// ----------------------------------------- smallscreen ----------------------------------------- //
+.saSmallScreen .saLinearProcess {
+	gap: 1rem;
+	justify-content: center;
+	padding: 1rem;
+
+	.saStepOuter {
+		width: 100%;
+		flex-direction: column;
+
+		>.saIcon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transform: rotate(90deg);
+			margin-bottom: 0;
+			min-height: auto;
+		}
+	}
+
+	.saStepWrapper {
+		gap: 0.5rem;
+		flex: 1 1 100%;
+		max-width: 100%;
+	}
+
+	.saStep {
+		&.saHasIcon {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.saIcon {
+			min-width: 2.5rem;
+		}
+
+		&:active .saStepInnerWrapper {
+			border-radius: 1rem;
+		}
+	}
+
+	.saStepHeading {
+		font-size: 1rem;
+		line-height: 1.25rem;
+	}
+
+	.saStepBody {
+		font-size: 0.875rem;
+		line-height: 1.125rem;
+	}
+
+	.saStepCaption {
+		font-size: 0.75rem;
+		padding-left: 0.5rem;
+	}
+}

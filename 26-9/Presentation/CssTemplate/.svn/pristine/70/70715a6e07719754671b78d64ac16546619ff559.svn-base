@@ -1,0 +1,178 @@
+.saBankIdWrapper {
+	.saBankId {
+		display: flex;
+		flex-direction: column;
+		max-width: 40rem;
+		margin-top: 1px;
+		box-shadow: inset 0 0 0 1px @ColorGray150;
+		border-radius: 1rem;
+		width: fit-content;
+
+		.saSmallScreen & {
+			margin: 1rem;
+		}
+	}
+
+	.saBankIdBody {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: stretch;
+
+		.saSmallScreen & {
+			justify-content: center;
+		}
+	}
+
+	.saBankIdHeader {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+		gap: 0.5rem;
+		padding: 1rem;
+		max-width: 24.5rem;
+
+		.saSmallScreen & {
+			width: 100%;
+			align-items: center;
+			text-align: center;
+		}
+
+		.saBankIdLogo {
+			width: 2.5rem;
+			min-height: 2.5rem;
+		}
+
+		h2 {
+			.LineClamp(3);
+		}
+
+		span {
+			font-size: 0.875rem;
+			line-height: 1rem;
+		}
+	}
+
+	.saQrWrapper {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		min-height: 13.375rem;
+		width: 13.375rem;
+		border: 1px solid transparent;
+		border-left: 1px solid @ColorGray150;
+		border-radius: 0px 1.5rem 0 0;
+		overflow: hidden;
+
+		.saSmallScreen & {
+			width: 100%;
+			padding-top: 0px;
+		}
+	}
+
+	.saQr {
+		height: 13.25rem;
+	}
+
+	.saBankIdAppInstructions {
+		background: url(../img/desktop-phone.svg) top center no-repeat;
+		width: 11.5rem;
+		height: 11.5rem;
+	}
+
+	.saBankIdFooter {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		border: 1px solid @ColorGray150;
+		padding: 1rem;
+		background: @ColorGray50;
+		margin-top: -1px;
+		border-radius: 0 0 1rem 1rem;
+		flex-wrap: wrap;
+
+		.saSmallScreen & {
+			.saButton {
+				flex-basis: 100%;
+			}
+		}
+	}
+
+	i.saBankIdLogo {
+		display: flex;
+		background: url(../img/bankid.svg);
+		height: 1.5rem;
+		min-width: 1.5rem;
+		background-repeat: no-repeat;
+		background-position: center;
+
+		.saCompact & {
+			height: 1rem;
+			min-width: 1rem;
+		}
+	}
+
+	button {
+		.Button();
+		.ButtonSizeModeDependent();
+		min-width: 6rem;
+	}
+
+	.saButtonGhost {
+		.Hover({
+			background: @ColorGray150;
+		});
+
+		&:active {
+			background: @ColorGray200;
+		}
+	}
+}
+
+.saQrWrapper {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+
+	.saQrCountdown {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+		width: 100%;
+
+		.saBankIdWrapper & {
+			padding-bottom: 1rem;
+		}
+
+		progress {
+			appearance: none;
+			width: 11.25rem;
+			height: 0.5rem;
+
+			&::-webkit-progress-bar {
+				background-color: @ColorGray150;
+				border-radius: 999rem;
+			}
+
+			&::-webkit-progress-value {
+				background-color: var(--Sa-Color-Primary600);
+				border-radius: 999rem;
+				transition: width ease .2s, background-color ease .2s;
+			}
+
+			&.saUrgent {
+				&::-webkit-progress-value {
+					background-color: @ColorPurple600;
+				}
+			}
+		}
+	}
+
+	.saQrCountdownText {
+		font-size: 0.875rem;
+		line-height: normal;
+		color: var(--Sa-Color-Text);
+	}
+}

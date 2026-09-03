@@ -1,0 +1,179 @@
+.saLinkCardsOuter {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+
+	.saSmallScreen & {
+		padding: 1rem;
+	}
+
+	.saSmallScreen .saMultiPartContent & {
+		padding: 0;
+	}
+
+	.saLinkCardsInner {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 1rem;
+		flex: 1;
+		min-width: 0;
+		width: 100%;
+
+		li {
+			display: flex;
+			flex: 1;
+
+			.saLarge& {
+				min-width: 15rem;
+				max-width: 27.5rem;
+			}
+
+			.saMedium& {
+				min-width: 14.5rem;
+				max-width: 21.5rem;
+			}
+
+			.saSmall& {
+				min-width: 12.5rem;
+				max-width: 16rem;
+			}
+		}
+	}
+
+	.saLinkCard {
+		display: flex;
+		flex-direction: column;
+		background: @ColorWhite;
+		border: 1px solid @ColorGray200;
+		border-radius: 0.5rem;
+		position: relative;
+		width: 100%;
+		color: @ColorGray900;
+		overflow: hidden;
+		transition: ease .2s color, ease .2s background, ease .2s border, ease .2s border-radius;
+		text-decoration: none;
+		cursor: pointer;
+
+		&:hover {
+			.saLinkCardImage .saIcon {
+				color: @ColorWhite;
+			}
+
+			.saLinkCardInner .saIcon {
+				color: inherit;
+			}
+
+			.saLinkCardDescription {
+				color: inherit;
+			}
+		}
+
+		&:active {
+			border-radius: 0.75rem;
+		}
+
+		.saSmall& {
+			flex-direction: row;
+			box-sizing: border-box;
+			align-items: start;
+		}
+	}
+
+	.saLinkCardInner {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		position: relative;
+		padding: 1rem;
+		min-height: 2.5rem;
+		flex: 1;
+		.BadgeCount();
+
+		.saSmall& {
+			padding: 0.5rem;
+			justify-content: center;
+			gap: 2px;
+		}
+	}
+
+	.saLinkCardImage {
+		.FlexCentered();
+		width: 100%;
+		background-repeat: no-repeat;
+		background-size: cover;
+		background: @ColorGray200;
+		transition: ease .2s color, ease .2s background, ease .2s border, ease .2s border-radius;
+
+		.saLarge& {
+			height: 8rem;
+			font-size: 4rem;
+
+			img {
+				width: 4rem;
+				height: 4rem;
+			}
+		}
+
+		.saMedium& {
+			height: 5.5rem;
+			font-size: 3rem;
+
+			img {
+				width: 3rem;
+				height: 3rem;
+			}
+		}
+
+		.saSmall& {
+			height: 100%;
+			width: 3.5rem;
+			min-width: 3.5rem;
+			font-size: 1.5rem;
+
+			img {
+				width: 2.5rem;
+				height: 2.5rem;
+			}
+		}
+	}
+
+	.saLinkCardTitle {
+		display: flex;
+		align-items: baseline;
+		gap: 0.5rem;
+		font-size: 0.875rem;
+		line-height: 1rem;
+		font-weight: 500;
+		word-break: break-word;
+
+		.saIcon {
+			color: @ColorGray400;
+		}
+	}
+
+	.saLinkCardDescription {
+		font-size: 0.75rem;
+		font-weight: 300;
+		color: @ColorGray600;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow: hidden;
+		word-break: break-word;
+
+		.saSmall& {
+			-webkit-line-clamp: none;
+		}
+	}
+
+	@media screen and (max-width: 448px) {
+	.saLinkCardsInner li {
+		max-width: none !important;
+		width: 100%;
+		}
+	}
+}

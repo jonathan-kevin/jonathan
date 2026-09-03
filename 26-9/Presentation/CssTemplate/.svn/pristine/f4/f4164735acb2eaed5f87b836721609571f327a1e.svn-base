@@ -1,0 +1,212 @@
+.saColorPreview {
+	padding: 0;
+	transition: background-color ease 0.2s, opacity ease 0.2s, border-radius ease 0.2s;
+	overflow: hidden;
+	background-color: @ColorGray200;
+	background-image: repeating-linear-gradient(
+			45deg,
+			@ColorGray200 25%,
+			transparent 25%,
+			transparent 75%,
+			@ColorGray200 75%,
+			@ColorGray200
+		),
+		repeating-linear-gradient(
+			45deg,
+			@ColorGray200 25%,
+			@ColorGray100 25%,
+			@ColorGray100 75%,
+			@ColorGray200 75%,
+			@ColorGray200
+		);
+	.Border();
+
+	.Hover({
+		opacity: 0.9;
+	});
+
+	&:active {
+		border-radius: 0.75rem;
+	}
+}
+
+.saColorPreview {
+	height: 1.5rem;
+	width: 1.5rem;
+	border-radius: 0.25rem;
+	background-position: 0 0, 0.3438rem 0.3438rem;
+	background-size: 0.6875rem 0.6875rem;
+}
+
+.saColorPickerField {
+	width: 8.75rem;
+}
+
+.saColorPicker {
+	position: absolute;
+	width: fit-content;
+	z-index: @ZIndexInputPicker;
+	box-sizing: border-box;
+
+	* {
+		box-sizing: border-box;
+	}
+
+	.saSmallScreen & {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		height: fit-content;
+		width: 100%;
+	}
+}
+
+.saColors {
+	display: flex;
+	flex-direction: column;
+	width: fit-content;
+	margin-top: 0.25rem;
+	position: relative;
+	border-radius: 1rem;
+	background: @ColorWhite;
+	.Border();
+	.BoxShadowMedium();
+	z-index: 1;
+	transition: ease height 0.2s, ease opacity 0.2s;
+	height: fit-content;
+	max-height: 80vh;
+	overflow-y: auto;
+
+	.saSmallScreen & {
+		width: 100%;
+		margin-top: 0;
+		box-shadow: none;
+		border: none;
+		border-radius: 0;
+	}
+}
+
+.saPalette {
+	padding: 0.5rem;
+	display: grid;
+	grid-template-columns: repeat(9, 1.5rem);
+	gap: 0.5rem;
+	position: relative;
+	width: fit-content;
+
+	.saSmallScreen & {
+		grid-template-columns: repeat(9, 1fr);
+		width: 100%;
+		justify-items: center;
+		column-gap: 0;
+		padding: 0.5rem 1rem;
+
+		&:first-child {
+			padding-top: 0;
+		}
+	}
+
+	&.saFooter {
+		background-color: @ColorGray50;
+		border-top: 1px solid @ColorGray200;
+
+		.saSmallScreen & {
+			background-color: @ColorWhite;
+		}
+	}
+}
+
+.saColor {
+	.AppearanceNone();
+	width: 1.5rem;
+	height: 1.5rem;
+	border-radius: 0.5rem;
+	margin: 0;
+	cursor: pointer;
+	transition: ease transform 0.2s, ease border-radius 0.2s, ease box-shadow 0.2s;
+	position: relative;
+	outline: 1px solid @ColorGray200;
+
+	.saSmallScreen & {
+		outline-offset: -1px;
+		width: 1.75rem;
+		height: 1.75rem;
+		transition: ease border-radius 0.2s;
+	}
+
+	&::-webkit-color-swatch-wrapper {
+		padding: 0;
+	}
+
+	&::-webkit-color-swatch {
+		border: none;
+		background-image: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+	}
+
+	&.saWhite {
+		grid-column: 8;
+	}
+	&.saBlack {
+		grid-column: 9;
+	}
+
+	.Hover({
+		transform: scale(1.25);
+		.BoxShadowWeak();
+	});
+
+	&:active {
+		border-radius: 0.75rem;
+	}
+
+	&::after {
+		content: '';
+		box-sizing: border-box;
+		height: 0.625rem;
+		width: 0.625rem;
+		border-radius: 100%;
+		background-color: @ColorWhite;
+		position: absolute;
+		box-shadow: 0 2px 2px fade(@ColorGray900, 20);
+		transition: ease transform 0.2s, ease opacity 0.2s;
+		.Border();
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%) scale(0);
+		opacity: 0;
+		transform-origin: center;
+	}
+
+	&::before {
+		content: '';
+		height: 32px;
+		width: 32px;
+		left: -0.25rem;
+		top: -0.25rem;
+		position: absolute;
+
+		.saSmallScreen & {
+			content: none;
+		}
+	}
+
+	&:checked,
+	&.saChecked,
+	&.saSelected {
+		border-radius: 100%;
+
+		&::before {
+			content: none;
+		}
+
+		&::after {
+			opacity: 1;
+			transform: translate(-50%, -50%) scale(1);
+		}
+	}
+}
+
+.saColor:is(:nth-child(9n), :last-child)::before {
+	height: 1.75rem;
+	width: 1.75rem;
+}

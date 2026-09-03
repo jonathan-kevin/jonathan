@@ -1,0 +1,239 @@
+.saSmallScreen .saToolbox {
+	display: none;
+}
+
+.saPartHeader + .saToolbox {
+	right: 0;
+	top: 0;
+}
+
+.saHasBorder .saPartHeader + .saToolbox {
+	right: 1rem;
+	top: 1rem;
+}
+
+.saPageHeader .saToolbox {
+	right: 0;
+}
+
+.saToolbox {
+	position: absolute;
+	background: @ColorWhite;
+	z-index: @ZIndexToolbar;
+	display: flex;
+	flex-direction: row;
+	border-radius: 0.5rem;
+	align-items: center;
+	justify-content: flex-end;
+	width: 2.5rem;
+	transition: ease width .1s, ease border-radius .2s; transition-delay: .1s;
+	overflow: hidden;
+	margin-left: 1rem;
+
+	* {
+		box-sizing: border-box;
+	}
+
+	.saCompact & {
+		margin-left: 0.5rem;
+		width: 2rem;
+	}
+
+	&.saOpen {
+		width: fit-content;
+		border-radius: 0.5rem;
+	}
+
+
+	ul {
+		display: flex;
+		flex-direction: row;
+		padding: 0.25rem 0.3125rem 0.25rem 0.25rem;
+		margin-right: -1px;
+		transition: ease all .2s;
+		opacity: 0;
+		transform: translateX(1.5rem);
+		visibility: hidden;
+		pointer-events: none;
+		box-shadow: inset 0 0 0 1px @ColorGray200;
+		border-radius: 0.5rem 0 0 0.5rem;
+
+		.saOpen&  {
+			opacity: 1;
+			transform: translateX(0);
+			visibility: visible;
+			pointer-events: unset;
+		}
+	}
+
+	li {
+		&:first-child .saToolboxButton::after {
+			width: calc(100% + 0.25rem);
+			left: -0.25rem;
+		}
+
+		&:last-child .saToolboxButton::after {
+			width: calc(100% + 0.25rem);
+			left: unset;
+			right: -0.25rem;
+		}
+	}
+
+	.saVirtualTopLink .saToolboxButton {
+		.saIcon {
+			color: @ColorPurple600;
+		}
+
+		.Hover({
+			background: @ColorPurple600;
+
+			.saIcon {
+				color: @ColorWhite;
+			}
+		});
+
+		&:active {
+			background: @ColorPurple700;
+			color: @ColorWhite;
+		}
+	}
+
+	.saDebug .saToolboxButton {
+		.saIcon {
+			color: @ColorGreen600;
+		}
+
+		.Hover({
+			background: @ColorGreen300;
+
+			.saIcon {
+				color: @ColorGreen900;
+			}
+		});
+
+		&:active {
+			background: @ColorGreen200;
+			color: @ColorGreen900;
+		}
+	}
+
+	.saToolboxButton {
+		.Button();
+		.ButtonGhost();
+		max-width: 2rem;
+		min-width: 2rem;
+		height: 2rem;
+		color: @ColorGray600;
+		font-size: 1rem;
+		transition: ease background .2s, ease color .2s, ease border-radius .2s;
+		position: relative;
+		border-radius: 0.375rem;
+
+		.saCompact & {
+			max-width: 1.5rem;
+			min-width: 1.5rem;
+			height: 1.5rem;
+			border-radius: 0.25rem;
+		}
+
+		&:active {
+			border-radius: 0.75rem;
+
+			.saCompact & {
+				border-radius: 0.5rem;
+			}
+		}
+
+		&::after {
+			content: '';
+			height: calc(100% + 0.5rem);
+			width: 100%;
+			position: absolute;
+			left: 0;
+			top: -0.25rem;
+		}
+	}
+
+	.saToolboxButton.saExpandButton {
+		padding: 0.5rem 0.75rem;
+		border-radius: 0.5rem;
+		flex-direction: column;
+		gap: 0.25rem;
+		min-width: 2.5rem;
+		height: 2.5rem;
+		transition: ease all .2s;
+		position: relative;
+		box-shadow: inset 0 0 0 1px @ColorGray200;
+
+		.saCompact & {
+			min-width: 2rem;
+			height: 2rem;
+			padding: 0.5rem;
+		}
+
+		.Hover({
+			background: @ColorGray50;
+			box-shadow: inset 0 0 0 1px @ColorBlue600;
+
+			span {
+				background: var(--Sa-Color-IconHover);
+			}
+		});
+
+		&:active {
+			background: @ColorGray100;
+			box-shadow: inset 0 0 0 1px @ColorBlue600;
+
+			span {
+				background: var(--Sa-Color-IconHover);
+			}
+		}
+
+		.saOpen& {
+			background: @ColorGray100;
+			border-radius: 0 0.5rem 0.5rem 0;
+		}
+
+		span {
+			display: block;
+			width: 100%;
+			border-radius: 2px;
+			min-height: 2px;
+			background: var(--Sa-Color-Icon);
+			transition: all .3s ease;
+			position: relative;
+			transform: rotate(0deg);
+			top: 0;
+			left: 0;
+
+			.saOpen& {
+				width: 0.625rem;
+
+				&:nth-child(1) {
+					top: 0.375rem;
+					left: -0.25rem;
+					transform: rotate(45deg);
+				}
+
+				&:nth-child(2) {
+					top: 0.375rem;
+					left: -0.25rem;
+					transform: rotate(-45deg);
+				}
+
+				&:nth-child(3) {
+					top: -0.375rem;
+					left: 0.25rem;
+					transform: rotate(45deg);
+
+				}
+
+				&:nth-child(4) {
+					top: -0.375rem;
+					left: 0.25rem;
+					transform: rotate(-45deg);
+				}
+			}
+		}
+	}
+}
