@@ -57,6 +57,7 @@ $(document).ready(function () {
 	$('body').append($select);
 
 	const saved = localStorage.getItem('theme') || 'system';
+	const systemDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
 	$('#theme-select').val(saved);
 	applyTheme(saved);
 
@@ -74,7 +75,21 @@ $(document).ready(function () {
 		} else {
 			root.setAttribute('data-theme', theme);
 		}
+
+		const useDarkWordmark = theme === 'dark' || (theme === 'system' && systemDarkMode.matches);
+		$('.saWordmark').attr(
+			'src',
+			useDarkWordmark
+				? './Presentation/img/softadmin-logo-expanded-white.svg'
+				: './Presentation/img/softadmin-logo-expanded.svg'
+		);
 	}
+
+	systemDarkMode.addEventListener('change', function () {
+		if ($('#theme-select').val() === 'system') {
+			applyTheme('system');
+		}
+	});
 	$('.saFavoriteToggle').click(function () {
 		$(this).attr('aria-checked', function (i, attr) { return attr === 'true' ? 'false' : 'true'; });
 	});

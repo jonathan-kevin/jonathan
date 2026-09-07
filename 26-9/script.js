@@ -74,43 +74,168 @@ $(document).ready(function () {
 		$('.saSideBarSmallScreenOverlay').toggle();
 	});
 
-	const $select = $('<select>', {
-		id: 'theme-select',
-		class: 'saInputText saDropdown saButton',
-		style: 'position: fixed; top: 0.5rem; right: 0.5rem; z-index: 1000;',
-		name: 'theme',
-		'aria-label': 'Theme'
-	});
-
-	$select.append(
-		$('<option>', { value: 'system', text: 'System' }),
-		$('<option>', { value: 'light', text: 'Light' }),
-		$('<option>', { value: 'dark', text: 'Dark' })
+	const $themeToggle = $('<button>', {
+		id: 'theme-toggle',
+		class: 'saThemeSelect',
+		type: 'button',
+		'aria-keyshortcuts': 'D',
+		'aria-pressed': 'false'
+	}).append(
+		$('<i>', { class: 'far fa-sun-alt icon saIcon', 'aria-hidden': 'true' }),
+		$('<i>', { class: 'fas fa-moon icon saIcon', 'aria-hidden': 'true' })
 	);
 
-	$('body').append($select);
+	$('body').prepend($themeToggle);
 
-	const saved = localStorage.getItem('theme') || 'system';
-	$('#theme-select').val(saved);
-	applyTheme(saved);
+	const savedTheme = localStorage.getItem('theme');
+	let currentTheme = savedTheme === 'light' || savedTheme === 'dark'
+		? savedTheme
+		: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
-	$('#theme-select').on('change', function () {
-		const value = $(this).val();
-		localStorage.setItem('theme', value);
-		applyTheme(value);
+	applyTheme(currentTheme);
+
+	function toggleTheme() {
+		currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+		localStorage.setItem('theme', currentTheme);
+		applyTheme(currentTheme);
+	}
+
+	$themeToggle.on('click', toggleTheme);
+
+	$(document).on('keydown', function (event) {
+		const isEditable = $(event.target).is('input, select, textarea, [contenteditable="true"]');
+		const isThemeShortcut = !event.altKey
+			&& !event.ctrlKey
+			&& !event.metaKey
+			&& !event.shiftKey
+			&& event.key.toLowerCase() === 'd';
+
+		if (!isThemeShortcut || isEditable || event.repeat) return;
+
+		event.preventDefault();
+		toggleTheme();
 	});
 
 	function applyTheme(theme) {
 		const root = document.documentElement;
+		const isDark = theme === 'dark';
 
-		if (theme === 'system') {
-			root.removeAttribute('data-theme');
-		} else {
-			root.setAttribute('data-theme', theme);
-		}
+		root.setAttribute('data-theme', theme);
+		$themeToggle.attr({
+			'aria-label': isDark ? 'Switch to light mode' : 'Switch to dark mode',
+			'aria-pressed': String(isDark),
+			title: `${isDark ? 'Switch to light mode' : 'Switch to dark mode'} (D)`
+		});
 	}
 
 	$('.saFavoriteToggle').click(function () {
 		$(this).attr('aria-checked', function (i, attr) { return attr === 'true' ? 'false' : 'true'; });
 	});
+
+	const $splitMenuButton = $('.saSplitButtonArrow[aria-controls="saSplitButtonMenu"]');
+	const $splitMenu = $('#saSplitButtonMenu');
+	const $splitMenuRoot = $splitMenuButton.closest('.saButtonSplit');
+
+	function setSplitMenuOpen(isOpen) {
+		$splitMenuButton.toggleClass('saOpen', isOpen).attr('aria-expanded', String(isOpen));
+		$splitMenu.toggleClass('saOpen', isOpen);
+	}
+
+	$splitMenuButton.on('click', function (event) {
+		event.stopPropagation();
+		setSplitMenuOpen(!$splitMenuButton.hasClass('saOpen'));
+	});
+
+	$(document).on('click', function (event) {
+		if ($(event.target).closest($splitMenuRoot).length) return;
+		setSplitMenuOpen(false);
+	});
+
+	$(document).on('keydown', function (event) {
+		if (event.key !== 'Escape' || !$splitMenuButton.hasClass('saOpen')) return;
+
+		setSplitMenuOpen(false);
+		$splitMenuButton.trigger('focus');
+	});
+
+	$('.saGrid tbody').on('mouseenter mouseleave', 'tr', function (event) {
+		$(this).toggleClass('saSelected', event.type === 'mouseenter');
+	});
+
+	const $attachments = $('#project-attachments');
+
+	function formatFileSize(bytes) {
+		if (bytes < 1024) return `${bytes} B`;
+		if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} kB`;
+		return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+	}
+
+	function renderAttachments(files) {
+		const $fileGroup = $attachments.find('.saFileGroup').empty();
+
+		Array.from(files).forEach(function (file) {
+			const $fileItem = $('<li>', { class: 'saFileWrapper saFileVisible saDone' });
+			const $iconWrapper = $('<div>', { class: 'saFileIconWrapper saDone' })
+				.append($('<i>', { class: 'saFileIcon saIcon fas fa-file', 'aria-hidden': 'true' }));
+			const $fileDetails = $('<div>', { class: 'saFile' }).append(
+				$('<div>', { class: 'saFileNameWrapper' }).append(
+					$('<span>', { class: 'saFileName', text: file.name })
+				),
+				$('<div>', { class: 'saFileSizeWrapper' }).append(
+					$('<div>', { class: 'saFileSizeRow' }).append(
+						$('<span>', { class: 'saFileSize', text: formatFileSize(file.size) }),
+						$('<span>', { class: 'saFileUploadProgressText', text: '100%' })
+					),
+					$('<progress>', { class: 'saFileUploadProgress', max: 100, value: 100 })
+				)
+			);
+			const $deleteButton = $('<button>', {
+				class: 'saDeleteButton saDestructive',
+				type: 'button',
+				'aria-label': `Delete file ${file.name}`,
+				'data-tooltip': 'Delete file'
+			}).append($('<i>', { class: 'saIcon far fa-trash-alt', 'aria-hidden': 'true' }));
+
+			$fileItem.append($iconWrapper, $fileDetails, $('<div>', { class: 'saFileButtonGroup' }).append($deleteButton));
+			$fileGroup.append($fileItem);
+		});
+
+		$attachments.toggleClass('saHasFiles', $fileGroup.children().length > 0);
+	}
+
+	$attachments.find('input[type="file"]').on('change', function () {
+		renderAttachments(this.files);
+	});
+
+	$attachments.on('keydown', '.saFileUploadArea', function (event) {
+		if (event.key !== 'Enter' && event.key !== ' ') return;
+
+		event.preventDefault();
+		$(this).find('input[type="file"]').trigger('click');
+	});
+
+	$attachments.on('dragover', '.saFileUploadArea', function (event) {
+		event.preventDefault();
+		$attachments.addClass('saDragOver');
+	});
+
+	$attachments.on('dragleave drop', '.saFileUploadArea', function (event) {
+		event.preventDefault();
+		$attachments.removeClass('saDragOver');
+
+		if (event.type === 'drop') {
+			renderAttachments(event.originalEvent.dataTransfer.files);
+		}
+	});
+
+	$attachments.on('click', '.saDeleteButton', function () {
+		$(this).closest('.saFileWrapper').remove();
+		const hasFiles = $attachments.find('.saFileWrapper').length > 0;
+		$attachments.toggleClass('saHasFiles', hasFiles);
+
+		if (!hasFiles) {
+			$attachments.find('input[type="file"]').val('');
+		}
+	});
+
 });
