@@ -11,7 +11,7 @@
 	<meta property="og:image" content="./Presentation/img/og-img.png">
 
 	<script src="../src/jquery-4.0.0.slim.min.js"></script>
-	<script src="./script.js?v=95613463"></script>
+	<script src="./script.js?v=95613464"></script>
 	<script src="./live.js#css,html,js" defer></script>
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -93,21 +93,12 @@
 							<div class="saSideBarGroup">
 								<h3>Models</h3>
 								<ul class="saItemList">
-									<li>
-										<a class="saItem saDynamicTooltipJs" tabindex="0">
-											<div class="saItemInner">
-												<div class="saIconWrapper">
-													<i class="far fa-brain icon saIcon"></i>
-												</div>
-												<span>4.1<span class="saMenuItemPill saAdminOnly">Admin</span>
-											</div>
-										</a>
-									</li>
-									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-o icon saIcon"></i></div><span>4o</span></div></a></li>
-									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-minus-square icon saIcon"></i></div><span>4o mini</span></div></a></li>
-									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-car icon saIcon"></i></div><span>3.5 Turbo</span></div></a></li>
-									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-c icon saIcon"></i></div><span>Claude 3.5</span></div></a></li>
-									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-c icon saIcon"></i></div><span>Claude 3 Opus</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-brain icon saIcon"></i></div><span>4.1<span class="saMenuItemPill saAdminOnly">Admin</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-o icon saIcon"></i></div><span>4o<span class="saMenuItemPill saIssues">Issues</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-minus-square icon saIcon"></i></div><span>4o mini<span class="saMenuItemPill saDraft">Draft</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-car icon saIcon"></i></div><span>3.5 Turbo<span class="saMenuItemPill saBeta">Beta</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-c icon saIcon"></i></div><span>Claude 3.5<span class="saMenuItemPill saDeprecated">Deprecated</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-c icon saIcon"></i></div><span>Claude 3 Opus<span class="saMenuItemPill saNew">New</span></span></div></a></li>
 									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-g icon saIcon"></i></div><span>Gemini Pro</span></div></a></li>
 									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-g icon saIcon"></i></div><span>Gemini Flash</span></div></a></li>
 									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-l icon saIcon"></i></div><span>Llama 3</span></div></a></li>
@@ -134,11 +125,59 @@
 						<section class="saSideBarSection saSideBarFooter saSideBarSectionJs">
 							<div class="saSideBarFooterPrimary">
 								<div class="saListItem">
-									<button class="saAccountDropdown" type="button">
+									<button class="saAccountDropdown" type="button" aria-expanded="false" aria-controls="saAccountMenu" aria-haspopup="menu">
 										<div class="saAccountAvatar">FL</div>
 										<span class="saAccountName">Firstname Lastname</span>
 										<i class="far fa-angle-down saIcon"></i>
 									</button>
+									<ul class="saContextMenu saProfileMenu saNorth" id="saAccountMenu" style="top: -13.5rem;" aria-hidden="true" style="display: none;">
+										<li>
+											<label class="saOptionWrapper"  for="saToggleDark" tabindex="0">
+												<div class="saOption">
+													<div class="saOptionText">
+														<div class="saOptionTitle">Dark mode</div>
+														<div class="saOptionDescription">The page won't reload (D).</div>
+													</div>
+													<input class="saToggle" type="checkbox" id="saToggleDark" aria-keyshortcuts="D">
+												</div>
+											</label>
+										</li>
+										<li><hr></li>
+										<li>
+											<label class="saOptionWrapper"  for="saToggleCompact" tabindex="0">
+												<div class="saOption">
+													<div class="saOptionText">
+														<div class="saOptionTitle">Compact mode</div>
+														<div class="saOptionDescription">The page will reload.</div>
+													</div>
+													<input class="saToggle" type="checkbox" id="saToggleCompact" checked="true">
+												</div>
+											</label>
+										</li>
+										<li><hr></li>
+										<li>
+											<a class="saOptionWrapper" tabindex="0">
+												<div class="saOption"><i class="far fa-circle-exclamation icon saIcon saOptionIcon" aria-hidden="true"></i>
+													<div class="saOptionText">Give feedback to Multisoft</div>
+												</div>
+											</a>
+										</li>
+										<li>
+											<a class="saOptionWrapper" tabindex="0">
+												<div class="saOption"><i class="far fa-mobile-notch icon saIcon saOptionIcon" aria-hidden="true"></i>
+													<div class="saOptionText">App</div>
+												</div>
+											</a>
+										</li>
+
+										<li>
+											<a class="saOptionWrapper" tabindex="0">
+												<div class="saOption"><i class="far fa-pen icon saIcon saOptionIcon" aria-hidden="true"></i>
+													<div class="saOptionText">Edit contact information</div>
+												</div>
+											</a>
+										</li>
+									</ul>
 								</div>
 								<ul class="saSideBarToolbar">
 									<li>
@@ -589,6 +628,322 @@
 														</div>
 													</div>
 												</softadmin-tabview>
+												<softadmin-menuitems class="maincolbody saMenuGroup" style="padding: 1rem 0;">
+												<div class="saMenuBoxWrapper">
+													<div class="saColumn">
+														<div class="saMenuBox">
+															<span class="saMenuBoxHeading">Logs</span>
+															<ul>
+															<li class="saMenuItemWrapper saHasDescription saFeatured saFeatured4 saSelectable">
+																<a class="saMenuItem" role="link"
+																	><div class="saIconHolder saIconHolderFeatured">
+																		<i class="far fa-clipboard-list icon saIcon"></i>
+																	</div>
+																	<div class="saMenuItemText">
+																		<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Application errors and log</span></span
+																		><span class="saMenuItemTextDesc"
+																		>Errors that have occured in the system, warnings and diagnostic messages.</span
+																		>
+																	</div></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saFeatured saFeatured2 saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder saIconHolderFeatured"><i class="far fa-stopwatch icon saIcon"></i></div>
+																	<div class="saMenuItemText">
+																		<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Performance Center</span></span
+																		>
+																	</div></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder"><i class="far fa-cube icon saIcon"></i></div>
+																	<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Recent logins</span></span
+																	></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder"><i class="far fa-clipboard-list icon saIcon"></i></div>
+																	<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Log summary</span></span
+																	></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder"><i class="far fa-cube icon saIcon"></i></div>
+																	<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Other logs</span></span
+																	></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															</ul>
+														</div>
+														<div class="saMenuBox">
+															<span class="saMenuBoxHeading">Menu Items and Groups</span>
+															<ul>
+															<li class="saMenuItemWrapper saFeatured saFeatured1 saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder saIconHolderFeatured"><i class="far fa-cube icon saIcon"></i></div>
+																	<div class="saMenuItemText">
+																		<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Menu items</span></span
+																		>
+																	</div></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder"><i class="far fa-cube icon saIcon"></i></div>
+																	<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Menu groups</span></span
+																	></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder"><i class="far fa-cube icon saIcon"></i></div>
+																	<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Keyboard shortcuts</span></span
+																	></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder"><i class="far fa-cube icon saIcon"></i></div>
+																	<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Search groups</span></span
+																	></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															</ul>
+														</div>
+														<div class="saMenuBox">
+															<span class="saMenuBoxHeading">Parameters and Fields</span>
+															<ul>
+															<li class="saMenuItemWrapper saFeatured saFeatured1 saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder saIconHolderFeatured"><i class="far fa-input-pipe icon saIcon"></i></div>
+																	<div class="saMenuItemText">
+																		<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Field information</span></span
+																		>
+																	</div></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder"><i class="far fa-filter icon saIcon"></i></div>
+																	<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Parameters</span></span
+																	></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder"><i class="far fa-cube icon saIcon"></i></div>
+																	<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Field groups</span></span
+																	></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder"><i class="far fa-message-check icon saIcon"></i></div>
+																	<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Input validations</span></span
+																	></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															</ul>
+														</div>
+														<div class="saMenuBox">
+															<span class="saMenuBoxHeading">Architecture</span>
+															<ul>
+															<li class="saMenuItemWrapper saFeatured saFeatured4 saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder saIconHolderFeatured">
+																		<i class="far fa-chart-network icon saIcon"></i>
+																	</div>
+																	<div class="saMenuItemText">
+																		<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Database designer</span></span
+																		>
+																	</div></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder"><i class="far fa-database icon saIcon"></i></div>
+																	<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Database overview</span></span
+																	></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															</ul>
+														</div>
+													</div>
+													<div class="saColumn">
+														<div class="saMenuBox">
+															<span class="saMenuBoxHeading">System Settings</span>
+															<ul>
+															<li class="saMenuItemWrapper saHasDescription saFeatured saFeatured5 saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder saIconHolderFeatured"><i class="far fa-gear icon saIcon"></i></div>
+																	<div class="saMenuItemText">
+																		<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Local settings</span></span
+																		><span class="saMenuItemTextDesc">Configuration that is not deployed.</span>
+																	</div></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saHasDescription saFeatured saFeatured3 saSelectable">
+																<a class="saMenuItem" role="link"
+																	><div class="saIconHolder saIconHolderFeatured">
+																		<i class="far fa-arrow-right-to-bracket icon saIcon"></i>
+																	</div>
+																	<div class="saMenuItemText">
+																		<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Single Sign-on</span></span
+																		><span class="saMenuItemTextDesc">Configuration of Single Sign-on.</span>
+																	</div></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saHasDescription saSelectable">
+																<a class="saMenuItem" role="link"
+																	><div class="saIconHolder"><i class="far fa-gear icon saIcon"></i></div>
+																	<div class="saMenuItemText">
+																		<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Global settings</span></span
+																		><span class="saMenuItemTextDesc">Configuration that is deployed.</span>
+																	</div></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder"><i class="far fa-cube icon saIcon"></i></div>
+																	<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">System settings</span></span
+																	></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															<li class="saMenuItemWrapper saSelectable">
+																<a class="saMenuItem"
+																	><div class="saIconHolder"><i class="far fa-key icon saIcon"></i></div>
+																	<span class="saMenuItemTextHeadingWrapper"
+																		><span class="saMenuItemTextHeading">Credentials</span></span
+																	></a
+																>
+																<div class="saMenuItemTools">
+																	<button class="saIconWrapper saFavoriteToggle saNoSpinner" type="button">
+																		<i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i>
+																	</button>
+																</div>
+															</li>
+															</ul>
+														</div>
+													</div></div
+												></softadmin-menuitems>
 												<softadmin-grid class="grid saMenuItemRoot">
 													<div class="maincolbody listpage saNotUsingAccessibilityMode stickyheader">
 													<div class="saGridWrapper">

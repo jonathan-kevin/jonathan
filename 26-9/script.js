@@ -74,18 +74,35 @@ $(document).ready(function () {
 		$('.saSideBarSmallScreenOverlay').toggle();
 	});
 
-	const $themeToggle = $('<button>', {
-		id: 'theme-toggle',
-		class: 'saThemeSelect',
-		type: 'button',
-		'aria-keyshortcuts': 'D',
-		'aria-pressed': 'false'
-	}).append(
-		$('<i>', { class: 'far fa-sun-alt icon saIcon', 'aria-hidden': 'true' }),
-		$('<i>', { class: 'fas fa-moon icon saIcon', 'aria-hidden': 'true' })
-	);
+	const $accountDropdown = $('.saAccountDropdown').first();
+	const $accountMenu = $accountDropdown.siblings('.saProfileMenu').first();
+	const $accountMenuRoot = $accountDropdown.closest('.saListItem');
 
-	$('body').prepend($themeToggle);
+	function setAccountMenuOpen(isOpen) {
+		$accountDropdown.toggleClass('saOpen', isOpen).attr('aria-expanded', String(isOpen));
+		$accountMenu.toggleClass('saOpen', isOpen).attr('aria-hidden', String(!isOpen));
+	}
+
+	$accountDropdown.on('click', function (event) {
+		event.stopPropagation();
+		setAccountMenuOpen(!$accountDropdown.hasClass('saOpen'));
+	});
+
+	$(document).on('click', function (event) {
+		if ($accountMenuRoot[0]?.contains(event.target)) return;
+		setAccountMenuOpen(false);
+	});
+
+	$(document).on('keydown', function (event) {
+		if (event.key !== 'Escape' || !$accountDropdown.hasClass('saOpen')) return;
+
+		setAccountMenuOpen(false);
+		$accountDropdown.trigger('focus');
+	});
+
+	setAccountMenuOpen(false);
+
+	const $themeToggle = $('#saToggleDark');
 
 	const savedTheme = localStorage.getItem('theme');
 	let currentTheme = savedTheme === 'light' || savedTheme === 'dark'
@@ -100,7 +117,11 @@ $(document).ready(function () {
 		applyTheme(currentTheme);
 	}
 
-	$themeToggle.on('click', toggleTheme);
+	$themeToggle.on('change', function () {
+		currentTheme = this.checked ? 'dark' : 'light';
+		localStorage.setItem('theme', currentTheme);
+		applyTheme(currentTheme);
+	});
 
 	$(document).on('keydown', function (event) {
 		const isEditable = $(event.target).is('input, select, textarea, [contenteditable="true"]');
@@ -121,11 +142,12 @@ $(document).ready(function () {
 		const isDark = theme === 'dark';
 
 		root.setAttribute('data-theme', theme);
-		$themeToggle.attr({
-			'aria-label': isDark ? 'Switch to light mode' : 'Switch to dark mode',
-			'aria-pressed': String(isDark),
-			title: `${isDark ? 'Switch to light mode' : 'Switch to dark mode'} (D)`
-		});
+		$themeToggle
+			.prop('checked', isDark)
+			.attr({
+				'aria-label': isDark ? 'Switch to light mode' : 'Switch to dark mode',
+				title: `${isDark ? 'Switch to light mode' : 'Switch to dark mode'} (D)`
+			});
 	}
 
 	$('.saFavoriteToggle').click(function () {
