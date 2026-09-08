@@ -74,6 +74,17 @@ $(document).ready(function () {
 		$('.saSideBarSmallScreenOverlay').toggle();
 	});
 
+	$(document).on('click', '.saInfoBoxHeadingButton', function () {
+		const $headingButton = $(this);
+		const $infoBox = $headingButton.closest('.saInfoBox');
+		const shouldOpen = !$infoBox.hasClass('saOpen');
+
+		$infoBox
+			.toggleClass('saOpen', shouldOpen)
+			.toggleClass('saClosed', !shouldOpen);
+		$headingButton.attr('aria-expanded', String(shouldOpen));
+	});
+
 	const $InfoBoxButton = $('.saInfoBoxCopyButton');
 	let $AriaLabelTooltip = null;
 	let ariaLabelTooltipTarget = null;
