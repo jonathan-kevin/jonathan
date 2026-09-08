@@ -74,6 +74,125 @@ $(document).ready(function () {
 		$('.saSideBarSmallScreenOverlay').toggle();
 	});
 
+	const $InfoBoxButton = $('.saInfoBoxCopyButton');
+	let $InfoBoxCopyTooltip = null;
+	let $InfoBoxCopyTooltipButton = null;
+
+	function removeInfoBoxCopyTooltip() {
+		if ($InfoBoxCopyTooltip) $InfoBoxCopyTooltip.remove();
+
+		$InfoBoxCopyTooltip = null;
+		$InfoBoxCopyTooltipButton = null;
+	}
+
+	function positionInfoBoxCopyTooltip() {
+		if (!$InfoBoxCopyTooltip || !$InfoBoxCopyTooltipButton) return;
+
+		const buttonRect = $InfoBoxCopyTooltipButton.getBoundingClientRect();
+		$InfoBoxCopyTooltip.css({
+			left: `${buttonRect.left + buttonRect.width / 2}px`,
+			top: `${buttonRect.top - 8}px`
+		});
+	}
+
+	$InfoBoxButton.on('mouseenter', function () {
+		if (!$('body').hasClass('saLargeScreen')) return;
+
+		removeInfoBoxCopyTooltip();
+		$InfoBoxCopyTooltipButton = this;
+		$InfoBoxCopyTooltip = $('<div>', {
+			class: 'saTooltipRoot saInfoBoxCopyTooltip',
+			'aria-hidden': 'true',
+			text: $(this).attr('aria-label')
+		}).css({
+			position: 'fixed',
+			transform: 'translate(-50%, -100%)'
+		}).appendTo('body');
+
+		positionInfoBoxCopyTooltip();
+	}).on('mouseleave', removeInfoBoxCopyTooltip);
+
+	$(window).on('resize scroll', function () {
+		if (!$('body').hasClass('saLargeScreen')) {
+			removeInfoBoxCopyTooltip();
+			return;
+		}
+
+		positionInfoBoxCopyTooltip();
+	});
+
+	function getInfoBoxCopyText(button) {
+		const $content = $(button).closest('.saInfoBoxContent');
+		const table = $content.find('.saBoxTable').get(0);
+
+		if (table) {
+			return Array.from(table.rows, function (row) {
+				return Array.from(row.cells, function (cell) {
+					return cell.innerText.trim();
+				}).join('\t');
+			}).join('\n');
+		}
+
+		const $textContent = $(button).closest('.saInfoBoxTextContent').clone();
+		$textContent.find('.saInfoBoxCopyButton').remove();
+		return $textContent.text().trim();
+	}
+
+	async function copyTextToClipboard(text) {
+		if (navigator.clipboard?.writeText) {
+			try {
+				await navigator.clipboard.writeText(text);
+				return;
+			} catch (error) {
+				// Fall back for browsers that expose the API but block clipboard access.
+			}
+		}
+
+		const $textArea = $('<textarea>', {
+			value: text,
+			'aria-hidden': 'true'
+		}).css({
+			position: 'fixed',
+			left: '-9999px'
+		}).appendTo('body');
+
+		$textArea.get(0).select();
+		const didCopy = document.execCommand('copy');
+		$textArea.remove();
+
+		if (!didCopy) throw new Error('Unable to copy text to the clipboard.');
+	}
+
+	$InfoBoxButton.on('click', async function () {
+		const $button = $(this);
+		const copyLabel = $button.data('saCopyLabel') || $button.attr('aria-label');
+		const copiedLabel = copyLabel.replace(/^Copy\b/, 'Copied');
+		$button.data('saCopyLabel', copyLabel);
+
+		try {
+			await copyTextToClipboard(getInfoBoxCopyText(this));
+
+			const previousTimeout = $button.data('saCopiedTimeout');
+			if (previousTimeout) clearTimeout(previousTimeout);
+
+			$button.addClass('saCopied').attr('aria-label', copiedLabel);
+			if ($InfoBoxCopyTooltipButton === this) $InfoBoxCopyTooltip.text(copiedLabel);
+
+			$button.data('saCopiedTimeout', setTimeout(function () {
+				$button.removeClass('saCopied')
+					.attr('aria-label', copyLabel)
+					.removeData('saCopiedTimeout');
+
+				if ($InfoBoxCopyTooltipButton === $button.get(0)) {
+					$InfoBoxCopyTooltip.text(copyLabel);
+				}
+			}, 2000));
+		} catch (error) {
+			console.error('Failed to copy InfoSQL content.', error);
+		}
+	});
+
+
 	const $accountDropdown = $('.saAccountDropdown').first();
 	const $accountMenu = $accountDropdown.siblings('.saProfileMenu').first();
 	const $accountMenuRoot = $accountDropdown.closest('.saListItem');
@@ -101,6 +220,7 @@ $(document).ready(function () {
 	});
 
 	setAccountMenuOpen(false);
+
 
 	const $themeToggle = $('#saToggleDark');
 
