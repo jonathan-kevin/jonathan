@@ -2430,7 +2430,7 @@ div.saPopupOverlay {
   background-color: light-dark(var(--White), var(--Gray1200));
   opacity: 0;
   position: absolute;
-  inset: -0.25rem -2rem auto auto;
+  inset: -0.25rem -1.75rem auto auto;
 }
 .saInfoBoxCopyButton .saButtonText {
   white-space: nowrap;
@@ -2521,7 +2521,11 @@ div.saPopupOverlay {
 .saInfoBoxCol:has(.saBoxTableWrapper) .saInfoBoxCopyButton {
   right: 0;
 }
+.saUserHtmlContent .saInfoBoxCopyButton {
+  inset: 0 0 auto auto;
+}
 .saInfoBoxCopyButton:focus-visible,
+.saInfoBoxGrid .saInfoBoxContent:is(:hover, :focus, :active) .saInfoBoxCopyButton,
 .saInfoBoxCol:is(:hover, :focus, :active) .saInfoBoxCopyButton {
   opacity: 1;
 }
@@ -2814,6 +2818,9 @@ div.saPopupOverlay {
   transform: translate(-50%, 50%);
 }
 .saInfoBoxArea .saInfoBoxTextContent {
+  position: relative;
+}
+.saInfoBoxArea .saInfoBoxTextContent span {
   position: relative;
 }
 .saInfoBoxArea .saInfoBoxCol {

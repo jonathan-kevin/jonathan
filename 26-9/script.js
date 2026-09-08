@@ -75,50 +75,55 @@ $(document).ready(function () {
 	});
 
 	const $InfoBoxButton = $('.saInfoBoxCopyButton');
-	let $InfoBoxCopyTooltip = null;
-	let $InfoBoxCopyTooltipButton = null;
+	let $AriaLabelTooltip = null;
+	let ariaLabelTooltipTarget = null;
 
-	function removeInfoBoxCopyTooltip() {
-		if ($InfoBoxCopyTooltip) $InfoBoxCopyTooltip.remove();
+	function removeAriaLabelTooltip() {
+		if ($AriaLabelTooltip) $AriaLabelTooltip.remove();
 
-		$InfoBoxCopyTooltip = null;
-		$InfoBoxCopyTooltipButton = null;
+		$AriaLabelTooltip = null;
+		ariaLabelTooltipTarget = null;
 	}
 
-	function positionInfoBoxCopyTooltip() {
-		if (!$InfoBoxCopyTooltip || !$InfoBoxCopyTooltipButton) return;
+	function positionAriaLabelTooltip() {
+		if (!$AriaLabelTooltip || !ariaLabelTooltipTarget) return;
 
-		const buttonRect = $InfoBoxCopyTooltipButton.getBoundingClientRect();
-		$InfoBoxCopyTooltip.css({
-			left: `${buttonRect.left + buttonRect.width / 2}px`,
-			top: `${buttonRect.top - 8}px`
+		const targetRect = ariaLabelTooltipTarget.getBoundingClientRect();
+		$AriaLabelTooltip.css({
+			left: `${targetRect.left + targetRect.width / 2}px`,
+			top: `${targetRect.top - 8}px`
 		});
 	}
 
-	$InfoBoxButton.on('mouseenter', function () {
+	$(document).on('mouseenter', '[aria-label]', function () {
 		if (!$('body').hasClass('saLargeScreen')) return;
 
-		removeInfoBoxCopyTooltip();
-		$InfoBoxCopyTooltipButton = this;
-		$InfoBoxCopyTooltip = $('<div>', {
-			class: 'saTooltipRoot saInfoBoxCopyTooltip',
+		const label = $(this).attr('aria-label');
+		if (!label) return;
+
+		removeAriaLabelTooltip();
+		ariaLabelTooltipTarget = this;
+		$AriaLabelTooltip = $('<div>', {
+			class: 'saTooltipRoot saAriaLabelTooltip',
 			'aria-hidden': 'true',
-			text: $(this).attr('aria-label')
+			text: label
 		}).css({
 			position: 'fixed',
 			transform: 'translate(-50%, -100%)'
 		}).appendTo('body');
 
-		positionInfoBoxCopyTooltip();
-	}).on('mouseleave', removeInfoBoxCopyTooltip);
+		positionAriaLabelTooltip();
+	}).on('mouseleave', '[aria-label]', function () {
+		if (ariaLabelTooltipTarget === this) removeAriaLabelTooltip();
+	});
 
 	$(window).on('resize scroll', function () {
 		if (!$('body').hasClass('saLargeScreen')) {
-			removeInfoBoxCopyTooltip();
+			removeAriaLabelTooltip();
 			return;
 		}
 
-		positionInfoBoxCopyTooltip();
+		positionAriaLabelTooltip();
 	});
 
 	function getInfoBoxCopyText(button) {
@@ -133,9 +138,9 @@ $(document).ready(function () {
 			}).join('\n');
 		}
 
-		const $textContent = $(button).closest('.saInfoBoxTextContent').clone();
-		$textContent.find('.saInfoBoxCopyButton').remove();
-		return $textContent.text().trim();
+		const textContent = $(button).closest('.saInfoBoxTextContent').get(0);
+		const copySource = textContent || $content.get(0);
+		return copySource?.innerText.trim() || '';
 	}
 
 	async function copyTextToClipboard(text) {
@@ -176,15 +181,15 @@ $(document).ready(function () {
 			if (previousTimeout) clearTimeout(previousTimeout);
 
 			$button.addClass('saCopied').attr('aria-label', copiedLabel);
-			if ($InfoBoxCopyTooltipButton === this) $InfoBoxCopyTooltip.text(copiedLabel);
+			if (ariaLabelTooltipTarget === this) $AriaLabelTooltip.text(copiedLabel);
 
 			$button.data('saCopiedTimeout', setTimeout(function () {
 				$button.removeClass('saCopied')
 					.attr('aria-label', copyLabel)
 					.removeData('saCopiedTimeout');
 
-				if ($InfoBoxCopyTooltipButton === $button.get(0)) {
-					$InfoBoxCopyTooltip.text(copyLabel);
+				if (ariaLabelTooltipTarget === $button.get(0)) {
+					$AriaLabelTooltip.text(copyLabel);
 				}
 			}, 2000));
 		} catch (error) {
