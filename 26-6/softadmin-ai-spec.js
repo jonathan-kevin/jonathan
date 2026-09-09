@@ -2296,14 +2296,8 @@
 			resources: [swedish ? 'Alla resurser' : 'All resources', 'Anna Andersson', 'Viktor Lindgren'],
 			resource: swedish ? 'Alla resurser' : 'All resources',
 			resourceLabel: swedish ? 'Resurs' : 'Resource',
-			filterHeading: swedish ? 'Filter' : 'Filter',
 			descriptionToggle: { label: swedish ? 'Visa beskrivning' : 'Show descriptions', checked: true },
-			filters: [{
-				label: swedish ? 'Kategori' : 'Category',
-				control: 'dropdown',
-				value: swedish ? 'Alla' : 'All',
-				options: swedish ? ['Alla', 'Möten', 'Frånvaro'] : ['All', 'Meetings', 'Absence']
-			}]
+			filters: []
 		};
 		const days = [
 			{ day: '31', weekday: weekdays[0], date: '2026-08-31', activities: [{ title: swedish ? 'Veckoplanering' : 'Weekly planning', description: '09:00-10:00', start: '09:00', end: '10:00', color: '#1668e0' }] },

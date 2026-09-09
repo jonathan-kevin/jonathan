@@ -2718,14 +2718,9 @@
 					</div>
 					<div class="saCalendarSidebarSection saSidebarFilters">${filterContent}</div>
 					${resourceFilterGroups.map(renderCalendarResourceFilter).join('')}
+					${component.descriptionToggle ? `<div class="saCalendarSidebarSection saCalendarDescriptionToggleSection">${renderCalendarDescriptionToggle(component.descriptionToggle)}</div>` : ''}
 				</div>
 			</div>`;
-	}
-
-	function renderCalendarContentLinks(component) {
-		return component.descriptionToggle
-			? `<div class="saComponentContentLinksWrapper">${renderCalendarDescriptionToggle(component.descriptionToggle)}</div>`
-			: '';
 	}
 
 	function calendarSidebarCellValue(cell) {
@@ -3075,7 +3070,6 @@
 			<softadmin-calendar class="calendar maincolbody saMenuItemRoot" data-softadmin-calendar-component="${componentIndex}">
 				<div class="saCalendarSection saDesktopCalendar saTimeScheduleCalendar ${sectionClass}${component.descriptionToggle?.checked === false ? ' saHideCalendarDescriptions' : ''}">
 					${renderCalendarHeader(component)}
-					${renderCalendarContentLinks(component)}
 					<div class="saCalendarSectionInner">
 						${component.sidebar === false ? '' : renderCalendarSidebar(component)}
 						<div class="saCalendar">
@@ -3110,7 +3104,6 @@
 			<softadmin-calendar class="calendar maincolbody saMenuItemRoot" data-softadmin-calendar-component="${componentIndex}">
 				<div class="saCalendarSection saDesktopCalendar saWeekdaysCalendar${component.descriptionToggle?.checked === false ? ' saHideCalendarDescriptions' : ''}">
 					${renderCalendarHeader(component)}
-					${renderCalendarContentLinks(component)}
 					<div class="saCalendarSectionInner">
 						${component.sidebar === false ? '' : renderCalendarSidebar(component)}
 						<div class="saCalendar${component.manyItems ? ' saManyItems' : ''}" role="table">
