@@ -2298,10 +2298,12 @@
 			resourceLabel: swedish ? 'Resurs' : 'Resource',
 			filterHeading: swedish ? 'Filter' : 'Filter',
 			descriptionToggle: { label: swedish ? 'Visa beskrivning' : 'Show descriptions', checked: true },
-			filters: [
-				{ label: swedish ? 'Möten' : 'Meetings', checked: true },
-				{ label: swedish ? 'Frånvaro' : 'Absence', checked: true }
-			]
+			filters: [{
+				label: swedish ? 'Kategori' : 'Category',
+				control: 'dropdown',
+				value: swedish ? 'Alla' : 'All',
+				options: swedish ? ['Alla', 'Möten', 'Frånvaro'] : ['All', 'Meetings', 'Absence']
+			}]
 		};
 		const days = [
 			{ day: '31', weekday: weekdays[0], date: '2026-08-31', activities: [{ title: swedish ? 'Veckoplanering' : 'Weekly planning', description: '09:00-10:00', start: '09:00', end: '10:00', color: '#1668e0' }] },

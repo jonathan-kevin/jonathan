@@ -2667,8 +2667,11 @@
 	}
 
 	function renderCalendarSidebar(component) {
+		const isResourceMode = normalizeCalendarMode(component.mode) === 'Resources with time scale';
 		const filters = component.filters || [];
-		const resourceFilterGroups = component.resourceFilterGroups || (component.resourceFilter ? [component.resourceFilter] : []);
+		const resourceFilterGroups = isResourceMode
+			? (component.resourceFilterGroups || (component.resourceFilter ? [component.resourceFilter] : []))
+			: [];
 		const monthDays = component.sidebarDays || [
 			['', '22', '23', '24', '25', '26', '27', '28'],
 			['26', '29', '30', '1', '2', '3', '4', '5'],
@@ -2715,9 +2718,14 @@
 					</div>
 					<div class="saCalendarSidebarSection saSidebarFilters">${filterContent}</div>
 					${resourceFilterGroups.map(renderCalendarResourceFilter).join('')}
-					${component.descriptionToggle ? `<div class="saCalendarSidebarSection saCalendarDescriptionToggleSection">${renderCalendarDescriptionToggle(component.descriptionToggle)}</div>` : ''}
 				</div>
 			</div>`;
+	}
+
+	function renderCalendarContentLinks(component) {
+		return component.descriptionToggle
+			? `<div class="saComponentContentLinksWrapper">${renderCalendarDescriptionToggle(component.descriptionToggle)}</div>`
+			: '';
 	}
 
 	function calendarSidebarCellValue(cell) {
@@ -2771,27 +2779,23 @@
 	}
 
 	function renderCalendarFilter(filter) {
-		if (filter.control === 'dropdown' || Array.isArray(filter.options)) {
-			const options = filter.options || ['Hide', 'Show'];
-			return `
-				<label class="saInputTextWrapper saLabeled${filter.disabled ? ' saDisabled' : ''}">
-					<span class="saLabeledLabel">${escapeHtml(filter.label)}</span>
-					<select class="saInputText saDropdown" ${filter.disabled ? 'disabled' : ''}>
-						${options.map(option => {
-							const value = typeof option === 'object' ? option.value : option;
-							const label = typeof option === 'object' ? option.label : option;
-							return `<option${String(value) === String(filter.value) ? ' selected' : ''}>${escapeHtml(label)}</option>`;
-						}).join('')}
-					</select>
-					<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
-				</label>`;
-		}
-
+		const options = filter.options || [
+			{ label: 'All', value: '' },
+			{ label: 'Yes', value: 'yes' },
+			{ label: 'No', value: 'no' }
+		];
+		const selectedValue = filter.value ?? (filter.checked === false ? 'no' : (filter.checked === true ? 'yes' : ''));
 		return `
-			<label class="saCheckboxWrapper${filter.disabled ? ' saDisabled' : ''}">
-				<input class="saCheckbox" type="checkbox" ${filter.checked === false ? '' : 'checked'} ${filter.disabled ? 'disabled' : ''}>
-				<span>${escapeHtml(filter.label)}</span>
-				${filter.description ? `<span class="saDescription">${escapeHtml(filter.description)}</span>` : ''}
+			<label class="saInputTextWrapper saLabeled${filter.disabled ? ' saDisabled' : ''}">
+				<span class="saLabeledLabel">${escapeHtml(filter.label)}</span>
+				<select class="saInputText saDropdown" ${filter.disabled ? 'disabled' : ''}>
+					${options.map(option => {
+						const value = typeof option === 'object' ? option.value : option;
+						const label = typeof option === 'object' ? option.label : option;
+						return `<option${String(value) === String(selectedValue) ? ' selected' : ''}>${escapeHtml(label)}</option>`;
+					}).join('')}
+				</select>
+				<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
 			</label>`;
 	}
 
@@ -3071,6 +3075,7 @@
 			<softadmin-calendar class="calendar maincolbody saMenuItemRoot" data-softadmin-calendar-component="${componentIndex}">
 				<div class="saCalendarSection saDesktopCalendar saTimeScheduleCalendar ${sectionClass}${component.descriptionToggle?.checked === false ? ' saHideCalendarDescriptions' : ''}">
 					${renderCalendarHeader(component)}
+					${renderCalendarContentLinks(component)}
 					<div class="saCalendarSectionInner">
 						${component.sidebar === false ? '' : renderCalendarSidebar(component)}
 						<div class="saCalendar">
@@ -3105,6 +3110,7 @@
 			<softadmin-calendar class="calendar maincolbody saMenuItemRoot" data-softadmin-calendar-component="${componentIndex}">
 				<div class="saCalendarSection saDesktopCalendar saWeekdaysCalendar${component.descriptionToggle?.checked === false ? ' saHideCalendarDescriptions' : ''}">
 					${renderCalendarHeader(component)}
+					${renderCalendarContentLinks(component)}
 					<div class="saCalendarSectionInner">
 						${component.sidebar === false ? '' : renderCalendarSidebar(component)}
 						<div class="saCalendar${component.manyItems ? ' saManyItems' : ''}" role="table">
