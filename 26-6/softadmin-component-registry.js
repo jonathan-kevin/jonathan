@@ -2739,11 +2739,28 @@
 			</label>`;
 	}
 
-	function renderCalendarActivity(activity) {
+	function calendarLocationAttributes(location, activityIndex) {
+		const attributes = [
+			`data-calendar-component-index="${location.componentIndex}"`,
+			`data-calendar-kind="${location.kind}"`
+		];
+		if (location.weekIndex !== undefined) attributes.push(`data-calendar-week-index="${location.weekIndex}"`);
+		if (location.dayIndex !== undefined) attributes.push(`data-calendar-day-index="${location.dayIndex}"`);
+		if (location.resourceIndex !== undefined) attributes.push(`data-calendar-resource-index="${location.resourceIndex}"`);
+		if (location.allDay !== undefined) attributes.push(`data-calendar-all-day="${location.allDay ? 'true' : 'false'}"`);
+		if (activityIndex !== undefined) attributes.push(`data-calendar-activity-index="${activityIndex}"`);
+		return attributes.join(' ');
+	}
+
+	function renderCalendarCreateButton(location, label) {
+		return `<button class="saCalendarCreateActivity" type="button" ${calendarLocationAttributes(location)} title="${escapeHtml(label)}" aria-label="${escapeHtml(label)}"><i class="far fa-plus saIcon"></i></button>`;
+	}
+
+	function renderCalendarActivity(activity, activityIndex, location) {
 		const color = activity.color || (activity.allDay ? 'rgb(255, 204, 204)' : 'rgb(133, 147, 173)');
 
 		return `
-			<li class="saActivity${activity.clickable === false ? '' : ' saClickable'}${activity.allDay ? ' saAllDay' : ''}">
+			<li class="saActivity${activity.clickable === false ? '' : ' saClickable'}${activity.allDay ? ' saAllDay' : ''}" draggable="true" data-softadmin-calendar-activity ${calendarLocationAttributes(location, activityIndex)}>
 				<div class="saActivityLine" style="background-color: ${escapeHtml(color)};"></div>
 				<div class="saActivityInner">
 					<div class="saActivityHeadingWrapper">
@@ -2754,25 +2771,27 @@
 			</li>`;
 	}
 
-	function renderCalendarDate(day) {
+	function renderCalendarDate(day, dayIndex, weekIndex, componentIndex) {
 		const classes = ['saDateX', day.today ? 'saDateIsToday' : '', day.current ? 'saDateIsCurrent' : '', day.redDay ? 'saRedDay' : '', day.clickable === false ? '' : 'saClickable'].filter(Boolean).join(' ');
+		const location = { componentIndex, kind: 'day', weekIndex, dayIndex, allDay: true };
 
 		return `
-			<div class="${classes}" role="cell" aria-label="${escapeHtml(day.date)}">
+			<div class="${classes}" role="cell" aria-label="${escapeHtml(day.date)}" data-softadmin-calendar-drop-target ${calendarLocationAttributes(location)}>
 				<div class="saDateInner">
 					<time class="saDateNumber" datetime="${escapeHtml(day.date)}">${escapeHtml(calendarDateNumber(day))}</time>
+					${renderCalendarCreateButton(location, `New activity ${day.date || ''}`)}
 					<ul class="saActivityGroup">
-						${(day.activities || []).map(renderCalendarActivity).join('')}
+						${(day.activities || []).map((activity, activityIndex) => renderCalendarActivity(activity, activityIndex, location)).join('')}
 					</ul>
 				</div>
 			</div>`;
 	}
 
-	function renderCalendarWeek(week) {
+	function renderCalendarWeek(week, weekIndex, componentIndex) {
 		return `
 			<div class="saWeek" role="row">
 				<time class="saWeekNumber" role="rowheader" datetime="${escapeHtml(week.id || '')}" aria-label="${escapeHtml(week.label || '')}">${escapeHtml(week.number || '')}</time>
-				${(week.days || []).map(renderCalendarDate).join('')}
+				${(week.days || []).map((day, dayIndex) => renderCalendarDate(day, dayIndex, weekIndex, componentIndex)).join('')}
 			</div>`;
 	}
 
@@ -2903,7 +2922,7 @@
 		return match ? (Number(match[1]) * 60) + Number(match[2]) : null;
 	}
 
-	function renderCalendarScheduleActivity(activity, startMinutes, pixelsPerMinute) {
+	function renderCalendarScheduleActivity(activity, activityIndex, location, startMinutes, pixelsPerMinute) {
 		const activityStart = calendarMinutes(activity.start);
 		const activityEnd = calendarMinutes(activity.end);
 		const top = Number.isFinite(Number(activity.top))
@@ -2917,7 +2936,7 @@
 		const description = activity.description || activity.time || (activity.start && activity.end ? `${activity.start}-${activity.end}` : '');
 
 		return `
-			<div class="saScheduleActivity saIgnoreOnDropJs${activity.clickable === false ? '' : ' saClickable'}" style="left: calc(0% + 4px); width: calc(100% - 4px); top: ${top}px; height: ${height}px; background-color: ${escapeHtml(color)};">
+			<div class="saScheduleActivity saIgnoreOnDropJs${activity.clickable === false ? '' : ' saClickable'}" draggable="true" data-softadmin-calendar-activity ${calendarLocationAttributes(location, activityIndex)} style="left: calc(0% + 4px); width: calc(100% - 4px); top: ${top}px; height: ${height}px; background-color: ${escapeHtml(color)};">
 				<div class="saScheduleActivityInner" style="color: ${escapeHtml(textColor)};">
 					<div class="saScheduleActivityHeadingWrapper"><span class="saListActivityHeading">${escapeHtml(activity.title || '')}</span></div>
 					${description ? `<span class="saListActivityDescription">${escapeHtml(description)}</span>` : ''}
@@ -2925,11 +2944,11 @@
 			</div>`;
 	}
 
-	function renderCalendarAllDayActivity(activity) {
+	function renderCalendarAllDayActivity(activity, activityIndex, location) {
 		const color = activity.color || '#dbeaff';
 		const textColor = activity.textColor || '#172033';
 		return `
-			<div class="saScheduleActivity saAllDay${activity.clickable === false ? '' : ' saClickable'}" style="background-color: ${escapeHtml(color)};">
+			<div class="saScheduleActivity saAllDay${activity.clickable === false ? '' : ' saClickable'}" draggable="true" data-softadmin-calendar-activity ${calendarLocationAttributes(location, activityIndex)} style="background-color: ${escapeHtml(color)};">
 				<div class="saScheduleActivityInner" style="color: ${escapeHtml(textColor)};">
 					<div class="saScheduleActivityHeadingWrapper"><span class="saListActivityHeading">${escapeHtml(activity.title || '')}</span></div>
 					${activity.description ? `<span class="saListActivityDescription">${escapeHtml(activity.description)}</span>` : ''}
@@ -2938,39 +2957,48 @@
 	}
 
 	function renderCalendarTimeScaleBody(columns, options) {
-		const { columnWidth, timeSlots, slotHeight, stripeMarkup, startMinutes, pixelsPerMinute, currentTime } = options;
+		const { columnWidth, timeSlots, slotHeight, stripeMarkup, startMinutes, pixelsPerMinute, currentTime, componentIndex } = options;
 		return `
 			<div class="saCalendarInnerWrapper">
 				<div class="saCalendarInner" role="rowgroup">
 					<div class="saWeek saWeekExtra" role="row">
 						<div class="saSlotWrapper"></div>
-						${columns.map(column => `<div class="saWeekExtraInner" style="min-width: ${columnWidth}px;">${(column.activities || []).filter(activity => activity.allDay).map(renderCalendarAllDayActivity).join('')}</div>`).join('')}
+						${columns.map(column => {
+							const location = { componentIndex, kind: column._kind, weekIndex: column._weekIndex, dayIndex: column._dayIndex, resourceIndex: column._resourceIndex, allDay: true };
+							return `<div class="saWeekExtraInner" data-softadmin-calendar-drop-target ${calendarLocationAttributes(location)} style="min-width: ${columnWidth}px;">${renderCalendarCreateButton({ ...location, allDay: false }, `New activity ${column.label || ''}`)}${(column.activities || []).map((activity, activityIndex) => activity.allDay ? renderCalendarAllDayActivity(activity, activityIndex, location) : '').join('')}</div>`;
+						}).join('')}
 					</div>
 					<div class="saWeek" role="row">
 						<div class="saSlotWrapper">${timeSlots.map(slot => `<div class="saSlot" style="min-height: ${slotHeight}px;"><div class="saSlotInner">${escapeHtml(slot)}</div></div>`).join('')}</div>
 						${columns.map(column => {
 							const activities = (column.activities || []).filter(activity => !activity.allDay);
 							const hasLinks = activities.some(activity => activity.clickable !== false);
-							return `<div class="saCalendarItemList" role="cell" style="min-width: ${columnWidth}px;"><div class="saCalendarItemListInner${hasLinks ? ' saHasLinks' : ''}">${stripeMarkup}${column.current && currentTime ? `<div class="saCurrentTime" style="top: ${Math.max(0, ((calendarMinutes(currentTime) ?? startMinutes) - startMinutes) * pixelsPerMinute)}px;"></div>` : ''}${activities.map(activity => renderCalendarScheduleActivity(activity, startMinutes, pixelsPerMinute)).join('')}</div></div>`;
+							const location = { componentIndex, kind: column._kind, weekIndex: column._weekIndex, dayIndex: column._dayIndex, resourceIndex: column._resourceIndex, allDay: false };
+							return `<div class="saCalendarItemList" role="cell" data-softadmin-calendar-drop-target ${calendarLocationAttributes(location)} style="min-width: ${columnWidth}px;"><div class="saCalendarItemListInner${hasLinks ? ' saHasLinks' : ''}">${stripeMarkup}${column.current && currentTime ? `<div class="saCurrentTime" style="top: ${Math.max(0, ((calendarMinutes(currentTime) ?? startMinutes) - startMinutes) * pixelsPerMinute)}px;"></div>` : ''}${(column.activities || []).map((activity, activityIndex) => activity.allDay ? '' : renderCalendarScheduleActivity(activity, activityIndex, location, startMinutes, pixelsPerMinute)).join('')}</div></div>`;
 						}).join('')}
 					</div>
 				</div>
 			</div>`;
 	}
 
-	function renderCalendarTimeScale(component, mode) {
+	function renderCalendarTimeScale(component, mode, componentIndex) {
 		const weeks = component.weeks || [];
 		const selectedWeek = weeks[0] || { days: [] };
 		const dayHeadings = component.dayHeadings || ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 		const columns = mode === 'Resources with time scale'
-			? (component.resourceColumns || []).map(resource => ({
+			? (component.resourceColumns || []).map((resource, resourceIndex) => ({
 				label: resource.label || resource.name || '',
 				activities: resource.activities || [],
-				current: resource.current
+				current: resource.current,
+				_kind: 'resource',
+				_resourceIndex: resourceIndex
 			}))
 			: (selectedWeek.days || []).map((day, index) => ({
 				...day,
-				label: day.weekday || dayHeadings[index] || day.day || ''
+				label: day.weekday || dayHeadings[index] || day.day || '',
+				_kind: 'day',
+				_weekIndex: 0,
+				_dayIndex: index
 			}));
 		const timeSlots = component.timeSlots || ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00'];
 		const slotHeight = Math.max(16, Number(component.slotHeight) || 30);
@@ -2981,10 +3009,10 @@
 		const stripeMarkup = timeSlots.map((slot, index) => `<div class="saCalendarStripe" style="height: ${slotHeight}px; top: ${index * slotHeight}px;"></div>`).join('');
 		const columnWidth = Math.max(96, Number(component.columnWidth) || 128);
 		const sectionClass = mode === 'Resources with time scale' ? 'saResourceCalendar' : 'saWeekdaysCalendar';
-		const bodyOptions = { columnWidth, timeSlots, slotHeight, stripeMarkup, startMinutes, pixelsPerMinute, currentTime: component.currentTime };
+		const bodyOptions = { columnWidth, timeSlots, slotHeight, stripeMarkup, startMinutes, pixelsPerMinute, currentTime: component.currentTime, componentIndex };
 
 		return `
-			<softadmin-calendar class="calendar maincolbody saMenuItemRoot">
+			<softadmin-calendar class="calendar maincolbody saMenuItemRoot" data-softadmin-calendar-component="${componentIndex}">
 				<div class="saCalendarSection saDesktopCalendar saTimeScheduleCalendar ${sectionClass}">
 					${renderCalendarHeader(component)}
 					<div class="saCalendarSectionInner">
@@ -2996,7 +3024,8 @@
 							</div>
 							${mode === 'Weekdays with time scale'
 								? (weeks.length ? weeks : [selectedWeek]).map(week => {
-									const weekColumns = (week.days || []).map((day, index) => ({ ...day, label: day.weekday || dayHeadings[index] || day.day || '' }));
+									const weekIndex = weeks.indexOf(week);
+									const weekColumns = (week.days || []).map((day, index) => ({ ...day, label: day.weekday || dayHeadings[index] || day.day || '', _kind: 'day', _weekIndex: weekIndex, _dayIndex: index }));
 									return `
 										<div class="saWeek saWeekExtra saWeekDates" role="row">
 											<time class="saWeekNumber" role="rowheader">${escapeHtml(week.number || component.week || '')}</time>
@@ -3011,13 +3040,13 @@
 			</softadmin-calendar>`;
 	}
 
-	function renderCalendarWeekdays(component) {
+	function renderCalendarWeekdays(component, componentIndex = 0) {
 		const mode = normalizeCalendarMode(component.mode);
-		if (mode !== 'Weekdays') return renderCalendarTimeScale(component, mode);
+		if (mode !== 'Weekdays') return renderCalendarTimeScale(component, mode, componentIndex);
 		const dayHeadings = component.dayHeadings || ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 		return `
-			<softadmin-calendar class="calendar maincolbody saMenuItemRoot">
+			<softadmin-calendar class="calendar maincolbody saMenuItemRoot" data-softadmin-calendar-component="${componentIndex}">
 				<div class="saCalendarSection saDesktopCalendar saWeekdaysCalendar">
 					${renderCalendarHeader(component)}
 					<div class="saCalendarSectionInner">
@@ -3031,7 +3060,7 @@
 							</div>
 							<div class="saCalendarInnerWrapper">
 								<div class="saCalendarInner" role="rowgroup">
-									${(component.weeks || []).map(renderCalendarWeek).join('')}
+									${(component.weeks || []).map((week, weekIndex) => renderCalendarWeek(week, weekIndex, componentIndex)).join('')}
 								</div>
 							</div>
 						</div>
@@ -3182,9 +3211,9 @@
 		Treeview: renderTreeview
 	};
 
-	function renderComponent(component) {
+	function renderComponent(component, componentIndex) {
 		const renderer = componentRenderers[component.type];
-		return renderer ? renderer(component) : '';
+		return renderer ? renderer(component, componentIndex) : '';
 	}
 
 	function renderSpec(spec, root) {

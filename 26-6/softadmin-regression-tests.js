@@ -5,6 +5,7 @@ require('./softadmin-reference-catalog.js');
 require('./softadmin-spec-contract.js');
 require('./softadmin-editor-patches.js');
 require('./softadmin-component-registry.js');
+require('./softadmin-calendar-editor.js');
 require('./softadmin-spec-runtime.js');
 const localization = require('./softadmin-localization.js');
 
@@ -13,12 +14,14 @@ const catalog = global.SoftadminReferenceCatalog;
 const contract = global.SoftadminSpecContract;
 const editPatches = global.SoftadminEditorPatches;
 const runtime = global.SoftadminSpecRuntime;
+const calendarEditor = global.SoftadminCalendarEditor;
 
 assert.equal(localization.translateText('Favorites', 'sv'), 'Favoriter');
 assert.equal(localization.translateText('Favoriter', 'en'), 'Favorites');
 assert.equal(localization.translateText('  2 of 2 hits  ', 'sv'), '  2 av 2 träffar  ');
 assert.equal(localization.translateText('Customers - Softadmin mockup', 'sv'), 'Customers - Softadmin-mockup');
 assert.equal(localization.translateText('NewEdit ready.', 'sv'), 'NewEdit klar.');
+assert.equal(localization.translateText('Calendar activity moved.', 'sv'), 'Kalenderaktiviteten har flyttats.');
 assert.equal(localization.translateText('Calendar layout', 'sv'), 'Kalenderlayout');
 assert.equal(localization.translateText('Weekdays with time scale', 'sv'), 'Veckodagar med tidsskala');
 assert.equal(localization.translateText('Custom customer wording', 'sv'), 'Custom customer wording');
@@ -497,6 +500,9 @@ assert.match(calendarRoot.innerHTML, /class="saToggle"/);
 assert.match(calendarRoot.innerHTML, /class="saToggleLabelWrapper"/);
 assert.doesNotMatch(calendarRoot.innerHTML, /class="saToggleWrapper">\s*<input class="saCheckbox"/);
 assert.match(calendarRoot.innerHTML, /datetime="2026-08-31">31<\/time>/);
+assert.match(calendarRoot.innerHTML, /data-softadmin-calendar-activity/);
+assert.match(calendarRoot.innerHTML, /data-softadmin-calendar-drop-target/);
+assert.match(calendarRoot.innerHTML, /class="saCalendarCreateActivity"/);
 
 const calendarTimeScaleRoot = { innerHTML: '' };
 global.SoftadminMockups.renderSpec({
@@ -535,6 +541,51 @@ global.SoftadminMockups.renderSpec({
 assert.match(calendarResourceRoot.innerHTML, /saTimeScheduleCalendar saResourceCalendar/);
 assert.match(calendarResourceRoot.innerHTML, /Anna Andersson/);
 assert.match(calendarResourceRoot.innerHTML, />Day<\/span>/);
+assert.match(calendarResourceRoot.innerHTML, /data-calendar-kind="resource"/);
+
+const editableCalendarSpec = {
+	components: [{
+		type: 'CalendarWeekdays',
+		mode: 'Weekdays with time scale',
+		weeks: [{ days: [
+			{ date: '2026-09-07', activities: [{ title: 'Inspection', start: '09:00', end: '10:30', description: '09:00-10:30', top: 30, height: 88 }] },
+			{ date: '2026-09-08', activities: [] }
+		] }]
+	}]
+};
+const movedCalendarSpec = calendarEditor.moveActivity(
+	editableCalendarSpec,
+	{ componentIndex: 0, kind: 'day', weekIndex: 0, dayIndex: 0, activityIndex: 0 },
+	{ componentIndex: 0, kind: 'day', weekIndex: 0, dayIndex: 1, allDay: false, start: '11:15' }
+);
+assert.equal(editableCalendarSpec.components[0].weeks[0].days[0].activities.length, 1, 'Calendar editing must not mutate the previous history state.');
+assert.equal(movedCalendarSpec.components[0].weeks[0].days[0].activities.length, 0);
+assert.deepEqual(movedCalendarSpec.components[0].weeks[0].days[1].activities[0], {
+	title: 'Inspection', start: '11:15', end: '12:45', description: '11:15-12:45', allDay: false
+});
+const addedCalendarSpec = calendarEditor.addActivity(
+	movedCalendarSpec,
+	{ componentIndex: 0, kind: 'day', weekIndex: 0, dayIndex: 0, allDay: true },
+	{ title: 'Maintenance', description: 'Elevator 4' }
+);
+assert.deepEqual(addedCalendarSpec.components[0].weeks[0].days[0].activities[0], {
+	title: 'Maintenance', description: 'Elevator 4', allDay: true
+});
+const resourceCalendarSpec = {
+	components: [{
+		type: 'CalendarWeekdays',
+		mode: 'Resources with time scale',
+		resourceColumns: [{ label: 'Anna', activities: [] }, { label: 'Viktor', activities: [] }]
+	}]
+};
+const addedResourceActivity = calendarEditor.addActivity(
+	resourceCalendarSpec,
+	{ componentIndex: 0, kind: 'resource', resourceIndex: 1, allDay: false },
+	{ title: 'Service', start: '08:30', end: '10:00' }
+);
+assert.deepEqual(addedResourceActivity.components[0].resourceColumns[1].activities[0], {
+	title: 'Service', start: '08:30', end: '10:00', allDay: false
+});
 
 const linkListRoot = { innerHTML: '' };
 global.SoftadminMockups.renderSpec({

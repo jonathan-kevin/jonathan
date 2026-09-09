@@ -20,6 +20,9 @@
 	let dropTargetElement = null;
 	let draggedFormFieldType = null;
 	let formBuilderDropTargetElement = null;
+	let draggedCalendarActivity = null;
+	let calendarDropTargetElement = null;
+	let pendingCalendarCreateTarget = null;
 	let aiToolsDragState = null;
 	let pendingDragElement = null;
 	let pendingDragStart = null;
@@ -1863,6 +1866,175 @@
 		}
 	}
 
+	function calendarLocation(element) {
+		if (!element) return null;
+		const data = element.dataset;
+		const location = {
+			componentIndex: Number(data.calendarComponentIndex),
+			kind: data.calendarKind,
+			allDay: data.calendarAllDay === 'true'
+		};
+		if (data.calendarWeekIndex !== undefined) location.weekIndex = Number(data.calendarWeekIndex);
+		if (data.calendarDayIndex !== undefined) location.dayIndex = Number(data.calendarDayIndex);
+		if (data.calendarResourceIndex !== undefined) location.resourceIndex = Number(data.calendarResourceIndex);
+		if (data.calendarActivityIndex !== undefined) location.activityIndex = Number(data.calendarActivityIndex);
+		return location;
+	}
+
+	function currentCalendarSpec() {
+		const spec = lastDebugResult?.spec;
+		return spec?.components?.some(component => component.type === 'CalendarWeekdays') ? spec : null;
+	}
+
+	function calendarDropStart(targetElement, event, location) {
+		if (location.allDay) return null;
+		const component = currentCalendarSpec()?.components?.[location.componentIndex];
+		const slots = component?.timeSlots || ['08:00', '08:30'];
+		const editor = window.SoftadminCalendarEditor;
+		const first = editor?.minutes(slots[0]) ?? 480;
+		const second = editor?.minutes(slots[1]);
+		const slotMinutes = second === null || second === undefined ? 30 : Math.max(1, second - first);
+		const slotHeight = Math.max(16, Number(component?.slotHeight) || 30);
+		const inner = targetElement.querySelector('.saCalendarItemListInner') || targetElement;
+		const rect = inner.getBoundingClientRect();
+		const offset = Math.max(0, Math.min(rect.height, event.clientY - rect.top));
+		const rawMinutes = first + offset / slotHeight * slotMinutes;
+		return editor?.time(Math.round(rawMinutes / 15) * 15) || '09:00';
+	}
+
+	function clearCalendarDragState() {
+		if (draggedCalendarActivity) draggedCalendarActivity.classList.remove('saCalendarActivityDragging');
+		if (calendarDropTargetElement) calendarDropTargetElement.classList.remove('saCalendarDropTarget');
+		draggedCalendarActivity = null;
+		calendarDropTargetElement = null;
+	}
+
+	function commitCalendarSpec(spec, message) {
+		const root = document.querySelector('[data-softadmin-component-root]');
+		const renderer = window.SoftadminMockups;
+		if (!spec || !root || !renderer || !lastDebugResult) return false;
+
+		pushUndoState();
+		collectManualEdits();
+		clearSelectedElement();
+		renderer.renderSpec(spec, root);
+		lastDebugResult.spec = cloneState(spec);
+		lastDebugResult.rawSpec = cloneState(spec);
+		enableInlineEditing();
+		enableFormValueEditing();
+		enableDragAndDrop();
+		applyManualEdits();
+		applyCurrentLanguage();
+		const status = document.getElementById('SoftadminPromptStatus');
+		if (status) status.textContent = localizedUiText(message);
+		updateUndoButton();
+		return true;
+	}
+
+	function handleCalendarDragStart(event) {
+		const activity = event.target.closest('[data-softadmin-calendar-activity]');
+		if (!activity) return;
+		draggedCalendarActivity = activity;
+		activity.classList.add('saCalendarActivityDragging');
+		event.dataTransfer.effectAllowed = 'move';
+		event.dataTransfer.setData('text/plain', 'softadmin-calendar-activity');
+	}
+
+	function handleCalendarDragOver(event) {
+		if (!draggedCalendarActivity) return;
+		const target = event.target.closest('[data-softadmin-calendar-drop-target]');
+		if (!target) return;
+		event.preventDefault();
+		event.dataTransfer.dropEffect = 'move';
+		if (calendarDropTargetElement !== target) {
+			if (calendarDropTargetElement) calendarDropTargetElement.classList.remove('saCalendarDropTarget');
+			calendarDropTargetElement = target;
+			target.classList.add('saCalendarDropTarget');
+		}
+	}
+
+	function handleCalendarDrop(event) {
+		if (!draggedCalendarActivity) return;
+		const targetElement = event.target.closest('[data-softadmin-calendar-drop-target]');
+		if (!targetElement) {
+			clearCalendarDragState();
+			return;
+		}
+
+		event.preventDefault();
+		event.stopImmediatePropagation();
+		const editor = window.SoftadminCalendarEditor;
+		const source = calendarLocation(draggedCalendarActivity);
+		const target = calendarLocation(targetElement);
+		target.start = calendarDropStart(targetElement, event, target);
+		const spec = editor?.moveActivity(currentCalendarSpec(), source, target);
+		clearCalendarDragState();
+		if (spec) commitCalendarSpec(spec, 'Calendar activity moved.');
+	}
+
+	function ensureCalendarActivityDialog() {
+		let dialog = document.getElementById('SoftadminCalendarActivityDialog');
+		if (dialog) return dialog;
+
+		dialog = document.createElement('dialog');
+		dialog.id = 'SoftadminCalendarActivityDialog';
+		dialog.className = 'saCalendarActivityDialog';
+		dialog.innerHTML = `
+			<form method="dialog">
+				<h2 data-calendar-dialog-title>New activity</h2>
+				<label><span data-calendar-dialog-label="title">Title</span><input name="title" required></label>
+				<label><span data-calendar-dialog-label="description">Description</span><input name="description"></label>
+				<div class="saCalendarActivityDialogTimes">
+					<label><span data-calendar-dialog-label="start">Start</span><input name="start" type="time" step="900"></label>
+					<label><span data-calendar-dialog-label="end">End</span><input name="end" type="time" step="900"></label>
+				</div>
+				<div class="saCalendarActivityDialogActions">
+					<button class="saFormButton saButtonSecondary" type="button" data-calendar-dialog-cancel>Cancel</button>
+					<button class="saFormButton saButtonPrimary" type="submit">Add</button>
+				</div>
+			</form>`;
+		document.body.appendChild(dialog);
+		dialog.querySelector('[data-calendar-dialog-cancel]').addEventListener('click', () => dialog.close());
+		dialog.addEventListener('submit', event => {
+			event.preventDefault();
+			const form = event.currentTarget.querySelector('form');
+			const values = Object.fromEntries(new FormData(form));
+			const spec = window.SoftadminCalendarEditor?.addActivity(currentCalendarSpec(), pendingCalendarCreateTarget, values);
+			if (spec) commitCalendarSpec(spec, 'Calendar activity added.');
+			pendingCalendarCreateTarget = null;
+			dialog.close();
+		});
+		return dialog;
+	}
+
+	function handleCalendarCreateClick(event) {
+		const button = event.target.closest('.saCalendarCreateActivity');
+		if (!button) return;
+		event.preventDefault();
+		event.stopPropagation();
+		const spec = currentCalendarSpec();
+		if (!spec) return;
+
+		pendingCalendarCreateTarget = calendarLocation(button);
+		const dialog = ensureCalendarActivityDialog();
+		const swedish = selectedLanguageValue() === 'sv';
+		dialog.querySelector('[data-calendar-dialog-title]').textContent = swedish ? 'Ny aktivitet' : 'New activity';
+		dialog.querySelector('[data-calendar-dialog-label="title"]').textContent = swedish ? 'Titel' : 'Title';
+		dialog.querySelector('[data-calendar-dialog-label="description"]').textContent = swedish ? 'Beskrivning' : 'Description';
+		dialog.querySelector('[data-calendar-dialog-label="start"]').textContent = swedish ? 'Start' : 'Start';
+		dialog.querySelector('[data-calendar-dialog-label="end"]').textContent = swedish ? 'Slut' : 'End';
+		dialog.querySelector('[data-calendar-dialog-cancel]').textContent = swedish ? 'Avbryt' : 'Cancel';
+		dialog.querySelector('button[type="submit"]').textContent = swedish ? 'Lägg till' : 'Add';
+		const times = dialog.querySelector('.saCalendarActivityDialogTimes');
+		times.hidden = pendingCalendarCreateTarget.allDay;
+		const form = dialog.querySelector('form');
+		form.reset();
+		form.elements.start.value = pendingCalendarCreateTarget.start || '09:00';
+		form.elements.end.value = window.SoftadminCalendarEditor.time((window.SoftadminCalendarEditor.minutes(form.elements.start.value) ?? 540) + 60);
+		dialog.showModal();
+		form.elements.title.focus();
+	}
+
 	function startPointerDrag() {
 		if (!pendingDragElement || draggedElement) {
 			return;
@@ -2896,6 +3068,11 @@
 		document.addEventListener('click', handleLogoClick);
 		document.addEventListener('click', handleAvatarClick);
 		document.addEventListener('click', handleSidebarExpanderClick);
+		document.addEventListener('click', handleCalendarCreateClick);
+		document.addEventListener('dragstart', handleCalendarDragStart);
+		document.addEventListener('dragover', handleCalendarDragOver);
+		document.addEventListener('drop', handleCalendarDrop);
+		document.addEventListener('dragend', clearCalendarDragState);
 		document.addEventListener('dragstart', handleDragStart);
 		document.addEventListener('dragover', handleDragOver);
 		document.addEventListener('drop', handleDrop);
