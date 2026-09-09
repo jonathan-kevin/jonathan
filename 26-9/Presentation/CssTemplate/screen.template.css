@@ -10227,6 +10227,316 @@ div.saPopupOverlay {
     background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness90);
   }
 }
+.saColorBtn {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+  gap: 0.375rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  padding: 0.1875rem 0.625rem 0.1875rem 0.1875rem !important;
+}
+.saColorBtn .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saColorBtn .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saColorBtn .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saColorBtn .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saColorBtn .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .saColorBtn:hover {
+    border-color: light-dark(var(--Sa-Color-Primary600), var(--Gray500));
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+    background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
+  }
+  .saColorBtn:hover .saIcon {
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+  .saColorBtn:hover .saBadge {
+    background-color: var(--Sa-Color-Primary600);
+    color: light-dark(var(--Sa-Color-Primary50), var(--White));
+  }
+}
+.saColorBtn:active,
+.saColorBtn.saOpen {
+  border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+  background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+}
+.saColorBtn:active .saIcon,
+.saColorBtn.saOpen .saIcon {
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saColorBtn:active .saBadge,
+.saColorBtn.saOpen .saBadge {
+  color: light-dark(var(--Sa-Color-Primary100), var(--White));
+  border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
+  background-color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saColorBtn:active {
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saColorBtn:active .saIcon {
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saColorBtn:active .saBadge {
+  color: light-dark(var(--Sa-Color-Primary100), var(--White));
+}
+.saColorBtn.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+}
+.saColorBtn.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saColorBtn.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saColorBtn.saDestructive:hover {
+    color: var(--White);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saColorBtn.saDestructive:hover .saIcon {
+    color: var(--White);
+  }
+  .saColorBtn.saDestructive:hover .saBadge {
+    background-color: var(--White);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saColorBtn.saDestructive:active,
+.saColorBtn.saDestructive.saOpen {
+  color: var(--White);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saColorBtn.saDestructive:active .saIcon,
+.saColorBtn.saDestructive.saOpen .saIcon {
+  color: var(--White);
+}
+.saColorBtn.saDestructive:active .saBadge,
+.saColorBtn.saDestructive.saOpen .saBadge {
+  background-color: var(--White);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saColorBtn:disabled,
+.saColorBtn.saDisabled {
+  color: light-dark(var(--Gray300), var(--Gray700));
+  background-color: light-dark(var(--Gray100), var(--Gray1000));
+  cursor: not-allowed;
+}
+.saColorBtn:disabled .saIcon,
+.saColorBtn.saDisabled .saIcon {
+  color: light-dark(var(--Gray300), var(--Gray700));
+}
+.saColorBtn:has(.saIcon) {
+  padding-left: 0.625rem;
+}
+.saColorBtn:active {
+  border-radius: 0.75rem;
+}
+.saColorBtn .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
+}
+.saColorBtn .saIcon {
+  height: 1.5rem;
+  width: 1.5rem;
+  min-width: 1.5rem;
+  border-radius: 0.25rem;
+}
+@media (pointer: fine) {
+  .saColorBtn:hover .saIcon {
+    background-color: transparent;
+  }
+}
+.saColorBtn:active .saIcon {
+  background-color: transparent;
+  border-radius: 0.5rem;
+}
+.saColorBtn.saGray .saIcon {
+  background-color: light-dark(var(--Gray100), var(--Gray900));
+  color: light-dark(var(--Gray600), var(--Gray400));
+}
+@media (pointer: fine) {
+  .saColorBtn.saGray:hover {
+    background-color: light-dark(var(--Gray100), var(--Gray1200));
+    color: light-dark(var(--Gray700), var(--Gray300));
+    border-color: light-dark(var(--Gray300), var(--Gray800));
+  }
+}
+.saColorBtn.saGray:active {
+  background-color: light-dark(var(--Gray300), var(--Gray900));
+  color: light-dark(var(--Gray800), var(--Gray200));
+  border-color: light-dark(var(--Gray300), var(--Gray900));
+}
+.saColorBtn.saRed .saIcon {
+  background-color: light-dark(var(--Red100), var(--Red1200));
+  color: light-dark(var(--Red600), var(--Red300));
+}
+@media (pointer: fine) {
+  .saColorBtn.saRed:hover {
+    background-color: light-dark(var(--Red100), var(--Red1200));
+    color: light-dark(var(--Red700), var(--Red200));
+    border-color: light-dark(var(--Red200), var(--Red900));
+  }
+}
+.saColorBtn.saRed:active {
+  background-color: light-dark(var(--Red200), var(--Red1000));
+  color: light-dark(var(--Red800), var(--Red200));
+  border-color: light-dark(var(--Red200), var(--Red1000));
+}
+.saColorBtn.saOrange .saIcon {
+  background-color: light-dark(var(--Orange100), var(--Orange1200));
+  color: light-dark(var(--Orange600), var(--Orange300));
+}
+@media (pointer: fine) {
+  .saColorBtn.saOrange:hover {
+    background-color: light-dark(var(--Orange100), var(--Orange1200));
+    color: light-dark(var(--Orange700), var(--Orange200));
+    border-color: light-dark(var(--Orange200), var(--Orange900));
+  }
+}
+.saColorBtn.saOrange:active {
+  background-color: light-dark(var(--Orange200), var(--Orange1000));
+  color: light-dark(var(--Orange800), var(--Orange200));
+  border-color: light-dark(var(--Orange200), var(--Orange1000));
+}
+.saColorBtn.saYellow .saIcon {
+  background-color: light-dark(var(--Yellow100), var(--Yellow1200));
+  color: light-dark(var(--Yellow700), var(--Yellow300));
+}
+@media (pointer: fine) {
+  .saColorBtn.saYellow:hover {
+    background-color: light-dark(var(--Yellow100), var(--Yellow1200));
+    color: light-dark(var(--Yellow800), var(--Yellow200));
+    border-color: light-dark(var(--Yellow200), var(--Yellow900));
+  }
+}
+.saColorBtn.saYellow:active {
+  background-color: light-dark(var(--Yellow200), var(--Yellow1000));
+  color: light-dark(var(--Yellow900), var(--Yellow100));
+  border-color: light-dark(var(--Yellow200), var(--Yellow1000));
+}
+.saColorBtn.saGreen .saIcon {
+  background-color: light-dark(var(--Green100), var(--Green1200));
+  color: light-dark(var(--Green500), var(--Green300));
+}
+@media (pointer: fine) {
+  .saColorBtn.saGreen:hover {
+    background-color: light-dark(var(--Green100), var(--Green1200));
+    color: light-dark(var(--Green700), var(--Green200));
+    border-color: light-dark(var(--Green200), var(--Green900));
+  }
+}
+.saColorBtn.saGreen:active {
+  background-color: light-dark(var(--Green200), var(--Green1000));
+  color: light-dark(var(--Green800), var(--Green200));
+  border-color: light-dark(var(--Green200), var(--Green1000));
+}
+.saColorBtn.saSky .saIcon {
+  background-color: light-dark(var(--Sky100), var(--Sky1200));
+  color: light-dark(var(--Sky600), var(--Sky300));
+}
+@media (pointer: fine) {
+  .saColorBtn.saSky:hover {
+    background-color: light-dark(var(--Sky100), var(--Sky1200));
+    color: light-dark(var(--Sky700), var(--Sky200));
+    border-color: light-dark(var(--Sky200), var(--Sky900));
+  }
+}
+.saColorBtn.saSky:active {
+  background-color: light-dark(var(--Sky200), var(--Sky1000));
+  color: light-dark(var(--Sky800), var(--Sky200));
+  border-color: light-dark(var(--Sky200), var(--Sky1000));
+}
+.saColorBtn.saBlue .saIcon {
+  background-color: light-dark(var(--Blue100), var(--Blue1200));
+  color: light-dark(var(--Blue600), var(--Blue300));
+}
+@media (pointer: fine) {
+  .saColorBtn.saBlue:hover {
+    background-color: light-dark(var(--Blue100), var(--Blue1200));
+    color: light-dark(var(--Blue700), var(--Blue200));
+    border-color: light-dark(var(--Blue200), var(--Blue900));
+  }
+}
+.saColorBtn.saBlue:active {
+  background-color: light-dark(var(--Blue200), var(--Blue1000));
+  color: light-dark(var(--Blue800), var(--Blue200));
+  border-color: light-dark(var(--Blue200), var(--Blue1000));
+}
+.saColorBtn.saPurple .saIcon {
+  background-color: light-dark(var(--Purple100), var(--Purple1200));
+  color: light-dark(var(--Purple600), var(--Purple300));
+}
+@media (pointer: fine) {
+  .saColorBtn.saPurple:hover {
+    background-color: light-dark(var(--Purple100), var(--Purple1200));
+    color: light-dark(var(--Purple700), var(--Purple200));
+    border-color: light-dark(var(--Purple200), var(--Purple900));
+  }
+}
+.saColorBtn.saPurple:active {
+  background-color: light-dark(var(--Purple200), var(--Purple1000));
+  color: light-dark(var(--Purple800), var(--Purple200));
+  border-color: light-dark(var(--Purple200), var(--Purple1000));
+}
+.saColorBtn.saPink .saIcon {
+  background-color: light-dark(var(--Pink100), var(--Pink1200));
+  color: light-dark(var(--Pink500), var(--Pink300));
+}
+@media (pointer: fine) {
+  .saColorBtn.saPink:hover {
+    background-color: light-dark(var(--Pink100), var(--Pink1200));
+    color: light-dark(var(--Pink700), var(--Pink200));
+    border-color: light-dark(var(--Pink200), var(--Pink900));
+  }
+}
+.saColorBtn.saPink:active {
+  background-color: light-dark(var(--Pink200), var(--Pink1000));
+  color: light-dark(var(--Pink800), var(--Pink200));
+  border-color: light-dark(var(--Pink200), var(--Pink1000));
+}
 .saClosePopupButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
