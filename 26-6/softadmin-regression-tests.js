@@ -511,6 +511,24 @@ assert.match(calendarRoot.innerHTML, /data-softadmin-calendar-activity/);
 assert.match(calendarRoot.innerHTML, /data-softadmin-calendar-drop-target/);
 assert.match(calendarRoot.innerHTML, /class="saCalendarCreateActivity"/);
 
+const calendarMonthRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'CalendarWeekdays',
+		mode: 'Weekdays',
+		monthView: true,
+		heading: 'September 2026',
+		dayHeadings: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+		weeks: Array.from({ length: 5 }, (_, weekIndex) => ({
+			number: 36 + weekIndex,
+			days: Array.from({ length: 7 }, (_, dayIndex) => ({ date: `2026-09-${String((weekIndex * 7) + dayIndex + 1).padStart(2, '0')}`, activities: [] }))
+		}))
+	}]
+}, calendarMonthRoot);
+assert.equal((calendarMonthRoot.innerHTML.match(/class="saWeek" role="row"/g) || []).length, 5);
+assert.equal((calendarMonthRoot.innerHTML.match(/class="saWeekDay" role="columnheader"/g) || []).length, 7);
+assert.doesNotMatch(calendarMonthRoot.innerHTML, /saNumberInput/);
+
 const calendarTimeScaleRoot = { innerHTML: '' };
 global.SoftadminMockups.renderSpec({
 	components: [{

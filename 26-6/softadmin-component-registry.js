@@ -2631,7 +2631,9 @@
 	}
 
 	function renderCalendarHeader(component) {
-		const isResourceMode = normalizeCalendarMode(component.mode) === 'Resources with time scale';
+		const mode = normalizeCalendarMode(component.mode);
+		const isResourceMode = mode === 'Resources with time scale';
+		const isMonthView = mode === 'Weekdays' && component.monthView !== false;
 		const periodLabel = isResourceMode ? (component.dayLabel || 'Day') : (component.weekLabel || 'Week');
 		const periodValue = isResourceMode ? (component.day || '') : (component.week || '');
 
@@ -2657,10 +2659,10 @@
 						</select>
 						<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
 					</label>
-					<label class="saInputTextWrapper saLabeled">
+					${isMonthView ? '' : `<label class="saInputTextWrapper saLabeled">
 						<span class="saLabeledLabel">${escapeHtml(periodLabel)}</span>
 						<input class="saInputText saNumberInput" type="number" value="${escapeHtml(periodValue)}">
-					</label>
+					</label>`}
 					<button class="saTodayButton" type="button">${escapeHtml(component.todayLabel || 'Today')}</button>
 				</div>
 			</div>`;

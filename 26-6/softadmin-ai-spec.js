@@ -2268,10 +2268,13 @@
 
 	function calendarStarterSpec(mode = selectedCalendarModeValue(), language = selectedLanguageValue()) {
 		const swedish = language === 'sv';
-		const weekdays = swedish
+		const workdays = swedish
 			? ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag']
 			: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-		const shortDays = swedish ? ['Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör', 'Sön'] : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+		const monthDays = swedish
+			? ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag']
+			: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+		const shortDays = swedish ? ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'] : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 		const base = {
 			type: 'CalendarWeekdays',
 			mode,
@@ -2291,8 +2294,15 @@
 			week: 36,
 			day: 4,
 			sidebarHeading: 'September 2026',
-			dayHeadings: weekdays,
+			dayHeadings: mode === 'Weekdays' ? monthDays : workdays,
 			dayHeadingsShort: shortDays,
+			sidebarDays: [
+				['36', '30', '31', '1', '2', '3', '4', '5'],
+				['37', '6', '7', '8', { label: '9', today: true, marked: true }, '10', '11', '12'],
+				['38', '13', '14', '15', '16', '17', '18', '19'],
+				['39', '20', '21', '22', '23', '24', '25', '26'],
+				['40', '27', '28', '29', '30', '1', '2', '3']
+			],
 			resources: [swedish ? 'Alla resurser' : 'All resources', 'Anna Andersson', 'Viktor Lindgren'],
 			resource: swedish ? 'Alla resurser' : 'All resources',
 			resourceLabel: swedish ? 'Resurs' : 'Resource',
@@ -2300,11 +2310,31 @@
 			filters: []
 		};
 		const days = [
-			{ day: '31', weekday: weekdays[0], date: '2026-08-31', activities: [{ title: swedish ? 'Veckoplanering' : 'Weekly planning', description: '09:00-10:00', start: '09:00', end: '10:00', color: '#1668e0' }] },
-			{ day: '1', weekday: weekdays[1], date: '2026-09-01', today: true, current: true, activities: [{ title: swedish ? 'Kundmöte' : 'Customer meeting', description: '10:00-11:30', start: '10:00', end: '11:30', color: '#198754' }] },
-			{ day: '2', weekday: weekdays[2], date: '2026-09-02', activities: [] },
-			{ day: '3', weekday: weekdays[3], date: '2026-09-03', activities: [{ title: swedish ? 'Projektavstämning' : 'Project review', description: '13:00-14:00', start: '13:00', end: '14:00', color: '#7c3aed' }] },
-			{ day: '4', weekday: weekdays[4], date: '2026-09-04', activities: [] }
+			{ day: '31', weekday: workdays[0], date: '2026-08-31', activities: [{ title: swedish ? 'Veckoplanering' : 'Weekly planning', description: '09:00-10:00', start: '09:00', end: '10:00', color: '#1668e0' }] },
+			{ day: '1', weekday: workdays[1], date: '2026-09-01', today: true, current: true, activities: [{ title: swedish ? 'Kundmöte' : 'Customer meeting', description: '10:00-11:30', start: '10:00', end: '11:30', color: '#198754' }] },
+			{ day: '2', weekday: workdays[2], date: '2026-09-02', activities: [] },
+			{ day: '3', weekday: workdays[3], date: '2026-09-03', activities: [{ title: swedish ? 'Projektavstämning' : 'Project review', description: '13:00-14:00', start: '13:00', end: '14:00', color: '#7c3aed' }] },
+			{ day: '4', weekday: workdays[4], date: '2026-09-04', activities: [] }
+		];
+		const fullMonthWeeks = [
+			{ number: 36, days: [
+				{ date: '2026-08-30', dateLabel: swedish ? '30 aug' : '30 Aug', redDay: true, activities: [] },
+				{ date: '2026-08-31', dateLabel: swedish ? '31 aug' : '31 Aug', activities: [] },
+				{ date: '2026-09-01', activities: [] }, { date: '2026-09-02', activities: [] }, { date: '2026-09-03', activities: [] }, { date: '2026-09-04', activities: [] },
+				{ date: '2026-09-05', redDay: true, activities: [] }
+			] },
+			{ number: 37, days: [
+				{ date: '2026-09-06', redDay: true, activities: [] }, { date: '2026-09-07', activities: [] }, { date: '2026-09-08', activities: [] },
+				{ date: '2026-09-09', today: true, current: true, activities: [{ title: swedish ? 'Kundmöte' : 'Customer meeting', description: '10:00-11:30', color: '#1668e0' }] },
+				{ date: '2026-09-10', activities: [] }, { date: '2026-09-11', activities: [] }, { date: '2026-09-12', redDay: true, activities: [] }
+			] },
+			{ number: 38, days: ['13', '14', '15', '16', '17', '18', '19'].map((day, index) => ({ date: `2026-09-${day}`, redDay: index === 0 || index === 6, activities: [] })) },
+			{ number: 39, days: ['20', '21', '22', '23', '24', '25', '26'].map((day, index) => ({ date: `2026-09-${day}`, redDay: index === 0 || index === 6, activities: [] })) },
+			{ number: 40, days: [
+				{ date: '2026-09-27', redDay: true, activities: [] }, { date: '2026-09-28', activities: [] }, { date: '2026-09-29', activities: [] },
+				{ date: '2026-09-30', dateLabel: swedish ? '30 sep' : '30 Sep', activities: [] }, { date: '2026-10-01', dateLabel: swedish ? '1 okt' : '1 Oct', activities: [] },
+				{ date: '2026-10-02', activities: [] }, { date: '2026-10-03', redDay: true, activities: [] }
+			] }
 		];
 
 		if (mode === 'Resources with time scale') {
@@ -2349,8 +2379,10 @@
 			},
 			components: [{
 				...base,
+				monthView: mode === 'Weekdays',
+				heading: mode === 'Weekdays' ? 'September 2026' : base.heading,
 				...(mode === 'Weekdays with time scale' ? { timeSlots: ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00'] } : {}),
-				weeks: [{ number: 36, label: swedish ? 'Vecka 36' : 'Week 36', days }]
+				weeks: mode === 'Weekdays' ? fullMonthWeeks : [{ number: 36, label: swedish ? 'Vecka 36' : 'Week 36', days }]
 			}]
 		};
 	}
