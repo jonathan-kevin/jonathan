@@ -1794,23 +1794,34 @@
 
 	function renderNewEditSection(section, index, sections, sectionId) {
 		const sectionClass = `saSectionWrapper${index === sections.length - 1 ? ' saLastVisible' : ''}`;
+		const sectionBody = Array.isArray(section.subgroups)
+			? renderNewEditSubgroups(section.subgroups, sectionId || section.id || `Header_${index}`)
+			: `<fieldset class="saFieldCollection ${escapeHtml(section.width || 'long')}">
+				${(section.fields || []).map(renderField).join('')}
+			</fieldset>`;
 
 		if (!section.heading) {
 			return `
 				<div class="${sectionClass}">
-					<div class="saFieldCollection ${escapeHtml(section.width || 'long')}">
-						${(section.fields || []).map(renderField).join('')}
-					</div>
+					${sectionBody}
 				</div>`;
 		}
 
 		return `
 			<fieldset class="${sectionClass}">
 				${renderSectionHeader(section, sectionId || section.id || `Header_${index}`)}
-				<fieldset class="saFieldCollection ${escapeHtml(section.width || 'long')}">
-					${(section.fields || []).map(renderField).join('')}
-				</fieldset>
+				${sectionBody}
 			</fieldset>`;
+	}
+
+	function renderNewEditSubgroups(subgroups, parentId) {
+		return `
+			<div class="saFieldsRow">
+				${subgroups.map((subgroup, subgroupIndex) => `
+					<div class="saFieldsColumn${subgroupIndex === subgroups.length - 1 ? ' saLastVisible' : ''}">
+						${renderNewEditSection(subgroup, subgroupIndex, subgroups, newEditSectionId(subgroup, `${parentId}_Subgroup_${subgroupIndex}`))}
+					</div>`).join('')}
+			</div>`;
 	}
 
 	function newEditSectionId(section, fallback) {
@@ -1862,10 +1873,14 @@
 			return entries;
 		}
 
-		return (component.sections || []).filter(section => section.heading).map((section, index) => ({
-			label: section.heading,
-			id: newEditSectionId(section, `Header_${index}`)
-		}));
+		return (component.sections || []).flatMap((section, sectionIndex) => {
+			const sectionId = newEditSectionId(section, `Header_${sectionIndex}`);
+			const entries = section.heading ? [{ label: section.heading, id: sectionId }] : [];
+			return entries.concat((section.subgroups || []).filter(subgroup => subgroup.heading).map((subgroup, subgroupIndex) => ({
+				label: subgroup.heading,
+				id: newEditSectionId(subgroup, `${sectionId}_Subgroup_${subgroupIndex}`)
+			})));
+		});
 	}
 
 	function renderNewEditToc(component) {

@@ -219,10 +219,7 @@
 		}
 
 		if (normalized.type === 'NewEdit' && Array.isArray(normalized.sections)) {
-			normalized.sections = normalized.sections.map((section, index) => ({
-				...section,
-				fields: normalizeFields(section.fields || [], diagnostics, `${path}.sections[${index}].fields`)
-			}));
+			normalized.sections = normalized.sections.map((section, index) => normalizeNewEditSection(section, diagnostics, `${path}.sections[${index}]`));
 		}
 
 		if (normalized.type === 'NewEdit' && Array.isArray(normalized.rows)) {
@@ -230,15 +227,26 @@
 				...row,
 				columns: (row.columns || []).map((column, columnIndex) => ({
 					...column,
-					sections: (column.sections || []).map((section, sectionIndex) => ({
-						...section,
-						fields: normalizeFields(section.fields || [], diagnostics, `${path}.rows[${rowIndex}].columns[${columnIndex}].sections[${sectionIndex}].fields`)
-					}))
+					sections: (column.sections || []).map((section, sectionIndex) => normalizeNewEditSection(section, diagnostics, `${path}.rows[${rowIndex}].columns[${columnIndex}].sections[${sectionIndex}]`))
 				}))
 			}));
 		}
 
 		return normalized;
+	}
+
+	function normalizeNewEditSection(section, diagnostics, path) {
+		if (Array.isArray(section?.subgroups)) {
+			return {
+				...section,
+				subgroups: section.subgroups.map((subgroup, index) => normalizeNewEditSection(subgroup, diagnostics, `${path}.subgroups[${index}]`))
+			};
+		}
+
+		return {
+			...section,
+			fields: normalizeFields(section?.fields || [], diagnostics, `${path}.fields`)
+		};
 	}
 
 	function normalizeFields(fields, diagnostics, path) {

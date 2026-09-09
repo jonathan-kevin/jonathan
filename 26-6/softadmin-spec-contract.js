@@ -43,6 +43,22 @@
 		return component[key];
 	}
 
+	function validateNewEditSection(section, path, errors, controlTypes) {
+		if (!section || typeof section !== 'object' || Array.isArray(section)) {
+			errors.push(`${path} must be an object.`);
+			return;
+		}
+
+		if (section.subgroups !== undefined) {
+			requireArray(section, 'subgroups', path, errors).forEach((subgroup, subgroupIndex) => {
+				validateNewEditSection(subgroup, `${path}.subgroups[${subgroupIndex}]`, errors, controlTypes);
+			});
+			return;
+		}
+
+		validateFields(section.fields, `${path}.fields`, errors, controlTypes);
+	}
+
 	function validateTreeNodes(nodes, path, errors) {
 		if (!Array.isArray(nodes)) {
 			errors.push(`${path} must be an array.`);
@@ -123,13 +139,13 @@
 				requireArray(component, 'rows', path, errors).forEach((row, rowIndex) => {
 					requireArray(row, 'columns', `${path}.rows[${rowIndex}]`, errors).forEach((column, columnIndex) => {
 						requireArray(column, 'sections', `${path}.rows[${rowIndex}].columns[${columnIndex}]`, errors).forEach((section, sectionIndex) => {
-							validateFields(section?.fields, `${path}.rows[${rowIndex}].columns[${columnIndex}].sections[${sectionIndex}].fields`, errors, controlTypes);
+							validateNewEditSection(section, `${path}.rows[${rowIndex}].columns[${columnIndex}].sections[${sectionIndex}]`, errors, controlTypes);
 						});
 					});
 				});
 			} else {
 				requireArray(component, 'sections', path, errors).forEach((section, index) => {
-					validateFields(section?.fields, `${path}.sections[${index}].fields`, errors, controlTypes);
+					validateNewEditSection(section, `${path}.sections[${index}]`, errors, controlTypes);
 				});
 			}
 		}

@@ -68,6 +68,27 @@ const cases = [
 		valid: true
 	},
 	{
+		name: 'accepts NewEdit subgroups side by side',
+		spec: {
+			components: [{
+				type: 'NewEdit',
+				sections: [{
+					heading: 'Menu item information',
+					subgroups: [
+						{ fields: [{ label: 'Menu item name', control: 'textbox' }] },
+						{ fields: [{ label: 'Sort order', control: 'textbox' }] }
+					]
+				}]
+			}]
+		},
+		valid: true
+	},
+	{
+		name: 'rejects a NewEdit subgroup without fields',
+		spec: { components: [{ type: 'NewEdit', sections: [{ heading: 'Details', subgroups: [{}] }] }] },
+		valid: false
+	},
+	{
 		name: 'rejects a structured NewEdit column without sections',
 		spec: { components: [{ type: 'NewEdit', rows: [{ columns: [{}] }] }] },
 		valid: false
@@ -355,6 +376,26 @@ assert.equal((structuredNewEditRoot.innerHTML.match(/class="saFieldsColumn/g) ||
 assert.match(structuredNewEditRoot.innerHTML, /href="#Header_Row_0">Customer information<\/a>/);
 assert.match(structuredNewEditRoot.innerHTML, /href="#Header_0_0_0">Person<\/a>/);
 assert.match(structuredNewEditRoot.innerHTML, /id="Header_0_1_0"/);
+
+const subgroupNewEditRoot = { innerHTML: '' };
+global.SoftadminMockups.renderSpec({
+	components: [{
+		type: 'NewEdit',
+		labels: 'before',
+		sections: [{
+			heading: 'Menu item information',
+			subgroups: [
+				{ width: 'long', fields: [{ label: 'Menu item name', control: 'textbox', value: 'Application errors and log' }] },
+				{ width: 'long', fields: [{ label: 'Sort order', control: 'textbox', value: '1000' }] }
+			]
+		}]
+	}]
+}, subgroupNewEditRoot);
+assert.equal((subgroupNewEditRoot.innerHTML.match(/class="saFieldsColumn/g) || []).length, 2);
+assert.equal((subgroupNewEditRoot.innerHTML.match(/Menu item information/g) || []).length, 1);
+assert.match(subgroupNewEditRoot.innerHTML, /class="saFieldsRow"/);
+assert.match(subgroupNewEditRoot.innerHTML, /Application errors and log/);
+assert.match(subgroupNewEditRoot.innerHTML, /value="1000"/);
 
 const galleryRoot = { innerHTML: '' };
 global.SoftadminMockups.renderSpec({
