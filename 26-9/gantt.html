@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gantt</title>
+	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css?v=c67c7712">
+	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+	<meta name="description" content="Demo">
+	<meta property="og:image" content="./Presentation/img/og-img.png">
+
+	<script src="../src/jquery-4.0.0.slim.min.js"></script>
+	<script src="./script.js?v=95613464"></script>
+	<script src="./gantt.js" defer></script>
+	<script src="./live.js#css,html,js" defer></script>
+	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+</head>
+
+<body class="saRootBody saLargeScreen saPc saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
+	<div class="saRootContentWrapper">
+		<div class="saSideBarOuter saSideBarOuterJs saClosed">
+			<form name="aspnetForm" method="post" action="./softadmin.aspx" id="aspnetForm">
+				<aside class="saAside">
+					<nav id="SideBar" class="saSideBar saSideBarJs saExpanded">
+						<div class="saAccessibilityBannerHolderJs">
+							<ul class="saAccessibilityBanner">
+								<li><a tabindex="0">Skip to content</a></li>
+								<li><a tabindex="0">Skip to menu</a></li>
+							</ul>
+						</div>
+						<section class="saSideBarSection saSideBarHeaderSmallScreen">
+							<img class="saSideBarHeaderSmallScreenLogo">
+							<div class="saTitle">
+								<h1>Softadmin® Development System</h1>
+							</div>
+							<button class="saNavigator saButtonHeader" type="button">
+								<i class="saIcon far fa-xmark"></i>
+							</button>
+						</section>
+						<section class="saSideBarSection saSideBarHeader saSideBarSectionJs">
+							<img class="saCustomerLogo" alt="Softadmin® Development System logo" src="../src/img/logo.svg">
+							<ul class="saSideBarInputGroup">
+								<li>
+									<a class="saSideBarSearchLink" tabindex="0">
+										<div><i class="far fa-magnifying-glass saIcon"></i></div>
+									</a>
+									<label class="saSideBarSearch">
+										<input id="SideBarSearchInput" class="saSearchInput saInputText" type="search" placeholder="Search...">
+										<i class="far fa-magnifying-glass saIcon"></i>
+									</label>
+								</li>
+								<li>
+									<button class="saImpersonatorWrapper" type="button" value="admin" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="saImpersonatorLabel saImpersonatorValue" aria-controls="saImpersonatorDropdown">
+										<span class="saImpersonator">
+											<span class="saImpersonatorValue" id="saImpersonatorValue">admin 300</span>
+											<span class="saImpersonatorLabel" id="saImpersonatorLabel">User</span>
+											<i class="saIcon far fa-angle-down saTrailing"></i>
+											<span class="saImpersonatorLetter">A</span>
+										</span>
+									</button>
+								</li>
+							</ul>
+						</section>
+						<section class="saSideBarSection saSideBarBody saSideBarSectionJs">
+							<div class="saSideBarGroup saSideBarFavorites">
+								<div class="saSideBarFavoritesHeader">
+									<button class="saButtonFavorites" type="button"><span>Favorites</span><i class="saIcon saIcon far fa-angle-down"></i></button>
+									<button class="saButtonFavoritesMinimized" type="button"><i class="saIcon saIcon far fa-angle-down"></i></button>
+									<button class="saButtonFavoritesEdit" type="button">Edit</button>
+								</div>
+								<ul class="saItemList">
+									<li><a class="saItem saFavorite" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i
+														class="far fa-bolt icon saIcon"></i></div>
+												<span>Quick fixes</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-message icon saIcon"></i>
+												</div><span>Chat</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-compass icon saIcon"></i>
+												</div><span>Location finder</span>
+											</div>
+										</a></li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Models</h3>
+								<ul class="saItemList">
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-brain icon saIcon"></i></div><span>4.1<span class="saMenuItemPill saAdminOnly">Admin</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-o icon saIcon"></i></div><span>4o<span class="saMenuItemPill saIssues">Issues</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-minus-square icon saIcon"></i></div><span>4o mini<span class="saMenuItemPill saDraft">Draft</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-car icon saIcon"></i></div><span>3.5 Turbo<span class="saMenuItemPill saBeta">Beta</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-c icon saIcon"></i></div><span>Claude 3.5<span class="saMenuItemPill saDeprecated">Deprecated</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-c icon saIcon"></i></div><span>Claude 3 Opus<span class="saMenuItemPill saNew">New</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-g icon saIcon"></i></div><span>Gemini Pro</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-g icon saIcon"></i></div><span>Gemini Flash</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-l icon saIcon"></i></div><span>Llama 3</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-m icon saIcon"></i></div><span>Mistral Large</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-m icon saIcon"></i></div><span>Mixtral 8x7B</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-r icon saIcon"></i></div><span>Command R+</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-glasses icon saIcon"></i></div><span>DeepSeek Chat</span></div></a></li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Summer</h3>
+								<ul class="saItemList">
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-sun-alt icon saIcon"></i></div>
+												<span>Sun</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</section>
+						<section class="saSideBarSection saSideBarFooter saSideBarSectionJs">
+							<div class="saSideBarFooterPrimary">
+								<div class="saListItem">
+									<button class="saAccountDropdown" type="button" aria-expanded="false" aria-controls="saAccountMenu" aria-haspopup="menu">
+										<div class="saAccountAvatar">FL</div>
+										<span class="saAccountName">Firstname Lastname</span>
+										<i class="far fa-angle-down saIcon"></i>
+									</button>
+									<ul class="saContextMenu saProfileMenu saNorth" id="saAccountMenu" style="top: -13.5rem;" aria-hidden="true" style="display: none;">
+										<li>
+											<label class="saOptionWrapper"  for="saToggleDark" tabindex="0">
+												<div class="saOption">
+													<div class="saOptionText">
+														<div class="saOptionTitle">Gantt</div>
+														<div class="saOptionDescription">The page won't reload (D).</div>
+													</div>
+													<input class="saToggle" type="checkbox" id="saToggleDark" aria-keyshortcuts="D">
+												</div>
+											</label>
+										</li>
+										<li><hr></li>
+										<li>
+											<label class="saOptionWrapper"  for="saToggleCompact" tabindex="0">
+												<div class="saOption">
+													<div class="saOptionText">
+														<div class="saOptionTitle">Compact mode</div>
+														<div class="saOptionDescription">The page will reload.</div>
+													</div>
+													<input class="saToggle" type="checkbox" id="saToggleCompact" checked="true">
+												</div>
+											</label>
+										</li>
+										<li><hr></li>
+										<li>
+											<a class="saOptionWrapper" tabindex="0">
+												<div class="saOption"><i class="far fa-circle-exclamation icon saIcon saOptionIcon" aria-hidden="true"></i>
+													<div class="saOptionText">Give feedback to Multisoft</div>
+												</div>
+											</a>
+										</li>
+										<li>
+											<a class="saOptionWrapper" tabindex="0">
+												<div class="saOption"><i class="far fa-mobile-notch icon saIcon saOptionIcon" aria-hidden="true"></i>
+													<div class="saOptionText">App</div>
+												</div>
+											</a>
+										</li>
+
+										<li>
+											<a class="saOptionWrapper" tabindex="0">
+												<div class="saOption"><i class="far fa-pen icon saIcon saOptionIcon" aria-hidden="true"></i>
+													<div class="saOptionText">Edit contact information</div>
+												</div>
+											</a>
+										</li>
+									</ul>
+								</div>
+								<ul class="saSideBarToolbar">
+									<li>
+										<button type="button">
+											<div class="saIconWrapper">
+												<i class="far fa-gear icon saIcon"></i>
+											</div>
+											<span>Admin</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper"><i class="far fa-chart-network icon saIcon"></i></div>
+											<span>Database designer</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper"><i class="far fa-window-restore icon saIcon"></i></div>
+											<span>New tab</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper"><i class="far fa-circle-question icon saIcon"></i></div>
+												<span>View help page - General help</span>
+										</button></li>
+									<li class="saNotificationsItem">
+										<button id="largeScreenNotifications" type="button">
+											<div class="saSidenavItem"><i class="far fa-bell saIcon"></i></div>
+											<div class="saBadgeCount saUrgent">2</div>
+										</button>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarFooterSecondary">
+								<a class="saSoftadminLogo" target="_blank" rel="noopener noreferrer" tabindex="-1" href="https://www.softadmin.com/">
+									<img class="saLogo" src="./Presentation/img/softadmin-logo-minimized.svg">
+									<img class="saWordmark" src="./Presentation/img/softadmin-logo-expanded.svg">
+								</a>
+								<button class="saExpander saDynamicTooltipJs" type="button" aria-label="Minimize sidebar" aria-controls="SideBar" aria-expanded="true" aria-keyshortcuts="Alt+M"><i class="far fa-angles-left saIcon" aria-hidden="true"></i></button>
+							</div>
+						</section>
+					</nav>
+				</aside>
+			</form>
+		</div>
+		<div class="saSideBarSmallScreenOverlay" id="SideBarSmallScreenOverlay" style="display: none;"></div>
+		<div class="saRightFrameRoot">
+			<div id="body" class="right standardview saPc saLargeScreen saCompact saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
+				<div class="pagecontentframe">
+					<form class="interface">
+						<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs">
+												<div class="saBackButtonWrapper"><button class="saBackButton" type="button"><i class="far fa-arrow-left saBack saIcon"></i></button></div>
+											</nav>
+										</div>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Gantt</h1>
+												<div class="saNoSpinner">
+													<button type="button" class="saFavoriteToggle"><i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i></button>
+												</div>
+												<ul class="saSpecialLinksWrapper"></ul>
+											</div>
+										</div>
+										<nav class="saNavigationBar">
+											<div class="saTopButtons">
+												<div class="saActionLinks">
+													<button class="saTopLink saActionLink saButtonPrimary" type="button">
+														<div class="saIconHolder saOptionIcon"><i class="far fa-plus icon saIcon"></i></div><span class="saButtonText saOptionText">New bird</span>
+													</button>
+													<div class="saTopLink saActionLink saButtonSplit">
+														<button class="saButtonSecondary" type="button">
+															<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																<i class="far fa-plus icon saIcon"></i>
+															</div>
+															<span class="saButtonText saOptionText">New grass</span>
+														</button>
+														<button class="saButtonSecondary saSplitButtonArrow" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="saSplitButtonMenu">
+															<i class="saIcon far fa-angle-down saIcon" aria-hidden="true"></i>
+														</button>
+														<div class="saContextMenu saSouth" id="saSplitButtonMenu" style="right: 0px; left: auto; max-height: 1153px;">
+																<ul class="saActionLinkList">
+																	<li><a class="saOptionWrapper" tabindex="0" role="link" aria-selected="true">
+																			<div class="saOption">
+																				<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-save icon saIcon"></i></div>
+																				<span class="saButtonText saOptionText">Save</span>
+																			</div>
+																		</a>
+																	</li>
+																	<li><a class="saOptionWrapper" tabindex="0" role="link">
+																			<div class="saOption">
+																				<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-feather icon saIcon"></i></div>
+																				<span class="saButtonText saOptionText">Drafts</span>
+																			</div>
+																		</a>
+																	</li>
+																	<li><a class="saOptionWrapper" tabindex="0" role="link">
+																			<div class="saOption">
+																					<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-files icon saIcon"></i></div>
+																					<span class="saButtonText saOptionText">Documents</span>
+																				</div>
+																		</a>
+																	</li>
+																	<li><a class="saOptionWrapper" tabindex="0" role="link">
+																			<div class="saOption">
+																					<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-folder icon saIcon"></i></div>
+																					<span class="saButtonText saOptionText">Projects</span>
+																				</div>
+																		</a>
+																	</li>
+																	<li><a class="saOptionWrapper" tabindex="0" role="link">
+																			<div class="saOption">
+																					<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-box icon saIcon"></i></div>
+																					<span class="saButtonText saOptionText">Archive</span>
+																				</div>
+																		</a>
+																	</li>
+																</ul>
+															</div>
+													</div>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button">
+														<div class="saIconHolder saOptionIcon"><i class="far fa-copy icon saIcon"></i></div><span class="saButtonText saOptionText">copy bird</span>
+													</button>
+													<div class="saCollectorWrapper">
+														<button class="saMoreButton" type="button"><i class="far fa-ellipsis-vertical icon saIcon"></i></button>
+													</div>
+												</div>
+											</div>
+											<div class="saBrowseButtons">
+												<button class="saBrowseButton" type="button" aria-label="Previous record (PgUp)">
+													<i class="fas fa-caret-up saIcon"></i>
+												</button>
+												<button class="saBrowseButton" type="button" aria-label="Next record (PgDn)">
+													<i class="fas fa-caret-down saIcon"></i>
+												</button>
+											</div>
+										</nav>
+									</div>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<button class="saSmallScreenBackButton saButtonHeader" type="button"><i class="far fa-arrow-left saBack saIcon"></i></button>
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+													<h1 class="saHeaderText">Gantt</h1>
+												</div>
+											</div>
+											<button class="saNotifications saButtonHeader" type="button" aria-expanded="false">
+												<i class="far fa-bell saIcon"></i>
+												<div class="saBadgeCount saUrgent">2</div>
+											</button>
+											<button class="saNavigator saButtonHeader" type="button" aria-label="Open menu" data-tooltip="Open menu">
+												<div class="saNavBar"><i class="saIcon far fa-bars"></i>
+												</div>
+											</button>
+										</div>
+									</div>
+									<nav class="saBottomRow saActionLinkBar">
+										<div class="saTopButtons saActionLinks">
+											<button class="saTopLink saActionLink saButtonPrimary" type="button">
+												<div class="saIconHolder saOptionIcon" aria-hidden="true">
+													<i class="far fa-plus icon saIcon"></i>
+												</div>
+												<span class="saButtonText saOptionText">New bird</span>
+											</button>
+											<button class="saTopLink saActionLink saButtonSecondary" type="button">
+												<div class="saIconHolder saOptionIcon" aria-hidden="true">
+													<i class="far fa-copy icon saIcon"></i>
+												</div>
+												<span class="saButtonText saOptionText">Copy bird</span>
+											</button>
+											<div class="saCollectorWrapper">
+												<button class="saMoreButton" aria-expanded="false" type="button">
+													<i class="far fa-ellipsis-vertical icon saIcon"></i>
+												</button>
+											</div>
+										</div>
+										<div class="saBrowseButtons">
+											<button class="saBrowseButton saPrevious" type="button" aria-label="Previous record (PgUp)">
+												<i class="fas fa-caret-up saIcon"></i>
+											</button>
+											<button class="saBrowseButton saNext" type="button" aria-label="Next record (PgDn)">
+												<i class="fas fa-caret-down saIcon"></i>
+											</button>
+										</div>
+									</nav>
+								</div>
+							</div>
+						</header>
+						<div class="maincolinner gradients">
+							<main id="MI_M" class="menuitem pagecontentframe">
+								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
+									<div class="scrollcontent-inner">
+										<div class="saGantt">
+											<div class="saGanttToolbar" role="toolbar" aria-label="Gantt controls">
+												<div class="saGanttToolbarGroup">
+													<button class="saGanttControl saGanttUndo" type="button" disabled>
+														<i class="saIcon far fa-rotate-left" aria-hidden="true"></i>
+														Undo
+													</button>
+													<button class="saGanttControl saGanttToday" type="button">Today</button>
+													<label class="saGanttJumpLabel">
+														<span>Jump to date</span>
+														<input class="saGanttJumpDate" type="date">
+													</label>
+													<button class="saGanttControl saGanttJump" type="button">Go</button>
+												</div>
+												<div class="saGanttToolbarGroup">
+													<span class="saGanttToolbarLabel">Zoom</span>
+													<div class="saGanttZoomLevels" role="group" aria-label="Zoom level">
+														<button class="saGanttControl" type="button" data-zoom="day" aria-pressed="true">Day</button>
+														<button class="saGanttControl" type="button" data-zoom="week" aria-pressed="false">Week</button>
+														<button class="saGanttControl" type="button" data-zoom="month" aria-pressed="false">Month</button>
+														<button class="saGanttControl" type="button" data-zoom="year" aria-pressed="false">Year</button>
+													</div>
+													<label class="saGanttCompactLabel">
+														<input class="saGanttCompact" type="checkbox">
+														Compact
+													</label>
+												</div>
+											</div>
+											<div class="saGanttSelectionActions" role="toolbar" aria-label="Selected booking actions" hidden>
+												<strong class="saGanttSelectionLabel"></strong>
+												<button class="saGanttControl" type="button" data-booking-action="move-left">Move left</button>
+												<button class="saGanttControl" type="button" data-booking-action="move-right">Move right</button>
+												<button class="saGanttControl" type="button" data-booking-action="shorten">Shorten</button>
+												<button class="saGanttControl" type="button" data-booking-action="extend">Extend</button>
+												<button class="saGanttControl" type="button" data-booking-action="status">Next status</button>
+												<button class="saGanttControl saGanttDelete" type="button" data-booking-action="delete">Delete</button>
+											</div>
+											<div class="saGanttLegend" aria-label="Booking statuses">
+												<span><i class="saGanttLegendSwatch saGanttBookingStatusPlanned"></i>Planned</span>
+												<span><i class="saGanttLegendSwatch saGanttBookingStatusActive"></i>Active</span>
+												<span><i class="saGanttLegendSwatch saGanttBookingStatusReview"></i>Review</span>
+												<span><i class="saGanttLegendSwatch saGanttBookingStatusBlocked"></i>Blocked</span>
+												<span><i class="saGanttLegendSwatch saGanttBookingStatusComplete"></i>Complete</span>
+											</div>
+											<div class="saGanttStatus" role="status" aria-live="polite">
+												Drag across empty cells to create a booking. Select a booking to see actions.
+											</div>
+											<div class="saGanttGrid"></div>
+										</div>
+									</div>
+								</div>
+							</main>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>

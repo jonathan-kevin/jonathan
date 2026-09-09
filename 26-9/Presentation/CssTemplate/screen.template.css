@@ -22604,9 +22604,6 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.saMenuBoxWrapper .saMenuItemTextHeadingWrapper .saMenuItemPill {
-  margin: 0 0 0 0.5rem;
-}
 .saMenuBoxWrapper .saMenuItemTextDesc {
   font-size: 0.75rem;
   line-height: 1rem;
@@ -23224,6 +23221,15 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   width: fit-content;
   vertical-align: middle;
   margin: -0.125rem auto auto 0.5rem;
+}
+.saLargeScreen .saHeader .saMenuItemPill {
+  margin: 0 0 -0.25rem 0;
+}
+.saSmallScreen .saHeader .saMenuItemPill {
+  margin: -0.125rem -0.125rem auto 0.5rem;
+}
+.saMenuItemTextHeadingWrapper .saMenuItemPill {
+  margin: 0 0 0 0.5rem;
 }
 .saMenuItemPill::before {
   content: none;
@@ -33262,6 +33268,322 @@ a.saKpiOuter:active {
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
   color: light-dark(var(--Sa-Color-Primary600), var(--White));
   border-color: var(--Sa-Color-Primary600);
+}
+.saGantt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+  width: calc(100dvw - 20rem);
+  max-width: 100%;
+  overflow: hidden;
+}
+.saGanttToolbar,
+.saGanttSelectionActions,
+.saGanttLegend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.saGanttToolbar {
+  justify-content: space-between;
+}
+.saGanttToolbarGroup,
+.saGanttZoomLevels {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.saGanttToolbarLabel,
+.saGanttJumpLabel,
+.saGanttCompactLabel {
+  font-size: 0.75rem;
+  color: var(--Sa-Color-TextSecondary);
+}
+.saGanttJumpLabel,
+.saGanttCompactLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.saGanttJumpDate,
+.saGanttControl {
+  box-sizing: border-box;
+  min-height: 2rem;
+  border: 1px solid light-dark(var(--Gray200), var(--Gray800));
+  border-radius: 0.375rem;
+  background: light-dark(var(--White), var(--Gray1200));
+  color: var(--Sa-Color-Text);
+  font: inherit;
+}
+.saGanttJumpDate {
+  padding: 0.25rem 0.5rem;
+}
+.saGanttControl {
+  padding: 0.375rem 0.625rem;
+  cursor: pointer;
+}
+.saGanttControl:hover:not(:disabled) {
+  border-color: var(--Sa-Color-Primary600);
+  background: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
+}
+.saGanttControl:focus-visible {
+  outline: 2px solid var(--Sa-Color-Primary600);
+  outline-offset: 1px;
+}
+.saGanttControl:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.saGanttControl[aria-pressed="true"] {
+  border-color: var(--Sa-Color-Primary600);
+  background: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saGanttSelectionActions {
+  padding: 0.5rem;
+  border: 1px solid light-dark(var(--Gray200), var(--Gray800));
+  border-radius: 0.5rem;
+  background: light-dark(var(--Gray50), var(--Gray1100));
+}
+.saGanttSelectionActions[hidden] {
+  display: none;
+}
+.saGanttSelectionLabel {
+  margin-right: auto;
+  font-size: 0.75rem;
+}
+.saGanttDelete {
+  color: light-dark(var(--Red700), var(--Red300));
+}
+.saGanttLegend {
+  font-size: 0.6875rem;
+  color: var(--Sa-Color-TextSecondary);
+}
+.saGanttLegend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.saGanttLegendSwatch {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 0.1875rem;
+}
+.saGanttStatus {
+  min-height: 1rem;
+  font-size: 0.75rem;
+  color: var(--Sa-Color-TextSecondary);
+  transition: color 120ms ease;
+}
+.saGanttStatus.saGanttStatusActive {
+  color: var(--Sa-Color-Text);
+}
+.saGanttGrid {
+  min-width: 0;
+}
+.saGanttGridInner {
+  display: grid;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: calc(100dvh - 17rem);
+  min-height: 18rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: light-dark(var(--White), var(--Gray1200));
+  scrollbar-gutter: stable;
+}
+.saGanttCell {
+  box-sizing: border-box;
+  outline: solid 1px light-dark(var(--Gray150), var(--Gray900));
+  font-size: 0.625rem;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saGanttHeader {
+  background: light-dark(var(--White), var(--Gray1200));
+  font-weight: 500;
+  position: sticky;
+  top: calc(var(--sa-gantt-header-row) * 1.875rem);
+  z-index: 4;
+}
+.saGanttHeader span {
+  display: block;
+  position: sticky;
+  inset: auto 0;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+.saGanttCorner {
+  left: 0;
+  z-index: 6;
+  justify-content: flex-start;
+  padding-left: 0.5rem;
+}
+.saGanttLabel {
+  justify-content: flex-start;
+  gap: 0.25rem;
+  padding: 0 0.5rem;
+  background: light-dark(var(--White), var(--Gray1200));
+  position: sticky;
+  left: 0;
+  z-index: 3;
+}
+.saGanttResourceName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.saGanttCellBackground {
+  cursor: crosshair;
+}
+.saGanttCellBackground:hover,
+.saGanttCellBackground.saGanttRowHighlight {
+  background: light-dark(var(--Gray50), var(--Gray1100));
+}
+.saGanttCellBackground.saGanttColumnHighlight {
+  box-shadow: inset 1px 0 var(--Sa-Color-Primary300), inset -1px 0 var(--Sa-Color-Primary300);
+}
+.saGanttCellBackground.saGanttRowHighlight.saGanttColumnHighlight {
+  background: light-dark(var(--Sa-Color-Primary100), var(--Gray1000));
+}
+.saGanttLabel.saGanttRowHighlight {
+  background: light-dark(var(--Sa-Color-Primary100), var(--Gray1000));
+  color: var(--Sa-Color-Primary600);
+  font-weight: 600;
+}
+.saGanttHeader.saGanttColumnHighlight {
+  background: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saGanttCell.saGanttWeekend {
+  background: light-dark(var(--Gray50), var(--Gray1100));
+}
+.saGanttTodayColumn {
+  box-shadow: inset 2px 0 var(--Sa-Color-Primary600);
+}
+.saGanttBooking {
+  z-index: 2;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0.25rem;
+  margin: 0.25rem 0.125rem;
+  padding: 0 0.5rem;
+  border-radius: 0.25rem;
+  color: var(--White);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--Black) 24%, transparent);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+.saGanttBooking:hover,
+.saGanttBooking:focus-visible,
+.saGanttBooking.saGanttBookingSelected {
+  box-shadow: 0 0 0 2px light-dark(var(--Gray900), var(--White)), 0 0 0 4px var(--Sa-Color-Primary600);
+  outline: none;
+}
+.saGanttBooking.saGanttBookingDragging,
+.saGanttBooking.saGanttBookingPreview {
+  opacity: 0.82;
+  cursor: grabbing;
+}
+.saGanttBookingStatusPlanned {
+  background: light-dark(var(--Blue600), var(--Blue400));
+}
+.saGanttBookingStatusActive {
+  background: light-dark(var(--Green600), var(--Green400));
+}
+.saGanttBookingStatusReview {
+  background: light-dark(var(--Purple600), var(--Purple400));
+}
+.saGanttBookingStatusBlocked {
+  background: light-dark(var(--Red600), var(--Red400));
+}
+.saGanttBookingStatusComplete {
+  background: light-dark(var(--Gray600), var(--Gray500));
+}
+.saGanttBookingLabel {
+  overflow: hidden;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.saGanttHandle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0.5rem;
+  background: color-mix(in srgb, var(--Black) 25%, transparent);
+  opacity: 0;
+  cursor: ew-resize;
+  transition: opacity 120ms ease;
+}
+.saGanttBooking:hover .saGanttHandle,
+.saGanttBooking:focus-visible .saGanttHandle,
+.saGanttBookingSelected .saGanttHandle,
+.saGanttBookingDragging .saGanttHandle {
+  opacity: 1;
+}
+.saGanttHandleLeft {
+  left: 0;
+  border-radius: 0.25rem 0 0 0.25rem;
+}
+.saGanttHandleRight {
+  right: 0;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+.saGanttFocused {
+  outline: 2px solid var(--Sa-Color-Primary600);
+  outline-offset: -2px;
+  z-index: 1;
+}
+.saGanttIsDragging {
+  cursor: grabbing;
+  user-select: none;
+}
+.saGanttDragTooltip {
+  position: fixed;
+  z-index: 1000;
+  max-width: 20rem;
+  padding: 0.375rem 0.5rem;
+  border-radius: 0.375rem;
+  background: light-dark(var(--Gray900), var(--Gray100));
+  color: light-dark(var(--White), var(--Gray1200));
+  font-size: 0.75rem;
+  line-height: 1rem;
+  box-shadow: 0 0.25rem 0.75rem color-mix(in srgb, var(--Black) 20%, transparent);
+  pointer-events: none;
+}
+.saGanttZoomMonth .saGanttDayHeader span,
+.saGanttZoomYear .saGanttDayHeader span {
+  opacity: 0;
+}
+.saGanttZoomYear .saGanttBookingLabel {
+  display: none;
+}
+.saSmallScreen .saGantt {
+  width: calc(100dvw - 2rem);
+}
+.saSmallScreen .saGanttToolbar,
+.saSmallScreen .saGanttSelectionActions {
+  align-items: stretch;
+  flex-direction: column;
+}
+.saSmallScreen .saGanttToolbarGroup {
+  flex-wrap: wrap;
+}
+.saSmallScreen .saGanttGridInner {
+  height: calc(100dvh - 22rem);
 }
 .saInfoSqlChartWrapper {
   display: flex;
