@@ -2035,6 +2035,21 @@
 		form.elements.title.focus();
 	}
 
+	function handleCalendarSidebarClick(event) {
+		const button = event.target.closest('.saResourceFilterExpandButton');
+		if (!button) return;
+		const fieldset = button.closest('.saCalendarResourceFilter');
+		const expanded = !fieldset.classList.contains('saOpen');
+		fieldset.classList.toggle('saOpen', expanded);
+		button.setAttribute('aria-expanded', String(expanded));
+	}
+
+	function handleCalendarDescriptionToggle(event) {
+		if (!event.target.matches('[data-calendar-description-toggle]')) return;
+		const calendar = event.target.closest('.saCalendarSection');
+		calendar?.classList.toggle('saHideCalendarDescriptions', !event.target.checked);
+	}
+
 	function startPointerDrag() {
 		if (!pendingDragElement || draggedElement) {
 			return;
@@ -2282,6 +2297,7 @@
 			resource: swedish ? 'Alla resurser' : 'All resources',
 			resourceLabel: swedish ? 'Resurs' : 'Resource',
 			filterHeading: swedish ? 'Filter' : 'Filter',
+			descriptionToggle: { label: swedish ? 'Visa beskrivning' : 'Show descriptions', checked: true },
 			filters: [
 				{ label: swedish ? 'Möten' : 'Meetings', checked: true },
 				{ label: swedish ? 'Frånvaro' : 'Absence', checked: true }
@@ -2305,6 +2321,17 @@
 				},
 				components: [{
 					...base,
+					showResourceDropdown: false,
+					filters: [],
+					resourceFilterGroups: [{
+						heading: swedish ? 'Resurser' : 'Resources',
+						expanded: true,
+						items: [
+							{ label: 'Anna Andersson', checked: true },
+							{ label: 'Viktor Lindgren', checked: true },
+							{ label: 'Maria Johansson', checked: true }
+						]
+					}],
 					heading: swedish ? 'Tisdag 1 september 2026' : 'Tuesday 1 September 2026',
 					timeSlots: ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'],
 					currentTime: '10:15',
@@ -3069,6 +3096,8 @@
 		document.addEventListener('click', handleAvatarClick);
 		document.addEventListener('click', handleSidebarExpanderClick);
 		document.addEventListener('click', handleCalendarCreateClick);
+		document.addEventListener('click', handleCalendarSidebarClick);
+		document.addEventListener('change', handleCalendarDescriptionToggle);
 		document.addEventListener('dragstart', handleCalendarDragStart);
 		document.addEventListener('dragover', handleCalendarDragOver);
 		document.addEventListener('drop', handleCalendarDrop);

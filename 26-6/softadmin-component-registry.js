@@ -2668,6 +2668,7 @@
 
 	function renderCalendarSidebar(component) {
 		const filters = component.filters || [];
+		const resourceFilterGroups = component.resourceFilterGroups || (component.resourceFilter ? [component.resourceFilter] : []);
 		const monthDays = component.sidebarDays || [
 			['', '22', '23', '24', '25', '26', '27', '28'],
 			['26', '29', '30', '1', '2', '3', '4', '5'],
@@ -2676,40 +2677,97 @@
 			['29', '20', '21', '22', '23', '24', '25', '26']
 		];
 
+		const showResourceDropdown = component.showResourceDropdown !== false && (!Array.isArray(component.resources) || component.resources.length > 0);
+		const filterContent = component.sidebarFilters === false ? '' : `
+			${component.filterHeading && (showResourceDropdown || filters.length) ? `<span class="saCalendarSidebarHeading">${escapeHtml(component.filterHeading)}</span>` : ''}
+			${showResourceDropdown ? `
+				<label class="saInputTextWrapper saLabeled">
+					<span class="saLabeledLabel">${escapeHtml(component.resourceLabel || 'User')}</span>
+					<select class="saInputText saDropdown">
+						${(component.resources || ['Anna Andersson', 'Erik Johansson', 'Maria Lindberg']).map(resource => `<option ${resource === component.resource ? 'selected' : ''}>${escapeHtml(resource)}</option>`).join('')}
+					</select>
+					<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
+				</label>` : ''}
+			${filters.map(renderCalendarFilter).join('')}`;
+
 		return `
 			<div class="saCalendarSidebar">
 				<div class="saCalendarSidebarInner">
 					<div class="saCalendarSidebarSection saSidebarCalendar">
-						<div class="saDatePickerRoot">
+						<div class="saDatePicker saDatePickerRoot saManyWeeks">
 							<div class="saDatePickerMonthHeading">
-								<a><i class="saIcon far fa-angle-left"></i></a>
 								<span class="saCalendarSidebarHeading">${escapeHtml(component.sidebarHeading || `${component.month || 'June'} ${component.year || '2026'}`)}</span>
-								<a><i class="saIcon far fa-angle-right"></i></a>
+								<div class="saMonthBrowser">
+									<button type="button" tabindex="-1" title="${escapeHtml(component.previousMonthLabel || 'Previous month')}"><i class="saIcon far fa-angle-left"></i></button>
+									<button type="button" tabindex="-1" title="${escapeHtml(component.nextMonthLabel || 'Next month')}"><i class="saIcon far fa-angle-right"></i></button>
+								</div>
 							</div>
 							<div class="saDayRow">
-								<span class="saWeekNr saEmpty"></span>
-								${(component.dayHeadingsShort || ['M', 'T', 'W', 'T', 'F', 'S', 'S']).map(day => `<span class="saDay">${escapeHtml(day)}</span>`).join('')}
+								<div class="saWeekNr saEmpty"></div>
+								${(component.dayHeadingsShort || ['M', 'T', 'W', 'T', 'F', 'S', 'S']).map(day => `<div class="saDay">${escapeHtml(day)}</div>`).join('')}
 							</div>
-							${monthDays.map(row => `
+							${monthDays.map((row, rowIndex) => `
 								<div class="saDateRow">
-									<span class="saWeekNr${row[0] ? '' : ' saEmpty'}">${escapeHtml(row[0])}</span>
-									${row.slice(1).map(day => `<button class="saDate${day === component.currentSidebarDay ? ' saSelected' : ''}${day === component.todaySidebarDay ? ' saToday' : ''}" type="button">${escapeHtml(day)}</button>`).join('')}
+									<div class="saWeekNr${calendarSidebarCellValue(row[0]) ? '' : ' saEmpty'}">${escapeHtml(calendarSidebarCellValue(row[0]))}</div>
+									${row.slice(1).map((day, dayIndex) => renderCalendarSidebarDate(day, component, rowIndex, dayIndex)).join('')}
 								</div>`).join('')}
 						</div>
 					</div>
-					<div class="saCalendarSidebarSection saSidebarFilters">
-						<span class="saCalendarSidebarHeading">${escapeHtml(component.filterHeading || 'Filter')}</span>
-						<label class="saInputTextWrapper saLabeled">
-							<span class="saLabeledLabel">${escapeHtml(component.resourceLabel || 'User')}</span>
-							<select class="saInputText saDropdown">
-								${(component.resources || ['Anna Andersson', 'Erik Johansson', 'Maria Lindberg']).map(resource => `<option ${resource === component.resource ? 'selected' : ''}>${escapeHtml(resource)}</option>`).join('')}
-							</select>
-							<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
-						</label>
-						${filters.map(renderCalendarFilter).join('')}
-					</div>
+					<div class="saCalendarSidebarSection saSidebarFilters">${filterContent}</div>
+					${resourceFilterGroups.map(renderCalendarResourceFilter).join('')}
+					${component.descriptionToggle ? `<div class="saCalendarSidebarSection saCalendarDescriptionToggleSection">${renderCalendarDescriptionToggle(component.descriptionToggle)}</div>` : ''}
 				</div>
 			</div>`;
+	}
+
+	function calendarSidebarCellValue(cell) {
+		return cell && typeof cell === 'object' ? (cell.label ?? cell.value ?? '') : (cell ?? '');
+	}
+
+	function renderCalendarSidebarDate(cell, component, rowIndex, dayIndex) {
+		const value = calendarSidebarCellValue(cell);
+		const details = cell && typeof cell === 'object' ? cell : {};
+		const key = details.key || `${rowIndex}-${dayIndex}`;
+		const marked = details.marked || (component.markedSidebarDays || []).map(String).includes(String(details.key ?? value));
+		const today = details.today || String(details.key ?? value) === String(component.todaySidebarDay ?? '');
+		const selected = details.selected || String(details.key ?? value) === String(component.currentSidebarDay ?? '');
+		const classes = ['saDate', value ? 'saDateElement' : 'saEmpty', marked ? 'saMarked' : '', today ? 'saToday' : '', selected ? 'saSelected' : ''].filter(Boolean).join(' ');
+		return `<div class="${classes}" data-calendar-sidebar-day="${escapeHtml(key)}">${escapeHtml(value)}</div>`;
+	}
+
+	function renderCalendarResourceFilter(group) {
+		const expanded = group.expanded !== false;
+		return `
+			<div class="saCalendarSidebarSection saCalendarResourceFilterSection">
+				<fieldset class="saCalendarResourceFilter${expanded ? ' saOpen' : ''}">
+					<legend>
+						<button class="saResourceFilterExpandButton" type="button" aria-expanded="${expanded}">
+							<span class="saCalendarSidebarHeading">${escapeHtml(group.heading || 'Resources')}</span>
+							<i class="far fa-angle-down saIcon"></i>
+						</button>
+					</legend>
+					<div class="saCalendarResourceFilterItems">
+						${(group.items || []).map(item => {
+							const settings = typeof item === 'object' ? item : { label: item };
+							return `
+							<label class="saCheckboxWrapper${settings.disabled ? ' saDisabled' : ''}">
+								<input class="saCheckbox" type="checkbox" ${settings.checked ? 'checked' : ''} ${settings.disabled ? 'disabled' : ''}>
+								<span>${escapeHtml(settings.label)}</span>
+							</label>`;
+						}).join('')}
+					</div>
+				</fieldset>
+			</div>`;
+	}
+
+	function renderCalendarDescriptionToggle(toggle) {
+		if (!toggle) return '';
+		const settings = toggle === true ? {} : toggle;
+		return `
+			<label class="saToggleWrapper${settings.disabled ? ' saDisabled' : ''}">
+				<span class="saToggleWrapperLabel">${escapeHtml(settings.label || 'Show descriptions')}</span>
+				<input class="saToggle" type="checkbox" data-calendar-description-toggle ${settings.checked === false ? '' : 'checked'} ${settings.disabled ? 'disabled' : ''}>
+			</label>`;
 	}
 
 	function renderCalendarFilter(filter) {
@@ -2730,12 +2788,10 @@
 		}
 
 		return `
-			<label class="saToggleWrapper${filter.disabled ? ' saDisabled' : ''}">
-				<span class="saToggleLabelWrapper">
-					<span class="saToggleLabel">${escapeHtml(filter.label)}</span>
-					${filter.description ? `<span class="saToggleDescription">${escapeHtml(filter.description)}</span>` : ''}
-				</span>
-				<input class="saToggle" type="checkbox" ${filter.checked === false ? '' : 'checked'} ${filter.disabled ? 'disabled' : ''}>
+			<label class="saCheckboxWrapper${filter.disabled ? ' saDisabled' : ''}">
+				<input class="saCheckbox" type="checkbox" ${filter.checked === false ? '' : 'checked'} ${filter.disabled ? 'disabled' : ''}>
+				<span>${escapeHtml(filter.label)}</span>
+				${filter.description ? `<span class="saDescription">${escapeHtml(filter.description)}</span>` : ''}
 			</label>`;
 	}
 
@@ -3013,7 +3069,7 @@
 
 		return `
 			<softadmin-calendar class="calendar maincolbody saMenuItemRoot" data-softadmin-calendar-component="${componentIndex}">
-				<div class="saCalendarSection saDesktopCalendar saTimeScheduleCalendar ${sectionClass}">
+				<div class="saCalendarSection saDesktopCalendar saTimeScheduleCalendar ${sectionClass}${component.descriptionToggle?.checked === false ? ' saHideCalendarDescriptions' : ''}">
 					${renderCalendarHeader(component)}
 					<div class="saCalendarSectionInner">
 						${component.sidebar === false ? '' : renderCalendarSidebar(component)}
@@ -3047,7 +3103,7 @@
 
 		return `
 			<softadmin-calendar class="calendar maincolbody saMenuItemRoot" data-softadmin-calendar-component="${componentIndex}">
-				<div class="saCalendarSection saDesktopCalendar saWeekdaysCalendar">
+				<div class="saCalendarSection saDesktopCalendar saWeekdaysCalendar${component.descriptionToggle?.checked === false ? ' saHideCalendarDescriptions' : ''}">
 					${renderCalendarHeader(component)}
 					<div class="saCalendarSectionInner">
 						${component.sidebar === false ? '' : renderCalendarSidebar(component)}

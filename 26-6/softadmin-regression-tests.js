@@ -481,7 +481,9 @@ global.SoftadminMockups.renderSpec({
 		week: 36,
 		resources: ['Viktor Lindgren', 'Anna Andersson'],
 		resource: 'Viktor Lindgren',
+		descriptionToggle: { label: 'Show descriptions', checked: true },
 		filters: [{ label: 'Meetings', description: 'Show scheduled meetings', checked: true }],
+		sidebarDays: [['36', { label: '31' }, { label: '1', marked: true }, { label: '2', marked: true, today: true }, '3', '4', '5', '6']],
 		weeks: [
 			{ number: 36, days: [{ day: '31 Aug', date: '2026-08-31', today: true, activities: [{ title: 'Morning meeting', description: '10:00-11:00' }] }, { day: '1 Sep', date: '2026-09-01', activities: [] }] },
 			{ number: 37, days: [{ day: '7', date: '2026-09-07', activities: [] }, { day: '8', date: '2026-09-08', redDay: true, activities: [] }] }
@@ -496,9 +498,11 @@ assert.match(calendarRoot.innerHTML, /Morning meeting/);
 assert.match(calendarRoot.innerHTML, /Viktor Lindgren/);
 assert.match(calendarRoot.innerHTML, /<option selected>September<\/option>/);
 assert.equal((calendarRoot.innerHTML.match(/>September 2026<\/span>/g) || []).length, 1);
-assert.match(calendarRoot.innerHTML, /class="saToggle"/);
-assert.match(calendarRoot.innerHTML, /class="saToggleLabelWrapper"/);
-assert.doesNotMatch(calendarRoot.innerHTML, /class="saToggleWrapper">\s*<input class="saCheckbox"/);
+assert.match(calendarRoot.innerHTML, /class="saCheckboxWrapper"/);
+assert.match(calendarRoot.innerHTML, /class="saToggleWrapper"/);
+assert.match(calendarRoot.innerHTML, /data-calendar-description-toggle/);
+assert.equal((calendarRoot.innerHTML.match(/class="saToggleWrapper(?:\s|\")/g) || []).length, 1);
+assert.match(calendarRoot.innerHTML, /saDate saDateElement saMarked saToday/);
 assert.match(calendarRoot.innerHTML, /datetime="2026-08-31">31<\/time>/);
 assert.match(calendarRoot.innerHTML, /data-softadmin-calendar-activity/);
 assert.match(calendarRoot.innerHTML, /data-softadmin-calendar-drop-target/);
@@ -535,6 +539,8 @@ global.SoftadminMockups.renderSpec({
 		mode: 'Resources with time scale',
 		day: 4,
 		timeSlots: ['08:00', '08:30', '09:00'],
+		showResourceDropdown: false,
+		resourceFilterGroups: [{ heading: 'Teams', expanded: true, items: [{ label: 'Anna Andersson', checked: true }, { label: 'Viktor Lindgren' }] }],
 		resourceColumns: [{ label: 'Anna Andersson', current: true, activities: [{ title: 'Service', start: '08:00', end: '09:00' }] }]
 	}]
 }, calendarResourceRoot);
@@ -542,6 +548,9 @@ assert.match(calendarResourceRoot.innerHTML, /saTimeScheduleCalendar saResourceC
 assert.match(calendarResourceRoot.innerHTML, /Anna Andersson/);
 assert.match(calendarResourceRoot.innerHTML, />Day<\/span>/);
 assert.match(calendarResourceRoot.innerHTML, /data-calendar-kind="resource"/);
+assert.match(calendarResourceRoot.innerHTML, /saCalendarResourceFilter saOpen/);
+assert.match(calendarResourceRoot.innerHTML, /saResourceFilterExpandButton/);
+assert.doesNotMatch(calendarResourceRoot.innerHTML, /<span class="saLabeledLabel">User<\/span>/);
 
 const editableCalendarSpec = {
 	components: [{
