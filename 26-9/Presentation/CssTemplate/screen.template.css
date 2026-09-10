@@ -36457,9 +36457,24 @@ body.saPopup::before {
   padding-right: 0.5rem;
 }
 .saToast.saSuccessSuper {
-  background-color: var(--Green50);
-  outline-color: var(--Green200);
-  color: var(--Gray900);
+  background-color: light-dark(var(--Green50), var(--Green1200));
+  outline-color: light-dark(var(--Green200), var(--Green1000));
+  color: light-dark(var(--Gray900), var(--White));
+}
+.saToast.saWarningSuper {
+  background-color: light-dark(var(--Yellow50), var(--Yellow1200));
+  outline-color: light-dark(var(--Yellow200), var(--Yellow1000));
+  color: light-dark(var(--Gray900), var(--White));
+}
+.saToast.saErrorSuper {
+  background-color: light-dark(var(--Red50), var(--Red1200));
+  outline-color: light-dark(var(--Red200), var(--Red1000));
+  color: light-dark(var(--Gray900), var(--White));
+}
+.saToast.saInfoSuper {
+  background-color: light-dark(var(--Blue50), var(--Blue1200));
+  outline-color: light-dark(var(--Blue200), var(--Blue1000));
+  color: light-dark(var(--Gray900), var(--White));
 }
 .saToast .saToastActions {
   display: flex;
@@ -36593,7 +36608,7 @@ body.saPopup::before {
   font-size: 0.75rem;
   line-height: 1rem;
 }
-.saSuccessSuper .saToastDescription {
+:is(.saSuccessSuper, .saWarningSuper, .saErrorSuper, .saInfoSuper) .saToastDescription {
   color: var(--Gray600);
 }
 .saToastIcon {
@@ -36606,6 +36621,24 @@ body.saPopup::before {
 }
 .saSuccessSuper .saToastIcon {
   color: var(--Green500);
+}
+.saWarning .saToastIcon {
+  color: var(--Yellow200);
+}
+.saWarningSuper .saToastIcon {
+  color: var(--Yellow300);
+}
+.saError .saToastIcon {
+  color: var(--Red500);
+}
+.saErrorSuper .saToastIcon {
+  color: var(--Red600);
+}
+.saInfo .saToastIcon {
+  color: var(--Blue500);
+}
+.saInfoSuper .saToastIcon {
+  color: var(--Blue600);
 }
 .saToastButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -36719,6 +36752,20 @@ body.saPopup::before {
 .saToastButton:active {
   background-color: var(--Gray700);
   color: var(--White);
+}
+:is(.saSuccessSuper, .saWarningSuper, .saErrorSuper, .saInfoSuper) .saToastButton {
+  color: var(--Sa-Color-Primary600);
+  background-color: transparent;
+}
+@media (pointer: fine) {
+  :is(.saSuccessSuper, .saWarningSuper, .saErrorSuper, .saInfoSuper) .saToastButton:hover {
+    background-color: var(--Sa-Color-Primary100);
+    color: var(--Sa-Color-Primary700);
+  }
+}
+:is(.saSuccessSuper, .saWarningSuper, .saErrorSuper, .saInfoSuper) .saToastButton:active {
+  background-color: var(--Sa-Color-Primary200);
+  color: var(--Sa-Color-Primary800);
 }
 /* InternalMenuItems.less must be the last import */
 .saGridCell .saIconTable .saIcon {

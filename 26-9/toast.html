@@ -405,7 +405,7 @@
 											<fieldset>
 												<legend>Message</legend>
 												<label for="toastMessage">Message text</label>
-												<input id="toastMessage" type="text" value="North coral on crystal dawn">
+												<input id="toastMessage" type="text" value="North on crystal dawn">
 											</fieldset>
 
 											<fieldset>
@@ -419,7 +419,13 @@
 												<legend>Type</legend>
 												<label><input type="radio" name="toastType" value="" checked> Default</label>
 												<label><input type="radio" name="toastType" value="success"> Success</label>
+												<label><input type="radio" name="toastType" value="warning"> Warning</label>
+												<label><input type="radio" name="toastType" value="error"> Error</label>
+												<label><input type="radio" name="toastType" value="info"> Info</label>
 												<label><input type="radio" name="toastType" value="superSuccess"> Super success</label>
+												<label><input type="radio" name="toastType" value="superWarning"> Super warning</label>
+												<label><input type="radio" name="toastType" value="superError"> Super error</label>
+												<label><input type="radio" name="toastType" value="superInfo"> Super info</label>
 												<label><input type="radio" name="toastType" value="loadingSuccess"> Loading → success</label>
 												<label for="toastLoadingDuration">Duration before success (seconds)</label>
 												<input id="toastLoadingDuration" type="number" min="0" step="0.1" value="1.2">
@@ -465,7 +471,7 @@
 			</div>
 		</div>
 	</div>
-	<div role="dialog" aria-label="Message" class="saToastGroup" id="toastGroup" aria-live="polite"></div>
+	<div role="dialog" class="saToastGroup" id="toastGroup" aria-live="polite"></div>
 	<script>
 		(() => {
 			const DEFAULT_DURATION = 5000;
@@ -476,9 +482,13 @@
 			const state = {
 				lastMessage: null,
 				duplicateCount: 0,
-				lastFiniteDuration: null
+				lastFiniteDuration: null,
+				latestToast: null,
+				latestToastMessage: null,
+				latestToastDisplayMessage: null
 			};
 
+			const toastCreator = document.getElementById('toastCreator');
 			const toastGroup = document.getElementById('toastGroup');
 			const messageInput = document.getElementById('toastMessage');
 			const descriptionInput = document.getElementById('toastDescription');
@@ -549,7 +559,7 @@
 			function syncTypeState() {
 				const type = getToastType();
 				const isLoadingSuccess = type === 'loadingSuccess';
-				const hasBuiltInIcon = type === 'success' || type === 'superSuccess' || isLoadingSuccess;
+				const hasBuiltInIcon = type !== '';
 				if (hasBuiltInIcon) showIconInput.checked = true;
 				loadingDurationInput.disabled = !isLoadingSuccess;
 				iconFieldset.disabled = hasBuiltInIcon;
@@ -604,8 +614,27 @@
 				const settings = readToastSettings();
 				const displayMessage = getDisplayMessage(settings.message);
 				const onAction = settings.action ? () => alert('Action clicked!') : null;
+				const toast = createToast(displayMessage, { ...settings, onAction });
 
-				toastGroup.append(createToast(displayMessage, { ...settings, onAction }));
+				toastGroup.append(toast);
+				state.latestToast = toast;
+				state.latestToastMessage = settings.message;
+				state.latestToastDisplayMessage = displayMessage;
+			}
+
+			function updateLatestToast() {
+				if (!state.latestToast?.isConnected || state.latestToast.classList.contains('saClosed')) return;
+
+				const settings = readToastSettings();
+				if (settings.message !== state.latestToastMessage) {
+					state.lastMessage = settings.message;
+					state.duplicateCount = 0;
+					state.latestToastMessage = settings.message;
+					state.latestToastDisplayMessage = settings.message;
+				}
+
+				const onAction = settings.action ? () => alert('Action clicked!') : null;
+				state.latestToast.updateToast(state.latestToastDisplayMessage, { ...settings, onAction });
 			}
 
 			function addRandomToast() {
@@ -648,9 +677,13 @@
 
 				const typeIcons = {
 					success: ['fas', 'circle-check'],
+					warning: ['fas', 'triangle-exclamation'],
+					error: ['fas', 'octagon-xmark'],
+					info: ['fas', 'circle-info'],
 					superSuccess: ['fas', 'circle-check'],
-					error: ['fas', 'octagon-xmark', 'saError'],
-					warning: ['fas', 'triangle-exclamation', 'saWarning']
+					superWarning: ['fas', 'triangle-exclamation'],
+					superError: ['fas', 'octagon-xmark'],
+					superInfo: ['fas', 'circle-info']
 				};
 				const [style, name, stateClass = ''] = typeIcons[type]
 					|| ['far', String(iconValue || 'crow').replace(/[^a-z0-9-]/gi, '') || 'crow'];
@@ -690,73 +723,84 @@
 				let timer = null;
 				let completionTimer = null;
 				let closed = false;
-				const typeClass = {
-					success: 'saSuccess',
-					superSuccess: 'saSuccessSuper',
-					loadingSuccess: 'saLoadingSuccess'
-				}[options.type] || options.type || '';
-				div.className = `saToast ${typeClass}`.trim();
-
-				const role = (options.type === 'error' || options.type === 'alert') ? 'alert' : 'status';
-				div.setAttribute('role', role);
-
-				const isLoading = options.loading === true;
-
-				div.innerHTML = renderToast(message, options, isLoading);
+				let currentMessage = message;
+				let currentOptions = options;
 
 				const close = () => {
 					if (closed) return;
 					closed = true;
 					clearTimeout(completionTimer);
 					timer?.cancel();
+					if (state.latestToast === div) state.latestToast = null;
 					div.classList.add('saClosed');
 					layout(); // Re-index active toasts in the same frame as the closing animation.
 					setTimeout(() => div.remove(), CLOSED_ANIMATION_DURATION);
 				};
 
-				// Close button
-				const closeBtn = div.querySelector('.saCloseButton');
-				if (closeBtn) {
-					closeBtn.addEventListener('click', close);
-				}
+				const startAutoDismiss = () => {
+					if (currentOptions.persistent || closed) return;
+					timer = attachTimer(div, currentOptions.duration ?? DEFAULT_DURATION, close);
+					if (div.matches(':hover, :focus-within')) timer.pause();
+				};
 
-				// Action button
-				const actionBtn = div.querySelector('.saToastButton');
-				if (actionBtn) {
-					actionBtn.addEventListener('click', () => {
-						options.onAction?.();
+				function bindActions() {
+					div.querySelector('.saCloseButton')?.addEventListener('click', close);
+					div.querySelector('.saToastButton')?.addEventListener('click', () => {
+						currentOptions.onAction?.();
 						close();
 					});
 				}
 
-				const startAutoDismiss = () => {
-					if (options.persistent || closed) return;
-					timer = attachTimer(div, options.duration ?? DEFAULT_DURATION, close);
-					if (div.matches(':hover, :focus-within')) timer.pause();
+				function startLifecycle() {
+					const isLoading = currentOptions.loading === true;
+					div.innerHTML = renderToast(currentMessage, currentOptions, isLoading);
+					bindActions();
+
+					if (isLoading) {
+						completionTimer = setTimeout(() => {
+							if (closed) return;
+							div.classList.add('saDone');
+							div.querySelector('.saToastTitle').textContent = currentMessage;
+							layout();
+							startAutoDismiss();
+						}, currentOptions.loadingDuration ?? DEFAULT_LOADING_DURATION);
+					} else {
+						startAutoDismiss();
+					}
+				}
+
+				div.updateToast = (nextMessage, nextOptions) => {
+					if (closed) return;
+					clearTimeout(completionTimer);
+					timer?.cancel();
+					timer = null;
+					currentMessage = nextMessage;
+					currentOptions = nextOptions;
+
+					const typeClass = {
+						success: 'saSuccess',
+						warning: 'saWarning',
+						error: 'saError',
+						info: 'saInfo',
+						superSuccess: 'saSuccessSuper',
+						superWarning: 'saWarningSuper',
+						superError: 'saErrorSuper',
+						superInfo: 'saInfoSuper',
+						loadingSuccess: 'saLoadingSuccess'
+					}[currentOptions.type] || currentOptions.type || '';
+
+					div.className = `saToast ${typeClass}`.trim();
+					div.setAttribute('role', currentOptions.type === 'error' || currentOptions.type === 'superError' || currentOptions.type === 'alert' ? 'alert' : 'status');
+					startLifecycle();
+					layout();
 				};
 
-				if (!options.persistent) {
-					// Pause on hover/focus once the completion timer has started.
-					const pause = () => timer?.pause();
-					const resume = () => timer?.resume();
-
-					div.addEventListener('mouseenter', pause);
-					div.addEventListener('mouseleave', resume);
-					div.addEventListener('focusin', pause);
-					div.addEventListener('focusout', resume);
-				}
-
-				if (isLoading) {
-					completionTimer = setTimeout(() => {
-						if (closed) return;
-						div.classList.add('saDone');
-						div.querySelector('.saToastTitle').textContent = message;
-						layout();
-						startAutoDismiss();
-					}, options.loadingDuration ?? DEFAULT_LOADING_DURATION);
-				} else {
-					startAutoDismiss();
-				}
+				// These listeners remain valid when live editing replaces the toast contents.
+				div.addEventListener('mouseenter', () => timer?.pause());
+				div.addEventListener('mouseleave', () => timer?.resume());
+				div.addEventListener('focusin', () => timer?.pause());
+				div.addEventListener('focusout', () => timer?.resume());
+				div.updateToast(message, options);
 
 				return div;
 			}
@@ -839,6 +883,16 @@
 			showIconInput.addEventListener('change', syncTypeState);
 			typeInputs.forEach(input => input.addEventListener('change', syncTypeState));
 			persistentInput.addEventListener('change', syncDurationState);
+			toastCreator.addEventListener('input', event => {
+				if (!event.target.matches('input[type="checkbox"], input[type="radio"]')) {
+					updateLatestToast();
+				}
+			});
+			toastCreator.addEventListener('change', event => {
+				if (event.target.matches('input[type="checkbox"], input[type="radio"]')) {
+					updateLatestToast();
+				}
+			});
 			syncDescriptionState();
 			syncActionState();
 			syncTypeState();
