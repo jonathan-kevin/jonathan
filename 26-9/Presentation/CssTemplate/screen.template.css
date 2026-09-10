@@ -34202,6 +34202,9 @@ body.saPopup::before {
 .saChatWrapper .saChatAiResponse.saChatStreaming .saChatMessageContent > p:not(:last-child) {
   margin-bottom: 0.625rem;
 }
+.saChatWrapper .saChatAiResponse:has(+ .saChatAiResponse) {
+  padding-bottom: 1rem;
+}
 .saSmallScreen .saChatWrapper .saChatAiResponse {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -36350,6 +36353,361 @@ body.saPopup::before {
 }
 .saMarkdownContent sup {
   top: -0.5rem;
+}
+.saToastGroup {
+  position: fixed;
+  inset: auto 0 1rem 0;
+  display: grid;
+  grid-template-columns: minmax(0, max-content);
+  justify-content: center;
+  align-items: end;
+  box-sizing: border-box;
+  z-index: 0;
+  pointer-events: none;
+}
+.saSmallScreen .saToastGroup {
+  padding: 0 1rem;
+  width: 100%;
+  inset: auto auto 1rem auto;
+  pointer-events: all;
+}
+.saToastGroup * {
+  box-sizing: border-box;
+}
+.saToast {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: all;
+  height: fit-content;
+  width: min(20rem, calc(100dvw - 2rem));
+  background-color: var(--Gray900);
+  outline: 0.0625rem solid var(--Gray800);
+  outline-offset: -0.0625rem;
+  color: var(--White);
+  padding: 0.5rem 1rem;
+  min-height: 3rem;
+  border-radius: 1rem;
+  gap: 0.5rem;
+  background-image: linear-gradient(to right, var(--Gray950) var(--toast-progress), transparent var(--toast-progress));
+  transition: transform 0.2s ease, opacity 0.2s ease, width 0.2s ease;
+  transform-origin: bottom;
+  position: relative;
+  grid-area: 1 / 1;
+  align-self: end;
+  justify-self: stretch;
+  --i: 0;
+  transform: translateY(calc(var(--i) * -0.75rem)) scale(max(0.5, calc(1 - var(--i) * 0.1)));
+  z-index: calc(100 - var(--i));
+  @starting-style {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+.saToast::before {
+  content: '';
+  position: absolute;
+  inset: -0.5rem 0 auto;
+  height: 0.5rem;
+}
+.saToast:last-child::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 -1rem;
+  height: 1rem;
+}
+.saToastGroup:hover .saToast,
+.saToastGroup:focus-within .saToast {
+  transform: translateY(calc(var(--expandY, 0) * -1px)) scale(1);
+  opacity: 1;
+}
+.saSmallScreen .saToast {
+  max-width: 100%;
+}
+.saToast.saToastBehindStack {
+  opacity: 0;
+  pointer-events: none;
+}
+.saToastGroup:hover .saToast.saToastBehindStack,
+.saToastGroup:focus-within .saToast.saToastBehindStack {
+  opacity: 1;
+  pointer-events: all;
+}
+.saToast.saClosed {
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.saToastGroup:hover .saToast.saClosed,
+.saToastGroup:focus-within .saToast.saClosed {
+  transform: translateY(100%);
+  opacity: 0;
+}
+.saToast:has(.saToastIcon + .saToastText),
+.saToast:has(.saToastLoadingWrapper + .saToastText) {
+  padding-left: 0.75rem;
+}
+.saToast .saToastLoadingWrapper {
+  flex-shrink: 0;
+}
+.saToast.saDone .saToastLoadingWrapper .saLoading {
+  animation: saFiller 0.4s ease-in-out 0.4s forwards, saScaler 0.2s ease-in-out 0.8s both;
+}
+.saToast:has(.saToastActions) {
+  padding-right: 0.5rem;
+}
+.saToast .saToastActions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+.saToast .saCloseButton {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: light-dark(var(--Sa-Color-Primary600), var(--Gray100));
+  background-color: transparent;
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+}
+.saToast .saCloseButton .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saToast .saCloseButton .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saToast .saCloseButton .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saToast .saCloseButton .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saToast .saCloseButton.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saToast .saCloseButton.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saToast .saCloseButton.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saToast .saCloseButton.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saToast .saCloseButton.saDestructive:active {
+  color: var(--White);
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saToast .saCloseButton.saDestructive:active > .saIcon {
+  color: var(--White);
+}
+@media (pointer: fine) {
+  .saToast .saCloseButton:hover {
+    background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+  .saToast .saCloseButton:hover .saIcon {
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+}
+.saToast .saCloseButton:active {
+  background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saToast .saCloseButton:active .saIcon {
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saToast .saCloseButton:disabled,
+.saToast .saCloseButton.saDisabled {
+  color: light-dark(var(--Gray300), var(--Gray700));
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saToast .saCloseButton:disabled .saIcon,
+.saToast .saCloseButton.saDisabled .saIcon {
+  color: light-dark(var(--Gray300), var(--Gray700));
+}
+.saToast .saCloseButton:active {
+  border-radius: 0.75rem;
+}
+@media (pointer: fine) {
+  .saToast .saCloseButton:hover {
+    background-color: var(--Red600);
+  }
+  .saToast .saCloseButton:hover .saIcon {
+    color: var(--White);
+  }
+}
+.saToast .saCloseButton:active {
+  background-color: var(--Red700);
+}
+.saToast .saCloseButton:active .saIcon {
+  color: var(--White);
+}
+.saToastText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin-right: auto;
+}
+.saToastTitle {
+  font-size: 0.875rem;
+  line-height: 1.125rem;
+}
+.saToastDescription {
+  color: var(--Gray200);
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.saToastIcon {
+  font-size: 1rem;
+  line-height: 0.875rem;
+  color: var(--Gray200);
+}
+.saToastIcon.saSuccess {
+  color: var(--Green300);
+}
+.saToastButton {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: light-dark(var(--Sa-Color-Primary600), var(--Gray100));
+  background-color: transparent;
+  gap: 0.375rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--White);
+}
+.saToastButton .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saToastButton .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saToastButton .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saToastButton .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saToastButton.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saToastButton.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saToastButton.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saToastButton.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saToastButton.saDestructive:active {
+  color: var(--White);
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saToastButton.saDestructive:active > .saIcon {
+  color: var(--White);
+}
+@media (pointer: fine) {
+  .saToastButton:hover {
+    background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+  .saToastButton:hover .saIcon {
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+}
+.saToastButton:active {
+  background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saToastButton:active .saIcon {
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saToastButton:disabled,
+.saToastButton.saDisabled {
+  color: light-dark(var(--Gray300), var(--Gray700));
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saToastButton:disabled .saIcon,
+.saToastButton.saDisabled .saIcon {
+  color: light-dark(var(--Gray300), var(--Gray700));
+}
+.saToastButton:has(.saIcon) {
+  padding-left: 0.625rem;
+}
+.saToastButton:active {
+  border-radius: 0.75rem;
+}
+.saToastButton .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
+}
+@media (pointer: fine) {
+  .saToastButton:hover {
+    background-color: var(--Gray800);
+    color: var(--White);
+  }
+}
+.saToastButton:active {
+  background-color: var(--Gray700);
+  color: var(--White);
 }
 /* InternalMenuItems.less must be the last import */
 .saGridCell .saIconTable .saIcon {

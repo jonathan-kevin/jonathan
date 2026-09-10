@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Toast</title>
+	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css?v=toast-description">
+	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+	<meta name="description" content="Demo">
+	<meta property="og:image" content="./Presentation/img/og-img.png">
+
+	<script src="../src/jquery-4.0.0.slim.min.js"></script>
+	<script src="./script.js?v=95613464"></script>
+	<script src="./live.js#css,html,js" defer></script>
+	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+</head>
+
+<body class="saRootBody saLargeScreen saPc saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
+	<div class="saRootContentWrapper">
+		<div class="saSideBarOuter saSideBarOuterJs saClosed">
+			<form name="aspnetForm" method="post" action="./softadmin.aspx" id="aspnetForm">
+				<aside class="saAside">
+					<nav id="SideBar" class="saSideBar saSideBarJs saExpanded">
+						<div class="saAccessibilityBannerHolderJs">
+							<ul class="saAccessibilityBanner">
+								<li><a tabindex="0">Skip to content</a></li>
+								<li><a tabindex="0">Skip to menu</a></li>
+							</ul>
+						</div>
+						<section class="saSideBarSection saSideBarHeaderSmallScreen">
+							<img class="saSideBarHeaderSmallScreenLogo">
+							<div class="saTitle">
+								<h1>Softadmin® Development System</h1>
+							</div>
+							<button class="saNavigator saButtonHeader" type="button">
+								<i class="saIcon far fa-xmark"></i>
+							</button>
+						</section>
+						<section class="saSideBarSection saSideBarHeader saSideBarSectionJs">
+							<img class="saCustomerLogo" alt="Softadmin® Development System logo" src="../src/img/logo.svg">
+							<ul class="saSideBarInputGroup">
+								<li>
+									<a class="saSideBarSearchLink" tabindex="0">
+										<div><i class="far fa-magnifying-glass saIcon"></i></div>
+									</a>
+									<label class="saSideBarSearch">
+										<input id="SideBarSearchInput" class="saSearchInput saInputText" type="search" placeholder="Search...">
+										<i class="far fa-magnifying-glass saIcon"></i>
+									</label>
+								</li>
+								<li>
+									<button class="saImpersonatorWrapper" type="button" value="admin" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="saImpersonatorLabel saImpersonatorValue" aria-controls="saImpersonatorDropdown">
+										<span class="saImpersonator">
+											<span class="saImpersonatorValue" id="saImpersonatorValue">admin 300</span>
+											<span class="saImpersonatorLabel" id="saImpersonatorLabel">User</span>
+											<i class="saIcon far fa-angle-down saTrailing"></i>
+											<span class="saImpersonatorLetter">A</span>
+										</span>
+									</button>
+								</li>
+							</ul>
+						</section>
+						<section class="saSideBarSection saSideBarBody saSideBarSectionJs">
+							<div class="saSideBarGroup saSideBarFavorites">
+								<div class="saSideBarFavoritesHeader">
+									<button class="saButtonFavorites" type="button"><span>Favorites</span><i class="saIcon saIcon far fa-angle-down"></i></button>
+									<button class="saButtonFavoritesMinimized" type="button"><i class="saIcon saIcon far fa-angle-down"></i></button>
+									<button class="saButtonFavoritesEdit" type="button">Edit</button>
+								</div>
+								<ul class="saItemList">
+									<li><a class="saItem saFavorite" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i
+														class="far fa-bolt icon saIcon"></i></div>
+												<span>Quick fixes</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-message icon saIcon"></i>
+												</div><span>Chat</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-compass icon saIcon"></i>
+												</div><span>Location finder</span>
+											</div>
+										</a></li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Models</h3>
+								<ul class="saItemList">
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-brain icon saIcon"></i></div><span>4.1<span class="saMenuItemPill saAdminOnly">Admin</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-o icon saIcon"></i></div><span>4o<span class="saMenuItemPill saIssues">Issues</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-minus-square icon saIcon"></i></div><span>4o mini<span class="saMenuItemPill saDraft">Draft</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-car icon saIcon"></i></div><span>3.5 Turbo<span class="saMenuItemPill saBeta">Beta</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-c icon saIcon"></i></div><span>Claude 3.5<span class="saMenuItemPill saDeprecated">Deprecated</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-c icon saIcon"></i></div><span>Claude 3 Opus<span class="saMenuItemPill saNew">New</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-g icon saIcon"></i></div><span>Gemini Pro</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-g icon saIcon"></i></div><span>Gemini Flash</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-l icon saIcon"></i></div><span>Llama 3</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-m icon saIcon"></i></div><span>Mistral Large</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-m icon saIcon"></i></div><span>Mixtral 8x7B</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-r icon saIcon"></i></div><span>Command R+</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-glasses icon saIcon"></i></div><span>DeepSeek Chat</span></div></a></li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Summer</h3>
+								<ul class="saItemList">
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-sun-alt icon saIcon"></i></div>
+												<span>Sun</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</section>
+						<section class="saSideBarSection saSideBarFooter saSideBarSectionJs">
+							<div class="saSideBarFooterPrimary">
+								<div class="saListItem">
+									<button class="saAccountDropdown" type="button" aria-expanded="false" aria-controls="saAccountMenu" aria-haspopup="menu">
+										<div class="saAccountAvatar">FL</div>
+										<span class="saAccountName">Firstname Lastname</span>
+										<i class="far fa-angle-down saIcon"></i>
+									</button>
+									<ul class="saContextMenu saProfileMenu saNorth" id="saAccountMenu" style="top: -13.5rem;" aria-hidden="true" style="display: none;">
+										<li>
+											<label class="saOptionWrapper"  for="saToggleDark" tabindex="0">
+												<div class="saOption">
+													<div class="saOptionText">
+														<div class="saOptionTitle">Dark mode</div>
+														<div class="saOptionDescription">The page won't reload (D).</div>
+													</div>
+													<input class="saToggle" type="checkbox" id="saToggleDark" aria-keyshortcuts="D">
+												</div>
+											</label>
+										</li>
+										<li><hr></li>
+										<li>
+											<label class="saOptionWrapper"  for="saToggleCompact" tabindex="0">
+												<div class="saOption">
+													<div class="saOptionText">
+														<div class="saOptionTitle">Compact mode</div>
+														<div class="saOptionDescription">The page will reload.</div>
+													</div>
+													<input class="saToggle" type="checkbox" id="saToggleCompact" checked="true">
+												</div>
+											</label>
+										</li>
+										<li><hr></li>
+										<li>
+											<a class="saOptionWrapper" tabindex="0">
+												<div class="saOption"><i class="far fa-circle-exclamation icon saIcon saOptionIcon" aria-hidden="true"></i>
+													<div class="saOptionText">Give feedback to Multisoft</div>
+												</div>
+											</a>
+										</li>
+										<li>
+											<a class="saOptionWrapper" tabindex="0">
+												<div class="saOption"><i class="far fa-mobile-notch icon saIcon saOptionIcon" aria-hidden="true"></i>
+													<div class="saOptionText">App</div>
+												</div>
+											</a>
+										</li>
+
+										<li>
+											<a class="saOptionWrapper" tabindex="0">
+												<div class="saOption"><i class="far fa-pen icon saIcon saOptionIcon" aria-hidden="true"></i>
+													<div class="saOptionText">Edit contact information</div>
+												</div>
+											</a>
+										</li>
+									</ul>
+								</div>
+								<ul class="saSideBarToolbar">
+									<li>
+										<button type="button">
+											<div class="saIconWrapper">
+												<i class="far fa-gear icon saIcon"></i>
+											</div>
+											<span>Admin</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper"><i class="far fa-chart-network icon saIcon"></i></div>
+											<span>Database designer</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper"><i class="far fa-window-restore icon saIcon"></i></div>
+											<span>New tab</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper"><i class="far fa-circle-question icon saIcon"></i></div>
+												<span>View help page - General help</span>
+										</button></li>
+									<li class="saNotificationsItem">
+										<button id="largeScreenNotifications" type="button">
+											<div class="saSidenavItem"><i class="far fa-bell saIcon"></i></div>
+											<div class="saBadgeCount saUrgent">2</div>
+										</button>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarFooterSecondary">
+								<a class="saSoftadminLogo" target="_blank" rel="noopener noreferrer" tabindex="-1" href="https://www.softadmin.com/">
+									<img class="saLogo" src="./Presentation/img/softadmin-logo-minimized.svg">
+									<img class="saWordmark" src="./Presentation/img/softadmin-logo-expanded.svg">
+								</a>
+								<button class="saExpander saDynamicTooltipJs" type="button" aria-label="Minimize sidebar" aria-controls="SideBar" aria-expanded="true" aria-keyshortcuts="Alt+M"><i class="far fa-angles-left saIcon" aria-hidden="true"></i></button>
+							</div>
+						</section>
+					</nav>
+				</aside>
+			</form>
+		</div>
+		<div class="saSideBarSmallScreenOverlay" id="SideBarSmallScreenOverlay" style="display: none;"></div>
+		<div class="saRightFrameRoot">
+			<div id="body" class="right standardview saPc saLargeScreen saCompact saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
+				<div class="pagecontentframe">
+					<form class="interface">
+						<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs">
+												<div class="saBackButtonWrapper"><button class="saBackButton" type="button"><i class="far fa-arrow-left saBack saIcon"></i></button></div>
+											</nav>
+										</div>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Toast</h1>
+												<div class="saNoSpinner">
+													<button type="button" class="saFavoriteToggle"><i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i></button>
+												</div>
+												<ul class="saSpecialLinksWrapper"></ul>
+											</div>
+										</div>
+										<nav class="saNavigationBar">
+											<div class="saTopButtons">
+												<div class="saActionLinks">
+													<button class="saTopLink saActionLink saButtonPrimary" type="button">
+														<div class="saIconHolder saOptionIcon"><i class="far fa-plus icon saIcon"></i></div><span class="saButtonText saOptionText">New bird</span>
+													</button>
+													<div class="saTopLink saActionLink saButtonSplit">
+														<button class="saButtonSecondary" type="button">
+															<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																<i class="far fa-plus icon saIcon"></i>
+															</div>
+															<span class="saButtonText saOptionText">New grass</span>
+														</button>
+														<button class="saButtonSecondary saSplitButtonArrow" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="saSplitButtonMenu">
+															<i class="saIcon far fa-angle-down saIcon" aria-hidden="true"></i>
+														</button>
+														<div class="saContextMenu saSouth" id="saSplitButtonMenu" style="right: 0px; left: auto; max-height: 1153px;">
+																<ul class="saActionLinkList">
+																	<li><a class="saOptionWrapper" tabindex="0" role="link" aria-selected="true">
+																			<div class="saOption">
+																				<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-save icon saIcon"></i></div>
+																				<span class="saButtonText saOptionText">Save</span>
+																			</div>
+																		</a>
+																	</li>
+																	<li><a class="saOptionWrapper" tabindex="0" role="link">
+																			<div class="saOption">
+																				<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-feather icon saIcon"></i></div>
+																				<span class="saButtonText saOptionText">Drafts</span>
+																			</div>
+																		</a>
+																	</li>
+																	<li><a class="saOptionWrapper" tabindex="0" role="link">
+																			<div class="saOption">
+																					<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-files icon saIcon"></i></div>
+																					<span class="saButtonText saOptionText">Documents</span>
+																				</div>
+																		</a>
+																	</li>
+																	<li><a class="saOptionWrapper" tabindex="0" role="link">
+																			<div class="saOption">
+																					<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-folder icon saIcon"></i></div>
+																					<span class="saButtonText saOptionText">Projects</span>
+																				</div>
+																		</a>
+																	</li>
+																	<li><a class="saOptionWrapper" tabindex="0" role="link">
+																			<div class="saOption">
+																					<div class="saIconHolder saOptionIcon" aria-hidden="true"><i class="far fa-box icon saIcon"></i></div>
+																					<span class="saButtonText saOptionText">Archive</span>
+																				</div>
+																		</a>
+																	</li>
+																</ul>
+															</div>
+													</div>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button">
+														<div class="saIconHolder saOptionIcon"><i class="far fa-copy icon saIcon"></i></div><span class="saButtonText saOptionText">copy bird</span>
+													</button>
+													<div class="saCollectorWrapper">
+														<button class="saMoreButton" type="button"><i class="far fa-ellipsis-vertical icon saIcon"></i></button>
+													</div>
+												</div>
+											</div>
+											<div class="saBrowseButtons">
+												<button class="saBrowseButton" type="button" aria-label="Previous record (PgUp)">
+													<i class="fas fa-caret-up saIcon"></i>
+												</button>
+												<button class="saBrowseButton" type="button" aria-label="Next record (PgDn)">
+													<i class="fas fa-caret-down saIcon"></i>
+												</button>
+											</div>
+										</nav>
+									</div>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<button class="saSmallScreenBackButton saButtonHeader" type="button"><i class="far fa-arrow-left saBack saIcon"></i></button>
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+													<h1 class="saHeaderText">Toast</h1>
+												</div>
+											</div>
+											<button class="saNotifications saButtonHeader" type="button" aria-expanded="false">
+												<i class="far fa-bell saIcon"></i>
+												<div class="saBadgeCount saUrgent">2</div>
+											</button>
+											<button class="saNavigator saButtonHeader" type="button" aria-label="Open menu" data-tooltip="Open menu">
+												<div class="saNavBar"><i class="saIcon far fa-bars"></i>
+												</div>
+											</button>
+										</div>
+									</div>
+									<nav class="saBottomRow saActionLinkBar">
+										<div class="saTopButtons saActionLinks">
+											<button class="saTopLink saActionLink saButtonPrimary" type="button">
+												<div class="saIconHolder saOptionIcon" aria-hidden="true">
+													<i class="far fa-plus icon saIcon"></i>
+												</div>
+												<span class="saButtonText saOptionText">New bird</span>
+											</button>
+											<button class="saTopLink saActionLink saButtonSecondary" type="button">
+												<div class="saIconHolder saOptionIcon" aria-hidden="true">
+													<i class="far fa-copy icon saIcon"></i>
+												</div>
+												<span class="saButtonText saOptionText">Copy bird</span>
+											</button>
+											<div class="saCollectorWrapper">
+												<button class="saMoreButton" aria-expanded="false" type="button">
+													<i class="far fa-ellipsis-vertical icon saIcon"></i>
+												</button>
+											</div>
+										</div>
+										<div class="saBrowseButtons">
+											<button class="saBrowseButton saPrevious" type="button" aria-label="Previous record (PgUp)">
+												<i class="fas fa-caret-up saIcon"></i>
+											</button>
+											<button class="saBrowseButton saNext" type="button" aria-label="Next record (PgDn)">
+												<i class="fas fa-caret-down saIcon"></i>
+											</button>
+										</div>
+									</nav>
+								</div>
+							</div>
+						</header>
+						<div class="maincolinner gradients">
+							<main id="MI_M" class="menuitem pagecontentframe">
+								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
+									<div class="scrollcontent-inner">
+										<section id="toastCreator" aria-labelledby="toastCreatorHeading">
+											<h2 id="toastCreatorHeading">Create a toast</h2>
+
+											<style>
+												#toastCreator {
+													fieldset,
+													input,
+													label,
+													legend,
+													button {
+														all: revert;
+														font: revert;
+													}
+													label {
+														font-weight: 500;
+													}
+													label + label {
+														padding-left: 1rem;
+													}
+												}
+											</style>
+											<fieldset>
+												<legend>Message</legend>
+												<label for="toastMessage">Message text</label>
+												<input id="toastMessage" type="text" value="North coral on crystal dawn">
+											</fieldset>
+
+											<fieldset>
+												<legend>Description</legend>
+												<label><input type="checkbox" id="showDescription">Include description</label>
+												<label for="toastDescription">Description text</label>
+												<input id="toastDescription" type="text" placeholder="Optional details" value="The violet whisper zenith">
+											</fieldset>
+
+											<fieldset>
+												<legend>Type</legend>
+												<label><input type="radio" name="toastType" value="" checked> Default</label>
+												<label><input type="radio" name="toastType" value="success"> Success</label>
+											</fieldset>
+
+											<fieldset id="iconFieldset">
+												<legend>Icon</legend>
+												<label><input type="checkbox" id="showIcon" checked> Include icon</label>
+												<label for="toastIcon">Font Awesome 6 icon</label>
+												<input id="toastIcon" type="text" value="bird" placeholder="e.g. bird">
+											</fieldset>
+
+											<fieldset>
+												<legend>Action button</legend>
+												<label><input type="checkbox" id="showAction"> Include action button</label>
+												<label for="toastAction">Button label</label>
+												<input id="toastAction" type="text" placeholder="e.g. Undo">
+											</fieldset>
+
+											<fieldset>
+												<legend>Dismiss button</legend>
+												<label><input type="checkbox" id="showDismiss" checked> Include dismiss button</label>
+											</fieldset>
+
+											<fieldset>
+												<legend>Duration</legend>
+												<label><input type="checkbox" id="persistent" checked> Keep toast open</label>
+												<label for="toastDuration">Auto-dismiss after</label>
+												<select id="toastDuration">
+													<option value="3000">3 seconds</option>
+													<option value="5000" selected>5 seconds</option>
+													<option value="8000">8 seconds</option>
+													<option value="12000">12 seconds</option>
+													<option value="Infinity">Infinite seconds</option>
+												</select>
+											</fieldset>
+
+											<p>
+												<button type="button" id="trigger">Create toast</button>
+												<button type="button" id="randomTrigger">Random</button>
+											</p>
+										</section>
+									</div>
+								</div>
+							</main>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="saToastGroup" id="toastGroup" aria-live="polite"></div>
+	<script>
+		(() => {
+			const DEFAULT_DURATION = 5000;
+			const LOADING_DURATION = 1200;
+			const CLOSED_ANIMATION_DURATION = 200;
+			const EXPANDED_GAP_REM = 0.5;
+			const MAX_VISIBLE_TOASTS = 3;
+			const state = {
+				lastMessage: null,
+				duplicateCount: 0,
+				lastFiniteDuration: null
+			};
+
+			const toastGroup = document.getElementById('toastGroup');
+			const messageInput = document.getElementById('toastMessage');
+			const descriptionInput = document.getElementById('toastDescription');
+			const showDescriptionInput = document.getElementById('showDescription');
+			const typeInputs = document.querySelectorAll('input[name="toastType"]');
+			const actionInput = document.getElementById('toastAction');
+			const showActionInput = document.getElementById('showAction');
+			const iconFieldset = document.getElementById('iconFieldset');
+			const iconInput = document.getElementById('toastIcon');
+			const showIconInput = document.getElementById('showIcon');
+			const durationInput = document.getElementById('toastDuration');
+			const persistentInput = document.getElementById('persistent');
+			const showDismissInput = document.getElementById('showDismiss');
+			const randomWords = [
+				'amber', 'autumn', 'bright', 'calm', 'cloud', 'coral', 'crystal', 'dawn',
+				'forest', 'gentle', 'golden', 'harbor', 'lunar', 'meadow', 'mist', 'north',
+				'ocean', 'quiet', 'river', 'silver', 'spring', 'stone', 'summer', 'willow',
+				'azure', 'breeze', 'canyon', 'ember', 'feather', 'field', 'frost', 'glow',
+				'horizon', 'ivy', 'jasmine', 'lily', 'marina', 'meteor', 'nova', 'opal',
+				'pebble', 'prairie', 'rain', 'rose', 'saffron', 'shelter', 'solstice',
+				'summit', 'thunder', 'timber', 'velvet', 'violet', 'whisper', 'zenith'
+			];
+			const fontAwesome6Icons = [
+				'bell', 'bird', 'bookmark', 'bolt', 'calendar-check', 'circle-info',
+				'cloud-arrow-up', 'comment-dots', 'envelope', 'file-circle-check', 'flag',
+				'heart', 'lightbulb', 'paper-plane', 'rocket', 'shield-check', 'sparkles',
+				'star', 'thumbs-up', 'wand-magic-sparkles'
+			];
+			const actionVerbs = [
+				'Approve', 'Download', 'Edit', 'Explore', 'Open', 'Retry', 'Review',
+				'Share', 'Undo', 'Update', 'View'
+			];
+
+			const randomItem = items => items[Math.floor(Math.random() * items.length)];
+
+			function randomSentence(minWords, maxWords) {
+				const wordCount = Math.floor(Math.random() * (maxWords - minWords + 1)) + minWords;
+				const words = Array.from({ length: wordCount }, () => randomItem(randomWords));
+				const sentence = words.join(' ');
+				return sentence.charAt(0).toUpperCase() + sentence.slice(1) + '.';
+			}
+
+			state.lastFiniteDuration = durationInput.value;
+
+			function syncDurationState() {
+				if (persistentInput.checked) {
+					if (durationInput.value !== 'Infinity') {
+						state.lastFiniteDuration = durationInput.value;
+					}
+					durationInput.value = 'Infinity';
+					durationInput.disabled = true;
+				} else {
+					durationInput.disabled = false;
+					durationInput.value = state.lastFiniteDuration;
+				}
+			}
+
+			function syncDescriptionState() {
+				descriptionInput.disabled = !showDescriptionInput.checked;
+			}
+
+			function syncActionState() {
+				actionInput.disabled = !showActionInput.checked;
+			}
+
+			function syncIconState() {
+				const isSuccess = getToastType() === 'success';
+				if (isSuccess) showIconInput.checked = true;
+				iconFieldset.disabled = isSuccess;
+				iconInput.disabled = !showIconInput.checked;
+			}
+
+			function getToastType() {
+				return document.querySelector('input[name="toastType"]:checked').value;
+			}
+
+			function readToastSettings() {
+				const message = messageInput.value.trim() || 'Notification';
+				const type = getToastType();
+				const persistent = persistentInput.checked;
+
+				return {
+					message,
+					description: showDescriptionInput.checked ? descriptionInput.value.trim() || null : null,
+					type,
+					loading: type === 'success',
+					loadingMessage: 'Saving',
+					loadingDuration: LOADING_DURATION,
+					duration: persistent ? Infinity : Number(durationInput.value),
+					persistent,
+					action: showActionInput.checked ? actionInput.value.trim() || null : null,
+					icon: showIconInput.checked ? iconInput.value.trim() : false,
+					showDismiss: showDismissInput.checked
+				};
+			}
+
+			function getDisplayMessage(message) {
+				if (message === state.lastMessage) {
+					state.duplicateCount += 1;
+				} else {
+					state.lastMessage = message;
+					state.duplicateCount = 0;
+				}
+
+				return state.duplicateCount > 0
+					? `${message} +${state.duplicateCount}`
+					: message;
+			}
+
+			function addToast() {
+				const settings = readToastSettings();
+				const displayMessage = getDisplayMessage(settings.message);
+				const onAction = settings.action ? () => alert('Action clicked!') : null;
+
+				toastGroup.append(createToast(displayMessage, { ...settings, onAction }));
+			}
+
+			function addRandomToast() {
+				messageInput.value = randomSentence(2, 5);
+
+				if (showDescriptionInput.checked) {
+					descriptionInput.value = randomSentence(6, 12);
+				}
+
+				if (showActionInput.checked) {
+					actionInput.value = randomItem(actionVerbs);
+				}
+
+				if (!iconFieldset.disabled && showIconInput.checked) {
+					iconInput.value = randomItem(fontAwesome6Icons);
+				}
+
+				addToast();
+			}
+
+			function escapeHTML(value) {
+				const characters = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+				return String(value).replace(/[&<>"']/g, character => characters[character]);
+			}
+
+			function renderIcon({ icon, loading, type }) {
+				const iconValue = typeof icon === 'string' ? icon.trim() : icon;
+				if (iconValue === false || iconValue === null || iconValue === '') return '';
+
+				if (loading) {
+					return `
+						<div class="saLoadingWrapper saToastLoadingWrapper" aria-hidden="true">
+							<svg class="saLoading" viewBox="0 0 24 24">
+								<circle class="saLoadingCircle" cx="12" cy="12" r="12" fill="none"></circle>
+								<path class="saLoadingCheck" d="M6.29,12.58l3.14,3.19c.15,.15,.39,.15,.53,0l7.75-7.8" fill="none"></path>
+							</svg>
+							<div class="saLoadingSpinner"></div>
+						</div>`;
+				}
+
+				const typeIcons = {
+					success: ['fas', 'circle-check', 'saSuccess'],
+					error: ['fas', 'octagon-xmark', 'saError'],
+					warning: ['fas', 'triangle-exclamation', 'saWarning']
+				};
+				const [style, name, stateClass = ''] = typeIcons[type]
+					|| ['far', String(iconValue || 'crow').replace(/[^a-z0-9-]/gi, '') || 'crow'];
+
+				return `<i class="${style} fa-${name} saIcon saToastIcon ${stateClass}" aria-hidden="true"></i>`;
+			}
+
+			function renderActions({ action, showDismiss }) {
+				if (!action && !showDismiss) return '';
+
+				return `
+					<div class="saToastActions">
+						${action ? `
+							<button type="button" class="saToastButton">
+								<div class="saButtonText">${escapeHTML(action)}</div>
+							</button>` : ''}
+						${showDismiss ? `
+							<button type="button" class="saCloseButton" aria-label="Dismiss notification">
+								<i class="far fa-xmark saIcon" aria-hidden="true"></i>
+							</button>` : ''}
+					</div>`;
+			}
+
+			function renderToast(message, options, isLoading) {
+				return `
+					${renderIcon(options)}
+					<div class="saToastText">
+						<div class="saToastTitle">${escapeHTML(isLoading ? options.loadingMessage || 'Saving' : message)}</div>
+						${options.description ? `<div class="saToastDescription">${escapeHTML(options.description)}</div>` : ''}
+					</div>
+					${renderActions(options)}`;
+			}
+
+			function createToast(message, options = {}) {
+				const div = document.createElement('div');
+				let timer = null;
+				let completionTimer = null;
+				let closed = false;
+				div.className = `saToast ${options.type || ''}`.trim();
+
+				const role = (options.type === 'error' || options.type === 'alert') ? 'alert' : 'status';
+				div.setAttribute('role', role);
+
+				const isLoading = options.loading === true;
+
+				div.innerHTML = renderToast(message, options, isLoading);
+
+				const close = () => {
+					if (closed) return;
+					closed = true;
+					clearTimeout(completionTimer);
+					timer?.cancel();
+					div.classList.add('saClosed');
+					layout(); // Re-index active toasts in the same frame as the closing animation.
+					setTimeout(() => div.remove(), CLOSED_ANIMATION_DURATION);
+				};
+
+				// Close button
+				const closeBtn = div.querySelector('.saCloseButton');
+				if (closeBtn) {
+					closeBtn.addEventListener('click', close);
+				}
+
+				// Action button
+				const actionBtn = div.querySelector('.saToastButton');
+				if (actionBtn) {
+					actionBtn.addEventListener('click', () => {
+						options.onAction?.();
+						close();
+					});
+				}
+
+				const startAutoDismiss = () => {
+					if (options.persistent || closed) return;
+					timer = attachTimer(div, options.duration ?? DEFAULT_DURATION, close);
+					if (div.matches(':hover, :focus-within')) timer.pause();
+				};
+
+				if (!options.persistent) {
+					// Pause on hover/focus once the completion timer has started.
+					const pause = () => timer?.pause();
+					const resume = () => timer?.resume();
+
+					div.addEventListener('mouseenter', pause);
+					div.addEventListener('mouseleave', resume);
+					div.addEventListener('focusin', pause);
+					div.addEventListener('focusout', resume);
+				}
+
+				if (isLoading) {
+					completionTimer = setTimeout(() => {
+						if (closed) return;
+						div.classList.add('saDone');
+						div.querySelector('.saToastTitle').textContent = message;
+						layout();
+						startAutoDismiss();
+					}, options.loadingDuration ?? LOADING_DURATION);
+				} else {
+					startAutoDismiss();
+				}
+
+				return div;
+			}
+
+			// Timer function (smooth progress)
+			function attachTimer(toastEl, duration, onDone) {
+				let endTime = performance.now() + duration;
+				let remaining = duration;
+				let raf;
+				let paused = false;
+				let canceled = false;
+
+				function update(now) {
+					if (paused || canceled) return;
+					const timeLeft = Math.max(0, endTime - now);
+					toastEl.style.setProperty('--toast-progress', `${(timeLeft / duration) * 100}%`);
+
+					if (timeLeft <= 0) {
+						onDone();
+						return;
+					}
+					raf = requestAnimationFrame(update);
+				}
+
+				function cancel() {
+					canceled = true;
+					cancelAnimationFrame(raf);
+				}
+
+				function pause() {
+					if (paused) return;
+					paused = true;
+					remaining = Math.max(0, endTime - performance.now());
+					cancelAnimationFrame(raf);
+				}
+
+				function resume() {
+					if (!paused || canceled) return;
+					paused = false;
+					endTime = performance.now() + remaining;
+					raf = requestAnimationFrame(update);
+				}
+
+				raf = requestAnimationFrame(update);
+				return { pause, resume, cancel };
+			}
+
+			// Writes --i (stack depth, 0 = newest) and --expandY (measured px offset
+			// from the bottom) onto every non-closing toast. Toasts beyond the front
+			// three stay hidden until the group is expanded. Runs on every add/remove
+			// and explicitly when a toast starts closing, so the rest of the stack
+			// shifts down immediately instead of waiting for its removal.
+			function layout() {
+				const toasts = [...toastGroup.children].filter(el => !el.classList.contains('saClosed'));
+				const rootPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
+				const gap = EXPANDED_GAP_REM * rootPx;
+
+				toasts.forEach((toast, domIndex) => {
+					const stackIndex = toasts.length - 1 - domIndex;
+					toast.style.setProperty('--i', stackIndex);
+					toast.classList.toggle('saToastBehindStack', stackIndex >= MAX_VISIBLE_TOASTS);
+				});
+
+				let cumulative = 0;
+				for (let i = toasts.length - 1; i >= 0; i--) {
+					toasts[i].style.setProperty('--expandY', cumulative);
+					cumulative += toasts[i].offsetHeight + gap;
+				}
+			}
+
+			new MutationObserver(layout).observe(toastGroup, { childList: true });
+			layout();
+			durationInput.addEventListener('change', () => {
+				if (!persistentInput.checked) {
+					state.lastFiniteDuration = durationInput.value;
+				}
+			});
+			showDescriptionInput.addEventListener('change', syncDescriptionState);
+			showActionInput.addEventListener('change', syncActionState);
+			showIconInput.addEventListener('change', syncIconState);
+			typeInputs.forEach(input => input.addEventListener('change', syncIconState));
+			persistentInput.addEventListener('change', syncDurationState);
+			syncDescriptionState();
+			syncActionState();
+			syncIconState();
+			syncDurationState();
+
+			document.getElementById('trigger').addEventListener('click', addToast);
+			document.getElementById('randomTrigger').addEventListener('click', addRandomToast);
+		})();
+	</script>
+</body>
