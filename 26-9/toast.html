@@ -410,7 +410,7 @@
 
 											<fieldset>
 												<legend>Description</legend>
-												<label><input type="checkbox" id="showDescription">Include description</label>
+												<input type="checkbox" id="showDescription" aria-label="Include description">
 												<label for="toastDescription">Description text</label>
 												<input id="toastDescription" type="text" placeholder="Optional details" value="The violet whisper zenith">
 											</fieldset>
@@ -419,38 +419,34 @@
 												<legend>Type</legend>
 												<label><input type="radio" name="toastType" value="" checked> Default</label>
 												<label><input type="radio" name="toastType" value="success"> Success</label>
+												<label for="toastLoadingDuration">Duration before success (seconds)</label>
+												<input id="toastLoadingDuration" type="number" min="0" step="0.1" value="1.2">
 											</fieldset>
 
 											<fieldset id="iconFieldset">
 												<legend>Icon</legend>
-												<label><input type="checkbox" id="showIcon" checked> Include icon</label>
+												<input type="checkbox" id="showIcon" aria-label="Include icon" checked>
 												<label for="toastIcon">Font Awesome 6 icon</label>
 												<input id="toastIcon" type="text" value="bird" placeholder="e.g. bird">
 											</fieldset>
 
 											<fieldset>
 												<legend>Action button</legend>
-												<label><input type="checkbox" id="showAction"> Include action button</label>
+												<input type="checkbox" id="showAction" aria-label="Include action button">
 												<label for="toastAction">Button label</label>
 												<input id="toastAction" type="text" placeholder="e.g. Undo">
 											</fieldset>
 
 											<fieldset>
 												<legend>Dismiss button</legend>
-												<label><input type="checkbox" id="showDismiss" checked> Include dismiss button</label>
+												<input type="checkbox" id="showDismiss" aria-label="Include dismiss button" checked>
 											</fieldset>
 
 											<fieldset>
 												<legend>Duration</legend>
-												<label><input type="checkbox" id="persistent" checked> Keep toast open</label>
-												<label for="toastDuration">Auto-dismiss after</label>
-												<select id="toastDuration">
-													<option value="3000">3 seconds</option>
-													<option value="5000" selected>5 seconds</option>
-													<option value="8000">8 seconds</option>
-													<option value="12000">12 seconds</option>
-													<option value="Infinity">Infinite seconds</option>
-												</select>
+												<label><input type="checkbox" id="persistent" checked> Infinity</label>
+												<label for="toastDuration">Auto-dismiss after (seconds)</label>
+												<input id="toastDuration" type="number" min="0.1" step="0.1" value="5">
 											</fieldset>
 
 											<p>
@@ -471,7 +467,7 @@
 	<script>
 		(() => {
 			const DEFAULT_DURATION = 5000;
-			const LOADING_DURATION = 1200;
+			const DEFAULT_LOADING_DURATION = 1200;
 			const CLOSED_ANIMATION_DURATION = 200;
 			const EXPANDED_GAP_REM = 0.5;
 			const MAX_VISIBLE_TOASTS = 3;
@@ -486,6 +482,7 @@
 			const descriptionInput = document.getElementById('toastDescription');
 			const showDescriptionInput = document.getElementById('showDescription');
 			const typeInputs = document.querySelectorAll('input[name="toastType"]');
+			const loadingDurationInput = document.getElementById('toastLoadingDuration');
 			const actionInput = document.getElementById('toastAction');
 			const showActionInput = document.getElementById('showAction');
 			const iconFieldset = document.getElementById('iconFieldset');
@@ -527,14 +524,15 @@
 
 			function syncDurationState() {
 				if (persistentInput.checked) {
-					if (durationInput.value !== 'Infinity') {
+					if (durationInput.value !== '') {
 						state.lastFiniteDuration = durationInput.value;
 					}
-					durationInput.value = 'Infinity';
 					durationInput.disabled = true;
 				} else {
 					durationInput.disabled = false;
-					durationInput.value = state.lastFiniteDuration;
+					if (durationInput.value === '') {
+						durationInput.value = state.lastFiniteDuration;
+					}
 				}
 			}
 
@@ -546,15 +544,23 @@
 				actionInput.disabled = !showActionInput.checked;
 			}
 
-			function syncIconState() {
+			function syncTypeState() {
 				const isSuccess = getToastType() === 'success';
 				if (isSuccess) showIconInput.checked = true;
+				loadingDurationInput.disabled = !isSuccess;
 				iconFieldset.disabled = isSuccess;
 				iconInput.disabled = !showIconInput.checked;
 			}
 
 			function getToastType() {
 				return document.querySelector('input[name="toastType"]:checked').value;
+			}
+
+			function getDurationInMilliseconds(input, fallback, minimumSeconds = 0) {
+				const seconds = Number(input.value);
+				return Number.isFinite(seconds) && seconds >= minimumSeconds
+					? seconds * 1000
+					: fallback;
 			}
 
 			function readToastSettings() {
@@ -568,8 +574,8 @@
 					type,
 					loading: type === 'success',
 					loadingMessage: 'Saving',
-					loadingDuration: LOADING_DURATION,
-					duration: persistent ? Infinity : Number(durationInput.value),
+					loadingDuration: getDurationInMilliseconds(loadingDurationInput, DEFAULT_LOADING_DURATION),
+					duration: persistent ? Infinity : getDurationInMilliseconds(durationInput, DEFAULT_DURATION, 0.1),
 					persistent,
 					action: showActionInput.checked ? actionInput.value.trim() || null : null,
 					icon: showIconInput.checked ? iconInput.value.trim() : false,
@@ -736,7 +742,7 @@
 						div.querySelector('.saToastTitle').textContent = message;
 						layout();
 						startAutoDismiss();
-					}, options.loadingDuration ?? LOADING_DURATION);
+					}, options.loadingDuration ?? DEFAULT_LOADING_DURATION);
 				} else {
 					startAutoDismiss();
 				}
@@ -819,12 +825,12 @@
 			});
 			showDescriptionInput.addEventListener('change', syncDescriptionState);
 			showActionInput.addEventListener('change', syncActionState);
-			showIconInput.addEventListener('change', syncIconState);
-			typeInputs.forEach(input => input.addEventListener('change', syncIconState));
+			showIconInput.addEventListener('change', syncTypeState);
+			typeInputs.forEach(input => input.addEventListener('change', syncTypeState));
 			persistentInput.addEventListener('change', syncDurationState);
 			syncDescriptionState();
 			syncActionState();
-			syncIconState();
+			syncTypeState();
 			syncDurationState();
 
 			document.getElementById('trigger').addEventListener('click', addToast);
