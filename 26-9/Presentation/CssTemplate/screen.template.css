@@ -36354,6 +36354,188 @@ body.saPopup::before {
 .saMarkdownContent sup {
   top: -0.5rem;
 }
+/* Layout and readable native controls only; scoped to the POC. */
+markdown-editor {
+  display: block;
+  max-width: 65rem;
+  padding: 1rem;
+}
+markdown-editor label {
+  display: block;
+  font-weight: bold;
+}
+markdown-editor .markdown-editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid;
+}
+markdown-editor button,
+markdown-editor select {
+  appearance: auto;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid;
+  background: ButtonFace;
+  color: ButtonText;
+  font: inherit;
+}
+markdown-editor .markdown-editor-actions label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: normal;
+}
+markdown-editor .markdown-editor-table-menu summary {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid;
+  cursor: pointer;
+}
+markdown-editor .markdown-editor-table-menu div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+markdown-editor button:disabled {
+  opacity: 0.5;
+}
+markdown-editor button[aria-pressed="true"] {
+  background: Highlight;
+  color: HighlightText;
+}
+markdown-editor .markdown-editor-document {
+  min-height: 16rem;
+  padding: 0.75rem;
+  border: 1px solid;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  position: relative;
+}
+markdown-editor .markdown-editor-document > :first-child {
+  margin-top: 0;
+}
+markdown-editor .markdown-editor-document h1,
+markdown-editor .markdown-editor-document h2,
+markdown-editor .markdown-editor-document h3,
+markdown-editor .markdown-editor-document h4,
+markdown-editor .markdown-editor-document h5,
+markdown-editor .markdown-editor-document h6 {
+  margin-block: 1rem 0.5rem;
+}
+markdown-editor .markdown-editor-document ul {
+  list-style: disc;
+  padding-inline-start: 2rem;
+}
+markdown-editor .markdown-editor-document ol {
+  list-style: decimal;
+  padding-inline-start: 2rem;
+}
+markdown-editor .markdown-editor-document li p {
+  margin-block: 0.25rem;
+}
+markdown-editor .markdown-editor-document blockquote {
+  border-inline-start: 2px solid;
+  padding-inline-start: 1rem;
+  margin-block: 1rem;
+}
+markdown-editor .markdown-editor-document pre {
+  overflow-x: auto;
+  padding: 0.75rem;
+  border: 1px solid;
+  white-space: pre-wrap;
+}
+markdown-editor .markdown-editor-document code {
+  font-family: monospace;
+}
+markdown-editor .markdown-editor-document a {
+  color: var(--Sa-Color-Link);
+  text-decoration: underline;
+}
+markdown-editor .markdown-editor-document hr {
+  border: 0;
+  border-top: 1px solid;
+  margin-block: 1rem;
+}
+markdown-editor .markdown-editor-document img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+markdown-editor .markdown-editor-document .tableWrapper {
+  overflow-x: auto;
+  margin-block: 1rem;
+}
+markdown-editor .markdown-editor-document table {
+  border-collapse: collapse;
+  width: 100%;
+}
+markdown-editor .markdown-editor-document th,
+markdown-editor .markdown-editor-document td {
+  border: 1px solid;
+  padding: 0.5rem;
+  text-align: start;
+  vertical-align: top;
+}
+markdown-editor .markdown-editor-document th {
+  font-weight: bold;
+}
+markdown-editor .markdown-editor-document .selectedCell {
+  outline: 2px solid Highlight;
+  outline-offset: -2px;
+}
+markdown-editor .markdown-editor-document .ProseMirror-selectednode {
+  outline: 2px solid Highlight;
+}
+markdown-editor .markdown-editor-document .ProseMirror-separator {
+  display: inline;
+  border: 0;
+  margin: 0;
+}
+markdown-editor dialog {
+  padding: 1rem;
+  border: 1px solid;
+  max-width: calc(100% - 2rem);
+  color: CanvasText;
+  background: Canvas;
+}
+markdown-editor dialog input {
+  padding: 0.5rem;
+  border: 1px solid;
+  width: 24rem;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+markdown-editor dialog input[type="number"] {
+  width: 6rem;
+}
+markdown-editor dialog::backdrop {
+  background: rgba(0, 0, 0, 0.25);
+}
+markdown-editor textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 16rem;
+  padding: 0.75rem;
+  resize: vertical;
+  border: 1px solid;
+  background: Field;
+  color: FieldText;
+  font: 1rem/1.5 monospace;
+}
+markdown-editor :is(button, select, textarea, input, summary, [contenteditable]):focus-visible {
+  outline: 2px solid Highlight;
+  outline-offset: 2px;
+}
+markdown-editor p {
+  margin-block: 0.75rem;
+}
+markdown-editor [hidden] {
+  display: none;
+}
 .saToastGroup {
   display: flex;
   flex-direction: column;
