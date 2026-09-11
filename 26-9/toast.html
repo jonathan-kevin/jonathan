@@ -413,7 +413,7 @@
 											<fieldset>
 												<legend>Message</legend>
 												<label for="toastMessage">Message text<br><small>Inline Markdown: **bold**, *italic*, ~~strikethrough~~ and `code`.</small></label><br>
-												<input id="toastMessage" type="text" value="North on **crystal** dawn">
+												<input id="toastMessage" type="text" value="Press `Ctrl` + `S` to **save**">
 											</fieldset>
 
 											<fieldset>
@@ -476,6 +476,7 @@
 			const toastCreator = document.getElementById('toastCreator');
 			const toastGroup = document.getElementById('toastGroup');
 			const messageInput = document.getElementById('toastMessage');
+			const messagePresetButtons = document.querySelectorAll('.toastMessagePreset');
 			const typeInputs = document.querySelectorAll('input[name="toastType"]');
 			const iconInput = document.getElementById('toastIcon');
 			const durationInput = document.getElementById('toastDuration');
@@ -617,22 +618,47 @@
 				return String(value).replace(/[&<>"']/g, character => characters[character]);
 			}
 
-			function renderInlineMarkdown(value) {
-				const codeSpans = [];
-				let html = escapeHTML(value).replace(/\s*[\r\n]+\s*/g, ' ');
+			function getSafeLinkHref(value) {
+				try {
+					const url = new URL(value, document.baseURI);
+					return ['http:', 'https:'].includes(url.protocol) ? value : null;
+				} catch {
+					return null;
+				}
+			}
 
-				html = html.replace(/`([^`]+)`/g, (_, code) => {
-					const index = codeSpans.push(`<code>${code}</code>`) - 1;
+			function renderInlineMarkdown(value, allowLinks = true) {
+				const inlineTokens = [];
+				const addToken = html => {
+					const index = inlineTokens.push(html) - 1;
 					return `\uE000${index}\uE001`;
-				});
+				};
+				let source = String(value).replace(/\s*[\r\n]+\s*/g, ' ');
+
+				// Preserve Markdown-escaped punctuation before interpreting formatting.
+				source = source.replace(/\\([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~])/g, (_, character) => addToken(escapeHTML(character)));
+				source = source.replace(/`([^`]+)`/g, (_, code) => addToken(`<code>${escapeHTML(code)}</code>`));
+
+				if (allowLinks) {
+					source = source.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (markdown, label, href) => {
+						const safeHref = getSafeLinkHref(href);
+						return safeHref
+							? addToken(`<a href="${escapeHTML(safeHref)}">${renderInlineMarkdown(label, false)}</a>`)
+							: markdown;
+					});
+				}
+
+				let html = escapeHTML(source);
 				html = html
+					.replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>')
+					.replace(/___([^_]+)___/g, '<strong><em>$1</em></strong>')
 					.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
 					.replace(/__([^_]+)__/g, '<strong>$1</strong>')
 					.replace(/~~([^~]+)~~/g, '<del>$1</del>')
 					.replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, '$1<em>$2</em>')
 					.replace(/(^|[^_])_([^_]+)_(?!_)/g, '$1<em>$2</em>');
 
-				return html.replace(/\uE000(\d+)\uE001/g, (token, index) => codeSpans[Number(index)] ?? token);
+				return html.replace(/\uE000(\d+)\uE001/g, (token, index) => inlineTokens[Number(index)] ?? token);
 			}
 
 			function renderIcon({ icon, type }) {
@@ -785,6 +811,11 @@
 					updateLatestToast();
 				}
 			});
+			messagePresetButtons.forEach(button => button.addEventListener('click', () => {
+				messageInput.value = button.dataset.message;
+				updateLatestToast();
+				messageInput.focus();
+			}));
 			syncTypeState();
 			syncDurationState();
 
