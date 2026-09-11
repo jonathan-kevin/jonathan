@@ -435,7 +435,8 @@
 												<label><input type="checkbox" id="persistent">Infinity</label><br>
 												<label><input type="checkbox" id="showProgress">Show progress</label><br>
 												<label for="toastDuration">Auto-dismiss after (seconds)</label><br>
-												<input id="toastDuration" type="number" min="0.1" step="0.1" value="5">
+												<input id="toastDuration" type="number" min="5" step="0.1" value="5" aria-describedby="toastDurationHelp"><br>
+												<small id="toastDurationHelp">Minimum 5 seconds. WCAG 2.2.1 does not define a toast-specific minimum, but timed content must be pausable, adjustable, or extendable. Use Infinity for essential messages.</small>
 											</fieldset>
 
 											<p>
@@ -452,10 +453,11 @@
 			</div>
 		</div>
 	</div>
-	<div role="dialog" class="saToastGroup" id="toastGroup" aria-live="polite"></div>
+	<div class="saToastGroup" id="toastGroup"></div>
 	<script>
 		(() => {
 			const DEFAULT_DURATION = 5000;
+			const MINIMUM_DURATION_SECONDS = 5;
 			const CLOSED_ANIMATION_DURATION = 200;
 			const TYPE_ICONS = {
 				success: 'circle-check',
@@ -548,6 +550,15 @@
 					: fallback;
 			}
 
+			function normalizeDurationInput() {
+				if (persistentInput.checked) return;
+				const seconds = Number(durationInput.value);
+				if (!Number.isFinite(seconds) || seconds < MINIMUM_DURATION_SECONDS) {
+					durationInput.value = MINIMUM_DURATION_SECONDS;
+				}
+				state.lastFiniteDuration = durationInput.value;
+			}
+
 			function readToastSettings() {
 				const message = messageInput.value.trim() || 'Notification';
 				const type = getToastType();
@@ -556,7 +567,7 @@
 				return {
 					message,
 					type,
-					duration: persistent ? Infinity : getDurationInMilliseconds(durationInput, DEFAULT_DURATION, 0.1),
+					duration: persistent ? Infinity : getDurationInMilliseconds(durationInput, DEFAULT_DURATION, MINIMUM_DURATION_SECONDS),
 					persistent,
 					showProgress: !persistent && showProgressInput.checked,
 					icon: iconInput.value.trim() || null
@@ -576,10 +587,11 @@
 					: message;
 			}
 
-			function addToast() {
+			function addToast(returnFocusTo = document.activeElement) {
+				normalizeDurationInput();
 				const settings = readToastSettings();
 				const displayMessage = getDisplayMessage(settings.message);
-				const toast = createToast(displayMessage, settings);
+				const toast = createToast(displayMessage, { ...settings, returnFocusTo });
 
 				toastGroup.append(toast);
 				state.latestToast = toast;
@@ -601,7 +613,7 @@
 				state.latestToast.updateToast(state.latestToastDisplayMessage, settings);
 			}
 
-			function addRandomToast() {
+			function addRandomToast(returnFocusTo) {
 				messageInput.value = randomSentence(4, 7);
 				randomItem([...typeInputs]).checked = true;
 				syncTypeState();
@@ -610,7 +622,7 @@
 					iconInput.value = randomItem(fontAwesome6Icons);
 				}
 
-				addToast();
+				addToast(returnFocusTo);
 			}
 
 			function escapeHTML(value) {
@@ -669,9 +681,10 @@
 			}
 
 			function renderToast(message, options) {
+				const liveRole = options.type === 'error' || options.type === 'alert' ? 'alert' : 'status';
 				return `
 					${renderIcon(options)}
-					<div class="saToastText">${renderInlineMarkdown(message)}</div>
+					<div class="saToastText" role="${liveRole}" aria-atomic="true">${renderInlineMarkdown(message)}</div>
 					<button type="button" class="saCloseButton" aria-label="Dismiss notification">
 						<i class="far fa-xmark saIcon" aria-hidden="true"></i>
 					</button>`;
@@ -683,14 +696,19 @@
 				let closed = false;
 				let currentMessage = message;
 				let currentOptions = options;
+				const returnFocusTo = options.returnFocusTo;
 
 				const close = () => {
 					if (closed) return;
+					const shouldRestoreFocus = div.contains(document.activeElement);
 					closed = true;
 					timer?.cancel();
 					if (state.latestToast === div) state.latestToast = null;
 					div.classList.add('saClosed');
-					setTimeout(() => div.remove(), CLOSED_ANIMATION_DURATION);
+					setTimeout(() => {
+						div.remove();
+						if (shouldRestoreFocus && returnFocusTo?.isConnected) returnFocusTo.focus();
+					}, CLOSED_ANIMATION_DURATION);
 				};
 
 				const startAutoDismiss = () => {
@@ -725,7 +743,6 @@
 					}[currentOptions.type] || currentOptions.type || '';
 
 					div.className = `saToast ${typeClass}`.trim();
-					div.setAttribute('role', currentOptions.type === 'error' || currentOptions.type === 'alert' ? 'alert' : 'status');
 					startLifecycle();
 				};
 
@@ -794,11 +811,8 @@
 			toastGroup.addEventListener('mouseleave', syncTimerPauseState);
 			toastGroup.addEventListener('focusin', syncTimerPauseState);
 			toastGroup.addEventListener('focusout', syncTimerPauseState);
-			durationInput.addEventListener('change', () => {
-				if (!persistentInput.checked) {
-					state.lastFiniteDuration = durationInput.value;
-				}
-			});
+			durationInput.addEventListener('change', normalizeDurationInput);
+			durationInput.addEventListener('blur', normalizeDurationInput);
 			typeInputs.forEach(input => input.addEventListener('change', syncTypeState));
 			persistentInput.addEventListener('change', syncDurationState);
 			toastCreator.addEventListener('input', event => {
@@ -819,8 +833,8 @@
 			syncTypeState();
 			syncDurationState();
 
-			document.getElementById('trigger').addEventListener('click', addToast);
-			document.getElementById('randomTrigger').addEventListener('click', addRandomToast);
+			document.getElementById('trigger').addEventListener('click', event => addToast(event.currentTarget));
+			document.getElementById('randomTrigger').addEventListener('click', event => addRandomToast(event.currentTarget));
 		})();
 	</script>
 </body>
