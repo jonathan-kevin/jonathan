@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Toast</title>
-	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css?v=toast-description">
+	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css?v=toast-inline-markdown">
 	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
 	<meta name="description" content="Demo">
 	<meta property="og:image" content="./Presentation/img/og-img.png">
@@ -88,6 +88,14 @@
 												</div><span>Location finder</span>
 											</div>
 										</a></li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Menu</h3>
+								<ul class="saItemList">
+									<li><a class="saItem" tabindex="0" href="./btn-color.html"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-brain icon saIcon"></i></div><span>Button color<span class="saMenuItemPill saAdminOnly">Admin</span></div></a></li>
+									<li><a class="saItem" tabindex="0" href="./copy-clipboard.html"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-copy icon saIcon"></i></div><span>Copy to clipboard<span class="saMenuItemPill saBeta">Beta</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0" href="./toast.html"><div class="saItemInner"><div class="saIconWrapper"><i class="far fa-bread-slice icon saIcon"></i></div><span>Toast<span class="saMenuItemPill saDraft">Draft</span></span></div></a></li>
 								</ul>
 							</div>
 							<div class="saSideBarGroup">
@@ -241,7 +249,7 @@
 										</div>
 										<div class="saBottomRow">
 											<div class="saTitle">
-												<h1 class="saHeaderText">Toast</h1>
+												<h1 class="saHeaderText">Toast</h1><span class="saMenuItemPill saDraft">Draft</span>
 												<div class="saNoSpinner">
 													<button type="button" class="saFavoriteToggle"><i class="saIcon far fa-star"></i><i class="saIcon fas fa-star"></i></button>
 												</div>
@@ -331,7 +339,7 @@
 											<button class="saSmallScreenBackButton saButtonHeader" type="button"><i class="far fa-arrow-left saBack saIcon"></i></button>
 											<div class="saHeaderWrapper">
 												<div class="saTitle">
-													<h1 class="saHeaderText">Toast</h1>
+													<h1 class="saHeaderText">Toast<span class="saMenuItemPill saDraft">Draft</span></h1>
 												</div>
 											</div>
 											<button class="saNotifications saButtonHeader" type="button" aria-expanded="false">
@@ -404,56 +412,29 @@
 											</style>
 											<fieldset>
 												<legend>Message</legend>
-												<label for="toastMessage">Message text</label>
-												<input id="toastMessage" type="text" value="North on crystal dawn">
-											</fieldset>
-
-											<fieldset>
-												<legend>Description</legend>
-												<input type="checkbox" id="showDescription" aria-label="Include description">
-												<label for="toastDescription">Description text</label>
-												<input id="toastDescription" type="text" placeholder="Optional details" value="The violet whisper zenith">
+												<label for="toastMessage">Message text<br><small>Inline Markdown: **bold**, *italic*, ~~strikethrough~~ and `code`.</small></label><br>
+												<input id="toastMessage" type="text" value="North on **crystal** dawn">
 											</fieldset>
 
 											<fieldset>
 												<legend>Type</legend>
-												<label><input type="radio" name="toastType" value="" checked> Default</label>
-												<label><input type="radio" name="toastType" value="success"> Success</label>
-												<label><input type="radio" name="toastType" value="warning"> Warning</label>
-												<label><input type="radio" name="toastType" value="error"> Error</label>
-												<label><input type="radio" name="toastType" value="info"> Info</label>
-												<label><input type="radio" name="toastType" value="superSuccess"> Super success</label>
-												<label><input type="radio" name="toastType" value="superWarning"> Super warning</label>
-												<label><input type="radio" name="toastType" value="superError"> Super error</label>
-												<label><input type="radio" name="toastType" value="superInfo"> Super info</label>
-												<label><input type="radio" name="toastType" value="loadingSuccess"> Loading → success</label>
-												<label for="toastLoadingDuration">Duration before success (seconds)</label>
-												<input id="toastLoadingDuration" type="number" min="0" step="0.1" value="1.2">
-											</fieldset>
-
-											<fieldset id="iconFieldset">
-												<legend>Icon</legend>
-												<input type="checkbox" id="showIcon" aria-label="Include icon" checked>
-												<label for="toastIcon">Font Awesome 6 icon</label>
-												<input id="toastIcon" type="text" value="bird" placeholder="e.g. bird">
+												<label><input type="radio" name="toastType" value="info" checked>Default/Info</label><br>
+												<label><input type="radio" name="toastType" value="success">Success</label><br>
+												<label><input type="radio" name="toastType" value="warning">Warning</label><br>
+												<label><input type="radio" name="toastType" value="error">Error</label><br>
 											</fieldset>
 
 											<fieldset>
-												<legend>Action button</legend>
-												<input type="checkbox" id="showAction" aria-label="Include action button">
-												<label for="toastAction">Button label</label>
-												<input id="toastAction" type="text" value="Undo">
-											</fieldset>
-
-											<fieldset>
-												<legend>Dismiss button</legend>
-												<input type="checkbox" id="showDismiss" aria-label="Include dismiss button" checked>
+												<legend>Icon override</legend>
+												<label for="toastIcon">Font Awesome 6 icon (optional)</label><br>
+												<input id="toastIcon" type="text" placeholder="Default: circle-check">
 											</fieldset>
 
 											<fieldset>
 												<legend>Duration</legend>
-												<label><input type="checkbox" id="persistent" checked> Infinity</label>
-												<label for="toastDuration">Auto-dismiss after (seconds)</label>
+												<label><input type="checkbox" id="persistent">Infinity</label><br>
+												<label><input type="checkbox" id="showProgress">Show progress</label><br>
+												<label for="toastDuration">Auto-dismiss after (seconds)</label><br>
 												<input id="toastDuration" type="number" min="0.1" step="0.1" value="5">
 											</fieldset>
 
@@ -475,10 +456,13 @@
 	<script>
 		(() => {
 			const DEFAULT_DURATION = 5000;
-			const DEFAULT_LOADING_DURATION = 1200;
 			const CLOSED_ANIMATION_DURATION = 200;
-			const EXPANDED_GAP_REM = 0.5;
-			const MAX_VISIBLE_TOASTS = 3;
+			const TYPE_ICONS = {
+				success: 'circle-check',
+				warning: 'triangle-exclamation',
+				error: 'octagon-xmark',
+				info: 'circle-info'
+			};
 			const state = {
 				lastMessage: null,
 				duplicateCount: 0,
@@ -487,22 +471,16 @@
 				latestToastMessage: null,
 				latestToastDisplayMessage: null
 			};
+			const activeTimers = new Set();
 
 			const toastCreator = document.getElementById('toastCreator');
 			const toastGroup = document.getElementById('toastGroup');
 			const messageInput = document.getElementById('toastMessage');
-			const descriptionInput = document.getElementById('toastDescription');
-			const showDescriptionInput = document.getElementById('showDescription');
 			const typeInputs = document.querySelectorAll('input[name="toastType"]');
-			const loadingDurationInput = document.getElementById('toastLoadingDuration');
-			const actionInput = document.getElementById('toastAction');
-			const showActionInput = document.getElementById('showAction');
-			const iconFieldset = document.getElementById('iconFieldset');
 			const iconInput = document.getElementById('toastIcon');
-			const showIconInput = document.getElementById('showIcon');
 			const durationInput = document.getElementById('toastDuration');
 			const persistentInput = document.getElementById('persistent');
-			const showDismissInput = document.getElementById('showDismiss');
+			const showProgressInput = document.getElementById('showProgress');
 			const randomWords = [
 				'amber', 'autumn', 'bright', 'calm', 'cloud', 'coral', 'crystal', 'dawn',
 				'forest', 'gentle', 'golden', 'harbor', 'lunar', 'meadow', 'mist', 'north',
@@ -518,18 +496,23 @@
 				'heart', 'lightbulb', 'paper-plane', 'rocket', 'shield-check', 'sparkles',
 				'star', 'thumbs-up', 'wand-magic-sparkles'
 			];
-			const actionVerbs = [
-				'Approve', 'Download', 'Edit', 'Explore', 'Open', 'Retry', 'Review',
-				'Share', 'Undo', 'Update', 'View'
+			const inlineMarkdownStyles = [
+				['**', '**'],
+				['*', '*'],
+				['~~', '~~'],
+				['`', '`']
 			];
-
 			const randomItem = items => items[Math.floor(Math.random() * items.length)];
 
 			function randomSentence(minWords, maxWords) {
 				const wordCount = Math.floor(Math.random() * (maxWords - minWords + 1)) + minWords;
 				const words = Array.from({ length: wordCount }, () => randomItem(randomWords));
-				const sentence = words.join(' ');
-				return sentence.charAt(0).toUpperCase() + sentence.slice(1) + '.';
+				const styledWordIndex = Math.floor(Math.random() * words.length);
+				const [openingMarker, closingMarker] = randomItem(inlineMarkdownStyles);
+
+				words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
+				words[styledWordIndex] = `${openingMarker}${words[styledWordIndex]}${closingMarker}`;
+				return `${words.join(' ')}.`;
 			}
 
 			state.lastFiniteDuration = durationInput.value;
@@ -546,24 +529,11 @@
 						durationInput.value = state.lastFiniteDuration;
 					}
 				}
-			}
-
-			function syncDescriptionState() {
-				descriptionInput.disabled = !showDescriptionInput.checked;
-			}
-
-			function syncActionState() {
-				actionInput.disabled = !showActionInput.checked;
+				showProgressInput.disabled = persistentInput.checked;
 			}
 
 			function syncTypeState() {
-				const type = getToastType();
-				const isLoadingSuccess = type === 'loadingSuccess';
-				const hasBuiltInIcon = type !== '';
-				if (hasBuiltInIcon) showIconInput.checked = true;
-				loadingDurationInput.disabled = !isLoadingSuccess;
-				iconFieldset.disabled = hasBuiltInIcon;
-				iconInput.disabled = !showIconInput.checked;
+				iconInput.placeholder = `Default: ${TYPE_ICONS[getToastType()]}`;
 			}
 
 			function getToastType() {
@@ -584,16 +554,11 @@
 
 				return {
 					message,
-					description: showDescriptionInput.checked ? descriptionInput.value.trim() || null : null,
 					type,
-					loading: type === 'loadingSuccess',
-					loadingMessage: 'Saving',
-					loadingDuration: getDurationInMilliseconds(loadingDurationInput, DEFAULT_LOADING_DURATION),
 					duration: persistent ? Infinity : getDurationInMilliseconds(durationInput, DEFAULT_DURATION, 0.1),
 					persistent,
-					action: showActionInput.checked ? actionInput.value.trim() || null : null,
-					icon: showIconInput.checked ? iconInput.value.trim() : false,
-					showDismiss: showDismissInput.checked
+					showProgress: !persistent && showProgressInput.checked,
+					icon: iconInput.value.trim() || null
 				};
 			}
 
@@ -613,8 +578,7 @@
 			function addToast() {
 				const settings = readToastSettings();
 				const displayMessage = getDisplayMessage(settings.message);
-				const onAction = settings.action ? () => alert('Action clicked!') : null;
-				const toast = createToast(displayMessage, { ...settings, onAction });
+				const toast = createToast(displayMessage, settings);
 
 				toastGroup.append(toast);
 				state.latestToast = toast;
@@ -633,22 +597,15 @@
 					state.latestToastDisplayMessage = settings.message;
 				}
 
-				const onAction = settings.action ? () => alert('Action clicked!') : null;
-				state.latestToast.updateToast(state.latestToastDisplayMessage, { ...settings, onAction });
+				state.latestToast.updateToast(state.latestToastDisplayMessage, settings);
 			}
 
 			function addRandomToast() {
-				messageInput.value = randomSentence(2, 5);
+				messageInput.value = randomSentence(4, 7);
+				randomItem([...typeInputs]).checked = true;
+				syncTypeState();
 
-				if (showDescriptionInput.checked) {
-					descriptionInput.value = randomSentence(6, 12);
-				}
-
-				if (showActionInput.checked) {
-					actionInput.value = randomItem(actionVerbs);
-				}
-
-				if (!iconFieldset.disabled && showIconInput.checked) {
+				if (iconInput.value.trim()) {
 					iconInput.value = randomItem(fontAwesome6Icons);
 				}
 
@@ -660,68 +617,43 @@
 				return String(value).replace(/[&<>"']/g, character => characters[character]);
 			}
 
-			function renderIcon({ icon, loading, type }) {
-				const iconValue = typeof icon === 'string' ? icon.trim() : icon;
-				if (iconValue === false || iconValue === null || iconValue === '') return '';
+			function renderInlineMarkdown(value) {
+				const codeSpans = [];
+				let html = escapeHTML(value).replace(/\s*[\r\n]+\s*/g, ' ');
 
-				if (loading) {
-					return `
-						<div class="saLoadingWrapper saToastLoadingWrapper" aria-hidden="true">
-							<svg class="saLoading" viewBox="0 0 24 24">
-								<circle class="saLoadingCircle" cx="12" cy="12" r="12" fill="none"></circle>
-								<path class="saLoadingCheck" d="M6.29,12.58l3.14,3.19c.15,.15,.39,.15,.53,0l7.75-7.8" fill="none"></path>
-							</svg>
-							<div class="saLoadingSpinner"></div>
-						</div>`;
-				}
+				html = html.replace(/`([^`]+)`/g, (_, code) => {
+					const index = codeSpans.push(`<code>${code}</code>`) - 1;
+					return `\uE000${index}\uE001`;
+				});
+				html = html
+					.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+					.replace(/__([^_]+)__/g, '<strong>$1</strong>')
+					.replace(/~~([^~]+)~~/g, '<del>$1</del>')
+					.replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, '$1<em>$2</em>')
+					.replace(/(^|[^_])_([^_]+)_(?!_)/g, '$1<em>$2</em>');
 
-				const typeIcons = {
-					success: ['fas', 'circle-check'],
-					warning: ['fas', 'triangle-exclamation'],
-					error: ['fas', 'octagon-xmark'],
-					info: ['fas', 'circle-info'],
-					superSuccess: ['fas', 'circle-check'],
-					superWarning: ['fas', 'triangle-exclamation'],
-					superError: ['fas', 'octagon-xmark'],
-					superInfo: ['fas', 'circle-info']
-				};
-				const [style, name, stateClass = ''] = typeIcons[type]
-					|| ['far', String(iconValue || 'crow').replace(/[^a-z0-9-]/gi, '') || 'crow'];
-
-				const classes = [style, `fa-${name}`, 'saIcon', 'saToastIcon', stateClass].filter(Boolean).join(' ');
-				return `<i class="${classes}" aria-hidden="true"></i>`;
+				return html.replace(/\uE000(\d+)\uE001/g, (token, index) => codeSpans[Number(index)] ?? token);
 			}
 
-			function renderActions({ action, showDismiss }) {
-				if (!action && !showDismiss) return '';
-
-				return `
-					<div class="saToastActions">
-						${action ? `
-							<button type="button" class="saToastButton">
-								<div class="saButtonText">${escapeHTML(action)}</div>
-							</button>` : ''}
-						${showDismiss ? `
-							<button type="button" class="saCloseButton" aria-label="Dismiss notification">
-								<i class="far fa-xmark saIcon" aria-hidden="true"></i>
-							</button>` : ''}
-					</div>`;
+			function renderIcon({ icon, type }) {
+				const overrideClasses = String(icon || '').trim().split(/\s+/);
+				const overrideName = overrideClasses.filter(value => /^fa-[a-z0-9-]+$/i.test(value) && !/^fa-(solid|regular|brands)$/i.test(value)).pop();
+				const name = String(overrideName || icon || TYPE_ICONS[type]).replace(/^fa-/, '').replace(/[^a-z0-9-]/gi, '') || TYPE_ICONS[type];
+				return `<i class="fas fa-${name} saIcon saToastIcon" aria-hidden="true"></i>`;
 			}
 
-			function renderToast(message, options, isLoading) {
+			function renderToast(message, options) {
 				return `
 					${renderIcon(options)}
-					<div class="saToastText">
-						<div class="saToastTitle">${escapeHTML(isLoading ? options.loadingMessage || 'Saving' : message)}</div>
-						${options.description ? `<div class="saToastDescription">${escapeHTML(options.description)}</div>` : ''}
-					</div>
-					${renderActions(options)}`;
+					<div class="saToastText">${renderInlineMarkdown(message)}</div>
+					<button type="button" class="saCloseButton" aria-label="Dismiss notification">
+						<i class="far fa-xmark saIcon" aria-hidden="true"></i>
+					</button>`;
 			}
 
 			function createToast(message, options = {}) {
 				const div = document.createElement('div');
 				let timer = null;
-				let completionTimer = null;
 				let closed = false;
 				let currentMessage = message;
 				let currentOptions = options;
@@ -729,49 +661,31 @@
 				const close = () => {
 					if (closed) return;
 					closed = true;
-					clearTimeout(completionTimer);
 					timer?.cancel();
 					if (state.latestToast === div) state.latestToast = null;
 					div.classList.add('saClosed');
-					layout(); // Re-index active toasts in the same frame as the closing animation.
 					setTimeout(() => div.remove(), CLOSED_ANIMATION_DURATION);
 				};
 
 				const startAutoDismiss = () => {
+					div.style.removeProperty('--toast-progress');
 					if (currentOptions.persistent || closed) return;
-					timer = attachTimer(div, currentOptions.duration ?? DEFAULT_DURATION, close);
-					if (div.matches(':hover, :focus-within')) timer.pause();
+					timer = attachTimer(div, currentOptions.duration ?? DEFAULT_DURATION, close, currentOptions.showProgress);
+					if (toastGroup.matches(':hover, :focus-within')) timer.pause();
 				};
 
-				function bindActions() {
+				function bindDismissButton() {
 					div.querySelector('.saCloseButton')?.addEventListener('click', close);
-					div.querySelector('.saToastButton')?.addEventListener('click', () => {
-						currentOptions.onAction?.();
-						close();
-					});
 				}
 
 				function startLifecycle() {
-					const isLoading = currentOptions.loading === true;
-					div.innerHTML = renderToast(currentMessage, currentOptions, isLoading);
-					bindActions();
-
-					if (isLoading) {
-						completionTimer = setTimeout(() => {
-							if (closed) return;
-							div.classList.add('saDone');
-							div.querySelector('.saToastTitle').textContent = currentMessage;
-							layout();
-							startAutoDismiss();
-						}, currentOptions.loadingDuration ?? DEFAULT_LOADING_DURATION);
-					} else {
-						startAutoDismiss();
-					}
+					div.innerHTML = renderToast(currentMessage, currentOptions);
+					bindDismissButton();
+					startAutoDismiss();
 				}
 
 				div.updateToast = (nextMessage, nextOptions) => {
 					if (closed) return;
-					clearTimeout(completionTimer);
 					timer?.cancel();
 					timer = null;
 					currentMessage = nextMessage;
@@ -781,44 +695,38 @@
 						success: 'saSuccess',
 						warning: 'saWarning',
 						error: 'saError',
-						info: 'saInfo',
-						superSuccess: 'saSuccessSuper',
-						superWarning: 'saWarningSuper',
-						superError: 'saErrorSuper',
-						superInfo: 'saInfoSuper',
-						loadingSuccess: 'saLoadingSuccess'
+						info: 'saInfo'
 					}[currentOptions.type] || currentOptions.type || '';
 
 					div.className = `saToast ${typeClass}`.trim();
-					div.setAttribute('role', currentOptions.type === 'error' || currentOptions.type === 'superError' || currentOptions.type === 'alert' ? 'alert' : 'status');
+					div.setAttribute('role', currentOptions.type === 'error' || currentOptions.type === 'alert' ? 'alert' : 'status');
 					startLifecycle();
-					layout();
 				};
 
-				// These listeners remain valid when live editing replaces the toast contents.
-				div.addEventListener('mouseenter', () => timer?.pause());
-				div.addEventListener('mouseleave', () => timer?.resume());
-				div.addEventListener('focusin', () => timer?.pause());
-				div.addEventListener('focusout', () => timer?.resume());
 				div.updateToast(message, options);
 
 				return div;
 			}
 
 			// Timer function (smooth progress)
-			function attachTimer(toastEl, duration, onDone) {
+			function attachTimer(toastEl, duration, onDone, showProgress) {
 				let endTime = performance.now() + duration;
 				let remaining = duration;
 				let raf;
 				let paused = false;
 				let canceled = false;
+				let controls;
 
 				function update(now) {
 					if (paused || canceled) return;
 					const timeLeft = Math.max(0, endTime - now);
-					toastEl.style.setProperty('--toast-progress', `${(timeLeft / duration) * 100}%`);
+					if (showProgress) {
+						toastEl.style.setProperty('--toast-progress', `${(timeLeft / duration) * 100}%`);
+					}
 
 					if (timeLeft <= 0) {
+						canceled = true;
+						activeTimers.delete(controls);
 						onDone();
 						return;
 					}
@@ -828,6 +736,7 @@
 				function cancel() {
 					canceled = true;
 					cancelAnimationFrame(raf);
+					activeTimers.delete(controls);
 				}
 
 				function pause() {
@@ -844,43 +753,26 @@
 					raf = requestAnimationFrame(update);
 				}
 
+				controls = { pause, resume, cancel };
+				activeTimers.add(controls);
 				raf = requestAnimationFrame(update);
-				return { pause, resume, cancel };
+				return controls;
 			}
 
-			// Writes --i (stack depth, 0 = newest) and --expandY (measured px offset
-			// from the bottom) onto every non-closing toast. Toasts beyond the front
-			// three stay hidden until the group is expanded. Runs on every add/remove
-			// and explicitly when a toast starts closing, so the rest of the stack
-			// shifts down immediately instead of waiting for its removal.
-			function layout() {
-				const toasts = [...toastGroup.children].filter(el => !el.classList.contains('saClosed'));
-				const rootPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
-				const gap = EXPANDED_GAP_REM * rootPx;
-
-				toasts.forEach((toast, domIndex) => {
-					const stackIndex = toasts.length - 1 - domIndex;
-					toast.style.setProperty('--i', stackIndex);
-					toast.classList.toggle('saToastBehindStack', stackIndex >= MAX_VISIBLE_TOASTS);
-				});
-
-				let cumulative = 0;
-				for (let i = toasts.length - 1; i >= 0; i--) {
-					toasts[i].style.setProperty('--expandY', cumulative);
-					cumulative += toasts[i].offsetHeight + gap;
-				}
+			function syncTimerPauseState() {
+				const method = toastGroup.matches(':hover, :focus-within') ? 'pause' : 'resume';
+				activeTimers.forEach(timer => timer[method]());
 			}
 
-			new MutationObserver(layout).observe(toastGroup, { childList: true });
-			layout();
+			toastGroup.addEventListener('mouseenter', syncTimerPauseState);
+			toastGroup.addEventListener('mouseleave', syncTimerPauseState);
+			toastGroup.addEventListener('focusin', syncTimerPauseState);
+			toastGroup.addEventListener('focusout', syncTimerPauseState);
 			durationInput.addEventListener('change', () => {
 				if (!persistentInput.checked) {
 					state.lastFiniteDuration = durationInput.value;
 				}
 			});
-			showDescriptionInput.addEventListener('change', syncDescriptionState);
-			showActionInput.addEventListener('change', syncActionState);
-			showIconInput.addEventListener('change', syncTypeState);
 			typeInputs.forEach(input => input.addEventListener('change', syncTypeState));
 			persistentInput.addEventListener('change', syncDurationState);
 			toastCreator.addEventListener('input', event => {
@@ -893,8 +785,6 @@
 					updateLatestToast();
 				}
 			});
-			syncDescriptionState();
-			syncActionState();
 			syncTypeState();
 			syncDurationState();
 
