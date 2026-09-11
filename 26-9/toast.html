@@ -459,6 +459,7 @@
 			const DEFAULT_DURATION = 5000;
 			const MINIMUM_DURATION_SECONDS = 5;
 			const CLOSED_ANIMATION_DURATION = 200;
+			const LIVE_REGION_DELAY = 100;
 			const TYPE_ICONS = {
 				success: 'circle-check',
 				warning: 'triangle-exclamation',
@@ -680,12 +681,19 @@
 				return `<i class="fas fa-${name} saIcon saToastIcon" aria-hidden="true"></i>`;
 			}
 
+			function getAccessibleMessage(value) {
+				const container = document.createElement('span');
+				container.innerHTML = renderInlineMarkdown(value);
+				return container.textContent.trim() || 'Notification';
+			}
+
 			function renderToast(message, options) {
-				const liveRole = options.type === 'error' || options.type === 'alert' ? 'alert' : 'status';
+				const urgent = options.type === 'error' || options.type === 'alert';
+				const dismissLabel = `Dismiss notification: ${getAccessibleMessage(message)}`;
 				return `
 					${renderIcon(options)}
-					<div class="saToastText" role="${liveRole}" aria-atomic="true">${renderInlineMarkdown(message)}</div>
-					<button type="button" class="saCloseButton" aria-label="Dismiss notification">
+					<div class="saToastText" role="${urgent ? 'alert' : 'status'}"${urgent ? '' : ' aria-live="polite"'} aria-relevant="additions text" aria-atomic="true"></div>
+					<button type="button" class="saCloseButton" aria-label="${escapeHTML(dismissLabel)}">
 						<i class="far fa-xmark saIcon" aria-hidden="true"></i>
 					</button>`;
 			}
@@ -693,15 +701,21 @@
 			function createToast(message, options = {}) {
 				const div = document.createElement('div');
 				let timer = null;
+				let renderTimeout = null;
+				let renderedMessage = null;
 				let closed = false;
 				let currentMessage = message;
 				let currentOptions = options;
 				const returnFocusTo = options.returnFocusTo;
+				div.innerHTML = renderToast(message, options);
+				const messageElement = div.querySelector('.saToastText');
+				const dismissButton = div.querySelector('.saCloseButton');
 
 				const close = () => {
 					if (closed) return;
 					const shouldRestoreFocus = div.contains(document.activeElement);
 					closed = true;
+					clearTimeout(renderTimeout);
 					timer?.cancel();
 					if (state.latestToast === div) state.latestToast = null;
 					div.classList.add('saClosed');
@@ -718,18 +732,11 @@
 					if (toastGroup.matches(':hover, :focus-within')) timer.pause();
 				};
 
-				function bindDismissButton() {
-					div.querySelector('.saCloseButton')?.addEventListener('click', close);
-				}
-
-				function startLifecycle() {
-					div.innerHTML = renderToast(currentMessage, currentOptions);
-					bindDismissButton();
-					startAutoDismiss();
-				}
+				dismissButton.addEventListener('click', close);
 
 				div.updateToast = (nextMessage, nextOptions) => {
 					if (closed) return;
+					clearTimeout(renderTimeout);
 					timer?.cancel();
 					timer = null;
 					currentMessage = nextMessage;
@@ -743,7 +750,27 @@
 					}[currentOptions.type] || currentOptions.type || '';
 
 					div.className = `saToast ${typeClass}`.trim();
-					startLifecycle();
+					div.querySelector('.saToastIcon').outerHTML = renderIcon(currentOptions);
+					dismissButton.setAttribute('aria-label', `Dismiss notification: ${getAccessibleMessage(currentMessage)}`);
+					const urgent = currentOptions.type === 'error' || currentOptions.type === 'alert';
+					messageElement.setAttribute('role', urgent ? 'alert' : 'status');
+					if (urgent) {
+						messageElement.removeAttribute('aria-live');
+					} else {
+						messageElement.setAttribute('aria-live', 'polite');
+					}
+
+					// Let assistive technology register the empty live region before filling it.
+					// Keep that same element for updates, and start the timer once text is visible.
+					renderTimeout = setTimeout(() => {
+						if (closed || !div.isConnected) return;
+						const html = renderInlineMarkdown(currentMessage);
+						if (html !== renderedMessage) {
+							messageElement.innerHTML = html;
+							renderedMessage = html;
+						}
+						startAutoDismiss();
+					}, LIVE_REGION_DELAY);
 				};
 
 				div.updateToast(message, options);
