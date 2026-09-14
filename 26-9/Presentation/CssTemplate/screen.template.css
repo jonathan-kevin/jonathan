@@ -295,7 +295,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Lexend', Arial, sans-serif;
+  font-family: var(--Font);
   color: var(--Sa-Color-Text);
   margin: 0;
   padding: 0;
@@ -366,10 +366,18 @@ h6 {
   src: url(../../Fonts/Lexend-VariableFont_wght.ttf) format("truetype");
   font-weight: 100 900;
 }
+@font-face {
+  font-family: "Geist";
+  src: url(../../Fonts/Geist-VariableFont_wght.ttf) format("truetype");
+  font-weight: 100 900;
+}
+:root {
+  --Font: 'Lexend', sans-serif;
+}
 .saThemeSelect {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -717,7 +725,7 @@ table,
 td,
 textarea,
 th {
-  font-family: 'Lexend', Arial, sans-serif;
+  font-family: var(--Font);
   font-size: 100%;
 }
 code {
@@ -1085,7 +1093,7 @@ button.saFormButton:not(.busy) .icon {
 .btnfield .saFormButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -2408,7 +2416,7 @@ div.saPopupOverlay {
 .saInfoBoxCopyButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -2428,7 +2436,7 @@ div.saPopupOverlay {
   min-width: 1.5rem;
   font-size: 0.875rem;
   transition: color 0.2s, background-color 0.2s, border-color 0.2s, transform 0.2s, border-radius 0.2s, opacity 0.1s;
-  background-color: light-dark(var(--White), var(--Gray1200));
+  background-color: light-dark(transparent, var(--Gray1200));
   opacity: 0;
   position: absolute;
   inset: -0.25rem -1.75rem auto auto;
@@ -2525,7 +2533,11 @@ div.saPopupOverlay {
 .saUserHtmlContent .saInfoBoxCopyButton {
   inset: 0 0 auto auto;
 }
+.saMarkdownEditorCodeBlock .saInfoBoxCopyButton {
+  inset: 1rem 1rem auto auto;
+}
 .saInfoBoxCopyButton:focus-visible,
+.saMarkdownEditorCodeBlock:is(:hover, :focus-within) .saInfoBoxCopyButton,
 .saInfoBoxGrid .saInfoBoxContent:is(:hover, :focus, :active) .saInfoBoxCopyButton,
 .saInfoBoxCol:is(:hover, :focus, :active) .saInfoBoxCopyButton {
   opacity: 1;
@@ -2891,7 +2903,7 @@ div.saPopupOverlay {
 .saInfoBoxArea .saExpandButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -3155,7 +3167,7 @@ div.saPopupOverlay {
 .saInfoArea .saWarningBox .saWarningButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -3415,7 +3427,7 @@ div.saPopupOverlay {
 .saPagination button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -3750,7 +3762,7 @@ div.saPopupOverlay {
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -4101,7 +4113,7 @@ div.saPopupOverlay {
 .saGridTop .saGridButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -4791,7 +4803,7 @@ div.saPopupOverlay {
 .saGrid .saGridExpandAllButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -5473,7 +5485,7 @@ div.saPopupOverlay {
   flex: 1;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -5735,7 +5747,7 @@ div.saPopupOverlay {
 .saNotificationsWrapper .saCloseModal {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -5842,7 +5854,7 @@ div.saPopupOverlay {
 .saNotificationsWrapper .saClearAll {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -6400,7 +6412,7 @@ div.saPopupOverlay {
 .saSideBar .saButtonFavoritesEdit {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -6670,7 +6682,7 @@ div.saPopupOverlay {
   position: relative;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -6958,7 +6970,7 @@ div.saPopupOverlay {
 .saSideBar .saExpander {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -7716,7 +7728,7 @@ div.saPopupOverlay {
 .saPartButtons .saSpecialLinksWrapper button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -7906,7 +7918,7 @@ div.saPopupOverlay {
 .saPartButtons .saActionLinks .saMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -8101,7 +8113,7 @@ div.saPopupOverlay {
 .saPartButtons .saActionLinks .saActionLink:not(.saButtonSplit) {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -8193,7 +8205,7 @@ div.saPopupOverlay {
 .saPartButtons .saNavigationLinks .saMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -8325,7 +8337,7 @@ div.saPopupOverlay {
 .saPartButtons .saNavigationLinks .saNavigationLink {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   justify-content: center;
   box-sizing: border-box;
@@ -8487,7 +8499,7 @@ div.saPopupOverlay {
 .saPartButtons .saBrowseButtons .saBrowseButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -8838,7 +8850,7 @@ div.saPopupOverlay {
 .saPageHeader .saBackButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -9204,7 +9216,7 @@ div.saPopupOverlay {
 .saButtonHeader {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -9331,7 +9343,7 @@ div.saPopupOverlay {
 .saSmallScreen .saExpandWrapper .saExpand {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -9536,7 +9548,7 @@ div.saPopupOverlay {
 .saAlert .saAlertButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -9877,7 +9889,7 @@ div.saPopupOverlay {
 .saDefaultButtonPrimary {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -10007,7 +10019,7 @@ div.saPopupOverlay {
 .saDefaultButtonSecondary {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -10193,7 +10205,7 @@ div.saPopupOverlay {
 .saDefaultIconButtonGhost {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -10378,7 +10390,7 @@ div.saPopupOverlay {
 .saColorBtn {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -10688,7 +10700,7 @@ div.saPopupOverlay {
 .saClosePopupButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -10812,7 +10824,7 @@ div.saPopupOverlay {
 .saButtonSplit button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -11144,7 +11156,7 @@ div.saPopupOverlay {
 .saErrorView .saErrorViewButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -11385,7 +11397,7 @@ div.saPopupOverlay {
 .saLogin .saLoginInner .saLoginPageButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -11755,7 +11767,7 @@ div.saPopupOverlay {
 .saColumnManager .saCloseColumnManager {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -12700,7 +12712,7 @@ div.saPopupOverlay {
 .saGalleryWrapper .saGalleryItem .saMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -13025,7 +13037,7 @@ div.saPopupOverlay {
 .saImageCarouselWrapper .saCarouselInfoButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -13253,7 +13265,7 @@ div.saPopupOverlay {
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -13410,7 +13422,7 @@ div.saPopupOverlay {
 .saImageCarouselWrapper .saCarousel .saActionLinks .saActionLink:not(.saButtonSplit) {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -13485,7 +13497,7 @@ div.saPopupOverlay {
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -13594,7 +13606,7 @@ div.saPopupOverlay {
 .saImageCarouselWrapper .saCarousel .saNavigationLinks .saNavigationLink {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   justify-content: center;
   box-sizing: border-box;
@@ -13727,7 +13739,7 @@ div.saPopupOverlay {
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -13971,7 +13983,7 @@ div.saPopupOverlay {
 .saImageCarouselWrapper .saCarouselButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -14173,7 +14185,7 @@ div.saPopupOverlay {
 .saImageCarouselWrapper .saCarouselButtonClose {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   align-items: center;
@@ -15477,7 +15489,7 @@ select.saInputText {
 .saIconOnlyFieldButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -15641,7 +15653,7 @@ select.saInputText {
 .saLabeledFieldButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -16917,7 +16929,7 @@ select.saInputText {
 .saInputPageFooter .saFormButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -18281,7 +18293,7 @@ legend + .saInputCardsWrapper {
   -moz-appearance: none;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   display: flex;
   align-items: center;
@@ -18373,7 +18385,7 @@ legend + .saInputCardsWrapper {
 .saDatePickerRoot .saMonthBrowser button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -18646,7 +18658,7 @@ legend + .saInputCardsWrapper {
 .saDatePickerRoot .saTodayLink {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -18825,7 +18837,7 @@ legend + .saInputCardsWrapper {
 .saDatePickerRoot .saButtonRow .saDatePickerButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -18999,7 +19011,7 @@ legend + .saInputCardsWrapper {
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -19827,7 +19839,7 @@ legend + .saInputCardsWrapper {
 .saFileUploadAreaWrapper .saDeleteButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -20325,18 +20337,18 @@ legend + .saInputCardsWrapper {
 }
 .tox {
   color: var(--Sa-Color-Text) !important;
-  font-family: "Lexend", sans-serif !important;
+  font-family: var(--Font) !important;
 }
 .tox-tinymce {
   border: none !important;
-  font-family: "Lexend", sans-serif !important;
+  font-family: var(--Font) !important;
   border-radius: 0.5rem !important;
 }
 .tox-tinymce-aux {
-  font-family: "Lexend", sans-serif !important;
+  font-family: var(--Font) !important;
 }
 .tox .tox-button {
-  font-family: "Lexend", sans-serif !important;
+  font-family: var(--Font) !important;
 }
 .tox .tox-editor-container .tox-menubar,
 .tox .tox-editor-container .tox-toolbar-overlord,
@@ -20452,7 +20464,7 @@ legend + .saInputCardsWrapper {
   border: none;
   width: 1.5rem;
   color: var(--Sa-Color-Text);
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font);
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
 }
@@ -20986,7 +20998,7 @@ legend + .saInputCardsWrapper {
 .saMultiPickerItem .saDeleteButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -21691,7 +21703,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saSignatureCanvasRoot.saSignatureLargeScreen .saCanvasButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -21988,7 +22000,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saSignatureCanvasRoot.saSignatureCanvasPopupRoot .saClosePopup {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -22774,7 +22786,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saMenuBoxWrapper .saHelpLink {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -23932,7 +23944,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 .saMessageBanner .saCloseButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -24472,7 +24484,7 @@ softadmin-nodegraph .saNodeTools {
 softadmin-nodegraph .saNodeTools button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -25329,7 +25341,7 @@ body.saMiniView {
   width: 2.5rem;
   border: none;
   box-shadow: inset 0 0 0 1px light-dark(var(--Gray200), var(--Gray800));
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font);
   color: var(--Sa-Color-Text);
   padding: 0;
   text-align: center;
@@ -25638,7 +25650,7 @@ body.saMiniView {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font);
   color: var(--Sa-Color-Text);
   background: light-dark(var(--White), var(--Gray1200));
   font-size: 1rem;
@@ -25712,7 +25724,7 @@ body.saMiniView {
 .saGroupView .saGroupViewButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -26143,7 +26155,7 @@ body.saMiniView {
 .saPdfTemplateEditor .saPageButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -26523,7 +26535,7 @@ body.saMiniView {
 .saPdfTemplateEditor .saToolbarButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -26873,7 +26885,7 @@ body.saMiniView {
 .saPivotGridWrapper .saPivotGridFiller .saTopLeftCell .saPivotGridTopButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -27193,7 +27205,7 @@ body.saMiniView {
 .saPivotGridWrapper .saLinkButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -27358,7 +27370,7 @@ body.saMiniView {
 .saProgressOuter .saProgressWrapper .saProgressButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -27628,7 +27640,7 @@ body.saMiniView {
   margin-top: 0 !important;
 }
 .saHelpPage * {
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font);
   color: var(--Sa-Color-Text);
 }
 .saHelpPage img {
@@ -27752,7 +27764,7 @@ body.saMiniView {
 .saCalendarOverlay .saChangeScreenModeButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -27933,7 +27945,7 @@ body.saMiniView {
 .saCalendarSection .saPeriodButtons button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -28055,7 +28067,7 @@ body.saMiniView {
 .saCalendarSection .saTodayButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -28557,7 +28569,7 @@ body.saMiniView {
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -29093,7 +29105,7 @@ body.saMiniView {
 .saDesktopCalendar.saWeekdaysCalendar .saShowMoreButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -29360,7 +29372,7 @@ body.saMiniView {
 .saDesktopCalendar.saResourceCalendar .saCalendarResourceFilter .saResourceFilterExpandButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -29686,7 +29698,7 @@ body.saMiniView {
 .saSmallScreenCalendar.saCalendarSection .saCalendarHeadingButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -30649,7 +30661,7 @@ body.saMiniView {
 .saVisibleParametersWrapper .saVisibleParametersButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -31023,7 +31035,7 @@ a.saKpiOuter:active {
 .saBankgiroLink button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -31319,7 +31331,7 @@ a.saKpiOuter:active {
 .saBankIdWrapper button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -31467,7 +31479,7 @@ a.saKpiOuter:active {
   right: 0.5rem;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -32513,7 +32525,7 @@ a.saKpiOuter:active {
 .saToolbox .saToolboxButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -33124,7 +33136,7 @@ a.saKpiOuter:active {
 .saPlanner .saUnbooked .saExpandButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -33796,7 +33808,7 @@ a.saKpiOuter:active {
   color: var(--Sa-Color-TextSecondary);
 }
 .saInfoSqlChartWrapper .saChartWrapper .saXYChartLabel {
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font);
   color: var(--Sa-Color-TextSecondary);
   fill: var(--Sa-Color-TextSecondary);
 }
@@ -34553,7 +34565,7 @@ body.saPopup::before {
 .saChatWrapper .saChatToolbar button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -34674,7 +34686,7 @@ body.saPopup::before {
 .saChatWrapper .saChatToolbarMenu button {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -34928,7 +34940,7 @@ body.saPopup::before {
 .saChatWrapper .saLoadMessagesButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -35083,7 +35095,7 @@ body.saPopup::before {
 .saChatWrapper .saChatButtonStop {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -36008,7 +36020,7 @@ body.saPopup::before {
 .saBottomSheet .saSheetButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -36193,7 +36205,7 @@ body.saPopup::before {
 .saLightboxOverlay .saLightboxCloseButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -36507,18 +36519,19 @@ body.saPopup::before {
   display: block;
   max-width: 65rem;
 }
-.markdown-editor-table-menu summary {
-  padding: 0.25rem 0.5rem;
-  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
-  cursor: pointer;
+.markdown-editor-table-menu {
+  position: relative;
 }
-.markdown-editor-table-menu div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+.markdown-editor-table-menu > .saContextMenu {
+  top: calc(100% + 0.25rem);
+}
+.markdown-editor-table-menu .saActionLinkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 .saMarkdownEditorDocument {
+  height: calc(100vh - 6rem - 7rem);
   min-height: 20rem;
   padding: 1rem;
   border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
@@ -36533,6 +36546,9 @@ body.saPopup::before {
 .saMarkdownEditorDocument * {
   box-sizing: border-box;
 }
+.saMarkdownEditorDocument[contenteditable] {
+  overflow-y: auto;
+}
 .saMarkdownEditorDocument:focus-visible {
   outline: none;
 }
@@ -36545,14 +36561,14 @@ body.saPopup::before {
 .saMarkdownEditorDocument h4,
 .saMarkdownEditorDocument h5,
 .saMarkdownEditorDocument h6 {
-  margin-block: 1rem 0.5rem;
+  margin-block: 1rem 0rem;
 }
 .saMarkdownEditorDocument p {
   line-height: 1.5rem;
 }
 .saMarkdownEditorDocument strong {
   line-height: 1.5rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 .saMarkdownEditorDocument ul {
   list-style: disc;
@@ -36593,6 +36609,49 @@ body.saPopup::before {
   border-radius: none;
   font-size: 0.875rem;
 }
+.saMarkdownEditorDocument .hljs-comment,
+.saMarkdownEditorDocument .hljs-quote {
+  color: var(--Sa-Color-TextSecondary);
+}
+.saMarkdownEditorDocument .hljs-keyword,
+.saMarkdownEditorDocument .hljs-selector-tag,
+.saMarkdownEditorDocument .hljs-type {
+  color: light-dark(var(--Purple700), var(--Purple300));
+}
+.saMarkdownEditorDocument .hljs-string,
+.saMarkdownEditorDocument .hljs-regexp,
+.saMarkdownEditorDocument .hljs-addition {
+  color: light-dark(var(--Green700), var(--Green300));
+}
+.saMarkdownEditorDocument .hljs-number,
+.saMarkdownEditorDocument .hljs-literal,
+.saMarkdownEditorDocument .hljs-deletion {
+  color: light-dark(var(--Red700), var(--Red300));
+}
+.saMarkdownEditorDocument .hljs-title,
+.saMarkdownEditorDocument .hljs-section,
+.saMarkdownEditorDocument .hljs-selector-id,
+.saMarkdownEditorDocument .hljs-selector-class {
+  color: light-dark(var(--Blue700), var(--Blue300));
+}
+.saMarkdownEditorDocument .hljs-attr,
+.saMarkdownEditorDocument .hljs-attribute,
+.saMarkdownEditorDocument .hljs-variable,
+.saMarkdownEditorDocument .hljs-template-variable,
+.saMarkdownEditorDocument .hljs-built_in,
+.saMarkdownEditorDocument .hljs-symbol {
+  color: light-dark(var(--Orange800), var(--Orange300));
+}
+.saMarkdownEditorDocument .hljs-comment,
+.saMarkdownEditorDocument .hljs-quote,
+.saMarkdownEditorDocument .hljs-meta {
+  font-style: italic;
+}
+.saMarkdownEditorDocument .hljs-keyword,
+.saMarkdownEditorDocument .hljs-title,
+.saMarkdownEditorDocument .hljs-section {
+  font-weight: 600;
+}
 .saMarkdownEditorDocument [data-text-color='muted'] {
   color: var(--Sa-Color-TextSecondary);
 }
@@ -36627,7 +36686,6 @@ body.saPopup::before {
   margin-block: 1rem;
 }
 .saMarkdownEditorDocument table {
-  border-collapse: collapse;
   width: 100%;
 }
 .saMarkdownEditorDocument tr {
@@ -36635,25 +36693,40 @@ body.saPopup::before {
 }
 .saMarkdownEditorDocument th,
 .saMarkdownEditorDocument td {
-  border: 1px solid transparent;
-  border-bottom: 0.0625rem solid light-dark(var(--Gray100), var(--Gray1000));
+  border-top: 0.0625rem solid;
+  border-left: 0.0625rem solid;
+  border-color: light-dark(var(--Gray150), var(--Gray1000));
   text-align: left;
   vertical-align: middle;
   height: 2.5rem;
+  padding: 0.25rem 0.75rem;
+}
+.saMarkdownEditorDocument th:last-child,
+.saMarkdownEditorDocument td:last-child {
+  border-right: 0.0625rem solid light-dark(var(--Gray150), var(--Gray1000));
 }
 .saMarkdownEditorDocument th p,
 .saMarkdownEditorDocument td p {
   margin: 0;
 }
-.saMarkdownEditorDocument th {
-  font-weight: 500;
-  border-bottom: 0.0625rem solid light-dark(var(--Gray200), var(--Gray800));
-}
-.saMarkdownEditorDocument tr:first-child td {
-  border-bottom: 0.0625rem solid light-dark(var(--Gray100), var(--Gray1000));
-}
 .saMarkdownEditorDocument tr:last-child td {
-  border: none;
+  border-bottom: 0.0625rem solid light-dark(var(--Gray150), var(--Gray1000));
+}
+.saMarkdownEditorDocument tr:last-child td:first-child {
+  border-radius: 0 0 0 0.5rem;
+}
+.saMarkdownEditorDocument tr:last-child td:last-child {
+  border-radius: 0 0 0.5rem 0;
+}
+.saMarkdownEditorDocument th {
+  background-color: light-dark(var(--Gray50), var(--Gray1100));
+  font-weight: 600;
+}
+.saMarkdownEditorDocument th:first-child {
+  border-radius: 0.5rem 0 0 0;
+}
+.saMarkdownEditorDocument th:last-child {
+  border-radius: 0 0.5rem 0 0;
 }
 .saMarkdownEditorDocument .selectedCell {
   outline: 2px solid Highlight;
@@ -36696,6 +36769,7 @@ body.saPopup::before {
   box-sizing: border-box;
   width: 100%;
   min-height: 20rem;
+  height: calc(100vh - 6rem - 7rem);
   padding: 1rem;
   resize: vertical;
   border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
@@ -36718,19 +36792,44 @@ body.saPopup::before {
 .saMarkdownEditor [hidden] {
   display: none;
 }
+.saMarkdownEditorCodeBlock {
+  position: relative;
+}
 .saMarkdownEditorToolbar {
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
+  background-color: light-dark(var(--Gray50), var(--Gray1100));
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem;
   padding: 0.5rem;
-  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   border-radius: 1rem 1rem 0 0;
   border-bottom: transparent;
+  box-sizing: border-box;
 }
-.saMarkdownEditorToolbar button {
+.saMarkdownEditorToolbar > ul {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding-inline: 0.5rem;
+}
+.saMarkdownEditorToolbar > ul:first-child {
+  padding-left: 0;
+}
+.saMarkdownEditorToolbar > ul:last-child {
+  padding-right: 0;
+}
+.saMarkdownEditorToolbar > ul + ul {
+  border-inline-start: 0.0625rem solid light-dark(var(--Gray200), var(--Gray900));
+}
+.saMarkdownEditorToolbar > ul > li {
+  display: flex;
+  align-items: center;
+}
+.saMarkdownEditorToolbar .saButtonToolbar {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -36742,27 +36841,28 @@ body.saPopup::before {
   font-weight: 500;
   background-color: transparent;
   color: var(--Sa-Color-IconDark);
+  border: 0.0625rem solid transparent;
 }
-.saMarkdownEditorToolbar button .saButtonText {
+.saMarkdownEditorToolbar .saButtonToolbar .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.saMarkdownEditorToolbar button .saBadgedIcon {
+.saMarkdownEditorToolbar .saButtonToolbar .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saMarkdownEditorToolbar button .saIcon {
+.saMarkdownEditorToolbar .saButtonToolbar .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.saStandard .saMarkdownEditorToolbar button {
+.saStandard .saMarkdownEditorToolbar .saButtonToolbar {
   border-radius: 0.5rem;
   padding: 0 0.5rem;
   width: 2.5rem;
@@ -36771,10 +36871,10 @@ body.saPopup::before {
   min-width: 2.5rem;
   font-size: 1rem;
 }
-.saStandard .saMarkdownEditorToolbar button:active {
+.saStandard .saMarkdownEditorToolbar .saButtonToolbar:active {
   border-radius: 0.75rem;
 }
-.saCompact .saMarkdownEditorToolbar button {
+.saCompact .saMarkdownEditorToolbar .saButtonToolbar {
   border-radius: 0.5rem;
   padding: 0 0.5rem;
   width: 2rem;
@@ -36783,10 +36883,10 @@ body.saPopup::before {
   min-width: 2rem;
   font-size: 1rem;
 }
-.saCompact .saMarkdownEditorToolbar button:active {
+.saCompact .saMarkdownEditorToolbar .saButtonToolbar:active {
   border-radius: 0.75rem;
 }
-.saSmallScreen .saMarkdownEditorToolbar button {
+.saSmallScreen .saMarkdownEditorToolbar .saButtonToolbar {
   border-radius: 0.5rem;
   padding: 0 0.5rem;
   width: 2.5rem;
@@ -36795,36 +36895,53 @@ body.saPopup::before {
   min-width: 2.5rem;
   font-size: 1rem;
 }
-.saSmallScreen .saMarkdownEditorToolbar button:active {
+.saSmallScreen .saMarkdownEditorToolbar .saButtonToolbar:active {
   border-radius: 0.75rem;
 }
 @media (pointer: fine) {
-  .saMarkdownEditorToolbar button:enabled:hover {
+  .saMarkdownEditorToolbar .saButtonToolbar:enabled:hover {
     color: light-dark(var(--Sa-Color-Primary600), var(--White));
     background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
+    border-color: light-dark(var(--Sa-Color-Primary200), var(--Gray800));
   }
 }
-.saMarkdownEditorToolbar button:enabled:active {
+.saMarkdownEditorToolbar .saButtonToolbar:enabled:active {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+  border-color: light-dark(var(--Sa-Color-Primary300), var(--Gray700));
 }
-.saMarkdownEditorToolbar button .saIcon.fas {
-  display: none;
-}
-.saMarkdownEditorToolbar button[aria-pressed='true'] {
+.saMarkdownEditorToolbar .saButtonToolbar:enabled[aria-pressed='true'] {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+  border-color: light-dark(var(--Sa-Color-Primary200), var(--Gray800));
 }
-.saMarkdownEditorToolbar button[aria-pressed='true'] .saIcon.fas {
+.saMarkdownEditorToolbar .saButtonToolbar:enabled[aria-pressed='true'] .saIcon.fas {
   display: flex;
 }
-.saMarkdownEditorToolbar button[aria-pressed='true'] .saIcon.far {
+.saMarkdownEditorToolbar .saButtonToolbar:enabled[aria-pressed='true'] .saIcon.far {
   display: none;
 }
-.saMarkdownEditorToolbar button:disabled {
+.saMarkdownEditorToolbar .saButtonToolbar .saIcon.fas {
+  display: none;
+}
+.saMarkdownEditorToolbar .saButtonToolbar:disabled {
   cursor: not-allowed;
-  color: light-dark(var(--Gray300), var(--Gray1100));
+  color: light-dark(var(--Gray400), var(--Gray900));
   pointer-events: all;
+}
+.saMarkdownEditorToolbar .saButtonToolbar:disabled[aria-pressed='true'] {
+  background-color: light-dark(var(--Gray200), var(--Gray1100));
+}
+.saMarkdownEditorToolbar .saButtonToolbar:disabled[aria-pressed='true'] .saIcon.fas {
+  display: flex;
+}
+.saMarkdownEditorToolbar .saButtonToolbar:disabled[aria-pressed='true'] .saIcon.far {
+  display: none;
+}
+.saMarkdownEditorToolbar .saButtonToolbar[data-table-menu] {
+  width: auto;
+  gap: 0.25rem;
+  padding-inline: 0.5rem;
 }
 .saMarkdownEditorToolbar label {
   display: flex;
@@ -36936,7 +37053,7 @@ body.saPopup::before {
 .saToast .saCloseButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  font-family: 'Lexend', sans-serif;
+  font-family: var(--Font), sans-serif;
   white-space: nowrap;
   cursor: pointer;
   display: flex;

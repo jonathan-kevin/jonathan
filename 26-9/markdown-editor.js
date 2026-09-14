@@ -8,7 +8,9 @@
 		import("https://esm.sh/@tiptap/starter-kit@3.31.3"),
 		import("https://esm.sh/@tiptap/markdown@3.31.3"),
 		import("https://esm.sh/@tiptap/extension-image@3.31.3"),
-		import("https://esm.sh/@tiptap/extension-table@3.31.3")
+		import("https://esm.sh/@tiptap/extension-table@3.31.3"),
+		import("https://esm.sh/@tiptap/extension-code-block-lowlight@3.31.3"),
+		import("https://esm.sh/lowlight@3.3.0")
 	]);
 
 	const textColors = new Set(["muted", "info", "success", "warning", "danger"]);
@@ -24,6 +26,90 @@
 		reader.addEventListener("error", () => reject(reader.error || new Error("Could not read image.")), { once: true });
 		reader.readAsDataURL(file);
 	});
+	const copyText = async value => {
+		try {
+			if (!navigator.clipboard?.writeText) throw new Error("The Clipboard API is unavailable.");
+			await new Promise((resolve, reject) => {
+				const timeout = setTimeout(() => reject(new Error("Clipboard access timed out.")), 500);
+				navigator.clipboard.writeText(value).then(
+					() => { clearTimeout(timeout); resolve(); },
+					error => { clearTimeout(timeout); reject(error); }
+				);
+			});
+			return;
+		} catch {
+			const textarea = document.createElement("textarea");
+			textarea.value = value;
+			textarea.setAttribute("readonly", "");
+			textarea.style.position = "fixed";
+			textarea.style.opacity = "0";
+			document.body.append(textarea);
+			textarea.select();
+			const copied = document.execCommand("copy");
+			textarea.remove();
+			if (!copied) throw new Error("The browser did not allow copying.");
+		}
+	};
+	const createCodeBlock = (CodeBlockLowlight, lowlight) => CodeBlockLowlight.extend({
+		addNodeView() {
+			return ({ node }) => {
+				let currentNode = node;
+				let resetLabel;
+				const wrapper = document.createElement("div");
+				const pre = document.createElement("pre");
+				const code = document.createElement("code");
+				const copyButton = document.createElement("button");
+				wrapper.className = "saMarkdownEditorCodeBlock";
+				copyButton.type = "button";
+				copyButton.className = "saInfoBoxCopyButton";
+				copyButton.setAttribute("aria-label", "Copy");
+				copyButton.contentEditable = "false";
+				pre.append(code);
+				copyButton.innerHTML = '<i class="saIcon far fa-copy" aria-hidden="true"></i><i class="saIcon far fa-check" aria-hidden="true"></i>';
+				wrapper.append(pre, copyButton);
+
+				const updateLanguage = () => {
+					code.className = currentNode.attrs.language ? `language-${currentNode.attrs.language}` : "";
+				};
+				updateLanguage();
+				const copyCode = async () => {
+					clearTimeout(resetLabel);
+					try {
+						await copyText(currentNode.textContent);
+						copyButton.classList.add("saCopied");
+						copyButton.setAttribute("aria-label", "Copied");
+					} catch {
+						copyButton.setAttribute("aria-label", "Could not copy code");
+					}
+					resetLabel = setTimeout(() => {
+						copyButton.classList.remove("saCopied");
+						copyButton.setAttribute("aria-label", "Copy");
+					}, 2000);
+				};
+				copyButton.addEventListener("mousedown", event => event.preventDefault());
+				copyButton.addEventListener("click", copyCode);
+				copyButton.addEventListener("keydown", event => {
+					if (event.key !== "Enter" && event.key !== " ") return;
+					event.preventDefault();
+					copyCode();
+				});
+
+				return {
+					dom: wrapper,
+					contentDOM: code,
+					update(updatedNode) {
+						if (updatedNode.type !== currentNode.type) return false;
+						currentNode = updatedNode;
+						updateLanguage();
+						return true;
+					},
+					stopEvent: event => copyButton.contains(event.target),
+					ignoreMutation: mutation => copyButton.contains(mutation.target),
+					destroy: () => clearTimeout(resetLabel)
+				};
+			};
+		}
+	}).configure({ lowlight });
 	const createTextColor = Mark => Mark.create({
 		name: "textColor",
 		excludes: "code",
@@ -101,7 +187,7 @@
 			this.append(this.status);
 
 			try {
-				const [{ Editor, Mark }, { StarterKit }, { Markdown }, { Image }, { TableKit }] = await loadEditor();
+				const [{ Editor, Mark }, { StarterKit }, { Markdown }, { Image }, { TableKit }, { CodeBlockLowlight }, { common, createLowlight }] = await loadEditor();
 				if (!this.isConnected) return;
 				this.buildControls();
 				this.editor = new Editor({
@@ -110,6 +196,7 @@
 						StarterKit.configure({
 							// Keep the document within the Markdown features this POC exposes.
 							underline: false,
+							codeBlock: false,
 							link: {
 								openOnClick: false,
 								autolink: true,
@@ -120,6 +207,7 @@
 						}),
 						Image.configure({ allowBase64: true }),
 						TableKit.configure({ table: { resizable: false } }),
+						createCodeBlock(CodeBlockLowlight, createLowlight(common)),
 						createTextColor(Mark),
 						createUnderline(Mark),
 						Markdown
@@ -191,63 +279,80 @@
 			const id = this.controlId;
 			this.shell = document.createElement("div");
 			this.shell.innerHTML = `
-				<p id="${id}-label"><strong>Content</strong></p>
+				<p id="${id}-label" class="saScreenReaderOnly"><strong>Content</strong></p>
 				<div role="group" class="saMarkdownEditorToolbar" aria-label="Formatting">
-					<label class="saInputTextWrapper saLabeled">
-						<div class="saLabeledLabel">Heading level</div>
-						<select class="saInputText" data-heading-level>
-							<option value="paragraph">Paragraph</option>
-							<option value="1">Heading 1</option>
-							<option value="2">Heading 2</option>
-							<option value="3">Heading 3</option>
-							<option value="4">Heading 4</option>
-							<option value="5">Heading 5</option>
-							<option value="6">Heading 6</option>
-						</select>
-						<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
-					</label>
-					<label class="saInputTextWrapper saLabeled">
-						<div class="saLabeledLabel">Color</div>
-						<select class="saInputText" data-text-color>
-							<option value="default">Default</option>
-							<option value="muted">Muted</option>
-							<option value="info">Info</option>
-							<option value="success">Success</option>
-							<option value="warning">Warning</option>
-							<option value="danger">Danger</option>
-						</select>
-						<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
-					</label>
-					<button type="button" data-command="bold" aria-keyshortcuts="Control+B Meta+B" aria-label="Bold"><i class="saIcon fas fa-bold"></i><i class="saIcon far fa-bold"></i></button>
-					<button type="button" data-command="italic" aria-keyshortcuts="Control+I Meta+I" aria-label="Italic"><i class="saIcon fas fa-italic"></i><i class="saIcon far fa-italic"></i></button>
-					<button type="button" data-command="underline" aria-keyshortcuts="Control+U Meta+U" aria-label="Underline"><i class="saIcon fas fa-underline"></i><i class="saIcon far fa-underline"></i></button>
-					<button type="button" data-command="strike" aria-label="Strikethrough"><i class="saIcon fas fa-strikethrough"></i><i class="saIcon far fa-strikethrough"></i></button>
-					<button type="button" data-command="link" aria-keyshortcuts="Control+K Meta+K" aria-haspopup="dialog" aria-label="Link"><i class="saIcon fas fa-link"></i><i class="saIcon far fa-link"></i></button>
-					<button type="button" data-command="image" aria-haspopup="dialog" aria-label="Image"><i class="saIcon fas fa-image"></i><i class="saIcon far fa-image"></i></button>
-					<button type="button" data-command="bullet" aria-label="Bulleted list"><i class="saIcon fas fa-list"></i><i class="saIcon far fa-list"></i></button>
-					<button type="button" data-command="number" aria-label="Numbered list"><i class="saIcon fas fa-list-ol"></i><i class="saIcon far fa-list-ol"></i></button>
-					<button type="button" data-command="quote" aria-label="Quote"><i class="saIcon fas fa-quote-right"></i><i class="saIcon far fa-quote-right"></i></button>
-					<button type="button" data-command="code" aria-label="Inline code"><i class="saIcon fas fa-code"></i><i class="saIcon far fa-code"></i></button>
-					<button type="button" data-command="codeblock" aria-label="Code block"><i class="saIcon fas fa-square-code"></i><i class="saIcon far fa-square-code"></i></button>
-					<button type="button" data-command="horizontalRule" aria-label="Horizontal rule"><i class="saIcon fas fa-ruler"></i><i class="saIcon far fa-ruler"></i></button>
-					<button type="button" data-command="markdown" aria-label="View as markdown" aria-controls="${id}-visual-view ${id}-source-view" aria-pressed="false"><i class="saIcon fab fa-markdown"></i></button>
-					<details class="markdown-editor-table-menu">
-						<summary>Table</summary>
-						<div role="group" aria-label="Table actions">
-							<button type="button" data-command="table" aria-haspopup="dialog" aria-label="Add table"><i class="saIcon fas fa-table"></i><i class="saIcon far fa-table"></i></button>
-							<button type="button" data-command="addRowAfter" aria-label="Add row"><i class="saIcon far fa-plus"></i></button>
-							<button type="button" data-command="deleteRow" aria-label="Delete row"<i class="saIcon far fa-minus"></i></button>
-							<button type="button" data-command="addColumnAfter" aria-label="Add column"><i class="saIcon far fa-plus"></i></button>
-							<button type="button" data-command="deleteColumn" aria-label="Delete column"><i class="saIcon far fa-minus"></i></button>
-							<button type="button" data-command="deleteTable" aria-label="Delete table"><i class="saIcon far fa-trash-alt"></i></button>
-						</div>
-					</details>
-					<button type="button" data-command="undo" aria-label="Undo"><i class="saIcon fas fa-undo"></i><i class="saIcon far fa-undo"></i></button>
-					<button type="button" data-command="redo" aria-label="Redo"><i class="saIcon fas fa-redo"></i><i class="saIcon far fa-redo"></i></button>
+					<ul aria-label="Text style">
+						<li>
+							<label class="saInputTextWrapper saLabeled">
+								<div class="saLabeledLabel">Heading level</div>
+								<select class="saInputText" data-heading-level>
+									<option value="paragraph">Paragraph</option>
+									<option value="1">Heading 1</option>
+									<option value="2">Heading 2</option>
+									<option value="3">Heading 3</option>
+									<option value="4">Heading 4</option>
+									<option value="5">Heading 5</option>
+									<option value="6">Heading 6</option>
+								</select>
+								<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
+							</label>
+						</li>
+						<li hidden>
+							<label class="saInputTextWrapper saLabeled">
+								<div class="saLabeledLabel">Color</div>
+								<select class="saInputText" data-text-color>
+									<option value="default">Default</option>
+									<option value="muted">Muted</option>
+									<option value="info">Info</option>
+									<option value="success">Success</option>
+									<option value="warning">Warning</option>
+									<option value="danger">Danger</option>
+								</select>
+								<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
+							</label>
+						</li>
+						<li><button class="saButtonToolbar" type="button" data-command="bold" aria-keyshortcuts="Control+B Meta+B" aria-label="Bold"><i class="saIcon fas fa-bold"></i><i class="saIcon far fa-bold"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="italic" aria-keyshortcuts="Control+I Meta+I" aria-label="Italic"><i class="saIcon fas fa-italic"></i><i class="saIcon far fa-italic"></i></button></li>
+						<li hidden><button class="saButtonToolbar" type="button" data-command="underline" aria-keyshortcuts="Control+U Meta+U" aria-label="Underline"><i class="saIcon fas fa-underline"></i><i class="saIcon far fa-underline"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="strike" aria-label="Strikethrough"><i class="saIcon fas fa-strikethrough"></i><i class="saIcon far fa-strikethrough"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="clear" aria-label="Clear formatting"><i class="saIcon far fa-text-slash"></i></button></li>
+						</ul>
+					<ul aria-label="Links and media">
+						<li><button class="saButtonToolbar" type="button" data-command="link" aria-keyshortcuts="Control+K Meta+K" aria-haspopup="dialog" aria-label="Link"><i class="saIcon fas fa-link"></i><i class="saIcon far fa-link"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="image" aria-haspopup="dialog" aria-label="Image"><i class="saIcon fas fa-image"></i><i class="saIcon far fa-image"></i></button></li>
+					</ul>
+					<ul aria-label="Block formatting">
+						<li><button class="saButtonToolbar" type="button" data-command="bullet" aria-label="Bulleted list"><i class="saIcon fas fa-list"></i><i class="saIcon far fa-list"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="number" aria-label="Numbered list"><i class="saIcon fas fa-list-ol"></i><i class="saIcon far fa-list-ol"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="quote" aria-label="Quote"><i class="saIcon fas fa-quote-right"></i><i class="saIcon far fa-quote-right"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="code" aria-label="Inline code"><i class="saIcon fas fa-code"></i><i class="saIcon far fa-code"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="codeblock" aria-label="Code block"><i class="saIcon fas fa-square-code"></i><i class="saIcon far fa-square-code"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="horizontalRule" aria-label="Horizontal rule"><i class="saIcon far fa-horizontal-rule"></i></button></li>
+					</ul>
+					<ul aria-label="Tables">
+						<li class="markdown-editor-table-menu">
+							<button  class="saButtonToolbar" type="button" data-table-menu aria-haspopup="menu" aria-expanded="false" aria-controls="${id}-table-menu"><i class="saIcon far fa-table" aria-hidden="true"></i></button>
+							<div class="saContextMenu saSouth" hidden>
+								<ul class="saActionLinkList" id="${id}-table-menu" role="menu" aria-label="Table actions">
+									<li role="none"><button class="saOptionWrapper" type="button" role="menuitem" tabindex="0" data-command="table" aria-haspopup="dialog"><span class="saOption"><span class="saIconHolder saOptionIcon" aria-hidden="true"><i class="saIcon far fa-table"></i></span><span class="saButtonText saOptionText">Insert table</span></span></button></li>
+									<li role="none"><button class="saOptionWrapper" type="button" role="menuitem" tabindex="-1" data-command="addRowAfter"><span class="saOption"><span class="saIconHolder saOptionIcon" aria-hidden="true"><i class="saIcon far fa-grid-2-plus"></i></span><span class="saButtonText saOptionText">Add row</span></span></button></li>
+									<li role="none"><button class="saOptionWrapper" type="button" role="menuitem" tabindex="-1" data-command="deleteRow"><span class="saOption"><span class="saIconHolder saOptionIcon" aria-hidden="true"><i class="saIcon far fa-xmark"></i></span><span class="saButtonText saOptionText">Delete row</span></span></button></li>
+									<li role="none"><button class="saOptionWrapper" type="button" role="menuitem" tabindex="-1" data-command="addColumnAfter"><span class="saOption"><span class="saIconHolder saOptionIcon" aria-hidden="true"><i class="saIcon far fa-columns-3"></i></span><span class="saButtonText saOptionText">Add column</span></span></button></li>
+									<li role="none"><button class="saOptionWrapper" type="button" role="menuitem" tabindex="-1" data-command="deleteColumn"><span class="saOption"><span class="saIconHolder saOptionIcon" aria-hidden="true"><i class="saIcon far fa-xmark"></i></span><span class="saButtonText saOptionText">Delete column</span></span></button></li>
+									<li role="none"><button class="saOptionWrapper saDestructive" type="button" role="menuitem" tabindex="-1" data-command="deleteTable"><span class="saOption"><span class="saIconHolder saOptionIcon" aria-hidden="true"><i class="saIcon far fa-trash-alt"></i></span><span class="saButtonText saOptionText">Delete table</span></span></button></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+					<ul aria-label="View and history">
+						<li><button class="saButtonToolbar" type="button" data-command="markdown" aria-label="View as markdown" aria-controls="${id}-visual-view ${id}-source-view" aria-pressed="false"><i class="saIcon fab fa-markdown"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="undo" aria-label="Undo"><i class="saIcon fas fa-undo"></i><i class="saIcon far fa-undo"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="redo" aria-label="Redo"><i class="saIcon fas fa-redo"></i><i class="saIcon far fa-redo"></i></button></li>
+					</ul>
 				</div>
 				<div id="${id}-visual-view" data-editor-surface></div>
 				<div id="${id}-source-view" data-source-surface hidden></div>
-				<p id="${id}-help">Write and format your content directly, or use the Markdown button to edit its source. Ctrl/Cmd + B: bold, I: italic, U: underline, K: link.</p>
+				<p id="${id}-help" class="saScreenReaderOnly">Write and format your content directly, or use the Markdown button to edit its source. Ctrl/Cmd + B: bold, I: italic, U: underline, K: link.</p>
 				<dialog data-link-dialog aria-labelledby="${id}-link-dialog-title">
 					<div class="saAlert">
 					<div class="saAlertMessageWrapper">
@@ -307,6 +412,8 @@
 			this.prepend(this.shell);
 			this.surface = this.shell.querySelector("[data-editor-surface]");
 			this.markdownButton = this.shell.querySelector('[data-command="markdown"]');
+			this.tableMenuButton = this.shell.querySelector("[data-table-menu]");
+			this.tableMenu = this.shell.querySelector(`#${id}-table-menu`).closest(".saContextMenu");
 			this.linkDialog = this.shell.querySelector("[data-link-dialog]");
 			this.urlInput = this.linkDialog.querySelector(`#${id}-url`);
 			this.linkTitleInput = this.linkDialog.querySelector(`#${id}-link-title`);
@@ -322,11 +429,35 @@
 			this.events = new AbortController();
 			const options = { signal: this.events.signal };
 			this.shell.querySelector(".saMarkdownEditorToolbar").addEventListener("click", event => {
+				const menuButton = event.target.closest("button[data-table-menu]");
+				if (menuButton) {
+					this.toggleTableMenu();
+					return;
+				}
 				const button = event.target.closest("button[data-command]");
 				if (button) {
-					button.closest("details")?.removeAttribute("open");
+					if (button.closest('[role="menu"]')) this.closeTableMenu();
 					this.format(button.dataset.command);
 				}
+			}, options);
+			this.tableMenuButton.addEventListener("keydown", event => {
+				if (event.key === "Escape" && !this.tableMenu.hidden) {
+					event.preventDefault();
+					this.closeTableMenu(true);
+					return;
+				}
+				if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+				event.preventDefault();
+				this.openTableMenu(event.key === "ArrowUp" ? "last" : "first");
+			}, options);
+			this.tableMenu.addEventListener("keydown", event => this.handleTableMenuKeydown(event), options);
+			this.tableMenu.parentElement.addEventListener("focusout", () => {
+				setTimeout(() => {
+					if (!this.tableMenu.parentElement.contains(document.activeElement)) this.closeTableMenu();
+				}, 0);
+			}, options);
+			document.addEventListener("pointerdown", event => {
+				if (!this.tableMenu.hidden && !this.tableMenu.parentElement.contains(event.target)) this.closeTableMenu();
 			}, options);
 			this.headingSelect = this.shell.querySelector("[data-heading-level]");
 			this.headingSelect.addEventListener("change", () => {
@@ -390,6 +521,7 @@
 			const chain = this.editor.chain().focus();
 			const actions = {
 				bold: () => chain.toggleBold(), italic: () => chain.toggleItalic(), underline: () => chain.toggleUnderline(), strike: () => chain.toggleStrike(),
+				clear: () => chain.unsetAllMarks().clearNodes(),
 				bullet: () => chain.toggleBulletList(), number: () => chain.toggleOrderedList(),
 				quote: () => chain.toggleBlockquote(), code: () => chain.toggleCode(),
 				codeblock: () => chain.toggleCodeBlock(), horizontalRule: () => chain.setHorizontalRule(),
@@ -398,6 +530,56 @@
 				deleteTable: () => chain.deleteTable(), undo: () => chain.undo(), redo: () => chain.redo()
 			};
 			actions[command]?.().run();
+		}
+
+		getTableMenuItems() {
+			return Array.from(this.tableMenu.querySelectorAll('[role="menuitem"]:not(:disabled)'));
+		}
+
+		focusTableMenuItem(item) {
+			this.tableMenu.querySelectorAll('[role="menuitem"]').forEach(menuItem => { menuItem.tabIndex = menuItem === item ? 0 : -1; });
+			item?.focus();
+		}
+
+		openTableMenu(focusItem) {
+			if (this.tableMenuButton.disabled) return;
+			this.tableMenu.hidden = false;
+			this.tableMenu.classList.add("saOpen");
+			this.tableMenuButton.setAttribute("aria-expanded", "true");
+			if (focusItem) {
+				const items = this.getTableMenuItems();
+				this.focusTableMenuItem(items[focusItem === "last" ? items.length - 1 : 0]);
+			}
+		}
+
+		closeTableMenu(returnFocus = false) {
+			if (!this.tableMenu) return;
+			this.tableMenu.hidden = true;
+			this.tableMenu.classList.remove("saOpen");
+			this.tableMenuButton.setAttribute("aria-expanded", "false");
+			if (returnFocus) this.tableMenuButton.focus();
+		}
+
+		toggleTableMenu() {
+			if (this.tableMenu.hidden) this.openTableMenu("first");
+			else this.closeTableMenu(true);
+		}
+
+		handleTableMenuKeydown(event) {
+			if (event.key === "Escape") {
+				event.preventDefault();
+				this.closeTableMenu(true);
+				return;
+			}
+			if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
+			const items = this.getTableMenuItems();
+			if (!items.length) return;
+			event.preventDefault();
+			const current = items.indexOf(document.activeElement);
+			let next = event.key === "Home" ? 0 : event.key === "End" ? items.length - 1 : current;
+			if (event.key === "ArrowDown") next = (current + 1) % items.length;
+			if (event.key === "ArrowUp") next = (current - 1 + items.length) % items.length;
+			this.focusTableMenuItem(items[next]);
 		}
 
 		toggleMarkdown() {
@@ -512,6 +694,8 @@
 			if (this.colorSelect) this.colorSelect.value = textColors.has(activeColor) ? activeColor : "default";
 			if (this.headingSelect) this.headingSelect.disabled = Boolean(this.sourceMode);
 			if (this.colorSelect) this.colorSelect.disabled = Boolean(this.sourceMode);
+			if (this.tableMenuButton) this.tableMenuButton.disabled = Boolean(this.sourceMode);
+			if (this.sourceMode) this.closeTableMenu();
 			const types = { bold: "bold", italic: "italic", underline: "underline", strike: "strike", link: "link", bullet: "bulletList", number: "orderedList", quote: "blockquote", code: "code", codeblock: "codeBlock" };
 			const commands = {
 				horizontalRule: "setHorizontalRule", table: "insertTable",
@@ -524,13 +708,9 @@
 				if (command === "markdown") {
 					button.setAttribute("aria-pressed", String(Boolean(this.sourceMode)));
 					button.disabled = false;
-					return;
-				}
-				if (this.sourceMode) {
+				} else if (this.sourceMode) {
 					button.disabled = true;
-					return;
-				}
-				if (types[command]) {
+				} else if (types[command]) {
 					button.setAttribute("aria-pressed", String(this.editor.isActive(types[command])));
 					button.disabled = false;
 				} else if (commands[command]) {
@@ -538,6 +718,7 @@
 				} else {
 					button.disabled = false;
 				}
+				if (button.matches('[role="menuitem"]')) button.classList.toggle("saInactive", button.disabled);
 			});
 		}
 

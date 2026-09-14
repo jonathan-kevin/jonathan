@@ -1,4 +1,22 @@
 $(document).ready(function () {
+	const $fontToggle = $('#toggleFont');
+	let activeFont = getComputedStyle(document.documentElement).getPropertyValue('--Font').includes('Geist') ? 'Geist' : 'Lexend';
+
+	function setFont(font) {
+		activeFont = font;
+		document.documentElement.style.setProperty('--Font', `'${font}', sans-serif`);
+		const nextFont = font === 'Lexend' ? 'Geist' : 'Lexend';
+		$fontToggle.attr({
+			'aria-label': `Switch to ${nextFont}`,
+			'aria-pressed': String(font === 'Geist'),
+			title: `Switch to ${nextFont}`
+		});
+	}
+
+	$fontToggle.on('click', function () {
+		setFont(activeFont === 'Lexend' ? 'Geist' : 'Lexend');
+	});
+	setFont(activeFont);
 
 	function updateClasses() {
 		const isSmall = $(window).width() <= 640;
