@@ -2537,7 +2537,7 @@ div.saPopupOverlay {
   background: light-dark(var(--White), var(--Gray1200));
   border-radius: 1rem;
   padding: 1rem;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   /* Use simple style for user content while we have CSS resets. */
 }
 .saInfoBoxArea .saInfoBox {
@@ -3760,7 +3760,7 @@ div.saPopupOverlay {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   gap: 0.375rem;
@@ -5483,7 +5483,7 @@ div.saPopupOverlay {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
 }
@@ -6958,7 +6958,7 @@ div.saPopupOverlay {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   border-radius: 0.5rem;
@@ -7915,7 +7915,7 @@ div.saPopupOverlay {
   max-width: 2rem;
   min-width: 2rem;
   font-size: 1rem;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   position: relative;
 }
 .saPageHeader .saActionLinks .saMoreButton .saButtonText,
@@ -8487,7 +8487,7 @@ div.saPopupOverlay {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   border-radius: 0.5rem;
@@ -9707,7 +9707,7 @@ div.saPopupOverlay {
   }
 }
 .saButtonSecondary {
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
 }
@@ -10007,7 +10007,7 @@ div.saPopupOverlay {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
 }
@@ -10180,6 +10180,144 @@ div.saPopupOverlay {
   font-size: 1.25rem;
   min-width: 1.625rem;
 }
+.saDefaultIconButtonGhost {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: light-dark(var(--Sa-Color-Primary600), var(--Gray100));
+  background-color: transparent;
+}
+.saDefaultIconButtonGhost .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saDefaultIconButtonGhost .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultIconButtonGhost .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saDefaultIconButtonGhost .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saDefaultIconButtonGhost.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultIconButtonGhost.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saDefaultIconButtonGhost.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saDefaultIconButtonGhost.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saDefaultIconButtonGhost.saDestructive:active {
+  color: var(--White);
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saDefaultIconButtonGhost.saDestructive:active > .saIcon {
+  color: var(--White);
+}
+@media (pointer: fine) {
+  .saDefaultIconButtonGhost:hover {
+    background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+  .saDefaultIconButtonGhost:hover .saIcon {
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+}
+.saDefaultIconButtonGhost:active {
+  background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saDefaultIconButtonGhost:active .saIcon {
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saDefaultIconButtonGhost:disabled,
+.saDefaultIconButtonGhost.saDisabled {
+  color: light-dark(var(--Gray300), var(--Gray700));
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saDefaultIconButtonGhost:disabled .saIcon,
+.saDefaultIconButtonGhost.saDisabled .saIcon {
+  color: light-dark(var(--Gray300), var(--Gray700));
+}
+.saStandard .saDefaultIconButtonGhost {
+  gap: 0.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+}
+.saStandard .saDefaultIconButtonGhost:has(.saIcon) {
+  padding-left: 0.75rem;
+}
+.saStandard .saDefaultIconButtonGhost:active {
+  border-radius: 0.75rem;
+}
+.saStandard .saDefaultIconButtonGhost .saIcon {
+  font-size: 1.25rem;
+  min-width: 1.625rem;
+}
+.saCompact .saDefaultIconButtonGhost {
+  gap: 0.375rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+}
+.saCompact .saDefaultIconButtonGhost:has(.saIcon) {
+  padding-left: 0.625rem;
+}
+.saCompact .saDefaultIconButtonGhost:active {
+  border-radius: 0.75rem;
+}
+.saCompact .saDefaultIconButtonGhost .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
+}
+.saSmallScreen .saDefaultIconButtonGhost {
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  height: 2.5rem;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+.saSmallScreen .saDefaultIconButtonGhost:has(.saIcon) {
+  padding-left: 0.75rem;
+}
+.saSmallScreen .saDefaultIconButtonGhost:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saDefaultIconButtonGhost .saIcon {
+  font-size: 1.25rem;
+  min-width: 1.625rem;
+}
 .ButtonPrimary {
   background-color: var(--Sa-Color-Primary600);
   color: var(--Sa-Color-PrimaryButtonLabel);
@@ -10240,7 +10378,7 @@ div.saPopupOverlay {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   gap: 0.375rem;
@@ -10763,7 +10901,7 @@ div.saPopupOverlay {
   }
 }
 .saButtonSplit button.saButtonSecondary {
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
 }
@@ -11440,7 +11578,7 @@ div.saPopupOverlay {
   width: 25rem;
   min-height: 25rem;
   box-shadow: 0 0 2rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent));
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
 }
 .saColumnManager .saTabGroup {
   display: flex;
@@ -11923,7 +12061,7 @@ div.saPopupOverlay {
   width: 100%;
 }
 .saColumnManager .saRemoveColumnButton {
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -12569,7 +12707,7 @@ div.saPopupOverlay {
   max-width: 2rem;
   min-width: 2rem;
   font-size: 1rem;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   position: absolute;
@@ -12887,7 +13025,7 @@ div.saPopupOverlay {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   margin-left: auto;
@@ -13124,7 +13262,7 @@ div.saPopupOverlay {
   max-width: 2rem;
   min-width: 2rem;
   font-size: 1rem;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   position: relative;
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton .saButtonText {
@@ -13589,7 +13727,7 @@ div.saPopupOverlay {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   border-radius: 0.5rem;
@@ -13835,7 +13973,7 @@ div.saPopupOverlay {
   font-weight: 500;
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -14034,7 +14172,7 @@ div.saPopupOverlay {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   position: absolute;
   top: 0.25rem;
   right: 0.25rem;
@@ -14525,19 +14663,19 @@ div.saPopupOverlay {
 .saInlineDocumentWrapper img {
   max-width: 100%;
   max-height: 100%;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   border-radius: 0.5rem;
 }
 .saInlineDocumentWrapper video {
   max-width: 100%;
   max-height: 100%;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   border-radius: 0.5rem;
 }
 .saInlineDocumentWrapper .saInlineFrame {
   width: 100%;
   height: 100%;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   border-radius: 0.5rem;
   overflow: hidden;
 }
@@ -15339,7 +15477,7 @@ select.saInputText {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   background-color: light-dark(var(--Gray50), var(--Gray1100));
@@ -15503,7 +15641,7 @@ select.saInputText {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   background-color: light-dark(var(--Gray50), var(--Gray1100));
@@ -17718,7 +17856,7 @@ legend + .saInputCardsWrapper {
   overflow: hidden;
   background-color: light-dark(var(--Gray200), var(--Gray900));
   background-image: repeating-linear-gradient(45deg, light-dark(var(--Gray200), var(--Gray800)) 25%, transparent 25%, transparent 75%, light-dark(var(--Gray200), var(--Gray800)) 75%, light-dark(var(--Gray200), var(--Gray800))), repeating-linear-gradient(45deg, light-dark(var(--Gray200), var(--Gray800)) 25%, light-dark(var(--Gray100), var(--Gray1000)) 25%, light-dark(var(--Gray100), var(--Gray1000)) 75%, light-dark(var(--Gray200), var(--Gray800)) 75%, light-dark(var(--Gray200), var(--Gray800)));
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
 }
 @media (pointer: fine) {
   .saColorPreview:hover {
@@ -17845,7 +17983,7 @@ legend + .saInputCardsWrapper {
   position: absolute;
   box-shadow: 0 2px 2px color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 20%, transparent);
   transition: ease transform 0.2s, ease opacity 0.2s;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
@@ -18047,7 +18185,7 @@ legend + .saInputCardsWrapper {
   display: flex;
   flex-direction: column;
   box-shadow: 0 1px 2px light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 2px 0.25rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 0.25rem 0.5rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 0.5rem 1rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 1rem 2rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 2rem 4rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent));
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background: light-dark(var(--White), var(--Gray1200));
   font-size: 0.875rem;
   height: fit-content;
@@ -18861,7 +18999,7 @@ legend + .saInputCardsWrapper {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   gap: 0.375rem;
@@ -21690,7 +21828,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   color: var(--Sa-Color-IconDark);
 }
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton {
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   width: fit-content;
@@ -22264,7 +22402,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   font-size: 1rem;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   flex: 1;
 }
 .saLinearProcess .saStep .saIcon {
@@ -22436,7 +22574,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   height: fit-content;
   gap: 0.25rem;
   background-color: light-dark(var(--White), var(--Gray1200));
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
 }
 .saMultiPartContent .saMenuBoxWrapper .saMenuBox {
   border-radius: 0.5rem;
@@ -24339,7 +24477,7 @@ softadmin-nodegraph .saNodeTools button {
   padding: 0.5rem;
   font-size: 0.75rem;
   border-radius: 0.375rem;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   position: relative;
@@ -24824,7 +24962,7 @@ softadmin-nodegraph .saDragged {
   border-radius: 1rem;
   margin: 1rem;
   max-width: 100%;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
 }
 .saLinkTabs .saTabGroup {
   display: flex;
@@ -25076,7 +25214,7 @@ body.saMiniView {
 }
 .saMultiPartPanel.saHasBorder,
 .saSmallScreen .saMultiPartPanel {
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   border-radius: 1rem;
 }
 .saMultiPartContainer {
@@ -25574,7 +25712,7 @@ body.saMiniView {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   width: fit-content;
@@ -26005,7 +26143,7 @@ body.saMiniView {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   position: relative;
@@ -27202,7 +27340,7 @@ body.saMiniView {
   width: 80%;
   border-radius: 1.5rem;
   box-shadow: 0 1px 2px light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 85%, transparent)), 0 2px 0.25rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 85%, transparent)), 0 0.25rem 0.5rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 85%, transparent)), 0 0.5rem 1rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 85%, transparent));
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background: light-dark(var(--White), var(--Gray1200));
   position: relative;
   top: 12.5rem;
@@ -27614,7 +27752,7 @@ body.saMiniView {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   gap: 0.375rem;
@@ -28419,7 +28557,7 @@ body.saMiniView {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   gap: 0.375rem;
@@ -32096,7 +32234,7 @@ a.saKpiOuter:active {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   border-radius: 0.25rem;
@@ -34790,7 +34928,7 @@ body.saPopup::before {
   max-width: 100%;
   flex-shrink: 0;
   font-weight: 500;
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
   gap: 0.375rem;
@@ -35036,7 +35174,7 @@ body.saPopup::before {
   }
 }
 .saChatWrapper .saChatButtonStop {
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
 }
@@ -36355,186 +36493,309 @@ body.saPopup::before {
   top: -0.5rem;
 }
 /* Layout and readable native controls only; scoped to the POC. */
-markdown-editor {
+.saMarkdownEditor {
   display: block;
   max-width: 65rem;
-  padding: 1rem;
 }
-markdown-editor label {
-  display: block;
-  font-weight: bold;
-}
-markdown-editor .markdown-editor-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-block: 0.5rem;
-  padding: 0.5rem;
-  border: 1px solid;
-}
-markdown-editor button,
-markdown-editor select {
-  appearance: auto;
+.markdown-editor-table-menu summary {
   padding: 0.25rem 0.5rem;
-  border: 1px solid;
-  background: ButtonFace;
-  color: ButtonText;
-  font: inherit;
-}
-markdown-editor .markdown-editor-actions label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: normal;
-}
-markdown-editor .markdown-editor-table-menu summary {
-  padding: 0.25rem 0.5rem;
-  border: 1px solid;
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   cursor: pointer;
 }
-markdown-editor .markdown-editor-table-menu div {
+.markdown-editor-table-menu div {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 0.5rem;
 }
-markdown-editor button:disabled {
-  opacity: 0.5;
-}
-markdown-editor button[aria-pressed="true"] {
-  background: Highlight;
-  color: HighlightText;
-}
-markdown-editor .markdown-editor-document {
-  min-height: 16rem;
-  padding: 0.75rem;
-  border: 1px solid;
+.saMarkdownEditorDocument {
+  min-height: 20rem;
+  padding: 1rem;
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
+  border-radius: 0 0 1rem 1rem;
+  background-color: light-dark(var(--White), var(--Gray1200));
   line-height: 1.5;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   position: relative;
 }
-markdown-editor .markdown-editor-document > :first-child {
+.saMarkdownEditorDocument:focus-visible {
+  outline: none;
+}
+.saMarkdownEditorDocument > :first-child {
   margin-top: 0;
 }
-markdown-editor .markdown-editor-document h1,
-markdown-editor .markdown-editor-document h2,
-markdown-editor .markdown-editor-document h3,
-markdown-editor .markdown-editor-document h4,
-markdown-editor .markdown-editor-document h5,
-markdown-editor .markdown-editor-document h6 {
+.saMarkdownEditorDocument h1,
+.saMarkdownEditorDocument h2,
+.saMarkdownEditorDocument h3,
+.saMarkdownEditorDocument h4,
+.saMarkdownEditorDocument h5,
+.saMarkdownEditorDocument h6 {
   margin-block: 1rem 0.5rem;
 }
-markdown-editor .markdown-editor-document ul {
+.saMarkdownEditorDocument p {
+  line-height: 1.5rem;
+}
+.saMarkdownEditorDocument strong {
+  line-height: 1.5rem;
+  font-weight: 500;
+}
+.saMarkdownEditorDocument ul {
   list-style: disc;
   padding-inline-start: 2rem;
 }
-markdown-editor .markdown-editor-document ol {
+.saMarkdownEditorDocument ol {
   list-style: decimal;
   padding-inline-start: 2rem;
 }
-markdown-editor .markdown-editor-document li p {
+.saMarkdownEditorDocument li p {
   margin-block: 0.25rem;
 }
-markdown-editor .markdown-editor-document blockquote {
+.saMarkdownEditorDocument blockquote {
   border-inline-start: 2px solid;
   padding-inline-start: 1rem;
   margin-block: 1rem;
 }
-markdown-editor .markdown-editor-document pre {
+.saMarkdownEditorDocument pre {
   overflow-x: auto;
   padding: 0.75rem;
-  border: 1px solid;
+  border-radius: 0.5rem;
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
+  background-color: light-dark(var(--Gray50), var(--Gray1100));
   white-space: pre-wrap;
 }
-markdown-editor .markdown-editor-document code {
+.saMarkdownEditorDocument code {
   font-family: monospace;
 }
-markdown-editor .markdown-editor-document a {
+.saMarkdownEditorDocument [data-text-color='muted'] {
+  color: var(--Sa-Color-TextSecondary);
+}
+.saMarkdownEditorDocument [data-text-color='info'] {
+  color: var(--Sa-Color-Link);
+}
+.saMarkdownEditorDocument [data-text-color='success'] {
+  color: var(--Sa-Color-PositiveTrend);
+}
+.saMarkdownEditorDocument [data-text-color='warning'] {
+  color: light-dark(var(--Orange800), var(--Orange300));
+}
+.saMarkdownEditorDocument [data-text-color='danger'] {
+  color: var(--Sa-Color-NegativeTrend);
+}
+.saMarkdownEditorDocument a {
   color: var(--Sa-Color-Link);
   text-decoration: underline;
 }
-markdown-editor .markdown-editor-document hr {
+.saMarkdownEditorDocument hr {
   border: 0;
-  border-top: 1px solid;
+  border-top: 0.0625rem solid light-dark(var(--Gray200), var(--Gray800));
   margin-block: 1rem;
 }
-markdown-editor .markdown-editor-document img {
+.saMarkdownEditorDocument img {
   display: block;
   max-width: 100%;
   height: auto;
 }
-markdown-editor .markdown-editor-document .tableWrapper {
+.saMarkdownEditorDocument .tableWrapper {
   overflow-x: auto;
   margin-block: 1rem;
 }
-markdown-editor .markdown-editor-document table {
+.saMarkdownEditorDocument table {
   border-collapse: collapse;
   width: 100%;
+  border-radius: 1rem 1rem 0 0;
 }
-markdown-editor .markdown-editor-document th,
-markdown-editor .markdown-editor-document td {
-  border: 1px solid;
-  padding: 0.5rem;
+.saMarkdownEditorDocument th,
+.saMarkdownEditorDocument td {
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
+  padding: 0.5rem 0.75rem;
   text-align: start;
   vertical-align: top;
 }
-markdown-editor .markdown-editor-document th {
-  font-weight: bold;
+.saMarkdownEditorDocument th {
+  font-weight: 500;
+  background-color: var(--Gray50);
+  border-radius: 1rem 1rem 0 0;
 }
-markdown-editor .markdown-editor-document .selectedCell {
+.saMarkdownEditorDocument .selectedCell {
   outline: 2px solid Highlight;
   outline-offset: -2px;
 }
-markdown-editor .markdown-editor-document .ProseMirror-selectednode {
+.saMarkdownEditorDocument .ProseMirror-selectednode {
   outline: 2px solid Highlight;
 }
-markdown-editor .markdown-editor-document .ProseMirror-separator {
+.saMarkdownEditorDocument .ProseMirror-separator {
   display: inline;
   border: 0;
   margin: 0;
 }
-markdown-editor dialog {
-  padding: 1rem;
-  border: 1px solid;
-  max-width: calc(100% - 2rem);
-  color: CanvasText;
-  background: Canvas;
+.saMarkdownEditor dialog {
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
-markdown-editor dialog input {
+.saMarkdownEditor dialog input {
   padding: 0.5rem;
   border: 1px solid;
-  width: 24rem;
+  width: 100%;
   max-width: 100%;
   box-sizing: border-box;
 }
-markdown-editor dialog input[type="number"] {
+.saMarkdownEditor dialog input[type='number'] {
   width: 6rem;
 }
-markdown-editor dialog::backdrop {
+.saMarkdownEditor dialog .saAlertMessage {
+  display: grid;
+  gap: 0.5rem;
+  width: 23rem;
+  max-width: 100%;
+}
+.saMarkdownEditor dialog::backdrop {
   background: rgba(0, 0, 0, 0.25);
 }
-markdown-editor textarea {
+.saMarkdownEditor textarea {
   display: block;
   box-sizing: border-box;
   width: 100%;
-  min-height: 16rem;
-  padding: 0.75rem;
+  min-height: 20rem;
+  padding: 1rem;
   resize: vertical;
-  border: 1px solid;
-  background: Field;
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
+  background-color: light-dark(var(--Gray50), var(--Gray1100));
   color: FieldText;
   font: 1rem/1.5 monospace;
+  border-radius: 0 0 1rem 1rem;
 }
-markdown-editor :is(button, select, textarea, input, summary, [contenteditable]):focus-visible {
-  outline: 2px solid Highlight;
-  outline-offset: 2px;
+.saMarkdownEditor textarea::-webkit-resizer {
+  background-image: url(../img/resizer.svg);
 }
-markdown-editor p {
+.saMarkdownEditor textarea[dir='rtl']::-webkit-resizer {
+  background-image: url(../img/resizer-rtl.svg);
+}
+.saMarkdownEditor textarea:focus-visible {
+  outline: none;
+}
+.saMarkdownEditor p {
   margin-block: 0.75rem;
 }
-markdown-editor [hidden] {
+.saMarkdownEditor [hidden] {
   display: none;
+}
+.saMarkdownEditorToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
+  border-radius: 1rem 1rem 0 0;
+  border-bottom: transparent;
+}
+.saMarkdownEditorToolbar button {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  background-color: transparent;
+  color: var(--Sa-Color-IconDark);
+}
+.saMarkdownEditorToolbar button .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saMarkdownEditorToolbar button .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saMarkdownEditorToolbar button .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saStandard .saMarkdownEditorToolbar button {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+}
+.saStandard .saMarkdownEditorToolbar button:active {
+  border-radius: 0.75rem;
+}
+.saCompact .saMarkdownEditorToolbar button {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+}
+.saCompact .saMarkdownEditorToolbar button:active {
+  border-radius: 0.75rem;
+}
+.saSmallScreen .saMarkdownEditorToolbar button {
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+}
+.saSmallScreen .saMarkdownEditorToolbar button:active {
+  border-radius: 0.75rem;
+}
+@media (pointer: fine) {
+  .saMarkdownEditorToolbar button:enabled:hover {
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+    background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
+  }
+}
+.saMarkdownEditorToolbar button:enabled:active {
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+  background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+}
+.saMarkdownEditorToolbar button .saIcon.fas {
+  display: none;
+}
+.saMarkdownEditorToolbar button[aria-pressed='true'] {
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+  background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+}
+.saMarkdownEditorToolbar button[aria-pressed='true'] .saIcon.fas {
+  display: flex;
+}
+.saMarkdownEditorToolbar button[aria-pressed='true'] .saIcon.far {
+  display: none;
+}
+.saMarkdownEditorToolbar button:disabled {
+  cursor: not-allowed;
+  color: light-dark(var(--Gray300), var(--Gray1100));
+  pointer-events: all;
+}
+.saMarkdownEditorToolbar label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: normal;
+  width: 8rem;
+  margin: 0;
 }
 .saToastGroup {
   display: flex;
@@ -36804,7 +37065,7 @@ softadmin-nodegraph .saNodeContent .saNodeTable:has(td .saNodeColumnMandatory) t
   width: 0.75rem;
 }
 .saWebServiceLogPart {
-  border: solid 1px light-dark(var(--Gray200), var(--Gray800));
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   padding: 1rem;
   border-radius: 1rem;
   margin-bottom: 1rem;

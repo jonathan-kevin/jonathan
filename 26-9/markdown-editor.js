@@ -11,13 +11,78 @@
 		import("https://esm.sh/@tiptap/extension-table@3.31.3")
 	]);
 
+	const textColors = new Set(["muted", "info", "success", "warning", "danger"]);
 	const isSafeUrl = value => /^(?:(?:https?):\/\/\S+|(?:mailto|tel):\S+|#\S+|(?:\.{0,2}\/)[^\s]+|(?:[a-z0-9_-]+\/)*[a-z0-9_.~-]+(?:[?#]\S*)?)$/i.test(value);
+	const createTextColor = Mark => Mark.create({
+		name: "textColor",
+		excludes: "code",
+
+		addAttributes() {
+			return { color: { default: null } };
+		},
+
+		parseHTML() {
+			return [{
+				tag: "span[data-text-color]",
+				getAttrs: element => {
+					const color = element.getAttribute("data-text-color");
+					return textColors.has(color) ? { color } : false;
+				}
+			}];
+		},
+
+		renderHTML({ HTMLAttributes }) {
+			const color = textColors.has(HTMLAttributes.color) ? HTMLAttributes.color : null;
+			return color ? ["span", { "data-text-color": color }, 0] : ["span", 0];
+		},
+
+		renderMarkdown(node, helpers) {
+			const color = node.attrs?.color;
+			const content = helpers.renderChildren(node);
+			return textColors.has(color) ? `<span data-text-color="${color}">${content}</span>` : content;
+		},
+
+		addCommands() {
+			return {
+				setTextColor: color => ({ commands }) => textColors.has(color) && commands.setMark(this.name, { color }),
+				unsetTextColor: () => ({ commands }) => commands.unsetMark(this.name)
+			};
+		}
+	});
+	const createUnderline = Mark => Mark.create({
+		name: "underline",
+		excludes: "code",
+
+		parseHTML() {
+			return [{ tag: "u" }];
+		},
+
+		renderHTML() {
+			return ["u", 0];
+		},
+
+		renderMarkdown(node, helpers) {
+			return `<u>${helpers.renderChildren(node)}</u>`;
+		},
+
+		addCommands() {
+			return {
+				toggleUnderline: () => ({ commands }) => commands.toggleMark(this.name)
+			};
+		},
+
+		addKeyboardShortcuts() {
+			return { "Mod-u": () => this.editor.commands.toggleUnderline() };
+		}
+	});
 
 	class MarkdownEditor extends HTMLElement {
 		async connectedCallback() {
 			if (this.loading || this.editor) return;
 			this.source = this.querySelector("textarea");
 			if (!this.source) return;
+			this.sourceMode = false;
+			this.source.readOnly = false;
 			this.loading = true;
 			this.status = document.createElement("p");
 			this.status.setAttribute("role", "status");
@@ -25,7 +90,7 @@
 			this.append(this.status);
 
 			try {
-				const [{ Editor }, { StarterKit }, { Markdown }, { Image }, { TableKit }] = await loadEditor();
+				const [{ Editor, Mark }, { StarterKit }, { Markdown }, { Image }, { TableKit }] = await loadEditor();
 				if (!this.isConnected) return;
 				this.buildControls();
 				this.editor = new Editor({
@@ -44,6 +109,8 @@
 						}),
 						Image.configure({ allowBase64: false }),
 						TableKit.configure({ table: { resizable: false } }),
+						createTextColor(Mark),
+						createUnderline(Mark),
 						Markdown
 					],
 					content: this.source.value,
@@ -51,7 +118,7 @@
 					injectCSS: false,
 					editorProps: {
 						attributes: {
-							class: "markdown-editor-document",
+							class: "saMarkdownEditorDocument",
 							role: "textbox",
 							"aria-multiline": "true",
 							"aria-labelledby": `${this.controlId}-label`,
@@ -74,7 +141,6 @@
 					onUpdate: () => this.sync(true),
 					onTransaction: () => this.updateButtons()
 				});
-				this.source.readOnly = true;
 				this.bindControls();
 				this.sync(false);
 				this.status.textContent = "";
@@ -92,14 +158,13 @@
 		buildControls() {
 			this.controlId = `markdown-editor-${++nextId}`;
 			const id = this.controlId;
-			this.sourceLabel = Array.from(this.source.labels || []).find(label => this.contains(label));
 			this.shell = document.createElement("div");
 			this.shell.innerHTML = `
 				<p id="${id}-label"><strong>Content</strong></p>
-				<fieldset class="markdown-editor-actions">
-					<legend>Formatting</legend>
-					<label>Heading level
-						<select data-heading-level>
+				<div role="group" class="saMarkdownEditorToolbar" aria-label="Formatting">
+					<label class="saInputTextWrapper saLabeled">
+						<div class="saLabeledLabel">Heading level</div>
+						<select class="saInputText" data-heading-level>
 							<option value="paragraph">Paragraph</option>
 							<option value="1">Heading 1</option>
 							<option value="2">Heading 2</option>
@@ -108,79 +173,109 @@
 							<option value="5">Heading 5</option>
 							<option value="6">Heading 6</option>
 						</select>
+						<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
 					</label>
-					<button type="button" data-command="bold" aria-keyshortcuts="Control+B Meta+B">Bold</button>
-					<button type="button" data-command="italic" aria-keyshortcuts="Control+I Meta+I">Italic</button>
-					<button type="button" data-command="strike">Strikethrough</button>
-					<button type="button" data-command="link" aria-keyshortcuts="Control+K Meta+K" aria-haspopup="dialog">Link</button>
-					<button type="button" data-command="image" aria-haspopup="dialog">Image</button>
-					<button type="button" data-command="bullet">Bulleted list</button>
-					<button type="button" data-command="number">Numbered list</button>
-					<button type="button" data-command="quote">Quote</button>
-					<button type="button" data-command="code">Inline code</button>
-					<button type="button" data-command="codeblock">Code block</button>
-					<button type="button" data-command="horizontalRule">Horizontal rule</button>
+					<label class="saInputTextWrapper saLabeled">
+						<div class="saLabeledLabel">Color</div>
+						<select class="saInputText" data-text-color>
+							<option value="default">Default</option>
+							<option value="muted">Muted</option>
+							<option value="info">Info</option>
+							<option value="success">Success</option>
+							<option value="warning">Warning</option>
+							<option value="danger">Danger</option>
+						</select>
+						<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
+					</label>
+					<button type="button" data-command="bold" aria-keyshortcuts="Control+B Meta+B" aria-label="Bold"><i class="saIcon fas fa-bold"></i><i class="saIcon far fa-bold"></i></button>
+					<button type="button" data-command="italic" aria-keyshortcuts="Control+I Meta+I" aria-label="Italic"><i class="saIcon fas fa-italic"></i><i class="saIcon far fa-italic"></i></button>
+					<button type="button" data-command="underline" aria-keyshortcuts="Control+U Meta+U" aria-label="Underline"><i class="saIcon fas fa-underline"></i><i class="saIcon far fa-underline"></i></button>
+					<button type="button" data-command="strike" aria-label="Strikethrough"><i class="saIcon fas fa-strikethrough"></i><i class="saIcon far fa-strikethrough"></i></button>
+					<button type="button" data-command="link" aria-keyshortcuts="Control+K Meta+K" aria-haspopup="dialog" aria-label="Link"><i class="saIcon fas fa-link"></i><i class="saIcon far fa-link"></i></button>
+					<button type="button" data-command="image" aria-haspopup="dialog" aria-label="Image"><i class="saIcon fas fa-image"></i><i class="saIcon far fa-image"></i></button>
+					<button type="button" data-command="bullet" aria-label="Bulleted list"><i class="saIcon fas fa-list"></i><i class="saIcon far fa-list"></i></button>
+					<button type="button" data-command="number" aria-label="Numbered list"><i class="saIcon fas fa-list-ol"></i><i class="saIcon far fa-list-ol"></i></button>
+					<button type="button" data-command="quote" aria-label="Quote"><i class="saIcon fas fa-quote-right"></i><i class="saIcon far fa-quote-right"></i></button>
+					<button type="button" data-command="code" aria-label="Inline code"><i class="saIcon fas fa-code"></i><i class="saIcon far fa-code"></i></button>
+					<button type="button" data-command="codeblock" aria-label="Code block"><i class="saIcon fas fa-square-code"></i><i class="saIcon far fa-square-code"></i></button>
+					<button type="button" data-command="horizontalRule" aria-label="Horizontal rule"><i class="saIcon fas fa-ruler"></i><i class="saIcon far fa-ruler"></i></button>
+					<button type="button" data-command="markdown" aria-label="View as markdown" aria-controls="${id}-visual-view ${id}-source-view" aria-pressed="false"><i class="saIcon fab fa-markdown"></i></button>
 					<details class="markdown-editor-table-menu">
 						<summary>Table</summary>
 						<div role="group" aria-label="Table actions">
-							<button type="button" data-command="table" aria-haspopup="dialog">Insert table</button>
-							<button type="button" data-command="addRowAfter">Add row</button>
-							<button type="button" data-command="deleteRow">Delete row</button>
-							<button type="button" data-command="addColumnAfter">Add column</button>
-							<button type="button" data-command="deleteColumn">Delete column</button>
-							<button type="button" data-command="deleteTable">Delete table</button>
+							<button type="button" data-command="table" aria-haspopup="dialog" aria-label="Add table"><i class="saIcon fas fa-table"></i><i class="saIcon far fa-table"></i></button>
+							<button type="button" data-command="addRowAfter" aria-label="Add row"><i class="saIcon far fa-plus"></i></button>
+							<button type="button" data-command="deleteRow" aria-label="Delete row"<i class="saIcon far fa-minus"></i></button>
+							<button type="button" data-command="addColumnAfter" aria-label="Add column"><i class="saIcon far fa-plus"></i></button>
+							<button type="button" data-command="deleteColumn" aria-label="Delete column"><i class="saIcon far fa-minus"></i></button>
+							<button type="button" data-command="deleteTable" aria-label="Delete table"><i class="saIcon far fa-trash-alt"></i></button>
 						</div>
 					</details>
-					<button type="button" data-command="undo">Undo</button>
-					<button type="button" data-command="redo">Redo</button>
-				</fieldset>
-				<div data-editor-surface></div>
-				<p id="${id}-help">Write and format your content directly. Ctrl/Cmd + B: bold, I: italic, K: link.</p>
-				<details data-source-details>
-					<summary>Markdown source</summary>
-					<p>Generated automatically from your content.</p>
-				</details>
+					<button type="button" data-command="undo" aria-label="Undo"><i class="saIcon fas fa-undo"></i><i class="saIcon far fa-undo"></i></button>
+					<button type="button" data-command="redo" aria-label="Redo"><i class="saIcon fas fa-redo"></i><i class="saIcon far fa-redo"></i></button>
+				</div>
+				<div id="${id}-visual-view" data-editor-surface></div>
+				<div id="${id}-source-view" data-source-surface hidden></div>
+				<p id="${id}-help">Write and format your content directly, or use the Markdown button to edit its source. Ctrl/Cmd + B: bold, I: italic, U: underline, K: link.</p>
 				<dialog data-link-dialog aria-labelledby="${id}-link-dialog-title">
-					<h2 id="${id}-link-dialog-title">Edit link</h2>
-					<p><label for="${id}-url">URL</label></p>
-					<input id="${id}-url" type="text" inputmode="url" required placeholder="https://example.com" autofocus>
-					<p><label for="${id}-link-title">Title <span>(optional)</span></label></p>
-					<input id="${id}-link-title" type="text">
-					<p>
-						<button type="button" data-link-save>Apply link</button>
-						<button type="button" data-link-remove>Remove link</button>
-						<button type="button" data-link-cancel>Cancel</button>
-					</p>
+					<div class="saAlert">
+					<div class="saAlertMessageWrapper">
+						<h2 class="saAlertHeading" id="${id}-link-dialog-title">Edit link</h2>
+						<div class="saAlertMessage">
+							<label for="${id}-url">URL</label>
+							<input id="${id}-url" type="text" inputmode="url" required placeholder="https://example.com" autofocus>
+							<label for="${id}-link-title">Title <span>(optional)</span></label>
+							<input id="${id}-link-title" type="text">
+						</div>
+						<div class="saButtons">
+							<button class="saAlertButton saButtonPrimary" type="button" data-link-save>Apply link</button>
+							<button class="saAlertButton saButtonSecondary saDestructive" type="button" data-link-remove>Remove link</button>
+							<button class="saAlertButton saButtonSecondary" type="button" data-link-cancel>Cancel</button>
+						</div>
+					</div>
+					</div>
 				</dialog>
 				<dialog data-image-dialog aria-labelledby="${id}-image-title">
-					<h2 id="${id}-image-title">Image</h2>
-					<p><label for="${id}-image-url">Image URL</label></p>
-					<input id="${id}-image-url" type="text" inputmode="url" required placeholder="https://example.com/image.jpg">
-					<p><label for="${id}-image-alt">Alternative text</label></p>
-					<input id="${id}-image-alt" type="text" aria-describedby="${id}-image-alt-help">
-					<p id="${id}-image-alt-help">Describe the image. Leave blank only if it is decorative.</p>
-					<p>
-						<button type="button" data-image-save>Insert image</button>
-						<button type="button" data-image-remove>Remove image</button>
-						<button type="button" data-image-cancel>Cancel</button>
-					</p>
+					<div class="saAlert">
+					<div class="saAlertMessageWrapper">
+						<h2 class="saAlertHeading" id="${id}-image-title">Image</h2>
+						<div class="saAlertMessage">
+							<label for="${id}-image-url">Image URL</label>
+							<input id="${id}-image-url" type="text" inputmode="url" required placeholder="https://example.com/image.jpg">
+							<label for="${id}-image-alt">Alternative text</label>
+							<input id="${id}-image-alt" type="text" aria-describedby="${id}-image-alt-help">
+							<p id="${id}-image-alt-help">Describe the image. Leave blank only if it is decorative.</p>
+						</div>
+						<div class="saButtons">
+							<button class="saAlertButton saButtonPrimary" type="button" data-image-save>Insert image</button>
+							<button class="saAlertButton saButtonSecondary saDestructive" type="button" data-image-remove>Remove image</button>
+							<button class="saAlertButton saButtonSecondary" type="button" data-image-cancel>Cancel</button>
+						</div>
+					</div>
+					</div>
 				</dialog>
 				<dialog data-table-dialog aria-labelledby="${id}-table-title">
-					<h2 id="${id}-table-title">Insert table</h2>
-					<p><label for="${id}-table-rows">Rows, including header</label></p>
-					<input id="${id}-table-rows" type="number" min="2" max="20" value="3" required>
-					<p><label for="${id}-table-columns">Columns</label></p>
-					<input id="${id}-table-columns" type="number" min="1" max="10" value="3" required>
-					<p>
-						<button type="button" data-table-save>Insert table</button>
-						<button type="button" data-table-cancel>Cancel</button>
-					</p>
+					<div class="saAlert">
+					<div class="saAlertMessageWrapper">
+						<h2 class="saAlertHeading" id="${id}-table-title">Insert table</h2>
+						<div class="saAlertMessage">
+							<label for="${id}-table-rows">Rows, including header</label>
+							<input id="${id}-table-rows" type="number" min="2" max="20" value="3" required>
+							<label for="${id}-table-columns">Columns</label>
+							<input id="${id}-table-columns" type="number" min="1" max="10" value="3" required>
+						</div>
+						<div class="saButtons">
+							<button class="saAlertButton saButtonPrimary" type="button" data-table-save>Insert table</button>
+							<button class="saAlertButton saButtonSecondary" type="button" data-table-cancel>Cancel</button>
+						</div>
+					</div>
+					</div>
 				</dialog>`;
-			const details = this.shell.querySelector("[data-source-details]");
-			if (this.sourceLabel) details.append(this.sourceLabel);
-			details.append(this.source);
+			this.sourceSurface = this.shell.querySelector("[data-source-surface]");
+			this.sourceSurface.append(this.source);
 			this.prepend(this.shell);
 			this.surface = this.shell.querySelector("[data-editor-surface]");
+			this.markdownButton = this.shell.querySelector('[data-command="markdown"]');
 			this.linkDialog = this.shell.querySelector("[data-link-dialog]");
 			this.urlInput = this.linkDialog.querySelector(`#${id}-url`);
 			this.linkTitleInput = this.linkDialog.querySelector(`#${id}-link-title`);
@@ -195,7 +290,7 @@
 		bindControls() {
 			this.events = new AbortController();
 			const options = { signal: this.events.signal };
-			this.shell.querySelector("fieldset").addEventListener("click", event => {
+			this.shell.querySelector(".saMarkdownEditorToolbar").addEventListener("click", event => {
 				const button = event.target.closest("button[data-command]");
 				if (button) {
 					button.closest("details")?.removeAttribute("open");
@@ -208,6 +303,13 @@
 				const chain = this.editor.chain().focus();
 				if (value === "paragraph") chain.setParagraph().run();
 				else chain.setHeading({ level: Number(value) }).run();
+			}, options);
+			this.colorSelect = this.shell.querySelector("[data-text-color]");
+			this.colorSelect.addEventListener("change", () => {
+				const color = this.colorSelect.value;
+				const chain = this.editor.chain().focus();
+				if (color === "default") chain.unsetTextColor().run();
+				else chain.setTextColor(color).run();
 			}, options);
 			this.linkDialog.querySelector("[data-link-save]").addEventListener("click", () => this.applyLink(), options);
 			this.linkDialog.querySelector("[data-link-remove]").addEventListener("click", () => {
@@ -250,12 +352,13 @@
 		}
 
 		format(command) {
+			if (command === "markdown") return this.toggleMarkdown();
 			if (command === "link") return this.openLink();
 			if (command === "image") return this.openImage();
 			if (command === "table") return this.tableDialog.showModal();
 			const chain = this.editor.chain().focus();
 			const actions = {
-				bold: () => chain.toggleBold(), italic: () => chain.toggleItalic(), strike: () => chain.toggleStrike(),
+				bold: () => chain.toggleBold(), italic: () => chain.toggleItalic(), underline: () => chain.toggleUnderline(), strike: () => chain.toggleStrike(),
 				bullet: () => chain.toggleBulletList(), number: () => chain.toggleOrderedList(),
 				quote: () => chain.toggleBlockquote(), code: () => chain.toggleCode(),
 				codeblock: () => chain.toggleCodeBlock(), horizontalRule: () => chain.setHorizontalRule(),
@@ -264,6 +367,25 @@
 				deleteTable: () => chain.deleteTable(), undo: () => chain.undo(), redo: () => chain.redo()
 			};
 			actions[command]?.().run();
+		}
+
+		toggleMarkdown() {
+			this.sourceMode = !this.sourceMode;
+			if (this.sourceMode) {
+				this.sync(false);
+				this.surface.hidden = true;
+				this.sourceSurface.hidden = false;
+				this.markdownButton.setAttribute("aria-label", "View as rich text");
+				this.source.focus();
+			} else {
+				this.editor.commands.setContent(this.source.value, { contentType: "markdown", emitUpdate: false });
+				this.sync(false);
+				this.sourceSurface.hidden = true;
+				this.surface.hidden = false;
+				this.markdownButton.setAttribute("aria-label", "View as markdown");
+				this.editor.commands.focus();
+			}
+			this.updateButtons();
 		}
 
 		openLink() {
@@ -331,7 +453,11 @@
 			if (!this.editor) return;
 			const activeHeading = [1, 2, 3, 4, 5, 6].find(level => this.editor.isActive("heading", { level }));
 			if (this.headingSelect) this.headingSelect.value = activeHeading ? String(activeHeading) : "paragraph";
-			const types = { bold: "bold", italic: "italic", strike: "strike", link: "link", bullet: "bulletList", number: "orderedList", quote: "blockquote", code: "code", codeblock: "codeBlock" };
+			const activeColor = this.editor.getAttributes("textColor").color;
+			if (this.colorSelect) this.colorSelect.value = textColors.has(activeColor) ? activeColor : "default";
+			if (this.headingSelect) this.headingSelect.disabled = Boolean(this.sourceMode);
+			if (this.colorSelect) this.colorSelect.disabled = Boolean(this.sourceMode);
+			const types = { bold: "bold", italic: "italic", underline: "underline", strike: "strike", link: "link", bullet: "bulletList", number: "orderedList", quote: "blockquote", code: "code", codeblock: "codeBlock" };
 			const commands = {
 				horizontalRule: "setHorizontalRule", table: "insertTable",
 				addRowAfter: "addRowAfter", deleteRow: "deleteRow",
@@ -340,6 +466,15 @@
 			};
 			this.shell.querySelectorAll("[data-command]").forEach(button => {
 				const command = button.dataset.command;
+				if (command === "markdown") {
+					button.setAttribute("aria-pressed", String(Boolean(this.sourceMode)));
+					button.disabled = false;
+					return;
+				}
+				if (this.sourceMode) {
+					button.disabled = true;
+					return;
+				}
 				if (types[command]) {
 					button.setAttribute("aria-pressed", String(this.editor.isActive(types[command])));
 					button.disabled = false;
@@ -377,7 +512,6 @@
 			this.shell?.querySelectorAll("dialog[open]").forEach(dialog => dialog.close());
 			this.editor?.destroy();
 			this.editor = null;
-			if (this.sourceLabel) this.append(this.sourceLabel);
 			if (this.source) { this.source.readOnly = false; this.append(this.source); }
 			this.shell?.remove();
 		}
