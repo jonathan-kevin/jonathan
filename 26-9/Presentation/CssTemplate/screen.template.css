@@ -6784,6 +6784,16 @@ div.saPopupOverlay {
   color: var(--White);
   background-color: var(--Red600);
 }
+.saExpanded.saSideBar ul.saSideBarToolbar button.saClazz {
+  width: fit-content;
+  min-width: none;
+  max-width: none;
+  padding-left: 0;
+}
+.saExpanded.saSideBar ul.saSideBarToolbar button.saClazz span {
+  display: block;
+  font-size: 0.875rem;
+}
 .saSideBar ul.saSideBarToolbar button .saBadge {
   position: absolute;
   top: 0;
@@ -36518,6 +36528,10 @@ body.saPopup::before {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   position: relative;
+  box-sizing: border-box;
+}
+.saMarkdownEditorDocument * {
+  box-sizing: border-box;
 }
 .saMarkdownEditorDocument:focus-visible {
   outline: none;
@@ -36565,7 +36579,19 @@ body.saPopup::before {
   white-space: pre-wrap;
 }
 .saMarkdownEditorDocument code {
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   font-family: monospace;
+  padding: 0.125rem 0.25rem;
+  background-color: light-dark(var(--Gray50), var(--Gray1100));
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+}
+.saMarkdownEditorDocument pre code {
+  border: none;
+  padding: 0;
+  background-color: none;
+  border-radius: none;
+  font-size: 0.875rem;
 }
 .saMarkdownEditorDocument [data-text-color='muted'] {
   color: var(--Sa-Color-TextSecondary);
@@ -36603,19 +36629,31 @@ body.saPopup::before {
 .saMarkdownEditorDocument table {
   border-collapse: collapse;
   width: 100%;
-  border-radius: 1rem 1rem 0 0;
+}
+.saMarkdownEditorDocument tr {
+  height: 2.5rem;
 }
 .saMarkdownEditorDocument th,
 .saMarkdownEditorDocument td {
-  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
-  padding: 0.5rem 0.75rem;
-  text-align: start;
-  vertical-align: top;
+  border: 1px solid transparent;
+  border-bottom: 0.0625rem solid light-dark(var(--Gray100), var(--Gray1000));
+  text-align: left;
+  vertical-align: middle;
+  height: 2.5rem;
+}
+.saMarkdownEditorDocument th p,
+.saMarkdownEditorDocument td p {
+  margin: 0;
 }
 .saMarkdownEditorDocument th {
   font-weight: 500;
-  background-color: var(--Gray50);
-  border-radius: 1rem 1rem 0 0;
+  border-bottom: 0.0625rem solid light-dark(var(--Gray200), var(--Gray800));
+}
+.saMarkdownEditorDocument tr:first-child td {
+  border-bottom: 0.0625rem solid light-dark(var(--Gray100), var(--Gray1000));
+}
+.saMarkdownEditorDocument tr:last-child td {
+  border: none;
 }
 .saMarkdownEditorDocument .selectedCell {
   outline: 2px solid Highlight;
@@ -36662,9 +36700,8 @@ body.saPopup::before {
   resize: vertical;
   border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: light-dark(var(--Gray50), var(--Gray1100));
-  color: FieldText;
   font: 1rem/1.5 monospace;
-  border-radius: 0 0 1rem 1rem;
+  border-radius: 0 0 0.5rem 1rem;
 }
 .saMarkdownEditor textarea::-webkit-resizer {
   background-image: url(../img/resizer.svg);

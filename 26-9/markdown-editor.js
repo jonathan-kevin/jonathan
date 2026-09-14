@@ -12,7 +12,18 @@
 	]);
 
 	const textColors = new Set(["muted", "info", "success", "warning", "danger"]);
+	const droppedImageTypes = new Set(["image/png", "image/jpeg", "image/gif", "image/webp", "image/avif", "image/bmp"]);
+	const maxDroppedImageBytes = 10 * 1024 * 1024;
 	const isSafeUrl = value => /^(?:(?:https?):\/\/\S+|(?:mailto|tel):\S+|#\S+|(?:\.{0,2}\/)[^\s]+|(?:[a-z0-9_-]+\/)*[a-z0-9_.~-]+(?:[?#]\S*)?)$/i.test(value);
+	const isSafeImageUrl = value =>
+		(isSafeUrl(value) && !/^(?:mailto|tel):/i.test(value)) ||
+		/^data:image\/(?:png|jpeg|gif|webp|avif|bmp);base64,[a-z0-9+/]+=*$/i.test(value);
+	const readFileAsDataUrl = file => new Promise((resolve, reject) => {
+		const reader = new FileReader();
+		reader.addEventListener("load", () => resolve(reader.result), { once: true });
+		reader.addEventListener("error", () => reject(reader.error || new Error("Could not read image.")), { once: true });
+		reader.readAsDataURL(file);
+	});
 	const createTextColor = Mark => Mark.create({
 		name: "textColor",
 		excludes: "code",
@@ -107,7 +118,7 @@
 								HTMLAttributes: { target: null }
 							}
 						}),
-						Image.configure({ allowBase64: false }),
+						Image.configure({ allowBase64: true }),
 						TableKit.configure({ table: { resizable: false } }),
 						createTextColor(Mark),
 						createUnderline(Mark),
@@ -125,10 +136,30 @@
 							"aria-describedby": `${this.controlId}-help`,
 							spellcheck: "true"
 						},
-						handleDOMEvents: {
-							// Emit input only after Markdown has caught up with the document.
-							input: (_view, event) => { event.stopPropagation(); return false; }
-						},
+							handleDOMEvents: {
+								// Emit input only after Markdown has caught up with the document.
+								input: (_view, event) => { event.stopPropagation(); return false; },
+								dragover: (_view, event) => {
+									if (!Array.from(event.dataTransfer?.items || []).some(item => item.kind === "file")) return false;
+									event.preventDefault();
+									event.dataTransfer.dropEffect = "copy";
+									return true;
+								}
+							},
+							handleDrop: (view, event, _slice, moved) => {
+								if (moved) return false;
+								const droppedFiles = Array.from(event.dataTransfer?.files || []);
+								if (!droppedFiles.length) return false;
+								event.preventDefault();
+								const files = droppedFiles.filter(file => file.type.startsWith("image/"));
+								if (!files.length) {
+									this.status.textContent = "Only image files can be dropped into the editor.";
+									return true;
+								}
+								const position = view.posAtCoords({ left: event.clientX, top: event.clientY })?.pos ?? view.state.selection.from;
+								this.insertDroppedImages(files, position);
+								return true;
+							},
 						handleKeyDown: (_view, event) => {
 							if (!event.isComposing && !event.altKey && (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
 								event.preventDefault();
@@ -431,12 +462,36 @@
 		applyImage() {
 			const src = this.imageUrlInput.value.trim();
 			const alt = this.imageAltInput.value.trim();
-			this.imageUrlInput.setCustomValidity(isSafeUrl(src) && !/^(?:mailto|tel):/i.test(src) ? "" : "Enter a web or relative image URL.");
+			this.imageUrlInput.setCustomValidity(isSafeImageUrl(src) ? "" : "Enter a web or relative image URL.");
 			if (!this.imageUrlInput.reportValidity()) return;
 			this.imageDialog.close();
 			const chain = this.editor.chain().focus();
 			if (this.editingImage) chain.setNodeSelection(this.imageSelection.from).updateAttributes("image", { src, alt }).run();
 			else chain.setImage({ src, alt }).run();
+		}
+
+		async insertDroppedImages(files, position) {
+			const accepted = files.filter(file => droppedImageTypes.has(file.type) && file.size <= maxDroppedImageBytes);
+			const rejected = files.length - accepted.length;
+			if (!accepted.length) {
+				this.status.textContent = "Drop PNG, JPEG, GIF, WebP, AVIF, or BMP images up to 10 MB each.";
+				return;
+			}
+			try {
+				const content = await Promise.all(accepted.map(async file => ({
+					type: "image",
+					attrs: {
+						src: await readFileAsDataUrl(file),
+						alt: file.name.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ")
+					}
+				})));
+				const insertAt = Math.min(position, this.editor.state.doc.content.size);
+				this.editor.chain().focus().insertContentAt(insertAt, content).run();
+				this.status.textContent = `${accepted.length} image${accepted.length === 1 ? "" : "s"} inserted${rejected ? `; ${rejected} unsupported or oversized file${rejected === 1 ? "" : "s"} skipped` : ""}.`;
+			} catch (error) {
+				this.status.textContent = "The dropped image could not be read.";
+				console.error("Dropped image could not be read", error);
+			}
 		}
 
 		applyTable() {
