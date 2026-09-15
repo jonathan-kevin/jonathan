@@ -195,7 +195,7 @@
 		const overflowClass = mobileOverflow ? ' saMockMobileOverflowAction' : '';
 
 		return `
-			<button class="saTopLink saActionLink ${variant}${overflowClass}" type="button">
+			<button class="saTopLink saActionLink ${variant}${overflowClass}" data-softadmin-shell-id="${escapeHtml(action._shellId || '')}" data-softadmin-shell-kind="action" type="button"${action.disabled ? ' disabled' : ''}>
 				<div class="saIconHolder saOptionIcon" aria-hidden="true">
 					<i class="far fa-${escapeHtml(action.icon || 'circle')} icon saIcon"></i>
 				</div>
@@ -203,8 +203,8 @@
 			</button>`;
 	}
 
-	function renderBreadcrumbs(items) {
-		const breadcrumbs = items && items.length ? items : ['Home'];
+	function renderBreadcrumbs(items, hiddenSeparators = []) {
+		const breadcrumbs = Array.isArray(items) ? items : ['Home'];
 
 		return `
 			<div class="saBackButtonWrapper">
@@ -215,8 +215,8 @@
 			${breadcrumbs.map((item, index) => {
 				const isLast = index === breadcrumbs.length - 1;
 				return `
-					${index > 0 ? '<span class="saBreadcrumbSeparator" aria-hidden="true">&gt;</span>' : ''}
-					<span class="saBreadcrumb${isLast ? ' saNoLinkBreadcrumb' : ''}">
+					${index > 0 && !hiddenSeparators.includes(index) ? `<span class="saBreadcrumbSeparator" data-softadmin-shell-kind="separator" data-softadmin-breadcrumb-index="${index}" aria-hidden="true">&gt;</span>` : ''}
+					<span class="saBreadcrumb${isLast ? ' saNoLinkBreadcrumb' : ''}" data-softadmin-shell-kind="breadcrumb" data-softadmin-breadcrumb-index="${index}">
 						${isLast ? escapeHtml(item) : `<a tabindex="0">${escapeHtml(item)}</a>`}
 					</span>`;
 			}).join('')}`;
@@ -234,7 +234,7 @@
 	}
 
 	function updateFrame(frame) {
-		const title = frame.title || 'Softadmin mockup';
+		const title = frame.title ?? 'Softadmin mockup';
 		const actions = frame.actions || [];
 		const desktopHeader = document.querySelector('#pageheader > .saDesktopHeader');
 		const smallHeader = document.querySelector('#pageheader > .saSmallScreenHeader');
@@ -246,16 +246,11 @@
 			element.textContent = title;
 		});
 
-		document.querySelector('.saAccountName').textContent = 'Anna Andersson';
-		const accountAvatar = document.querySelector('.saAccountAvatar');
-		if (accountAvatar && accountAvatar.tagName !== 'IMG') {
-			accountAvatar.textContent = 'AA';
-		}
 		applyAvatarPreference();
 
 		const breadcrumbs = desktopHeader.querySelector('.saBreadcrumbs');
 		if (breadcrumbs) {
-			breadcrumbs.innerHTML = renderBreadcrumbs(frame.breadcrumbs || ['Home', title]);
+			breadcrumbs.innerHTML = renderBreadcrumbs(frame.breadcrumbs || ['Home', title], frame.hiddenBreadcrumbSeparators);
 		}
 
 		const desktopActions = desktopHeader.querySelector('.saActionLinks');
@@ -269,7 +264,7 @@
 			desktopActions.innerHTML = actions.length
 				? `
 					${actions.map((action, index) => buttonHtml(action, index > 0)).join('')}
-					<div class="saCollectorWrapper">
+					<div class="saCollectorWrapper" data-softadmin-shell-kind="collector">
 						<button class="saMoreButton" type="button"><i class="far fa-ellipsis-vertical icon saIcon"></i></button>
 					</div>`
 				: '';
@@ -286,13 +281,14 @@
 			smallActions.innerHTML = actions.length
 				? `
 					${actions.map((action, index) => buttonHtml(action, index > 0)).join('')}
-					<div class="saCollectorWrapper">
+					<div class="saCollectorWrapper" data-softadmin-shell-kind="collector">
 						<button class="saMoreButton" aria-expanded="false" type="button">
 							<i class="far fa-ellipsis-vertical icon saIcon"></i>
 						</button>
 					</div>`
-				: '';
+					: '';
 		}
+		if (frame.moreActions === false) document.querySelectorAll('#pageheader .saCollectorWrapper').forEach(element => element.remove());
 	}
 
 	function suppressTopActionsForComponent(spec) {
@@ -342,7 +338,7 @@
 			: '';
 
 		return `
-			<li>
+			<li data-softadmin-shell-id="${escapeHtml(item._shellId || '')}" data-softadmin-shell-kind="item">
 				<a class="saItem${item.favorite ? ' saFavorite' : ''} saDynamicTooltipJs" tabindex="0">
 					<div class="saItemInner">
 						<div class="saIconWrapper">
@@ -356,7 +352,7 @@
 
 	function sidebarGroupHtml(group) {
 		return `
-			<div class="saSideBarGroup">
+			<div class="saSideBarGroup" data-softadmin-shell-id="${escapeHtml(group._shellId || '')}" data-softadmin-shell-kind="group">
 				<h3>${escapeHtml(group.heading)}</h3>
 				<ul class="saItemList">
 					${(group.items || []).map(sidebarItemHtml).join('')}
@@ -805,6 +801,10 @@
 		if (!sidebar) {
 			return;
 		}
+		if (sidebar.accountName !== undefined && accountNameElement()) {
+			accountNameElement().textContent = sidebar.accountName;
+			updateAccountInitials();
+		}
 
 		const body = document.querySelector('.saSideBarBody');
 
@@ -825,6 +825,88 @@
 
 	function hasOwnProperties(value) {
 		return value && Object.keys(value).length > 0;
+	}
+
+	function initialShellSpec() {
+		const icon = element => Array.from(element?.querySelector('i')?.classList || []).find(name => name.startsWith('fa-'))?.slice(3) || 'circle';
+		const readItems = group => Array.from(group.querySelectorAll('.saItemList > li')).map(item => {
+			const pill = item.querySelector('.saMenuItemPill');
+			return { title: sidebarItemTitle(item), icon: icon(item), ...(pill ? { pill: { text: pill.textContent, type: pill.classList.contains('saBeta') ? 'beta' : 'deprecated' } } : {}) };
+		});
+		const favorites = document.querySelector('.saSideBarFavorites');
+		return window.SoftadminShellEditor.prepare({ components: [], frame: {
+			title: document.querySelector('#pageheader .saHeaderText')?.textContent || 'Softadmin mockup',
+			documentTitle: document.title,
+			breadcrumbs: Array.from(document.querySelectorAll('#pageheader > .saDesktopHeader .saBreadcrumb')).map(item => item.textContent.trim()),
+			actions: Array.from(document.querySelectorAll('#pageheader > .saDesktopHeader .saTopLink')).map(button => ({ label: button.querySelector('.saButtonText')?.textContent || button.textContent.trim(), icon: icon(button), variant: button.classList.contains('saButtonPrimary') ? 'primary' : 'secondary', disabled: button.disabled })),
+			moreActions: !document.querySelector('#pageheader .saTopLink') || Boolean(document.querySelector('#pageheader .saCollectorWrapper'))
+		}, sidebar: {
+			accountName: accountNameElement()?.textContent || 'Anna Andersson',
+			favorites: favorites ? { heading: favorites.querySelector('.saButtonFavorites span')?.textContent || 'Favorites', items: readItems(favorites) } : null,
+			groups: sidebarGroups().map(group => ({ heading: group.querySelector('h3')?.textContent || '', items: readItems(group) }))
+		} });
+	}
+
+	function shellCommand(element) {
+		const owner = element?.closest('[data-softadmin-shell-kind]');
+		return owner ? { kind: owner.dataset.softadminShellKind, id: owner.dataset.softadminShellId, index: Number(owner.dataset.softadminBreadcrumbIndex) } : null;
+	}
+
+	function refreshShellBindings() {
+		enableInlineEditing();
+		enableFormValueEditing();
+		enableDragAndDrop();
+		applyManualEdits();
+		applyCurrentLanguage();
+		updateUndoButton();
+	}
+
+	function editShell(command) {
+		if (!command || !lastDebugResult?.spec || isBusy) return;
+		try {
+			const result = window.SoftadminShellEditor.apply(lastDebugResult.spec, command);
+			window.SoftadminSpecContract.assertSpec(result.spec);
+			pushUndoState();
+			lastDebugResult.spec = result.spec;
+			clearSelectedElement();
+			updateFrame(result.spec.frame);
+			updateSidebar(result.spec.sidebar);
+			refreshShellBindings();
+			const selected = result.selectedId ? document.querySelector(`[data-softadmin-shell-id="${result.selectedId}"]`) : null;
+			if (selected) selectElement(selected);
+		} catch (error) {
+			document.getElementById('SoftadminPromptStatus').textContent = error.message;
+		}
+	}
+
+	function rememberShellEdit(element) {
+		let command = shellCommand(element);
+		if (element.matches('#pageheader .saHeaderText')) command = { kind: 'title' };
+		else if (element.matches('.saAccountName')) command = { kind: 'account' };
+		else if (element.matches('.saSideBarFavoritesHeader .saButtonFavorites span')) command = { kind: 'favorites' };
+		if (!command || !lastDebugResult?.spec) return false;
+		const copy = element.cloneNode(true);
+		copy.querySelectorAll('.saMenuItemPill').forEach(pill => pill.remove());
+		command = { ...command, op: 'rename', value: copy.textContent };
+		const result = window.SoftadminShellEditor.apply(lastDebugResult.spec, command);
+		if (JSON.stringify(result.spec) === JSON.stringify(lastDebugResult.spec)) return true;
+		if (!element.dataset.softadminSpecEditSession) {
+			pushUndoState();
+			element.dataset.softadminSpecEditSession = 'true';
+			element.addEventListener('blur', () => { delete element.dataset.softadminSpecEditSession; }, { once: true });
+		}
+		lastDebugResult.spec = result.spec;
+		clearRedoHistory();
+		// Keep desktop/mobile copies synchronized without replacing the active editor.
+		if (command.kind === 'title') {
+			document.querySelectorAll('#pageheader .saHeaderText, .saSideBarHeaderSmallScreen h1').forEach(node => { if (node !== element) node.textContent = command.value; });
+			document.title = result.spec.frame.documentTitle;
+		} else if (command.kind === 'action') {
+			document.querySelectorAll(`[data-softadmin-shell-id="${command.id}"] .saButtonText`).forEach(node => { if (node !== element) node.textContent = command.value; });
+		}
+		if (command.kind === 'account') updateAccountInitials();
+		updateUndoButton();
+		return true;
 	}
 
 	function estimateTokens(value) {
@@ -903,6 +985,7 @@
 	}
 
 	function rememberManualEdit(element) {
+		if (rememberShellEdit(element)) return;
 		if (rememberNewEditValue(element, true)) return;
 		const key = editableKey(element);
 
@@ -1393,9 +1476,16 @@
 		draggedFormFieldType = null;
 		pendingDragElement = null;
 		pendingDragStart = null;
+		// A spec render can detach the drag source before the browser emits its click.
+		if (suppressNextClick) window.setTimeout(() => { suppressNextClick = false; }, 0);
 	}
 
 	function canDropOn(source, target) {
+		const sourceShell = shellCommand(source);
+		const targetShell = shellCommand(target);
+		if (sourceShell || targetShell) {
+			return source !== target && sourceShell?.kind === targetShell?.kind && ['item', 'group', 'action', 'breadcrumb'].includes(sourceShell?.kind);
+		}
 		if (source?.dataset.softadminFieldId && target?.dataset.softadminFieldId) {
 			return source !== target && source.closest('[data-softadmin-newedit-id]') === target.closest('[data-softadmin-newedit-id]');
 		}
@@ -1676,6 +1766,8 @@
 
 	function duplicateSelectedElement() {
 		const status = document.getElementById('SoftadminPromptStatus');
+		const shell = shellCommand(selectedElement);
+		if (shell) { editShell({ ...shell, op: 'duplicate' }); return; }
 		if (selectedElement?.dataset.softadminFieldId) {
 			editNewEdit({ op: 'duplicate', id: selectedElement.dataset.softadminFieldId }, 'Duplicated field.');
 			return;
@@ -1712,6 +1804,13 @@
 		}
 
 		const sibling = direction === 'up' ? selectedElement.previousElementSibling : selectedElement.nextElementSibling;
+		const shell = shellCommand(selectedElement);
+		if (shell) {
+			const siblings = Array.from(selectedElement.parentElement.children).filter(node => node.dataset.softadminShellKind === shell.kind);
+			const target = siblings[siblings.indexOf(selectedElement) + (direction === 'up' ? -1 : 1)];
+			if (target) editShell({ ...shell, op: 'move', targetId: target.dataset.softadminShellId, targetIndex: Number(target.dataset.softadminBreadcrumbIndex), after: direction === 'down' });
+			return;
+		}
 		if (selectedElement.dataset.softadminFieldId) {
 			if (sibling?.dataset.softadminFieldId) editNewEdit({ op: 'move', id: selectedElement.dataset.softadminFieldId,
 				targetId: sibling.dataset.softadminFieldId, after: direction === 'down' }, `Moved field ${direction}.`);
@@ -1776,6 +1875,8 @@
 
 	function removeSelectedElement() {
 		const status = document.getElementById('SoftadminPromptStatus');
+		const shell = shellCommand(selectedElement);
+		if (shell) { editShell({ ...shell, op: 'remove' }); return; }
 		if (selectedElement?.dataset.softadminFieldId) {
 			editNewEdit({ op: 'remove', id: selectedElement.dataset.softadminFieldId }, 'Deleted field.');
 			return;
@@ -2061,6 +2162,14 @@
 		const status = document.getElementById('SoftadminPromptStatus');
 		const elementToMove = draggedElement;
 		const targetElement = dropTargetElement;
+		const shell = shellCommand(elementToMove);
+		if (shell) {
+			const rect = targetElement.getBoundingClientRect();
+			const after = shell.kind === 'action' || shell.kind === 'breadcrumb' ? event.clientX > rect.left + rect.width / 2 : event.clientY > rect.top + rect.height / 2;
+			editShell({ ...shell, op: 'move', targetId: targetElement.dataset.softadminShellId, targetIndex: Number(targetElement.dataset.softadminBreadcrumbIndex), after });
+			clearDragState();
+			return;
+		}
 		if (elementToMove?.dataset.softadminFieldId) {
 			const rect = newEditFieldRect(targetElement);
 			editNewEdit({ op: 'move', id: elementToMove.dataset.softadminFieldId,
@@ -2373,6 +2482,7 @@
 		if (!root || !renderer || !spec) {
 			return;
 		}
+		window.SoftadminShellEditor.prepare(spec, lastDebugResult?.spec);
 
 		pushUndoState(previousState);
 		clearSelectedElement();
@@ -2383,6 +2493,7 @@
 		}
 
 		renderer.renderSpec(spec, root);
+		updateSidebar(spec.sidebar);
 		resetManualEdits();
 		applyCurrentLanguage();
 		enableInlineEditing();
@@ -2524,6 +2635,10 @@
 
 		applyLogoPreference();
 		applyAvatarPreference();
+		if (state.debugResult?.spec?.sidebar) {
+			updateFrame(state.debugResult.spec.frame);
+			updateSidebar(state.debugResult.spec.sidebar);
+		}
 
 		if (root) {
 			root.innerHTML = state.rootHtml;
@@ -2880,7 +2995,7 @@
 			if (JSON.stringify(lastDebugResult?.spec || null) !== requestedSpec) {
 				throw new Error('The mockup was edited during generation. Your edits were kept; please generate again.');
 			}
-			const spec = result.spec;
+			const spec = window.SoftadminShellEditor.prepare(result.spec, lastDebugResult?.spec);
 
 			clearSelectedElement();
 			suppressTopActionsForComponent(spec);
@@ -3128,6 +3243,10 @@
 			status.textContent = 'Ready.';
 		}
 		restorePromptHistory([]);
+		const initialSpec = initialShellSpec();
+		lastDebugResult = { spec: initialSpec, source: 'initial', diagnostics: { aliases: [], dropped: [], warnings: [] } };
+		updateFrame(initialSpec.frame);
+		updateSidebar(initialSpec.sidebar);
 		applyCurrentLanguage();
 
 		enableInlineEditing();

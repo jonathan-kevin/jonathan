@@ -5,6 +5,7 @@ require('./softadmin-reference-catalog.js');
 require('./softadmin-spec-contract.js');
 require('./softadmin-editor-patches.js');
 require('./softadmin-newedit-editor.js');
+require('./softadmin-shell-editor.js');
 require('./softadmin-component-registry.js');
 require('./softadmin-calendar-editor.js');
 require('./softadmin-spec-runtime.js');
@@ -914,6 +915,37 @@ assert.equal(new Set(formEditor.entries(normalizedForm).map(entry => entry.node.
 const columnForm = formEditor.prepare({ components: [{ type: 'Multipart', parts: [{ component: { type: 'NewEdit', rows: [{ columns: [{ sections: [{ fields: [] }] }] }] } }] }] });
 const emptyColumn = formEditor.entries(columnForm).find(entry => entry.kind === 'section');
 assert.equal(formEditor.apply(columnForm, { op: 'insert', targetId: emptyColumn.node._editorId, field: { control: 'textbox' } }).changed, true);
+
+const shellEditor = global.SoftadminShellEditor;
+const shellSpec = shellEditor.prepare({ frame: { title: 'Original', breadcrumbs: ['Home', 'Customer'], actions: [{ label: 'Open' }, { label: 'Delete' }] }, sidebar: {
+	groups: [{ heading: 'First', items: [{ title: 'Same name' }, { title: 'Same name' }] }, { heading: 'Second', items: [] }],
+	favorites: { heading: 'Favorites', items: [{ title: 'Favorite' }] }
+}, components: [] });
+const shellJson = JSON.stringify(shellSpec);
+const menuId = shellSpec.sidebar.groups[0].items[0]._shellId;
+const otherMenuId = shellSpec.sidebar.groups[0].items[1]._shellId;
+const actionId = shellSpec.frame.actions[1]._shellId;
+let shellResult = shellEditor.apply(shellSpec, { op: 'rename', id: menuId, value: 'Renamed' });
+assert.equal(shellResult.spec.sidebar.groups[0].items[1].title, 'Same name');
+assert.equal(JSON.stringify(shellSpec), shellJson);
+shellResult = shellEditor.apply(shellResult.spec, { op: 'remove', id: actionId });
+shellResult = shellEditor.apply(shellResult.spec, { op: 'move', id: menuId, targetId: shellSpec.sidebar.favorites.items[0]._shellId, after: true });
+assert.equal(shellResult.spec.sidebar.favorites.items.at(-1)._shellId, menuId);
+shellResult = shellEditor.apply(shellResult.spec, { op: 'duplicate', id: menuId });
+assert.notEqual(shellResult.selectedId, menuId);
+shellResult = shellEditor.apply(shellResult.spec, { op: 'remove', id: otherMenuId });
+assert.equal(shellResult.spec.sidebar.groups[0].items.length, 0);
+const revisionShell = shellEditor.prepare({ frame: { title: 'AI title' }, components: [] }, shellResult.spec);
+assert.deepEqual(revisionShell.sidebar, shellResult.spec.sidebar);
+assert.deepEqual(revisionShell.frame.actions, shellResult.spec.frame.actions);
+assert.deepEqual(shellEditor.prepare({ sidebar: { favorites: { heading: 'Saved items' } } }, shellSpec).sidebar.favorites.items, shellSpec.sidebar.favorites.items);
+const patchedShell = shellEditor.prepare({ sidebarPatch: { removeItems: [{ title: 'Renamed' }], addItemsToResolvedGroup: { items: [{ title: 'Added once' }] } } }, shellResult.spec);
+assert.equal(patchedShell.sidebarPatch, null);
+assert.deepEqual(shellEditor.prepare(cloneForTest(patchedShell)).sidebar, patchedShell.sidebar);
+assert.equal(JSON.stringify(shellSpec), shellJson);
+function cloneForTest(value) { return JSON.parse(JSON.stringify(value)); }
+assert.equal(shellEditor.apply(shellSpec, { op: 'remove', kind: 'collector' }).spec.frame.moreActions, false);
+assert.deepEqual(shellEditor.apply(shellSpec, { op: 'remove', kind: 'breadcrumb', index: 1 }).spec.frame.breadcrumbs, ['Home']);
 
 async function testEndpointContract() {
 	const envKeys = ['AZURE_OPENAI_ENDPOINT', 'AZURE_OPENAI_API_KEY', 'AZURE_OPENAI_DEPLOYMENT', 'SOFTADMIN_ALLOWED_ORIGINS'];
