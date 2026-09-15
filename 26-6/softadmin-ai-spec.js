@@ -21,6 +21,7 @@
 	let preferredLogoSource = null;
 	let preferredAvatarSource = null;
 	let lastComponentSelection = '';
+	let lastSelectionMode = 'ai';
 	let lastCalendarModeSelection = 'Weekdays';
 	let selectedElement = null;
 	let draggedElement = null;
@@ -1226,6 +1227,7 @@
 	}
 
 	function updateFormBuilderVisibility() {
+		updateComponentSelectionControls();
 		const builder = document.getElementById('SoftadminFormBuilder');
 		const calendarPicker = document.getElementById('SoftadminCalendarModePicker');
 
@@ -2532,7 +2534,7 @@
 	}
 
 	function handleComponentPickerChange(event) {
-		if (!event.target.matches('input[type="radio"]')) {
+		if (isBusy || !event.target.matches('input[name="SoftadminComponent"]')) {
 			return;
 		}
 
@@ -2552,6 +2554,16 @@
 
 		clearRedoHistory();
 		updateFormBuilderVisibility();
+	}
+
+	function handleSelectionModeChange(event) {
+		if (isBusy || !event.target.matches('input[name="SoftadminSelectionMode"]')) return;
+		const previousState = captureState();
+		previousState.selectionMode = lastSelectionMode;
+		pushUndoState(previousState);
+		lastSelectionMode = event.target.value;
+		updateFormBuilderVisibility();
+		updateUndoButton();
 	}
 
 	function handleCalendarModeChange(event) {
@@ -2579,7 +2591,8 @@
 			sidebarClassName: document.querySelector('.saSideBar')?.className || '',
 			sidebarHtml: document.querySelector('.saSideBarOuter')?.innerHTML || '',
 			rootHtml: document.querySelector('[data-softadmin-component-root]')?.innerHTML || '',
-			componentValue: selectedComponentValue(),
+			componentValue: chosenComponentValue(),
+			selectionMode: selectedSelectionMode(),
 			calendarModeValue: selectedCalendarModeValue(),
 			languageValue: selectedLanguageValue(),
 			statusText: document.getElementById('SoftadminPromptStatus')?.textContent || '',
@@ -2657,6 +2670,11 @@
 			input.checked = input.value === (state.componentValue || '');
 		});
 		lastComponentSelection = state.componentValue || '';
+		lastSelectionMode = state.selectionMode || (state.componentValue ? 'manual' : 'ai');
+		document.querySelectorAll('input[name="SoftadminSelectionMode"]').forEach(input => {
+			input.checked = input.value === lastSelectionMode;
+		});
+		updateComponentSelectionControls();
 		document.querySelectorAll('input[name="SoftadminLanguage"]').forEach(input => {
 			input.checked = input.value === (state.languageValue || 'en');
 		});
@@ -2846,9 +2864,9 @@
 		const generateButton = document.getElementById('SoftadminGenerate');
 
 		if (generateButton) {
-			generateButton.disabled = busy;
 			generateButton.classList.toggle('saMockPromptButtonLoading', busy);
 		}
+		updateComponentSelectionControls();
 
 		updateUndoButton();
 		updateProjectControls();
@@ -2883,8 +2901,30 @@
 			.sort((left, right) => left.name.localeCompare(right.name));
 	}
 
-	function selectedComponentValue() {
+	function chosenComponentValue() {
 		return document.querySelector('input[name="SoftadminComponent"]:checked')?.value || '';
+	}
+
+	function selectedSelectionMode() {
+		return document.querySelector('input[name="SoftadminSelectionMode"]:checked')?.value || 'ai';
+	}
+
+	function selectedComponentValue() {
+		return selectedSelectionMode() === 'manual' ? chosenComponentValue() : '';
+	}
+
+	function updateComponentSelectionControls() {
+		const picker = document.getElementById('SoftadminComponentPicker');
+		const mode = document.getElementById('SoftadminComponentSelectionMode');
+		const generate = document.getElementById('SoftadminGenerate');
+		const manual = selectedSelectionMode() === 'manual';
+		if (picker) { picker.hidden = !manual; picker.disabled = isBusy || !manual; }
+		if (mode) mode.disabled = isBusy;
+		if (generate) {
+			const needsComponent = manual && !chosenComponentValue();
+			generate.disabled = isBusy || needsComponent;
+			generate.title = needsComponent ? localizedUiText('Choose a component') : '';
+		}
 	}
 
 	function selectedLanguageValue() {
@@ -2932,7 +2972,7 @@
 		}
 
 		const cards = picker.querySelector('.saMockComponentCards');
-		const currentValue = selectedComponentValue();
+		const currentValue = chosenComponentValue();
 
 		if (!cards) {
 			return;
@@ -2940,10 +2980,7 @@
 
 		cards.innerHTML = '';
 
-		const entries = [
-			{ description: 'Let AI choose the most suitable component.', name: 'AI decides', renderable: true, value: '' },
-			...componentPickerEntries()
-		];
+		const entries = componentPickerEntries();
 
 		entries.forEach((entry, index) => {
 			const label = document.createElement('label');
@@ -2957,13 +2994,14 @@
 			input.value = entry.value;
 			input.id = `SoftadminComponent-${index}`;
 			input.disabled = !entry.renderable;
-			input.checked = entry.value === currentValue || (!currentValue && index === 0);
+			input.checked = entry.value === currentValue;
 			text.textContent = entry.name;
 			label.append(input, text);
 			cards.append(label);
 		});
 
-		lastComponentSelection = selectedComponentValue();
+		lastComponentSelection = chosenComponentValue();
+		updateComponentSelectionControls();
 	}
 
 	function selectedComponentEntry(value) {
@@ -3159,6 +3197,7 @@
 		const promptInput = document.getElementById('SoftadminPrompt');
 		const generateButton = document.getElementById('SoftadminGenerate');
 		const componentPicker = document.getElementById('SoftadminComponentPicker');
+		const selectionMode = document.getElementById('SoftadminComponentSelectionMode');
 		const calendarModePicker = document.getElementById('SoftadminCalendarModePicker');
 		const languagePicker = document.getElementById('SoftadminLanguagePicker');
 		const promptHistoryElement = document.getElementById('SoftadminPromptHistory');
@@ -3193,6 +3232,7 @@
 			populateComponentPicker(componentPicker);
 			componentPicker.addEventListener('change', handleComponentPickerChange);
 		}
+		selectionMode?.addEventListener('change', handleSelectionModeChange);
 
 		if (calendarModePicker) {
 			lastCalendarModeSelection = selectedCalendarModeValue();
@@ -3249,6 +3289,7 @@
 
 		document.querySelectorAll('[data-softadmin-example-prompt]').forEach(button => {
 			button.addEventListener('click', function () {
+				if (isBusy) return;
 				if (promptInput) {
 					promptInput.value = button.dataset.softadminExamplePrompt || '';
 					promptInput.focus();
@@ -3260,6 +3301,11 @@
 					const componentInput = Array.from(componentPicker.querySelectorAll('input[type="radio"]'))
 						.find(input => input.value === componentValue && !input.disabled);
 					if (componentInput) {
+						if (selectedSelectionMode() !== 'manual') {
+							const manualMode = document.querySelector('input[name="SoftadminSelectionMode"][value="manual"]');
+							manualMode.checked = true;
+							manualMode.dispatchEvent(new Event('change', { bubbles: true }));
+						}
 						componentInput.checked = true;
 						componentInput.dispatchEvent(new Event('change', { bubbles: true }));
 					}

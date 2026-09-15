@@ -8,6 +8,10 @@
 	root.SoftadminLocalization = api;
 }(typeof window !== 'undefined' ? window : globalThis, function () {
 	const messages = {
+		componentSelection: { en: 'Component selection', sv: 'Komponentval' },
+		manualSelection: { en: 'Manual selection', sv: 'Manuellt val' },
+		aiSelection: { en: 'AI decides', sv: 'AI väljer' },
+		chooseComponent: { en: 'Choose a component', sv: 'Välj en komponent' },
 		goToContent: { en: 'Go to content', sv: 'Gå till innehåll' },
 		goToMenu: { en: 'Go to menu', sv: 'Gå till meny' },
 		search: { en: 'Search...', sv: 'Sök...' },

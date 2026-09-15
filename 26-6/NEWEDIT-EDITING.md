@@ -32,6 +32,8 @@ Run `node softadmin-shell-browser-tests.cjs` with the same Playwright/Edge setup
 
 ## Autosaved Projects
 
+Component selection has two explicit modes: AI decides (no forced component instruction) and Manual selection (component cards, with unavailable entries disabled). Switching modes does not rerender the mockup and remembers the last manual choice. A new manual selection is required before Generate is enabled. `selectionMode` and `componentValue` are included in snapshots, project history, and undo/redo; older snapshots infer manual mode when they already have a component selection. `softadmin-selection-mode-browser-tests.cjs` covers these transitions with mocked AI responses.
+
 The editor automatically saves the current spec, legacy HTML/edit patches, prompt draft, chat/version history, and project logo/avatar in `localStorage` under `softadmin.mockup.projects.v1`. Edits are debounced by 500 ms and flushed before switching projects, hiding the tab, or leaving the page. The last active project reopens automatically. The history select switches immediately; the plus button starts a new project without replacing the current one. Undo/redo is cleared when switching projects.
 
 History retains the ten most recently edited projects, with one entry per project, not per prompt. Older manual saves migrate from `softadmin.mockup.savedPages.v1`; that original key is retained as a backup. Storage failures show an unsaved warning and block switching away from unsaved changes. Revision checks reject stale writes from another tab. Storage is browser- and origin-specific: localhost, file URLs, and Netlify do not share projects. Clearing browser data removes history; this is not a cloud backup.

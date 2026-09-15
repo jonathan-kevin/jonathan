@@ -38,6 +38,7 @@ const assert = require('node:assert/strict');
 			await route.fulfill({ json: { spec, usage: { input_tokens: 1, output_tokens: 1, total_tokens: 2 } }, headers: { 'access-control-allow-origin': '*' } });
 		});
 		await page.goto(process.env.SOFTADMIN_TEST_URL || 'http://localhost/jonathan-git/26-6/');
+		await page.locator('#SoftadminComponentSelectionMode label').filter({ hasText: 'Manual selection' }).click();
 		await page.locator('label.saMockComponentCard').filter({ has: page.locator('input[value="NewEdit"]') }).click();
 		const fields = page.locator('[data-softadmin-newedit-id] .saFieldAndLabelWrapper');
 		await fields.first().waitFor();

@@ -19,6 +19,7 @@ const url = process.env.SOFTADMIN_TEST_URL || 'http://localhost/jonathan-git/26-
 		await page.goto(url);
 		assert.equal(await read(), null, 'Opening an untouched page must not create a project.');
 		assert.equal(await page.locator('#SoftadminSavePage, #SoftadminOpenPage').count(), 0);
+		await page.locator('#SoftadminComponentSelectionMode label').filter({ hasText: 'Manual selection' }).click();
 		await page.locator('label.saMockComponentCard').filter({ has: page.locator('input[value="NewEdit"]') }).click();
 		const fields = page.locator('[data-softadmin-field-id]');
 		await fields.first().waitFor();

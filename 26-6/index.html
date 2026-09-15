@@ -375,6 +375,7 @@
 			margin-top: 0.625rem;
 		}
 
+		.saMockComponentSelectionMode,
 		.saMockComponentPicker,
 		.saMockLanguagePicker,
 		.saMockCalendarModePicker,
@@ -389,6 +390,7 @@
 			line-height: 1rem;
 		}
 
+		.saMockComponentSelectionMode legend,
 		.saMockComponentPicker legend,
 		.saMockLanguagePicker legend,
 		.saMockCalendarModePicker legend,
@@ -397,6 +399,36 @@
 			padding: 0;
 		}
 
+		.saMockComponentPicker { margin-top: .75rem; }
+		.saMockComponentPicker[hidden] { display: none; }
+		.saMockSelectionSegments {
+			display: inline-flex;
+			width: min(20rem, 100%);
+			box-sizing: border-box;
+			max-width: 100%;
+			padding: .1875rem;
+			gap: .1875rem;
+			border: 1px solid #cbd5e1;
+			border-radius: .5rem;
+			background: #e9eef4;
+		}
+		.saMockSelectionSegments .saMockComponentCard { flex: 1 1 0; min-width: 0; }
+		.saMockSelectionSegments .saMockComponentCard span {
+			width: 100%;
+			justify-content: center;
+			text-align: center;
+			min-height: 2rem;
+			border-color: transparent;
+			background: transparent;
+			font-size: .75rem;
+			padding: .375rem .75rem;
+		}
+		.saMockSelectionSegments .saMockComponentCard input:checked + span {
+			background: #fff;
+			color: #0f172a;
+			border-color: #cbd5e1;
+			box-shadow: 0 1px 2px #00000012;
+		}
 		.saMockComponentCards {
 			display: flex;
 			flex-wrap: wrap;
@@ -886,10 +918,10 @@
 	<script src="./softadmin-component-registry.js?v=111"></script>
 	<script src="./softadmin-calendar-editor.js?v=1"></script>
 	<script src="./softadmin-spec-runtime.js?v=92"></script>
-	<script src="./softadmin-localization.js?v=7"></script>
+	<script src="./softadmin-localization.js?v=8"></script>
 	<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
 	<script src="./softadmin-project-history.js?v=1"></script>
-	<script src="./softadmin-ai-spec.js?v=116"></script>
+	<script src="./softadmin-ai-spec.js?v=117"></script>
 	<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -1319,10 +1351,19 @@
 											<div id="SoftadminPromptHistory" class="saMockPromptHistory" role="log" aria-label="Prompt history" aria-live="polite"></div>
 											<textarea id="SoftadminPrompt" class="saMockPromptInput" aria-label="AI mockup prompt" data-softadmin-no-localize>Create a NewEdit form for entering a person's contact information.</textarea>
 											<div class="saMockPromptOptions">
-												<fieldset id="SoftadminComponentPicker" class="saMockComponentPicker">
-													<legend>Component</legend>
-													<div class="saMockComponentCards"></div>
-												</fieldset>
+												<div>
+													<fieldset id="SoftadminComponentSelectionMode" class="saMockComponentSelectionMode">
+														<legend>Component selection</legend>
+														<div class="saMockSelectionSegments">
+															<label class="saMockComponentCard"><input type="radio" name="SoftadminSelectionMode" value="ai" checked><span>AI decides</span></label>
+															<label class="saMockComponentCard"><input type="radio" name="SoftadminSelectionMode" value="manual"><span>Manual selection</span></label>
+														</div>
+													</fieldset>
+													<fieldset id="SoftadminComponentPicker" class="saMockComponentPicker" hidden>
+														<legend>Component</legend>
+														<div class="saMockComponentCards"></div>
+													</fieldset>
+												</div>
 												<fieldset id="SoftadminLanguagePicker" class="saMockLanguagePicker">
 													<legend>Language</legend>
 													<div class="saMockComponentCards">
