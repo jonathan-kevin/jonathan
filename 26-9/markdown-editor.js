@@ -61,11 +61,11 @@
 				const copyButton = document.createElement("button");
 				wrapper.className = "saMarkdownEditorCodeBlock";
 				copyButton.type = "button";
-				copyButton.className = "saInfoBoxCopyButton";
+				copyButton.className = "saCopyButton";
 				copyButton.setAttribute("aria-label", "Copy");
 				copyButton.contentEditable = "false";
 				pre.append(code);
-				copyButton.innerHTML = '<i class="saIcon far fa-copy" aria-hidden="true"></i><i class="saIcon far fa-check" aria-hidden="true"></i>';
+				copyButton.innerHTML = '<i class="saIcon far fa-clone" aria-hidden="true"></i><i class="saIcon far fa-check" aria-hidden="true"></i>';
 				wrapper.append(pre, copyButton);
 
 				const updateLanguage = () => {

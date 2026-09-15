@@ -135,10 +135,16 @@ function createPersonSelect({ button, panel, input, list, people }) {
 
 		const content = document.createElement('div');
 		content.className = 'saOption';
+		const icon = document.createElement('i');
+		icon.setAttribute('aria-hidden', 'true');
+		icon.className = 'saOptionIcon saIcon';
+		if (person.code === selectedCode) {
+			icon.classList.add('fa', 'fa-check');
+		}
 		const text = document.createElement('span');
 		text.className = 'saOptionText';
 		appendHighlightedText(text, person.name, query);
-		content.append(text);
+		content.append(icon, text);
 		option.append(content);
 
 		return option;
@@ -177,7 +183,11 @@ function createPersonSelect({ button, panel, input, list, people }) {
 		valueElement.textContent = person.name;
 		letterElement.textContent = person.name.trim().charAt(0).toLocaleUpperCase();
 		visibleOptions.forEach(option => {
-			option.setAttribute('aria-selected', String(optionPerson.get(option).code === selectedCode));
+			const isSelected = optionPerson.get(option).code === selectedCode;
+			option.setAttribute('aria-selected', String(isSelected));
+			const icon = option.querySelector('.saOptionIcon');
+			icon.classList.toggle('fa', isSelected);
+			icon.classList.toggle('fa-check', isSelected);
 		});
 
 		if (notify) button.dispatchEvent(new Event('change', { bubbles: true }));

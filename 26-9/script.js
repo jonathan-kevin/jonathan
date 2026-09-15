@@ -103,7 +103,7 @@ $(document).ready(function () {
 		$headingButton.attr('aria-expanded', String(shouldOpen));
 	});
 
-	const $InfoBoxButton = $('.saInfoBoxCopyButton');
+	const $InfoBoxButton = $('.saCopyButton');
 	let $AriaLabelTooltip = null;
 	let ariaLabelTooltipTarget = null;
 
@@ -223,6 +223,161 @@ $(document).ready(function () {
 			}, 2000));
 		} catch (error) {
 			console.error('Failed to copy InfoSQL content.', error);
+		}
+	});
+
+	function getChatMessageCopyText(button) {
+		const messageContent = $(button)
+			.closest('article')
+			.find('.saChatMessageContent, .saChatMessageBody > .saMarkdownContent')
+			.get(0);
+
+		return messageContent?.innerText.trim() || '';
+	}
+
+	let chatEditorSequence = 0;
+
+	function updateChatEditSaveState(editor) {
+		const $editor = $(editor);
+		const hasText = Boolean($editor.find('.saChatTextarea').get(0)?.innerText.trim());
+		$editor.find('.saChatSaveEditButton').prop('disabled', !hasText);
+	}
+
+	function focusChatEditor(editable) {
+		editable.focus();
+
+		const selection = window.getSelection();
+		if (!selection) return;
+
+		const range = document.createRange();
+		range.selectNodeContents(editable);
+		range.collapse(false);
+		selection.removeAllRanges();
+		selection.addRange(range);
+	}
+
+	function beginChatMessageEdit(button) {
+		const $button = $(button);
+		const $messageBody = $button.closest('article').find('.saChatMessageBody').first();
+		if (!$messageBody.length || $messageBody.hasClass('saChatEdit')) return;
+
+		const editorId = `sa-chat-message-editor-${++chatEditorSequence}`;
+		const messageText = $messageBody.children('p').first().text();
+		const $messageEdit = $('<div>', { class: 'saChatMessageEdit' });
+		const $editable = $('<div>', {
+			class: 'saChatTextarea',
+			contenteditable: 'plaintext-only',
+			role: 'textbox',
+			'aria-multiline': 'true',
+			id: editorId,
+			text: messageText
+		});
+		const $buttonGroup = $('<div>', { class: 'saChatButtonGroup' });
+
+		$('<label>', {
+			class: 'saScreenReaderOnly',
+			for: editorId,
+			text: 'Edit message'
+		}).appendTo($messageEdit);
+
+		$editable.appendTo($messageEdit);
+		$('<button>', {
+			class: 'saDefaultButtonPrimary saChatSaveEditButton',
+			type: 'submit',
+			text: 'Save'
+		}).appendTo($buttonGroup);
+		$('<button>', {
+			class: 'saDefaultButtonSecondary saChatCancelEditButton',
+			type: 'reset',
+			text: 'Cancel'
+		}).appendTo($buttonGroup);
+		$buttonGroup.appendTo($messageEdit);
+
+		$messageBody.addClass('saChatEdit').append($messageEdit);
+		$button.attr({ 'aria-expanded': 'true', 'aria-controls': editorId });
+		updateChatEditSaveState($messageEdit);
+		focusChatEditor($editable.get(0));
+	}
+
+	function finishChatMessageEdit(button, shouldSave) {
+		const $messageEdit = $(button).closest('.saChatMessageEdit');
+		const $messageBody = $messageEdit.closest('.saChatMessageBody');
+		const $editButton = $messageBody.closest('article').find('.saChatEditButton').first();
+
+		if (shouldSave) {
+			const messageText = $messageEdit.find('.saChatTextarea').get(0)?.innerText.trim() || '';
+			if (!messageText) {
+				focusChatEditor($messageEdit.find('.saChatTextarea').get(0));
+				return;
+			}
+
+			$messageBody.children('p').first().text(messageText);
+		}
+
+		$messageEdit.remove();
+		$messageBody.removeClass('saChatEdit');
+		$editButton.attr('aria-expanded', 'false').removeAttr('aria-controls').trigger('focus');
+	}
+
+	$(document).on('click', '.saChatEditButton', function () {
+		beginChatMessageEdit(this);
+	});
+
+	$(document).on('input', '.saChatMessageEdit .saChatTextarea', function () {
+		updateChatEditSaveState($(this).closest('.saChatMessageEdit'));
+	});
+
+	$(document).on('click', '.saChatSaveEditButton', function (event) {
+		event.preventDefault();
+		finishChatMessageEdit(this, true);
+	});
+
+	$(document).on('click', '.saChatCancelEditButton', function (event) {
+		event.preventDefault();
+		finishChatMessageEdit(this, false);
+	});
+
+	$(document).on('keydown', '.saChatMessageEdit .saChatTextarea', function (event) {
+		if (event.key !== 'Escape') return;
+
+		event.preventDefault();
+		finishChatMessageEdit(this, false);
+	});
+
+	$('.saChatMessageEdit').each(function () {
+		updateChatEditSaveState(this);
+	});
+
+	$(document).on('click', '.saChatCopyButton', async function () {
+		const $button = $(this);
+		const copyLabel = $button.data('saCopyLabel') || $button.attr('aria-label') || 'Copy';
+		const copiedLabel = copyLabel.replace(/^Copy\b/, 'Copied');
+		$button.data('saCopyLabel', copyLabel);
+
+		try {
+			await copyTextToClipboard(getChatMessageCopyText(this));
+
+			const previousTimeout = $button.data('saCopiedTimeout');
+			if (previousTimeout) clearTimeout(previousTimeout);
+
+			$button
+				.addClass('saCopied')
+				.attr({ 'aria-label': copiedLabel, 'data-tooltip': copiedLabel });
+
+			if (ariaLabelTooltipTarget === this) $AriaLabelTooltip.text(copiedLabel);
+
+			$button.data('saCopiedTimeout', setTimeout(function () {
+				$button
+					.removeClass('saCopied')
+					.attr({ 'aria-label': copyLabel, 'data-tooltip': copyLabel })
+					.removeData('saCopiedTimeout');
+
+				if (ariaLabelTooltipTarget === $button.get(0)) {
+					$AriaLabelTooltip.text(copyLabel);
+				}
+			}, 2000));
+		} catch (error) {
+			console.error('Failed to copy chat message.', error);
 		}
 	});
 
