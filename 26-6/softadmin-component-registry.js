@@ -2462,7 +2462,7 @@
 			return `
 				<tr class="saGridExtraText">
 					<td colspan="1" style="width: 0px;"></td>
-					<td colspan="${columns.length}" tabindex="-1">${row.html || `<p>${escapeHtml(row.text || '')}</p>`}</td>
+					<td colspan="${columns.length}" tabindex="-1"><p>${escapeHtml(row.text ?? row.html ?? '')}</p></td>
 				</tr>`;
 		}
 

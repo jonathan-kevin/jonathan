@@ -49,6 +49,14 @@ OPENAI_MODEL=gpt-4.1-mini
 
 If credentials are missing or invalid, the function returns an error and the browser keeps the current mockup unchanged.
 
+## Local Development and Access
+
+The deployed page and function share an origin, so normal Netlify use does not need cross-origin permission. Local HTTP development calls the hosted function instead. CORS permits `http(s)://localhost` and `http(s)://127.0.0.1` on any port, the production origin, and exact origins listed in `SOFTADMIN_ALLOWED_ORIGINS` (comma-separated). Preflight allows POST with Content-Type; success and error responses include the permitted origin. Open the local page through HTTP, not `file://`, whose opaque `null` origin is deliberately rejected.
+
+CORS is not authentication. Requests without an Origin header remain accepted, and throttling is per instance, not a shared Azure budget. These changes do not add login or protect the public function from direct callers.
+
+Grid extra-text rows use plain `text`. Legacy `html` values are displayed as escaped text, never executed as markup.
+
 ## Smoke Test
 
 After deploy, open:

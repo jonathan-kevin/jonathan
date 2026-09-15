@@ -763,6 +763,26 @@ assert.match(groupedGridRoot.innerHTML, /saGridText">0<\/span>/);
 assert.match(groupedGridRoot.innerHTML, /saListGridAggregate/);
 assert.doesNotMatch(groupedGridRoot.innerHTML, /saMissingLabel|Missing label:/);
 
+const extraTextRoot = { innerHTML: '' };
+for (const payload of ['<img src=x onerror="alert(1)">', '<script>alert(1)</script>', '<svg onload="alert(1)"></svg>']) {
+	for (const key of ['text', 'html']) {
+		global.SoftadminMockups.renderSpec({ components: [{
+			type: 'ResultGrid', columns: [{ key: 'name', label: 'Name' }],
+			rows: [{ type: 'extraText', [key]: payload }]
+		}] }, extraTextRoot);
+		assert.match(extraTextRoot.innerHTML, /saGridExtraText/);
+		assert.match(extraTextRoot.innerHTML, /&lt;/);
+		const extraRow = extraTextRoot.innerHTML.match(/<tr class="saGridExtraText">[\s\S]*?<\/tr>/)[0];
+		assert.doesNotMatch(extraRow, /<(?:img|script|svg)\b/i);
+	}
+}
+global.SoftadminMockups.renderSpec({ components: [{
+	type: 'ResultGrid', columns: [{ key: 'name', label: 'Name' }],
+	rows: [{ type: 'extraText', text: 'R&D notes', html: '<b>Legacy value</b>' }]
+}] }, extraTextRoot);
+assert.match(extraTextRoot.innerHTML, /<p>R&amp;D notes<\/p>/);
+assert.doesNotMatch(extraTextRoot.innerHTML, /Legacy value/);
+
 const inlineDocumentRoot = { innerHTML: '' };
 global.SoftadminMockups.renderSpec({
 	components: [{
@@ -859,6 +879,8 @@ assert.match(treeviewRoot.innerHTML, /<i>Hidden drafts<\/i>/);
 assert.match(treeviewRoot.innerHTML, /<span>Labels<\/span>/);
 
 async function testEndpointContract() {
+	const envKeys = ['AZURE_OPENAI_ENDPOINT', 'AZURE_OPENAI_API_KEY', 'AZURE_OPENAI_DEPLOYMENT', 'SOFTADMIN_ALLOWED_ORIGINS'];
+	const previousEnv = Object.fromEntries(envKeys.map(key => [key, process.env[key]]));
 	process.env.AZURE_OPENAI_ENDPOINT = 'https://example.openai.azure.com';
 	process.env.AZURE_OPENAI_API_KEY = 'test-key';
 	process.env.AZURE_OPENAI_DEPLOYMENT = 'test-deployment';
@@ -866,16 +888,54 @@ async function testEndpointContract() {
 	const originalFetch = global.fetch;
 	let providerOutput = validNewEdit();
 	let lastProviderRequest = null;
+	let providerCalls = 0;
+	let providerStatus = 200;
 	global.fetch = async (url, options) => {
+		providerCalls += 1;
 		lastProviderRequest = JSON.parse(options.body);
 		return new Response(JSON.stringify({
 		output_text: JSON.stringify(providerOutput),
 		usage: { input_tokens: 100, output_tokens: 50, total_tokens: 150 }
-		}), { status: 200, headers: { 'content-type': 'application/json' } });
+		}), { status: providerStatus, headers: { 'content-type': 'application/json' } });
 	};
 
 	try {
 		const { default: handler } = await import('../netlify/functions/softadmin-spec.mjs');
+		process.env.SOFTADMIN_ALLOWED_ORIGINS = 'https://preview.example';
+		for (const origin of ['http://localhost', 'http://localhost:8080', 'http://127.0.0.1:9365', 'https://jonathankevin.netlify.app', 'https://preview.example']) {
+			const preflight = await handler(new Request('https://example.test', {
+				method: 'OPTIONS', headers: { origin, 'access-control-request-method': 'POST', 'access-control-request-headers': 'Content-Type' }
+			}));
+			assert.equal(preflight.status, 204);
+			assert.equal(preflight.headers.get('access-control-allow-origin'), origin);
+			assert.equal(preflight.headers.get('access-control-allow-methods'), 'POST');
+			assert.equal(preflight.headers.get('access-control-allow-headers'), 'Content-Type');
+			assert.match(preflight.headers.get('vary'), /Origin/);
+			assert.equal(preflight.headers.get('access-control-allow-credentials'), null);
+		}
+		for (const origin of ['https://attacker.example', 'http://localhost.attacker.example', 'null', 'file://localhost', 'http://localhost/path']) {
+			for (const method of ['OPTIONS', 'POST']) {
+				const rejected = await handler(new Request('https://example.test', {
+					method, headers: { origin, 'access-control-request-method': 'POST' }
+				}));
+				assert.equal(rejected.status, 403);
+				assert.equal(rejected.headers.get('access-control-allow-origin'), null);
+			}
+		}
+		for (const [method, headers] of [['DELETE', 'content-type'], ['POST', 'authorization']]) {
+			const rejected = await handler(new Request('https://example.test', {
+				method: 'OPTIONS', headers: { origin: 'http://localhost', 'access-control-request-method': method, 'access-control-request-headers': headers }
+			}));
+			assert.equal(rejected.status, 403);
+		}
+		assert.equal(providerCalls, 0, 'Preflights and rejected origins must not invoke Azure.');
+		for (const [method, body, status] of [['POST', '{', 400], ['POST', '{"prompt":""}', 400], ['GET', undefined, 405], ['POST', 'x'.repeat(65_537), 413]]) {
+			const errorResponse = await handler(new Request('https://example.test', {
+				method, body, headers: { origin: 'http://localhost', 'x-nf-client-connection-ip': 'cors-errors' }
+			}));
+			assert.equal(errorResponse.status, status);
+			assert.equal(errorResponse.headers.get('access-control-allow-origin'), 'http://localhost');
+		}
 		const response = await handler(new Request('https://example.test', {
 			method: 'POST',
 			headers: { 'content-type': 'application/json', origin: 'http://localhost' },
@@ -884,6 +944,7 @@ async function testEndpointContract() {
 		const body = await response.json();
 
 		assert.equal(response.status, 200, body.error || 'Endpoint should accept a valid generated spec.');
+		assert.equal(response.headers.get('access-control-allow-origin'), 'http://localhost');
 		assert.equal(body.spec.components[0].type, 'NewEdit');
 		assert.equal(body.usage.total_tokens, 150);
 		assert.match(lastProviderRequest.input[0].content, /Every resource MUST always contain an activities array/);
@@ -929,11 +990,33 @@ async function testEndpointContract() {
 		assert.equal(revisionBody.spec.frame.title, 'Edit person');
 		assert.deepEqual(revisionBody.spec.components, validNewEdit().components);
 		assert.equal(revisionBody.operations.length, 1);
+
+		for (const status of [429, 500]) {
+			providerStatus = status;
+			const failure = await handler(new Request('https://example.test', {
+				method: 'POST', headers: { origin: 'http://localhost' }, body: JSON.stringify({ prompt: 'Create a form.' })
+			}));
+			assert.equal(failure.status, status === 429 ? 429 : 502);
+			assert.equal(failure.headers.get('access-control-allow-origin'), 'http://localhost');
+		}
+		const callsBeforeLimit = providerCalls;
+		for (let index = 0; index < 13; index += 1) {
+			const limited = await handler(new Request('https://example.test', {
+				method: 'POST', headers: { origin: 'http://localhost', 'x-nf-client-connection-ip': 'cors-rate-limit' }, body: '{"prompt":""}'
+			}));
+			assert.equal(limited.status, index < 12 ? 400 : 429);
+			assert.equal(limited.headers.get('access-control-allow-origin'), 'http://localhost');
+		}
+		const noOrigin = await handler(new Request('https://example.test', { method: 'POST', body: '{"prompt":""}' }));
+		assert.equal(noOrigin.status, 400);
+		assert.equal(noOrigin.headers.get('access-control-allow-origin'), null);
+		assert.equal(providerCalls, callsBeforeLimit);
 	} finally {
 		global.fetch = originalFetch;
-		delete process.env.AZURE_OPENAI_ENDPOINT;
-		delete process.env.AZURE_OPENAI_API_KEY;
-		delete process.env.AZURE_OPENAI_DEPLOYMENT;
+		for (const key of envKeys) {
+			if (previousEnv[key] === undefined) delete process.env[key];
+			else process.env[key] = previousEnv[key];
+		}
 	}
 }
 

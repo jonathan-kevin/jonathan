@@ -71,6 +71,9 @@ function isAllowedOrigin(request, env) {
 
 	try {
 		const url = new URL(origin);
+		if (!['http:', 'https:'].includes(url.protocol) || url.origin !== origin) {
+			return false;
+		}
 		return configured.includes(origin)
 			|| origin === 'https://jonathankevin.netlify.app'
 			|| url.hostname === 'localhost'
@@ -386,18 +389,9 @@ async function fetchOpenAiSpec(config, prompt, summary, currentSpec) {
 	return { spec: parseJsonObject(extractOutputText(responseJson)), usage: responseJson.usage || null };
 }
 
-export default async (request) => {
-	if (request.method === 'OPTIONS') {
-		return new Response(null, { status: 204 });
-	}
-
+async function handleRequest(request, netlifyEnv) {
 	if (request.method !== 'POST') {
 		return jsonResponse({ error: 'Use POST.' }, 405);
-	}
-
-	const netlifyEnv = typeof Netlify !== 'undefined' && Netlify.env ? Netlify.env : null;
-	if (!isAllowedOrigin(request, netlifyEnv)) {
-		return jsonResponse({ error: 'Origin is not allowed.' }, 403);
 	}
 
 	if (isRateLimited(request)) {
@@ -477,4 +471,36 @@ export default async (request) => {
 			error: error.message || 'Could not parse model output.'
 		}, error.status === 429 ? 429 : 502);
 	}
+}
+
+export default async (request) => {
+	const netlifyEnv = typeof Netlify !== 'undefined' && Netlify.env ? Netlify.env : null;
+	if (!isAllowedOrigin(request, netlifyEnv)) {
+		const response = jsonResponse({ error: 'Origin is not allowed.' }, 403);
+		response.headers.set('vary', 'Origin');
+		return response;
+	}
+
+	let response;
+	if (request.method === 'OPTIONS') {
+		const method = request.headers.get('access-control-request-method');
+		const headers = (request.headers.get('access-control-request-headers') || '')
+			.split(',').map(value => value.trim().toLowerCase()).filter(Boolean);
+		if (method !== 'POST' || headers.some(header => header !== 'content-type')) {
+			response = jsonResponse({ error: 'Preflight method or headers are not allowed.' }, 403);
+		} else {
+			response = new Response(null, { status: 204 });
+			response.headers.set('access-control-allow-methods', 'POST');
+			response.headers.set('access-control-allow-headers', 'Content-Type');
+		}
+	} else {
+		response = await handleRequest(request, netlifyEnv);
+	}
+
+	// Apply CORS to errors too, so the browser can display the actual failure.
+	const origin = request.headers.get('origin');
+	if (origin) response.headers.set('access-control-allow-origin', origin);
+	response.headers.set('vary', 'Origin, Access-Control-Request-Method, Access-Control-Request-Headers');
+	response.headers.set('cache-control', 'no-store');
+	return response;
 };
