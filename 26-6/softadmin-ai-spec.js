@@ -6,8 +6,15 @@
 	const logoStorageKey = 'softadmin.mockup.logo';
 	const avatarStorageKey = 'softadmin.mockup.avatar';
 	const aiToolsPositionStorageKey = 'softadmin.mockup.aiToolsPosition';
-	const savedPagesStorageKey = 'softadmin.mockup.savedPages.v1';
-	const maxSavedPages = 20;
+	const projectHistory = window.SoftadminProjectHistory;
+	let projects = { version: 1, activeId: null, projects: [] };
+	let activeProjectId = null;
+	let activeProjectRevision = null;
+	let projectAutosaveReady = false;
+	let restoringProject = false;
+	let projectDirty = false;
+	let projectAutosaveTimer = null;
+	let newProjectTemplate = null;
 	const manualEdits = window.SoftadminEditorPatches.createStore();
 	let isBusy = false;
 	let lastTokenEstimate = null;
@@ -795,6 +802,7 @@
 
 		event.preventDefault();
 		setSidebarExpanded(document.querySelector('.saSideBar')?.classList.contains('saMinimized'));
+		scheduleProjectAutosave();
 	}
 
 	function updateSidebar(sidebar) {
@@ -2689,73 +2697,134 @@
 		updateUndoButton();
 	}
 
-	function readSavedPages() {
-		try {
-			const pages = JSON.parse(window.localStorage.getItem(savedPagesStorageKey) || '[]');
-			return Array.isArray(pages) ? pages.filter(page => page && page.id && page.state) : [];
-		} catch (_) {
-			return [];
-		}
+	function setAutosaveStatus(state, message) {
+		const status = document.getElementById('SoftadminAutosaveStatus');
+		if (!status) return;
+		status.dataset.state = state;
+		status.textContent = localizedUiText(message);
 	}
 
-	function writeSavedPages(pages) {
-		window.localStorage.setItem(savedPagesStorageKey, JSON.stringify(pages.slice(0, maxSavedPages)));
+	function projectSaveError(error) {
+		const message = error?.name === 'QuotaExceededError'
+			? 'Browser storage is full. Recent changes are not saved. Keep this tab open.'
+			: error?.message || 'Browser storage is unavailable. Keep this tab open.';
+		setAutosaveStatus('error', localizedUiText('Not saved') + ': ' + localizedUiText(message));
 	}
 
-	function updateSavedPageControls(selectedId) {
-		const select = document.getElementById('SoftadminSavedPages');
-		const openButton = document.getElementById('SoftadminOpenPage');
-		const saveButton = document.getElementById('SoftadminSavePage');
+	function updateProjectControls() {
+		const select = document.getElementById('SoftadminProjectHistory');
+		const newButton = document.getElementById('SoftadminNewProject');
 		if (!select) return;
-
-		const pages = readSavedPages();
-		select.innerHTML = '<option value="">Saved pages</option>' + pages.map(page => {
-			const savedDate = page.savedAt ? new Date(page.savedAt).toLocaleDateString() : '';
-			return `<option value="${escapeHtml(page.id)}">${escapeHtml(page.name)}${savedDate ? ` - ${escapeHtml(savedDate)}` : ''}</option>`;
+		select.innerHTML = '<option value="" disabled>' + escapeHtml(localizedUiText('Project history')) + '</option>' + projects.projects.map(project => {
+			const date = project.updatedAt ? new Date(project.updatedAt).toLocaleString(selectedLanguageValue()) : '';
+			return `<option value="${escapeHtml(project.id)}">${escapeHtml(project.name || localizedUiText('New project'))}${date ? ' - ' + escapeHtml(date) : ''}</option>`;
 		}).join('');
-		select.value = pages.some(page => page.id === selectedId) ? selectedId : '';
-		select.disabled = isBusy || pages.length === 0;
-		if (openButton) openButton.disabled = isBusy || !select.value;
-		if (saveButton) saveButton.disabled = isBusy;
+		select.value = activeProjectId || '';
+		select.disabled = isBusy || projects.projects.length === 0;
+		if (newButton) newButton.disabled = isBusy;
 	}
 
-	function saveCurrentPage() {
-		const status = document.getElementById('SoftadminPromptStatus');
-		const promptInput = document.getElementById('SoftadminPrompt');
-		const suggestedName = lastDebugResult?.spec?.frame?.title || document.title || 'Softadmin mockup';
-		const name = window.prompt('Name this saved page', suggestedName)?.trim();
-		if (!name) return;
+	function scheduleProjectAutosave() {
+		if (!projectAutosaveReady || restoringProject) return;
+		projectDirty = true;
+		clearTimeout(projectAutosaveTimer);
+		setAutosaveStatus('saving', 'Saving automatically...');
+		projectAutosaveTimer = setTimeout(flushProjectAutosave, 500);
+	}
 
+	function flushProjectAutosave() {
+		clearTimeout(projectAutosaveTimer);
+		projectAutosaveTimer = null;
+		if (!projectAutosaveReady || restoringProject || !projectDirty) return true;
 		try {
-			collectManualEdits();
-			const pages = readSavedPages();
-			const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-			pages.unshift({
+			const state = captureUndoState();
+			state.statusText = '';
+			const id = activeProjectId || `project-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+			const title = state.debugResult?.spec?.frame?.title;
+			const project = {
 				id,
-				name,
-				savedAt: new Date().toISOString(),
-				prompt: promptInput?.value || '',
-				state: captureState()
-			});
-			writeSavedPages(pages);
-			updateSavedPageControls(id);
-			if (status) status.textContent = `Saved "${name}" for later.`;
-		} catch (_) {
-			if (status) status.textContent = 'Could not save this page in the browser.';
+				name: title && title !== newProjectTemplate.state.debugResult?.spec?.frame?.title ? title : localizedUiText('New project'),
+				updatedAt: new Date().toISOString(),
+				revision: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+				prompt: document.getElementById('SoftadminPrompt')?.value || '',
+				logoSource: preferredLogoSource,
+				avatarSource: preferredAvatarSource,
+				state
+			};
+			const next = projectHistory.upsert(projectHistory.read(window.localStorage), project, activeProjectRevision);
+			projectHistory.write(window.localStorage, next);
+			projects = next;
+			activeProjectId = id;
+			activeProjectRevision = project.revision;
+			projectDirty = false;
+			setAutosaveStatus('saved', 'Saved automatically');
+			updateProjectControls();
+			return true;
+		} catch (error) {
+			projectSaveError(error);
+			return false;
 		}
 	}
 
-	function openSavedPage() {
-		const select = document.getElementById('SoftadminSavedPages');
-		const promptInput = document.getElementById('SoftadminPrompt');
-		const savedPage = readSavedPages().find(page => page.id === select?.value);
-		if (!savedPage) return;
+	function restoreProject(project) {
+		restoringProject = true;
+		try {
+			preferredLogoSource = Object.hasOwn(project, 'logoSource') ? project.logoSource : newProjectTemplate.logoSource;
+			preferredAvatarSource = Object.hasOwn(project, 'avatarSource') ? project.avatarSource : newProjectTemplate.avatarSource;
+			undoStack.length = 0;
+			redoStack.length = 0;
+			restoreState(cloneState(project.state), localizedUiText('Ready.'));
+			document.getElementById('SoftadminPrompt').value = project.prompt || '';
+			activeProjectId = project.id || null;
+			activeProjectRevision = project.revision || null;
+			projectDirty = false;
+		} finally {
+			restoringProject = false;
+		}
+		updateProjectControls();
+	}
 
-		pushUndoState(captureState());
-		clearRedoHistory();
-		restoreState(savedPage.state, `Opened "${savedPage.name}".`);
-		if (promptInput) promptInput.value = savedPage.prompt || '';
-		updateSavedPageControls(savedPage.id);
+	function activateProject(id) {
+		if (isBusy || id === activeProjectId) return;
+		if (!flushProjectAutosave()) { updateProjectControls(); return; }
+		try {
+			const latest = projectHistory.read(window.localStorage);
+			const project = latest.projects.find(item => item.id === id);
+			if (!project) throw new Error('This project is no longer in history.');
+			const next = { ...latest, activeId: id };
+			projectHistory.write(window.localStorage, next);
+			projects = next;
+			restoreProject(project);
+			setAutosaveStatus('saved', 'Saved automatically');
+		} catch (error) {
+			projectSaveError(error);
+			updateProjectControls();
+		}
+	}
+
+	function startNewProject() {
+		if (isBusy || !flushProjectAutosave()) return;
+		restoreProject(newProjectTemplate);
+		projectDirty = true;
+		flushProjectAutosave();
+	}
+
+	function initializeProjectHistory() {
+		newProjectTemplate = { state: captureUndoState(), prompt: '', logoSource: preferredLogoSource, avatarSource: preferredAvatarSource };
+		try {
+			projects = projectHistory.read(window.localStorage);
+			// Keep the legacy saved-page key untouched as a migration backup.
+			if (projects.projects.length) {
+				const project = projects.projects.find(item => item.id === projects.activeId) || projects.projects[0];
+				restoreProject(project);
+				if (window.localStorage.getItem(projectHistory.key) === null) projectHistory.write(window.localStorage, projects);
+				setAutosaveStatus('saved', 'Saved automatically');
+			}
+		} catch (error) {
+			projectSaveError(error);
+		}
+		projectAutosaveReady = true;
+		updateProjectControls();
 	}
 
 	function updateUndoButton() {
@@ -2769,6 +2838,7 @@
 		if (redoButton) {
 			redoButton.disabled = isBusy || redoStack.length === 0;
 		}
+		scheduleProjectAutosave();
 	}
 
 	function setBusy(busy) {
@@ -2781,7 +2851,7 @@
 		}
 
 		updateUndoButton();
-		updateSavedPageControls(document.getElementById('SoftadminSavedPages')?.value || '');
+		updateProjectControls();
 	}
 
 	function referenceCatalog() {
@@ -3097,9 +3167,8 @@
 		const logoFileInput = document.getElementById('SoftadminLogoFile');
 		const avatarFileInput = document.getElementById('SoftadminAvatarFile');
 		const screenshotButton = document.getElementById('SoftadminScreenshot');
-		const savedPagesSelect = document.getElementById('SoftadminSavedPages');
-		const savePageButton = document.getElementById('SoftadminSavePage');
-		const openPageButton = document.getElementById('SoftadminOpenPage');
+		const projectSelect = document.getElementById('SoftadminProjectHistory');
+		const newProjectButton = document.getElementById('SoftadminNewProject');
 		const defaultPrompt = 'Create a customer detail page with contact summary, cases, invoices, and payments.';
 
 		if (promptInput) {
@@ -3160,25 +3229,30 @@
 			screenshotButton.addEventListener('click', saveMockupScreenshot);
 		}
 
-		if (savedPagesSelect) {
-			savedPagesSelect.addEventListener('change', function () {
-				if (openPageButton) openPageButton.disabled = isBusy || !savedPagesSelect.value;
+		projectSelect?.addEventListener('change', () => activateProject(projectSelect.value));
+		newProjectButton?.addEventListener('click', startNewProject);
+		for (const eventName of ['input', 'change']) {
+			document.addEventListener(eventName, event => {
+				if (event.target !== projectSelect) scheduleProjectAutosave();
 			});
 		}
-
-		if (savePageButton) {
-			savePageButton.addEventListener('click', saveCurrentPage);
-		}
-
-		if (openPageButton) {
-			openPageButton.addEventListener('click', openSavedPage);
-		}
+		window.addEventListener('pagehide', flushProjectAutosave);
+		document.addEventListener('visibilitychange', () => {
+			if (document.visibilityState === 'hidden') flushProjectAutosave();
+		});
+		window.addEventListener('beforeunload', event => {
+			if (!flushProjectAutosave()) {
+				event.preventDefault();
+				event.returnValue = '';
+			}
+		});
 
 		document.querySelectorAll('[data-softadmin-example-prompt]').forEach(button => {
 			button.addEventListener('click', function () {
 				if (promptInput) {
 					promptInput.value = button.dataset.softadminExamplePrompt || '';
 					promptInput.focus();
+					scheduleProjectAutosave();
 				}
 
 				const componentValue = button.dataset.softadminComponent;
@@ -3259,6 +3333,6 @@
 		applyLogoPreference();
 		applyAvatarPreference();
 		updateUndoButton();
-		updateSavedPageControls();
+		initializeProjectHistory();
 	});
 }());

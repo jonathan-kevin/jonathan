@@ -82,19 +82,19 @@ const assert = require('node:assert/strict');
 		await page.locator('#SoftadminRedo').click();
 		assert.match(await page.locator('#pageheader').innerText(), /Revised contact form/);
 		assert.deepEqual(await fieldState(), before);
-		page.once('dialog', dialog => dialog.accept('NewEdit lifecycle test'));
-		await page.locator('#SoftadminSavePage').click();
+		await page.locator('#SoftadminAutosaveStatus[data-state="saved"]').waitFor();
+		const savedChat = await page.locator('#SoftadminPromptHistory .saMockPromptMessageBubble').allTextContents();
 		await page.evaluate(() => {
-			const key = 'softadmin.mockup.savedPages.v1';
+			const key = 'softadmin.mockup.projects.v1';
 			const saved = JSON.parse(localStorage.getItem(key));
+			const project = saved.projects.find(item => item.id === saved.activeId);
 			// Reopening must use the spec, not this deliberately stale HTML snapshot.
-			saved[0].state.rootHtml = saved[0].state.rootHtml.replaceAll('Keep this value', 'Stale HTML');
+			project.state.rootHtml = project.state.rootHtml.replaceAll('Keep this value', 'Stale HTML');
 			localStorage.setItem(key, JSON.stringify(saved));
 		});
 		await page.reload();
-		const savedOption = page.locator('#SoftadminSavedPages option').filter({ hasText: 'NewEdit lifecycle test' });
-		await page.locator('#SoftadminSavedPages').selectOption(await savedOption.getAttribute('value'));
-		await page.locator('#SoftadminOpenPage').click();
+		await page.locator('#SoftadminAutosaveStatus[data-state="saved"]').waitFor();
+		assert.deepEqual(await page.locator('#SoftadminPromptHistory .saMockPromptMessageBubble').allTextContents(), savedChat);
 		assert.deepEqual(await fieldState(), before);
 		assert.match(await page.locator('#pageheader').innerText(), /Revised contact form/);
 		await added().locator('.saLabel > span').click();

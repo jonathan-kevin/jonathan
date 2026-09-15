@@ -510,7 +510,15 @@
 			min-width: 0;
 		}
 
+		.saMockAutosaveStatus {
+			flex-basis: 100%;
+			font-size: .75rem;
+			color: #52647a;
+			overflow-wrap: anywhere;
+		}
+		.saMockAutosaveStatus[data-state="error"] { color: #b42318; }
 		.saMockSavedPageControls {
+			flex: 1 1 12rem;
 			display: flex;
 			align-items: center;
 			gap: 0.375rem;
@@ -518,8 +526,10 @@
 		}
 
 		.saMockSavedPageSelect {
+			flex: 1 1 auto;
+			width: 0;
 			min-width: 8rem;
-			max-width: 12rem;
+			max-width: 100%;
 			height: 2.25rem;
 			padding: 0 1.75rem 0 0.625rem;
 			border: 1px solid #cbd5e1;
@@ -876,9 +886,10 @@
 	<script src="./softadmin-component-registry.js?v=111"></script>
 	<script src="./softadmin-calendar-editor.js?v=1"></script>
 	<script src="./softadmin-spec-runtime.js?v=92"></script>
-	<script src="./softadmin-localization.js?v=6"></script>
+	<script src="./softadmin-localization.js?v=7"></script>
 	<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
-	<script src="./softadmin-ai-spec.js?v=115"></script>
+	<script src="./softadmin-project-history.js?v=1"></script>
+	<script src="./softadmin-ai-spec.js?v=116"></script>
 	<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -1363,9 +1374,8 @@
 													<i class="far fa-arrow-rotate-right"></i>
 												</button>
 												<div class="saMockSavedPageControls">
-													<select id="SoftadminSavedPages" class="saMockSavedPageSelect" aria-label="Saved pages"><option value="">Saved pages</option></select>
-													<button id="SoftadminSavePage" class="saMockDebugToggle" type="button" aria-label="Save page for later" title="Save page for later"><i class="far fa-floppy-disk"></i></button>
-													<button id="SoftadminOpenPage" class="saMockDebugToggle" type="button" aria-label="Open saved page" title="Open saved page" disabled><i class="far fa-folder-open"></i></button>
+													<select id="SoftadminProjectHistory" class="saMockSavedPageSelect" aria-label="Project history"><option value="">Project history</option></select>
+													<button id="SoftadminNewProject" class="saMockDebugToggle" type="button" aria-label="New project" title="New project"><i class="far fa-plus"></i></button>
 												</div>
 												<input id="SoftadminLogoFile" class="saMockLogoFileInput" type="file" accept="image/*">
 												<input id="SoftadminAvatarFile" class="saMockLogoFileInput" type="file" accept="image/*">
@@ -1374,6 +1384,7 @@
 												</button>
 												</div>
 											<span id="SoftadminPromptStatus" class="saMockPromptStatus" aria-live="polite"></span>
+											<span id="SoftadminAutosaveStatus" class="saMockAutosaveStatus" role="status" data-state="idle">Autosave ready</span>
 										</div>
 										<div id="SoftadminPromptProgress" class="saMockPromptProgress" role="progressbar" aria-label="Estimated generation progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
 											<span id="SoftadminPromptProgressBar" class="saMockPromptProgressBar"></span>
