@@ -4,6 +4,7 @@ global.location = { search: '', hostname: 'localhost' };
 require('./softadmin-reference-catalog.js');
 require('./softadmin-spec-contract.js');
 require('./softadmin-editor-patches.js');
+require('./softadmin-newedit-editor.js');
 require('./softadmin-component-registry.js');
 require('./softadmin-calendar-editor.js');
 require('./softadmin-spec-runtime.js');
@@ -877,6 +878,42 @@ assert.match(treeviewRoot.innerHTML, /saExpander" type="checkbox" disabled/);
 assert.match(treeviewRoot.innerHTML, /saCustomColor/);
 assert.match(treeviewRoot.innerHTML, /<i>Hidden drafts<\/i>/);
 assert.match(treeviewRoot.innerHTML, /<span>Labels<\/span>/);
+
+const formEditor = global.SoftadminNewEditEditor;
+const editSpec = formEditor.prepare({ components: [{ type: 'NewEdit', sections: [{ heading: 'Contact', subgroups: [
+	{ fields: [{ control: 'textbox', label: 'Same label', value: 'Left' }] },
+	{ fields: [{ control: 'textbox', label: 'Same label', value: 'Right' }] }
+] }] }] });
+const initialRecords = formEditor.entries(editSpec);
+const left = initialRecords.find(entry => entry.node.value === 'Left').node;
+const right = initialRecords.find(entry => entry.node.value === 'Right').node;
+const rightSection = initialRecords.filter(entry => entry.kind === 'section').at(-1).node;
+const initialJson = JSON.stringify(editSpec);
+let edited = formEditor.apply(editSpec, { op: 'insert', targetId: rightSection._editorId, field: { control: 'textbox', label: 'Added' } });
+assert.equal(JSON.stringify(editSpec), initialJson, 'Commands must not mutate history snapshots.');
+const addedId = edited.selectedId;
+edited = formEditor.apply(edited.spec, { op: 'move', id: addedId, targetId: left._editorId, after: false });
+assert.equal(edited.spec.components[0].sections[0].subgroups[0].fields[0]._editorId, addedId);
+edited = formEditor.apply(edited.spec, { op: 'duplicate', id: addedId });
+assert.notEqual(edited.selectedId, addedId);
+edited = formEditor.apply(edited.spec, { op: 'siblings', id: addedId, field: { control: 'time', displayValue: '09:00' } });
+const siblingId = edited.selectedId;
+edited = formEditor.apply(edited.spec, { op: 'siblings', id: siblingId, field: { control: 'textbox', label: 'Third sibling' } });
+assert.equal(formEditor.entries(edited.spec).find(entry => entry.node._editorId === siblingId).node.fields.length, 3);
+assert.throws(() => formEditor.apply(edited.spec, { op: 'move', id: siblingId, targetId: addedId }), /inside itself|same form/);
+edited = formEditor.apply(edited.spec, { op: 'remove', id: right._editorId });
+assert.equal(formEditor.entries(edited.spec).some(entry => entry.node._editorId === right._editorId), false);
+const savedForm = JSON.parse(JSON.stringify(edited.spec));
+const normalizedForm = runtime.normalizeSpec(savedForm);
+assert.deepEqual(normalizedForm.components, savedForm.components, 'Normalization must retain field identities and edits.');
+const renderedForm = { innerHTML: '' };
+global.SoftadminMockups.renderSpec(normalizedForm, renderedForm);
+assert.match(renderedForm.innerHTML, new RegExp(`data-softadmin-field-id="${siblingId}"`));
+assert.doesNotMatch(renderedForm.innerHTML, new RegExp(`data-softadmin-field-id="${right._editorId}"`));
+assert.equal(new Set(formEditor.entries(normalizedForm).map(entry => entry.node._editorId)).size, formEditor.entries(normalizedForm).length);
+const columnForm = formEditor.prepare({ components: [{ type: 'Multipart', parts: [{ component: { type: 'NewEdit', rows: [{ columns: [{ sections: [{ fields: [] }] }] }] } }] }] });
+const emptyColumn = formEditor.entries(columnForm).find(entry => entry.kind === 'section');
+assert.equal(formEditor.apply(columnForm, { op: 'insert', targetId: emptyColumn.node._editorId, field: { control: 'textbox' } }).changed, true);
 
 async function testEndpointContract() {
 	const envKeys = ['AZURE_OPENAI_ENDPOINT', 'AZURE_OPENAI_API_KEY', 'AZURE_OPENAI_DEPLOYMENT', 'SOFTADMIN_ALLOWED_ORIGINS'];

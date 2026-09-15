@@ -903,11 +903,48 @@
 	}
 
 	function rememberManualEdit(element) {
+		if (rememberNewEditValue(element, true)) return;
 		const key = editableKey(element);
 
 		manualEdits.set(key, { op: 'replaceText', value: element.textContent });
 		element.dataset.softadminUserEdited = 'true';
 		clearRedoHistory();
+	}
+
+	function rememberNewEditValue(element, isText) {
+		const id = element.closest('[data-softadmin-field-ref]')?.dataset.softadminFieldRef;
+		if (!id || !lastDebugResult?.spec) return false;
+		const entry = window.SoftadminNewEditEditor.entries(lastDebugResult.spec).find(item => item.node._editorId === id);
+		if (!entry) return false;
+		const field = entry.node;
+		let changes;
+		if (isText) {
+			if (element.matches('.saLabel > span')) {
+				const copy = element.cloneNode(true);
+				copy.querySelectorAll('.saMandatoryStar').forEach(star => star.remove());
+				changes = { label: copy.textContent };
+			} else if (element.matches('.saDescription')) changes = { description: element.textContent };
+		} else if (field.control === 'checkbox') changes = { checked: element.checked };
+		else if (field.control === 'dateRange') changes = { [element.matches('.saFromDate') ? 'from' : 'to']: element.value };
+		else if (field.control === 'time') changes = { value: element.value, displayValue: element.value };
+		else if (['textbox', 'textarea', 'dropdown', 'textboxDropdown', 'autosearch', 'autosuggest', 'numberAffix', 'radioCards'].includes(field.control)) {
+			if (element.type === 'radio' && !element.checked) return true;
+			const option = field.control === 'radioCards' ? field.options?.find(option => String(option.value) === element.value) : null;
+			const dropdownValue = field.control === 'dropdown' ? field.options?.find(option => String(option) === element.value) : undefined;
+			changes = { value: option ? option.value : dropdownValue ?? element.value };
+		}
+		if (!changes) return false;
+		if (Object.entries(changes).every(([key, value]) => field[key] === value)) return true;
+		// One undo checkpoint per focus session; the spec holds the latest keystroke.
+		if (!element.dataset.softadminSpecEditSession) {
+			pushUndoState();
+			element.dataset.softadminSpecEditSession = 'true';
+			element.addEventListener('blur', () => { delete element.dataset.softadminSpecEditSession; }, { once: true });
+		}
+		Object.assign(field, changes);
+		clearRedoHistory();
+		updateUndoButton();
+		return true;
 	}
 
 	function formValueSelector() {
@@ -945,6 +982,7 @@
 		if (!control || control.disabled) {
 			return;
 		}
+		if (rememberNewEditValue(control, false)) return;
 
 		manualEdits.set(formControlKey(control), formControlEdit(control));
 		control.dataset.softadminUserEdited = 'true';
@@ -1358,6 +1396,9 @@
 	}
 
 	function canDropOn(source, target) {
+		if (source?.dataset.softadminFieldId && target?.dataset.softadminFieldId) {
+			return source !== target && source.closest('[data-softadmin-newedit-id]') === target.closest('[data-softadmin-newedit-id]');
+		}
 		return source && target && source !== target && source.parentElement && source.parentElement === target.parentElement;
 	}
 
@@ -1458,16 +1499,6 @@
 		return { ...base, ...starter };
 	}
 
-	function renderFormBuilderField(type) {
-		const renderer = window.SoftadminMockups?.renderNewEditField;
-
-		if (!renderer) {
-			return '';
-		}
-
-		return renderer(formBuilderFieldSpec(type));
-	}
-
 	function findFormBuilderDropTarget(target) {
 		if (!target || !hasNewEditForm()) {
 			return null;
@@ -1482,140 +1513,71 @@
 	}
 
 	function insertFormBuilderField(type, target, event) {
-		const html = renderFormBuilderField(type);
-		const status = document.getElementById('SoftadminPromptStatus');
-
-		if (!html || !target) {
-			return;
-		}
-
-		pushUndoState();
-
-		if (target.matches('.saFieldCollection')) {
-			target.insertAdjacentHTML('beforeend', html);
-		} else {
-			const rect = target.getBoundingClientRect();
-			const insertAfter = event ? event.clientY > rect.top + rect.height / 2 : true;
-			target.insertAdjacentHTML(insertAfter ? 'afterend' : 'beforebegin', html);
-		}
-
-		const inserted = target.matches('.saFieldCollection')
-			? target.lastElementChild
-			: (event && event.clientY <= target.getBoundingClientRect().top + target.getBoundingClientRect().height / 2 ? target.previousElementSibling : target.nextElementSibling);
-
+		if (!target) return;
+		const rect = newEditFieldRect(target);
+		editNewEdit({ op: 'insert', targetId: target.dataset.softadminSectionId || target.dataset.softadminFieldId,
+			field: formBuilderFieldSpec(type), after: !event || event.clientY > rect.top + rect.height / 2 }, `Added ${fieldPaletteLabel(type)} field.`);
 		clearFormBuilderDropTarget();
-		if (inserted) {
-			selectElement(inserted);
-		}
-
-		enableInlineEditing();
-		enableFormValueEditing();
-		enableDragAndDrop();
-		updateFormBuilderVisibility();
-		updateUndoButton();
-
-		if (status) {
-			status.textContent = `Added ${fieldPaletteLabel(type)} field.`;
-		}
 	}
 
-	function fieldWrapperToSiblingParts(fieldWrapper) {
-		const label = fieldWrapper?.querySelector(':scope > .saLabelCell');
-		const fieldCell = fieldWrapper?.querySelector(':scope > .saFieldCell');
+	function newEditFieldRect(element) {
+		const rect = element.getBoundingClientRect();
+		if (rect.width && rect.height) return rect;
+		// Softadmin field wrappers may use display: contents.
+		const children = Array.from(element.children).map(child => child.getBoundingClientRect()).filter(box => box.width && box.height);
+		const top = children.length ? Math.min(...children.map(box => box.top)) : rect.top;
+		const bottom = children.length ? Math.max(...children.map(box => box.bottom)) : rect.bottom;
+		return { top, height: bottom - top };
+	}
 
-		if (!label || !fieldCell) {
+	function renderNewEditState(spec, root = document.querySelector('[data-softadmin-component-root]')) {
+		const forms = window.SoftadminNewEditEditor.entries(spec).filter(entry => entry.kind === 'component');
+		const replacements = forms.map(({ node }) => {
+			const current = root?.querySelector(`[data-softadmin-newedit-id="${node._editorId}"]`);
+			if (!current) return null;
+			const template = document.createElement('template');
+			template.innerHTML = window.SoftadminMockups.renderNewEdit(node);
+			return { current, next: template.content.firstElementChild };
+		}).filter(Boolean);
+		replacements.forEach(({ current, next }) => current.replaceWith(next));
+	}
+
+	function editNewEdit(command, message) {
+		const status = document.getElementById('SoftadminPromptStatus');
+		if (!lastDebugResult?.spec || isBusy) return null;
+		try {
+			const result = window.SoftadminNewEditEditor.apply(lastDebugResult.spec, command);
+			if (!result.changed) return null;
+			window.SoftadminSpecContract.assertSpec(result.spec);
+			const previous = captureUndoState();
+			renderNewEditState(result.spec);
+			pushUndoState(previous);
+			lastDebugResult.spec = result.spec;
+			clearSelectedElement();
+			enableInlineEditing();
+			enableFormValueEditing();
+			enableDragAndDrop();
+			applyManualEdits();
+			applyCurrentLanguage();
+			updateFormBuilderVisibility();
+			const selected = result.selectedId ? document.querySelector(`[data-softadmin-field-id="${result.selectedId}"]`) : null;
+			if (selected) selectElement(selected);
+			if (status) status.textContent = message;
+			updateUndoButton();
+			return selected;
+		} catch (error) {
+			if (status) status.textContent = error.message;
 			return null;
 		}
-
-		return { fieldCell, label };
 	}
 
 	function makeFieldSiblingRow(fieldWrapper) {
-		const status = document.getElementById('SoftadminPromptStatus');
-		const parts = fieldWrapperToSiblingParts(fieldWrapper);
-
-		if (!fieldWrapper?.matches('[data-softadmin-component-root] .saFieldAndLabelWrapper') || !parts) {
-			if (status) {
-				status.textContent = 'Select a NewEdit field first.';
-			}
-			return null;
-		}
-
-		pushUndoState();
-
-		const row = document.createElement('div');
-		row.className = 'saSiblingRow';
-		const fields = document.createElement('div');
-		fields.className = 'saSiblingFields';
-
-		row.appendChild(parts.label);
-		fields.appendChild(parts.fieldCell);
-		row.appendChild(fields);
-		fieldWrapper.replaceWith(row);
-		selectElement(row);
-		enableInlineEditing();
-		enableFormValueEditing();
-		enableDragAndDrop();
-		updateUndoButton();
-
-		if (status) {
-			status.textContent = 'Made field a sibling row.';
-		}
-
-		return row;
-	}
-
-	function newSiblingFieldParts() {
-		const html = renderFormBuilderField('textbox');
-		const template = document.createElement('template');
-		template.innerHTML = html.trim();
-		const wrapper = template.content.firstElementChild;
-		const parts = fieldWrapperToSiblingParts(wrapper);
-
-		if (!parts) {
-			return null;
-		}
-
-		const labelText = parts.label.querySelector('.saLabel span');
-		if (labelText) {
-			labelText.textContent = `Sibling ${formBuilderFieldCount()}`;
-		}
-
-		const input = parts.fieldCell.querySelector('input.saInputText');
-		if (input) {
-			input.value = 'New value';
-		}
-
-		return parts;
+		return editNewEdit({ op: 'siblings', id: fieldWrapper?.dataset.softadminFieldId }, 'Made field a sibling row.');
 	}
 
 	function addSiblingFieldToRow(row) {
-		const status = document.getElementById('SoftadminPromptStatus');
-		const siblingRow = row?.matches('[data-softadmin-component-root] .saSiblingRow')
-			? row
-			: row?.closest('[data-softadmin-component-root] .saSiblingRow');
-		const fields = siblingRow?.querySelector(':scope > .saSiblingFields');
-		const parts = newSiblingFieldParts();
-
-		if (!siblingRow || !fields || !parts) {
-			if (status) {
-				status.textContent = 'Select a sibling row first.';
-			}
-			return;
-		}
-
-		pushUndoState();
-		fields.appendChild(parts.label);
-		fields.appendChild(parts.fieldCell);
-		selectElement(siblingRow);
-		enableInlineEditing();
-		enableFormValueEditing();
-		enableDragAndDrop();
-		updateUndoButton();
-
-		if (status) {
-			status.textContent = 'Added sibling field.';
-		}
+		editNewEdit({ op: 'siblings', id: row?.dataset.softadminFieldId,
+			field: { ...formBuilderFieldSpec('textbox'), label: `Sibling ${formBuilderFieldCount()}`, value: 'New value' } }, 'Added sibling field.');
 	}
 
 	function insertDraggedElement(source, target, event) {
@@ -1714,6 +1676,10 @@
 
 	function duplicateSelectedElement() {
 		const status = document.getElementById('SoftadminPromptStatus');
+		if (selectedElement?.dataset.softadminFieldId) {
+			editNewEdit({ op: 'duplicate', id: selectedElement.dataset.softadminFieldId }, 'Duplicated field.');
+			return;
+		}
 
 		if (!selectedElement || !selectedElement.isConnected) {
 			clearSelectedElement();
@@ -1746,6 +1712,11 @@
 		}
 
 		const sibling = direction === 'up' ? selectedElement.previousElementSibling : selectedElement.nextElementSibling;
+		if (selectedElement.dataset.softadminFieldId) {
+			if (sibling?.dataset.softadminFieldId) editNewEdit({ op: 'move', id: selectedElement.dataset.softadminFieldId,
+				targetId: sibling.dataset.softadminFieldId, after: direction === 'down' }, `Moved field ${direction}.`);
+			return;
+		}
 
 		if (!sibling) {
 			if (status) {
@@ -1799,16 +1770,16 @@
 				addSiblingFieldToRow(selectedElement);
 			}
 		} else if (action === 'add-sibling') {
-			if (selectedElement?.matches('[data-softadmin-component-root] .saFieldAndLabelWrapper')) {
-				addSiblingFieldToRow(makeFieldSiblingRow(selectedElement));
-			} else {
-				addSiblingFieldToRow(selectedElement);
-			}
+			addSiblingFieldToRow(selectedElement);
 		}
 	}
 
 	function removeSelectedElement() {
 		const status = document.getElementById('SoftadminPromptStatus');
+		if (selectedElement?.dataset.softadminFieldId) {
+			editNewEdit({ op: 'remove', id: selectedElement.dataset.softadminFieldId }, 'Deleted field.');
+			return;
+		}
 
 		if (!selectedElement || !selectedElement.isConnected) {
 			clearSelectedElement();
@@ -2090,6 +2061,13 @@
 		const status = document.getElementById('SoftadminPromptStatus');
 		const elementToMove = draggedElement;
 		const targetElement = dropTargetElement;
+		if (elementToMove?.dataset.softadminFieldId) {
+			const rect = newEditFieldRect(targetElement);
+			editNewEdit({ op: 'move', id: elementToMove.dataset.softadminFieldId,
+				targetId: targetElement.dataset.softadminFieldId, after: event.clientY > rect.top + rect.height / 2 }, 'Moved field.');
+			clearDragState();
+			return;
+		}
 
 		elementToMove.classList.remove('saMockDraggingElement');
 		clearDropTarget();
@@ -2549,6 +2527,7 @@
 
 		if (root) {
 			root.innerHTML = state.rootHtml;
+			if (state.debugResult?.spec) renderNewEditState(state.debugResult.spec, root);
 		}
 
 		document.querySelectorAll('input[name="SoftadminComponent"]').forEach(input => {
@@ -2895,8 +2874,12 @@
 				progressTimer = window.setInterval(updateProgress, 100);
 			}
 
-			const currentSpec = shouldResetManualEdits ? null : lastDebugResult?.spec || null;
+			const currentSpec = shouldResetManualEdits ? null : cloneDebugResult(lastDebugResult?.spec) || null;
+			const requestedSpec = JSON.stringify(lastDebugResult?.spec || null);
 			const result = await specRuntime.createSpec(prompt, currentSpec);
+			if (JSON.stringify(lastDebugResult?.spec || null) !== requestedSpec) {
+				throw new Error('The mockup was edited during generation. Your edits were kept; please generate again.');
+			}
 			const spec = result.spec;
 
 			clearSelectedElement();

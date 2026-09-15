@@ -1302,7 +1302,7 @@
 
 	function fieldLabel(field) {
 		return `
-			<label class="saLabelCell" ${field.id ? `for="${escapeHtml(field.id)}"` : ''}>
+			<label class="saLabelCell" data-softadmin-field-ref="${escapeHtml(field._editorId || '')}" ${field.id ? `for="${escapeHtml(field.id)}"` : ''}>
 				<div class="saLabel">${requiredLabel(field.label, field.required)}${field.extendedDescription ? '<button class="saLabelButton saToggleDescriptionButton" type="button" tabindex="-1"><i class="saIcon fas fa-info-circle"></i></button>' : ''}</div>
 				${field.description ? `<div class="saDescription">${escapeHtml(field.description)}</div>` : ''}
 				${field.extendedDescription ? `<div class="saExtendedDescription">${escapeHtml(field.extendedDescription)}</div>` : ''}
@@ -1685,7 +1685,7 @@
 			<div class="saInputCardsWrapper${validationClass}">
 				<div class="saInputCards saSmall" role="radiogroup" aria-label="${escapeHtml(field.label)}">
 					${(field.options || []).map((option, index) => renderRadioCard({
-						id: field.id,
+						id: field.id || field._editorId,
 						value: field.value,
 						validation: field.validation
 					}, option, index)).join('')}
@@ -1738,7 +1738,7 @@
 
 	function renderFieldCell(field) {
 		return `
-			<div class="saFieldCell">
+			<div class="saFieldCell" data-softadmin-field-ref="${escapeHtml(field._editorId || '')}">
 				<div class="saInputWrapper ${escapeHtml(field.inputWrapper || 'long')}">
 					<div class="saInput">
 						${renderControl(field)}
@@ -1758,7 +1758,7 @@
 		}
 
 		return `
-			<div class="saSiblingRow">
+			<div class="saSiblingRow" data-softadmin-field-id="${escapeHtml(field._editorId || '')}">
 				${fieldLabel(first)}
 				<div class="saSiblingFields">
 					${renderFieldCell(first)}
@@ -1773,7 +1773,7 @@
 		}
 
 		return `
-			<div class="saFieldAndLabelWrapper${field.control === 'checkbox' ? ' saCheckboxFieldAndLabelWrapper' : ''}">
+			<div class="saFieldAndLabelWrapper${field.control === 'checkbox' ? ' saCheckboxFieldAndLabelWrapper' : ''}" data-softadmin-field-id="${escapeHtml(field._editorId || '')}" data-softadmin-node-id="${escapeHtml(field._editorId || '')}">
 				${fieldLabel(field)}
 				${renderFieldCell(field)}
 			</div>`;
@@ -1796,7 +1796,7 @@
 		const sectionClass = `saSectionWrapper${index === sections.length - 1 ? ' saLastVisible' : ''}`;
 		const sectionBody = Array.isArray(section.subgroups)
 			? renderNewEditSubgroups(section.subgroups, sectionId || section.id || `Header_${index}`)
-			: `<fieldset class="saFieldCollection ${escapeHtml(section.width || 'long')}">
+			: `<fieldset class="saFieldCollection ${escapeHtml(section.width || 'long')}" data-softadmin-section-id="${escapeHtml(section._editorId || '')}">
 				${(section.fields || []).map(renderField).join('')}
 			</fieldset>`;
 
@@ -1900,9 +1900,10 @@
 	}
 
 	function renderNewEdit(component) {
+		window.SoftadminNewEditEditor?.prepare(component);
 		const labelsClass = String(component.labels || component.labelPlacement || 'above').toLowerCase() === 'before' ? 'saLabelsBefore' : 'saLabelsAbove';
 		return `
-			<div class="maincolbody saInputPage">
+			<div class="maincolbody saInputPage" data-softadmin-newedit-id="${escapeHtml(component._editorId || '')}">
 				<div>
 					<div class="saErrorSummaryHolder">
 						<div class="saErrorSummaryWrapper" style="display: none;">
@@ -3289,11 +3290,13 @@
 	}
 
 	function renderSpec(spec, root) {
+		window.SoftadminNewEditEditor?.prepare(spec);
 		root.innerHTML = (spec.components || []).map(renderComponent).join('');
 	}
 
 	window.SoftadminMockups = {
 		registry,
+		renderNewEdit,
 		renderNewEditField: renderField,
 		renderSpec
 	};
