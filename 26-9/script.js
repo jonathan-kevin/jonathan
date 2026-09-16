@@ -525,7 +525,7 @@ $(document).ready(function () {
 				type: 'button',
 				'aria-label': `Delete file ${file.name}`,
 				'data-tooltip': 'Delete file'
-			}).append($('<i>', { class: 'saIcon far fa-trash-alt', 'aria-hidden': 'true' }));
+			}).append($('<i>', { class: 'saIcon far fad fa-trash-alt', 'aria-hidden': 'true' }));
 
 			$fileItem.append($iconWrapper, $fileDetails, $('<div>', { class: 'saFileButtonGroup' }).append($deleteButton));
 			$fileGroup.append($fileItem);

@@ -33,7 +33,7 @@
 			breadcrumbs.innerHTML = `
 				<div class="saBackButtonWrapper">
 					<button class="saBackButton" type="button" aria-label="Close Grid">
-						<i class="far fa-arrow-left saBack saIcon" aria-hidden="true"></i>
+						<i class="far fad fa-arrow-left saBack saIcon" aria-hidden="true"></i>
 					</button>
 				</div>
 				<span class="saBreadcrumb" style="display: none;">

@@ -98,7 +98,7 @@
 				wrapper.className = "saMarkdownEditorCodeBlock";
 				header.className = "saMarkdownEditorCodeBlockHeader";
 				header.contentEditable = "false";
-				languageLabel.className = "saMarkdownEditorCodeLanguage";
+				languageLabel.className = "saMarkdownEditorCodeLanguage saInputTextWrapper";
 				languageSelect.className = "saInputText";
 				languageSelect.setAttribute("aria-label", "Code language");
 				languageSelect.append(new Option("Automatic", ""));
@@ -112,7 +112,7 @@
 				copyButton.contentEditable = "false";
 				pre.append(code);
 				languageLabel.append(languageSelect);
-				copyButton.innerHTML = '<i class="saIcon far fa-clone" aria-hidden="true"></i><i class="saIcon far fa-check" aria-hidden="true"></i>';
+				copyButton.innerHTML = '<i class="saIcon far fad fa-clone" aria-hidden="true"></i><i class="saIcon far fad fa-check" aria-hidden="true"></i>';
 				header.append(languageLabel, copyButton);
 				wrapper.append(header, pre);
 
@@ -376,7 +376,7 @@
 									<option value="5">Heading 5</option>
 									<option value="6">Heading 6</option>
 								</select>
-								<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
+								<div class="saTrailingIconsWrapper"><i class="saIcon far fad fa-angle-down"></i></div>
 							</label>
 						</li>
 						<li hidden>
@@ -390,30 +390,30 @@
 									<option value="warning">Warning</option>
 									<option value="danger">Danger</option>
 								</select>
-								<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
+								<div class="saTrailingIconsWrapper"><i class="saIcon far fad fa-angle-down"></i></div>
 							</label>
 						</li>
-						<li><button class="saButtonToolbar" type="button" data-command="bold" aria-keyshortcuts="Control+B Meta+B" aria-label="Bold"><i class="saIcon fas fa-bold"></i><i class="saIcon far fa-bold"></i></button></li>
-						<li><button class="saButtonToolbar" type="button" data-command="italic" aria-keyshortcuts="Control+I Meta+I" aria-label="Italic"><i class="saIcon fas fa-italic"></i><i class="saIcon far fa-italic"></i></button></li>
-						<li hidden><button class="saButtonToolbar" type="button" data-command="underline" aria-keyshortcuts="Control+U Meta+U" aria-label="Underline"><i class="saIcon fas fa-underline"></i><i class="saIcon far fa-underline"></i></button></li>
-						<li><button class="saButtonToolbar" type="button" data-command="strike" aria-label="Strikethrough"><i class="saIcon fas fa-strikethrough"></i><i class="saIcon far fa-strikethrough"></i></button></li>
-						<li><button class="saButtonToolbar" type="button" data-command="clear" aria-label="Clear formatting"><i class="saIcon far fa-text-slash"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="bold" aria-keyshortcuts="Control+B Meta+B" aria-label="Bold"><i class="saIcon fas fa-bold"></i><i class="saIcon far fad fa-bold"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="italic" aria-keyshortcuts="Control+I Meta+I" aria-label="Italic"><i class="saIcon fas fa-italic"></i><i class="saIcon far fad fa-italic"></i></button></li>
+						<li hidden><button class="saButtonToolbar" type="button" data-command="underline" aria-keyshortcuts="Control+U Meta+U" aria-label="Underline"><i class="saIcon fas fa-underline"></i><i class="saIcon far fad fa-underline"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="strike" aria-label="Strikethrough"><i class="saIcon fas fa-strikethrough"></i><i class="saIcon far fad fa-strikethrough"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="clear" aria-label="Clear formatting"><i class="saIcon far fad fa-text-slash"></i></button></li>
 						</ul>
 					<ul aria-label="Links and media">
-						<li><button class="saButtonToolbar" type="button" data-command="link" aria-keyshortcuts="Control+K Meta+K" aria-haspopup="dialog" aria-label="Link"><i class="saIcon fas fa-link"></i><i class="saIcon far fa-link"></i></button></li>
-						<li><button class="saButtonToolbar" type="button" data-command="image" aria-haspopup="dialog" aria-label="Image"><i class="saIcon fas fa-image"></i><i class="saIcon far fa-image"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="link" aria-keyshortcuts="Control+K Meta+K" aria-haspopup="dialog" aria-label="Link"><i class="saIcon fas fa-link"></i><i class="saIcon far fad fa-link"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="image" aria-haspopup="dialog" aria-label="Image"><i class="saIcon fas fa-image"></i><i class="saIcon far fad fa-image"></i></button></li>
 					</ul>
 					<ul aria-label="Block formatting">
-						<li><button class="saButtonToolbar" type="button" data-command="bullet" aria-label="Bulleted list"><i class="saIcon fas fa-list"></i><i class="saIcon far fa-list"></i></button></li>
-						<li><button class="saButtonToolbar" type="button" data-command="number" aria-label="Numbered list"><i class="saIcon fas fa-list-ol"></i><i class="saIcon far fa-list-ol"></i></button></li>
-						<li><button class="saButtonToolbar" type="button" data-command="quote" aria-label="Quote"><i class="saIcon fas fa-quote-right"></i><i class="saIcon far fa-quote-right"></i></button></li>
-						<li><button class="saButtonToolbar" type="button" data-command="code" aria-label="Inline code"><i class="saIcon fas fa-code"></i><i class="saIcon far fa-code"></i></button></li>
-						<li><button class="saButtonToolbar" type="button" data-command="codeblock" aria-label="Code block"><i class="saIcon fas fa-square-code"></i><i class="saIcon far fa-square-code"></i></button></li>
-						<li><button class="saButtonToolbar" type="button" data-command="horizontalRule" aria-label="Horizontal rule"><i class="saIcon far fa-horizontal-rule"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="bullet" aria-label="Bulleted list"><i class="saIcon fas fa-list"></i><i class="saIcon far fad fa-list"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="number" aria-label="Numbered list"><i class="saIcon fas fa-list-ol"></i><i class="saIcon far fad fa-list-ol"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="quote" aria-label="Quote"><i class="saIcon fas fa-quote-right"></i><i class="saIcon far fad fa-quote-right"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="code" aria-label="Inline code"><i class="saIcon fas fa-code"></i><i class="saIcon far fad fa-code"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="codeblock" aria-label="Code block"><i class="saIcon fas fa-square-code"></i><i class="saIcon far fad fa-square-code"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="horizontalRule" aria-label="Horizontal rule"><i class="saIcon far fad fa-horizontal-rule"></i></button></li>
 					</ul>
 					<ul aria-label="Tables">
 						<li class="markdown-editor-table-menu">
-							<button class="saButtonToolbar" type="button" data-table-picker-button aria-label="Insert table" aria-haspopup="grid" aria-expanded="false" aria-controls="${id}-table-picker"><i class="saIcon far fa-table" aria-hidden="true"></i></button>
+							<button class="saButtonToolbar" type="button" data-table-picker-button aria-label="Insert table" aria-haspopup="grid" aria-expanded="false" aria-controls="${id}-table-picker"><i class="saIcon far fad fa-table" aria-hidden="true"></i></button>
 							<div class="saContextMenu saSouth" hidden>
 								<div class="saMarkdownEditorTablePicker" id="${id}-table-picker" role="grid" aria-label="Choose table size" aria-describedby="${id}-table-picker-status" data-table-picker>
 									${tablePickerRows}
@@ -424,25 +424,25 @@
 					</ul>
 					<ul aria-label="View and history">
 						<li><button class="saButtonToolbar" type="button" data-command="markdown" aria-label="View as markdown" aria-controls="${id}-visual-view ${id}-source-view" aria-pressed="false"><i class="saIcon fab fa-markdown"></i></button></li>
-						<li><button class="saButtonToolbar" type="button" data-command="undo" aria-label="Undo"><i class="saIcon fas fa-undo"></i><i class="saIcon far fa-undo"></i></button></li>
-						<li><button class="saButtonToolbar" type="button" data-command="redo" aria-label="Redo"><i class="saIcon fas fa-redo"></i><i class="saIcon far fa-redo"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="undo" aria-label="Undo"><i class="saIcon fas fa-undo"></i><i class="saIcon far fad fa-undo"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="redo" aria-label="Redo"><i class="saIcon fas fa-redo"></i><i class="saIcon far fad fa-redo"></i></button></li>
 					</ul>
 				</div>
 				<div id="${id}-visual-view" class="saMarkdownEditorVisual" data-visual-surface>
 					<div data-editor-surface></div>
 					<div class="saMarkdownEditorToolbar saMarkdownEditorTableToolbar" role="toolbar" aria-label="Table editing" aria-keyshortcuts="Alt+Shift+T" data-table-toolbar hidden>
 						<ul aria-label="Row actions">
-							<li><button class="saButtonToolbar" type="button" data-command="addRowBefore" aria-label="Add row above"><i class="saIcon far fa-arrow-up-to-line" aria-hidden="true"></i></button></li>
-							<li><button class="saButtonToolbar" type="button" data-command="addRowAfter" aria-label="Add row below"><i class="saIcon far fa-arrow-down-to-line" aria-hidden="true"></i></button></li>
-							<li><button class="saButtonToolbar saDestructive" type="button" data-command="deleteRow" aria-label="Delete row"><i class="saIcon far fa-xmark" aria-hidden="true"></i></button></li>
+							<li><button class="saButtonToolbar" type="button" data-command="addRowBefore" aria-label="Add row above"><i class="saIcon far fad fa-arrow-up-to-line" aria-hidden="true"></i></button></li>
+							<li><button class="saButtonToolbar" type="button" data-command="addRowAfter" aria-label="Add row below"><i class="saIcon far fad fa-arrow-down-to-line" aria-hidden="true"></i></button></li>
+							<li><button class="saButtonToolbar saDestructive" type="button" data-command="deleteRow" aria-label="Delete row"><i class="saIcon far fad fa-xmark" aria-hidden="true"></i></button></li>
 						</ul>
 						<ul aria-label="Column actions">
-							<li><button class="saButtonToolbar" type="button" data-command="addColumnBefore" aria-label="Add column left"><i class="saIcon far fa-arrow-left-to-line" aria-hidden="true"></i></button></li>
-							<li><button class="saButtonToolbar" type="button" data-command="addColumnAfter" aria-label="Add column right"><i class="saIcon far fa-arrow-right-to-line" aria-hidden="true"></i></button></li>
-							<li><button class="saButtonToolbar saDestructive" type="button" data-command="deleteColumn" aria-label="Delete column"><i class="saIcon far fa-xmark" aria-hidden="true"></i></button></li>
+							<li><button class="saButtonToolbar" type="button" data-command="addColumnBefore" aria-label="Add column left"><i class="saIcon far fad fa-arrow-left-to-line" aria-hidden="true"></i></button></li>
+							<li><button class="saButtonToolbar" type="button" data-command="addColumnAfter" aria-label="Add column right"><i class="saIcon far fad fa-arrow-right-to-line" aria-hidden="true"></i></button></li>
+							<li><button class="saButtonToolbar saDestructive" type="button" data-command="deleteColumn" aria-label="Delete column"><i class="saIcon far fad fa-xmark" aria-hidden="true"></i></button></li>
 						</ul>
 						<ul aria-label="Table actions">
-							<li><button class="saButtonToolbar saDestructive" type="button" data-command="deleteTable" aria-label="Delete table"><i class="saIcon far fa-trash-alt" aria-hidden="true"></i></button></li>
+							<li><button class="saButtonToolbar saDestructive" type="button" data-command="deleteTable" aria-label="Delete table"><i class="saIcon far fad fa-trash-alt" aria-hidden="true"></i></button></li>
 						</ul>
 					</div>
 					<div class="saMarkdownEditorTablePreview" data-table-preview aria-hidden="true" hidden></div>
