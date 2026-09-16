@@ -26,6 +26,27 @@
 		reader.addEventListener("error", () => reject(reader.error || new Error("Could not read image.")), { once: true });
 		reader.readAsDataURL(file);
 	});
+	const parseDelimitedData = (value, delimiter) => {
+		const rows = [];
+		let row = [];
+		let cell = "";
+		let quoted = false;
+		const text = value.replace(/\r\n?/g, "\n");
+		for (let index = 0; index < text.length; index++) {
+			const character = text[index];
+			if (quoted) {
+				if (character === '"' && text[index + 1] === '"') { cell += '"'; index++; }
+				else if (character === '"') quoted = false;
+				else cell += character;
+			} else if (character === '"' && cell === "") quoted = true;
+			else if (character === delimiter) { row.push(cell); cell = ""; }
+			else if (character === "\n") { row.push(cell); rows.push(row); row = []; cell = ""; }
+			else cell += character;
+		}
+		row.push(cell);
+		if (row.length > 1 || row[0] || !rows.length) rows.push(row);
+		return rows;
+	};
 	const copyText = async value => {
 		try {
 			if (!navigator.clipboard?.writeText) throw new Error("The Clipboard API is unavailable.");
@@ -50,28 +71,66 @@
 			if (!copied) throw new Error("The browser did not allow copying.");
 		}
 	};
+	const codeLanguageLabels = new Map([
+		["bash", "Bash"], ["c", "C"], ["cpp", "C++"], ["csharp", "C#"], ["css", "CSS"],
+		["graphql", "GraphQL"], ["html", "HTML"], ["ini", "INI"], ["java", "Java"],
+		["javascript", "JavaScript"], ["json", "JSON"], ["jsx", "JSX"], ["less", "Less"],
+		["markdown", "Markdown"], ["objectivec", "Objective-C"], ["php", "PHP"], ["plaintext", "Plain text"],
+		["python", "Python"], ["r", "R"], ["scss", "SCSS"], ["sql", "SQL"], ["swift", "Swift"],
+		["typescript", "TypeScript"], ["vbnet", "VB.NET"], ["wasm", "WebAssembly"], ["xml", "HTML / XML"], ["yaml", "YAML"]
+	]);
+	const getCodeLanguageLabel = language => codeLanguageLabels.get(language) || language
+		.split(/[-_]/)
+		.map(part => part.charAt(0).toUpperCase() + part.slice(1))
+		.join(" ");
 	const createCodeBlock = (CodeBlockLowlight, lowlight) => CodeBlockLowlight.extend({
 		addNodeView() {
-			return ({ node }) => {
+			return ({ node, editor, getPos }) => {
 				let currentNode = node;
 				let resetLabel;
 				const wrapper = document.createElement("div");
+				const header = document.createElement("header");
+				const languageLabel = document.createElement("label");
+				const languageSelect = document.createElement("select");
 				const pre = document.createElement("pre");
 				const code = document.createElement("code");
 				const copyButton = document.createElement("button");
 				wrapper.className = "saMarkdownEditorCodeBlock";
+				header.className = "saMarkdownEditorCodeBlockHeader";
+				header.contentEditable = "false";
+				languageLabel.className = "saMarkdownEditorCodeLanguage";
+				languageSelect.className = "saInputText";
+				languageSelect.setAttribute("aria-label", "Code language");
+				languageSelect.append(new Option("Automatic", ""));
+				lowlight.listLanguages()
+					.map(language => ({ language, label: getCodeLanguageLabel(language) }))
+					.sort((left, right) => left.label.localeCompare(right.label))
+					.forEach(({ language, label }) => languageSelect.append(new Option(label, language)));
 				copyButton.type = "button";
 				copyButton.className = "saCopyButton";
 				copyButton.setAttribute("aria-label", "Copy");
 				copyButton.contentEditable = "false";
 				pre.append(code);
+				languageLabel.append(languageSelect);
 				copyButton.innerHTML = '<i class="saIcon far fa-clone" aria-hidden="true"></i><i class="saIcon far fa-check" aria-hidden="true"></i>';
-				wrapper.append(pre, copyButton);
+				header.append(languageLabel, copyButton);
+				wrapper.append(header, pre);
 
 				const updateLanguage = () => {
-					code.className = currentNode.attrs.language ? `language-${currentNode.attrs.language}` : "";
+					const language = currentNode.attrs.language || "";
+					code.className = language ? `language-${language}` : "";
+					if (language && !Array.from(languageSelect.options).some(option => option.value === language)) {
+						languageSelect.append(new Option(`${getCodeLanguageLabel(language)} (unavailable)`, language));
+					}
+					languageSelect.value = language;
 				};
 				updateLanguage();
+				languageSelect.addEventListener("change", () => {
+					const position = getPos();
+					if (typeof position !== "number") return;
+					const language = languageSelect.value || null;
+					editor.view.dispatch(editor.state.tr.setNodeMarkup(position, undefined, { ...currentNode.attrs, language }));
+				});
 				const copyCode = async () => {
 					clearTimeout(resetLabel);
 					try {
@@ -103,8 +162,8 @@
 						updateLanguage();
 						return true;
 					},
-					stopEvent: event => copyButton.contains(event.target),
-					ignoreMutation: mutation => copyButton.contains(mutation.target),
+					stopEvent: event => header.contains(event.target),
+					ignoreMutation: mutation => header.contains(mutation.target),
 					destroy: () => clearTimeout(resetLabel)
 				};
 			};
@@ -248,7 +307,21 @@
 								this.insertDroppedImages(files, position);
 								return true;
 							},
-						handleKeyDown: (_view, event) => {
+							handlePaste: (_view, event) => {
+								if (!this.editor.isActive("table")) return false;
+								const text = event.clipboardData?.getData("text/plain") || "";
+								const delimiter = text.includes("\t") ? "\t" : (text.includes(",") && /\r?\n/.test(text) ? "," : null);
+								if (!delimiter) return false;
+								event.preventDefault();
+								this.pasteTableData(text, delimiter);
+								return true;
+							},
+							handleKeyDown: (_view, event) => {
+								if (!event.isComposing && event.altKey && event.shiftKey && event.key.toLowerCase() === "t" && this.editor.isActive("table")) {
+									event.preventDefault();
+									this.focusTableToolbarButton(this.tableToolbar.querySelector("button:not(:disabled)"));
+									return true;
+								}
 							if (!event.isComposing && !event.altKey && (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
 								event.preventDefault();
 								this.openLink();
@@ -277,6 +350,15 @@
 		buildControls() {
 			this.controlId = `markdown-editor-${++nextId}`;
 			const id = this.controlId;
+			const tablePickerRows = Array.from({ length: 6 }, (_, rowIndex) => {
+				const rows = rowIndex + 2;
+				const cells = Array.from({ length: 6 }, (_, columnIndex) => {
+					const columns = columnIndex + 1;
+					const initial = rows === 3 && columns === 3;
+					return `<button type="button" role="gridcell" tabindex="${initial ? "0" : "-1"}" data-table-rows="${rows}" data-table-columns="${columns}" aria-label="${columns} column${columns === 1 ? "" : "s"} by ${rows} rows, including header"></button>`;
+				}).join("");
+				return `<div role="row">${cells}</div>`;
+			}).join("");
 			this.shell = document.createElement("div");
 			this.shell.innerHTML = `
 				<p id="${id}-label" class="saScreenReaderOnly"><strong>Content</strong></p>
@@ -331,16 +413,12 @@
 					</ul>
 					<ul aria-label="Tables">
 						<li class="markdown-editor-table-menu">
-							<button  class="saButtonToolbar" type="button" data-table-menu aria-haspopup="menu" aria-expanded="false" aria-controls="${id}-table-menu"><i class="saIcon far fa-table" aria-hidden="true"></i></button>
+							<button class="saButtonToolbar" type="button" data-table-picker-button aria-label="Insert table" aria-haspopup="grid" aria-expanded="false" aria-controls="${id}-table-picker"><i class="saIcon far fa-table" aria-hidden="true"></i></button>
 							<div class="saContextMenu saSouth" hidden>
-								<ul class="saActionLinkList" id="${id}-table-menu" role="menu" aria-label="Table actions">
-									<li role="none"><button class="saOptionWrapper" type="button" role="menuitem" tabindex="0" data-command="table" aria-haspopup="dialog"><span class="saOption"><span class="saIconHolder saOptionIcon" aria-hidden="true"><i class="saIcon far fa-table"></i></span><span class="saButtonText saOptionText">Insert table</span></span></button></li>
-									<li role="none"><button class="saOptionWrapper" type="button" role="menuitem" tabindex="-1" data-command="addRowAfter"><span class="saOption"><span class="saIconHolder saOptionIcon" aria-hidden="true"><i class="saIcon far fa-grid-2-plus"></i></span><span class="saButtonText saOptionText">Add row</span></span></button></li>
-									<li role="none"><button class="saOptionWrapper" type="button" role="menuitem" tabindex="-1" data-command="deleteRow"><span class="saOption"><span class="saIconHolder saOptionIcon" aria-hidden="true"><i class="saIcon far fa-xmark"></i></span><span class="saButtonText saOptionText">Delete row</span></span></button></li>
-									<li role="none"><button class="saOptionWrapper" type="button" role="menuitem" tabindex="-1" data-command="addColumnAfter"><span class="saOption"><span class="saIconHolder saOptionIcon" aria-hidden="true"><i class="saIcon far fa-columns-3"></i></span><span class="saButtonText saOptionText">Add column</span></span></button></li>
-									<li role="none"><button class="saOptionWrapper" type="button" role="menuitem" tabindex="-1" data-command="deleteColumn"><span class="saOption"><span class="saIconHolder saOptionIcon" aria-hidden="true"><i class="saIcon far fa-xmark"></i></span><span class="saButtonText saOptionText">Delete column</span></span></button></li>
-									<li role="none"><button class="saOptionWrapper saDestructive" type="button" role="menuitem" tabindex="-1" data-command="deleteTable"><span class="saOption"><span class="saIconHolder saOptionIcon" aria-hidden="true"><i class="saIcon far fa-trash-alt"></i></span><span class="saButtonText saOptionText">Delete table</span></span></button></li>
-								</ul>
+								<div class="saMarkdownEditorTablePicker" id="${id}-table-picker" role="grid" aria-label="Choose table size" aria-describedby="${id}-table-picker-status" data-table-picker>
+									${tablePickerRows}
+								</div>
+								<p id="${id}-table-picker-status" class="saMarkdownEditorTablePickerStatus" aria-live="polite">3 columns × 3 rows</p>
 							</div>
 						</li>
 					</ul>
@@ -350,9 +428,27 @@
 						<li><button class="saButtonToolbar" type="button" data-command="redo" aria-label="Redo"><i class="saIcon fas fa-redo"></i><i class="saIcon far fa-redo"></i></button></li>
 					</ul>
 				</div>
-				<div id="${id}-visual-view" data-editor-surface></div>
+				<div id="${id}-visual-view" class="saMarkdownEditorVisual" data-visual-surface>
+					<div data-editor-surface></div>
+					<div class="saMarkdownEditorToolbar saMarkdownEditorTableToolbar" role="toolbar" aria-label="Table editing" aria-keyshortcuts="Alt+Shift+T" data-table-toolbar hidden>
+						<ul aria-label="Row actions">
+							<li><button class="saButtonToolbar" type="button" data-command="addRowBefore" aria-label="Add row above"><i class="saIcon far fa-arrow-up-to-line" aria-hidden="true"></i></button></li>
+							<li><button class="saButtonToolbar" type="button" data-command="addRowAfter" aria-label="Add row below"><i class="saIcon far fa-arrow-down-to-line" aria-hidden="true"></i></button></li>
+							<li><button class="saButtonToolbar saDestructive" type="button" data-command="deleteRow" aria-label="Delete row"><i class="saIcon far fa-xmark" aria-hidden="true"></i></button></li>
+						</ul>
+						<ul aria-label="Column actions">
+							<li><button class="saButtonToolbar" type="button" data-command="addColumnBefore" aria-label="Add column left"><i class="saIcon far fa-arrow-left-to-line" aria-hidden="true"></i></button></li>
+							<li><button class="saButtonToolbar" type="button" data-command="addColumnAfter" aria-label="Add column right"><i class="saIcon far fa-arrow-right-to-line" aria-hidden="true"></i></button></li>
+							<li><button class="saButtonToolbar saDestructive" type="button" data-command="deleteColumn" aria-label="Delete column"><i class="saIcon far fa-xmark" aria-hidden="true"></i></button></li>
+						</ul>
+						<ul aria-label="Table actions">
+							<li><button class="saButtonToolbar saDestructive" type="button" data-command="deleteTable" aria-label="Delete table"><i class="saIcon far fa-trash-alt" aria-hidden="true"></i></button></li>
+						</ul>
+					</div>
+					<div class="saMarkdownEditorTablePreview" data-table-preview aria-hidden="true" hidden></div>
+				</div>
 				<div id="${id}-source-view" data-source-surface hidden></div>
-				<p id="${id}-help" class="saScreenReaderOnly">Write and format your content directly, or use the Markdown button to edit its source. Ctrl/Cmd + B: bold, I: italic, U: underline, K: link.</p>
+				<p id="${id}-help" class="saScreenReaderOnly">Write and format your content directly, or use the Markdown button to edit its source. Ctrl/Cmd + B: bold, I: italic, U: underline, K: link. In a table, use Tab and Shift+Tab to move between cells, or Alt+Shift+T to open table editing controls.</p>
 				<dialog data-link-dialog aria-labelledby="${id}-link-dialog-title">
 					<div class="saAlert">
 					<div class="saAlertMessageWrapper">
@@ -389,75 +485,90 @@
 						</div>
 					</div>
 					</div>
-				</dialog>
-				<dialog data-table-dialog aria-labelledby="${id}-table-title">
-					<div class="saAlert">
-					<div class="saAlertMessageWrapper">
-						<h2 class="saAlertHeading" id="${id}-table-title">Insert table</h2>
-						<div class="saAlertMessage">
-							<label for="${id}-table-rows">Rows, including header</label>
-							<input id="${id}-table-rows" type="number" min="2" max="20" value="3" required>
-							<label for="${id}-table-columns">Columns</label>
-							<input id="${id}-table-columns" type="number" min="1" max="10" value="3" required>
-						</div>
-						<div class="saButtons">
-							<button class="saAlertButton saButtonPrimary" type="button" data-table-save>Insert table</button>
-							<button class="saAlertButton saButtonSecondary" type="button" data-table-cancel>Cancel</button>
-						</div>
-					</div>
-					</div>
 				</dialog>`;
 			this.sourceSurface = this.shell.querySelector("[data-source-surface]");
 			this.sourceSurface.append(this.source);
 			this.prepend(this.shell);
+			this.visualSurface = this.shell.querySelector("[data-visual-surface]");
 			this.surface = this.shell.querySelector("[data-editor-surface]");
 			this.markdownButton = this.shell.querySelector('[data-command="markdown"]');
-			this.tableMenuButton = this.shell.querySelector("[data-table-menu]");
-			this.tableMenu = this.shell.querySelector(`#${id}-table-menu`).closest(".saContextMenu");
+			this.tablePickerButton = this.shell.querySelector("[data-table-picker-button]");
+			this.tablePicker = this.shell.querySelector("[data-table-picker]");
+			this.tablePickerPopup = this.tablePicker.closest(".saContextMenu");
+			this.tablePickerStatus = this.shell.querySelector(`#${id}-table-picker-status`);
+			this.tableToolbar = this.shell.querySelector("[data-table-toolbar]");
+			this.tablePreview = this.shell.querySelector("[data-table-preview]");
 			this.linkDialog = this.shell.querySelector("[data-link-dialog]");
 			this.urlInput = this.linkDialog.querySelector(`#${id}-url`);
 			this.linkTitleInput = this.linkDialog.querySelector(`#${id}-link-title`);
 			this.imageDialog = this.shell.querySelector("[data-image-dialog]");
 			this.imageUrlInput = this.imageDialog.querySelector(`#${id}-image-url`);
 			this.imageAltInput = this.imageDialog.querySelector(`#${id}-image-alt`);
-			this.tableDialog = this.shell.querySelector("[data-table-dialog]");
-			this.tableRowsInput = this.tableDialog.querySelector(`#${id}-table-rows`);
-			this.tableColumnsInput = this.tableDialog.querySelector(`#${id}-table-columns`);
 		}
 
 		bindControls() {
 			this.events = new AbortController();
 			const options = { signal: this.events.signal };
 			this.shell.querySelector(".saMarkdownEditorToolbar").addEventListener("click", event => {
-				const menuButton = event.target.closest("button[data-table-menu]");
+				const menuButton = event.target.closest("button[data-table-picker-button]");
 				if (menuButton) {
-					this.toggleTableMenu();
+					this.toggleTablePicker();
 					return;
 				}
 				const button = event.target.closest("button[data-command]");
-				if (button) {
-					if (button.closest('[role="menu"]')) this.closeTableMenu();
-					this.format(button.dataset.command);
-				}
+				if (button) this.format(button.dataset.command);
 			}, options);
-			this.tableMenuButton.addEventListener("keydown", event => {
-				if (event.key === "Escape" && !this.tableMenu.hidden) {
+			this.tablePickerButton.addEventListener("keydown", event => {
+				if (event.key === "Escape" && !this.tablePickerPopup.hidden) {
 					event.preventDefault();
-					this.closeTableMenu(true);
+					this.closeTablePicker(true);
 					return;
 				}
 				if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
 				event.preventDefault();
-				this.openTableMenu(event.key === "ArrowUp" ? "last" : "first");
+				this.openTablePicker();
 			}, options);
-			this.tableMenu.addEventListener("keydown", event => this.handleTableMenuKeydown(event), options);
-			this.tableMenu.parentElement.addEventListener("focusout", () => {
+			this.tablePicker.addEventListener("keydown", event => this.handleTablePickerKeydown(event), options);
+			this.tablePicker.addEventListener("click", event => {
+				const cell = event.target.closest("[data-table-rows][data-table-columns]");
+				if (!cell) return;
+				this.insertTable(Number(cell.dataset.tableRows), Number(cell.dataset.tableColumns));
+			}, options);
+			this.tablePicker.addEventListener("pointerover", event => {
+				const cell = event.target.closest("[data-table-rows][data-table-columns]");
+				if (cell) this.previewTableSize(cell);
+			}, options);
+			this.tablePicker.addEventListener("focusin", event => {
+				const cell = event.target.closest("[data-table-rows][data-table-columns]");
+				if (cell) this.previewTableSize(cell);
+			}, options);
+			this.tablePickerPopup.parentElement.addEventListener("focusout", () => {
 				setTimeout(() => {
-					if (!this.tableMenu.parentElement.contains(document.activeElement)) this.closeTableMenu();
+					if (!this.tablePickerPopup.parentElement.contains(document.activeElement)) this.closeTablePicker();
 				}, 0);
 			}, options);
 			document.addEventListener("pointerdown", event => {
-				if (!this.tableMenu.hidden && !this.tableMenu.parentElement.contains(event.target)) this.closeTableMenu();
+				if (!this.tablePickerPopup.hidden && !this.tablePickerPopup.parentElement.contains(event.target)) this.closeTablePicker();
+			}, options);
+			this.tableToolbar.addEventListener("mousedown", event => event.preventDefault(), options);
+			this.tableToolbar.addEventListener("click", event => {
+				const button = event.target.closest("button[data-command]");
+				if (button) this.format(button.dataset.command);
+			}, options);
+			this.tableToolbar.addEventListener("pointerover", event => this.previewTableAction(event.target.closest("button[data-command]")?.dataset.command), options);
+			this.tableToolbar.addEventListener("pointerleave", () => this.clearTableActionPreview(), options);
+			this.tableToolbar.addEventListener("focusin", event => this.previewTableAction(event.target.closest("button[data-command]")?.dataset.command), options);
+			this.tableToolbar.addEventListener("focusout", event => {
+				if (!this.tableToolbar.contains(event.relatedTarget)) this.clearTableActionPreview();
+			}, options);
+			this.tableToolbar.addEventListener("keydown", event => this.handleTableToolbarKeydown(event), options);
+			this.editor.view.dom.addEventListener("scroll", () => {
+				this.positionTableToolbar();
+				if (this.tablePreviewCommand) this.previewTableAction(this.tablePreviewCommand);
+			}, options);
+			window.addEventListener("resize", () => {
+				this.positionTableToolbar();
+				if (this.tablePreviewCommand) this.previewTableAction(this.tablePreviewCommand);
 			}, options);
 			this.headingSelect = this.shell.querySelector("[data-heading-level]");
 			this.headingSelect.addEventListener("change", () => {
@@ -496,12 +607,6 @@
 				if (event.key === "Enter") { event.preventDefault(); this.applyImage(); }
 			}, options);
 
-			this.tableDialog.querySelector("[data-table-save]").addEventListener("click", () => this.applyTable(), options);
-			this.tableDialog.querySelector("[data-table-cancel]").addEventListener("click", () => this.tableDialog.close(), options);
-			this.tableDialog.addEventListener("keydown", event => {
-				if (event.key === "Enter" && event.target.matches("input")) { event.preventDefault(); this.applyTable(); }
-			}, options);
-
 			this.shell.querySelectorAll("dialog input").forEach(input => {
 				input.addEventListener("input", event => {
 					event.stopPropagation();
@@ -517,7 +622,6 @@
 			if (command === "markdown") return this.toggleMarkdown();
 			if (command === "link") return this.openLink();
 			if (command === "image") return this.openImage();
-			if (command === "table") return this.tableDialog.showModal();
 			const chain = this.editor.chain().focus();
 			const actions = {
 				bold: () => chain.toggleBold(), italic: () => chain.toggleItalic(), underline: () => chain.toggleUnderline(), strike: () => chain.toggleStrike(),
@@ -525,68 +629,115 @@
 				bullet: () => chain.toggleBulletList(), number: () => chain.toggleOrderedList(),
 				quote: () => chain.toggleBlockquote(), code: () => chain.toggleCode(),
 				codeblock: () => chain.toggleCodeBlock(), horizontalRule: () => chain.setHorizontalRule(),
-				addRowAfter: () => chain.addRowAfter(), deleteRow: () => chain.deleteRow(),
-				addColumnAfter: () => chain.addColumnAfter(), deleteColumn: () => chain.deleteColumn(),
+				addRowBefore: () => chain.addRowBefore(), addRowAfter: () => chain.addRowAfter(), deleteRow: () => chain.deleteRow(),
+				addColumnBefore: () => chain.addColumnBefore(), addColumnAfter: () => chain.addColumnAfter(), deleteColumn: () => chain.deleteColumn(),
 				deleteTable: () => chain.deleteTable(), undo: () => chain.undo(), redo: () => chain.redo()
 			};
-			actions[command]?.().run();
-		}
-
-		getTableMenuItems() {
-			return Array.from(this.tableMenu.querySelectorAll('[role="menuitem"]:not(:disabled)'));
-		}
-
-		focusTableMenuItem(item) {
-			this.tableMenu.querySelectorAll('[role="menuitem"]').forEach(menuItem => { menuItem.tabIndex = menuItem === item ? 0 : -1; });
-			item?.focus();
-		}
-
-		openTableMenu(focusItem) {
-			if (this.tableMenuButton.disabled) return;
-			this.tableMenu.hidden = false;
-			this.tableMenu.classList.add("saOpen");
-			this.tableMenuButton.setAttribute("aria-expanded", "true");
-			if (focusItem) {
-				const items = this.getTableMenuItems();
-				this.focusTableMenuItem(items[focusItem === "last" ? items.length - 1 : 0]);
+			const changed = actions[command]?.().run();
+			if (changed) {
+				const messages = {
+					addRowBefore: "Row added above.", addRowAfter: "Row added below.", deleteRow: "Row deleted.",
+					addColumnBefore: "Column added to the left.", addColumnAfter: "Column added to the right.", deleteColumn: "Column deleted.",
+					deleteTable: "Table deleted."
+				};
+				if (messages[command]) this.status.textContent = messages[command];
 			}
 		}
 
-		closeTableMenu(returnFocus = false) {
-			if (!this.tableMenu) return;
-			this.tableMenu.hidden = true;
-			this.tableMenu.classList.remove("saOpen");
-			this.tableMenuButton.setAttribute("aria-expanded", "false");
-			if (returnFocus) this.tableMenuButton.focus();
+		getTablePickerCells() {
+			return Array.from(this.tablePicker.querySelectorAll('[role="gridcell"]'));
 		}
 
-		toggleTableMenu() {
-			if (this.tableMenu.hidden) this.openTableMenu("first");
-			else this.closeTableMenu(true);
+		focusTablePickerCell(cell) {
+			this.getTablePickerCells().forEach(item => { item.tabIndex = item === cell ? 0 : -1; });
+			cell?.focus();
 		}
 
-		handleTableMenuKeydown(event) {
+		openTablePicker() {
+			if (this.tablePickerButton.disabled) return;
+			this.tablePickerPopup.hidden = false;
+			this.tablePickerPopup.classList.add("saOpen");
+			this.tablePickerButton.setAttribute("aria-expanded", "true");
+			const cell = this.tablePicker.querySelector('[data-table-rows="3"][data-table-columns="3"]');
+			this.previewTableSize(cell);
+			this.focusTablePickerCell(cell);
+		}
+
+		closeTablePicker(returnFocus = false) {
+			if (!this.tablePickerPopup) return;
+			this.tablePickerPopup.hidden = true;
+			this.tablePickerPopup.classList.remove("saOpen");
+			this.tablePickerButton.setAttribute("aria-expanded", "false");
+			if (returnFocus) this.tablePickerButton.focus();
+		}
+
+		toggleTablePicker() {
+			if (this.tablePickerPopup.hidden) this.openTablePicker();
+			else this.closeTablePicker(true);
+		}
+
+		previewTableSize(cell) {
+			if (!cell) return;
+			const rows = Number(cell.dataset.tableRows);
+			const columns = Number(cell.dataset.tableColumns);
+			this.getTablePickerCells().forEach(item => {
+				const selected = Number(item.dataset.tableRows) <= rows && Number(item.dataset.tableColumns) <= columns;
+				item.classList.toggle("saSelected", selected);
+				item.setAttribute("aria-selected", String(selected));
+			});
+			this.tablePickerStatus.textContent = `${columns} column${columns === 1 ? "" : "s"} × ${rows} rows`;
+		}
+
+		handleTablePickerKeydown(event) {
 			if (event.key === "Escape") {
 				event.preventDefault();
-				this.closeTableMenu(true);
+				this.closeTablePicker(true);
 				return;
 			}
-			if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
-			const items = this.getTableMenuItems();
-			if (!items.length) return;
+			if (!["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+			const current = event.target.closest('[role="gridcell"]');
+			if (!current) return;
 			event.preventDefault();
-			const current = items.indexOf(document.activeElement);
-			let next = event.key === "Home" ? 0 : event.key === "End" ? items.length - 1 : current;
-			if (event.key === "ArrowDown") next = (current + 1) % items.length;
-			if (event.key === "ArrowUp") next = (current - 1 + items.length) % items.length;
-			this.focusTableMenuItem(items[next]);
+			let rows = Number(current.dataset.tableRows);
+			let columns = Number(current.dataset.tableColumns);
+			if (event.key === "ArrowDown") rows = Math.min(7, rows + 1);
+			if (event.key === "ArrowUp") rows = Math.max(2, rows - 1);
+			if (event.key === "ArrowRight") columns = Math.min(6, columns + 1);
+			if (event.key === "ArrowLeft") columns = Math.max(1, columns - 1);
+			if (event.key === "Home") columns = 1;
+			if (event.key === "End") columns = 6;
+			const next = this.tablePicker.querySelector(`[data-table-rows="${rows}"][data-table-columns="${columns}"]`);
+			this.previewTableSize(next);
+			this.focusTablePickerCell(next);
+		}
+
+		focusTableToolbarButton(button) {
+			this.tableToolbar.querySelectorAll("button").forEach(item => { item.tabIndex = item === button ? 0 : -1; });
+			button?.focus();
+		}
+
+		handleTableToolbarKeydown(event) {
+			if (event.key === "Escape") {
+				event.preventDefault();
+				this.editor.commands.focus();
+				return;
+			}
+			if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+			const buttons = Array.from(this.tableToolbar.querySelectorAll("button:not(:disabled)"));
+			if (!buttons.length) return;
+			event.preventDefault();
+			const current = buttons.indexOf(document.activeElement);
+			let next = event.key === "Home" ? 0 : event.key === "End" ? buttons.length - 1 : current;
+			if (event.key === "ArrowRight") next = (current + 1) % buttons.length;
+			if (event.key === "ArrowLeft") next = (current - 1 + buttons.length) % buttons.length;
+			this.focusTableToolbarButton(buttons[next]);
 		}
 
 		toggleMarkdown() {
 			this.sourceMode = !this.sourceMode;
 			if (this.sourceMode) {
 				this.sync(false);
-				this.surface.hidden = true;
+				this.visualSurface.hidden = true;
 				this.sourceSurface.hidden = false;
 				this.markdownButton.setAttribute("aria-label", "View as rich text");
 				this.source.focus();
@@ -594,7 +745,7 @@
 				this.editor.commands.setContent(this.source.value, { contentType: "markdown", emitUpdate: false });
 				this.sync(false);
 				this.sourceSurface.hidden = true;
-				this.surface.hidden = false;
+				this.visualSurface.hidden = false;
 				this.markdownButton.setAttribute("aria-label", "View as markdown");
 				this.editor.commands.focus();
 			}
@@ -676,14 +827,156 @@
 			}
 		}
 
-		applyTable() {
-			if (!this.tableRowsInput.reportValidity() || !this.tableColumnsInput.reportValidity()) return;
-			this.tableDialog.close();
+		insertTable(rows, columns) {
+			this.closeTablePicker();
 			this.editor.chain().focus().insertTable({
-				rows: Number(this.tableRowsInput.value),
-				cols: Number(this.tableColumnsInput.value),
+				rows,
+				cols: columns,
 				withHeaderRow: true
 			}).run();
+			this.status.textContent = `${columns} column${columns === 1 ? "" : "s"} by ${rows} rows table inserted.`;
+		}
+
+		pasteTableData(value, delimiter) {
+			const matrix = parseDelimitedData(value, delimiter);
+			const columnCount = Math.max(...matrix.map(row => row.length));
+			if (!matrix.length || !columnCount || matrix.length > 100 || columnCount > 20) {
+				this.status.textContent = "Paste up to 100 rows and 20 columns at a time.";
+				return;
+			}
+			const { state, view } = this.editor;
+			const { $from } = state.selection;
+			let tableDepth = -1;
+			for (let depth = $from.depth; depth > 0; depth--) {
+				if ($from.node(depth).type.name === "table") { tableDepth = depth; break; }
+			}
+			if (tableDepth < 0) return;
+			const tableNode = $from.node(tableDepth);
+			const startRow = $from.index(tableDepth);
+			const startColumn = $from.index(tableDepth + 1);
+			const originalRows = [];
+			tableNode.forEach(row => originalRows.push(row));
+			const existingColumns = Math.max(...originalRows.map(row => row.childCount));
+			const requiredRows = Math.max(originalRows.length, startRow + matrix.length);
+			const requiredColumns = Math.max(existingColumns, startColumn + columnCount);
+			const paragraphType = state.schema.nodes.paragraph;
+			const rowType = state.schema.nodes.tableRow;
+			const cellType = state.schema.nodes.tableCell;
+			const headerType = state.schema.nodes.tableHeader;
+			const makeCell = (rowIndex, text, prototype) => {
+				const type = prototype?.type || (rowIndex === 0 ? headerType : cellType);
+				const content = paragraphType.create(null, text ? state.schema.text(text) : null);
+				return type.create(prototype?.attrs || null, content, prototype?.marks);
+			};
+			const rows = Array.from({ length: requiredRows }, (_, rowIndex) => {
+				const originalRow = originalRows[rowIndex];
+				const originalCells = [];
+				originalRow?.forEach(cell => originalCells.push(cell));
+				const cells = Array.from({ length: requiredColumns }, (_, columnIndex) => {
+					const pastedRow = matrix[rowIndex - startRow];
+					const pasted = pastedRow && columnIndex >= startColumn && columnIndex < startColumn + pastedRow.length;
+					return pasted ? makeCell(rowIndex, pastedRow[columnIndex - startColumn], originalCells[columnIndex]) :
+						(originalCells[columnIndex] || makeCell(rowIndex, "", originalCells[0]));
+				});
+				return rowType.create(originalRow?.attrs || null, cells, originalRow?.marks);
+			});
+			const replacement = tableNode.type.create(tableNode.attrs, rows, tableNode.marks);
+			const tableStart = $from.before(tableDepth);
+			view.dispatch(state.tr.replaceWith(tableStart, tableStart + tableNode.nodeSize, replacement));
+			this.editor.commands.focus();
+			this.status.textContent = `${matrix.length} row${matrix.length === 1 ? "" : "s"} and ${columnCount} column${columnCount === 1 ? "" : "s"} pasted into the table.`;
+		}
+
+		getActiveTableCell() {
+			if (!this.editor?.isActive("table")) return null;
+			const { $head } = this.editor.state.selection;
+			for (let depth = $head.depth; depth > 0; depth--) {
+				if (!["tableCell", "tableHeader"].includes($head.node(depth).type.name)) continue;
+				const dom = this.editor.view.nodeDOM($head.before(depth));
+				return dom instanceof HTMLElement ? dom : null;
+			}
+			return null;
+		}
+
+		updateTableToolbar() {
+			if (!this.tableToolbar || !this.editor) return;
+			const cell = this.getActiveTableCell();
+			const visible = Boolean(cell && !this.sourceMode);
+			this.tableToolbar.hidden = !visible;
+			if (!visible) {
+				this.tableToolbar.removeAttribute("style");
+				this.clearTableActionPreview();
+			} else {
+				this.positionTableToolbar(cell);
+			}
+			if (visible && !this.tableToolbar.contains(document.activeElement)) {
+				const first = this.tableToolbar.querySelector("button:not(:disabled)");
+				this.tableToolbar.querySelectorAll("button").forEach(button => { button.tabIndex = button === first ? 0 : -1; });
+			}
+		}
+
+		positionTableToolbar(cell = this.getActiveTableCell()) {
+			if (!this.tableToolbar || !cell || this.sourceMode) return;
+			const table = cell.closest("table");
+			if (!table) return;
+			const surfaceRect = this.visualSurface.getBoundingClientRect();
+			const editorRect = this.editor.view.dom.getBoundingClientRect();
+			const tableRect = table.getBoundingClientRect();
+			const gap = 4;
+			this.tableToolbar.hidden = false;
+			const toolbarRect = this.tableToolbar.getBoundingClientRect();
+			if (tableRect.top >= editorRect.bottom || tableRect.bottom <= editorRect.top + toolbarRect.height + gap) {
+				this.tableToolbar.hidden = true;
+				this.clearTableActionPreview();
+				return;
+			}
+			const minimumLeft = editorRect.left + gap;
+			const maximumLeft = Math.max(minimumLeft, editorRect.right - toolbarRect.width - gap);
+			const left = Math.min(Math.max(tableRect.left, minimumLeft), maximumLeft);
+			const top = Math.max(tableRect.top - toolbarRect.height - gap, editorRect.top + gap);
+			Object.assign(this.tableToolbar.style, {
+				left: `${left - surfaceRect.left}px`,
+				top: `${top - surfaceRect.top}px`
+			});
+		}
+
+		clearTableActionPreview() {
+			if (!this.tablePreview) return;
+			this.tablePreview.hidden = true;
+			this.tablePreview.classList.remove("saInsertionPreview", "saDeletionPreview");
+			this.tablePreview.removeAttribute("style");
+			this.tablePreviewCommand = null;
+		}
+
+		previewTableAction(command) {
+			this.clearTableActionPreview();
+			if (!command) return;
+			const cell = this.getActiveTableCell();
+			if (!cell) return;
+			this.tablePreviewCommand = command;
+			const table = cell.closest("table");
+			const surfaceRect = this.visualSurface.getBoundingClientRect();
+			const tableRect = table.getBoundingClientRect();
+			const rowRect = cell.parentElement.getBoundingClientRect();
+			const cellRect = cell.getBoundingClientRect();
+			const thickness = 4;
+			let rect;
+			if (command === "addRowBefore" || command === "addRowAfter") {
+				rect = { left: tableRect.left, top: (command === "addRowBefore" ? rowRect.top : rowRect.bottom) - thickness / 2, width: tableRect.width, height: thickness };
+			} else if (command === "addColumnBefore" || command === "addColumnAfter") {
+				rect = { left: (command === "addColumnBefore" ? cellRect.left : cellRect.right) - thickness / 2, top: tableRect.top, width: thickness, height: tableRect.height };
+			} else if (command === "deleteRow") rect = rowRect;
+			else if (command === "deleteColumn") rect = { left: cellRect.left, top: tableRect.top, width: cellRect.width, height: tableRect.height };
+			else if (command === "deleteTable") rect = tableRect;
+			if (!rect) return;
+			this.tablePreview.classList.add(command.startsWith("add") ? "saInsertionPreview" : "saDeletionPreview");
+			Object.assign(this.tablePreview.style, {
+				left: `${rect.left - surfaceRect.left}px`,
+				top: `${rect.top - surfaceRect.top}px`,
+				width: `${rect.width}px`,
+				height: `${rect.height}px`
+			});
+			this.tablePreview.hidden = false;
 		}
 
 		updateButtons() {
@@ -691,16 +984,17 @@
 			const activeHeading = [1, 2, 3, 4, 5, 6].find(level => this.editor.isActive("heading", { level }));
 			if (this.headingSelect) this.headingSelect.value = activeHeading ? String(activeHeading) : "paragraph";
 			const activeColor = this.editor.getAttributes("textColor").color;
+			const inTable = this.editor.isActive("table");
 			if (this.colorSelect) this.colorSelect.value = textColors.has(activeColor) ? activeColor : "default";
 			if (this.headingSelect) this.headingSelect.disabled = Boolean(this.sourceMode);
 			if (this.colorSelect) this.colorSelect.disabled = Boolean(this.sourceMode);
-			if (this.tableMenuButton) this.tableMenuButton.disabled = Boolean(this.sourceMode);
-			if (this.sourceMode) this.closeTableMenu();
+			if (this.tablePickerButton) this.tablePickerButton.disabled = Boolean(this.sourceMode || inTable);
+			if (this.sourceMode || inTable) this.closeTablePicker();
 			const types = { bold: "bold", italic: "italic", underline: "underline", strike: "strike", link: "link", bullet: "bulletList", number: "orderedList", quote: "blockquote", code: "code", codeblock: "codeBlock" };
 			const commands = {
-				horizontalRule: "setHorizontalRule", table: "insertTable",
-				addRowAfter: "addRowAfter", deleteRow: "deleteRow",
-				addColumnAfter: "addColumnAfter", deleteColumn: "deleteColumn",
+				horizontalRule: "setHorizontalRule",
+				addRowBefore: "addRowBefore", addRowAfter: "addRowAfter", deleteRow: "deleteRow",
+				addColumnBefore: "addColumnBefore", addColumnAfter: "addColumnAfter", deleteColumn: "deleteColumn",
 				deleteTable: "deleteTable", undo: "undo", redo: "redo"
 			};
 			this.shell.querySelectorAll("[data-command]").forEach(button => {
@@ -718,8 +1012,8 @@
 				} else {
 					button.disabled = false;
 				}
-				if (button.matches('[role="menuitem"]')) button.classList.toggle("saInactive", button.disabled);
 			});
+			this.updateTableToolbar();
 		}
 
 		sync(emit) {

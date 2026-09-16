@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sidebar</title>
+	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css?v=c67c7717">
+	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+	<meta name="description" content="Demo">
+	<meta property="og:image" content="./Presentation/img/og-img.png">
+
+	<script src="../src/jquery-4.0.0.slim.min.js"></script>
+	<script src="./script.js?v=95613471"></script>
+	<script src="./live.js#css,html,js" defer></script>
+	<script src="./markdown-editor.js" defer></script>
+	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
+	<style>
+		.saSideBarLogoColors {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: flex-start;
+			gap: 2rem;
+			padding: 1rem 0;
+		}
+
+		.saSideBarLogoColorControl,
+		.saSideBarLogoImageControl {
+			width: 18.625rem;
+			max-width: 100%;
+		}
+
+		.saSideBarLogoColorControl,
+		.saSideBarLogoColorControl *,
+		.saSideBarLogoImageControl,
+		.saSideBarLogoImageControl * {
+			box-sizing: border-box;
+		}
+
+		.saSideBarLogoColorControl legend,
+		.saSideBarLogoImageControl legend {
+			margin-bottom: 0.75rem;
+			font-weight: 500;
+		}
+
+		.saSideBarLogoColorControl .saColors {
+			max-height: none;
+			border: 1px solid var(--Sa-Color-InputFieldBorder);
+			border-radius: 0.5rem;
+		}
+
+		.saSideBarLogoColorControl .saColor:focus-visible {
+			outline: 2px solid var(--Sa-Color-Text);
+			outline-offset: 3px;
+		}
+
+		.saSideBarLogoColorStatus {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1rem;
+			margin-top: 0.75rem;
+		}
+
+		.saSideBarLogoColorStatus output {
+			color: var(--Sa-Color-TextSecondary);
+		}
+
+		.saSideBarLogoColorStatus button {
+			min-height: 2rem;
+			padding: 0 0.75rem;
+			border-radius: 0.5rem;
+		}
+
+		.saSideBarLogoImageControl input {
+			display: block;
+			max-width: 100%;
+			font: inherit;
+		}
+
+		.saSideBarLogoImageControl input::file-selector-button {
+			min-height: 2rem;
+			margin-right: 0.5rem;
+			padding: 0 0.75rem;
+			border: 1px solid var(--Sa-Color-InputFieldBorder);
+			border-radius: 0.5rem;
+			background: var(--Sa-Color-SecondaryButtonBackground);
+			color: var(--Sa-Color-Label);
+			font: inherit;
+			cursor: pointer;
+		}
+
+		.saSideBarLogoImageControl .saSideBarLogoColorStatus {
+			align-items: flex-start;
+		}
+
+		.saSideBarLogoImageControl output {
+			min-width: 0;
+			overflow-wrap: anywhere;
+		}
+
+		.saSideBarLogoImageControl button {
+			flex-shrink: 0;
+		}
+
+		.saSideBarLogoPresets {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.5rem;
+			margin-bottom: 1rem;
+		}
+
+		.saSideBarLogoPreset {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			min-height: 3.75rem;
+			padding: 0.5rem;
+			border-radius: 0.5rem;
+			font: inherit;
+			cursor: pointer;
+		}
+
+		.saSideBarLogoPreset img {
+			width: 2rem;
+			height: 2rem;
+			object-fit: contain;
+		}
+
+		.saSideBarLogoPreset[aria-pressed="true"] {
+			border-color: var(--Sa-Color-Link);
+			box-shadow: inset 0 0 0 1px var(--Sa-Color-Link);
+			background: light-dark(var(--Blue50), var(--Blue1200));
+		}
+
+		.saSideBarLogoPreset:focus-visible {
+			outline: 2px solid var(--Sa-Color-Link);
+			outline-offset: 2px;
+		}
+
+		.saSideBarLogoUploadLabel {
+			display: block;
+			margin-bottom: 0.5rem;
+		}
+
+		.saSideBarLogoPaddingControls {
+			margin-bottom: 1.5rem;
+		}
+
+		.saSideBarLogoPaddingControl .saSideBarLogoColorStatus {
+			gap: 0.5rem;
+			margin-top: 0.5rem;
+			align-items: center;
+		}
+
+		.saSideBarLogoPaddingControl input,
+		.saSideBarLogoTextControl input {
+			min-width: 0;
+			height: 2rem;
+			padding: 0 0.5rem;
+			border: 1px solid var(--Sa-Color-InputFieldBorder);
+			border-radius: 0.5rem;
+			background: var(--Sa-Color-SecondaryButtonBackground);
+			color: var(--Sa-Color-Text);
+		}
+
+		.saSideBarLogoPaddingControl input {
+			flex: 1;
+			width: 100%;
+		}
+
+		.saSideBarLogoTextControl {
+			margin-bottom: 1rem;
+		}
+
+		.saSideBarLogoTextControl .saSideBarLogoColorStatus {
+			gap: 0.5rem;
+			margin-top: 0.5rem;
+		}
+
+		.saSideBarLogoTextControl input {
+			flex: 1;
+			width: 100%;
+		}
+
+		.saSideBarLogoPaddingControl input:focus-visible,
+		.saSideBarLogoTextControl input:focus-visible {
+			outline: 2px solid var(--Sa-Color-Link);
+			outline-offset: 2px;
+		}
+
+		#SideBar .saCust0merL0g0 {
+			object-fit: contain;
+		}
+
+		.saSmallScreen .saSideBarLogoColors {
+			padding: 1rem;
+		}
+
+		.saSmallScreen .saSideBarLogoColorControl,
+		.saSmallScreen .saSideBarLogoImageControl {
+			width: 100%;
+		}
+
+		.saSmallScreen .saSideBarLogoColorControl .saPalette:first-child {
+			padding-top: 0.5rem;
+		}
+	</style>
+</head>
+
+<body class="saRootBody saLargeScreen saPc saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
+	<div class="saRootContentWrapper">
+		<div class="saSideBarOuter saSideBarOuterJs saClosed">
+			<form name="aspnetForm" method="post" action="./softadmin.aspx" id="aspnetForm">
+				<aside class="saAside">
+					<nav id="SideBar" class="saSideBar saSideBarJs saExpanded saHasSmallScreenLogo">
+						<div class="saAccessibilityBannerHolderJs">
+							<ul class="saAccessibilityBanner">
+								<li><a tabindex="0">Skip to content</a></li>
+								<li><a tabindex="0">Skip to menu</a></li>
+							</ul>
+						</div>
+						<section class="saSideBarSection saSideBarHeaderSmallScreen">
+							<img class="saSideBarHeaderSmallScreenLogo" src="./Presentation/img/softadmin-logo-minimized.svg">
+							<div class="saTitle">
+								<h1>Softadmin® Development System</h1>
+							</div>
+							<button class="saNavigator saButtonHeader" type="button">
+								<i class="saIcon far fa-xmark"></i>
+							</button>
+						</section>
+						<section class="saSideBarSection saSideBarHeader saSideBarSectionJs">
+							<div class="saCust0merL0g0Wrapper">
+								<img class="saCust0merL0g0" alt="Softadmin® Development System logo" src="./Presentation/img/sidebar-logos/purple.svg">
+								<div class="saCust0merText">
+									<div class="saCust0merTitle">Softadmin®</div>
+									<div class="saCust0merDescription">Administration workspace</div>
+								</div>
+							</div>
+							<ul class="saSideBarInputGroup">
+								<li>
+									<a class="saSideBarSearchLink" tabindex="0">
+										<div><i class="far fa-magnifying-glass saIcon"></i></div>
+									</a>
+									<label class="saSideBarSearch">
+										<input id="SideBarSearchInput" class="saSearchInput saInputText" type="search"
+											placeholder="Search...">
+										<i class="far fa-magnifying-glass saIcon"></i>
+									</label>
+								</li>
+								<li>
+									<button class="saImpersonatorWrapper" type="button" value="admin"
+										aria-expanded="false" aria-haspopup="listbox"
+										aria-labelledby="saImpersonatorLabel saImpersonatorValue"
+										aria-controls="saImpersonatorDropdown">
+										<span class="saImpersonator">
+											<span class="saImpersonatorValue" id="saImpersonatorValue">admin 300</span>
+											<span class="saImpersonatorLabel" id="saImpersonatorLabel">User</span>
+											<i class="saIcon far fa-angle-down saTrailing"></i>
+											<span class="saImpersonatorLetter">A</span>
+										</span>
+									</button>
+								</li>
+							</ul>
+						</section>
+						<section class="saSideBarSection saSideBarBody saSideBarSectionJs">
+							<div class="saSideBarGroup saSideBarFavorites">
+								<div class="saSideBarFavoritesHeader">
+									<button class="saButtonFavorites" type="button"><span>Favorites</span><i
+											class="saIcon saIcon far fa-angle-down"></i></button>
+									<button class="saButtonFavoritesMinimized" type="button"><i
+											class="saIcon saIcon far fa-angle-down"></i></button>
+									<button class="saButtonFavoritesEdit" type="button">Edit</button>
+								</div>
+								<ul class="saItemList">
+									<li><a class="saItem saFavorite" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-bolt icon saIcon"></i></div>
+												<span>Quick fixes</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-message icon saIcon"></i>
+												</div><span>Chat</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-compass icon saIcon"></i>
+												</div><span>Location finder</span>
+											</div>
+										</a></li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Menu</h3>
+								<ul class="saItemList">
+									<li><a class="saItem" tabindex="0" href="./btn-color.html">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-brain icon saIcon"></i>
+												</div><span>Button color<span
+														class="saMenuItemPill saAdminOnly">Admin</span>
+											</div>
+										</a></li>
+									<li><a class="saItem" tabindex="0" href="./copy-clipboard.html">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-clone icon saIcon"></i></div>
+												<span>Copy to clipboard<span
+														class="saMenuItemPill saBeta">Beta</span></span>
+											</div>
+										</a></li>
+									<li><a class="saItem" tabindex="0" href="./toast.html">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i
+														class="far fa-bread-slice icon saIcon"></i></div>
+												<span>Toast<span class="saMenuItemPill saDraft">Draft</span></span>
+											</div>
+										</a></li>
+									<li><a class="saItem" tabindex="0" href="./markdown.html">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="fab fa-markdown icon saIcon"></i>
+												</div><span>Markdown</span>
+											</div>
+										</a></li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Models</h3>
+								<ul class="saItemList">
+									<li><a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-brain icon saIcon"></i>
+												</div><span>4.1<span class="saMenuItemPill saAdminOnly">Admin</span>
+											</div>
+										</a></li>
+									<li><a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-o icon saIcon"></i></div>
+												<span>4o<span class="saMenuItemPill saIssues">Issues</span></span>
+											</div>
+										</a></li>
+									<li><a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i
+														class="far fa-minus-square icon saIcon"></i></div><span>4o
+													mini<span class="saMenuItemPill saDraft">Draft</span></span>
+											</div>
+										</a></li>
+									<li><a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-car icon saIcon"></i></div>
+												<span>3.5 Turbo<span class="saMenuItemPill saBeta">Beta</span></span>
+											</div>
+										</a></li>
+									<li><a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-c icon saIcon"></i></div>
+												<span>Claude 3.5<span
+														class="saMenuItemPill saDeprecated">Deprecated</span></span>
+											</div>
+										</a></li>
+									<li><a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-c icon saIcon"></i></div>
+												<span>Claude 3 Opus<span class="saMenuItemPill saNew">New</span></span>
+											</div>
+										</a></li>
+									<li><a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-g icon saIcon"></i></div>
+												<span>Gemini Pro</span>
+											</div>
+										</a></li>
+									<li><a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-g icon saIcon"></i></div>
+												<span>Gemini Flash</span>
+											</div>
+										</a></li>
+									<li><a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-l icon saIcon"></i></div>
+												<span>Llama 3</span>
+											</div>
+										</a></li>
+									<li><a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-m icon saIcon"></i></div>
+												<span>Mistral Large</span>
+											</div>
+										</a></li>
+									<li><a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-m icon saIcon"></i></div>
+												<span>Mixtral 8x7B</span>
+											</div>
+										</a></li>
+									<li><a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-r icon saIcon"></i></div>
+												<span>Command R+</span>
+											</div>
+										</a></li>
+									<li><a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-glasses icon saIcon"></i>
+												</div><span>DeepSeek Chat</span>
+											</div>
+										</a></li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Summer</h3>
+								<ul class="saItemList">
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fa-sun-alt icon saIcon"></i>
+												</div>
+												<span>Sun</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</section>
+						<section class="saSideBarSection saSideBarFooter saSideBarSectionJs">
+							<div class="saSideBarFooterPrimary">
+								<div class="saListItem">
+									<button class="saAccountDropdown" type="button" aria-expanded="false"
+										aria-controls="saAccountMenu" aria-haspopup="menu">
+										<div class="saAccountAvatar">FL</div>
+										<span class="saAccountName">Firstname Lastname</span>
+										<i class="far fa-angle-down saIcon"></i>
+									</button>
+									<ul class="saContextMenu saProfileMenu saNorth" id="saAccountMenu"
+										style="top: -13.5rem;" aria-hidden="true" style="display: none;">
+										<li>
+											<label class="saOptionWrapper" for="saToggleDark" tabindex="0">
+												<div class="saOption">
+													<div class="saOptionText">
+														<div class="saOptionTitle">Dark mode</div>
+														<div class="saOptionDescription">The page won't reload (D).
+														</div>
+													</div>
+													<input class="saToggle" type="checkbox" id="saToggleDark"
+														aria-keyshortcuts="D">
+												</div>
+											</label>
+										</li>
+										<li>
+											<hr>
+										</li>
+										<li>
+											<label class="saOptionWrapper" for="saToggleCompact" tabindex="0">
+												<div class="saOption">
+													<div class="saOptionText">
+														<div class="saOptionTitle">Compact mode</div>
+														<div class="saOptionDescription">The page will reload.</div>
+													</div>
+													<input class="saToggle" type="checkbox" id="saToggleCompact"
+														checked="true">
+												</div>
+											</label>
+										</li>
+										<li>
+											<hr>
+										</li>
+										<li>
+											<a class="saOptionWrapper" tabindex="0">
+												<div class="saOption"><i
+														class="far fa-circle-exclamation icon saIcon saOptionIcon"
+														aria-hidden="true"></i>
+													<div class="saOptionText">Give feedback to Multisoft</div>
+												</div>
+											</a>
+										</li>
+										<li>
+											<a class="saOptionWrapper" tabindex="0">
+												<div class="saOption"><i
+														class="far fa-mobile-notch icon saIcon saOptionIcon"
+														aria-hidden="true"></i>
+													<div class="saOptionText">App</div>
+												</div>
+											</a>
+										</li>
+
+										<li>
+											<a class="saOptionWrapper" tabindex="0">
+												<div class="saOption"><i class="far fa-pen icon saIcon saOptionIcon"
+														aria-hidden="true"></i>
+													<div class="saOptionText">Edit contact information</div>
+												</div>
+											</a>
+										</li>
+									</ul>
+								</div>
+								<ul class="saSideBarToolbar">
+									<li>
+										<button type="button">
+											<div class="saIconWrapper">
+												<i class="far fa-gear icon saIcon"></i>
+											</div>
+											<span>Admin</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper"><i class="far fa-chart-network icon saIcon"></i>
+											</div>
+											<span>Database designer</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper"><i class="far fa-window-restore icon saIcon"></i>
+											</div>
+											<span>New tab</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper"><i
+													class="far fa-circle-question icon saIcon"></i></div>
+											<span>View help page - General help</span>
+										</button>
+									</li>
+									<li class="saNotificationsItem">
+										<button id="largeScreenNotifications" type="button">
+											<div class="saSidenavItem"><i class="far fa-bell saIcon"></i></div>
+											<div class="saBadgeCount saUrgent">2</div>
+										</button>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarFooterSecondary">
+								<a class="saSoftadminLogo" target="_blank" rel="noopener noreferrer" tabindex="-1"
+									href="https://www.softadmin.com/">
+									<img class="saLogo" src="./Presentation/img/softadmin-logo-minimized.svg">
+									<img class="saWordmark" src="./Presentation/img/softadmin-logo-expanded.svg">
+								</a>
+								<button class="saExpander saDynamicTooltipJs" type="button"
+									aria-label="Minimize sidebar" aria-controls="SideBar" aria-expanded="true"
+									aria-keyshortcuts="Alt+M"><i class="far fa-angles-left saIcon"
+										aria-hidden="true"></i></button>
+							</div>
+						</section>
+					</nav>
+				</aside>
+			</form>
+		</div>
+		<div class="saSideBarSmallScreenOverlay" id="SideBarSmallScreenOverlay" style="display: none;"></div>
+		<div class="saRightFrameRoot">
+			<div id="body"
+				class="right standardview saPc saLargeScreen saCompact saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
+				<div class="pagecontentframe">
+					<form class="interface">
+						<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs">
+												<div class="saBackButtonWrapper"><button class="saBackButton"
+														type="button"><i
+															class="far fa-arrow-left saBack saIcon"></i></button></div>
+											</nav>
+										</div>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Sidebar</h1>
+												<div class="saNoSpinner">
+													<button type="button" class="saFavoriteToggle"><i
+															class="saIcon far fa-star"></i><i
+															class="saIcon fas fa-star"></i></button>
+												</div>
+												<ul class="saSpecialLinksWrapper"></ul>
+											</div>
+										</div>
+										<nav class="saNavigationBar">
+											<div class="saTopButtons">
+												<div class="saActionLinks">
+													<button class="saTopLink saActionLink saButtonPrimary"
+														type="button">
+														<div class="saIconHolder saOptionIcon"><i
+																class="far fa-plus icon saIcon"></i></div><span
+																	class="saButtonText saOptionText">Add bird</span>
+													</button>
+													<div class="saTopLink saActionLink saButtonSplit">
+														<button class="saButtonSecondary" type="button">
+															<div class="saIconHolder saOptionIcon" aria-hidden="true">
+																<i class="far fa-plus icon saIcon"></i>
+															</div>
+															<span class="saButtonText saOptionText">Import records</span>
+														</button>
+														<button class="saButtonSecondary saSplitButtonArrow"
+															type="button" aria-haspopup="menu" aria-expanded="false"
+															aria-controls="saSplitButtonMenu">
+															<i class="saIcon far fa-angle-down saIcon"
+																aria-hidden="true"></i>
+														</button>
+														<div class="saContextMenu saSouth" id="saSplitButtonMenu"
+															style="right: 0px; left: auto; max-height: 1153px;">
+															<ul class="saActionLinkList">
+																<li><a class="saOptionWrapper" tabindex="0" role="link"
+																		aria-selected="true">
+																		<div class="saOption">
+																			<div class="saIconHolder saOptionIcon"
+																				aria-hidden="true"><i
+																					class="far fa-save icon saIcon"></i>
+																			</div>
+																			<span
+																				class="saButtonText saOptionText">Save</span>
+																		</div>
+																	</a>
+																</li>
+																<li><a class="saOptionWrapper" tabindex="0" role="link">
+																		<div class="saOption">
+																			<div class="saIconHolder saOptionIcon"
+																				aria-hidden="true"><i
+																					class="far fa-feather icon saIcon"></i>
+																			</div>
+																			<span
+																				class="saButtonText saOptionText">Drafts</span>
+																		</div>
+																	</a>
+																</li>
+																<li><a class="saOptionWrapper" tabindex="0" role="link">
+																		<div class="saOption">
+																			<div class="saIconHolder saOptionIcon"
+																				aria-hidden="true"><i
+																					class="far fa-files icon saIcon"></i>
+																			</div>
+																			<span
+																				class="saButtonText saOptionText">Documents</span>
+																		</div>
+																	</a>
+																</li>
+																<li><a class="saOptionWrapper" tabindex="0" role="link">
+																		<div class="saOption">
+																			<div class="saIconHolder saOptionIcon"
+																				aria-hidden="true"><i
+																					class="far fa-folder icon saIcon"></i>
+																			</div>
+																			<span
+																				class="saButtonText saOptionText">Projects</span>
+																		</div>
+																	</a>
+																</li>
+																<li><a class="saOptionWrapper" tabindex="0" role="link">
+																		<div class="saOption">
+																			<div class="saIconHolder saOptionIcon"
+																				aria-hidden="true"><i
+																					class="far fa-box icon saIcon"></i>
+																			</div>
+																			<span
+																				class="saButtonText saOptionText">Archive</span>
+																		</div>
+																	</a>
+																</li>
+															</ul>
+														</div>
+													</div>
+													<button class="saTopLink saActionLink saButtonSecondary"
+														type="button" id="toggleFont">
+														<div class="saIconHolder saOptionIcon"><i
+																class="far fa-font icon saIcon"></i></div><span
+															class="saButtonText saOptionText">Toggle font</span>
+													</button>
+													<div class="saCollectorWrapper">
+														<button class="saMoreButton" type="button"><i
+																class="far fa-ellipsis-vertical icon saIcon"></i></button>
+													</div>
+												</div>
+											</div>
+											<div class="saBrowseButtons">
+												<button class="saBrowseButton" type="button"
+													aria-label="Previous record (PgUp)">
+													<i class="fas fa-caret-up saIcon"></i>
+												</button>
+												<button class="saBrowseButton" type="button"
+													aria-label="Next record (PgDn)">
+													<i class="fas fa-caret-down saIcon"></i>
+												</button>
+											</div>
+										</nav>
+									</div>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<button class="saSmallScreenBackButton saButtonHeader" type="button"><i
+													class="far fa-arrow-left saBack saIcon"></i></button>
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+															<h1 class="saHeaderText">Sidebar</h1>
+												</div>
+											</div>
+											<button class="saNotifications saButtonHeader" type="button"
+												aria-expanded="false">
+												<i class="far fa-bell saIcon"></i>
+												<div class="saBadgeCount saUrgent">2</div>
+											</button>
+											<button class="saNavigator saButtonHeader" type="button"
+												aria-label="Open menu" data-tooltip="Open menu">
+												<div class="saNavBar"><i class="saIcon far fa-bars"></i>
+												</div>
+											</button>
+										</div>
+									</div>
+									<nav class="saBottomRow saActionLinkBar">
+										<div class="saTopButtons saActionLinks">
+											<button class="saTopLink saActionLink saButtonPrimary" type="button">
+												<div class="saIconHolder saOptionIcon" aria-hidden="true">
+													<i class="far fa-plus icon saIcon"></i>
+												</div>
+														<span class="saButtonText saOptionText">Add bird</span>
+											</button>
+											<button class="saTopLink saActionLink saButtonSecondary" type="button">
+												<div class="saIconHolder saOptionIcon" aria-hidden="true">
+													<i class="far fa-clone icon saIcon"></i>
+												</div>
+														<span class="saButtonText saOptionText">Duplicate record</span>
+											</button>
+											<div class="saCollectorWrapper">
+												<button class="saMoreButton" aria-expanded="false" type="button">
+													<i class="far fa-ellipsis-vertical icon saIcon"></i>
+												</button>
+											</div>
+										</div>
+										<div class="saBrowseButtons">
+											<button class="saBrowseButton saPrevious" type="button"
+												aria-label="Previous record (PgUp)">
+												<i class="fas fa-caret-up saIcon"></i>
+											</button>
+											<button class="saBrowseButton saNext" type="button"
+												aria-label="Next record (PgDn)">
+												<i class="fas fa-caret-down saIcon"></i>
+											</button>
+										</div>
+									</nav>
+								</div>
+							</div>
+						</header>
+						<div class="maincolinner gradients">
+							<main id="MI_M" class="menuitem pagecontentframe">
+								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable"
+									style="height: calc(100dvh - 7.5rem);">
+									<div class="scrollcontent-inner">
+										<div class="saSideBarLogoColors">
+											<fieldset class="saSideBarLogoImageControl">
+												<legend>Logo</legend>
+												<div class="saSideBarLogoTextControl" data-logo-text-class="saCust0merTitle">
+													<label for="saSideBarLogoTitle">Logo title</label>
+													<div class="saSideBarLogoColorStatus">
+														<input id="saSideBarLogoTitle" class="saInputText" type="text">
+														<button type="button" class="saButtonSecondary" aria-label="Reset logo title" disabled>Reset</button>
+													</div>
+												</div>
+												<div class="saSideBarLogoTextControl" data-logo-text-class="saCust0merDescription">
+													<label for="saSideBarLogoDescription">Logo description</label>
+													<div class="saSideBarLogoColorStatus">
+														<input id="saSideBarLogoDescription" class="saInputText" type="text">
+														<button type="button" class="saButtonSecondary" aria-label="Reset logo description" disabled>Reset</button>
+													</div>
+												</div>
+												<div class="saSideBarLogoPaddingControls saSideBarLogoPaddingControl" data-padding-properties="padding-top padding-bottom padding-left padding-right">
+													<label for="saSideBarLogoPadding">Padding (px)</label>
+													<div class="saSideBarLogoColorStatus">
+														<input id="saSideBarLogoPadding" class="saInputText" type="number" min="0" step="1" value="6">
+														<button type="button" class="saButtonSecondary" aria-label="Reset logo padding" disabled>Reset</button>
+													</div>
+												</div>
+												<div id="saSideBarLogoPresets" class="saSideBarLogoPresets" role="group" aria-label="Ready-made logos"></div>
+												<label class="saSideBarLogoUploadLabel" for="saSideBarLogoFile">Upload your own</label>
+												<input id="saSideBarLogoFile" type="file" accept="image/*" aria-label="Choose a custom logo" aria-describedby="saSideBarLogoFileStatus">
+												<div class="saSideBarLogoColorStatus">
+													<output id="saSideBarLogoFileStatus" for="saSideBarLogoFile" aria-live="polite">Original logo</output>
+													<button id="saSideBarLogoReset" type="button" class="saButtonSecondary" disabled>Reset</button>
+												</div>
+											</fieldset>
+											<fieldset class="saSideBarLogoColorControl" data-color-property="--Sa-Color-SideBarLogoBackground" data-logo-style="backgroundColor">
+												<legend>Logo background</legend>
+												<div class="saColors">
+													<fieldset class="saPalette" aria-label="Preset background colors"></fieldset>
+													<fieldset class="saPalette saFooter" aria-label="Other background colors">
+														<input class="saColor saExtraColor saColorCustom" type="color" aria-label="Custom logo background color">
+													</fieldset>
+												</div>
+												<div class="saSideBarLogoColorStatus">
+													<output aria-label="Current logo background color"></output>
+													<button type="button" class="saButtonSecondary" data-reset-color>Reset</button>
+												</div>
+											</fieldset>
+											<fieldset class="saSideBarLogoColorControl" data-color-property="--Sa-Color-SideBarLogoBorder" data-logo-style="borderTopColor">
+												<legend>Logo border</legend>
+												<div class="saColors">
+													<fieldset class="saPalette" aria-label="Preset border colors"></fieldset>
+													<fieldset class="saPalette saFooter" aria-label="Other border colors">
+														<input class="saColor saExtraColor saColorCustom" type="color" aria-label="Custom logo border color">
+													</fieldset>
+												</div>
+												<div class="saSideBarLogoColorStatus">
+													<output aria-label="Current logo border color"></output>
+													<button type="button" class="saButtonSecondary" data-reset-color>Reset</button>
+												</div>
+											</fieldset>
+										</div>
+									</div>
+								</div>
+							</main>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(function () {
+			const palette = [
+				'#F8F9FB #F7FAFF #FFF7F7 #FFF8F4 #FFF8E7 #F2FCF2 #F0FCFF #F9F7FF #FFF7FC',
+				'#EEF1F5 #E5EFFF #FFE8E7 #FFEADA #FFECB7 #D6F7D9 #C4F7FF #F0EBFF #FFE7F7',
+				'#CCD5E2 #BBD6FF #FFC6C5 #FFC9A4 #FFCD5B #91E89B #82E1FB #DDCCFF #FFC1ED',
+				'#ADBDD1 #93BDFF #FBA4A3 #FFA56F #F6AD00 #58D36E #5EC8E4 #CAADFF #FF9AE1',
+				'#8FA5C0 #6EA3FF #F58082 #EE894D #DA9600 #29BB4E #49B0CA #B78EFF #FF6DCD',
+				'#7088A4 #4582F4 #EA4F5B #CA6D34 #B67A00 #009B36 #3591A8 #9E65FF #E641B2',
+				'#60748B #2D6CE1 #E0173E #AE5C28 #9C6700 #008429 #2A7B90 #8B4AF1 #CA2C9B',
+				'#506072 #1C57C6 #BF0024 #924A1D #825400 #006D1E #206678 #7734D5 #AC1B82',
+				'#404C5B #0F44A6 #9B0002 #763B14 #694300 #005815 #165160 #6123B4 #8D0E6A',
+				'#313A44 #063384 #790000 #5B2B0C #513200 #00430D #0F3E4A #4C1590 #6E0552',
+				'#1C2025 #011B50 #470000 #351604 #2E1B00 #002504 #05222A #2C0658 #41012F'
+			].join(' ').split(' ');
+			const root = document.documentElement;
+			const logo = document.querySelector('#SideBar .saCust0merL0g0');
+			const refreshPickers = [];
+
+			const logoTextControls = Array.from(document.querySelectorAll('.saSideBarLogoTextControl'), function (control) {
+				const className = control.dataset.logoTextClass;
+				const input = control.querySelector('input');
+				const reset = control.querySelector('button');
+				const originalText = logo.parentElement.querySelector(`.${className}`)?.textContent || '';
+				input.value = originalText;
+				return { className, input, reset, originalText };
+			});
+
+			function updateLogoText() {
+				let container = logo.parentElement.querySelector('.saCust0merText');
+				const hasText = logoTextControls.some(control => control.input.value.trim());
+				if (hasText && !container) {
+					container = document.createElement('div');
+					container.className = 'saCust0merText';
+					logo.after(container);
+				}
+				logoTextControls.forEach(function ({ className, input, reset, originalText }) {
+					reset.disabled = input.value === originalText;
+					let text = container?.querySelector(`.${className}`);
+					if (!input.value.trim()) {
+						text?.remove();
+						return;
+					}
+					if (!text) {
+						text = document.createElement('div');
+						text.className = className;
+					}
+					text.textContent = input.value;
+					container.appendChild(text);
+				});
+				if (!hasText) container?.remove();
+			}
+
+			logoTextControls.forEach(function ({ input, reset, originalText }) {
+				input.addEventListener('input', updateLogoText);
+				input.addEventListener('change', updateLogoText);
+				input.addEventListener('keydown', function (event) {
+					if (event.key === 'Enter') event.preventDefault();
+				});
+				reset.addEventListener('click', function () {
+					input.value = originalText;
+					updateLogoText();
+				});
+			});
+			updateLogoText();
+
+			document.querySelectorAll('.saSideBarLogoPaddingControl').forEach(function (control) {
+				const properties = control.dataset.paddingProperties.split(' ');
+				const input = control.querySelector('input');
+				const reset = control.querySelector('button');
+				const originalValues = properties.map(property => logo.style.getPropertyValue(property));
+
+				function refreshPadding() {
+					input.value = parseFloat(getComputedStyle(logo).getPropertyValue(properties[0]));
+					reset.disabled = properties.every((property, index) => logo.style.getPropertyValue(property) === originalValues[index]);
+				}
+
+				function applyPadding() {
+					if (!input.validity.valid || !Number.isFinite(input.valueAsNumber)) return;
+					properties.forEach(property => logo.style.setProperty(property, `${input.valueAsNumber}px`));
+					reset.disabled = false;
+				}
+
+				input.addEventListener('input', applyPadding);
+				input.addEventListener('change', applyPadding);
+				input.addEventListener('blur', refreshPadding);
+				input.addEventListener('keydown', function (event) {
+					if (event.key === 'Enter') {
+						event.preventDefault();
+						refreshPadding();
+					}
+				});
+				reset.addEventListener('click', function () {
+					properties.forEach((property, index) => logo.style.setProperty(property, originalValues[index]));
+					refreshPadding();
+				});
+				refreshPadding();
+			});
+
+			const logoFile = document.getElementById('saSideBarLogoFile');
+			const logoStatus = document.getElementById('saSideBarLogoFileStatus');
+			const logoReset = document.getElementById('saSideBarLogoReset');
+			const originalLogoSrc = logo.getAttribute('src');
+			const originalLogoAlt = logo.alt;
+			let customLogoUrl = null;
+			let logoRequest = 0;
+			const logoPresets = document.getElementById('saSideBarLogoPresets');
+			const presetNames = ['Purple','Aurora', 'Summit', 'Orbit', 'Bloom', 'Grove', 'Beacon', 'Wave', 'Prism', 'Spark', 'Link', 'Softadmin', 'Multisoft', 'Facebook', 'OpenAI', 'Claude', 'Logo'];
+
+			function selectLogoPreset(selectedButton) {
+				logoPresets.querySelectorAll('button').forEach(function (button) {
+					button.setAttribute('aria-pressed', String(button === selectedButton));
+				});
+			}
+
+			presetNames.forEach(function (name) {
+				const src = `./Presentation/img/sidebar-logos/${name.toLowerCase()}.svg`;
+				const button = document.createElement('button');
+				button.type = 'button';
+				button.className = 'saSideBarLogoPreset saButtonSecondary';
+				button.setAttribute('aria-pressed', 'false');
+				const thumbnail = document.createElement('img');
+				thumbnail.src = src;
+				thumbnail.alt = '';
+				const label = document.createElement('span');
+				label.textContent = name;
+				button.append(thumbnail, label);
+				button.addEventListener('click', function () {
+					++logoRequest;
+					logo.setAttribute('src', src);
+					logo.alt = `${name} logo`;
+					if (customLogoUrl) URL.revokeObjectURL(customLogoUrl);
+					customLogoUrl = null;
+					logoFile.value = '';
+					logoStatus.value = `${name} logo`;
+					logoReset.disabled = false;
+					selectLogoPreset(button);
+				});
+				logoPresets.appendChild(button);
+			});
+
+			logoFile.addEventListener('change', async function () {
+				const file = logoFile.files[0];
+				if (!file) return;
+				const request = ++logoRequest;
+				const url = URL.createObjectURL(file);
+				const preview = new Image();
+				preview.src = url;
+				logoStatus.value = 'Loading logo…';
+				logoReset.disabled = false;
+
+				try {
+					await preview.decode();
+					if (request !== logoRequest) {
+						URL.revokeObjectURL(url);
+						return;
+					}
+					logo.src = url;
+					logo.alt = 'Custom sidebar logo';
+					if (customLogoUrl) URL.revokeObjectURL(customLogoUrl);
+					customLogoUrl = url;
+					logoStatus.value = file.name;
+					selectLogoPreset(null);
+				} catch {
+					URL.revokeObjectURL(url);
+					if (request !== logoRequest) return;
+					logoFile.value = '';
+					logoStatus.value = 'This image could not be loaded. Choose another image.';
+				}
+			});
+
+			logoReset.addEventListener('click', function () {
+				++logoRequest;
+				logo.setAttribute('src', originalLogoSrc);
+				logo.alt = originalLogoAlt;
+				if (customLogoUrl) URL.revokeObjectURL(customLogoUrl);
+				customLogoUrl = null;
+				logoFile.value = '';
+				logoStatus.value = 'Original logo';
+				logoReset.disabled = true;
+				selectLogoPreset(null);
+			});
+
+			document.querySelectorAll('.saSideBarLogoColorControl').forEach(function (picker) {
+				const property = picker.dataset.colorProperty;
+				const customColor = picker.querySelector('input[type="color"]');
+				const output = picker.querySelector('output');
+				const reset = picker.querySelector('[data-reset-color]');
+
+				function addSwatch(color, container, extraClass = '') {
+					const input = document.createElement('input');
+					input.type = 'radio';
+					input.className = `saColor ${extraClass}`.trim();
+					input.name = property;
+					input.value = color;
+					input.setAttribute('aria-label', color);
+					input.style.backgroundColor = color;
+					container.appendChild(input);
+				}
+
+				const mainPalette = picker.querySelector('.saPalette');
+				const footer = picker.querySelector('.saFooter');
+				palette.forEach(color => addSwatch(color, mainPalette));
+				addSwatch('#FFFFFF', footer, 'saExtraColor saWhite');
+				addSwatch('#000000', footer, 'saExtraColor saBlack');
+				const swatches = picker.querySelectorAll('input[type="radio"]');
+
+				function refresh() {
+					const rgb = getComputedStyle(logo)[picker.dataset.logoStyle];
+					const color = '#' + rgb.match(/\d+/g).slice(0, 3)
+						.map(channel => Number(channel).toString(16).padStart(2, '0')).join('').toUpperCase();
+					customColor.value = color;
+					output.value = color;
+					swatches.forEach(input => { input.checked = input.value === color; });
+					customColor.classList.toggle('saSelected', !Array.from(swatches).some(input => input.checked));
+					reset.disabled = !root.style.getPropertyValue(property);
+				}
+
+				function applyColor(event) {
+					if (!event.target.matches('input.saColor')) return;
+					root.style.setProperty(property, event.target.value);
+					refresh();
+				}
+
+				picker.addEventListener('input', applyColor);
+				picker.addEventListener('change', applyColor);
+				reset.addEventListener('click', function () {
+					root.style.removeProperty(property);
+					refresh();
+				});
+				refreshPickers.push(refresh);
+				refresh();
+			});
+
+			new MutationObserver(function () {
+				refreshPickers.forEach(refresh => refresh());
+			}).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+		});
+	</script>
+</body>
