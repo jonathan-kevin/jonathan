@@ -242,6 +242,7 @@
 			this.loading = true;
 			this.status = document.createElement("p");
 			this.status.setAttribute("role", "status");
+			this.status.setAttribute("class", "saScreenReaderOnly");
 			this.status.textContent = "Loading editor…";
 			this.append(this.status);
 
@@ -424,8 +425,8 @@
 					</ul>
 					<ul aria-label="View and history">
 						<li><button class="saButtonToolbar" type="button" data-command="markdown" aria-label="View as markdown" aria-controls="${id}-visual-view ${id}-source-view" aria-pressed="false"><i class="saIcon fab fa-markdown"></i></button></li>
-						<li><button class="saButtonToolbar" type="button" data-command="undo" aria-label="Undo"><i class="saIcon fas fa-undo"></i><i class="saIcon far fad fa-undo"></i></button></li>
-						<li><button class="saButtonToolbar" type="button" data-command="redo" aria-label="Redo"><i class="saIcon fas fa-redo"></i><i class="saIcon far fad fa-redo"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="undo" aria-label="Undo"><i class="saIcon far fa-undo"></i></button></li>
+						<li><button class="saButtonToolbar" type="button" data-command="redo" aria-label="Redo"><i class="saIcon far fa-redo"></i></button></li>
 					</ul>
 				</div>
 				<div id="${id}-visual-view" class="saMarkdownEditorVisual" data-visual-surface>

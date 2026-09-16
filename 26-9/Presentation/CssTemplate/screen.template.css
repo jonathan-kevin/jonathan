@@ -36457,7 +36457,7 @@ body.saPopup::before {
 /* Layout and readable native controls only; scoped to the POC. */
 .saMarkdownEditor {
   display: block;
-  max-width: 65rem;
+  max-width: 50rem;
 }
 .markdown-editor-table-menu {
   position: relative;
@@ -36565,7 +36565,7 @@ body.saPopup::before {
 }
 .saMarkdownEditorDocument pre {
   overflow-x: auto;
-  padding: 0.75rem;
+  padding: 3rem 1rem 1rem;
   border-radius: 0.5rem;
   border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: light-dark(var(--Gray50), var(--Gray1100));
@@ -36794,12 +36794,9 @@ body.saPopup::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.375rem 0.5rem;
-  border: 0.0625rem solid light-dark(var(--Gray200), var(--Gray800));
-  border-bottom: 0;
-  border-radius: 0.5rem 0.5rem 0 0;
-  background-color: light-dark(var(--Gray100), var(--Gray1000));
+  padding: 0.5rem;
+  position: absolute;
+  inset: 0 0 auto 0;
 }
 .saMarkdownEditorCodeBlock .saMarkdownEditorCodeLanguage {
   display: flex;
@@ -36808,7 +36805,11 @@ body.saPopup::before {
   margin: 0;
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--Sa-Color-TextSecondary);
+}
+.saMarkdownEditorCodeBlock .saMarkdownEditorCodeLanguage select {
+  border-radius: 0.25rem;
+  box-shadow: none;
+  background-color: transparent;
 }
 .saMarkdownEditorCodeBlock .saInputText {
   width: auto;
@@ -36821,7 +36822,7 @@ body.saPopup::before {
 }
 .saMarkdownEditorCodeBlock pre {
   margin: 0;
-  border-radius: 0 0 0.5rem 0.5rem;
+  border-radius: 0.5rem;
 }
 .saMarkdownEditorToolbar {
   border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
