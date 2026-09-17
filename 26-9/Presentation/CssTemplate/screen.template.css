@@ -6188,13 +6188,14 @@ div.saPopupOverlay {
   interpolate-size: allow-keywords;
 }
 .saDev .saSideBar {
-  background-color: var(--Green50);
+  background-color: light-dark(var(--Green50), color-mix(in oklch, var(--Green1200), 60% transparent));
 }
 .saStage .saSideBar {
-  background-color: var(--Purple50);
+  background-color: light-dark(var(--Purple50), color-mix(in oklch, var(--Purple1200), 80% transparent));
 }
 .saAdminInProd .saSideBar {
-  box-shadow: inset 0 0 0 0.125rem var(--Red600), inset 0 0 0 999rem var(--Red50);
+  box-shadow: inset 0 0 0 0.125rem var(--Red600);
+  background-color: light-dark(var(--Red50), color-mix(in oklch, var(--Red1200), 80% transparent));
 }
 .saSideBar .saSideBarSection {
   margin-bottom: 0.5rem;
@@ -6318,22 +6319,15 @@ div.saPopupOverlay {
 .saSideBar .saCustomerLogoWrapper::before {
   content: '';
   position: absolute;
-}
-.saDev .saMinimized.saSideBar .saCustomerLogoWrapper::before,
-.saStage .saMinimized.saSideBar .saCustomerLogoWrapper::before {
-  font-size: 0.75rem;
-}
-.saAdminInProd .saMinimized.saSideBar .saCustomerLogoWrapper::before {
-  content: none;
-}
-.saDev .saSideBar .saCustomerLogoWrapper::before,
-.saStage .saSideBar .saCustomerLogoWrapper::before {
   inset: 50% auto auto 50%;
   font-size: 2rem;
   font-weight: 900;
   text-align: center;
   text-shadow: -0.125rem -0.125rem 0 var(--White), 0.125rem -0.125rem 0 var(--White), -0.125rem 0.125rem 0 var(--White), 0.125rem 0.125rem 0 var(--White);
   transform: translate(-50%, -50%) rotate(25deg);
+}
+.saMinimized.saSideBar .saCustomerLogoWrapper::before {
+  font-size: 0.75rem;
 }
 .saDev .saSideBar .saCustomerLogoWrapper::before {
   content: 'DEV';
@@ -6344,12 +6338,8 @@ div.saPopupOverlay {
   color: var(--Purple600);
 }
 .saAdminInProd .saSideBar .saCustomerLogoWrapper::before {
-  content: "You're admin in prod.";
-  font-size: 0.75rem;
-  font-weight: 400;
+  content: "ADMIN";
   color: var(--Red600);
-  inset: auto auto 0.5rem 50%;
-  transform: translateX(-50%);
 }
 .saSideBar .saCustomerLogo {
   margin-top: 1rem;
