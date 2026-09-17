@@ -72,6 +72,25 @@ $(document).ready(function () {
 
 	$sideBarExpander.on('click', toggleSidebar);
 
+	$(document).on('click', '#dev', function () {
+		$('.saRootBody').removeClass('saAdminInProd saStage').addClass('saDev');
+		$('#toastWarning').hide();
+	});
+
+	$(document).on('click', '#stage', function () {
+		$('.saRootBody').removeClass('saAdminInProd saDev').addClass('saStage');
+		$('#toastWarning').hide();
+	});
+
+	$(document).on('click', '#admin', function () {
+		$('.saRootBody').removeClass('saDev saStage').addClass('saAdminInProd');
+		$('#toastWarning').show();
+	});
+
+	$(document).on('click', '#toastWarning .saCloseButton', function () {
+		$('#toastWarning').hide();
+	});
+
 	$(document).on('keydown', function (event) {
 		const isSidebarShortcut = event.altKey
 			&& !event.ctrlKey

@@ -2052,6 +2052,19 @@ body.saRootBody {
 body.saRootBody .saRootContentWrapper {
   height: 100%;
 }
+body.saRootBody.saAdminInProd {
+  box-shadow: inset 0 0 0 0.25rem var(--Red500);
+  animation: pulse 10s infinite;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: inset 0 0 0 0.125rem var(--Red500);
+  }
+  50% {
+    box-shadow: inset 0 0 0 0.375rem var(--Red500);
+  }
+}
 body.saPc::-webkit-scrollbar,
 body.saPc *::-webkit-scrollbar {
   width: 1rem;
@@ -6292,6 +6305,32 @@ div.saPopupOverlay {
   line-height: 0.625rem;
   color: var(--Sa-Color-TextSecondary);
   padding-top: 0.25rem;
+}
+.saSideBar .saCustomerLogoWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+.saSideBar .saCustomerLogoWrapper::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-25deg);
+  font-size: 2rem;
+  font-weight: 900;
+  text-align: center;
+  text-shadow: -0.125rem -0.125rem 0 var(--White), 0.125rem -0.125rem 0 var(--White), -0.125rem 0.125rem 0 var(--White), 0.125rem 0.125rem 0 var(--White);
+}
+.saDev .saSideBar .saCustomerLogoWrapper::before {
+  content: 'DEV';
+  color: var(--Red600);
+}
+.saStage .saSideBar .saCustomerLogoWrapper::before {
+  content: 'STAGE';
+  color: var(--Orange500);
 }
 .saSideBar .saCustomerLogo {
   margin-top: 1rem;
@@ -32517,18 +32556,17 @@ a.saKpiOuter:active {
   border-radius: 0.5rem;
   align-items: center;
   justify-content: flex-end;
-  width: 2.5rem;
   transition: ease width 0.1s, ease border-radius 0.2s;
   transition-delay: 0.1s;
   overflow: hidden;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
+  width: 2rem;
+}
+.saAdminInProd .saToolbox {
+  background-color: light-dark(var(--Red50), var(--Red1200));
 }
 .saToolbox * {
   box-sizing: border-box;
-}
-.saCompact .saToolbox {
-  margin-left: 0.5rem;
-  width: 2rem;
 }
 .saToolbox.saOpen {
   width: fit-content;
@@ -32546,6 +32584,9 @@ a.saKpiOuter:active {
   pointer-events: none;
   box-shadow: inset 0 0 0 1px light-dark(var(--Gray200), var(--Gray800));
   border-radius: 0.5rem 0 0 0.5rem;
+}
+.saAdminInProd .saToolbox ul {
+  box-shadow: inset 0 0 0 1px light-dark(var(--Red600), var(--Red500));
 }
 .saOpen.saToolbox ul {
   opacity: 1;
@@ -32607,14 +32648,14 @@ a.saKpiOuter:active {
   font-weight: 500;
   color: light-dark(var(--Sa-Color-Primary600), var(--Gray100));
   background-color: transparent;
-  max-width: 2rem;
-  min-width: 2rem;
-  height: 2rem;
+  max-width: 1.5rem;
+  min-width: 1.5rem;
+  height: 1.5rem;
   color: var(--Sa-Color-TextSecondary);
   font-size: 1rem;
   transition: ease background 0.2s, ease color 0.2s, ease border-radius 0.2s;
   position: relative;
-  border-radius: 0.375rem;
+  border-radius: 0.25rem;
 }
 .saToolbox .saToolboxButton .saButtonText {
   white-space: nowrap;
@@ -32686,16 +32727,7 @@ a.saKpiOuter:active {
 .saToolbox .saToolboxButton.saDisabled .saIcon {
   color: light-dark(var(--Gray300), var(--Gray700));
 }
-.saCompact .saToolbox .saToolboxButton {
-  max-width: 1.5rem;
-  min-width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 0.25rem;
-}
 .saToolbox .saToolboxButton:active {
-  border-radius: 0.75rem;
-}
-.saCompact .saToolbox .saToolboxButton:active {
   border-radius: 0.5rem;
 }
 .saToolbox .saToolboxButton::after {
@@ -32707,20 +32739,18 @@ a.saKpiOuter:active {
   top: -0.25rem;
 }
 .saToolbox .saToolboxButton.saExpandButton {
-  padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
   flex-direction: column;
   gap: 0.25rem;
-  min-width: 2.5rem;
-  height: 2.5rem;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0.5rem;
   transition: ease all 0.2s;
   position: relative;
   box-shadow: inset 0 0 0 1px light-dark(var(--Gray200), var(--Gray800));
 }
-.saCompact .saToolbox .saToolboxButton.saExpandButton {
-  min-width: 2rem;
-  height: 2rem;
-  padding: 0.5rem;
+.saAdminInProd .saToolbox .saToolboxButton.saExpandButton {
+  box-shadow: inset 0 0 0 1px light-dark(var(--Red600), var(--Red500));
 }
 @media (pointer: fine) {
   .saToolbox .saToolboxButton.saExpandButton:hover {
@@ -32741,6 +32771,9 @@ a.saKpiOuter:active {
 .saOpen.saToolbox .saToolboxButton.saExpandButton {
   background: light-dark(var(--Gray100), var(--Gray1000));
   border-radius: 0 0.5rem 0.5rem 0;
+}
+.saAdminInProd .saOpen.saToolbox .saToolboxButton.saExpandButton {
+  background: light-dark(var(--Red100), var(--Red1000));
 }
 .saToolbox .saToolboxButton.saExpandButton span {
   display: block;
