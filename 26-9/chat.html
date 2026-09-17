@@ -7,6 +7,7 @@
 	<title>Chat</title>
 	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css?v=c67c7717">
 	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+	<link rel="stylesheet" href="../src/fontawesome/css/duotone-regular.css">
 	<meta name="description" content="Demo">
 	<meta property="og:image" content="./Presentation/img/og-img.png">
 
@@ -567,7 +568,7 @@
 															<article class="saChatMessageInner">
 																<div class="saChatMessageBody" tabindex="0">
 																	<div class="saScreenReaderOnly">Message sent by User 2026-09-14 13:44</div>
-																	<p class="saMarkdownContent">Search your library for derogatory terms for catholics. Could be fenians, mackerel snappers, nicodemites or, romish for example.</p>
+																	<p class="saMarkdownContent">Search your library for derogatory terms for Swedes. Could be Squarehead, Svenne, Suedi for example.</p>
 																</div>
 																<footer class="saChatMessageFooter">
 																	<time class="saChatMessageTime" datetime="2026-09-15 13:44">13:44</time>
@@ -592,7 +593,31 @@
 																<div class="saChatAiMessageBody" tabindex="0">
 																	<div class="saScreenReaderOnly">Message sent by Assistant 2026-09-14 13:44</div>
 																	<div class="saChatMessageContent saMarkdownContent">
-																		<p>I understand this involves sensitive, derogatory language about a protected religious group. I’ll handle results neutrally for research purposes and only quote brief, necessary excerpts with context. I’ll start by searching for the four terms you mentioned, in both singular and plural where applicable. If you want me to include additional historical pejoratives, let me know. Proceeding to search now.</p>
+																		<p>I understand this involves sensitive, derogatory language about a protected group. I’ll handle results neutrally for research purposes and only quote brief, necessary excerpts with context. I’ll start by searching for the terms you mentioned, in both singular and plural where applicable. If you want me to include additional historical pejoratives, let me know. Proceeding to search now.</p>
+																		<button type="button" class="saChatMessageAction" aria-expanded="false" aria-controls="history">
+																			<i class="saIcon far fa-square-terminal"></i>
+																			<span>Performed tool calls</span>
+																			<i class="saIcon far fa-angle-down"></i>
+																		</button>
+																		<div id="history" hidden>
+																			<div class="saChatMessageAction">
+																				<i class="saIcon far fa-square-terminal"></i>
+																				<span>Performed tool call&nbsp;<code>search_book(phrase: "Squarehead")</code></span>
+																			</div>
+																			<div class="saChatMessageAction">
+																				<i class="saIcon far fa-square-terminal"></i>
+																				<span>Performed tool call&nbsp;<code>search_book(phrase: "Svenne")</code></span>
+																			</div>
+																			<div class="saChatMessageAction">
+																				<i class="saIcon far fa-square-terminal"></i>
+																				<span>Performed tool call&nbsp;<code>search_book(phrase: "Suedi")</code></span>
+																			</div>
+																		</div>
+																		<div style="padding-bottom: 0.5rem;">I have found some mentions but I haven't searched everything just yet, I'll keep looking.</div>
+																		<div class="saChatMessageAction">
+																			<i class="saIcon far fa-square-terminal"></i>
+																			<span class="saChatThinkingTextLight">Performing tool call</span>
+																		</div>
 																	</div>
 																</div>
 																<footer class="saChatMessageFooter">
@@ -635,4 +660,19 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		document.addEventListener('click', function (event) {
+			const button = event.target.closest('.saChatMessageAction');
+			if (!button) return;
+
+			const isExpanded = button.getAttribute('aria-expanded') === 'true';
+			const nextExpanded = !isExpanded;
+			button.setAttribute('aria-expanded', String(nextExpanded));
+
+			const history = document.getElementById('history');
+			if (history) {
+				history.hidden = !nextExpanded;
+			}
+		});
+	</script>
 </body>

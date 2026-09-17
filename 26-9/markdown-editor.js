@@ -431,7 +431,7 @@
 				</div>
 				<div id="${id}-visual-view" class="saMarkdownEditorVisual" data-visual-surface>
 					<div data-editor-surface></div>
-					<div class="saMarkdownEditorToolbar saMarkdownEditorTableToolbar" role="toolbar" aria-label="Table editing" aria-keyshortcuts="Alt+Shift+T" data-table-toolbar hidden>
+					<div class="saMarkdownEditorTableToolbar" role="toolbar" aria-label="Table editing" aria-keyshortcuts="Alt+Shift+T" data-table-toolbar hidden>
 						<ul aria-label="Row actions">
 							<li><button class="saButtonToolbar" type="button" data-command="addRowBefore" aria-label="Add row above"><i class="saIcon far fad fa-arrow-up-to-line" aria-hidden="true"></i></button></li>
 							<li><button class="saButtonToolbar" type="button" data-command="addRowAfter" aria-label="Add row below"><i class="saIcon far fad fa-arrow-down-to-line" aria-hidden="true"></i></button></li>
