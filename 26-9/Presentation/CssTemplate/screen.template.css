@@ -2053,16 +2053,7 @@ body.saRootBody .saRootContentWrapper {
   height: 100%;
 }
 body.saRootBody.saAdminInProd {
-  animation: adminInProd 10s infinite;
-}
-@keyframes adminInProd {
-  0%,
-  100% {
-    box-shadow: inset 0 0 0 0.125rem var(--Red600);
-  }
-  50% {
-    box-shadow: inset 0 0 0 0.375rem var(--Red600);
-  }
+  box-shadow: inset 0 0 0 0.125rem var(--Red600);
 }
 body.saPc::-webkit-scrollbar,
 body.saPc *::-webkit-scrollbar {
@@ -2287,7 +2278,7 @@ div.saPopupOverlay {
   border-left: 1px solid light-dark(var(--Gray200), var(--Gray800));
 }
 .saLargeScreen.saAdminInProd .saRightFrameRoot {
-  border-left: 1px solid light-dark(var(--Red600), var(--Red800));
+  border-left-color: transparent;
 }
 .saSpinnerWrapper {
   position: fixed;
@@ -6196,6 +6187,15 @@ div.saPopupOverlay {
   transition: ease width 0.2s;
   interpolate-size: allow-keywords;
 }
+.saDev .saSideBar {
+  background-color: var(--Green50);
+}
+.saStage .saSideBar {
+  background-color: var(--Purple50);
+}
+.saAdminInProd .saSideBar {
+  box-shadow: inset 0 0 0 0.125rem var(--Red600), inset 0 0 0 999rem var(--Red50);
+}
 .saSideBar .saSideBarSection {
   margin-bottom: 0.5rem;
 }
@@ -6315,12 +6315,19 @@ div.saPopupOverlay {
   width: 100%;
   position: relative;
 }
-.saExpanded.saSideBar .saCustomerLogoWrapper::before {
+.saSideBar .saCustomerLogoWrapper::before {
   content: '';
   position: absolute;
 }
-.saDev .saExpanded.saSideBar .saCustomerLogoWrapper::before,
-.saStage .saExpanded.saSideBar .saCustomerLogoWrapper::before {
+.saDev .saMinimized.saSideBar .saCustomerLogoWrapper::before,
+.saStage .saMinimized.saSideBar .saCustomerLogoWrapper::before {
+  font-size: 0.75rem;
+}
+.saAdminInProd .saMinimized.saSideBar .saCustomerLogoWrapper::before {
+  content: none;
+}
+.saDev .saSideBar .saCustomerLogoWrapper::before,
+.saStage .saSideBar .saCustomerLogoWrapper::before {
   inset: 50% auto auto 50%;
   font-size: 2rem;
   font-weight: 900;
@@ -6328,15 +6335,15 @@ div.saPopupOverlay {
   text-shadow: -0.125rem -0.125rem 0 var(--White), 0.125rem -0.125rem 0 var(--White), -0.125rem 0.125rem 0 var(--White), 0.125rem 0.125rem 0 var(--White);
   transform: translate(-50%, -50%) rotate(25deg);
 }
-.saDev .saExpanded.saSideBar .saCustomerLogoWrapper::before {
+.saDev .saSideBar .saCustomerLogoWrapper::before {
   content: 'DEV';
-  color: var(--Red600);
+  color: var(--Green500);
 }
-.saStage .saExpanded.saSideBar .saCustomerLogoWrapper::before {
+.saStage .saSideBar .saCustomerLogoWrapper::before {
   content: 'STAGE';
-  color: var(--Orange500);
+  color: var(--Purple600);
 }
-.saAdminInProd .saExpanded.saSideBar .saCustomerLogoWrapper::before {
+.saAdminInProd .saSideBar .saCustomerLogoWrapper::before {
   content: "You're admin in prod.";
   font-size: 0.75rem;
   font-weight: 400;
