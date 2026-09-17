@@ -75,16 +75,22 @@ $(document).ready(function () {
 	$(document).on('click', '#dev', function () {
 		$('.saRootBody').removeClass('saAdminInProd saStage').addClass('saDev');
 		$('#toastWarning').hide();
+		$('button').removeClass('saOpen')
+		$(this).addClass('saOpen')
 	});
 
 	$(document).on('click', '#stage', function () {
 		$('.saRootBody').removeClass('saAdminInProd saDev').addClass('saStage');
 		$('#toastWarning').hide();
+		$('button').removeClass('saOpen')
+		$(this).addClass('saOpen')
 	});
 
 	$(document).on('click', '#admin', function () {
 		$('.saRootBody').removeClass('saDev saStage').addClass('saAdminInProd');
 		$('#toastWarning').show();
+		$('button').removeClass('saOpen')
+		$(this).addClass('saOpen')
 	});
 
 	$(document).on('click', '#toastWarning .saCloseButton', function () {
