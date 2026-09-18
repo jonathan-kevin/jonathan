@@ -438,7 +438,6 @@
 											<fieldset>
 												<legend>Duration</legend>
 												<label><input type="checkbox" id="persistent">Infinity</label><br>
-												<label><input type="checkbox" id="showProgress">Show progress</label><br>
 												<label for="toastDuration">Auto-dismiss after (seconds)</label><br>
 												<input id="toastDuration" type="number" min="5" step="0.1" value="5" aria-describedby="toastDurationHelp"><br>
 												<small id="toastDurationHelp">Minimum 5 seconds. WCAG 2.2.1 does not define a toast-specific minimum, but timed content must be pausable, adjustable, or extendable. Use Infinity for essential messages.</small>
@@ -489,7 +488,6 @@
 			const iconInput = document.getElementById('toastIcon');
 			const durationInput = document.getElementById('toastDuration');
 			const persistentInput = document.getElementById('persistent');
-			const showProgressInput = document.getElementById('showProgress');
 			const randomWords = [
 				'amber', 'autumn', 'bright', 'calm', 'cloud', 'coral', 'crystal', 'dawn',
 				'forest', 'gentle', 'golden', 'harbor', 'lunar', 'meadow', 'mist', 'north',
@@ -538,7 +536,6 @@
 						durationInput.value = state.lastFiniteDuration;
 					}
 				}
-				showProgressInput.disabled = persistentInput.checked;
 			}
 
 			function syncTypeState() {
@@ -575,7 +572,6 @@
 					type,
 					duration: persistent ? Infinity : getDurationInMilliseconds(durationInput, DEFAULT_DURATION, MINIMUM_DURATION_SECONDS),
 					persistent,
-					showProgress: !persistent && showProgressInput.checked,
 					icon: iconInput.value.trim() || null
 				};
 			}
@@ -731,9 +727,8 @@
 				};
 
 				const startAutoDismiss = () => {
-					div.style.removeProperty('--toast-progress');
 					if (currentOptions.persistent || closed) return;
-					timer = attachTimer(div, currentOptions.duration ?? DEFAULT_DURATION, close, currentOptions.showProgress);
+					timer = attachTimer(currentOptions.duration ?? DEFAULT_DURATION, close);
 					if (toastGroup.matches(':hover, :focus-within')) timer.pause();
 				};
 
@@ -783,54 +778,43 @@
 				return div;
 			}
 
-			// Timer function (smooth progress)
-			function attachTimer(toastEl, duration, onDone, showProgress) {
+			function attachTimer(duration, onDone) {
 				let endTime = performance.now() + duration;
 				let remaining = duration;
-				let raf;
+				let timeout;
 				let paused = false;
 				let canceled = false;
 				let controls;
 
-				function update(now) {
+				function finish() {
 					if (paused || canceled) return;
-					const timeLeft = Math.max(0, endTime - now);
-					if (showProgress) {
-						toastEl.style.setProperty('--toast-progress', `${(timeLeft / duration) * 100}%`);
-					}
-
-					if (timeLeft <= 0) {
-						canceled = true;
-						activeTimers.delete(controls);
-						onDone();
-						return;
-					}
-					raf = requestAnimationFrame(update);
+					cancel();
+					onDone();
 				}
 
 				function cancel() {
 					canceled = true;
-					cancelAnimationFrame(raf);
+					clearTimeout(timeout);
 					activeTimers.delete(controls);
 				}
 
 				function pause() {
-					if (paused) return;
+					if (paused || canceled) return;
 					paused = true;
 					remaining = Math.max(0, endTime - performance.now());
-					cancelAnimationFrame(raf);
+					clearTimeout(timeout);
 				}
 
 				function resume() {
 					if (!paused || canceled) return;
 					paused = false;
 					endTime = performance.now() + remaining;
-					raf = requestAnimationFrame(update);
+					timeout = setTimeout(finish, remaining);
 				}
 
 				controls = { pause, resume, cancel };
 				activeTimers.add(controls);
-				raf = requestAnimationFrame(update);
+				timeout = setTimeout(finish, remaining);
 				return controls;
 			}
 
