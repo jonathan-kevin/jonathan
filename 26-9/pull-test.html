@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Dev Stage</title>
+	<title>Pull test</title>
 	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css?v=6db36b15">
 	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
 	<link rel="stylesheet" href="../src/fontawesome/css/duotone-regular.css">
@@ -253,7 +253,7 @@
 										</div>
 										<div class="saBottomRow">
 											<div class="saTitle">
-												<h1 class="saHeaderText">Dev Stage</h1>
+												<h1 class="saHeaderText">Pull test</h1>
 												<div class="saNoSpinner">
 													<button type="button" class="saFavoriteToggle"><i class="saIcon far fad fa-star"></i><i class="saIcon fas fa-star"></i></button>
 												</div>
@@ -317,15 +317,6 @@
 																</ul>
 															</div>
 													</div>
-													<button class="saTopLink saActionLink saButtonSecondary" type="button" id="dev">
-														<div class="saIconHolder saOptionIcon"><i class="far fad fa-code icon saIcon"></i></div><span class="saButtonText saOptionText">Dev</span>
-													</button>
-											<button class="saTopLink saActionLink saButtonSecondary" type="button" id="stage">
-												<div class="saIconHolder saOptionIcon"><i class="far fad fa-sun-alt icon saIcon"></i></div><span class="saButtonText saOptionText">Stage</span>
-											</button>
-											<button class="saTopLink saActionLink saButtonSecondary" type="button" id="admin">
-												<div class="saIconHolder saOptionIcon"><i class="far fad fa-octagon-exclamation icon saIcon"></i></div><span class="saButtonText saOptionText">Admin in prod</span>
-											</button>
 											<button class="saTopLink saActionLink saButtonSecondary" type="button" id="toggleFont">
 												<div class="saIconHolder saOptionIcon"><i class="far fad fa-font icon saIcon"></i></div><span class="saButtonText saOptionText">Toggle font</span>
 											</button>
@@ -353,7 +344,7 @@
 											<button class="saSmallScreenBackButton saButtonHeader" type="button"><i class="far fad fa-arrow-left saBack saIcon"></i></button>
 											<div class="saHeaderWrapper">
 												<div class="saTitle">
-													<h1 class="saHeaderText">Dev Stage</h1>
+													<h1 class="saHeaderText">Pull test</h1>
 												</div>
 											</div>
 											<button class="saNotifications saButtonHeader" type="button" aria-expanded="false">
@@ -403,13 +394,166 @@
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
 									<div class="scrollcontent-inner">
-
-										<div class="scroll-container">
-											<div class="item"></div>
-											<div class="item"></div>
-											<div class="item"></div>
+										<section class="pull-demo" aria-labelledby="pull-demo-title">
+											<h2 id="pull-demo-title">Pull to close</h2>
+											<p>Swipe the toast downward. A short pull can snap back; a longer swipe dismisses it.</p>
+											<p>On desktop, scroll toward the top over the toast to move it downward.</p>
+											<button class="saButtonSecondary" id="reset-toast" type="button">Reset toast</button>
+											<p id="pull-status" role="status">Toast is open.</p>
+										</section>
+										<div class="pull-toast" id="pull-toast" tabindex="0" role="region" aria-label="Dismissible toast" aria-describedby="pull-toast-hint">
+											<div class="pull-toast-item" aria-hidden="true"></div>
+											<div class="pull-toast-item">
+												<div class="pull-toast-card">
+													<i class="far fa-circle-check" aria-hidden="true"></i>
+													<div>
+														<strong>Your changes have been saved</strong>
+														<span id="pull-toast-hint">Swipe down to dismiss</span>
+													</div>
+													<button id="close-toast" type="button" aria-label="Dismiss toast"><i class="far fa-xmark" aria-hidden="true"></i></button>
+												</div>
+											</div>
 										</div>
 									</div>
+									<style>
+										.pull-demo {
+											padding: 1.5rem;
+											max-width: 38rem;
+										}
+
+										.pull-demo p { margin-block: 1rem; }
+										.pull-demo button {
+											padding: .6rem 1rem;
+											border: 1px solid #41695a;
+											border-radius: .5rem;
+											background: #193e30;
+											color: #fff;
+											cursor: pointer;
+										}
+
+										.pull-toast {
+											--toast-height: 6rem;
+											scroll-snap-type: y mandatory;
+											height: var(--toast-height);
+											width: min(28rem, calc(100% - 2rem));
+											box-sizing: border-box;
+											overflow-y: auto;
+											overflow-x: hidden;
+											overscroll-behavior-y: contain;
+											position: fixed;
+											right: 0;
+											bottom: 0;
+											padding: 0 1rem 1rem 	0;
+											z-index: 1000;
+											scrollbar-width: none;
+											touch-action: pan-y pinch-zoom;
+										}
+
+										.pull-toast::-webkit-scrollbar { display: none; }
+										.pull-toast[hidden] { display: none; }
+										.pull-toast:focus-visible { outline: 2px solid #276b52; outline-offset: 3px; }
+
+										.pull-toast-item {
+											height: 100%;
+											scroll-snap-align: start;
+											box-sizing: border-box;
+										}
+
+										.pull-toast-card {
+											display: grid;
+											grid-template-columns: auto 1fr auto;
+											align-items: center;
+											gap: .75rem;
+											height: 100%;
+											padding: .75rem 1rem;
+											box-sizing: border-box;
+											border: 1px solid #41695a;
+											border-radius: .75rem;
+											background: #193e30;
+											color: #fff;
+										}
+
+										.pull-toast-card strong { display: block; line-height: 1.35; }
+										.pull-toast-card span { display: block; margin-top: .3rem; color: #c6ddcf; font-size: .875rem; }
+										.pull-toast-card > i { font-size: 1.4rem; color: #9de5b9; }
+
+										.pull-toast-card button {
+											width: 2.75rem;
+											height: 2.75rem;
+											border: 0;
+											border-radius: .5rem;
+											background: transparent;
+											color: inherit;
+											cursor: pointer;
+										}
+
+										.pull-toast-card button:hover { background: #ffffff18; }
+										.pull-toast-card button:focus-visible { outline: 2px solid #9de5b9; }
+										@media (max-width: 400px) {
+											.pull-toast { --toast-height: 7rem; }
+										}
+									</style>
+									<script>
+										(() => {
+											const toast = document.getElementById('pull-toast');
+											const reset = document.getElementById('reset-toast');
+											const status = document.getElementById('pull-status');
+											const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+											let fallbackTimer;
+											let touching = false;
+
+											function settle() {
+												if (toast.hidden || touching) return;
+												const end = toast.scrollHeight - toast.clientHeight;
+												// The empty first item is closed; the second item is the visible toast.
+												if (end > 0 && Math.abs(toast.scrollTop) < 1) {
+													const restoreFocus = toast.contains(document.activeElement);
+													toast.hidden = true;
+													status.textContent = 'Toast dismissed. Reset to try again.';
+													if (restoreFocus) reset.focus({ preventScroll: true });
+												} else if (Math.abs(toast.scrollTop - end) < 1) {
+													status.textContent = 'Toast is open.';
+												}
+											}
+
+											toast.addEventListener('scrollend', settle);
+											// Older browsers: approximate scrollend, but never close mid-touch.
+											if (!('onscrollend' in toast)) {
+												const scheduleSettle = () => {
+													clearTimeout(fallbackTimer);
+													fallbackTimer = setTimeout(settle, 180);
+												};
+												toast.addEventListener('scroll', scheduleSettle, { passive: true });
+												toast.addEventListener('touchstart', () => { touching = true; }, { passive: true });
+												const endTouch = (event) => {
+													touching = event.touches.length > 0;
+													scheduleSettle();
+												};
+												toast.addEventListener('touchend', endTouch, { passive: true });
+												toast.addEventListener('touchcancel', endTouch, { passive: true });
+											}
+
+											function closeToast() {
+												toast.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+											}
+
+											document.getElementById('close-toast').addEventListener('click', closeToast);
+											toast.addEventListener('keydown', (event) => {
+												if (event.key === 'Escape') {
+													event.preventDefault();
+													closeToast();
+												}
+											});
+											function showToast() {
+												clearTimeout(fallbackTimer);
+												toast.hidden = false;
+												toast.scrollTo({ top: toast.scrollHeight - toast.clientHeight, behavior: 'instant' });
+												status.textContent = 'Toast is open.';
+											}
+											reset.addEventListener('click', showToast);
+											showToast();
+										})();
+									</script>
 								</div>
 							</main>
 						</div>
