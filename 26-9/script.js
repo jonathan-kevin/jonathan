@@ -59,7 +59,8 @@ $(document).ready(function () {
 		$sideBarExpander.attr({
 			'aria-expanded': String(isExpanded),
 			'aria-label': action,
-			'title': `${action} (Alt+M)`
+			'aria-keyshortcuts': 'M',
+			'title': `${action} (M)`
 		});
 	}
 
@@ -77,6 +78,8 @@ $(document).ready(function () {
 		const text = this.value.replace(/["\\\u0000-\u001f\u007f]/g, character =>
 			`\\${character.charCodeAt(0).toString(16)} `);
 		document.documentElement.style.setProperty(this.dataset.cssVariable, `"${text}"`);
+		const environment = this.closest('.saEnvironmentGroup').dataset.environment;
+		document.getElementById(environment).click();
 	}).on('keydown', function (event) {
 		if (event.key === 'Enter') event.preventDefault();
 	});
@@ -107,13 +110,17 @@ $(document).ready(function () {
 	});
 
 	$(document).on('keydown', function (event) {
-		const isSidebarShortcut = event.altKey
+		const isEditable = event.target.isContentEditable
+			|| $(event.target).closest('input, select, textarea, [role="textbox"], [role="searchbox"], [role="combobox"], [role="listbox"], [role="spinbutton"]').length > 0;
+		const isSidebarShortcut =
+			!event.altKey
 			&& !event.ctrlKey
 			&& !event.metaKey
 			&& !event.shiftKey
 			&& event.key.toLowerCase() === 'm';
 
-		if (!isSidebarShortcut || event.repeat || $('body').hasClass('saSmallScreen')) return;
+		if (!isSidebarShortcut || isEditable || event.repeat || event.originalEvent?.isComposing
+			|| event.isDefaultPrevented() || $('body').hasClass('saSmallScreen')) return;
 
 		event.preventDefault();
 		toggleSidebar();

@@ -6194,7 +6194,7 @@ div.saPopupOverlay {
 :root {
   --Sa-TextDev: "DEV";
   --Sa-TextStage: "STAGE";
-  --Sa-TextAdmin: "You're admin in production.";
+  --Sa-TextAdmin: "You're admin in production";
 }
 .saSideBar {
   display: flex;
@@ -6204,6 +6204,7 @@ div.saPopupOverlay {
   position: relative;
   font-size: 0.875rem;
   color: var(--Sa-Color-Text);
+  background-color: light-dark(var(--White), var(--Gray1300));
   transition: ease width 0.2s;
   interpolate-size: allow-keywords;
 }
@@ -6346,7 +6347,7 @@ div.saPopupOverlay {
   transform: translate(-50%, -50%) rotate(25deg);
 }
 .saMinimized.saSideBar .saCustomerLogoWrapper::before {
-  font-size: 0.75rem;
+  font-size: 0.625rem;
 }
 .saDev .saSideBar .saCustomerLogoWrapper::before {
   content: var(--Sa-TextDev);
@@ -6366,6 +6367,12 @@ div.saPopupOverlay {
   inset: auto auto 0 auto;
   transform: translate(0, -50%) rotate(0);
   text-shadow: -0.125rem -0.125rem 0 var(--Sa-Color-AdminBackground), 0.125rem -0.125rem 0 var(--Sa-Color-AdminBackground), -0.125rem 0.125rem 0 var(--Sa-Color-AdminBackground), 0.125rem 0.125rem 0 var(--Sa-Color-AdminBackground);
+}
+.saMinimized.saSideBar .saCustomerLogoWrapper::before {
+  font-size: 0.625rem;
+}
+.saAdminInProd .saMinimized.saSideBar .saCustomerLogoWrapper::before {
+  font-size: 0.5625rem;
 }
 .saSideBar .saCustomerLogo {
   margin-top: 1rem;
@@ -37116,7 +37123,7 @@ button.saChatMessageAction:active .saIcon {
   position: fixed;
   inset: auto 0 1rem 0;
   box-sizing: border-box;
-  z-index: 0;
+  z-index: 1010;
   pointer-events: none;
 }
 .saSmallScreen .saToastGroup {
