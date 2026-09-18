@@ -6182,6 +6182,11 @@ div.saPopupOverlay {
 .saSmallScreen .saAside {
   height: auto;
 }
+:root {
+  --Sa-TextDev: "DEV";
+  --Sa-TextStage: "STAGE";
+  --Sa-TextAdmin: "ADMIN";
+}
 .saSideBar {
   display: flex;
   flex-direction: column;
@@ -6336,15 +6341,15 @@ div.saPopupOverlay {
   font-size: 0.75rem;
 }
 .saDev .saSideBar .saCustomerLogoWrapper::before {
-  content: 'DEV';
+  content: var(--Sa-TextDev);
   color: var(--Green500);
 }
 .saStage .saSideBar .saCustomerLogoWrapper::before {
-  content: 'STAGE';
+  content: var(--Sa-TextStage);
   color: var(--Purple600);
 }
 .saAdminInProd .saSideBar .saCustomerLogoWrapper::before {
-  content: "ADMIN";
+  content: var(--Sa-TextAdmin);
   color: var(--Red600);
 }
 .saSideBar .saCustomerLogo {
@@ -37303,15 +37308,6 @@ button.saChatMessageAction:active .saIcon {
   line-height: 1.125rem;
   min-width: 0;
   overflow-wrap: anywhere;
-}
-.saToastText code {
-  font-family: 'GeistMono', monospace;
-  font-weight: 500;
-  font-size: 0.75rem;
-  padding: 0 0.25rem;
-  background-color: light-dark(var(--Gray150), var(--Gray1000));
-  border-radius: 0.25rem;
-  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray1100));
 }
 .saToastIcon {
   font-size: 1rem;

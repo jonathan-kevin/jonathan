@@ -72,6 +72,15 @@ $(document).ready(function () {
 
 	$sideBarExpander.on('click', toggleSidebar);
 
+	$('.saEnvironmentTextInput').on('input', function () {
+		// Escape the value as a CSS string for use by the stamp's content property.
+		const text = this.value.replace(/["\\\u0000-\u001f\u007f]/g, character =>
+			`\\${character.charCodeAt(0).toString(16)} `);
+		document.documentElement.style.setProperty(this.dataset.cssVariable, `"${text}"`);
+	}).on('keydown', function (event) {
+		if (event.key === 'Enter') event.preventDefault();
+	});
+
 	$(document).on('click', '#dev', function () {
 		$('.saRootBody').removeClass('saAdminInProd saStage').addClass('saDev');
 		$('#toastWarning').hide();
