@@ -133,6 +133,15 @@
   --Sa-Color-FavoriteCheckedHighContrast: light-dark(var(--Red600), var(--Yellow200));
   --Sa-Color-FavoriteCheckedHoverHighContrast: light-dark(var(--Red700), var(--Yellow300));
   --Sa-Color-FavoriteCheckedActiveHighContrast: light-dark(var(--Red800), var(--Yellow400));
+  --Sa-Color-Dev: light-dark(var(--Green600), var(--Green500));
+  --Sa-Color-DevBackground: light-dark(var(--Green50), var(--Green1300));
+  --Sa-Color-DevBorder: light-dark(var(--Green200), var(--Green900));
+  --Sa-Color-Stage: light-dark(var(--Purple600), var(--Purple500));
+  --Sa-Color-StageBackground: light-dark(var(--Purple50), var(--Purple1300));
+  --Sa-Color-StageBorder: light-dark(var(--Purple200), var(--Purple900));
+  --Sa-Color-AdminInProd: light-dark(var(--Red600), var(--Red500));
+  --Sa-Color-AdminInProdBackground: light-dark(var(--Red50), var(--Red1300));
+  --Sa-Color-AdminInProdBorder: light-dark(var(--Red600), var(--Red500));
   --White: #fff;
   --Black: #000;
   --Gray50: #f8f9fb;
@@ -2053,7 +2062,7 @@ body.saRootBody .saRootContentWrapper {
   height: 100%;
 }
 body.saRootBody.saAdminInProd {
-  box-shadow: inset 0 0 0 0.125rem var(--Red600);
+  box-shadow: inset 0 0 0 0.125rem var(--Sa-Color-AdminInProdBorder);
 }
 body.saPc::-webkit-scrollbar,
 body.saPc *::-webkit-scrollbar {
@@ -2278,10 +2287,10 @@ div.saPopupOverlay {
   border-left: 1px solid light-dark(var(--Gray200), var(--Gray800));
 }
 .saLargeScreen.saDev .saRightFrameRoot {
-  border-left-color: light-dark(var(--Green200), var(--Green900));
+  border-left-color: var(--Sa-Color-DevBorder);
 }
 .saLargeScreen.saStage .saRightFrameRoot {
-  border-left-color: light-dark(var(--Purple200), var(--Purple900));
+  border-left-color: var(--Sa-Color-StageBorder);
 }
 .saLargeScreen.saAdminInProd .saRightFrameRoot {
   border-left-color: transparent;
@@ -6185,7 +6194,7 @@ div.saPopupOverlay {
 :root {
   --Sa-TextDev: "DEV";
   --Sa-TextStage: "STAGE";
-  --Sa-TextAdmin: "ADMIN";
+  --Sa-TextAdmin: "You're admin in production.";
 }
 .saSideBar {
   display: flex;
@@ -6199,14 +6208,14 @@ div.saPopupOverlay {
   interpolate-size: allow-keywords;
 }
 .saDev .saSideBar {
-  background-color: light-dark(var(--Green50), color-mix(in oklch, var(--Green1200), 60% transparent));
+  background-color: var(--Sa-Color-DevBackground);
 }
 .saStage .saSideBar {
-  background-color: light-dark(var(--Purple50), color-mix(in oklch, var(--Purple1200), 80% transparent));
+  background-color: var(--Sa-Color-StageBackground);
 }
 .saAdminInProd .saSideBar {
-  box-shadow: inset 0 0 0 0.125rem var(--Red600);
-  background-color: light-dark(var(--Red50), color-mix(in oklch, var(--Red1200), 80% transparent));
+  box-shadow: inset 0 0 0 0.125rem var(--Sa-Color-AdminInProdBorder);
+  background-color: var(--Sa-Color-AdminInProdBackground);
 }
 .saSideBar .saSideBarSection {
   margin-bottom: 0.5rem;
@@ -6334,7 +6343,6 @@ div.saPopupOverlay {
   font-size: 2rem;
   font-weight: 900;
   text-align: center;
-  text-shadow: -0.125rem -0.125rem 0 var(--White), 0.125rem -0.125rem 0 var(--White), -0.125rem 0.125rem 0 var(--White), 0.125rem 0.125rem 0 var(--White);
   transform: translate(-50%, -50%) rotate(25deg);
 }
 .saMinimized.saSideBar .saCustomerLogoWrapper::before {
@@ -6342,15 +6350,22 @@ div.saPopupOverlay {
 }
 .saDev .saSideBar .saCustomerLogoWrapper::before {
   content: var(--Sa-TextDev);
-  color: var(--Green500);
+  color: var(--Sa-Color-Dev);
+  text-shadow: -0.125rem -0.125rem 0 var(--Sa-Color-DevBackground), 0.125rem -0.125rem 0 var(--Sa-Color-DevBackground), -0.125rem 0.125rem 0 var(--Sa-Color-DevBackground), 0.125rem 0.125rem 0 var(--Sa-Color-DevBackground);
 }
 .saStage .saSideBar .saCustomerLogoWrapper::before {
   content: var(--Sa-TextStage);
-  color: var(--Purple600);
+  color: var(--Sa-Color-Stage);
+  text-shadow: -0.125rem -0.125rem 0 var(--Sa-Color-StageBackground), 0.125rem -0.125rem 0 var(--Sa-Color-StageBackground), -0.125rem 0.125rem 0 var(--Sa-Color-StageBackground), 0.125rem 0.125rem 0 var(--Sa-Color-StageBackground);
 }
 .saAdminInProd .saSideBar .saCustomerLogoWrapper::before {
   content: var(--Sa-TextAdmin);
-  color: var(--Red600);
+  color: var(--Sa-Color-AdminInProd);
+  font-size: 1rem;
+  font-weight: 600;
+  inset: auto auto 0 auto;
+  transform: translate(0, -50%) rotate(0);
+  text-shadow: -0.125rem -0.125rem 0 var(--Sa-Color-AdminBackground), 0.125rem -0.125rem 0 var(--Sa-Color-AdminBackground), -0.125rem 0.125rem 0 var(--Sa-Color-AdminBackground), 0.125rem 0.125rem 0 var(--Sa-Color-AdminBackground);
 }
 .saSideBar .saCustomerLogo {
   margin-top: 1rem;
@@ -32583,7 +32598,7 @@ a.saKpiOuter:active {
   width: 2rem;
 }
 .saAdminInProd .saToolbox {
-  background-color: light-dark(var(--Red50), var(--Red1200));
+  background-color: var(--Sa-Color-AdminInProdBackground);
 }
 .saToolbox * {
   box-sizing: border-box;
@@ -32606,7 +32621,7 @@ a.saKpiOuter:active {
   border-radius: 0.5rem 0 0 0.5rem;
 }
 .saAdminInProd .saToolbox ul {
-  box-shadow: inset 0 0 0 1px light-dark(var(--Red600), var(--Red500));
+  box-shadow: inset 0 0 0 1px var(--Sa-Color-AdminInProdBorder);
 }
 .saOpen.saToolbox ul {
   opacity: 1;
@@ -32770,7 +32785,7 @@ a.saKpiOuter:active {
   box-shadow: inset 0 0 0 1px light-dark(var(--Gray200), var(--Gray800));
 }
 .saAdminInProd .saToolbox .saToolboxButton.saExpandButton {
-  box-shadow: inset 0 0 0 1px light-dark(var(--Red600), var(--Red500));
+  box-shadow: inset 0 0 0 1px var(--Sa-Color-AdminInProdBorder);
 }
 @media (pointer: fine) {
   .saToolbox .saToolboxButton.saExpandButton:hover {
@@ -32793,7 +32808,7 @@ a.saKpiOuter:active {
   border-radius: 0 0.5rem 0.5rem 0;
 }
 .saAdminInProd .saOpen.saToolbox .saToolboxButton.saExpandButton {
-  background: light-dark(var(--Red100), var(--Red1000));
+  background: var(--Sa-Color-AdminInProdBackground);
 }
 .saToolbox .saToolboxButton.saExpandButton span {
   display: block;
@@ -37301,14 +37316,14 @@ button.saChatMessageAction:active .saIcon {
 }
 @media (pointer: fine) {
   .saToast .saCloseButton:hover {
-    background-color: var(--Red600);
+    background-color: var(--Sa-Color-DestructiveButtonBackground);
   }
   .saToast .saCloseButton:hover .saIcon {
     color: var(--White);
   }
 }
 .saToast .saCloseButton:active {
-  background-color: var(--Red700);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness90);
 }
 .saToast .saCloseButton:active .saIcon {
   color: var(--White);

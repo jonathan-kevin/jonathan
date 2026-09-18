@@ -5,7 +5,26 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Dev Stage</title>
-	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css?v=6db36b15">
+	<style>
+		.saEnvironmentSettings { display: grid; gap: 2rem; }
+		.saEnvironmentGroup, .saEnvironmentField { display: grid; gap: 0.5rem; }
+		.saEnvironmentGroup { grid-template-columns: repeat(auto-fit, minmax(min(100%, 18.625rem), 1fr)); align-content: start; gap: 1rem 0.5rem; }
+		.saEnvironmentGroup:not(:first-child) { padding-top: 2rem; border-top: 1px solid var(--Gray200); }
+		.saEnvironmentGroup h2 { grid-column: 1 / -1; margin: 0; }
+		.saEnvironmentField { grid-column: 1 / -1; width: 18.625rem; max-width: 100%; }
+		.saEnvironmentField .saInputTextWrapper { margin-right: 0; }
+		.saEnvironmentColorControl { width: 18.625rem; max-width: 100%; }
+		.saEnvironmentColorControl, .saEnvironmentColorControl * { box-sizing: border-box; }
+		.saEnvironmentColorControl legend { margin-bottom: 0.25rem; font-weight: 500; }
+		.saEnvironmentColorControl .saColors { max-height: none; border: 1px solid var(--Sa-Color-InputFieldBorder); border-radius: 0.5rem; }
+		.saEnvironmentColorControl .saColor:focus-visible { outline: 2px solid var(--Sa-Color-Text); outline-offset: 3px; }
+		.saEnvironmentColorStatus { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 0.75rem; }
+		.saEnvironmentColorStatus output { color: var(--Sa-Color-TextSecondary); }
+		.saEnvironmentColorStatus button { min-height: 2rem; padding: 0 0.75rem; border-radius: 0.5rem; }
+		.saSmallScreen .saEnvironmentColorControl { width: 100%; }
+		.saSmallScreen .saEnvironmentColorControl .saPalette:first-child { padding-top: 0.5rem; }
+	</style>
+	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css?v=76d2141e">
 	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
 	<link rel="stylesheet" href="../src/fontawesome/css/duotone-regular.css">
 	<meta name="description" content="Demo">
@@ -13,6 +32,7 @@
 
 	<script src="../src/jquery-4.0.0.slim.min.js"></script>
 	<script src="./script.js?v=f10b8040"></script>
+	<script src="./environment-colors.js?v=7fe0cc4b" defer></script>
 	<script src="./live.js#css,html,js" defer></script>
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -402,26 +422,152 @@
 							<main id="MI_M" class="menuitem pagecontentframe">
 								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
 								<div id="MI_ScrollContent" class="scrollcontent saScrollable">
-									<div class="scrollcontent-inner">
-										<div style="display: grid; gap: 1rem; max-width: 24rem; padding: 1rem;">
-											<div>
-												<label for="devText">Dev text</label>
-												<div class="saInputTextWrapper">
-													<input id="devText" class="saInputText saEnvironmentTextInput" type="text" value="DEV" data-css-variable="--Sa-TextDev">
+									<div class="scrollcontent-inner" style="overflow: auto; height: calc(100dvh - 9rem);">
+										<div class="saEnvironmentSettings">
+											<section class="saEnvironmentGroup" aria-labelledby="devHeading" data-environment="dev">
+												<h2 id="devHeading">Dev</h2>
+												<div class="saEnvironmentField">
+													<label for="devText">Dev text</label>
+													<div class="saInputTextWrapper">
+														<input id="devText" class="saInputText saEnvironmentTextInput" type="text" value="DEV" data-css-variable="--Sa-TextDev">
+													</div>
 												</div>
-											</div>
-											<div>
-												<label for="stageText">Stage text</label>
-												<div class="saInputTextWrapper">
-													<input id="stageText" class="saInputText saEnvironmentTextInput" type="text" value="STAGE" data-css-variable="--Sa-TextStage">
+												<fieldset id="devColor" class="saEnvironmentColorControl" data-color-property="--Sa-Color-Dev">
+													<legend>Dev text color</legend>
+													<div class="saColors">
+														<fieldset class="saPalette" aria-label="Preset dev text colors"></fieldset>
+														<fieldset class="saPalette saFooter" aria-label="Other dev text colors">
+															<input class="saColor saExtraColor saColorCustom" type="color" aria-label="Custom dev text color">
+														</fieldset>
+													</div>
+													<div class="saEnvironmentColorStatus">
+														<output aria-label="Current dev text color"></output>
+														<button type="button" class="saButtonSecondary" data-reset-color aria-label="Reset dev text color">Reset</button>
+													</div>
+												</fieldset>
+												<fieldset id="devBorder" class="saEnvironmentColorControl" data-color-property="--Sa-Color-DevBorder">
+													<legend>Dev border color</legend>
+													<div class="saColors">
+														<fieldset class="saPalette" aria-label="Preset dev border colors"></fieldset>
+														<fieldset class="saPalette saFooter" aria-label="Other dev border colors">
+															<input class="saColor saExtraColor saColorCustom" type="color" aria-label="Custom dev border color">
+														</fieldset>
+													</div>
+													<div class="saEnvironmentColorStatus">
+														<output aria-label="Current dev border color"></output>
+														<button type="button" class="saButtonSecondary" data-reset-color aria-label="Reset dev border color">Reset</button>
+													</div>
+												</fieldset>
+												<fieldset id="devBackground" class="saEnvironmentColorControl" data-color-property="--Sa-Color-DevBackground">
+													<legend>Dev background color</legend>
+													<div class="saColors">
+														<fieldset class="saPalette" aria-label="Preset dev background colors"></fieldset>
+														<fieldset class="saPalette saFooter" aria-label="Other dev background colors">
+															<input class="saColor saExtraColor saColorCustom" type="color" aria-label="Custom dev background color">
+														</fieldset>
+													</div>
+													<div class="saEnvironmentColorStatus">
+														<output aria-label="Current dev background color"></output>
+														<button type="button" class="saButtonSecondary" data-reset-color aria-label="Reset dev background color">Reset</button>
+													</div>
+												</fieldset>
+											</section>
+											<section class="saEnvironmentGroup" aria-labelledby="stageHeading" data-environment="stage">
+												<h2 id="stageHeading">Stage</h2>
+												<div class="saEnvironmentField">
+													<label for="stageText">Stage text</label>
+													<div class="saInputTextWrapper">
+														<input id="stageText" class="saInputText saEnvironmentTextInput" type="text" value="STAGE" data-css-variable="--Sa-TextStage">
+													</div>
 												</div>
-											</div>
-											<div>
-												<label for="adminText">Admin text</label>
-												<div class="saInputTextWrapper">
-													<input id="adminText" class="saInputText saEnvironmentTextInput" type="text" value="ADMIN" data-css-variable="--Sa-TextAdmin">
+												<fieldset id="stageColor" class="saEnvironmentColorControl" data-color-property="--Sa-Color-Stage">
+													<legend>Stage text color</legend>
+													<div class="saColors">
+														<fieldset class="saPalette" aria-label="Preset stage text colors"></fieldset>
+														<fieldset class="saPalette saFooter" aria-label="Other stage text colors">
+															<input class="saColor saExtraColor saColorCustom" type="color" aria-label="Custom stage text color">
+														</fieldset>
+													</div>
+													<div class="saEnvironmentColorStatus">
+														<output aria-label="Current stage text color"></output>
+														<button type="button" class="saButtonSecondary" data-reset-color aria-label="Reset stage text color">Reset</button>
+													</div>
+												</fieldset>
+												<fieldset id="stageBorder" class="saEnvironmentColorControl" data-color-property="--Sa-Color-StageBorder">
+													<legend>Stage border color</legend>
+													<div class="saColors">
+														<fieldset class="saPalette" aria-label="Preset stage border colors"></fieldset>
+														<fieldset class="saPalette saFooter" aria-label="Other stage border colors">
+															<input class="saColor saExtraColor saColorCustom" type="color" aria-label="Custom stage border color">
+														</fieldset>
+													</div>
+													<div class="saEnvironmentColorStatus">
+														<output aria-label="Current stage border color"></output>
+														<button type="button" class="saButtonSecondary" data-reset-color aria-label="Reset stage border color">Reset</button>
+													</div>
+												</fieldset>
+												<fieldset id="stageBackground" class="saEnvironmentColorControl" data-color-property="--Sa-Color-StageBackground">
+													<legend>Stage background color</legend>
+													<div class="saColors">
+														<fieldset class="saPalette" aria-label="Preset stage background colors"></fieldset>
+														<fieldset class="saPalette saFooter" aria-label="Other stage background colors">
+															<input class="saColor saExtraColor saColorCustom" type="color" aria-label="Custom stage background color">
+														</fieldset>
+													</div>
+													<div class="saEnvironmentColorStatus">
+														<output aria-label="Current stage background color"></output>
+														<button type="button" class="saButtonSecondary" data-reset-color aria-label="Reset stage background color">Reset</button>
+													</div>
+												</fieldset>
+											</section>
+											<section class="saEnvironmentGroup" aria-labelledby="adminHeading" data-environment="admin">
+												<h2 id="adminHeading">Admin in prod</h2>
+												<div class="saEnvironmentField">
+													<label for="adminText">Admin text</label>
+													<div class="saInputTextWrapper">
+														<input id="adminText" class="saInputText saEnvironmentTextInput" type="text" value="ADMIN" data-css-variable="--Sa-TextAdmin">
+													</div>
 												</div>
-											</div>
+												<fieldset id="adminColor" class="saEnvironmentColorControl" data-color-property="--Sa-Color-AdminInProd">
+													<legend>Admin text color</legend>
+													<div class="saColors">
+														<fieldset class="saPalette" aria-label="Preset admin text colors"></fieldset>
+														<fieldset class="saPalette saFooter" aria-label="Other admin text colors">
+															<input class="saColor saExtraColor saColorCustom" type="color" aria-label="Custom admin text color">
+														</fieldset>
+													</div>
+													<div class="saEnvironmentColorStatus">
+														<output aria-label="Current admin text color"></output>
+														<button type="button" class="saButtonSecondary" data-reset-color aria-label="Reset admin text color">Reset</button>
+													</div>
+												</fieldset>
+												<fieldset id="adminBorder" class="saEnvironmentColorControl" data-color-property="--Sa-Color-AdminInProdBorder">
+													<legend>Admin border color</legend>
+													<div class="saColors">
+														<fieldset class="saPalette" aria-label="Preset admin border colors"></fieldset>
+														<fieldset class="saPalette saFooter" aria-label="Other admin border colors">
+															<input class="saColor saExtraColor saColorCustom" type="color" aria-label="Custom admin border color">
+														</fieldset>
+													</div>
+													<div class="saEnvironmentColorStatus">
+														<output aria-label="Current admin border color"></output>
+														<button type="button" class="saButtonSecondary" data-reset-color aria-label="Reset admin border color">Reset</button>
+													</div>
+												</fieldset>
+												<fieldset id="adminBackground" class="saEnvironmentColorControl" data-color-property="--Sa-Color-AdminInProdBackground">
+													<legend>Admin background color</legend>
+													<div class="saColors">
+														<fieldset class="saPalette" aria-label="Preset admin background colors"></fieldset>
+														<fieldset class="saPalette saFooter" aria-label="Other admin background colors">
+															<input class="saColor saExtraColor saColorCustom" type="color" aria-label="Custom admin background color">
+														</fieldset>
+													</div>
+													<div class="saEnvironmentColorStatus">
+														<output aria-label="Current admin background color"></output>
+														<button type="button" class="saButtonSecondary" data-reset-color aria-label="Reset admin background color">Reset</button>
+													</div>
+												</fieldset>
+											</section>
 										</div>
 									</div>
 								</div>

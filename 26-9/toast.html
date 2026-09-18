@@ -805,8 +805,9 @@
 				}
 
 				toast.addEventListener('pointerdown', event => {
-					if (gesture || !event.isPrimary || event.pointerType === 'mouse' || event.button !== 0 || toast.classList.contains('saClosed')) return;
+					if (gesture || !event.isPrimary || event.button !== 0 || toast.classList.contains('saClosed')) return;
 					if (event.target.closest('a, button, input, select, textarea, [contenteditable]')) return;
+					if (event.pointerType === 'mouse') event.preventDefault();
 					gesture = {
 						pointerId: event.pointerId,
 						startX: event.clientX,
