@@ -35379,6 +35379,13 @@ button.saChatMessageAction:active .saIcon {
   -webkit-text-fill-color: transparent;
   animation: chatThinkingShine 6s linear infinite;
 }
+@media (prefers-reduced-motion: reduce) {
+  .saChatThinkingText {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+}
 .saChatThinkingTextLight {
   position: relative;
   padding-right: 2rem;
@@ -35388,6 +35395,13 @@ button.saChatMessageAction:active .saIcon {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: chatThinkingShine 3s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .saChatThinkingTextLight {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
 }
 @keyframes chatThinkingShine {
   0% {
@@ -36579,7 +36593,11 @@ button.saChatMessageAction:active .saIcon {
 /* Layout and readable native controls only; scoped to the POC. */
 .saMarkdownEditor {
   display: block;
-  max-width: 50rem;
+  max-width: 60rem;
+}
+.saMarkdownEditor *::selection {
+  background: var(--Sa-Color-Primary600);
+  color: var(--White);
 }
 .markdown-editor-table-menu {
   position: relative;
@@ -36588,6 +36606,85 @@ button.saChatMessageAction:active .saIcon {
   top: calc(100% + 0.25rem);
   padding: 0.75rem;
   width: max-content;
+}
+.saMarkdownEditorColorControl {
+  position: relative;
+}
+.saMarkdownEditorColorControl .saMarkdownEditorColorButtons {
+  display: flex;
+  align-items: stretch;
+}
+.saMarkdownEditorColorControl .saTextColorApply {
+  position: relative;
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+.saMarkdownEditorColorControl .saTextColorIndicator {
+  height: 1.25rem;
+  width: 1.25rem;
+  border: 0.0625rem solid light-dark(rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.25));
+  border-radius: 0.625rem;
+  box-sizing: border-box;
+}
+.saMarkdownEditorColorControl .saTextColorMenu {
+  width: 1.25rem;
+  min-width: 1.25rem;
+  margin-left: -0.0625rem;
+  padding-inline: 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.saMarkdownEditorColorControl > .saColorPicker {
+  top: calc(100% + 0.25rem);
+}
+.saMarkdownEditorColorControl .saPalette {
+  grid-template-columns: repeat(10, 1.5rem);
+}
+.saMarkdownEditorColorControl .saPalette:not(.saFooter) .saColor::before {
+  width: 2rem;
+  height: 2rem;
+}
+.saMarkdownEditorColorControl .saPalette.saFooter .saColorDefault {
+  grid-column: 1;
+}
+.saMarkdownEditorColorControl .saPalette.saFooter .saColorCustom {
+  grid-column: 2;
+}
+.saMarkdownEditorColorControl .saPalette.saFooter .saWhite {
+  grid-column: 9;
+}
+.saMarkdownEditorColorControl .saPalette.saFooter .saBlack {
+  grid-column: 10;
+}
+.saMarkdownEditorColorControl .saColorDefault {
+  background-color: var(--Sa-Color-Text);
+}
+.saMarkdownEditorFind {
+  padding: 0.75rem;
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
+  background: light-dark(var(--Gray50), var(--Gray1100));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+}
+.saMarkdownEditorFind[hidden] {
+  display: none;
+}
+.saMarkdownEditorFind > label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.saMarkdownEditorFind input:not([type='checkbox']) {
+  width: 12rem;
+  max-width: 100%;
+}
+.saMarkdownEditorFind > p {
+  margin: 0;
+}
+.saMarkdownEditorFind > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 .saMarkdownEditorTablePicker {
   display: grid;
@@ -36680,6 +36777,37 @@ button.saChatMessageAction:active .saIcon {
 .saMarkdownEditorDocument li p {
   margin-block: 0.25rem;
 }
+.saMarkdownEditorDocument ul[data-type='taskList'] {
+  list-style: none;
+  padding-inline-start: 0.5rem;
+}
+.saMarkdownEditorDocument ul[data-type='taskList'] > li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.saMarkdownEditorDocument ul[data-type='taskList'] > li > label {
+  margin-block-start: 0.25rem;
+  flex: 0 0 auto;
+}
+.saMarkdownEditorDocument ul[data-type='taskList'] > li > div {
+  flex: 1;
+  min-width: 0;
+}
+.saMarkdownEditorDocument ul[data-type='taskList'] > li > div > :first-child {
+  margin-top: 0.25rem;
+}
+.saMarkdownEditorDocument ul[data-type='taskList'] > li input[type='checkbox'] {
+  accent-color: var(--Sa-Color-Primary600);
+}
+.saMarkdownEditorDocument .saFindMatch {
+  background-color: var(--Yellow200);
+  color: var(--Gray1300);
+}
+.saMarkdownEditorDocument .saFindCurrent {
+  background-color: var(--Orange200);
+  outline: 0.125rem solid var(--Orange800);
+}
 .saMarkdownEditorDocument blockquote {
   border-inline-start: 2px solid;
   padding-inline-start: 1rem;
@@ -36753,24 +36881,14 @@ button.saChatMessageAction:active .saIcon {
 .saMarkdownEditorDocument .hljs-section {
   font-weight: 600;
 }
-.saMarkdownEditorDocument [data-text-color='muted'] {
-  color: var(--Sa-Color-TextSecondary);
-}
-.saMarkdownEditorDocument [data-text-color='info'] {
-  color: var(--Sa-Color-Link);
-}
-.saMarkdownEditorDocument [data-text-color='success'] {
-  color: var(--Sa-Color-PositiveTrend);
-}
-.saMarkdownEditorDocument [data-text-color='warning'] {
-  color: light-dark(var(--Orange800), var(--Orange300));
-}
-.saMarkdownEditorDocument [data-text-color='danger'] {
-  color: var(--Sa-Color-NegativeTrend);
-}
 .saMarkdownEditorDocument a {
   color: var(--Sa-Color-Link);
-  text-decoration: underline;
+  font-weight: 600;
+}
+@media (pointer: fine) {
+  .saMarkdownEditorDocument a:hover {
+    text-decoration: underline;
+  }
 }
 .saMarkdownEditorDocument hr {
   border: 0;
@@ -36977,7 +37095,7 @@ button.saChatMessageAction:active .saIcon {
   display: flex;
   align-items: center;
 }
-.saMarkdownEditorTableToolbar {
+.saMarkdownEditorFloatingToolbar {
   display: flex;
   flex-wrap: wrap;
   position: absolute;
@@ -36989,13 +37107,13 @@ button.saChatMessageAction:active .saIcon {
   overflow-x: auto;
   background-color: var(--Gray900);
 }
-.saMarkdownEditorTableToolbar[hidden] {
+.saMarkdownEditorFloatingToolbar[hidden] {
   display: none;
 }
-.saMarkdownEditorTableToolbar .saButtonToolbar {
+.saMarkdownEditorFloatingToolbar .saButtonIconToolbar {
   color: var(--Gray200);
 }
-.saMarkdownEditorTableToolbar > ul {
+.saMarkdownEditorFloatingToolbar > ul {
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -37003,20 +37121,229 @@ button.saChatMessageAction:active .saIcon {
   margin: 0;
   padding-inline: 0.5rem;
 }
-.saMarkdownEditorTableToolbar > ul:first-child {
+.saMarkdownEditorFloatingToolbar > ul:first-of-type {
   padding-left: 0;
 }
-.saMarkdownEditorTableToolbar > ul:last-child {
+.saMarkdownEditorFloatingToolbar > ul:last-of-type {
   padding-right: 0;
 }
-.saMarkdownEditorTableToolbar > ul + ul {
-  border-inline-start: 0.0625rem solid light-dark(var(--Gray700), var(--Gray700));
+.saMarkdownEditorFloatingToolbar > ul + ul {
+  border-inline-start: 0.0625rem solid var(--Gray700);
 }
-.saMarkdownEditorTableToolbar > ul > li {
+.saMarkdownEditorFloatingToolbar > ul > li {
   display: flex;
   align-items: center;
 }
-.saButtonToolbar {
+.saMarkdownEditorSuggestionTarget {
+  text-decoration: underline dotted;
+  color: light-dark(var(--Gray700), var(--Gray300));
+  background-color: light-dark(var(--Gray100), var(--Gray1000));
+  text-underline-offset: 0.2em;
+}
+.saMarkdownEditorThinking {
+  background: linear-gradient(120deg, var(--Sa-Color-Text) 0%, var(--Sa-Color-Text) 60%, var(--Sa-Color-TextSecondary) 70%, light-dark(var(--Gray400), var(--Gray600)) 80%, light-dark(var(--Gray600), var(--Gray400)) 90%, var(--Sa-Color-Text) 100%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: chatThinkingShine 3s linear infinite;
+  text-decoration: underline;
+  text-decoration-color: light-dark(var(--Gray300), var(--Gray700));
+  text-underline-offset: 0.2em;
+}
+@media (prefers-reduced-motion: reduce) {
+  .saMarkdownEditorThinking {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+}
+.saMarkdownEditorThinking::selection,
+.saMarkdownEditorThinking *::selection {
+  background-color: transparent;
+}
+.saMarkdownEditorSelectionToolbar li:first-child {
+  padding-right: 0.25rem;
+  border-right: 0.0625rem solid var(--Gray700);
+}
+.saButtonToolbarDark {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: var(--Font), sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  gap: 0.375rem;
+  height: 1.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.625rem;
+  background-color: transparent;
+  color: var(--Gray100);
+}
+.saButtonToolbarDark .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saButtonToolbarDark .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saButtonToolbarDark .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saButtonToolbarDark:active {
+  border-radius: 0.75rem;
+}
+.saButtonToolbarDark .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
+}
+@media (pointer: fine) {
+  .saButtonToolbarDark:enabled:hover {
+    color: var(--White);
+    background-color: var(--Gray800);
+  }
+}
+.saButtonToolbarDark:enabled:active {
+  color: var(--White);
+  background-color: var(--Gray700);
+}
+.saButtonToolbarDark:enabled[aria-pressed='true'] {
+  color: var(--White);
+  background-color: var(--Gray700);
+}
+.saButtonToolbarDark:enabled[aria-pressed='true'] .saIcon.fas {
+  display: flex;
+}
+.saButtonToolbarDark:enabled[aria-pressed='true'] .saIcon.far {
+  display: none;
+}
+.saButtonToolbarDark .saIcon.fas {
+  display: none;
+}
+.saButtonToolbarDark:disabled {
+  cursor: not-allowed;
+  color: var(--Gray700);
+  pointer-events: all;
+}
+.saButtonToolbarDark:disabled[aria-pressed='true'] {
+  background-color: var(--Gray600);
+}
+.saButtonToolbarDark:disabled[aria-pressed='true'] .saIcon.fas {
+  display: flex;
+}
+.saButtonToolbarDark:disabled[aria-pressed='true'] .saIcon.far {
+  display: none;
+}
+.saButtonToolbarDark[data-table-menu] {
+  width: auto;
+  gap: 0.25rem;
+  padding-inline: 0.5rem;
+}
+.saButtonIconToolbarDark {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: var(--Font), sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  max-width: 1.75rem;
+  min-width: 1.75rem;
+  font-size: 1rem;
+  background-color: transparent;
+  color: var(--Gray300);
+}
+.saButtonIconToolbarDark .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saButtonIconToolbarDark .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saButtonIconToolbarDark .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saButtonIconToolbarDark:active {
+  border-radius: 0.75rem;
+}
+@media (pointer: fine) {
+  .saButtonIconToolbarDark:enabled:hover {
+    color: var(--White);
+    background-color: var(--Gray800);
+  }
+}
+.saButtonIconToolbarDark:enabled:active {
+  color: var(--White);
+  background-color: var(--Gray700);
+}
+.saButtonIconToolbarDark:enabled[aria-pressed='true'] {
+  color: var(--White);
+  background-color: var(--Gray700);
+}
+.saButtonIconToolbarDark:enabled[aria-pressed='true'] .saIcon.fas {
+  display: flex;
+}
+.saButtonIconToolbarDark:enabled[aria-pressed='true'] .saIcon.far {
+  display: none;
+}
+.saButtonIconToolbarDark .saIcon.fas {
+  display: none;
+}
+.saButtonIconToolbarDark:disabled {
+  cursor: not-allowed;
+  color: var(--Gray700);
+  pointer-events: all;
+}
+.saButtonIconToolbarDark:disabled[aria-pressed='true'] {
+  background-color: var(--Gray600);
+}
+.saButtonIconToolbarDark:disabled[aria-pressed='true'] .saIcon.fas {
+  display: flex;
+}
+.saButtonIconToolbarDark:disabled[aria-pressed='true'] .saIcon.far {
+  display: none;
+}
+.saButtonIconToolbarDark[data-table-menu] {
+  width: auto;
+  gap: 0.25rem;
+  padding-inline: 0.5rem;
+}
+.saButtonIconToolbar {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: var(--Font), sans-serif;
@@ -37036,73 +37363,74 @@ button.saChatMessageAction:active .saIcon {
   max-width: 2rem;
   min-width: 2rem;
   font-size: 1rem;
+  padding: 0;
   background-color: transparent;
   color: var(--Sa-Color-IconDark);
   border: 0.0625rem solid transparent;
 }
-.saButtonToolbar .saButtonText {
+.saButtonIconToolbar .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.saButtonToolbar .saBadgedIcon {
+.saButtonIconToolbar .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saButtonToolbar .saIcon {
+.saButtonIconToolbar .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.saButtonToolbar:active {
+.saButtonIconToolbar:active {
   border-radius: 0.75rem;
 }
 @media (pointer: fine) {
-  .saButtonToolbar:enabled:hover {
+  .saButtonIconToolbar:enabled:hover {
     color: light-dark(var(--Sa-Color-Primary600), var(--White));
     background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
     border-color: light-dark(var(--Sa-Color-Primary200), var(--Gray800));
   }
 }
-.saButtonToolbar:enabled:active {
+.saButtonIconToolbar:enabled:active {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
   border-color: light-dark(var(--Sa-Color-Primary300), var(--Gray700));
 }
-.saButtonToolbar:enabled[aria-pressed='true'] {
+.saButtonIconToolbar:enabled[aria-pressed='true'] {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
   border-color: light-dark(var(--Sa-Color-Primary200), var(--Gray800));
 }
-.saButtonToolbar:enabled[aria-pressed='true'] .saIcon.fas {
+.saButtonIconToolbar:enabled[aria-pressed='true'] .saIcon.fas {
   display: flex;
 }
-.saButtonToolbar:enabled[aria-pressed='true'] .saIcon.far {
+.saButtonIconToolbar:enabled[aria-pressed='true'] .saIcon.far {
   display: none;
 }
-.saButtonToolbar .saIcon.fas {
+.saButtonIconToolbar .saIcon.fas {
   display: none;
 }
-.saButtonToolbar:disabled {
+.saButtonIconToolbar:disabled {
   cursor: not-allowed;
   color: light-dark(var(--Gray400), var(--Gray900));
   pointer-events: all;
 }
-.saButtonToolbar:disabled[aria-pressed='true'] {
+.saButtonIconToolbar:disabled[aria-pressed='true'] {
   background-color: light-dark(var(--Gray200), var(--Gray1100));
 }
-.saButtonToolbar:disabled[aria-pressed='true'] .saIcon.fas {
+.saButtonIconToolbar:disabled[aria-pressed='true'] .saIcon.fas {
   display: flex;
 }
-.saButtonToolbar:disabled[aria-pressed='true'] .saIcon.far {
+.saButtonIconToolbar:disabled[aria-pressed='true'] .saIcon.far {
   display: none;
 }
-.saButtonToolbar[data-table-menu] {
+.saButtonIconToolbar[data-table-menu] {
   width: auto;
   gap: 0.25rem;
   padding-inline: 0.5rem;

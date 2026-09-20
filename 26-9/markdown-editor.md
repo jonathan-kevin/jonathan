@@ -26,7 +26,29 @@ The heading selector applies paragraph text or heading levels H1–H6 and follow
 
 PNG, JPEG, GIF, WebP, AVIF, and BMP files can be dragged onto the visual editor. Files up to 10 MB are embedded as base64 data URLs so the generated Markdown remains self-contained; the filename without its extension becomes the initial alternative text and can be edited with the image dialog.
 
-Text color uses an allowlisted, theme-aware semantic palette. It is stored as inline HTML inside Markdown, for example `<span data-text-color="danger">Important</span>`. Renderers that sanitize unknown HTML can remove the span while preserving its text. Arbitrary styles and color values are not accepted.
+Text color supports Softadmin shades 600–1000, default text color, white, black, and a custom color chooser. Colors remain in the rich document but are deliberately stripped from Markdown. Switching through Markdown therefore removes visual colors. The main color button applies the remembered color; choosing from the popup applies immediately if text was selected before it opened and keeps that text selected.
+
+Selecting text shows a floating toolbar with **Send to chat** and **Improve with AI**. It follows the visible selection during scrolling and preserves the selection when activated. Alt+Shift+A focuses the toolbar; Left/Right and Home/End navigate its buttons. Escape dismisses it and returns to editing. It is hidden for a caret, whitespace-only selections, source mode, and while focus is in other controls.
+
+These actions are integration hooks; no chat or AI service is connected. Both dispatch a bubbling, cancelable `markdown-editor-action` event with `{ action, text, from, to }`. `action` is `send-to-chat` or `improve`; positions refer to the current Tiptap document. A listener should call `event.preventDefault()` when it handles the request. Without a listener, Send to chat displays a “not connected yet” message, while Improve with AI runs a local demo: the selected passage shimmers for three seconds with **Thinking… / Cancel** in the floating toolbar. Then lorem ipsum of the same whitespace-delimited word count appears directly in the document, and the toolbar becomes **Apply / Revert**. There is no separate comparison panel. This is a temporary editor state: Markdown and saved undo history remain unchanged until Apply. Revert restores the original state, including text, formatting, selection, and history. Apply commits one undoable edit. Paragraphs, lists, table cells, and inline atoms remain intact; replacement words inherit formatting at their start. Editing and formatting pause during review to protect the original; Cancel during thinking, Escape, switching to Markdown, or assigning a new value dismisses the preview. Edits during thinking cancel the delay. Moving the selection does not change the captured target. Reduced motion shows a static underline instead of shimmer; ready suggestions use a dotted underline. Decorations never enter Markdown, and no text is sent anywhere.
+
+The floating toolbar stays anchored to the preview range, even if the selection collapses. State changes are announced, and Apply receives focus when ready if focus was still in the editor or toolbar. Arrow keys and Home/End navigate its buttons. Ctrl+Enter (Cmd+Enter on Mac) applies the ready suggestion; Escape reverts it or cancels thinking. These shortcuts work from the editor and floating toolbar, restore editor focus, and are exposed with `aria-keyshortcuts`. There is no focus trap.
+
+Local demo regression checklist: verify Cancel during the delay, Revert after completion, keyboard navigation/Escape, Apply followed by one Undo and Redo, read-only review, Markdown switching during both phases, and selection changes. Test selections across headings and paragraphs, formatting marks, lists, code, and table cells. Previewing or reverting must not change the source or create an undo entry; applying must preserve word count and block structure.
+
+```js
+document.querySelector('markdown-editor').addEventListener('markdown-editor-action', event => {
+  event.preventDefault();
+  const { action, text, from, to } = event.detail;
+  // Route the selected text to your chat composer or AI editing workflow.
+});
+```
+
+The color popup uses a single tab stop for its swatches. Arrow keys move horizontally and vertically without changing the document. Home/End move to the ends of the current row; Ctrl/Cmd+Home/End move to the first/last swatch. Enter or Space commits the focused swatch, Tab reaches custom color, and Escape returns to the popup trigger. Swatches have color/shade names and a visible keyboard focus outline.
+
+Task lists use GitHub-flavored `- [ ]` and `- [x]` Markdown. Toggle them with the Task list button or Ctrl/Cmd+Shift+9. Checkboxes have labels derived from their task text. Enter adds an item; Tab and Shift+Tab nest and lift items.
+
+Find and replace opens from the toolbar or Ctrl/Cmd+F while focus is inside the rich editor. It searches literal text, including text split across formatting marks, within each paragraph, heading, code block, or table cell. It does not search HTML attributes, link destinations, image alternatives, or across block boundaries. Matches are temporary decorations and never enter Markdown. Match case is optional; Enter/Shift+Enter navigate matches and Escape closes the panel. Replace changes the active match, while Replace all changes every match in a single undo step. Replacement text is literal, including `$` and other punctuation, and takes the formatting at the start of the replaced range. The panel closes in source mode, where the browser's own find remains available.
 
 Underline follows the same progressive-enhancement rule: Markdown has no underline syntax, so it is stored as `<u>underlined text</u>`. Removing inline HTML preserves the text.
 
@@ -36,4 +58,6 @@ Styles live in `Presentation/CssTemplate/MarkdownEditor.less`, imported by `scre
 
 Tiptap core, StarterKit, and Markdown are pinned to 3.31.3 and loaded from esm.sh. Internet access is required for visual editing; bundling these dependencies locally is a later deployment step. There is no persistence or backend. Embedded images increase the submitted Markdown size by roughly one third compared with the original files.
 
-Pasted formatting is constrained to the editor schema, and link and image URLs are checked. Markdown serialization normalizes whitespace and syntax, so the original Markdown spelling is not preserved byte for byte. Table support follows GitHub-flavored Markdown and always inserts a header row.
+`markdown-editor-paste.js` rebuilds clipboard HTML before schema parsing. It preserves headings, lists (including common Word/Outlook `mso-list` paragraphs and nesting), safe links and titles, images, tables, bold, italic, underline, strikethrough, code, and task checkboxes. Inline colors and colors defined by simple embedded stylesheet rules become text-color marks; inherited colors are carried onto text. Fonts, sizes, backgrounds, event handlers, and unsupported styling are discarded. Generic block wrappers become paragraphs and redundant spans disappear when Tiptap normalizes the document. External stylesheets and styling absent from the clipboard cannot be recovered. Complex Office layouts and merged cells remain subject to the Markdown schema's limitations.
+
+HTML pastes use that cleanup path, including inside tables; plain tab/newline-delimited clipboard text still fills table cells through the existing table paste behavior. Markdown serialization normalizes whitespace and syntax, so the original Markdown spelling is not preserved byte for byte. Table support follows GitHub-flavored Markdown and always inserts a header row.
