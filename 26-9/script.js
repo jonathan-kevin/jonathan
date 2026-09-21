@@ -1,3 +1,350 @@
+// Shared toast runtime used by every page and the toast creator demo.
+(() => {
+	const DEFAULT_DURATION = 5000;
+	const CLOSED_ANIMATION_DURATION = 200;
+	const LIVE_REGION_DELAY = 100;
+	const TYPE_ICONS = {
+		success: 'circle-check',
+		warning: 'triangle-exclamation',
+		error: 'octagon-xmark',
+		info: 'circle-info'
+	};
+	const activeTimers = new Set();
+	const activeToastGestures = new Set();
+	let toastPointerHovered = false;
+	let toastGroup = null;
+
+	function getToastGroup() {
+		if (toastGroup?.isConnected) return toastGroup;
+		toastGroup = document.querySelector('.saToastGroup');
+		if (!toastGroup) {
+			toastGroup = document.createElement('div');
+			toastGroup.className = 'saToastGroup';
+			toastGroup.id = 'toastGroup';
+			const content = document.querySelector('.saRootContentWrapper');
+			if (content) content.after(toastGroup);
+			else document.body.append(toastGroup);
+		}
+		toastGroup.addEventListener('pointerenter', event => {
+			if (event.pointerType === 'touch') return;
+			toastPointerHovered = true;
+			syncTimerPauseState();
+		});
+		toastGroup.addEventListener('pointerleave', event => {
+			if (event.pointerType === 'touch') return;
+			toastPointerHovered = false;
+			syncTimerPauseState();
+		});
+		toastGroup.addEventListener('focusin', syncTimerPauseState);
+		toastGroup.addEventListener('focusout', syncTimerPauseState);
+
+		return toastGroup;
+	}
+
+	function escapeHTML(value) {
+		const characters = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+		return String(value).replace(/[&<>"']/g, character => characters[character]);
+	}
+
+	function getSafeLinkHref(value) {
+		try {
+			const url = new URL(value, document.baseURI);
+			return ['http:', 'https:'].includes(url.protocol) ? value : null;
+		} catch {
+			return null;
+		}
+	}
+
+	function renderInlineMarkdown(value, allowLinks = true) {
+		const inlineTokens = [];
+		const addToken = html => {
+			const index = inlineTokens.push(html) - 1;
+			return `\uE000${index}\uE001`;
+		};
+		let source = String(value).replace(/\s*[\r\n]+\s*/g, ' ');
+
+		// Preserve Markdown-escaped punctuation before interpreting formatting.
+		source = source.replace(/\\([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~])/g, (_, character) => addToken(escapeHTML(character)));
+		source = source.replace(/`([^`]+)`/g, (_, code) => addToken(`<code>${escapeHTML(code)}</code>`));
+
+		if (allowLinks) {
+			source = source.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (markdown, label, href) => {
+				const safeHref = getSafeLinkHref(href);
+				return safeHref
+					? addToken(`<a href="${escapeHTML(safeHref)}">${renderInlineMarkdown(label, false)}</a>`)
+					: markdown;
+			});
+		}
+
+		let html = escapeHTML(source);
+		html = html
+			.replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>')
+			.replace(/___([^_]+)___/g, '<strong><em>$1</em></strong>')
+			.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+			.replace(/__([^_]+)__/g, '<strong>$1</strong>')
+			.replace(/~~([^~]+)~~/g, '<del>$1</del>')
+			.replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, '$1<em>$2</em>')
+			.replace(/(^|[^_])_([^_]+)_(?!_)/g, '$1<em>$2</em>');
+
+		return html.replace(/\uE000(\d+)\uE001/g, (token, index) => inlineTokens[Number(index)] ?? token);
+	}
+
+	function renderIcon({ icon, type }) {
+		const overrideClasses = String(icon || '').trim().split(/\s+/);
+		const overrideName = overrideClasses.filter(value => /^fa-[a-z0-9-]+$/i.test(value) && !/^fa-(solid|regular|brands)$/i.test(value)).pop();
+		const name = String(overrideName || icon || TYPE_ICONS[type]).replace(/^fa-/, '').replace(/[^a-z0-9-]/gi, '') || TYPE_ICONS[type];
+		return `<i class="fas fa-${name} saIcon saToastIcon" aria-hidden="true"></i>`;
+	}
+
+	function getAccessibleMessage(value) {
+		const container = document.createElement('span');
+		container.innerHTML = renderInlineMarkdown(value);
+		return container.textContent.trim() || 'Notification';
+	}
+
+	function renderToast(message, options) {
+		const urgent = options.type === 'error' || options.type === 'alert';
+		const dismissLabel = `Dismiss notification: ${getAccessibleMessage(message)}`;
+		return `
+			${renderIcon(options)}
+			<div class="saToastText saMarkdownContent" role="${urgent ? 'alert' : 'status'}"${urgent ? '' : ' aria-live="polite"'} aria-relevant="additions text" aria-atomic="true"></div>
+			<button type="button" class="saCloseButton" aria-label="${escapeHTML(dismissLabel)}">
+				<i class="far fa-xmark saIcon" aria-hidden="true"></i>
+			</button>`;
+	}
+
+	function createToast(message, options = {}) {
+		const div = document.createElement('div');
+		let timer = null;
+		let renderTimeout = null;
+		let renderedMessage = null;
+		let closed = false;
+		let currentMessage = message;
+		let currentOptions = options;
+		const returnFocusTo = options.returnFocusTo;
+		div.innerHTML = renderToast(message, options);
+		const messageElement = div.querySelector('.saToastText');
+		const dismissButton = div.querySelector('.saCloseButton');
+
+		const close = () => {
+			if (closed) return;
+			const shouldRestoreFocus = div.contains(document.activeElement);
+			closed = true;
+			cancelSwipe();
+			clearTimeout(renderTimeout);
+			timer?.cancel();
+			div.classList.add('saClosed');
+			setTimeout(() => {
+				div.remove();
+				if (shouldRestoreFocus && returnFocusTo?.isConnected) returnFocusTo.focus();
+			}, CLOSED_ANIMATION_DURATION);
+		};
+
+		const startAutoDismiss = () => {
+			if (currentOptions.persistent || closed) return;
+			timer = attachTimer(currentOptions.duration ?? DEFAULT_DURATION, close);
+			syncTimerPauseState();
+		};
+
+		dismissButton.addEventListener('click', close);
+		const cancelSwipe = attachSwipeToDismiss(div, close);
+
+		div.updateToast = (nextMessage, nextOptions) => {
+			if (closed) return;
+			cancelSwipe();
+			clearTimeout(renderTimeout);
+			timer?.cancel();
+			timer = null;
+			currentMessage = nextMessage;
+			currentOptions = nextOptions;
+
+			const typeClass = {
+				success: 'saSuccess',
+				warning: 'saWarning',
+				error: 'saError',
+				info: 'saInfo'
+			}[currentOptions.type] || currentOptions.type || '';
+
+			div.className = `saToast ${typeClass}`.trim();
+			div.querySelector('.saToastIcon').outerHTML = renderIcon(currentOptions);
+			dismissButton.setAttribute('aria-label', `Dismiss notification: ${getAccessibleMessage(currentMessage)}`);
+			const urgent = currentOptions.type === 'error' || currentOptions.type === 'alert';
+			messageElement.setAttribute('role', urgent ? 'alert' : 'status');
+			if (urgent) {
+				messageElement.removeAttribute('aria-live');
+			} else {
+				messageElement.setAttribute('aria-live', 'polite');
+			}
+
+			// Let assistive technology register the empty live region before filling it.
+			// Keep that same element for updates, and start the timer once text is visible.
+			renderTimeout = setTimeout(() => {
+				if (closed || !div.isConnected) return;
+				const html = renderInlineMarkdown(currentMessage);
+				if (html !== renderedMessage) {
+					messageElement.innerHTML = html;
+					renderedMessage = html;
+				}
+				startAutoDismiss();
+			}, LIVE_REGION_DELAY);
+		};
+
+		div.updateToast(message, options);
+
+		return div;
+	}
+
+	function attachSwipeToDismiss(toast, onDismiss) {
+		let gesture = null;
+		let suppressClickUntil = 0;
+
+		function reset() {
+			if (!gesture) return;
+			const { pointerId, dragging } = gesture;
+			gesture = null;
+			if (dragging) suppressClickUntil = performance.now() + 400;
+			toast.classList.remove('saDragging');
+			toast.style.removeProperty('--toast-drag-y');
+			if (toast.hasPointerCapture(pointerId)) toast.releasePointerCapture(pointerId);
+			activeToastGestures.delete(toast);
+			syncTimerPauseState();
+		}
+
+		function recordSample(event) {
+			gesture.samples.push({ y: event.clientY, time: event.timeStamp });
+			gesture.samples = gesture.samples.filter(sample => event.timeStamp - sample.time <= 120);
+		}
+
+		toast.addEventListener('pointerdown', event => {
+			if (gesture || !event.isPrimary || event.button !== 0 || toast.classList.contains('saClosed')) return;
+			if (event.target.closest('a, button, input, select, textarea, [contenteditable]')) return;
+			if (event.pointerType === 'mouse') event.preventDefault();
+			gesture = {
+				pointerId: event.pointerId,
+				startX: event.clientX,
+				startY: event.clientY,
+				distance: 0,
+				dragging: false,
+				samples: [{ y: event.clientY, time: event.timeStamp }]
+			};
+			toast.setPointerCapture(event.pointerId);
+			activeToastGestures.add(toast);
+			syncTimerPauseState();
+		});
+
+		toast.addEventListener('pointermove', event => {
+			if (!gesture || gesture.pointerId !== event.pointerId) return;
+			const dx = event.clientX - gesture.startX;
+			const dy = event.clientY - gesture.startY;
+			if (!gesture.dragging) {
+				if (Math.hypot(dx, dy) < 8) return;
+				// The browser keeps upward/horizontal panning; only downward intent starts a drag.
+				if (dy <= 0 || Math.abs(dx) >= dy) {
+					reset();
+					return;
+				}
+				gesture.dragging = true;
+				toast.classList.add('saDragging');
+			}
+			if (event.cancelable) event.preventDefault();
+			gesture.distance = Math.max(0, dy);
+			recordSample(event);
+			toast.style.setProperty('--toast-drag-y', gesture.distance + 'px');
+		});
+
+		toast.addEventListener('pointerup', event => {
+			if (!gesture || gesture.pointerId !== event.pointerId) return;
+			recordSample(event);
+			const first = gesture.samples[0];
+			const velocity = (event.clientY - first.y) / Math.max(1, event.timeStamp - first.time);
+			const distance = Math.max(0, event.clientY - gesture.startY);
+			// Keep the bottom toast dismissible before the finger reaches the screen edge.
+			const threshold = Math.max(24, Math.min(80, toast.offsetHeight * 0.6, (window.innerHeight - gesture.startY) * 0.75));
+			const dismiss = gesture.dragging && (distance >= threshold || (distance >= 24 && velocity >= 0.65));
+			if (dismiss) {
+				const originalTop = toast.getBoundingClientRect().top - gesture.distance;
+				const exitY = Math.max(distance + toast.offsetHeight, window.innerHeight - originalTop + 16);
+				toast.style.setProperty('--toast-exit-y', exitY + 'px');
+			}
+			reset();
+			if (dismiss) onDismiss();
+		});
+
+		for (const eventName of ['pointercancel', 'lostpointercapture']) {
+			toast.addEventListener(eventName, event => {
+				if (gesture?.pointerId === event.pointerId) reset();
+			});
+		}
+		toast.addEventListener('click', event => {
+			if (event.detail !== 0 && performance.now() < suppressClickUntil) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		}, true);
+		return reset;
+	}
+
+	function attachTimer(duration, onDone) {
+		let endTime = performance.now() + duration;
+		let remaining = duration;
+		let timeout;
+		let paused = false;
+		let canceled = false;
+		let controls;
+
+		function finish() {
+			if (paused || canceled) return;
+			cancel();
+			onDone();
+		}
+
+		function cancel() {
+			canceled = true;
+			clearTimeout(timeout);
+			activeTimers.delete(controls);
+		}
+
+		function pause() {
+			if (paused || canceled) return;
+			paused = true;
+			remaining = Math.max(0, endTime - performance.now());
+			clearTimeout(timeout);
+		}
+
+		function resume() {
+			if (!paused || canceled) return;
+			paused = false;
+			endTime = performance.now() + remaining;
+			timeout = setTimeout(finish, remaining);
+		}
+
+		controls = { pause, resume, cancel };
+		activeTimers.add(controls);
+		timeout = setTimeout(finish, remaining);
+		return controls;
+	}
+
+	function syncTimerPauseState() {
+		const method = activeToastGestures.size > 0 || toastPointerHovered || toastGroup.matches(':focus-within') ? 'pause' : 'resume';
+		activeTimers.forEach(timer => timer[method]());
+	}
+
+
+	window.saToast = {
+		show(message, options = {}) {
+			const group = getToastGroup();
+			const toast = createToast(message, {
+				type: 'info',
+				duration: DEFAULT_DURATION,
+				returnFocusTo: document.activeElement,
+				...options
+			});
+			group.append(toast);
+			return toast;
+		}
+	};
+})();
+
 $(document).ready(function () {
 	const $fontToggle = $('#toggleFont');
 	let activeFont = getComputedStyle(document.documentElement).getPropertyValue('--Font').includes('Geist') ? 'Geist' : 'Lexend';
@@ -513,8 +860,46 @@ $(document).ready(function () {
 			});
 	}
 
-	$('.saFavoriteToggle').click(function () {
-		$(this).attr('aria-checked', function (i, attr) { return attr === 'true' ? 'false' : 'true'; });
+	const FAVORITE_COOLDOWN = 1500;
+	const favoriteActions = new WeakMap();
+
+	function getFavoritePageName(button) {
+		return (button.closest('.saMenuItemWrapper')?.querySelector('.saMenuItemTextHeading')?.textContent
+			|| document.querySelector('h1.saHeaderText')?.textContent
+			|| document.title || 'Page').trim();
+	}
+
+	$('.saFavoriteToggle').each(function () {
+		const isFavorite = this.getAttribute('aria-checked') === 'true';
+		this.setAttribute('aria-pressed', String(isFavorite));
+		this.setAttribute('aria-label', `${isFavorite ? 'Remove' : 'Add'} ${getFavoritePageName(this)} ${isFavorite ? 'from' : 'to'} favorites`);
+	});
+
+	$(document).on('click', '.saFavoriteToggle', function (event) {
+		event.preventDefault();
+		const previous = favoriteActions.get(this);
+		const now = performance.now();
+		if (this.disabled || this.getAttribute('aria-disabled') === 'true' || now < (previous?.readyAt ?? 0)) return;
+
+		const isFavorite = this.getAttribute('aria-checked') !== 'true';
+		const pageName = getFavoritePageName(this);
+		this.setAttribute('aria-checked', String(isFavorite));
+		this.setAttribute('aria-pressed', String(isFavorite));
+		this.setAttribute('aria-label', `${isFavorite ? 'Remove' : 'Add'} ${pageName} ${isFavorite ? 'from' : 'to'} favorites`);
+		this.setAttribute('aria-disabled', 'true');
+		const record = { readyAt: now + FAVORITE_COOLDOWN, toast: previous?.toast };
+		favoriteActions.set(this, record);
+		setTimeout(() => this.removeAttribute('aria-disabled'), FAVORITE_COOLDOWN);
+
+		// Page names are literal text, even if they contain Markdown punctuation.
+		const name = pageName.replace(/([\\`*_\[\]~])/g, '\\$1');
+		const message = `**${name}** ${isFavorite ? 'added to' : 'removed from'} favorites.`;
+		const options = { type: 'success', duration: 10000, returnFocusTo: this };
+		if (record.toast?.isConnected && !record.toast.classList.contains('saClosed')) {
+			record.toast.updateToast(message, options);
+		} else {
+			record.toast = window.saToast.show(message, options);
+		}
 	});
 
 	const $splitMenuButton = $('.saSplitButtonArrow[aria-controls="saSplitButtonMenu"]');
