@@ -1,6 +1,7 @@
 (() => {
 	let sequence = 0;
 	let responseSequence = 0;
+	let sourceSequence = 0;
 
 	class InlineChat extends HTMLElement {
 		connectedCallback() {
@@ -36,7 +37,6 @@
 					</div>
 					<form class="saChatComposerWrapper" aria-label="Compose a chat message">
 						<section class="saInlineChatContext" aria-label="Selected text for your next message" hidden>
-							<i class="saIcon far fad fa-quote-left" aria-hidden="true"></i>
 							<blockquote data-chat-context></blockquote>
 							<button class="saDefaultIconButtonGhost" type="button" data-chat-dismiss-context aria-label="Remove selected text"><i class="saIcon far fa-xmark" aria-hidden="true"></i></button>
 						</section>
@@ -195,20 +195,134 @@
 			});
 		}
 
-		addSelection(text, origin) {
+		addSelection(text, origin, location) {
 			if (!text.trim()) return;
-			if (this.pendingSelection?.text !== text || this.pendingSelection?.origin !== origin) {
+			// Identical text can come from different cells or messages.
+			const source = this.captureSource(origin, location);
+			if (source || this.pendingSelection?.text !== text || this.pendingSelection?.origin !== origin) {
 				const replacing = Boolean(this.pendingSelection);
 				if (this.pendingSelection) this.releaseSelection(this.pendingSelection);
-				this.pendingSelection = { text, origin };
+				this.pendingSelection = { text, origin, source };
 				this.renderContext();
 				this.status.textContent = `Selected text ${replacing ? "replaced" : "added"}. Write a message or press Send when ready.`;
 			}
 			this.open(origin);
 		}
 
+		captureSource(origin, location) {
+			let source;
+			if (location?.range) {
+				const range = location.range;
+				let target = range.commonAncestorContainer;
+				if (target.nodeType !== Node.ELEMENT_NODE) target = target.parentElement;
+				target = target.closest("td, th, .saChatMessageBody, .saChatMessageContent, tr, tbody") || location.root;
+				if (!target?.contains(range.endContainer)) target = location.root;
+				const prefix = document.createRange();
+				prefix.selectNodeContents(target);
+				prefix.setEnd(range.startContainer, range.startOffset);
+				source = { target, range: range.cloneRange(), start: prefix.toString().length, text: range.toString() };
+			} else if (origin?.editor && !origin.editor.isDestroyed) {
+				const { from, to } = origin.editor.state.selection;
+				if (from === to) return null;
+				source = { target: origin, editor: origin, from, to };
+				(origin.chatSourceRanges ||= new Set()).add(source);
+			}
+			if (source && !source.target.id) {
+				let id;
+				do { id = `chat-source-${++sourceSequence}`; } while (document.getElementById(id));
+				source.target.id = id;
+			}
+			return source;
+		}
+
+		createSourceLink(item) {
+			const link = document.createElement(item.source ? "a" : "span");
+			link.className = "saInlineChatSourceLink";
+			link.innerHTML = '<i class="saIcon far fad fa-quote-left" aria-hidden="true"></i><span></span>';
+			link.querySelector("span").textContent = item.text;
+			if (item.source) {
+				link.href = `#${item.source.target.id}`;
+				link.title = "Jump to quoted text";
+				link.addEventListener("click", event => {
+					event.preventDefault();
+					this.jumpToSource(item.source, link);
+				});
+			}
+			return link;
+		}
+
+		resolveSourceRange(source) {
+			if (!source.target.isConnected || source.unavailable) return null;
+			if (source.editor) {
+				const owner = source.editor;
+				if (!owner.editor || owner.editor.isDestroyed) return null;
+				if (owner.sourceMode) {
+					owner.toggleMarkdown();
+					if (source.unavailable) return null;
+				}
+				if (source.to > owner.editor.state.doc.content.size) return null;
+				const start = owner.editor.view.domAtPos(source.from);
+				const end = owner.editor.view.domAtPos(source.to);
+				const range = document.createRange();
+				range.setStart(start.node, start.offset);
+				range.setEnd(end.node, end.offset);
+				return range;
+			}
+			if (source.target.contains(source.range.startContainer) && source.target.contains(source.range.endContainer) && source.range.toString() === source.text) return source.range.cloneRange();
+			// Streaming and message edits can replace text nodes. Recover the same
+			// exact offsets, never a different occurrence of a repeated quotation.
+			const end = source.start + source.text.length;
+			if (source.target.textContent.slice(source.start, end) !== source.text) return null;
+			const walker = document.createTreeWalker(source.target, NodeFilter.SHOW_TEXT);
+			const range = document.createRange();
+			let offset = 0, started = false;
+			while (walker.nextNode()) {
+				const node = walker.currentNode, next = offset + node.length;
+				if (!started && source.start <= next) { range.setStart(node, source.start - offset); started = true; }
+				if (started && end <= next) { range.setEnd(node, end - offset); return range; }
+				offset = next;
+			}
+			return null;
+		}
+
+		jumpToSource(source, link) {
+			const range = this.resolveSourceRange(source);
+			if (!range || range.collapsed) {
+				link.removeAttribute("href");
+				link.setAttribute("aria-disabled", "true");
+				link.title = "Source unavailable: the original text was removed or changed.";
+				this.status.textContent = link.title;
+				return;
+			}
+			const inChat = this.contains(source.target);
+			if (!inChat && window.matchMedia("(max-width: 1199px)").matches) this.close();
+			if (source.editor) {
+				const owner = source.editor;
+				owner.editor.commands.setTextSelection({ from: source.from, to: source.to });
+				owner.dismissedTextSelection = { from: source.from, to: source.to, doc: owner.editor.state.doc };
+				owner.editor.view.focus();
+			} else {
+				if (!source.target.hasAttribute("tabindex")) source.target.tabIndex = -1;
+				source.target.focus({ preventScroll: true });
+			}
+			let passage = range.startContainer;
+			if (passage.nodeType !== Node.ELEMENT_NODE) passage = passage.parentElement;
+			passage.scrollIntoView({ block: "center", inline: "nearest", behavior: "instant" });
+			clearTimeout(this.sourceHighlightTimer);
+			this.highlightedSource?.classList.remove("saInlineChatSourceHighlight");
+			this.highlightedSource = passage;
+			passage.classList.add("saInlineChatSourceHighlight");
+			if (window.CSS?.highlights && window.Highlight) CSS.highlights.set("sa-chat-source", new Highlight(range));
+			this.sourceHighlightTimer = setTimeout(() => {
+				passage.classList.remove("saInlineChatSourceHighlight");
+				window.CSS?.highlights?.delete("sa-chat-source");
+			}, 1800);
+			document.dispatchEvent(new Event("inline-chat-source-jump"));
+		}
+
 		renderContext() {
-			this.contextText.textContent = this.pendingSelection?.text || "";
+			this.contextText.replaceChildren();
+			if (this.pendingSelection) this.contextText.append(this.createSourceLink(this.pendingSelection));
 			this.context.hidden = !this.pendingSelection;
 			this.updateSendButton();
 		}
@@ -267,8 +381,7 @@
 			if (context) {
 				const quote = document.createElement("blockquote");
 				quote.className = "saInlineChatExcerpt";
-				quote.innerHTML = `<i class="saIcon far fad fa-quote-left" aria-hidden="true"></i><span></span>`;
-				quote.querySelector("span").textContent = context.text;
+				quote.append(this.createSourceLink(context));
 				message.querySelector(".saChatMessageBody").prepend(quote);
 			}
 			message.querySelector("[data-chat-source]").textContent = label;

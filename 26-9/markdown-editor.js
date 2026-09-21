@@ -365,6 +365,14 @@
 					},
 					onUpdate: () => this.sync(true),
 					onTransaction: ({ transaction }) => {
+						if (transaction.docChanged) {
+							for (const source of this.chatSourceRanges || []) {
+								if (source.unavailable) continue;
+								source.from = transaction.mapping.map(source.from, 1);
+								source.to = transaction.mapping.map(source.to, -1);
+								source.unavailable = source.to <= source.from;
+							}
+						}
 						if (this.aiPreview && transaction.docChanged) this.cancelThinkingPreview(false);
 						this.updateButtons(); this.updateFindStatus(); this.scheduleSelectionToolbar();
 					}
@@ -1399,7 +1407,10 @@
 				this.markdownButton.setAttribute("aria-label", "View as rich text");
 				this.source.focus();
 			} else {
-				this.editor.commands.setContent(this.source.value, { contentType: "markdown", emitUpdate: false });
+				// Preserve mapped quote ranges when only switching views.
+				if (this.source.value !== this.editor.getMarkdown()) {
+					this.editor.commands.setContent(this.source.value, { contentType: "markdown", emitUpdate: false });
+				}
 				this.sync(false);
 				this.sourceSurface.hidden = true;
 				this.visualSurface.hidden = false;

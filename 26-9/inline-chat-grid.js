@@ -1,11 +1,25 @@
-// Native text selection for read-only grids; no editor or AI dependency.
+// Native text selection for grids and inline-chat messages; no editor dependency.
 (() => {
-	for (const source of document.querySelectorAll("[data-chat-selection-source]")) {
-		const toolbar = document.getElementById(source.dataset.chatToolbar);
-		const chat = document.getElementById(source.dataset.chatTarget);
+	const sources = document.querySelectorAll("[data-chat-selection-source], inline-chat .saChatLog");
+	for (const source of sources) {
+		const sourceChat = source.closest("inline-chat");
+		const chat = sourceChat || document.getElementById(source.dataset.chatTarget);
+		let toolbar = document.getElementById(source.dataset.chatToolbar);
+		if (sourceChat) {
+			source.tabIndex = -1;
+			toolbar = document.createElement("div");
+			toolbar.className = "saMarkdownEditorFloatingToolbar saInlineChatSelectionToolbar";
+			toolbar.setAttribute("role", "toolbar");
+			toolbar.setAttribute("aria-label", "Selected chat text actions");
+			toolbar.setAttribute("aria-keyshortcuts", "Alt+Shift+A");
+			toolbar.hidden = true;
+			toolbar.innerHTML = '<ul><li><button class="saButtonToolbarDark" type="button" data-send-selection>Send to chat</button></li></ul>';
+			toolbar.querySelector("button").setAttribute("aria-controls", chat.id);
+			document.body.append(toolbar);
+		}
 		const send = toolbar?.querySelector("[data-send-selection]");
 		if (!send || !chat) continue;
-		const scroll = source.closest(".scrollcontent") || source;
+		const scroll = source.closest("[data-chat-scroll], .scrollcontent") || source;
 		let savedRange = null;
 		let selectedText = "";
 		let selecting = false;
@@ -52,6 +66,17 @@
 				savedRange = null;
 				return hide();
 			}
+			if (sourceChat) {
+				const element = node => node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
+				const start = element(range.startContainer);
+				const end = element(range.endContainer);
+				const body = start.closest(".saChatMessageBody, .saChatMessageContent");
+				// Message text only: leave the composer, edit fields and controls alone.
+				if (!body || !body.contains(end) || [start, end].some(node => node.closest("button, [contenteditable], .saScreenReaderOnly"))) {
+					savedRange = null;
+					return hide();
+				}
+			}
 			selectedText = selection.toString().trim();
 			if (!selectedText) return hide();
 			savedRange = range.cloneRange();
@@ -63,6 +88,7 @@
 		}
 
 		document.addEventListener("selectionchange", schedule);
+		document.addEventListener("inline-chat-source-jump", () => { dismissed = true; hide(); });
 		document.addEventListener("pointerdown", event => {
 			if (toolbar.contains(event.target)) return;
 			dismissed = !source.contains(event.target);
@@ -93,6 +119,7 @@
 				}
 			} else if (event.key === "Escape" && !toolbar.hidden) {
 				event.preventDefault();
+				event.stopPropagation();
 				if (toolbar.contains(document.activeElement)) {
 					source.focus({ preventScroll: true });
 					const selection = window.getSelection();
@@ -102,14 +129,15 @@
 				dismissed = true;
 				hide();
 			}
-		});
+		}, true);
 		// Keep the selected text highlighted while clicking its action.
 		send.addEventListener("mousedown", event => event.preventDefault());
 		send.addEventListener("click", () => {
 			if (!savedRange || !selectedText || typeof chat.addSelection !== "function") return;
 			dismissed = true;
 			hide();
-			chat.addSelection(selectedText, source);
+			// Chat excerpts must not replace the external focus-return target.
+			chat.addSelection(selectedText, sourceChat ? chat.origin : source, { range: savedRange.cloneRange(), root: source });
 		});
 		document.addEventListener("scroll", () => { if (!toolbar.hidden) position(); }, true);
 		window.addEventListener("resize", () => { if (!toolbar.hidden) position(); });
