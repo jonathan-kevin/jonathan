@@ -511,14 +511,14 @@
 					</div>
 				</section>
 					<div data-editor-surface></div>
-					<div class="saMarkdownEditorFloatingToolbar saMarkdownEditorSelectionToolbar" role="toolbar" aria-label="Selected text actions" aria-keyshortcuts="Alt+Shift+A" data-selection-toolbar hidden>
+					<div class="saFloatingToolbar saMarkdownEditorSelectionToolbar" role="toolbar" aria-label="Selected text actions" aria-keyshortcuts="Alt+Shift+A" data-selection-toolbar hidden>
 						<ul>
 							<li><button class="saButtonToolbarDark" type="button" data-selection-action="send-to-chat" tabindex="0"><span>Send to chat</span></button></li>
 							<li><button class="saButtonToolbarDark" type="button" data-selection-action="improve" tabindex="-1"><span>Refine text</span></button></li>
 						</ul>
 						<p data-selection-feedback role="status" hidden></p>
 					</div>
-					<div class="saMarkdownEditorFloatingToolbar saMarkdownEditorTableToolbar" role="toolbar" aria-label="Table editing" aria-keyshortcuts="Alt+Shift+T" data-table-toolbar hidden>
+					<div class="saFloatingToolbar saMarkdownEditorTableToolbar" role="toolbar" aria-label="Table editing" aria-keyshortcuts="Alt+Shift+T" data-table-toolbar hidden>
 						<ul aria-label="Row actions">
 							<li><button class="saButtonIconToolbarDark" type="button" data-command="addRowBefore" aria-label="Add row above"><i class="saIcon far fad fa-arrow-up-to-line" aria-hidden="true"></i></button></li>
 							<li><button class="saButtonIconToolbarDark" type="button" data-command="addRowAfter" aria-label="Add row below"><i class="saIcon far fad fa-arrow-down-to-line" aria-hidden="true"></i></button></li>

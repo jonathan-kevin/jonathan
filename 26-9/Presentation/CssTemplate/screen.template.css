@@ -34431,7 +34431,7 @@ body.saPopup::before {
 .saChatWrapper *[hidden] {
   display: none !important;
 }
-.saInlineChat .saChatWrapper {
+.saChatInline .saChatWrapper {
   flex: 1;
   min-height: 0;
   max-width: none;
@@ -34454,7 +34454,7 @@ body.saPopup::before {
   border: 1px solid var(--Sa-Color-InputFieldBorder);
   border-bottom: none;
 }
-.saInlineChat .saChat {
+.saChatInline .saChat {
   min-height: 0;
   overflow-y: auto;
   border: 0;
@@ -34469,6 +34469,10 @@ body.saPopup::before {
   padding-inline-start: 0;
   overflow-wrap: break-word;
   z-index: 0;
+}
+.saChatInline .saChatLog {
+  padding-bottom: 2rem;
+  flex: 1;
 }
 .saChatDate {
   display: flex;
@@ -34512,7 +34516,7 @@ body.saPopup::before {
 .saChatMessage:first-child {
   padding-top: 2rem;
 }
-.saInlineChat .saChatMessage:first-child {
+.saChatInline .saChatMessage:first-child {
   padding-top: 0;
 }
 .saChatMessage:not(.saChatSender, .saChatSystem):not(:has(.saChatAvatar)) {
@@ -34597,7 +34601,7 @@ button.saChatMessageAction:active .saIcon {
 .saChatMessageContent {
   position: relative;
 }
-.saInlineChat .saChatMessageContent {
+.saChatInline .saChatMessageContent {
   overflow-wrap: anywhere;
 }
 .saChatSystem {
@@ -34658,7 +34662,7 @@ button.saChatMessageAction:active .saIcon {
 .saChatEdit + .saChatMessageFooter {
   display: none;
 }
-.saInlineChat .saChatMessageFooter {
+.saChatInline .saChatMessageFooter {
   gap: 0.5rem;
 }
 .saChatSenderName {
@@ -34681,7 +34685,7 @@ button.saChatMessageAction:active .saIcon {
   max-width: 28rem;
   width: 100%;
 }
-.saInlineChat .saChatMessageBody {
+.saChatInline .saChatMessageBody {
   overflow-wrap: anywhere;
 }
 .saChatMessageBody > p {
@@ -34700,7 +34704,7 @@ button.saChatMessageAction:active .saIcon {
   font-size: 1rem;
   line-height: 1.25rem;
 }
-.saInlineChat .saChatMessageBody > p {
+.saChatInline .saChatMessageBody > p {
   white-space: pre-wrap;
 }
 .saChatEdit {
@@ -34942,14 +34946,12 @@ button.saChatMessageAction:active .saIcon {
 .saSmallScreen .saChatComposerWrapper:has(.saChatComposerInstruction)::after {
   height: 4rem;
 }
-.saInlineChat .saChatComposerWrapper {
-  position: static;
+.saChatInline .saChatComposerWrapper {
   flex: 0 0 auto;
-  padding: 0.75rem;
-  margin: 0;
+  bottom: 0;
 }
-.saInlineChat .saChatComposerWrapper::after {
-  content: none;
+.saChatInline .saChatComposerWrapper::after {
+  bottom: -1rem;
 }
 .saChatComposer {
   display: flex;
@@ -34960,7 +34962,7 @@ button.saChatMessageAction:active .saIcon {
   height: 100%;
   resize: none;
   border: none;
-  padding: 0.75rem 1rem;
+  padding: 1rem 0.75rem 3rem 0.75rem;
   font-size: 0.875rem;
   line-height: 1rem;
   font-family: inherit;
@@ -35013,12 +35015,210 @@ button.saChatMessageAction:active .saIcon {
   pointer-events: none;
   position: absolute;
 }
-.saInlineChat .saChatComposer .saChatTextarea {
+.saChatInline .saChatComposer .saChatTextarea {
   border-radius: 1.5rem;
   box-shadow: 0 1px 2px light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent)), 0 2px 0.25rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent));
 }
-.saInlineChat .saInlineChatContext:not([hidden]) + .saChatComposer .saChatTextarea {
+.saChatComposer:has(.saChatContext:not([hidden])) .saChatTextarea {
+  padding-top: 3rem;
+}
+.saChatInline .saChatInlineContext:not([hidden]) + .saChatComposer .saChatTextarea {
   border-radius: 0 0 1.5rem 1.5rem;
+}
+.saChatContext {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: absolute;
+  inset: 0 0 auto 0;
+  padding: 0.75rem;
+}
+.saChatContext li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 99rem;
+  height: 1.75rem;
+  width: fit-content;
+  background-color: var(--Gray50);
+  outline: 0.0625rem solid var(--Gray200);
+  outline-offset: -0.0625rem;
+  padding: 0.25rem 0.75rem 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  position: relative;
+}
+.saChatContext li > .saIcon:first-child {
+  color: var(--Sa-Color-Icon);
+}
+.saChatContext li:is(:hover, :focus) .saPillRemoveButton {
+  transform: scale(1);
+}
+.saPillRemoveButton {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: var(--Font), sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
+  background-color: var(--Sa-Color-SecondaryButtonBackground);
+  color: var(--Sa-Color-Label);
+  border-radius: 0.375rem;
+  padding: 0 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  max-width: 1.5rem;
+  min-width: 1.5rem;
+  font-size: 0.875rem;
+  border-radius: 999rem;
+  position: absolute;
+  inset: -0.5rem -0.5rem auto auto;
+  transform: scale(0);
+}
+.saPillRemoveButton .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saPillRemoveButton .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saPillRemoveButton .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saPillRemoveButton .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saPillRemoveButton .saBadge {
+  color: var(--Sa-Color-SecondaryButtonBackground);
+  border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
+}
+@media (pointer: fine) {
+  .saPillRemoveButton:hover {
+    border-color: light-dark(var(--Sa-Color-Primary600), var(--Gray500));
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+    background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
+  }
+  .saPillRemoveButton:hover .saIcon {
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+  .saPillRemoveButton:hover .saBadge {
+    background-color: var(--Sa-Color-Primary600);
+    color: light-dark(var(--Sa-Color-Primary50), var(--White));
+  }
+}
+.saPillRemoveButton:active,
+.saPillRemoveButton.saOpen {
+  border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+  background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+}
+.saPillRemoveButton:active .saIcon,
+.saPillRemoveButton.saOpen .saIcon {
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saPillRemoveButton:active .saBadge,
+.saPillRemoveButton.saOpen .saBadge {
+  color: light-dark(var(--Sa-Color-Primary100), var(--White));
+  border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
+  background-color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saPillRemoveButton:active {
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saPillRemoveButton:active .saIcon {
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saPillRemoveButton:active .saBadge {
+  color: light-dark(var(--Sa-Color-Primary100), var(--White));
+}
+.saPillRemoveButton.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+}
+.saPillRemoveButton.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saPillRemoveButton.saDestructive .saBadge {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saPillRemoveButton.saDestructive:hover {
+    color: var(--White);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saPillRemoveButton.saDestructive:hover .saIcon {
+    color: var(--White);
+  }
+  .saPillRemoveButton.saDestructive:hover .saBadge {
+    background-color: var(--White);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saPillRemoveButton.saDestructive:active,
+.saPillRemoveButton.saDestructive.saOpen {
+  color: var(--White);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saPillRemoveButton.saDestructive:active .saIcon,
+.saPillRemoveButton.saDestructive.saOpen .saIcon {
+  color: var(--White);
+}
+.saPillRemoveButton.saDestructive:active .saBadge,
+.saPillRemoveButton.saDestructive.saOpen .saBadge {
+  background-color: var(--White);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saPillRemoveButton:disabled,
+.saPillRemoveButton.saDisabled {
+  color: light-dark(var(--Gray300), var(--Gray700));
+  background-color: light-dark(var(--Gray100), var(--Gray1000));
+  cursor: not-allowed;
+}
+.saPillRemoveButton:disabled .saIcon,
+.saPillRemoveButton.saDisabled .saIcon {
+  color: light-dark(var(--Gray300), var(--Gray700));
+}
+.saPillRemoveButton:active {
+  border-radius: 0.625rem;
+}
+@media (pointer: fine) {
+  .saPillRemoveButton:hover {
+    color: var(--White);
+    background-color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saPillRemoveButton:hover .saIcon {
+    color: inherit;
+  }
+}
+.saPillRemoveButton:active {
+  color: var(--White);
+  background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness90);
+  border-color: transparent;
+  border-radius: 999rem;
+}
+.saPillRemoveButton:active .saIcon {
+  color: inherit;
 }
 .saChatLatest {
   position: absolute;
@@ -35070,7 +35270,7 @@ button.saChatMessageAction:active .saIcon {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.saInlineChat .saChatComposerInstruction {
+.saChatInline .saChatComposerInstruction {
   white-space: normal;
   margin: 0.5rem 0 0;
   padding: 0;
@@ -35229,8 +35429,22 @@ button.saChatMessageAction:active .saIcon {
 .saLoadMessagesButton.saHidden {
   display: none;
 }
+.saChatComposerToolbar {
+  display: flex;
+  gap: 0.25rem;
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 0.75rem;
+}
+.saSmallScreen .saChatComposerToolbar {
+  padding: 1rem;
+}
+.saChatComposerToolbar > li:last-child {
+  margin-left: auto;
+}
 .saChatButtonSend,
-.saChatButtonStop {
+.saChatButtonStop,
+.saChatComposerToolbarButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: var(--Font), sans-serif;
@@ -35247,44 +35461,31 @@ button.saChatMessageAction:active .saIcon {
   height: 2rem;
   width: 2rem;
   border-radius: 999rem;
-  position: absolute;
-  right: 0.5rem;
-  bottom: 0.5rem;
 }
 .saChatButtonSend .saButtonText,
-.saChatButtonStop .saButtonText {
+.saChatButtonStop .saButtonText,
+.saChatComposerToolbarButton .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
 .saChatButtonSend .saBadgedIcon,
-.saChatButtonStop .saBadgedIcon {
+.saChatButtonStop .saBadgedIcon,
+.saChatComposerToolbarButton .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
 .saChatButtonSend .saIcon,
-.saChatButtonStop .saIcon {
+.saChatButtonStop .saIcon,
+.saChatComposerToolbarButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.saSmallScreen .saChatButtonSend,
-.saSmallScreen .saChatButtonStop {
-  right: 1rem;
-}
-.saSmallScreen .saChatButtonSend::after,
-.saSmallScreen .saChatButtonStop::after {
-  content: '';
-  position: absolute;
-  height: 3rem;
-  width: 3rem;
-  inset: -0.5rem -0.5rem auto auto;
-  opacity: 0;
 }
 .saChatButtonSend {
   background-color: var(--Sa-Color-Primary600);
@@ -35333,107 +35534,138 @@ button.saChatMessageAction:active .saIcon {
     background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness90);
   }
 }
-.saChatButtonStop {
+.saChatButtonStop,
+.saChatComposerToolbarButton {
   border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background-color: var(--Sa-Color-SecondaryButtonBackground);
   color: var(--Sa-Color-Label);
 }
-.saChatButtonStop .saIcon {
+.saChatButtonStop .saIcon,
+.saChatComposerToolbarButton .saIcon {
   color: var(--Sa-Color-Icon);
 }
-.saChatButtonStop .saBadge {
+.saChatButtonStop .saBadge,
+.saChatComposerToolbarButton .saBadge {
   color: var(--Sa-Color-SecondaryButtonBackground);
   border: 2px solid var(--Sa-Color-SecondaryButtonBackground);
 }
 @media (pointer: fine) {
-  .saChatButtonStop:hover {
+  .saChatButtonStop:hover,
+  .saChatComposerToolbarButton:hover {
     border-color: light-dark(var(--Sa-Color-Primary600), var(--Gray500));
     color: light-dark(var(--Sa-Color-Primary600), var(--White));
     background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
   }
-  .saChatButtonStop:hover .saIcon {
+  .saChatButtonStop:hover .saIcon,
+  .saChatComposerToolbarButton:hover .saIcon {
     color: light-dark(var(--Sa-Color-Primary600), var(--White));
   }
-  .saChatButtonStop:hover .saBadge {
+  .saChatButtonStop:hover .saBadge,
+  .saChatComposerToolbarButton:hover .saBadge {
     background-color: var(--Sa-Color-Primary600);
     color: light-dark(var(--Sa-Color-Primary50), var(--White));
   }
 }
 .saChatButtonStop:active,
-.saChatButtonStop.saOpen {
+.saChatComposerToolbarButton:active,
+.saChatButtonStop.saOpen,
+.saChatComposerToolbarButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saChatButtonStop:active .saIcon,
-.saChatButtonStop.saOpen .saIcon {
+.saChatComposerToolbarButton:active .saIcon,
+.saChatButtonStop.saOpen .saIcon,
+.saChatComposerToolbarButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saChatButtonStop:active .saBadge,
-.saChatButtonStop.saOpen .saBadge {
+.saChatComposerToolbarButton:active .saBadge,
+.saChatButtonStop.saOpen .saBadge,
+.saChatComposerToolbarButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
-.saChatButtonStop:active {
+.saChatButtonStop:active,
+.saChatComposerToolbarButton:active {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
-.saChatButtonStop:active .saIcon {
+.saChatButtonStop:active .saIcon,
+.saChatComposerToolbarButton:active .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
-.saChatButtonStop:active .saBadge {
+.saChatButtonStop:active .saBadge,
+.saChatComposerToolbarButton:active .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
 }
-.saChatButtonStop.saDestructive {
+.saChatButtonStop.saDestructive,
+.saChatComposerToolbarButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
   background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
 }
-.saChatButtonStop.saDestructive .saIcon {
+.saChatButtonStop.saDestructive .saIcon,
+.saChatComposerToolbarButton.saDestructive .saIcon {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
-.saChatButtonStop.saDestructive .saBadge {
+.saChatButtonStop.saDestructive .saBadge,
+.saChatComposerToolbarButton.saDestructive .saBadge {
   background-color: var(--Sa-Color-DestructiveButtonBackground);
 }
 @media (pointer: fine) {
-  .saChatButtonStop.saDestructive:hover {
+  .saChatButtonStop.saDestructive:hover,
+  .saChatComposerToolbarButton.saDestructive:hover {
     color: var(--White);
     background: var(--Sa-Color-DestructiveButtonBackground);
     border-color: transparent;
   }
-  .saChatButtonStop.saDestructive:hover .saIcon {
+  .saChatButtonStop.saDestructive:hover .saIcon,
+  .saChatComposerToolbarButton.saDestructive:hover .saIcon {
     color: var(--White);
   }
-  .saChatButtonStop.saDestructive:hover .saBadge {
+  .saChatButtonStop.saDestructive:hover .saBadge,
+  .saChatComposerToolbarButton.saDestructive:hover .saBadge {
     background-color: var(--White);
     color: var(--Sa-Color-DestructiveButtonBackground);
     border-color: var(--Sa-Color-DestructiveButtonBackground);
   }
 }
 .saChatButtonStop.saDestructive:active,
-.saChatButtonStop.saDestructive.saOpen {
+.saChatComposerToolbarButton.saDestructive:active,
+.saChatButtonStop.saDestructive.saOpen,
+.saChatComposerToolbarButton.saDestructive.saOpen {
   color: var(--White);
   background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: transparent;
 }
 .saChatButtonStop.saDestructive:active .saIcon,
-.saChatButtonStop.saDestructive.saOpen .saIcon {
+.saChatComposerToolbarButton.saDestructive:active .saIcon,
+.saChatButtonStop.saDestructive.saOpen .saIcon,
+.saChatComposerToolbarButton.saDestructive.saOpen .saIcon {
   color: var(--White);
 }
 .saChatButtonStop.saDestructive:active .saBadge,
-.saChatButtonStop.saDestructive.saOpen .saBadge {
+.saChatComposerToolbarButton.saDestructive:active .saBadge,
+.saChatButtonStop.saDestructive.saOpen .saBadge,
+.saChatComposerToolbarButton.saDestructive.saOpen .saBadge {
   background-color: var(--White);
   color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
   border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
 }
 .saChatButtonStop:disabled,
-.saChatButtonStop.saDisabled {
+.saChatComposerToolbarButton:disabled,
+.saChatButtonStop.saDisabled,
+.saChatComposerToolbarButton.saDisabled {
   color: light-dark(var(--Gray300), var(--Gray700));
   background-color: light-dark(var(--Gray100), var(--Gray1000));
   cursor: not-allowed;
 }
 .saChatButtonStop:disabled .saIcon,
-.saChatButtonStop.saDisabled .saIcon {
+.saChatComposerToolbarButton:disabled .saIcon,
+.saChatButtonStop.saDisabled .saIcon,
+.saChatComposerToolbarButton.saDisabled .saIcon {
   color: light-dark(var(--Gray300), var(--Gray700));
 }
 .saChatThinkingWrapper {
@@ -35450,7 +35682,7 @@ button.saChatMessageAction:active .saIcon {
   animation: chatThinkingSpinner 2s ease-in-out infinite alternate;
 }
 @media (prefers-reduced-motion: reduce) {
-  .saInlineChat .saChatThinkingSpinner {
+  .saChatInline .saChatThinkingSpinner {
     animation: none;
   }
 }
@@ -35516,11 +35748,51 @@ button.saChatMessageAction:active .saIcon {
     opacity: 1;
   }
 }
-.saInlineChatSelectionToolbar.saMarkdownEditorFloatingToolbar {
+.saFloatingToolbar {
+  background-color: var(--Gray900);
+  color: var(--Gray100);
+  border-radius: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  z-index: 4;
+  width: max-content;
+  max-width: calc(100% - 0.5rem);
+  padding: 0.25rem;
+  overflow-x: auto;
+}
+.saFloatingToolbar[hidden] {
+  display: none;
+}
+.saFloatingToolbar .saButtonIconToolbar {
+  color: var(--Gray200);
+}
+.saFloatingToolbar > ul {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding-inline: 0.5rem;
+}
+.saFloatingToolbar > ul:first-of-type {
+  padding-left: 0;
+}
+.saFloatingToolbar > ul:last-of-type {
+  padding-right: 0;
+}
+.saFloatingToolbar > ul + ul {
+  border-inline-start: 0.0625rem solid var(--Gray700);
+}
+.saFloatingToolbar > ul > li {
+  display: flex;
+  align-items: center;
+}
+.saChatInlineSelectionToolbar.saFloatingToolbar {
   position: fixed;
   z-index: 60;
 }
-.saInlineChat {
+.saChatInline {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -35542,17 +35814,17 @@ button.saChatMessageAction:active .saIcon {
     opacity: 0;
   }
 }
-[hidden].saInlineChat {
+[hidden].saChatInline {
   display: none;
   margin-inline-end: calc(0px - var(--sa-inline-chat-width, 24rem));
   opacity: 0;
   pointer-events: none;
 }
-.saInlineChatResizing.saInlineChat {
+.saChatInlineResizing.saChatInline {
   user-select: none;
 }
 @media (max-width: 1199px) {
-  .saInlineChat {
+  .saChatInline {
     position: fixed;
     inset: 0 0 0 auto;
     z-index: 50;
@@ -35564,25 +35836,40 @@ button.saChatMessageAction:active .saIcon {
       transform: translateX(100%);
     }
   }
-  [hidden].saInlineChat {
+  [hidden].saChatInline {
     margin-inline-end: 0;
     transform: translateX(100%);
   }
 }
+.saSmallScreen .saChatInline {
+  --sa-inline-chat-header-offset: 3rem;
+  top: var(--sa-inline-chat-header-offset);
+  height: calc(100dvh - var(--sa-inline-chat-header-offset));
+  max-height: calc(100dvh - var(--sa-inline-chat-header-offset));
+}
+.saSmallScreen.saSmallScreenHasTopButtons .saChatInline {
+  --sa-inline-chat-header-offset: 5.5rem;
+}
+.saSmallScreen.saHasLogotypeHeader .saChatInline {
+  --sa-inline-chat-header-offset: 5rem;
+}
+.saSmallScreen.saHasLogotypeHeader.saSmallScreenHasTopButtons .saChatInline {
+  --sa-inline-chat-header-offset: 7.5rem;
+}
 @media (prefers-reduced-motion: reduce) {
-  .saInlineChat {
+  .saChatInline {
     transition: none;
   }
 }
-.saInlineChat [data-chat-source] {
+.saChatInline [data-chat-source] {
   font-size: 0.75rem;
   color: var(--Sa-Color-TextSecondary);
 }
-.saInlineChat .saInlineChatResponseStatus {
+.saChatInline .saChatInlineResponseStatus {
   color: var(--Sa-Color-TextSecondary);
   font-size: 0.75rem;
 }
-.saInlineChatResize {
+.saChatInlineResize {
   position: absolute;
   z-index: 2;
   left: -0.25rem;
@@ -35592,22 +35879,153 @@ button.saChatMessageAction:active .saIcon {
   cursor: col-resize;
   touch-action: none;
 }
-.saInlineChatResize::after {
+.saChatInlineResize::after {
   content: '';
   position: absolute;
   inset: 0 0.1875rem;
   background: transparent;
 }
-.saInlineChatResize:hover::after,
-.saInlineChatResize:focus-visible::after,
-.saInlineChatResizing .saInlineChatResize::after {
+.saChatInlineResize:hover::after,
+.saChatInlineResize:focus-visible::after,
+.saChatInlineResizing .saChatInlineResize::after {
   background: var(--Sa-Color-TextSecondary);
 }
-.saInlineChatResize:focus-visible {
+.saChatInlineResize:focus-visible {
   outline: 0.125rem solid var(--Sa-Color-TextSecondary);
   outline-offset: -0.125rem;
 }
-.saInlineChatContext {
+.saChatContextPillLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  font-size: 0.75rem;
+  line-height: 1.5rem;
+}
+.saChatContextPillLabel > span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 16rem;
+}
+.saChatContextPillLabel > .saIcon {
+  flex-shrink: 0;
+  transition: none;
+}
+.saChatContextPillLabel:focus-visible {
+  outline: 0.125rem solid var(--Sa-Color-Primary600);
+}
+.saChatInline .saChatContext li {
+  max-width: 100%;
+}
+.saChatInline .saChatContext li:focus-within .saPillRemoveButton {
+  transform: scale(1);
+}
+@media (hover: none) {
+  .saChatInline .saChatContext .saPillRemoveButton {
+    transform: scale(1);
+  }
+}
+.saChatInline .saChatComposer:has(.saChatContext:not([hidden])) .saChatTextarea {
+  padding-top: calc(var(--sa-chat-context-height, 3rem) + 0.25rem);
+}
+.saChatInlineAddContext {
+  position: relative;
+}
+.saChatInlineAddContext > .saContextMenu {
+  bottom: calc(100% + 0.5rem);
+  left: 0;
+  width: max-content;
+  max-width: calc(100vw - 4rem);
+  z-index: 5;
+}
+.saChatInlineAddContext > .saContextMenu .saOptionWrapper:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.saChatInlineAttachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.5rem;
+}
+.saChatInlineAttachments > li {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+}
+.saChatInlineAttachments span {
+  overflow-wrap: anywhere;
+}
+span.saChatContextPillLabel {
+  cursor: default;
+}
+.saChatInlinePageContext {
+  padding: 0.625rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border: 0.0625rem solid var(--Sa-Color-InputFieldBorder);
+  border-radius: 0.75rem;
+  background-color: light-dark(var(--Gray50), var(--Gray900));
+}
+.saChatInlinePageContextLabel {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  color: var(--Sa-Color-TextSecondary);
+}
+.saChatInlinePageContextRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.saChatInlinePageContextLink {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+  flex: 1;
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+  color: var(--Sa-Color-Text);
+  text-decoration: none;
+}
+.saChatInlinePageContextLink > .saIcon {
+  flex-shrink: 0;
+}
+.saChatInlinePageContextLink > span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.saChatInlinePageContextLink[href]:hover {
+  text-decoration: underline;
+}
+.saChatInlinePageContextLink:focus-visible {
+  outline: 0.125rem solid var(--Sa-Color-Primary600);
+  outline-offset: 0.125rem;
+}
+.saChatInlinePageContextBadge {
+  flex-shrink: 0;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  color: light-dark(var(--Sa-Color-Primary900), var(--Sa-Color-Primary100));
+  background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray800));
+}
+.saChatInlineContext {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -35619,13 +36037,13 @@ button.saChatMessageAction:active .saIcon {
   animation: grow-inn 0.2s forwards;
   padding-right: 0.5rem;
 }
-.saInlineChatContext .saIcon {
+.saChatInlineContext .saIcon {
   color: var(--Sa-Color-Icon);
 }
-[hidden].saInlineChatContext {
+[hidden].saChatInlineContext {
   display: none;
 }
-.saInlineChatContext blockquote {
+.saChatInlineContext blockquote {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -35636,7 +36054,7 @@ button.saChatMessageAction:active .saIcon {
   margin: 0;
   font-size: 0.875rem;
 }
-.saInlineChatContext button {
+.saChatInlineContext button {
   flex: 0 0 2rem;
   width: 2rem;
   height: 2rem;
@@ -35649,7 +36067,7 @@ button.saChatMessageAction:active .saIcon {
     height: 3rem;
   }
 }
-.saInlineChatExcerpt {
+.saChatInlineExcerpt {
   display: flex;
   align-items: baseline;
   gap: 0.375rem;
@@ -35660,10 +36078,10 @@ button.saChatMessageAction:active .saIcon {
   max-width: 100%;
   min-width: 0;
 }
-.saInlineChatExcerpt > .saInlineChatSourceLink {
+.saChatInlineExcerpt > .saChatInlineSourceLink {
   min-width: 0;
 }
-.saInlineChatSourceLink {
+.saChatInlineSourceLink {
   display: flex;
   align-items: baseline;
   padding: 0.75rem 0.5rem 0.75rem 1rem;
@@ -35674,32 +36092,32 @@ button.saChatMessageAction:active .saIcon {
   text-decoration: none;
   outline-offset: -0.125rem;
 }
-.saInlineChatContext .saInlineChatSourceLink {
+.saChatInlineContext .saChatInlineSourceLink {
   gap: 0.5rem;
 }
-.saInlineChatSourceLink > .saIcon {
+.saChatInlineSourceLink > .saIcon {
   flex-shrink: 0;
   color: inherit;
   font-size: 1rem;
 }
-.saInlineChatSourceLink > span {
+.saChatInlineSourceLink > span {
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.saInlineChatSourceLink[href] {
+.saChatInlineSourceLink[href] {
   cursor: pointer;
 }
 @media (pointer: fine) {
-  .saInlineChatSourceLink[href]:hover {
+  .saChatInlineSourceLink[href]:hover {
     color: light-dark(var(--Sa-Color-Primary600), var(--White));
   }
 }
-.saInlineChatSourceLink[href]:active {
+.saChatInlineSourceLink[href]:active {
   color: light-dark(var(--Sa-Color-Primary900), var(--Gray200));
 }
-.saInlineChatSourceLink[aria-disabled='true'] {
+.saChatInlineSourceLink[aria-disabled='true'] {
   cursor: default;
   opacity: 0.7;
 }
@@ -35707,7 +36125,7 @@ button.saChatMessageAction:active .saIcon {
   background-color: var(--Yellow200);
   color: var(--Gray1000);
 }
-.saInlineChatHeader {
+.saChatInlineHeader {
   font-weight: 500;
   margin-bottom: -0.25rem;
   display: flex;
@@ -35716,10 +36134,10 @@ button.saChatMessageAction:active .saIcon {
   align-items: center;
   padding: 0.5rem 0.5rem 0.5rem 1rem;
 }
-.saSmallScreen .saInlineChatHeader {
+.saSmallScreen .saChatInlineHeader {
   padding: 0.5rem 0.5rem 0.5rem 1rem;
 }
-.saInlineChatHeader .saCloseModal {
+.saChatInlineHeader .saCloseModal {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: var(--Font), sans-serif;
@@ -35742,89 +36160,88 @@ button.saChatMessageAction:active .saIcon {
   background-color: transparent;
   font-size: 1rem;
 }
-.saInlineChatHeader .saCloseModal .saButtonText {
+.saChatInlineHeader .saCloseModal .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.saInlineChatHeader .saCloseModal .saBadgedIcon {
+.saChatInlineHeader .saCloseModal .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saInlineChatHeader .saCloseModal .saIcon {
+.saChatInlineHeader .saCloseModal .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.saInlineChatHeader .saCloseModal:active {
+.saChatInlineHeader .saCloseModal:active {
   border-radius: 0.75rem;
 }
-.saInlineChatHeader .saCloseModal .saIcon {
+.saChatInlineHeader .saCloseModal .saIcon {
   color: var(--Sa-Color-Icon);
 }
-.saInlineChatHeader .saCloseModal.saDestructive {
+.saChatInlineHeader .saCloseModal.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
-.saInlineChatHeader .saCloseModal.saDestructive .saIcon {
+.saChatInlineHeader .saCloseModal.saDestructive .saIcon {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
 @media (pointer: fine) {
-  .saInlineChatHeader .saCloseModal.saDestructive:hover {
+  .saChatInlineHeader .saCloseModal.saDestructive:hover {
     color: var(--Sa-Color-DestructiveButtonBackground);
     background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
   }
-  .saInlineChatHeader .saCloseModal.saDestructive:hover .saIcon {
+  .saChatInlineHeader .saCloseModal.saDestructive:hover .saIcon {
     color: var(--Sa-Color-DestructiveButtonBackground);
   }
 }
-.saInlineChatHeader .saCloseModal.saDestructive:active {
+.saChatInlineHeader .saCloseModal.saDestructive:active {
   color: var(--White);
   background: var(--Sa-Color-DestructiveButtonBackground);
 }
-.saInlineChatHeader .saCloseModal.saDestructive:active > .saIcon {
+.saChatInlineHeader .saCloseModal.saDestructive:active > .saIcon {
   color: var(--White);
 }
 @media (pointer: fine) {
-  .saInlineChatHeader .saCloseModal:hover {
+  .saChatInlineHeader .saCloseModal:hover {
     background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
     color: light-dark(var(--Sa-Color-Primary600), var(--White));
   }
-  .saInlineChatHeader .saCloseModal:hover .saIcon {
+  .saChatInlineHeader .saCloseModal:hover .saIcon {
     color: light-dark(var(--Sa-Color-Primary600), var(--White));
   }
 }
-.saInlineChatHeader .saCloseModal:active {
+.saChatInlineHeader .saCloseModal:active {
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
-.saInlineChatHeader .saCloseModal:active .saIcon {
+.saChatInlineHeader .saCloseModal:active .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
-.saInlineChatHeader .saCloseModal:disabled,
-.saInlineChatHeader .saCloseModal.saDisabled {
+.saChatInlineHeader .saCloseModal:disabled,
+.saChatInlineHeader .saCloseModal.saDisabled {
   color: light-dark(var(--Gray300), var(--Gray700));
   background-color: transparent;
   cursor: not-allowed;
 }
-.saInlineChatHeader .saCloseModal:disabled .saIcon,
-.saInlineChatHeader .saCloseModal.saDisabled .saIcon {
+.saChatInlineHeader .saCloseModal:disabled .saIcon,
+.saChatInlineHeader .saCloseModal.saDisabled .saIcon {
   color: light-dark(var(--Gray300), var(--Gray700));
 }
-.saInlineChatHeader .saCloseModal::after {
+.saChatInlineHeader .saCloseModal::after {
   content: '';
   height: 3.5rem;
   width: 3.5rem;
   position: absolute;
-  top: 0;
-  right: -1rem;
+  inset: -0.5rem -0.5rem auto auto;
 }
 @media (min-width: 1200px) {
-  .saRootContentWrapper:has(> .saInlineChat) > .saRightFrameRoot {
+  .saRootContentWrapper:has(> .saChatInline) > .saRightFrameRoot {
     flex: 1 1 0;
     min-width: 0;
     width: 0;
@@ -37311,6 +37728,31 @@ button.saChatMessageAction:active .saIcon {
 .saMarkdownEditorFill.saMarkdownEditor textarea {
   height: 100%;
   min-height: 0;
+  scrollbar-gutter: stable;
+}
+.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument::-webkit-scrollbar,
+.saMarkdownEditorFill.saMarkdownEditor textarea::-webkit-scrollbar {
+  background-color: transparent;
+}
+.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument::-webkit-scrollbar-thumb,
+.saMarkdownEditorFill.saMarkdownEditor textarea::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar,
+.saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar {
+  background-color: light-dark(var(--Gray200), var(--Gray900));
+}
+.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar-thumb,
+.saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
+  background-color: light-dark(var(--Gray500), var(--Gray700));
+}
+.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover,
+.saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
+  background-color: light-dark(var(--Gray700), var(--Gray900));
+}
+.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active,
+.saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
+  background-color: light-dark(var(--Gray900), var(--Gray1000));
 }
 .saMarkdownEditorFill.saMarkdownEditor textarea {
   resize: none;
@@ -37497,13 +37939,21 @@ button.saChatMessageAction:active .saIcon {
 .saMarkdownEditorDocument {
   height: calc(100vh - 6rem - 7rem);
   min-height: 20rem;
-  padding: 1rem;
   border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   border-radius: 0 0 1rem 1rem;
   background-color: light-dark(var(--White), var(--Gray1200));
   white-space: pre-wrap;
   position: relative;
   box-sizing: border-box;
+  padding: 1rem;
+}
+@supports (scrollbar-gutter: stable) {
+  .saMarkdownEditorDocument {
+    padding-right: 0;
+  }
+}
+.saSmallScreen .saMarkdownEditorDocument {
+  padding: 1rem;
 }
 .saMarkdownEditorDocument * {
   box-sizing: border-box;
@@ -37690,46 +38140,6 @@ button.saChatMessageAction:active .saIcon {
   border-inline-start: 0.0625rem solid light-dark(var(--Gray200), var(--Gray900));
 }
 .saMarkdownEditorToolbar > ul > li {
-  display: flex;
-  align-items: center;
-}
-.saMarkdownEditorFloatingToolbar {
-  background-color: var(--Gray900);
-  color: var(--Gray100);
-  border-radius: 0.75rem;
-  display: flex;
-  flex-wrap: wrap;
-  position: absolute;
-  z-index: 4;
-  width: max-content;
-  max-width: calc(100% - 0.5rem);
-  padding: 0.25rem;
-  overflow-x: auto;
-}
-.saMarkdownEditorFloatingToolbar[hidden] {
-  display: none;
-}
-.saMarkdownEditorFloatingToolbar .saButtonIconToolbar {
-  color: var(--Gray200);
-}
-.saMarkdownEditorFloatingToolbar > ul {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  list-style: none;
-  margin: 0;
-  padding-inline: 0.5rem;
-}
-.saMarkdownEditorFloatingToolbar > ul:first-of-type {
-  padding-left: 0;
-}
-.saMarkdownEditorFloatingToolbar > ul:last-of-type {
-  padding-right: 0;
-}
-.saMarkdownEditorFloatingToolbar > ul + ul {
-  border-inline-start: 0.0625rem solid var(--Gray700);
-}
-.saMarkdownEditorFloatingToolbar > ul > li {
   display: flex;
   align-items: center;
 }

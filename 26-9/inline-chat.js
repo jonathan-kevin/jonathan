@@ -7,19 +7,22 @@
 		connectedCallback() {
 			if (this.initialized) {
 				this.observeSize();
+				this.observeContextControls();
 				return;
 			}
 			this.initialized = true;
 			this.pendingSelection = null;
-			this.classList.add("saInlineChat");
+			this.pageContextEnabled = true;
+			this.contextFiles = [];
+			this.classList.add("saChatInline");
 			this.setAttribute("role", "complementary");
 			const titleId = `inline-chat-title-${++sequence}`;
 			if (!this.id) this.id = `inline-chat-${sequence}`;
 			this.setAttribute("aria-labelledby", titleId);
 			this.innerHTML = `
-				<div class="saInlineChatResize" role="separator" tabindex="0" aria-label="Resize document chat" aria-orientation="vertical" aria-describedby="${titleId}-resize-help"></div>
+				<div class="saChatInlineResize" role="separator" tabindex="0" aria-label="Resize document chat" aria-orientation="vertical" aria-describedby="${titleId}-resize-help"></div>
 				<p id="${titleId}-resize-help" class="saScreenReaderOnly">Drag to resize. Left Arrow widens chat, Right Arrow narrows it. Hold Shift for larger steps. Home sets minimum width; End sets maximum width.</p>
-				<header class="saInlineChatHeader">
+				<header class="saChatInlineHeader">
 					<h3 id="${titleId}">Document chat</h3>
 					<button class="saCloseModal" type="button" data-chat-close aria-label="Close document chat" aria-keyshortcuts="Escape"><i class="saIcon far fa-xmark" aria-hidden="true"></i></button>
 				</header>
@@ -29,33 +32,56 @@
 							<li class="saChatMessage saChatSystem">
 								<article class="saChatMessageInner">
 									<div class="saChatMessageBody">
-										<p>Add selected text or write a message to start a conversation.</p>
+										<p>Ask about this page, or select text to focus the conversation.</p>
 									</div>
 								</article>
 							</li>
 						</ol>
+						<form class="saChatComposerWrapper" aria-label="Compose a chat message">
+							<section class="saChatInlineContext" aria-label="Selected text for your next message" hidden>
+								<blockquote data-chat-context></blockquote>
+								<button class="saDefaultIconButtonGhost" type="button" data-chat-dismiss-context aria-label="Remove selected text"><i class="saIcon far fa-xmark" aria-hidden="true"></i></button>
+							</section>
+							<div class="saChatComposer">
+								<ul class="saChatContext" aria-label="Context for your next message" id="${titleId}-page-context" data-chat-pills></ul>
+								<div class="saChatTextarea saEmpty" contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-label="Write a message" data-placeholder="Write a message…" enterkeyhint="enter" aria-disabled="false" aria-describedby="${titleId}-page-context ${titleId}-help"></div>
+								<ul class="saChatComposerToolbar" aria-label="Chat controls" role="toolbar">
+									<li class="saChatInlineAddContext">
+<button class="saChatComposerToolbarButton" type="button" data-chat-add-context aria-label="Add context" aria-haspopup="menu" aria-expanded="false" aria-controls="${titleId}-context-menu"><i class="saIcon far fa-plus" aria-hidden="true"></i></button>
+<ul class="saContextMenu saNorth" id="${titleId}-context-menu" data-chat-context-menu role="menu" aria-label="Add context" aria-hidden="true" hidden>
+<li role="none"><button class="saOptionWrapper" type="button" role="menuitem" tabindex="-1" data-context-action="page"><span class="saOption"><i class="saIcon far fad fa-file-lines saOptionIcon" aria-hidden="true"></i><span class="saOptionText">Include current page</span></span></button></li>
+<li role="none"><button class="saOptionWrapper" type="button" role="menuitem" tabindex="-1" data-context-action="file"><span class="saOption"><i class="saIcon far fad fa-paperclip saOptionIcon" aria-hidden="true"></i><span class="saOptionText">Add file…</span></span></button></li>
+</ul></li>
+									<li><button class="saChatButtonSend" type="submit" aria-label="Send message" disabled><i class="saIcon far fa-arrow-up" aria-hidden="true"></i></button></li>
+								</ul>
+							</div>
+							<p id="${titleId}-help" class="saChatComposerInstruction">Demo chat. Responses are simulated.</p>
+						</form>
 					</div>
-					<form class="saChatComposerWrapper" aria-label="Compose a chat message">
-						<section class="saInlineChatContext" aria-label="Selected text for your next message" hidden>
-							<blockquote data-chat-context></blockquote>
-							<button class="saDefaultIconButtonGhost" type="button" data-chat-dismiss-context aria-label="Remove selected text"><i class="saIcon far fa-xmark" aria-hidden="true"></i></button>
-						</section>
-						<div class="saChatComposer">
-							<div class="saChatTextarea saEmpty" contenteditable="plaintext-only" role="textbox" aria-multiline="true" aria-label="Write a message" data-placeholder="Write a message…" enterkeyhint="enter" aria-disabled="false" aria-describedby="${titleId}-help"></div>
-							<button class="saChatButtonSend" type="submit" aria-label="Send message" disabled><i class="saIcon far fa-arrow-up" aria-hidden="true"></i></button>
-						</div>
-						<p id="${titleId}-help" class="saChatComposerInstruction">AI can make mistakes. Check important info.</p>
-					</form>
 				</div>
-				<p class="saScreenReaderOnly" role="status" aria-atomic="true" data-chat-status></p>`;
+<input type="file" data-chat-file-input multiple hidden>
+<p class="saScreenReaderOnly" role="status" aria-atomic="true" data-chat-status></p>`;
 			this.composer = this.querySelector(".saChatTextarea");
 			this.sendButton = this.querySelector(".saChatButtonSend");
 			this.log = this.querySelector(".saChatLog");
 			this.emptyMessage = this.log.firstElementChild;
-			this.context = this.querySelector(".saInlineChatContext");
+			this.context = this.querySelector(".saChatInlineContext");
 			this.contextText = this.querySelector("[data-chat-context]");
 			this.status = this.querySelector("[data-chat-status]");
 			this.scroll = this.querySelector("[data-chat-scroll]");
+			this.setupContextControls();
+			this.updatePageContext();
+			this.addEventListener("click", event => {
+				if (!event.target.closest("[data-chat-page-link]")) return;
+				event.preventDefault();
+				this.updatePageContext();
+				const target = this.pageContext.target;
+				if (!target) return;
+				if (!target.hasAttribute("tabindex")) target.tabIndex = -1;
+				if (window.matchMedia("(max-width: 1199px)").matches) this.close(target);
+				target.focus({ preventScroll: true });
+				target.querySelector(".scrollcontent")?.scrollTo({ top: 0, left: 0, behavior: "instant" });
+			});
 			this.setupResize();
 			this.querySelector("[data-chat-close]").addEventListener("click", () => this.close());
 			this.querySelector("[data-chat-dismiss-context]").addEventListener("click", () => {
@@ -92,13 +118,15 @@
 		}
 
 		disconnectedCallback() {
+			this.contextEvents?.abort();
+			this.contextPillObserver?.disconnect();
 			this.sizeObserver?.disconnect();
 			this.endResize();
 			if (this.response) this.finishResponse(true);
 		}
 
 		setupResize() {
-			this.resizeHandle = this.querySelector(".saInlineChatResize");
+			this.resizeHandle = this.querySelector(".saChatInlineResize");
 			this.resizeHandle.setAttribute("aria-controls", this.id);
 			this.preferredWidth = 32 * parseFloat(getComputedStyle(document.documentElement).fontSize);
 			this.resizeHandle.addEventListener("pointerdown", event => {
@@ -107,7 +135,7 @@
 				this.resizeHandle.focus({ preventScroll: true });
 				this.resizeDrag = { id: event.pointerId, x: event.clientX, width: this.getBoundingClientRect().width };
 				this.resizeHandle.setPointerCapture(event.pointerId);
-				this.classList.add("saInlineChatResizing");
+				this.classList.add("saChatInlineResizing");
 			});
 			this.resizeHandle.addEventListener("pointermove", event => {
 				if (this.resizeDrag?.id !== event.pointerId) return;
@@ -158,11 +186,129 @@
 		endResize() {
 			const id = this.resizeDrag?.id;
 			this.resizeDrag = null;
-			this.classList.remove("saInlineChatResizing");
+			this.classList.remove("saChatInlineResizing");
 			if (id !== undefined && this.resizeHandle.hasPointerCapture(id)) this.resizeHandle.releasePointerCapture(id);
 		}
 
+		setupContextControls() {
+			this.contextPills = this.querySelector("[data-chat-pills]");
+			this.contextPillObserver = new ResizeObserver(() => {
+				this.querySelector(".saChatComposer").style.setProperty("--sa-chat-context-height", `${this.contextPills.offsetHeight}px`);
+			});
+			this.addContextButton = this.querySelector("[data-chat-add-context]");
+			this.contextMenu = this.querySelector("[data-chat-context-menu]");
+			this.fileInput = this.querySelector("[data-chat-file-input]");
+			this.addContextButton.addEventListener("click", () => this.toggleContextMenu(this.contextMenu.hidden));
+			this.addContextButton.addEventListener("keydown", event => {
+				if (event.key === "ArrowDown" || event.key === "ArrowUp") { event.preventDefault(); this.toggleContextMenu(true); }
+			});
+			this.contextMenu.addEventListener("keydown", event => {
+				const buttons = Array.from(this.contextMenu.querySelectorAll("button:not(:disabled)"));
+				const index = buttons.indexOf(document.activeElement);
+				if (event.key === "Escape") {
+					event.preventDefault(); event.stopPropagation(); this.toggleContextMenu(false, true);
+				} else if (["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) {
+					event.preventDefault();
+					const next = event.key === "Home" ? 0 : event.key === "End" ? buttons.length - 1 : (index + (event.key === "ArrowDown" ? 1 : -1) + buttons.length) % buttons.length;
+					buttons[next]?.focus();
+				} else if (event.key === "Tab") this.toggleContextMenu(false, true);
+			});
+			this.contextMenu.addEventListener("click", event => {
+				const action = event.target.closest("[data-context-action]")?.dataset.contextAction;
+				if (!action) return;
+				this.toggleContextMenu(false);
+				if (action === "page") {
+					this.pageContextEnabled = true;
+					this.updatePageContext(); this.composer.focus();
+					this.status.textContent = "Current page included as the main reference.";
+				} else if (action === "file") this.fileInput.click();
+			});
+			this.observeContextControls();
+			this.contextPills.addEventListener("click", event => {
+				const remove = event.target.closest("[data-context-remove]");
+				if (remove) {
+					if (remove.dataset.contextRemove === "page") this.pageContextEnabled = false;
+					else this.contextFiles = this.contextFiles.filter(item => String(item.id) !== remove.dataset.contextRemove);
+					this.renderContextPills(); this.updateSendButton(); this.composer.focus();
+					this.status.textContent = "Context removed from your next message.";
+				}
+			});
+			this.fileInput.addEventListener("change", () => {
+				let added = 0;
+				for (const file of this.fileInput.files) {
+					if (this.contextFiles.some(item => item.file.name === file.name && item.file.size === file.size && item.file.lastModified === file.lastModified)) continue;
+					this.contextFiles.push({ id: ++sourceSequence, text: file.name, file });
+					added++;
+				}
+				// Reset so a removed file can be selected again.
+				this.fileInput.value = "";
+				this.renderContextPills(); this.updateSendButton(); this.composer.focus();
+				this.status.textContent = added ? `${added} file${added === 1 ? "" : "s"} attached locally. Nothing uploaded.` : "Files already attached.";
+			});
+			this.fileInput.addEventListener("cancel", () => this.addContextButton.focus());
+		}
+
+		observeContextControls() {
+			this.contextPillObserver.observe(this.contextPills);
+			this.contextEvents?.abort();
+			this.contextEvents = new AbortController();
+			for (const type of ["pointerdown", "focusin"]) {
+				document.addEventListener(type, event => {
+					if (!this.contextMenu.contains(event.target) && !this.addContextButton.contains(event.target)) this.toggleContextMenu(false);
+				}, { signal: this.contextEvents.signal });
+			}
+		}
+
+		toggleContextMenu(open, restoreFocus = false) {
+			this.contextMenu.hidden = !open;
+			this.contextMenu.classList.toggle("saOpen", open);
+			this.contextMenu.setAttribute("aria-hidden", String(!open));
+			this.addContextButton.setAttribute("aria-expanded", String(open));
+			this.contextMenu.querySelector('[data-context-action="page"]').disabled = this.pageContextEnabled;
+			if (open) this.contextMenu.querySelector("button:not(:disabled)")?.focus();
+			else if (restoreFocus) this.addContextButton.focus();
+		}
+
+
+		renderContextPills() {
+			this.contextPills.replaceChildren();
+			const items = this.pageContextEnabled ? [{ id: "page", text: `Page: ${this.pageContext.title}` }, ...this.contextFiles] : this.contextFiles;
+			for (const item of items) {
+				const pill = document.createElement("li");
+				pill.className = "saPill";
+				const page = item.id === "page";
+				const action = document.createElement(page ? "a" : "span");
+				action.className = "saChatContextPillLabel";
+				action.innerHTML = `<i class="saIcon far fad ${page ? "fa-file" : "fa-paperclip"}" aria-hidden="true"></i><span></span>`;
+				action.querySelector("span").textContent = item.text;
+				action.title = page ? "Current page — main reference. Go to page." : `${item.text} (${item.file.size.toLocaleString()} bytes) — local attachment`;
+				if (page) {
+					action.dataset.chatPageLink = "";
+					if (this.pageContext.target) action.href = `#${this.pageContext.target.id}`;
+				}
+				const remove = document.createElement("button");
+				remove.type = "button"; remove.className = "saPillRemoveButton";
+				remove.dataset.contextRemove = String(item.id);
+				remove.setAttribute("aria-label", page ? "Remove current page context" : `Remove file: ${item.text}`);
+				remove.innerHTML = '<i class="saIcon far fa-xmark" aria-hidden="true"></i>';
+				pill.append(action, remove); this.contextPills.append(pill);
+			}
+			this.contextPills.hidden = !items.length;
+		}
+
+		updatePageContext() {
+			const frame = this.parentElement?.querySelector(".saRightFrameRoot");
+			const headings = Array.from(frame?.querySelectorAll("h1.saHeaderText") || []);
+			const heading = headings.find(node => node.getClientRects().length) || headings[0];
+			const title = heading?.textContent.trim() || document.title || "Current page";
+			const target = frame?.querySelector("main") || frame;
+			if (target && !target.id) target.id = `${this.id}-page`;
+			this.pageContext = { title, url: location.href, target };
+			this.renderContextPills();
+		}
+
 		open(origin) {
+			this.updatePageContext();
 			this.origin = origin || this.origin;
 			this.inert = false;
 			this.removeAttribute("aria-hidden");
@@ -173,6 +319,7 @@
 		}
 
 		close(origin = this.origin) {
+			this.toggleContextMenu(false);
 			this.endResize();
 			if (origin?.isConnected) {
 				if (origin.editor) origin.editor.commands.focus();
@@ -237,7 +384,7 @@
 
 		createSourceLink(item) {
 			const link = document.createElement(item.source ? "a" : "span");
-			link.className = "saInlineChatSourceLink";
+			link.className = "saChatInlineSourceLink";
 			link.innerHTML = '<i class="saIcon far fad fa-quote-left" aria-hidden="true"></i><span></span>';
 			link.querySelector("span").textContent = item.text;
 			if (item.source) {
@@ -309,12 +456,12 @@
 			if (passage.nodeType !== Node.ELEMENT_NODE) passage = passage.parentElement;
 			passage.scrollIntoView({ block: "center", inline: "nearest", behavior: "instant" });
 			clearTimeout(this.sourceHighlightTimer);
-			this.highlightedSource?.classList.remove("saInlineChatSourceHighlight");
+			this.highlightedSource?.classList.remove("saChatInlineSourceHighlight");
 			this.highlightedSource = passage;
-			passage.classList.add("saInlineChatSourceHighlight");
+			passage.classList.add("saChatInlineSourceHighlight");
 			if (window.CSS?.highlights && window.Highlight) CSS.highlights.set("sa-chat-source", new Highlight(range));
 			this.sourceHighlightTimer = setTimeout(() => {
-				passage.classList.remove("saInlineChatSourceHighlight");
+				passage.classList.remove("saChatInlineSourceHighlight");
 				window.CSS?.highlights?.delete("sa-chat-source");
 			}, 1800);
 			document.dispatchEvent(new Event("inline-chat-source-jump"));
@@ -344,15 +491,18 @@
 			this.sendButton.type = busy ? "button" : "submit";
 			this.sendButton.setAttribute("aria-label", busy ? "Stop response" : "Send message");
 			this.sendButton.querySelector("i").className = `saIcon far ${busy ? "fa-stop" : "fa-arrow-up"}`;
-			this.sendButton.disabled = !busy && empty && !this.pendingSelection;
+			this.sendButton.disabled = !busy && empty && !this.pendingSelection && !this.contextFiles.length;
 		}
 
 		send() {
 			const text = this.composer.innerText.trim();
-			if (this.response || (!text && !this.pendingSelection)) return;
+			if (this.response || (!text && !this.pendingSelection && !this.contextFiles.length)) return;
 			const context = this.pendingSelection;
 			this.pendingSelection = null;
-			this.appendMessage(text, "You", context);
+			const files = this.contextFiles;
+			this.contextFiles = [];
+			this.appendMessage(text, "You", context, files);
+			this.renderContextPills();
 			if (context) this.releaseSelection(context);
 			this.composer.replaceChildren();
 			this.renderContext();
@@ -360,7 +510,7 @@
 			this.composer.focus();
 		}
 
-		appendMessage(text, label, context = null) {
+		appendMessage(text, label, context = null, files = []) {
 			const message = document.createElement("li");
 			message.className = "saChatMessage saChatSender";
 			message.innerHTML = `<article class="saChatMessageInner">
@@ -380,16 +530,31 @@
 			message.querySelector(".saChatEditButton").disabled = !text;
 			if (context) {
 				const quote = document.createElement("blockquote");
-				quote.className = "saInlineChatExcerpt";
+				quote.className = "saChatInlineExcerpt";
 				quote.append(this.createSourceLink(context));
 				message.querySelector(".saChatMessageBody").prepend(quote);
+			}
+			if (files.length) {
+				const list = document.createElement("ul");
+				list.className = "saChatInlineAttachments";
+				list.setAttribute("aria-label", "Attached files (local demo)");
+				for (const item of files) {
+					const entry = document.createElement("li");
+					entry.innerHTML = '<i class="saIcon far fad fa-paperclip" aria-hidden="true"></i><span></span>';
+					entry.querySelector("span").textContent = item.file.name;
+					entry.title = `${item.file.size.toLocaleString()} bytes — local attachment, not uploaded`;
+					list.append(entry);
+				}
+				message.querySelector(".saChatMessageBody").prepend(list);
+				// Keep the local File objects with their message; no reads or uploads.
+				message.contextFiles = files.map(item => item.file);
 			}
 			message.querySelector("[data-chat-source]").textContent = label;
 			const now = new Date();
 			const time = message.querySelector("time");
 			time.dateTime = now.toISOString();
 			time.textContent = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-			if (context && !text.trim()) message.querySelector("footer").remove();
+			if ((context || files.length) && !text.trim()) message.querySelector("footer").remove();
 			this.emptyMessage.remove();
 			this.log.append(message);
 			this.scroll.scrollTop = this.scroll.scrollHeight;
@@ -526,7 +691,7 @@
 				response.paragraph.textContent = response.text || "Response stopped.";
 				if (stopped && response.text) {
 					const note = document.createElement("p");
-					note.className = "saInlineChatResponseStatus";
+					note.className = "saChatInlineResponseStatus";
 					note.textContent = "Response stopped.";
 					response.paragraph.after(note);
 				}

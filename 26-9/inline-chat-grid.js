@@ -8,7 +8,7 @@
 		if (sourceChat) {
 			source.tabIndex = -1;
 			toolbar = document.createElement("div");
-			toolbar.className = "saMarkdownEditorFloatingToolbar saInlineChatSelectionToolbar";
+			toolbar.className = "saFloatingToolbar saChatInlineSelectionToolbar";
 			toolbar.setAttribute("role", "toolbar");
 			toolbar.setAttribute("aria-label", "Selected chat text actions");
 			toolbar.setAttribute("aria-keyshortcuts", "Alt+Shift+A");
