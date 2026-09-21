@@ -72,10 +72,10 @@
 			this.setupContextControls();
 			this.updatePageContext();
 			this.addEventListener("click", event => {
-				if (!event.target.closest("[data-chat-page-link]")) return;
+				const link = event.target.closest("[data-chat-page-link]");
+				if (!link) return;
 				event.preventDefault();
-				this.updatePageContext();
-				const target = this.pageContext.target;
+				const target = document.getElementById(link.hash.slice(1));
 				if (!target) return;
 				if (!target.hasAttribute("tabindex")) target.tabIndex = -1;
 				if (window.matchMedia("(max-width: 1199px)").matches) this.close(target);
@@ -270,9 +270,15 @@
 		}
 
 
-		renderContextPills() {
-			this.contextPills.replaceChildren();
-			const items = this.pageContextEnabled ? [{ id: "page", text: `Page: ${this.pageContext.title}` }, ...this.contextFiles] : this.contextFiles;
+		getContextItems() {
+			const files = this.contextFiles.map(item => ({ ...item }));
+			return this.pageContextEnabled
+				? [{ id: "page", text: `Page: ${this.pageContext.title}`, targetId: this.pageContext.target?.id }, ...files]
+				: files;
+		}
+
+		renderContextPills(list = this.contextPills, items = this.getContextItems(), removable = true) {
+			list.replaceChildren();
 			for (const item of items) {
 				const pill = document.createElement("li");
 				pill.className = "saPill";
@@ -284,16 +290,20 @@
 				action.title = page ? "Current page — main reference. Go to page." : `${item.text} (${item.file.size.toLocaleString()} bytes) — local attachment`;
 				if (page) {
 					action.dataset.chatPageLink = "";
-					if (this.pageContext.target) action.href = `#${this.pageContext.target.id}`;
+					if (item.targetId) action.href = `#${item.targetId}`;
 				}
-				const remove = document.createElement("button");
-				remove.type = "button"; remove.className = "saPillRemoveButton";
-				remove.dataset.contextRemove = String(item.id);
-				remove.setAttribute("aria-label", page ? "Remove current page context" : `Remove file: ${item.text}`);
-				remove.innerHTML = '<i class="saIcon far fa-xmark" aria-hidden="true"></i>';
-				pill.append(action, remove); this.contextPills.append(pill);
+				pill.append(action);
+				if (removable) {
+					const remove = document.createElement("button");
+					remove.type = "button"; remove.className = "saPillRemoveButton";
+					remove.dataset.contextRemove = String(item.id);
+					remove.setAttribute("aria-label", page ? "Remove current page context" : `Remove file: ${item.text}`);
+					remove.innerHTML = '<i class="saIcon far fa-xmark" aria-hidden="true"></i>';
+					pill.append(remove);
+				}
+				list.append(pill);
 			}
-			this.contextPills.hidden = !items.length;
+			list.hidden = !items.length;
 		}
 
 		updatePageContext() {
@@ -499,9 +509,9 @@
 			if (this.response || (!text && !this.pendingSelection && !this.contextFiles.length)) return;
 			const context = this.pendingSelection;
 			this.pendingSelection = null;
-			const files = this.contextFiles;
+			const contextItems = this.getContextItems();
 			this.contextFiles = [];
-			this.appendMessage(text, "You", context, files);
+			this.appendMessage(text, "You", context, contextItems);
 			this.renderContextPills();
 			if (context) this.releaseSelection(context);
 			this.composer.replaceChildren();
@@ -510,7 +520,7 @@
 			this.composer.focus();
 		}
 
-		appendMessage(text, label, context = null, files = []) {
+		appendMessage(text, label, context = null, contextItems = []) {
 			const message = document.createElement("li");
 			message.className = "saChatMessage saChatSender";
 			message.innerHTML = `<article class="saChatMessageInner">
@@ -534,27 +544,21 @@
 				quote.append(this.createSourceLink(context));
 				message.querySelector(".saChatMessageBody").prepend(quote);
 			}
-			if (files.length) {
+			if (contextItems.length) {
 				const list = document.createElement("ul");
-				list.className = "saChatInlineAttachments";
-				list.setAttribute("aria-label", "Attached files (local demo)");
-				for (const item of files) {
-					const entry = document.createElement("li");
-					entry.innerHTML = '<i class="saIcon far fad fa-paperclip" aria-hidden="true"></i><span></span>';
-					entry.querySelector("span").textContent = item.file.name;
-					entry.title = `${item.file.size.toLocaleString()} bytes — local attachment, not uploaded`;
-					list.append(entry);
-				}
+				list.className = "saChatContext saChatMessageContext";
+				list.setAttribute("aria-label", "Context attached to this message");
+				this.renderContextPills(list, contextItems, false);
 				message.querySelector(".saChatMessageBody").prepend(list);
 				// Keep the local File objects with their message; no reads or uploads.
-				message.contextFiles = files.map(item => item.file);
+				message.contextFiles = contextItems.filter(item => item.file).map(item => item.file);
 			}
 			message.querySelector("[data-chat-source]").textContent = label;
 			const now = new Date();
 			const time = message.querySelector("time");
 			time.dateTime = now.toISOString();
 			time.textContent = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-			if ((context || files.length) && !text.trim()) message.querySelector("footer").remove();
+			if ((context || contextItems.length) && !text.trim()) message.querySelector("footer").remove();
 			this.emptyMessage.remove();
 			this.log.append(message);
 			this.scroll.scrollTop = this.scroll.scrollHeight;
