@@ -381,14 +381,23 @@
 			let index = 0;
 			const nextWord = () => {
 				if (this.response !== response) return;
-				response.text += `${index ? " " : ""}${words[index++]}`;
-				this.followLatest(() => { response.paragraph.textContent = response.text; });
+				const text = `${index ? " " : ""}${words[index++]}`;
+				response.text += text;
+				const word = document.createElement("span");
+				word.className = "saChatWord";
+				word.textContent = text;
+				this.followLatest(() => { response.paragraph.append(word); });
 				if (index < words.length) {
-					// Start faster, then smoothly accelerate from 45ms to 10ms per word.
+					// Smoothly accelerate from 20ms to 5ms per word.
 					const progress = (index - 1) / Math.max(1, words.length - 2);
-					const delay = Math.round(45 - 35 * progress);
+					const delay = Math.round(20 - 15 * progress);
 					this.responseTimer = setTimeout(nextWord, delay);
-				} else this.finishResponse();
+				} else {
+					// Let the last word finish revealing before flattening the answer.
+					Promise.allSettled(word.getAnimations().map(animation => animation.finished)).then(() => {
+						if (this.response === response) this.finishResponse();
+					});
+				}
 			};
 			nextWord();
 		}

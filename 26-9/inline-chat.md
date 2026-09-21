@@ -14,7 +14,7 @@ Opening and closing use a 200 ms eased slide with a subtle fade, matching the no
 
 The composer uses the shared `.saChatTextarea` on a `contenteditable="plaintext-only"` div with textbox semantics, not a textarea. The `.saEmpty` class shows its `data-placeholder`; pasted content stays plain text. The composer remains enabled while the demo replies so the next message can be drafted.
 
-Streaming accelerates throughout each reply: the delay between words decreases from 45ms to 10ms. The thinking delay is unchanged.
+Streaming accelerates throughout each reply: the delay between words decreases from 20ms to 5ms. The thinking delay is unchanged.
 
 After thinking, the reply shows a short introduction and three simulated tool calls, each taking 1.2 seconds. The active call uses `.saChatMessageAction` and `.saChatThinkingTextLight`. Completed calls accumulate in a collapsible “Performed tool calls” history with a unique ID and synchronized `aria-expanded`/`aria-controls`. Only after all three calls finish does the final answer stream. Stop also cancels this tool phase, keeps completed history, and removes the active animation. No tools or services are actually called. Reply Copy copies the final answer, excluding the introduction and tool history.
 
