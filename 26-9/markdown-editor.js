@@ -267,6 +267,7 @@
 							filterTransaction: transaction => owner.aiPreview?.phase !== "review" || !transaction.docChanged,
 							props: {
 								decorations: state => DecorationSet.create(state.doc, [...owner.getSearchMatches(state.doc).map(match => Decoration.inline(match.from, match.to, {
+									nodeName: "mark",
 									class: state.selection.from === match.from && state.selection.to === match.to ? "saFindMatch saFindCurrent" : "saFindMatch"
 								})), ...(owner.aiPreview?.doc === state.doc ? [Decoration.inline(owner.aiPreview.range?.from ?? owner.aiPreview.from, owner.aiPreview.range?.to ?? owner.aiPreview.to, {
 									class: owner.aiPreview.phase === "thinking" ? "saMarkdownEditorThinking" : "saMarkdownEditorSuggestionTarget",
@@ -307,7 +308,7 @@
 					editorProps: {
 						transformPastedHTML: cleanPastedHTML,
 						attributes: {
-							class: "saMarkdownEditorDocument",
+							class: "saMarkdownContent saMarkdownEditorDocument",
 							role: "textbox",
 							"aria-multiline": "true",
 							"aria-labelledby": `${this.controlId}-label`,
@@ -459,7 +460,7 @@
 						<li><button class="saButtonIconToolbar" type="button" data-command="bullet" aria-label="Bulleted list"><i class="saIcon fas fa-list"></i><i class="saIcon far fad fa-list"></i></button></li>
 						<li><button class="saButtonIconToolbar" type="button" data-command="number" aria-label="Numbered list"><i class="saIcon fas fa-list-ol"></i><i class="saIcon far fad fa-list-ol"></i></button></li>
 						<li><button class="saButtonIconToolbar" type="button" data-command="task" aria-label="Task list" aria-keyshortcuts="Control+Shift+9 Meta+Shift+9"><i class="saIcon fas fa-list-check" aria-hidden="true"></i><i class="saIcon far fa-list-check" aria-hidden="true"></i></button></li>
-						<li><button class="saButtonIconToolbar" type="button" data-command="quote" aria-label="Quote"><i class="saIcon fas fa-quote-right"></i><i class="saIcon far fad fa-quote-right"></i></button></li>
+						<li><button class="saButtonIconToolbar" type="button" data-command="quote" aria-label="Quote"><i class="saIcon fas fa-quote-left"></i><i class="saIcon far fad fa-quote-left"></i></button></li>
 						<li><button class="saButtonIconToolbar" type="button" data-command="code" aria-label="Inline code"><i class="saIcon fas fa-code"></i><i class="saIcon far fad fa-code"></i></button></li>
 						<li><button class="saButtonIconToolbar" type="button" data-command="codeblock" aria-label="Code block"><i class="saIcon fas fa-square-code"></i><i class="saIcon far fad fa-square-code"></i></button></li>
 						<li><button class="saButtonIconToolbar" type="button" data-command="horizontalRule" aria-label="Horizontal rule"><i class="saIcon far fad fa-horizontal-rule"></i></button></li>
@@ -476,31 +477,36 @@
 						</li>
 					</ul>
 					<ul aria-label="View and history">
-						<li><button class="saButtonIconToolbar" type="button" data-command="find" aria-label="Find and replace" aria-keyshortcuts="Control+f Meta+f" aria-expanded="false" aria-controls="${id}-find"><i class="saIcon far fa-magnifying-glass" aria-hidden="true"></i></button></li>
+						<li><button class="saButtonIconToolbar" type="button" data-command="find" aria-label="Find" aria-keyshortcuts="Control+f Meta+f" aria-expanded="false" aria-controls="${id}-find"><i class="saIcon far fa-magnifying-glass" aria-hidden="true"></i><i class="saIcon fas fa-magnifying-glass" aria-hidden="true"></i></button></li>
 						<li><button class="saButtonIconToolbar" type="button" data-command="markdown" aria-label="View as markdown" aria-controls="${id}-visual-view ${id}-source-view" aria-pressed="false"><i class="saIcon fab fa-markdown"></i></button></li>
 						<li><button class="saButtonIconToolbar" type="button" data-command="undo" aria-label="Undo"><i class="saIcon far fa-undo"></i></button></li>
 						<li><button class="saButtonIconToolbar" type="button" data-command="redo" aria-label="Redo"><i class="saIcon far fa-redo"></i></button></li>
 					</ul>
 				</div>
+				<div id="${id}-visual-view" class="saMarkdownEditorVisual" data-visual-surface>
 				<section id="${id}-find" class="saMarkdownEditorFind" data-find-panel aria-label="Find and replace" hidden>
-					<label>Find <input class="saInputText" data-find-query type="search" autocomplete="off" spellcheck="false"></label>
-					<label>Replace with <input class="saInputText" data-find-replacement type="text" autocomplete="off" spellcheck="false"></label>
-					<label><input data-find-case type="checkbox"> Match case</label>
-					<p data-find-status role="status" aria-live="polite" aria-atomic="true"></p>
-					<div role="group" aria-label="Find and replace actions">
-						<button type="button" data-find-action="previous" aria-label="Previous match">Previous</button>
-						<button type="button" data-find-action="next" aria-label="Next match">Next</button>
-						<button type="button" data-find-action="replace">Replace</button>
-						<button type="button" data-find-action="all">Replace all</button>
-						<button type="button" data-find-action="close" aria-label="Close find and replace">Close</button>
+					<div class="saMarkdownEditorFindRow">
+						<button class="saButtonIconToolbarDark" type="button" data-find-action="toggle-replace" aria-label="Show replace" title="Show replace" aria-expanded="false" aria-controls="${id}-replace"><i class="saIcon far fa-angle-right" aria-hidden="true"></i></button>
+						<div class="saMarkdownEditorFindInput">
+							<input class="saInputText" data-find-query type="search" aria-label="Find" placeholder="Find" autocomplete="off" spellcheck="false">
+							<output class="saMarkdownEditorFindCount" data-find-status role="status" aria-live="polite" aria-atomic="true"><span data-find-count aria-hidden="true">0/0</span><span class="saScreenReaderOnly" data-find-announcement>No matches.</span></output>
+						</div>
+						<button class="saButtonIconToolbarDark saMarkdownEditorFindCase" data-find-case type="button" aria-label="Match case" aria-pressed="false" title="Match case"><span aria-hidden="true">Aa</span></button>
+						<button class="saButtonIconToolbarDark" type="button" data-find-action="previous" aria-label="Previous match" title="Previous match (Shift+Enter)"><i class="saIcon far fa-angle-up" aria-hidden="true"></i></button>
+						<button class="saButtonIconToolbarDark" type="button" data-find-action="next" aria-label="Next match" title="Next match (Enter)"><i class="saIcon far fa-angle-down" aria-hidden="true"></i></button>
+						<button class="saButtonIconToolbarDark" type="button" data-find-action="close" aria-label="Close find" title="Close find (Escape)"><i class="saIcon far fa-xmark" aria-hidden="true"></i></button>
+					</div>
+					<div id="${id}-replace" class="saMarkdownEditorFindRow saMarkdownEditorReplaceRow" data-replace-row role="group" aria-label="Replace" hidden>
+						<input class="saInputText" data-find-replacement type="text" aria-label="Replace with" placeholder="Replace with" autocomplete="off" spellcheck="false">
+						<button class="saButtonToolbarDark" type="button" data-find-action="replace" title="Replace current match (Enter)">Replace</button>
+						<button class="saButtonToolbarDark" type="button" data-find-action="all">Replace all</button>
 					</div>
 				</section>
-				<div id="${id}-visual-view" class="saMarkdownEditorVisual" data-visual-surface>
 					<div data-editor-surface></div>
 					<div class="saMarkdownEditorFloatingToolbar saMarkdownEditorSelectionToolbar" role="toolbar" aria-label="Selected text actions" aria-keyshortcuts="Alt+Shift+A" data-selection-toolbar hidden>
 						<ul>
 							<li><button class="saButtonToolbarDark" type="button" data-selection-action="send-to-chat" tabindex="0"><span>Send to chat</span></button></li>
-							<li><button class="saButtonToolbarDark" type="button" data-selection-action="improve" tabindex="-1"><span>Improve with AI</span></button></li>
+							<li><button class="saButtonToolbarDark" type="button" data-selection-action="improve" tabindex="-1"><span>Refine text</span></button></li>
 						</ul>
 						<p data-selection-feedback role="status" hidden></p>
 					</div>
@@ -585,6 +591,10 @@
 			this.findReplacement = this.shell.querySelector("[data-find-replacement]");
 			this.findCase = this.shell.querySelector("[data-find-case]");
 			this.findStatus = this.shell.querySelector("[data-find-status]");
+			this.findCount = this.shell.querySelector("[data-find-count]");
+			this.findAnnouncement = this.shell.querySelector("[data-find-announcement]");
+			this.replaceRow = this.shell.querySelector("[data-replace-row]");
+			this.replaceToggle = this.shell.querySelector('[data-find-action="toggle-replace"]');
 			this.findButton = this.shell.querySelector('[data-command="find"]');
 			this.selectedTextColor = "";
 			this.updateColorControl();
@@ -643,17 +653,23 @@
 			window.addEventListener("resize", () => this.scheduleSelectionToolbar(), options);
 			this.findQuery.addEventListener("input", event => { event.stopPropagation(); this.refreshFind(); }, options);
 			this.findReplacement.addEventListener("input", event => event.stopPropagation(), options);
-			this.findCase.addEventListener("change", () => this.refreshFind(), options);
+			this.findCase.addEventListener("click", () => {
+				this.findCase.setAttribute("aria-pressed", String(this.findCase.getAttribute("aria-pressed") !== "true"));
+				this.refreshFind();
+			}, options);
 			this.findPanel.addEventListener("keydown", event => {
+				if (event.isComposing) return;
 				if (event.key === "Escape") { event.preventDefault(); this.closeFind(); }
-				else if (event.key === "Enter" && event.target.matches("input")) {
+				else if (event.key === "Enter" && (event.target === this.findQuery || event.target === this.findReplacement)) {
 					event.preventDefault();
-					this.moveFind(event.shiftKey ? -1 : 1);
+					if (event.target === this.findReplacement) this.replaceMatches(false);
+					else this.moveFind(event.shiftKey ? -1 : 1);
 				}
 			}, options);
 			this.findPanel.addEventListener("click", event => {
 				const action = event.target.closest("[data-find-action]")?.dataset.findAction;
 				if (action === "close") this.closeFind();
+				if (action === "toggle-replace") this.setReplaceExpanded(this.replaceRow.hidden, true);
 				if (action === "next" || action === "previous") this.moveFind(action === "next" ? 1 : -1);
 				if (action === "replace" || action === "all") this.replaceMatches(action === "all");
 			}, options);
@@ -795,7 +811,7 @@
 
 		format(command) {
 			if (command === "markdown") return this.toggleMarkdown();
-			if (command === "find") return this.openFind();
+			if (command === "find") return this.findPanel.hidden ? this.openFind() : this.closeFind();
 			if (command === "link") return this.openLink();
 			if (command === "image") return this.openImage();
 			const chain = this.editor.chain().focus();
@@ -953,7 +969,20 @@
 
 		updateSelectionToolbar() {
 			if (!this.editor || !this.selectionToolbar) return;
+			const chat = this.getChatPanel();
+			const chatButton = this.selectionToolbar.querySelector('[data-selection-action="send-to-chat"]');
+			if (chat && !this.aiPreview) {
+				chatButton.setAttribute("aria-controls", chat.id);
+				chatButton.setAttribute("aria-expanded", String(!chat.hidden));
+			} else {
+				chatButton.removeAttribute("aria-controls");
+				chatButton.removeAttribute("aria-expanded");
+			}
 			const { selection, doc } = this.editor.state;
+			if (this.sentChatSelection && (this.sentChatSelection.doc !== doc || this.sentChatSelection.from !== selection.from || this.sentChatSelection.to !== selection.to)) {
+				this.sentChatSelection = null;
+				if (!this.aiPreview) this.setThinkingControls(false);
+			}
 			const { from, to } = this.aiPreview?.range || this.aiPreview || selection;
 			const focused = document.activeElement === this.editor.view.dom || this.selectionToolbar.contains(document.activeElement);
 			const dismissed = this.dismissedTextSelection;
@@ -1022,7 +1051,14 @@
 			const { from, to } = selection;
 			const text = doc.textBetween(from, to, "\n");
 			if (!text.trim()) return;
-			this.editor.chain().focus().setTextSelection({ from, to }).run();
+			if (action === "send-to-chat" && this.sentChatSelection?.doc === doc && this.sentChatSelection.from === from && this.sentChatSelection.to === to) {
+				this.getChatPanel()?.addSelection(text, this);
+				return;
+			}
+			// Tiptap defers focus; do not let it steal focus back from the chat composer.
+			const chain = this.editor.chain().setTextSelection({ from, to });
+			if (action !== "send-to-chat" || !this.getChatPanel()) chain.focus();
+			chain.run();
 			const unhandled = this.dispatchEvent(new CustomEvent("markdown-editor-action", {
 				bubbles: true, composed: true, cancelable: true,
 				detail: { action, text, from, to }
@@ -1032,22 +1068,40 @@
 					if (this.editor.state.doc === doc) this.startThinkingPreview(from, to);
 					return;
 				}
-				this.selectionFeedback.textContent = action === "send-to-chat" ? "Chat isn’t connected yet." : "AI editing isn’t connected yet.";
-				this.selectionFeedback.hidden = false;
-				this.scheduleSelectionToolbar();
+				if (action === "send-to-chat" && this.editor.state.doc === doc) {
+					this.sentChatSelection = { doc, from, to };
+					this.setThinkingControls(false);
+					const chat = this.getChatPanel();
+					if (chat) chat.addSelection(text, this);
+					this.status.textContent = chat ? "Selected text attached to your next chat message. Nothing sent yet." : "Demo: selected text marked as sent to chat. No message was sent.";
+				}
 			}
+		}
+
+		getChatPanel() {
+			const panel = document.getElementById(this.getAttribute("chat-target"));
+			return typeof panel?.addSelection === "function" ? panel : null;
 		}
 
 		setThinkingControls(busy) {
 			const reviewing = this.aiPreview?.phase === "review";
+			const sent = !busy && Boolean(this.sentChatSelection);
 			this.selectionToolbar.setAttribute("aria-label", busy ? (reviewing ? "Review suggestion" : "Preparing suggestion") : "Selected text actions");
 			this.selectionToolbar.querySelectorAll("[data-selection-action]").forEach(button => {
 				const primary = button.dataset.selectionAction === "send-to-chat";
-				button.setAttribute("aria-disabled", String(busy && !reviewing && primary));
+				button.setAttribute("aria-disabled", String(primary && ((busy && !reviewing) || (sent && !this.getChatPanel()))));
 				const shortcut = busy ? (primary ? (reviewing ? "Control+Enter Meta+Enter" : "") : "Escape") : "";
 				if (shortcut) button.setAttribute("aria-keyshortcuts", shortcut);
 				else button.removeAttribute("aria-keyshortcuts");
-				button.querySelector("span").textContent = primary ? (busy ? (reviewing ? "Apply" : "Thinking…") : "Send to chat") : (busy ? (reviewing ? "Revert" : "Cancel") : "Improve with AI");
+				button.querySelector("span").textContent = primary ? (busy ? (reviewing ? "Apply" : "Thinking…") : (sent ? (this.getChatPanel() ? "Added to chat" : "Sent to chat") : "Send to chat")) : (busy ? (reviewing ? "Revert" : "Cancel") : "Refine text");
+				const checkmark = button.querySelector("[data-chat-sent]");
+				if (primary && sent && !checkmark) {
+					const icon = document.createElement("i");
+					icon.className = "saIcon far fa-check";
+					icon.setAttribute("data-chat-sent", "");
+					icon.setAttribute("aria-hidden", "true");
+					button.prepend(icon);
+				} else if (!sent) checkmark?.remove();
 				button.tabIndex = (busy && !reviewing ? !primary : primary) ? 0 : -1;
 			});
 			this.scheduleSelectionToolbar();
@@ -1057,7 +1111,7 @@
 			const preview = { from, to, doc: this.editor.state.doc, phase: "thinking" };
 			this.aiPreview = preview;
 			this.setThinkingControls(true);
-			this.status.textContent = "Demo: improving selected text. Press Escape to cancel.";
+			this.status.textContent = "Demo: refining selected text. Press Escape to cancel.";
 			this.editor.view.dispatch(this.editor.state.tr.setMeta("addToHistory", false));
 			this.thinkingTimer = setTimeout(() => this.finishThinkingPreview(preview), 6000);
 		}
@@ -1145,7 +1199,7 @@
 
 		getSearchMatches(doc = this.editor?.state.doc) {
 			if (!doc || !this.findPanel || this.findPanel.hidden || !this.findQuery.value) return [];
-			const expression = new RegExp(this.findQuery.value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), this.findCase.checked ? "g" : "gi");
+			const expression = new RegExp(this.findQuery.value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), this.findCase.getAttribute("aria-pressed") === "true" ? "g" : "gi");
 			const matches = [];
 			doc.descendants((node, position) => {
 				if (!node.isTextblock) return;
@@ -1161,13 +1215,14 @@
 		}
 
 		openFind() {
-			if (this.sourceMode) return;
+			if (this.sourceMode || this.aiPreview?.phase === "review") return;
 			this.closeColorPicker();
 			this.closeTablePicker();
 			const { from, to } = this.editor.state.selection;
 			const selected = this.editor.state.doc.textBetween(from, to, "\n");
 			if (selected && selected.length <= 200 && !selected.includes("\n")) this.findQuery.value = selected;
 			this.findPanel.hidden = false;
+			this.setReplaceExpanded(false);
 			this.findButton.setAttribute("aria-expanded", "true");
 			this.refreshFind();
 			this.findQuery.focus();
@@ -1177,9 +1232,19 @@
 		closeFind(focusEditor = true) {
 			if (!this.findPanel || this.findPanel.hidden) return;
 			this.findPanel.hidden = true;
+			this.setReplaceExpanded(false);
 			this.findButton.setAttribute("aria-expanded", "false");
 			this.editor.view.dispatch(this.editor.state.tr.setMeta("search", true));
 			if (focusEditor) this.editor.commands.focus();
+		}
+
+		setReplaceExpanded(expanded, moveFocus = false) {
+			this.replaceRow.hidden = !expanded;
+			this.replaceToggle.setAttribute("aria-expanded", String(expanded));
+			this.replaceToggle.setAttribute("aria-label", expanded ? "Hide replace" : "Show replace");
+			this.replaceToggle.title = expanded ? "Hide replace" : "Show replace";
+			this.replaceToggle.querySelector("i").className = `saIcon far fa-angle-${expanded ? "down" : "right"}`;
+			if (moveFocus) (expanded ? this.findReplacement : this.findQuery).focus();
 		}
 
 		refreshFind() {
@@ -1194,10 +1259,13 @@
 			const matches = this.getSearchMatches();
 			const { from, to } = this.editor.state.selection;
 			const index = matches.findIndex(match => match.from === from && match.to === to);
-			this.findStatus.textContent = !this.findQuery.value ? "Enter text to find." : !matches.length ? "No matches." : index < 0 ? `${matches.length} matches.` : `${index + 1} of ${matches.length} matches.`;
+			this.findCount.textContent = `${index + 1}/${matches.length}`;
+			this.findQuery.parentElement.style.setProperty("--find-count-width", `${this.findCount.textContent.length}ch`);
+			const announcement = !this.findQuery.value ? "Enter text to find." : !matches.length ? "No matches." : index < 0 ? `${matches.length} matches. No current match.` : `Match ${index + 1} of ${matches.length}.`;
+			if (this.findAnnouncement.textContent !== announcement) this.findAnnouncement.textContent = announcement;
 			this.findPanel.querySelectorAll("[data-find-action]").forEach(button => {
 				const action = button.dataset.findAction;
-				button.disabled = action === "replace" ? index < 0 : action !== "close" && !matches.length;
+				button.disabled = action === "replace" ? index < 0 : ["previous", "next", "all"].includes(action) && !matches.length;
 			});
 		}
 
@@ -1214,6 +1282,7 @@
 		}
 
 		replaceMatches(all) {
+			if (this.findPanel.hidden || this.replaceRow.hidden || this.aiPreview?.phase === "review") return;
 			const matches = this.getSearchMatches();
 			const { from, to } = this.editor.state.selection;
 			const targets = all ? matches : matches.filter(match => match.from === from && match.to === to);
@@ -1569,6 +1638,7 @@
 
 		updateButtons() {
 			if (!this.editor) return;
+			this.findButton?.setAttribute("aria-expanded", String(Boolean(this.findPanel && !this.findPanel.hidden)));
 			const readOnly = this.sourceMode || this.aiPreview?.phase === "review";
 			const activeHeading = [1, 2, 3, 4, 5, 6].find(level => this.editor.isActive("heading", { level }));
 			if (this.headingSelect) this.headingSelect.value = activeHeading ? String(activeHeading) : "paragraph";
@@ -1629,6 +1699,7 @@
 		}
 
 		teardown() {
+			this.sentChatSelection = null;
 			clearTimeout(this.thinkingTimer);
 			this.aiPreview = null;
 			cancelAnimationFrame(this.selectionToolbarFrame);

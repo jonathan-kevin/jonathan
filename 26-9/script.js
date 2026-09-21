@@ -268,6 +268,18 @@ $(document).ready(function () {
 	});
 
 	function getChatMessageCopyText(button) {
+		const inlineAnswer = button.closest('inline-chat .saChatAiResponse article')?.querySelector('[data-chat-answer]');
+		if (inlineAnswer) return inlineAnswer.innerText.trim();
+
+		const inlineBody = button.closest('inline-chat .saChatSender article')?.querySelector('.saChatMessageBody');
+		if (inlineBody) {
+			return Array.from(inlineBody.children)
+				.filter(element => element.matches('p, blockquote'))
+				.map(element => element.innerText.trim())
+				.filter(Boolean)
+				.join('\n\n');
+		}
+
 		const messageContent = $(button)
 			.closest('article')
 			.find('.saChatMessageContent, .saChatMessageBody > .saMarkdownContent')
@@ -309,6 +321,7 @@ $(document).ready(function () {
 			class: 'saChatTextarea',
 			contenteditable: 'plaintext-only',
 			role: 'textbox',
+			'aria-label': 'Edit message',
 			'aria-multiline': 'true',
 			id: editorId,
 			text: messageText
