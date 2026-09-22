@@ -101,17 +101,17 @@
   function staff() {
     const rows = D.staffRows(data).map(p=>({...p,kind:'person',state:p.pending ? 'Tidrapport saknas' : p.reasons.join(', ') || 'Rapporterat'})).filter(p=>(state.resource === 'all' || p.category === state.resource)&&matches(p));
     reportModel = {title:'Bemanning',columns:[col('name','Namn'),col('role','Bemanningsroll'),hourCol('planned','Publicerad plan'),hourCol('scheduled','Aktuellt schema'),hourCol('actual','Rapporterat'),deltaCol,col('sessions','Deltagna tillfällen',num,true),col('state','Status',status)],rows};
-    return searchControls(`<label class="saInputTextWrapper saLabeled saHasTrailingIcons"><span class="saLabeledLabel">Resurstyp</span><select id="resource-type" class="saInputText saDropdown" aria-label="Resurstyp">${[['all','Alla resurser'],['Musiker','Musiker'],['Teknik','Teknik']].map(([v,t])=>`<option value="${v}" ${state.resource===v?'selected':''}>${t}</option>`).join('')}</select><div class="saTrailingIconsWrapper">${icon('angle-down')}</div></label>`)+grid(reportModel,{interactive:true})+'<p class="report-note">Avvikelse = rapporterad tid minus aktuellt schema för tidrapporterade pass. Inställda pass finns kvar i publicerad plan.</p>';
+    return searchControls(`<label class="saInputTextWrapper saLabeled saHasTrailingIcons"><span class="saLabeledLabel">Resurstyp</span><select id="resource-type" class="saInputText saDropdown" aria-label="Resurstyp">${[['all','Alla resurser'],['Musiker','Musiker'],['Teknik','Teknik']].map(([v,t])=>`<option value="${v}" ${state.resource===v?'selected':''}>${t}</option>`).join('')}</select><div class="saTrailingIconsWrapper">${icon('angle-down')}</div></label>`)+grid(reportModel,{interactive:true});
   }
   function time() {
     reportModel={title:'Tid & genomförande',columns:timeColumns,rows:timeRows().filter(matches)};
-    return searchControls()+grid(reportModel,{interactive:true})+'<p class="report-note">Schemat visar klockslag. Summeringarna visar persontimmar, inte tillfällets längd.</p>';
+    return searchControls()+grid(reportModel,{interactive:true});
   }
   function costs() {
     const labor = data.productions.map(p=>({id:p.id,kind:'labor',name:p.name,date:data.sessions.filter(s=>s.production===p.id).at(-1).date,resource:'Samtliga tidrapporterade resurser',category:'Arbetstid',amount:D.select(p.id,state.period).laborCost,state:'Tidunderlag'}));
     const expenses=data.expenses.map(e=>({...e,kind:'expense',name:pname(e.production),resource:person(e.person).name,state:e.status}));
     reportModel={title:'Kostnadsunderlag',columns:[col('name','Produktion'),col('date','Datum',day),col('resource','Resurs / underlag'),col('category','Kostnadsslag'),col('amount','Redovisat belopp',money,true),col('state','Status',status)],rows:[...labor,...expenses].filter(matches)};
-    return infoArea([infoBox('Budget och utfall',fields([['Personalbudget',money(data.budget)],['Rapporterad personalkostnad',money(data.cost)]])),infoBox('Attest och återstående budget',fields([['Kvitton som inväntar attest',money(D.sum(data.expenses.filter(e=>e.status!=='Attesterat'),'amount'))],['Budget minus redovisat',money(data.budget-data.cost)]]))])+searchControls()+grid(reportModel,{interactive:true,totals:true})+'<p class="report-note">Fiktiva timkostnader inklusive påslag. Även ej attesterade utlägg ingår. Saknad tidrapport ingår inte; utfallet är ingen slutkostnadsprognos.</p>';
+    return infoArea([infoBox('Budget och utfall',fields([['Personalbudget',money(data.budget)],['Rapporterad personalkostnad',money(data.cost)]])),infoBox('Attest och återstående budget',fields([['Kvitton som inväntar attest',money(D.sum(data.expenses.filter(e=>e.status!=='Attesterat'),'amount'))],['Budget minus redovisat',money(data.budget-data.cost)]]))])+searchControls()+grid(reportModel,{interactive:true,totals:true});
   }
   function deviations() {
     reportModel={title:'Avvikelser',columns:[col('title','Avvikelse',status),col('subject','Resurs / produktion'),col('date','Datum',day),col('effect','Påverkan')],rows:D.deviations(data).filter(matches)};
@@ -123,7 +123,7 @@
       {name:p.name,date:p.changed,phase:p.id==='bancroft'?'Schema ändrat':'Uppföljning',description:p.id==='bancroft'?'Konserten 19 september inställd. 64 persontimmar borttagna från aktuellt schema. Publicerad plan bevaras.':p.id==='pintscher'?'Genomförande klart. 3 timmar inväntar tidrapport.':'Genomförandet avslutat. Tid och kostnader tillgängliga för uppföljning.'}
     ]).filter(matches);
     reportModel={title:'Publiceringshistorik',columns:[col('name','Produktion'),col('date','Datum',day),col('phase','Händelse'),col('description','Beskrivning')],rows};
-    return searchControls()+grid(reportModel,{interactive:true})+'<p class="report-note">Fiktiv ändringshistorik. Behovsperiod → schemaläggning → publicering → genomförande → uppföljning.</p>';
+    return searchControls()+grid(reportModel,{interactive:true});
   }
   function header() {
     const p=D.productions.find(p=>p.id===state.production);
@@ -139,7 +139,7 @@
   }
   function renderPanel() {
     const node=$('#panel');
-    if(!data.sessions.length){reportModel={title:'Tomt urval',columns:[],rows:[]};node.innerHTML='<h2>Inget underlag för den valda perioden</h2><p class="report-note">Det finns inga tillfällen eller kostnader i urvalet.</p>'+command('Ändra urval','filter','data-filter');return;}
+    if(!data.sessions.length){reportModel={title:'Tomt urval',columns:[],rows:[]};node.innerHTML='<h2>Inget underlag för den valda perioden</h2>'+command('Ändra urval','filter','data-filter');return;}
     node.innerHTML=({overview,productions,staff,time,costs,deviations,history:publicationHistory}[state.tab])();
   }
   function render() {
@@ -183,7 +183,7 @@
       openDialog(`${pname(s.production)} · ${s.type}`,infoArea([infoBox('Tillfälle',fields([['Datum och tid',`${day(s.date)} · ${s.start}–${s.end}`],['Lokal',esc(s.location)],['Status',status(s.cancelled?'Inställd efter publicering':'Genomförd')]]))])+grid({title:'Deltagare',columns:[col('name','Namn'),col('role','Roll'),hourCol('planned','Publicerad plan'),hourCol('actual','Rapporterat'),col('state','Status',status)],rows}));return;
     }
     const e=D.expenses.find(e=>e.id===id);
-    if(e)openDialog(`${e.category} · ${pname(e.production)}`,infoArea([infoBox('Kvittounderlag',fields([['Resurs',esc(person(e.person).name)],['Belopp',money(e.amount)],['Status',status(e.status)],['Beskrivning',esc(e.description)]]))])+'<p class="report-note">Fiktiv kvittopost. Inget verkligt kvitto eller utbetalningsunderlag.</p>');
+    if(e)openDialog(`${e.category} · ${pname(e.production)}`,infoArea([infoBox('Kvittounderlag',fields([['Resurs',esc(person(e.person).name)],['Belopp',money(e.amount)],['Status',status(e.status)],['Beskrivning',esc(e.description)]]))]));
   }
   function filterDialog() {
     const select=(id,label,options,value)=>`<label><span>${label}</span><div class="saInputTextWrapper saInputPageField saHasTrailingIcons"><select class="saInputText saDropdown" id="${id}" aria-label="${label}">${options.map(([v,t])=>`<option value="${v}" ${v===value?'selected':''}>${esc(t)}</option>`).join('')}</select><div class="saTrailingIconsWrapper">${icon('angle-down')}</div></div></label>`;
@@ -197,7 +197,7 @@
     const a=document.createElement('a');a.href=url;a.download=`produktionsuppfoljning-${state.production}-${state.tab}.csv`;a.hidden=true;document.body.append(a);a.click();setTimeout(()=>{a.remove();URL.revokeObjectURL(url);},1000);notice(`CSV-fil skapad med ${reportModel.rows.length} rader.`);
   }
   function about() {
-    openDialog('Definitioner och demounderlag',infoArea([infoBox('Publicerad plan och aktuellt schema',fields([['Publicerad plan','Ursprungligen publicerade persontimmar. Inställda tillfällen ligger kvar.'],['Aktuellt schema','Publicerad plan efter schemaändringar. Inställda tillfällen räknas som 0 timmar.']])),infoBox('Rapporterad tid och kostnad',fields([['Nyttjad schematid','Rapporterat / aktuellt schema för tidrapporterade pass. Saknad rapport är inte noll arbetstid. Inte ett mått på anställningsgrad.'],['Personalkostnad','Rapporterade timmar × fiktiv timkostnad inklusive påslag + redovisade utlägg. Även ej attesterade utlägg ingår. Ingen slutkostnadsprognos.']]))])+'<p class="report-note">Alla namn, scheman, belopp och avvikelser är fiktiva. Ingen personalinformation hämtas från Pegasus. Konsertverksamhet är den enda verksamheten i demounderlaget.</p>');
+    openDialog('Definitioner och demounderlag',infoArea([infoBox('Publicerad plan och aktuellt schema',fields([['Publicerad plan','Ursprungligen publicerade persontimmar. Inställda tillfällen ligger kvar.'],['Aktuellt schema','Publicerad plan efter schemaändringar. Inställda tillfällen räknas som 0 timmar.']])),infoBox('Rapporterad tid och kostnad',fields([['Nyttjad schematid','Rapporterat / aktuellt schema för tidrapporterade pass. Saknad rapport är inte noll arbetstid. Inte ett mått på anställningsgrad.'],['Personalkostnad','Rapporterade timmar × fiktiv timkostnad inklusive påslag + redovisade utlägg. Även ej attesterade utlägg ingår. Ingen slutkostnadsprognos.']]))]));
   }
   function closeNav(){document.body.classList.remove('nav-open');$('#nav-backdrop').hidden=true;}
   document.addEventListener('click',event=>{
