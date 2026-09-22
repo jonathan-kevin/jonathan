@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Produktionsuppföljning · Tid och bemanning</title>
+  <link rel="stylesheet" href="../Presentation/CssTemplate/screen.template.css">
+  <link rel="stylesheet" href="../../src/fontawesome/css/all.css">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./data.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body class="production-demo saLargeScreen">
+  <a href="#main" class="skip-link">Gå till innehåll</a>
+  <aside class="saSideBarOuter" id="sidebar">
+    <nav class="saSideBar saExpanded" aria-label="Sidomeny">
+      <div class="venue-brand"><span>KONSERTHUSET</span><span>STOCKHOLM</span></div>
+      <div class="workspace-label">Tid och bemanning</div>
+      <label class="nav-search"><i class="far fa-magnifying-glass" aria-hidden="true"></i><input id="nav-search" type="search" placeholder="Sök i menyn" aria-label="Sök i menyn"></label>
+      <div class="nav-heading">Meny</div>
+      <div class="nav-links">
+        <a href="#overview" data-view="overview"><i class="far fa-house" aria-hidden="true"></i><span>Översikt</span></a>
+        <a href="#productions" data-view="productions"><i class="far fa-users" aria-hidden="true"></i><span>Produktioner</span></a>
+        <a href="#time" data-view="time"><i class="far fa-calendar-days" aria-hidden="true"></i><span>Schema & genomförande</span></a>
+        <a href="#costs" data-view="costs"><i class="far fa-receipt" aria-hidden="true"></i><span>Kvitton och tillägg</span></a>
+      </div>
+      <div class="nav-heading">Uppföljning</div>
+      <div class="nav-links">
+        <a href="#overview" class="active" data-view="overview" id="follow-up"><i class="far fa-chart-column" aria-hidden="true"></i><span>Produktionsuppföljning</span></a>
+        <a href="#staff" data-view="staff"><i class="far fa-user-music" aria-hidden="true"></i><span>Bemanning & resurser</span></a>
+        <a href="#deviations" data-view="deviations"><i class="far fa-triangle-exclamation" aria-hidden="true"></i><span>Avvikelser</span><span class="nav-count" id="nav-count"></span></a>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="saAccountDropdown"><span class="avatar">EL</span><span class="saAccountName">Emma Lindholm</span><span class="account-role">Produktionsledare</span></div>
+        <div class="brand-footer"><img src="../Presentation/img/softadmin-logo-expanded.svg" alt="Softadmin"><button id="collapse-sidebar" class="icon-button saExpander" type="button" title="Minimera menyn" aria-label="Minimera menyn" aria-expanded="true"><i class="far fa-angles-left" aria-hidden="true"></i></button></div>
+      </div>
+    </nav>
+  </aside>
+  <button type="button" id="nav-backdrop" aria-label="Stäng menyn" hidden></button>
+  <main id="main">
+    <header class="saPageHeaderHolder">
+      <div class="breadcrumbs"><button type="button" id="mobile-menu" class="icon-button" aria-label="Öppna menyn" aria-expanded="false"><i class="far fa-bars" aria-hidden="true"></i></button><a href="#productions" data-view="productions">Produktioner</a><i class="far fa-angle-right" aria-hidden="true"></i><span>Produktionsuppföljning</span></div>
+      <div class="title-row"><div><h1 id="page-title">Bancroft <span>· Produktionsuppföljning</span></h1><p id="production-meta"></p></div><span class="demo-label">DEMODATA</span></div>
+      <div class="header-actions"><button type="button" class="command primary" id="compare"><i class="far fa-table-columns" aria-hidden="true"></i>Jämför produktioner</button><button type="button" class="command" id="export"><i class="far fa-file-arrow-down" aria-hidden="true"></i>Exportera CSV</button><button type="button" class="icon-button" id="print" title="Skriv ut rapport" aria-label="Skriv ut rapport"><i class="far fa-print" aria-hidden="true"></i></button><span class="snapshot">Rapportläge <time datetime="2026-09-22T08:00">22 sep 2026, 08:00</time></span></div>
+    </header>
+    <form id="filters" class="filter-band">
+      <label class="saInputTextWrapper saLabeled"><span class="saLabeledLabel">Produktion</span><select id="production" class="saInputText saDropdown"><option value="bancroft">Bancroft</option><option value="blomstedt">Blomstedt</option><option value="glenn">Glenn Miller Orchestra</option><option value="pintscher">Pintscher</option><option value="all">Alla produktioner</option></select></label>
+      <label class="saInputTextWrapper saLabeled"><span class="saLabeledLabel">Period</span><select id="period" class="saInputText saDropdown"><option value="september">September 2026</option><option value="autumn">Höstterminen 2026</option><option value="august">Augusti 2026</option></select></label>
+      <label class="saInputTextWrapper saLabeled"><span class="saLabeledLabel">Verksamhet</span><select id="operation" class="saInputText saDropdown"><option value="concert">Konsertverksamhet</option><option value="all">Alla verksamheter</option></select></label>
+      <span id="filter-context" class="filter-context"></span>
+    </form>
+    <div id="summary" class="saInfoBoxArea" aria-label="Nyckeltal"></div>
+    <div id="attention"></div>
+    <div class="saIFrameTabs"><div id="tabs" class="saTabGroup" role="tablist" aria-label="Produktionsuppföljning">
+      <div><button class="saTab" id="tab-overview" role="tab" aria-controls="content" aria-selected="true" data-tab="overview"><i class="far fa-chart-column" aria-hidden="true"></i><span class="saTabText">Översikt</span></button></div>
+      <div><button class="saTab" id="tab-staff" role="tab" aria-controls="content" aria-selected="false" data-tab="staff"><i class="far fa-users" aria-hidden="true"></i><span class="saTabText">Bemanning</span></button></div>
+      <div><button class="saTab" id="tab-time" role="tab" aria-controls="content" aria-selected="false" data-tab="time"><i class="far fa-clock" aria-hidden="true"></i><span class="saTabText">Tid & genomförande</span></button></div>
+      <div><button class="saTab" id="tab-costs" role="tab" aria-controls="content" aria-selected="false" data-tab="costs"><i class="far fa-receipt" aria-hidden="true"></i><span class="saTabText">Kostnader</span></button></div>
+      <div><button class="saTab" id="tab-deviations" role="tab" aria-controls="content" aria-selected="false" data-tab="deviations"><i class="far fa-triangle-exclamation" aria-hidden="true"></i><span class="saTabText">Avvikelser</span><span class="tab-count" id="deviation-count"></span></button></div>
+    </div></div>
+    <section id="content" role="tabpanel" aria-labelledby="tab-overview"></section>
+    <footer class="report-footer"><span>Fiktivt underlag · Ingen koppling till personal- eller lönedata</span><button type="button" id="definitions">Definitioner & beräkningsunderlag</button></footer>
+  </main>
+  <dialog id="detail"><div class="dialog-top"><h2 id="detail-title"></h2><button type="button" class="icon-button" id="close-detail" aria-label="Stäng"><i class="far fa-xmark" aria-hidden="true"></i></button></div><div id="detail-body"></div></dialog>
+  <div id="toast" role="status" hidden></div>
+</body>
+</html>
