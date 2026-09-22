@@ -2961,6 +2961,10 @@
 			return;
 		}
 
+		const promptInput = document.getElementById('SoftadminPrompt');
+		if (promptInput) {
+			promptInput.value = window.SoftadminLocalization.translateExamplePrompt(promptInput.value, selectedLanguageValue());
+		}
 		applyCurrentLanguage();
 		renderPromptHistory();
 		clearRedoHistory();
@@ -3291,7 +3295,7 @@
 			button.addEventListener('click', function () {
 				if (isBusy) return;
 				if (promptInput) {
-					promptInput.value = button.dataset.softadminExamplePrompt || '';
+					promptInput.value = window.SoftadminLocalization.translateExamplePrompt(button.dataset.softadminExamplePrompt || '', selectedLanguageValue());
 					promptInput.focus();
 					scheduleProjectAutosave();
 				}

@@ -137,6 +137,31 @@
 		duplicate: { en: 'Duplicate', sv: 'Duplicera' }
 	};
 
+	const examplePrompts = [
+		{ en: "Create a NewEdit form for entering a person's contact information.", sv: 'Skapa ett NewEdit-formulär för att ange en persons kontaktuppgifter.' },
+		{ en: 'Create a customer details page with contact info boxes, overdue invoice warning, related cases tabs, invoices, payments, and realistic action buttons.', sv: 'Skapa en kunddetaljsida med infoboxar för kontaktuppgifter, en varning för förfallna fakturor, flikar för relaterade ärenden, fakturor och betalningar samt realistiska åtgärdsknappar.' },
+		{ en: 'Create a 15-row invoice grid for an economy system with customer, invoice number, due date, status, amount, and realistic row actions.', sv: 'Skapa en fakturatabell med 15 rader för ett ekonomisystem, med kund, fakturanummer, förfallodatum, status, belopp och realistiska radåtgärder.' },
+		{ en: 'Add five more random favorites in the sidebar.', sv: 'Lägg till fem nya slumpmässiga favoriter i sidomenyn.' },
+		{ en: "Remove item 'Rooms' in sidebar and add five more menu items in that group about economy.", sv: "Ta bort menyvalet 'Rum' i sidomenyn och lägg till fem nya menyval om ekonomi i samma grupp." },
+		{ en: 'Create an employee image gallery grouped by department with names and job titles.', sv: 'Skapa ett bildgalleri med medarbetare, grupperat efter avdelning, med namn och befattningar.' },
+		{ en: 'Create a BankID signing screen for approving a customer agreement.', sv: 'Skapa en BankID-signeringssida för att godkänna ett kundavtal.' },
+		{ en: 'Create a support chat where a customer asks about changing a booking and the AI assistant explains the available options.', sv: 'Skapa en supportchatt där en kund frågar om att ändra en bokning och AI-assistenten förklarar de tillgängliga alternativen.' },
+		{ en: 'Create a Link List of recent project documents with dates, including two unread documents.', sv: 'Skapa en Link List med de senaste projektdokumenten och deras datum, inklusive två olästa dokument.' },
+		{ en: 'Create an Inline Document viewer with a selected customer agreement PDF that cannot be previewed and must be downloaded, plus a second supporting document.', sv: 'Skapa en Inline Document-visare med ett valt kundavtal i PDF-format som inte kan förhandsvisas utan måste laddas ner, samt ett andra kompletterande dokument.' },
+		{ en: 'Create a wrapped Linear Process for an onboarding flow with the steps Application received, Review, Agreement, and Activated.', sv: 'Skapa en radbruten Linear Process för ett introduktionsflöde med stegen Ansökan mottagen, Granskning, Avtal och Aktiverad.' },
+		{ en: 'Create a weekly Planner with a timescale for five meeting rooms, office and online meeting filters, two unbooked requests, all-day maintenance, and realistic bookings from 08 to 18.', sv: 'Skapa en veckoplanering med Planner och tidsskala för fem mötesrum, filter för kontorsmöten och onlinemöten, två obokade förfrågningar, heldagsunderhåll och realistiska bokningar från 08:00 till 18:00.' },
+		{ en: 'Create a Treeview for a company knowledge base with expandable sections for Operations, Sales, HR, and R & D. Expand R & D to show AI, internal documentation, routines, and roadmap pages.', sv: 'Skapa en Treeview för företagets kunskapsbas med expanderbara avsnitt för Drift, Försäljning, HR och Forskning och utveckling. Expandera Forskning och utveckling så att AI, intern dokumentation, rutiner och utvecklingsplaner visas.' },
+		{ en: 'Create a Pivot Grid showing revenue by service area and month, with totals and realistic numeric values.', sv: 'Skapa en Pivot Grid som visar intäkter per tjänsteområde och månad, med totalsummor och realistiska numeriska värden.' },
+		{ en: 'Create a PDF template editor for an invoice with customer, invoice number, due date, total amount, and company logo fields. Place the invoice number and total amount on the first page.', sv: 'Skapa en PDF-mallredigerare för en faktura med fält för kund, fakturanummer, förfallodatum, totalbelopp och företagslogotyp. Placera fakturanumret och totalbeloppet på första sidan.' },
+		{ en: 'Create a NewEdit booking form with customer autosearch, room dropdown, date range, start and end time, participants, and notes.', sv: 'Skapa ett NewEdit-bokningsformulär med autosökning för kund, en rullista för rum, datumintervall, start- och sluttid, deltagare och anteckningar.' },
+		{ en: 'Create a menu page for an economy system with groups for invoicing, payments, accounting, and reports.', sv: 'Skapa en menysida för ett ekonomisystem med grupper för fakturering, betalningar, bokföring och rapporter.' }
+	];
+
+	function translateExamplePrompt(value, language) {
+		const example = examplePrompts.find(example => example.en === value || example.sv === value);
+		return example?.[language] || value;
+	}
+
 	const phraseIndex = Object.values(messages).reduce((index, translations) => {
 		Object.values(translations).forEach(phrase => index.set(phrase, translations));
 		return index;
@@ -219,5 +244,5 @@
 		});
 	}
 
-	return { localize, messages, translateText };
+	return { localize, messages, translateText, translateExamplePrompt };
 }));
