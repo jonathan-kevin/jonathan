@@ -75,11 +75,29 @@
     return data.productions.map(p => { const slice = D.select(p.id,state.period); return {id:p.id,kind:'production',name:p.name,date:slice.sessions[0].date,end:slice.sessions.at(-1).date,count:D.staffRows(slice).length,planned:slice.planned,scheduled:slice.scheduled,actual:slice.actual,cost:slice.cost,budget:slice.budget,state:p.status}; });
   }
   function meters() {
-    return infoArea(['Repetition','Genrep','Konsert'].map((type,index)=> {
+    const point = (radius,fraction) => [130-radius*Math.cos(Math.PI*fraction),115-radius*Math.sin(Math.PI*fraction)];
+    const arc = (from,to) => {
+      const start=point(95,from),end=point(95,to);
+      return `M${start.join(',')} A95,95 0 0 1 ${end.join(',')}`;
+    };
+    // Illustrative thresholds, expressed as shares of the published plan.
+    const limits=[0,0.75,0.9,1],colors=['saMeterRed','saMeterYellow','saMeterGreen'];
+    return infoArea(['Repetition','Genrep','Konsert'].map(type=> {
       const rows = data.assignments.filter(a=>a.type === type);
       const planned = D.sum(rows,'planned'), scheduled = D.sum(rows,'scheduled'), actual = D.sum(rows,'actual');
       const fraction = planned ? Math.min(1,scheduled/planned) : 0;
-      return infoBox('', `<div class="saInfoBoxCol"><div class="saInfoBoxContent"><div class="saInfoSqlMeterWrapper"><div class="saMeterOuter"><h3 class="saMeterHeading">${type}</h3><svg viewBox="0 0 260 130" role="img" aria-label="${type}: ${hours(scheduled)} schemalagt av ${hours(planned)} publicerat"><path class="saMeterUnreachedValue saMeterValue" fill="none" d="M60,115 A70,70 0 0 1 200,115"/><path class="saMeterValue ${index === 2 ? 'saMeterYellow' : 'saMeterGreen'}" fill="none" d="M60,115 A70,70 0 0 1 200,115" pathLength="100" stroke-dasharray="${fraction*100} 100"/><text class="saMeterValueText" x="130" y="115"><tspan font-size="32">${num(scheduled)}</tspan><tspan font-size="16" dx="3">h</tspan></text></svg></div></div></div></div><div class="meter-details">${fields([['Publicerad plan',hours(planned)],['Rapporterad tid',hours(actual)]])}</div>`);
+      const color=colors[fraction<limits[1]?0:fraction<limits[2]?1:2];
+      const intervals=colors.map((color,index)=>{
+        const path=arc(limits[index],limits[index+1]);
+        const label=`${hours(planned*limits[index])} – ${hours(planned*limits[index+1])} (${limits[index]*100}–${limits[index+1]*100} % av publicerad plan)`;
+        return `<g class="saMeterIntervalWithTooltip"><title>${label}</title><path fill="none" class="${color} saIntervalVisibleArc" d="${path}"/><path fill="none" class="saIntervalTooltip" pointer-events="visibleStroke" d="${path}" data-tooltip="${label}"/></g>`;
+      }).join('');
+      const labels=limits.map(limit=>{
+        const [x,y]=point(99,limit);
+        const align=limit<0.33?'Left':limit>0.66?'Right':'Center';
+        return `<text class="saMeterIntervalText saMeterText${align}" x="${x}" y="${y-2}">${num(planned*limit)}</text>`;
+      }).join('');
+      return infoBox('', `<div class="saInfoBoxCol"><div class="saInfoBoxContent"><div class="saInfoSqlMeterWrapper"><div class="saMeterOuter"><h3 class="saMeterHeading">${type}</h3><svg width="100%" viewBox="0 0 260 130" role="img" aria-label="${type}: ${hours(scheduled)} schemalagt av ${hours(planned)} publicerat"><path class="saMeterUnreachedValue saMeterValue" fill="none" d="M60,115 A70,70 0 0 1 200,115"/><path class="saMeterValue ${color}" fill="none" d="M60,115 A70,70 0 0 1 200,115" pathLength="100" stroke-dasharray="${fraction*100} 100"/><text class="saMeterValueText" x="130" y="115"><tspan font-size="32">${num(scheduled)}</tspan><tspan font-size="16" dx="3">h</tspan></text>${intervals}${labels}</svg></div></div></div></div><div class="meter-details">${fields([['Publicerad plan',hours(planned)],['Rapporterad tid',hours(actual)]])}</div>`);
     }));
   }
   function overview() {

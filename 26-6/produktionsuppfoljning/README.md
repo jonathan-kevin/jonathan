@@ -26,6 +26,11 @@ the same reports with all productions selected.
 `konserthuset.png` is the logo from the supplied Pegasus reference, bundled
 locally for this demo. No live personnel records are included.
 
+Overview meters include the native outer interval arcs and hour labels.
+Illustrative thresholds are 75% and 90% of the published plan (red, yellow,
+green); these are demo settings, not agreed operational targets. The inner
+arc color follows the same thresholds. Hover titles explain each interval.
+
 ## Demo flow
 
 1. Bancroft overview: 32 resources, 736 published hours, 672 current hours.
