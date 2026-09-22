@@ -73,6 +73,10 @@
   --Sa-Color-Primary700: var(--Blue700);
   --Sa-Color-Primary800: var(--Blue800);
   --Sa-Color-Primary900: var(--Blue900);
+  --Sa-Color-Primary1000: var(--Blue1000);
+  --Sa-Color-Primary1100: var(--Blue1100);
+  --Sa-Color-Primary1200: var(--Blue1200);
+  --Sa-Color-Primary1300: var(--Blue1300);
   --Sa-Color-TimelineIconBorder: light-dark(var(--Gray200), var(--Gray800));
   --Sa-Color-TimelineIconBackground: light-dark(var(--Gray100), var(--Gray1000));
   --Sa-Color-TimelineIconTextHover: var(--White);
@@ -3866,6 +3870,8 @@ div.saPopupOverlay {
 }
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:active,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:active,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton[aria-expanded="true"],
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton[aria-expanded="true"],
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saOpen,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
@@ -3874,12 +3880,16 @@ div.saPopupOverlay {
 }
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:active .saIcon,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:active .saIcon,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton[aria-expanded="true"] .saIcon,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton[aria-expanded="true"] .saIcon,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saOpen .saIcon,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:active .saBadge,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:active .saBadge,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton[aria-expanded="true"] .saBadge,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton[aria-expanded="true"] .saBadge,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saOpen .saBadge,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -5579,16 +5589,19 @@ div.saPopupOverlay {
   }
 }
 .saListGrid .saActionRow button:active,
+.saListGrid .saActionRow button[aria-expanded="true"],
 .saListGrid .saActionRow button.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saListGrid .saActionRow button:active .saIcon,
+.saListGrid .saActionRow button[aria-expanded="true"] .saIcon,
 .saListGrid .saActionRow button.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saListGrid .saActionRow button:active .saBadge,
+.saListGrid .saActionRow button[aria-expanded="true"] .saBadge,
 .saListGrid .saActionRow button.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -7177,16 +7190,19 @@ div.saPopupOverlay {
   }
 }
 .saSideBar .saExpander:active,
+.saSideBar .saExpander[aria-expanded="true"],
 .saSideBar .saExpander.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saSideBar .saExpander:active .saIcon,
+.saSideBar .saExpander[aria-expanded="true"] .saIcon,
 .saSideBar .saExpander.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saSideBar .saExpander:active .saBadge,
+.saSideBar .saExpander[aria-expanded="true"] .saBadge,
 .saSideBar .saExpander.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -8135,6 +8151,8 @@ div.saPopupOverlay {
 }
 .saPageHeader .saActionLinks .saMoreButton:active,
 .saPartButtons .saActionLinks .saMoreButton:active,
+.saPageHeader .saActionLinks .saMoreButton[aria-expanded="true"],
+.saPartButtons .saActionLinks .saMoreButton[aria-expanded="true"],
 .saPageHeader .saActionLinks .saMoreButton.saOpen,
 .saPartButtons .saActionLinks .saMoreButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
@@ -8143,12 +8161,16 @@ div.saPopupOverlay {
 }
 .saPageHeader .saActionLinks .saMoreButton:active .saIcon,
 .saPartButtons .saActionLinks .saMoreButton:active .saIcon,
+.saPageHeader .saActionLinks .saMoreButton[aria-expanded="true"] .saIcon,
+.saPartButtons .saActionLinks .saMoreButton[aria-expanded="true"] .saIcon,
 .saPageHeader .saActionLinks .saMoreButton.saOpen .saIcon,
 .saPartButtons .saActionLinks .saMoreButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saPageHeader .saActionLinks .saMoreButton:active .saBadge,
 .saPartButtons .saActionLinks .saMoreButton:active .saBadge,
+.saPageHeader .saActionLinks .saMoreButton[aria-expanded="true"] .saBadge,
+.saPartButtons .saActionLinks .saMoreButton[aria-expanded="true"] .saBadge,
 .saPageHeader .saActionLinks .saMoreButton.saOpen .saBadge,
 .saPartButtons .saActionLinks .saMoreButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -8716,6 +8738,8 @@ div.saPopupOverlay {
 }
 .saPageHeader .saBrowseButtons .saBrowseButton:active,
 .saPartButtons .saBrowseButtons .saBrowseButton:active,
+.saPageHeader .saBrowseButtons .saBrowseButton[aria-expanded="true"],
+.saPartButtons .saBrowseButtons .saBrowseButton[aria-expanded="true"],
 .saPageHeader .saBrowseButtons .saBrowseButton.saOpen,
 .saPartButtons .saBrowseButtons .saBrowseButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
@@ -8724,12 +8748,16 @@ div.saPopupOverlay {
 }
 .saPageHeader .saBrowseButtons .saBrowseButton:active .saIcon,
 .saPartButtons .saBrowseButtons .saBrowseButton:active .saIcon,
+.saPageHeader .saBrowseButtons .saBrowseButton[aria-expanded="true"] .saIcon,
+.saPartButtons .saBrowseButtons .saBrowseButton[aria-expanded="true"] .saIcon,
 .saPageHeader .saBrowseButtons .saBrowseButton.saOpen .saIcon,
 .saPartButtons .saBrowseButtons .saBrowseButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saPageHeader .saBrowseButtons .saBrowseButton:active .saBadge,
 .saPartButtons .saBrowseButtons .saBrowseButton:active .saBadge,
+.saPageHeader .saBrowseButtons .saBrowseButton[aria-expanded="true"] .saBadge,
+.saPartButtons .saBrowseButtons .saBrowseButton[aria-expanded="true"] .saBadge,
 .saPageHeader .saBrowseButtons .saBrowseButton.saOpen .saBadge,
 .saPartButtons .saBrowseButtons .saBrowseButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -10003,16 +10031,19 @@ div.saPopupOverlay {
   }
 }
 .saButtonSecondary:active,
+.saButtonSecondary[aria-expanded="true"],
 .saButtonSecondary.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saButtonSecondary:active .saIcon,
+.saButtonSecondary[aria-expanded="true"] .saIcon,
 .saButtonSecondary.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saButtonSecondary:active .saBadge,
+.saButtonSecondary[aria-expanded="true"] .saBadge,
 .saButtonSecondary.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -10322,16 +10353,19 @@ div.saPopupOverlay {
   }
 }
 .saDefaultButtonSecondary:active,
+.saDefaultButtonSecondary[aria-expanded="true"],
 .saDefaultButtonSecondary.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saDefaultButtonSecondary:active .saIcon,
+.saDefaultButtonSecondary[aria-expanded="true"] .saIcon,
 .saDefaultButtonSecondary.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saDefaultButtonSecondary:active .saBadge,
+.saDefaultButtonSecondary[aria-expanded="true"] .saBadge,
 .saDefaultButtonSecondary.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -10663,16 +10697,19 @@ div.saPopupOverlay {
   }
 }
 .saColorBtn:active,
+.saColorBtn[aria-expanded="true"],
 .saColorBtn.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saColorBtn:active .saIcon,
+.saColorBtn[aria-expanded="true"] .saIcon,
 .saColorBtn.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saColorBtn:active .saBadge,
+.saColorBtn[aria-expanded="true"] .saBadge,
 .saColorBtn.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -11161,16 +11198,19 @@ div.saPopupOverlay {
   }
 }
 .saButtonSplit button.saButtonSecondary:active,
+.saButtonSplit button.saButtonSecondary[aria-expanded="true"],
 .saButtonSplit button.saButtonSecondary.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saButtonSplit button.saButtonSecondary:active .saIcon,
+.saButtonSplit button.saButtonSecondary[aria-expanded="true"] .saIcon,
 .saButtonSplit button.saButtonSecondary.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saButtonSplit button.saButtonSecondary:active .saBadge,
+.saButtonSplit button.saButtonSecondary[aria-expanded="true"] .saBadge,
 .saButtonSplit button.saButtonSecondary.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -12323,16 +12363,19 @@ div.saPopupOverlay {
   }
 }
 .saColumnManager .saRemoveColumnButton:active,
+.saColumnManager .saRemoveColumnButton[aria-expanded="true"],
 .saColumnManager .saRemoveColumnButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saColumnManager .saRemoveColumnButton:active .saIcon,
+.saColumnManager .saRemoveColumnButton[aria-expanded="true"] .saIcon,
 .saColumnManager .saRemoveColumnButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saColumnManager .saRemoveColumnButton:active .saBadge,
+.saColumnManager .saRemoveColumnButton[aria-expanded="true"] .saBadge,
 .saColumnManager .saRemoveColumnButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -12995,16 +13038,19 @@ div.saPopupOverlay {
   }
 }
 .saGalleryWrapper .saGalleryItem .saMoreButton:active,
+.saGalleryWrapper .saGalleryItem .saMoreButton[aria-expanded="true"],
 .saGalleryWrapper .saGalleryItem .saMoreButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saGalleryWrapper .saGalleryItem .saMoreButton:active .saIcon,
+.saGalleryWrapper .saGalleryItem .saMoreButton[aria-expanded="true"] .saIcon,
 .saGalleryWrapper .saGalleryItem .saMoreButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saGalleryWrapper .saGalleryItem .saMoreButton:active .saBadge,
+.saGalleryWrapper .saGalleryItem .saMoreButton[aria-expanded="true"] .saBadge,
 .saGalleryWrapper .saGalleryItem .saMoreButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -13341,16 +13387,19 @@ div.saPopupOverlay {
   }
 }
 .saImageCarouselWrapper .saCarouselInfoButton:active,
+.saImageCarouselWrapper .saCarouselInfoButton[aria-expanded="true"],
 .saImageCarouselWrapper .saCarouselInfoButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saImageCarouselWrapper .saCarouselInfoButton:active .saIcon,
+.saImageCarouselWrapper .saCarouselInfoButton[aria-expanded="true"] .saIcon,
 .saImageCarouselWrapper .saCarouselInfoButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saImageCarouselWrapper .saCarouselInfoButton:active .saBadge,
+.saImageCarouselWrapper .saCarouselInfoButton[aria-expanded="true"] .saBadge,
 .saImageCarouselWrapper .saCarouselInfoButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -13540,16 +13589,19 @@ div.saPopupOverlay {
   }
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton:active,
+.saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton[aria-expanded="true"],
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton:active .saIcon,
+.saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton[aria-expanded="true"] .saIcon,
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton:active .saBadge,
+.saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton[aria-expanded="true"] .saBadge,
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -14014,16 +14066,19 @@ div.saPopupOverlay {
   }
 }
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton:active,
+.saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton[aria-expanded="true"],
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton:active .saIcon,
+.saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton[aria-expanded="true"] .saIcon,
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton:active .saBadge,
+.saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton[aria-expanded="true"] .saBadge,
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -14253,16 +14308,19 @@ div.saPopupOverlay {
   }
 }
 .saImageCarouselWrapper .saCarouselButton:active,
+.saImageCarouselWrapper .saCarouselButton[aria-expanded="true"],
 .saImageCarouselWrapper .saCarouselButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saImageCarouselWrapper .saCarouselButton:active .saIcon,
+.saImageCarouselWrapper .saCarouselButton[aria-expanded="true"] .saIcon,
 .saImageCarouselWrapper .saCarouselButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saImageCarouselWrapper .saCarouselButton:active .saBadge,
+.saImageCarouselWrapper .saCarouselButton[aria-expanded="true"] .saBadge,
 .saImageCarouselWrapper .saCarouselButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -15738,16 +15796,19 @@ select.saInputText {
   }
 }
 .saIconOnlyFieldButton:active,
+.saIconOnlyFieldButton[aria-expanded="true"],
 .saIconOnlyFieldButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saIconOnlyFieldButton:active .saIcon,
+.saIconOnlyFieldButton[aria-expanded="true"] .saIcon,
 .saIconOnlyFieldButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saIconOnlyFieldButton:active .saBadge,
+.saIconOnlyFieldButton[aria-expanded="true"] .saBadge,
 .saIconOnlyFieldButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -15903,16 +15964,19 @@ select.saInputText {
   }
 }
 .saLabeledFieldButton:active,
+.saLabeledFieldButton[aria-expanded="true"],
 .saLabeledFieldButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saLabeledFieldButton:active .saIcon,
+.saLabeledFieldButton[aria-expanded="true"] .saIcon,
 .saLabeledFieldButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saLabeledFieldButton:active .saBadge,
+.saLabeledFieldButton[aria-expanded="true"] .saBadge,
 .saLabeledFieldButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -19257,16 +19321,19 @@ legend + .saInputCardsWrapper {
   }
 }
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton:active,
+.saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton[aria-expanded="true"],
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton:active .saIcon,
+.saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton[aria-expanded="true"] .saIcon,
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton:active .saBadge,
+.saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton[aria-expanded="true"] .saBadge,
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -19591,6 +19658,17 @@ legend + .saInputCardsWrapper {
 .saMultiRowCell .saFileUploadAreaWrapper {
   width: 27rem;
 }
+.saChatWrapper .saFileUploadAreaWrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: flex-end;
+  z-index: 3;
+}
+.saChatWrapper .saFileUploadAreaWrapper[hidden] {
+  display: none;
+}
 .saFileUploadAreaWrapper .saDisabledIcon,
 .saFileUploadAreaWrapper .saEnabledIcon {
   align-items: center;
@@ -19791,6 +19869,10 @@ legend + .saInputCardsWrapper {
   -ms-user-select: none;
   user-select: none;
 }
+.saChatWrapper .saFileUploadAreaWrapper .saFileUploadArea {
+  height: 100%;
+  justify-content: center;
+}
 .saSmallScreen .saFileUploadAreaWrapper .saFileUploadArea {
   padding: 1rem;
 }
@@ -19897,14 +19979,14 @@ legend + .saInputCardsWrapper {
   left: 0;
   top: 0;
 }
-.saFileUploadAreaWrapper .saFileUploadAreaInner {
+.saFileUploadAreaInner {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
   width: 100%;
 }
-.saFileUploadAreaWrapper .saFileUploadAreaText {
+.saFileUploadAreaText {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19912,47 +19994,47 @@ legend + .saInputCardsWrapper {
   text-align: center;
   width: 100%;
 }
-.saHasFiles.saFullSizeArea.saFileUploadAreaWrapper .saFileUploadAreaText {
+.saHasFiles.saFullSizeArea.saFileUploadAreaText {
   visibility: hidden;
 }
-.saHasFiles.saCompactFileArea.saFileUploadAreaWrapper .saFileUploadAreaText {
+.saHasFiles.saCompactFileArea.saFileUploadAreaText {
   display: none;
 }
-.saDisabled .saFileUploadAreaWrapper .saFileUploadAreaText {
+.saDisabled .saFileUploadAreaText {
   color: light-dark(var(--Gray300), var(--Gray700));
 }
-.saFileUploadAreaWrapper .saFileUploadAreaHeading {
+.saFileUploadAreaHeading {
   font-size: 0.875rem;
   line-height: 1.125rem;
 }
-.saDisabled .saFileUploadAreaWrapper .saFileUploadAreaHeading {
+.saDisabled .saFileUploadAreaHeading {
   color: light-dark(var(--Gray300), var(--Gray700));
 }
-.saFileUploadAreaWrapper .saLink {
+.saLink {
   color: light-dark(var(--Sa-Color-Primary600), var(--Sa-Color-Primary400));
 }
 @media (pointer: fine) {
-  .saFileUploadAreaWrapper .saLink:hover {
+  .saLink:hover {
     text-decoration: underline;
   }
 }
-.saFileUploadAreaWrapper .saLink:active {
+.saLink:active {
   color: light-dark(var(--Sa-Color-Primary700), var(--Sa-Color-Primary300));
 }
-.saDisabled .saFileUploadAreaWrapper .saLink {
+.saDisabled .saLink {
   pointer-events: none;
   color: light-dark(var(--Gray300), var(--Gray700));
 }
-.saFileUploadAreaWrapper .saFileUploadAreaDescription {
+.saFileUploadAreaDescription {
   font-size: 0.75rem;
   line-height: 1rem;
   width: 100%;
   color: light-dark(var(--Gray700), var(--Gray300));
 }
-.saDisabled .saFileUploadAreaWrapper .saFileUploadAreaDescription {
+.saDisabled .saFileUploadAreaDescription {
   color: light-dark(var(--Gray300), var(--Gray700));
 }
-.saFileUploadAreaWrapper ul.saFileGroup {
+ul.saFileGroup {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -19960,10 +20042,29 @@ legend + .saInputCardsWrapper {
   background-color: light-dark(var(--White), var(--Gray1200));
   border-radius: 0.625rem;
 }
-.saFileUploadAreaWrapper ul.saFileGroup:empty {
+ul.saFileGroup:empty {
   display: none;
 }
-.saFileUploadAreaWrapper .saFileWrapper {
+.saChatWrapper ul.saFileGroup {
+  display: grid;
+  margin-top: 0;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  background-color: transparent;
+  max-height: 40dvh;
+  overflow-y: auto;
+  width: 100%;
+}
+.saChatWrapper ul.saFileGroup[hidden] {
+  display: none;
+}
+.saChatLog ul.saFileGroup {
+  padding: 0.5rem 0;
+}
+.saChatComposer ul.saFileGroup {
+  padding: 0.75rem 0.75rem 0 0.75rem;
+}
+.saFileWrapper {
   display: flex;
   gap: 0.5rem;
   align-items: center;
@@ -19974,54 +20075,66 @@ legend + .saInputCardsWrapper {
   position: relative;
   transition: ease opacity 0.2s, ease transform 0.2s;
 }
-.saMultipleFilesArea.saFileUploadAreaWrapper .saFileWrapper {
+.saChatWrapper .saFileWrapper {
+  height: 3rem;
+  outline: 0.0625rem solid var(--Sa-Color-InputFieldBorder);
+  outline-offset: -0.0625rem;
+  padding: 0.5rem 0.75rem 0.5rem 0.5rem;
+  border-radius: 0.75rem;
+  transform-origin: top;
+  background-color: light-dark(transparent, var(--Gray1100));
+}
+.saChatWrapper .saChatLog .saFileWrapper:only-child {
+  grid-column: 2;
+}
+.saMultipleFilesArea.saFileWrapper {
   height: 3rem;
   border: 0.0625rem solid var(--Sa-Color-InputFieldBorder);
   border-bottom-width: 0;
   padding: 0.5rem;
   transform-origin: top;
 }
-.saMultipleFilesArea.saFileUploadAreaWrapper .saFileWrapper:not(.saSkipAnimation) {
+.saMultipleFilesArea.saFileWrapper:not(.saSkipAnimation) {
   opacity: 0;
   transform: translateY(-2rem);
 }
-.saMultipleFilesArea.saFileUploadAreaWrapper .saFileWrapper.saFileVisible {
+.saMultipleFilesArea.saFileWrapper.saFileVisible {
   opacity: 1;
   transform: translateY(0);
 }
-.saDisabled .saMultipleFilesArea.saFileUploadAreaWrapper .saFileWrapper {
+.saDisabled .saMultipleFilesArea.saFileWrapper {
   border-color: light-dark(var(--Gray100), var(--Gray1000));
 }
-.saMultipleFilesArea.saFileUploadAreaWrapper .saFileWrapper:first-child {
+.saMultipleFilesArea.saFileWrapper:first-child {
   border-radius: 0.75rem 0.75rem 0 0;
 }
-.saMultipleFilesArea.saFileUploadAreaWrapper .saFileWrapper:last-child {
+.saMultipleFilesArea.saFileWrapper:last-child {
   border-radius: 0 0 0.75rem 0.75rem;
   border-bottom-width: 0.0625rem;
 }
-.saMultipleFilesArea.saFileUploadAreaWrapper .saFileWrapper:only-child {
+.saMultipleFilesArea.saFileWrapper:only-child {
   border-radius: 0.75rem;
   border-bottom-width: 0.0625rem;
 }
-.saFileUploadAreaWrapper .saFileWrapper.saError {
+.saFileWrapper.saError {
   background-color: light-dark(var(--Red100), var(--Red1100));
 }
-.saFileUploadAreaWrapper .saFileWrapper.saEmptyFile {
+.saFileWrapper.saEmptyFile {
   background-color: light-dark(var(--Yellow50), var(--Yellow1200));
 }
-.saFullSizeArea.saFileUploadAreaWrapper .saFileWrapper {
+.saFullSizeArea.saFileWrapper {
   padding: 1.5rem;
   position: absolute;
   bottom: 0;
   background-color: transparent;
 }
-.saCompactFileArea.saFileUploadAreaWrapper .saFileWrapper {
+.saCompactFileArea.saFileWrapper {
   padding: 0.125rem;
   gap: 0.5rem;
   min-height: unset;
   background-color: transparent;
 }
-.saFileUploadAreaWrapper .saDeleteButton {
+.saDeleteButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: var(--Font), sans-serif;
@@ -20044,106 +20157,106 @@ legend + .saInputCardsWrapper {
   min-width: 2rem;
   font-size: 1rem;
 }
-.saFileUploadAreaWrapper .saDeleteButton .saButtonText {
+.saDeleteButton .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.saFileUploadAreaWrapper .saDeleteButton .saBadgedIcon {
+.saDeleteButton .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saFileUploadAreaWrapper .saDeleteButton .saIcon {
+.saDeleteButton .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.saFileUploadAreaWrapper .saDeleteButton .saIcon {
+.saDeleteButton .saIcon {
   color: var(--Sa-Color-Icon);
 }
-.saFileUploadAreaWrapper .saDeleteButton.saDestructive {
+.saDeleteButton.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
-.saFileUploadAreaWrapper .saDeleteButton.saDestructive .saIcon {
+.saDeleteButton.saDestructive .saIcon {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
 @media (pointer: fine) {
-  .saFileUploadAreaWrapper .saDeleteButton.saDestructive:hover {
+  .saDeleteButton.saDestructive:hover {
     color: var(--Sa-Color-DestructiveButtonBackground);
     background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
   }
-  .saFileUploadAreaWrapper .saDeleteButton.saDestructive:hover .saIcon {
+  .saDeleteButton.saDestructive:hover .saIcon {
     color: var(--Sa-Color-DestructiveButtonBackground);
   }
 }
-.saFileUploadAreaWrapper .saDeleteButton.saDestructive:active {
+.saDeleteButton.saDestructive:active {
   color: var(--White);
   background: var(--Sa-Color-DestructiveButtonBackground);
 }
-.saFileUploadAreaWrapper .saDeleteButton.saDestructive:active > .saIcon {
+.saDeleteButton.saDestructive:active > .saIcon {
   color: var(--White);
 }
 @media (pointer: fine) {
-  .saFileUploadAreaWrapper .saDeleteButton:hover {
+  .saDeleteButton:hover {
     background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
     color: light-dark(var(--Sa-Color-Primary600), var(--White));
   }
-  .saFileUploadAreaWrapper .saDeleteButton:hover .saIcon {
+  .saDeleteButton:hover .saIcon {
     color: light-dark(var(--Sa-Color-Primary600), var(--White));
   }
 }
-.saFileUploadAreaWrapper .saDeleteButton:active {
+.saDeleteButton:active {
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
-.saFileUploadAreaWrapper .saDeleteButton:active .saIcon {
+.saDeleteButton:active .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
-.saFileUploadAreaWrapper .saDeleteButton:disabled,
-.saFileUploadAreaWrapper .saDeleteButton.saDisabled {
+.saDeleteButton:disabled,
+.saDeleteButton.saDisabled {
   color: light-dark(var(--Gray300), var(--Gray700));
   background-color: transparent;
   cursor: not-allowed;
 }
-.saFileUploadAreaWrapper .saDeleteButton:disabled .saIcon,
-.saFileUploadAreaWrapper .saDeleteButton.saDisabled .saIcon {
+.saDeleteButton:disabled .saIcon,
+.saDeleteButton.saDisabled .saIcon {
   color: light-dark(var(--Gray300), var(--Gray700));
 }
-.saFileUploadAreaWrapper .saDeleteButton:active {
+.saDeleteButton:active {
   border-radius: 0.75rem;
 }
-.saDisabled .saFileUploadAreaWrapper .saDeleteButton {
+.saDisabled .saDeleteButton {
   display: none;
 }
-.saCompactFileArea.saFileUploadAreaWrapper .saDeleteButton {
+.saCompactFileArea.saDeleteButton {
   width: 1.5rem;
   height: 1.5rem;
   min-width: 1.5rem;
   max-width: 1.5rem;
   border-radius: 0.25rem;
 }
-.saCompactFileArea.saFileUploadAreaWrapper .saDeleteButton:active {
+.saCompactFileArea.saDeleteButton:active {
   border-radius: 0.5rem;
 }
-.saFileUploadAreaWrapper .saDeleteButton::after {
+.saDeleteButton::after {
   content: '';
   height: 3rem;
   width: 3rem;
   position: absolute;
 }
-.saFileUploadAreaWrapper .saFileIconWrapper {
+.saFileIconWrapper {
   position: relative;
   display: flex;
 }
-.saFullSizeArea.saHasFiles.saFileUploadAreaWrapper .saFileIconWrapper {
+.saFullSizeArea.saHasFiles.saFileIconWrapper {
   margin-bottom: 1rem;
 }
-.saFileUploadAreaWrapper .saFile {
+.saFile {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -20151,45 +20264,45 @@ legend + .saInputCardsWrapper {
   transition: ease margin 0.2s;
   min-width: 0;
 }
-.saCompactFileArea.saFileUploadAreaWrapper .saFile {
+.saCompactFileArea.saFile {
   gap: 0.5rem;
   flex-direction: row;
   justify-content: space-between;
 }
-.saFileUploadAreaWrapper .saFileNameWrapper {
+.saFileNameWrapper {
   display: flex;
   font-size: 0.875rem;
   line-height: 1rem;
   margin-top: -0.125rem;
 }
-.saSmallScreen .saFileUploadAreaWrapper .saFileNameWrapper {
+.saSmallScreen .saFileNameWrapper {
   display: inline-grid;
 }
-.saCompactFileArea.saFileUploadAreaWrapper .saFileNameWrapper {
+.saCompactFileArea.saFileNameWrapper {
   overflow: hidden;
 }
-.saFileUploadAreaWrapper .saFileName {
+.saFileName {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   line-height: 1.125rem;
   color: var(--Sa-Color-Text);
 }
-.saDisabled .saFileUploadAreaWrapper .saFileName {
+.saDisabled .saFileName {
   color: light-dark(var(--Gray300), var(--Gray700));
 }
-.saFileUploadAreaWrapper .saFileSizeWrapper {
+.saFileSizeWrapper {
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
   width: 100%;
 }
-.saCompactFileArea.saFileUploadAreaWrapper .saFileSizeWrapper {
+.saCompactFileArea.saFileSizeWrapper {
   justify-content: center;
   min-width: fit-content;
   flex: 1;
 }
-.saFileUploadAreaWrapper .saFileSize {
+.saFileSize {
   white-space: nowrap;
 }
 .saFileUploadProgressText {
@@ -20306,6 +20419,10 @@ legend + .saInputCardsWrapper {
 .saDone .saFileIcon.saIcon {
   transform: scale(1);
   transition: ease transform 0.2s 1.2s;
+}
+.saExistingFile .saFileIcon.saIcon {
+  transform: scale(1);
+  transition: none;
 }
 .saError .saFileIcon.saIcon,
 .saEmptyFile .saFileIcon.saIcon {
@@ -22070,16 +22187,19 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   }
 }
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton:active,
+.saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton[aria-expanded="true"],
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton:active .saIcon,
+.saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton[aria-expanded="true"] .saIcon,
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton:active .saBadge,
+.saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton[aria-expanded="true"] .saBadge,
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -24740,16 +24860,19 @@ softadmin-nodegraph .saNodeTools button .saBadge {
   }
 }
 softadmin-nodegraph .saNodeTools button:active,
+softadmin-nodegraph .saNodeTools button[aria-expanded="true"],
 softadmin-nodegraph .saNodeTools button.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 softadmin-nodegraph .saNodeTools button:active .saIcon,
+softadmin-nodegraph .saNodeTools button[aria-expanded="true"] .saIcon,
 softadmin-nodegraph .saNodeTools button.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 softadmin-nodegraph .saNodeTools button:active .saBadge,
+softadmin-nodegraph .saNodeTools button[aria-expanded="true"] .saBadge,
 softadmin-nodegraph .saNodeTools button.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -26017,16 +26140,19 @@ body.saMiniView {
   }
 }
 .saGroupView .saGroupViewButton:active,
+.saGroupView .saGroupViewButton[aria-expanded="true"],
 .saGroupView .saGroupViewButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saGroupView .saGroupViewButton:active .saIcon,
+.saGroupView .saGroupViewButton[aria-expanded="true"] .saIcon,
 .saGroupView .saGroupViewButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saGroupView .saGroupViewButton:active .saBadge,
+.saGroupView .saGroupViewButton[aria-expanded="true"] .saBadge,
 .saGroupView .saGroupViewButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -26435,16 +26561,19 @@ body.saMiniView {
   }
 }
 .saPdfTemplateEditor .saPageButton:active,
+.saPdfTemplateEditor .saPageButton[aria-expanded="true"],
 .saPdfTemplateEditor .saPageButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saPdfTemplateEditor .saPageButton:active .saIcon,
+.saPdfTemplateEditor .saPageButton[aria-expanded="true"] .saIcon,
 .saPdfTemplateEditor .saPageButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saPdfTemplateEditor .saPageButton:active .saBadge,
+.saPdfTemplateEditor .saPageButton[aria-expanded="true"] .saBadge,
 .saPdfTemplateEditor .saPageButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -28015,16 +28144,19 @@ body.saMiniView {
   }
 }
 .saCalendarOverlay .saChangeScreenModeButton:active,
+.saCalendarOverlay .saChangeScreenModeButton[aria-expanded="true"],
 .saCalendarOverlay .saChangeScreenModeButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saCalendarOverlay .saChangeScreenModeButton:active .saIcon,
+.saCalendarOverlay .saChangeScreenModeButton[aria-expanded="true"] .saIcon,
 .saCalendarOverlay .saChangeScreenModeButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saCalendarOverlay .saChangeScreenModeButton:active .saBadge,
+.saCalendarOverlay .saChangeScreenModeButton[aria-expanded="true"] .saBadge,
 .saCalendarOverlay .saChangeScreenModeButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -28829,6 +28961,8 @@ body.saMiniView {
 }
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:active,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:active,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton[aria-expanded="true"],
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton[aria-expanded="true"],
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saOpen,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
@@ -28837,12 +28971,16 @@ body.saMiniView {
 }
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:active .saIcon,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:active .saIcon,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton[aria-expanded="true"] .saIcon,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton[aria-expanded="true"] .saIcon,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saOpen .saIcon,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton:active .saBadge,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton:active .saBadge,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton[aria-expanded="true"] .saBadge,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton[aria-expanded="true"] .saBadge,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saOpen .saBadge,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -32482,16 +32620,19 @@ a.saKpiOuter:active {
   }
 }
 .saTreeViewWrapper button.saTreeViewButton:active,
+.saTreeViewWrapper button.saTreeViewButton[aria-expanded="true"],
 .saTreeViewWrapper button.saTreeViewButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saTreeViewWrapper button.saTreeViewButton:active .saIcon,
+.saTreeViewWrapper button.saTreeViewButton[aria-expanded="true"] .saIcon,
 .saTreeViewWrapper button.saTreeViewButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saTreeViewWrapper button.saTreeViewButton:active .saBadge,
+.saTreeViewWrapper button.saTreeViewButton[aria-expanded="true"] .saBadge,
 .saTreeViewWrapper button.saTreeViewButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -34391,9 +34532,24 @@ body.saPopup::before {
   background-color: light-dark(var(--Red700), var(--Red800));
   color: var(--White);
 }
+.saChatFullPage {
+  display: block;
+  position: relative;
+  min-width: 0;
+}
+.saChatStatus {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 .saChatWrapper {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 .saLargeScreen .saMultiPartPanel .saChatWrapper {
   width: 100%;
@@ -34430,6 +34586,9 @@ body.saPopup::before {
 }
 .saChatWrapper *[hidden] {
   display: none !important;
+}
+.saChatFullPage .saChatWrapper {
+  min-height: calc(100dvh - 9rem);
 }
 .saChatInline .saChatWrapper {
   flex: 1;
@@ -34469,10 +34628,10 @@ body.saPopup::before {
   padding-inline-start: 0;
   overflow-wrap: break-word;
   z-index: 0;
+  flex: 1;
 }
 .saChatInline .saChatLog {
-  padding-bottom: 2rem;
-  flex: 1;
+  padding-bottom: 1rem;
 }
 .saChatDate {
   display: flex;
@@ -34538,7 +34697,7 @@ body.saPopup::before {
 .saChatMessageAction .saIcon:last-child {
   font-size: 0.75rem;
 }
-[aria-expanded="true"].saChatMessageAction .saIcon:last-child {
+[aria-expanded='true'].saChatMessageAction .saIcon:last-child {
   transform: rotate(-180deg);
 }
 .saChatMessageAction code {
@@ -34563,13 +34722,6 @@ button.saChatMessageAction:active .saIcon {
 }
 .saChatSender .saChatMessageInner {
   align-items: flex-end;
-}
-.saChatSender .saChatMessageBody {
-  align-items: flex-end;
-}
-.saChatSender .saChatMessageBody > p {
-  background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
-  border-radius: 1.25rem 1.25rem 0.25rem 1.25rem;
 }
 .saChatSender.saChatEdit {
   padding: 0;
@@ -34601,23 +34753,11 @@ button.saChatMessageAction:active .saIcon {
 .saChatMessageContent {
   position: relative;
 }
-.saChatInline .saChatMessageContent {
+:is(.saChatInline, .saChatFullPage) .saChatMessageContent {
   overflow-wrap: anywhere;
 }
 .saChatSystem {
   margin: 0.5rem 0 1rem 0;
-}
-.saChatSystem .saChatMessageBody {
-  max-width: 100%;
-}
-.saChatSystem .saChatMessageBody > p {
-  text-align: center;
-  color: var(--Sa-Color-TextSecondary);
-  font-size: 0.75rem;
-  line-height: 1rem;
-  width: 100%;
-  background-color: transparent;
-  padding: 0;
 }
 .saChatAvatar {
   display: flex;
@@ -34685,10 +34825,26 @@ button.saChatMessageAction:active .saIcon {
   max-width: 28rem;
   width: 100%;
 }
-.saChatInline .saChatMessageBody {
+:is(.saChatInline, .saChatFullPage) .saChatMessageBody {
   overflow-wrap: anywhere;
 }
-.saChatMessageBody > p {
+.saChatSender .saChatMessageBody {
+  align-items: flex-end;
+}
+.saChatSystem .saChatMessageBody {
+  max-width: 100%;
+}
+.saChatMessageBodyInner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  width: 100%;
+}
+.saChatSender .saChatMessageBodyInner {
+  align-items: flex-end;
+}
+.saChatMessageBodyInner {
   font-size: 0.875rem;
   line-height: 1.25rem;
   word-break: break-word;
@@ -34700,12 +34856,28 @@ button.saChatMessageAction:active .saIcon {
   transition: border-radius ease 0.2s;
   border-radius: 1.25rem 1.25rem 1.25rem 0.25rem;
 }
-.saSmallScreen .saChatMessageBody > p {
+.saChatEdit .saChatMessageBodyInner {
+  display: none;
+}
+.saSmallScreen .saChatMessageBodyInner {
   font-size: 1rem;
   line-height: 1.25rem;
 }
-.saChatInline .saChatMessageBody > p {
+:is(.saChatInline, .saChatFullPage) .saChatMessageBodyInner {
   white-space: pre-wrap;
+}
+.saChatSender .saChatMessageBodyInner {
+  background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+  border-radius: 1.25rem 1.25rem 0.25rem 1.25rem;
+}
+.saChatSystem .saChatMessageBodyInner {
+  text-align: center;
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  width: 100%;
+  background-color: transparent;
+  padding: 0;
 }
 .saChatEdit {
   width: 100%;
@@ -34751,8 +34923,8 @@ button.saChatMessageAction:active .saIcon {
 }
 .saChatMessageEdit .saChatTextarea:focus {
   outline-color: var(--Sa-Color-Primary600);
-  outline-offset: -2px;
-  outline-width: 2px;
+  outline-offset: -0.125rem;
+  outline-width: 0.125rem;
   background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
 }
 .saLargeScreen .saChatMessageEdit .saChatTextarea {
@@ -34940,12 +35112,6 @@ button.saChatMessageAction:active .saIcon {
 .saMultiPartPanel .saChatComposerWrapper::after {
   content: none;
 }
-.saChatComposerWrapper:has(.saChatComposerInstruction)::after {
-  height: 6rem;
-}
-.saSmallScreen .saChatComposerWrapper:has(.saChatComposerInstruction)::after {
-  height: 4rem;
-}
 .saChatInline .saChatComposerWrapper {
   flex: 0 0 auto;
   bottom: 0;
@@ -34955,103 +35121,111 @@ button.saChatMessageAction:active .saIcon {
 }
 .saChatComposer {
   display: flex;
+  flex-direction: column;
   position: relative;
+  min-width: 0;
+  min-height: 8rem;
+  border: 1px solid var(--Sa-Color-InputFieldBorder);
+  border-radius: 1.5rem;
+  background-color: light-dark(var(--White), var(--Gray1100));
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
-.saChatComposer .saChatTextarea {
+.saLargeScreen .saMultiPartPanel.saHasBorder .saChatComposer {
+  border-radius: 0.5rem;
+}
+.saChatInline .saChatComposer {
+  box-shadow: 0 1px 2px light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent)), 0 2px 0.25rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent));
+}
+.saLargeScreen .saChatFullPage .saChatComposer {
+  border-radius: 0 0 1.5rem 1.5rem;
+}
+.saChatComposer > .saChatTextarea {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
   width: 100%;
-  height: 100%;
+  min-height: 8rem;
+  max-height: 40dvh;
+  box-sizing: border-box;
   resize: none;
   border: none;
-  padding: 1rem 0.75rem 3rem 0.75rem;
+  border-radius: inherit;
+  padding: 0.75rem 0.75rem 3.25rem 0.75rem;
   font-size: 0.875rem;
-  line-height: 1rem;
+  line-height: 1.5rem;
   font-family: inherit;
   outline: none;
   color: inherit;
-  field-sizing: content;
-  min-height: 8rem;
-  max-height: 50dvh;
-  border: 1px solid var(--Sa-Color-InputFieldBorder);
-  background-color: light-dark(var(--White), var(--Gray1100));
+  background: transparent;
   overflow-y: auto;
-  transition: background-color 0.2s ease;
+  overflow-wrap: anywhere;
+  field-sizing: content;
 }
-.saLargeScreen .saChatComposer .saChatTextarea {
-  border-radius: 0 0 1.5rem 1.5rem;
-  padding-right: 0;
+.saLargeScreen .saChatComposer > .saChatTextarea {
   scrollbar-gutter: stable;
 }
-.saLargeScreen .saChatComposer .saChatTextarea::-webkit-scrollbar {
+.saLargeScreen .saChatComposer > .saChatTextarea::-webkit-scrollbar {
   background-color: transparent;
 }
-.saLargeScreen .saChatComposer .saChatTextarea::-webkit-scrollbar-thumb {
+.saLargeScreen .saChatComposer > .saChatTextarea::-webkit-scrollbar-thumb {
   background-color: transparent;
 }
-.saLargeScreen .saChatComposer .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar {
+.saLargeScreen .saChatComposer > .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar {
   background-color: light-dark(var(--Gray200), var(--Gray900));
 }
-.saLargeScreen .saChatComposer .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
+.saLargeScreen .saChatComposer > .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
   background-color: light-dark(var(--Gray500), var(--Gray700));
 }
-.saLargeScreen .saChatComposer .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
+.saLargeScreen .saChatComposer > .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
   background-color: light-dark(var(--Gray700), var(--Gray900));
 }
-.saLargeScreen .saChatComposer .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
+.saLargeScreen .saChatComposer > .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
   background-color: light-dark(var(--Gray900), var(--Gray1000));
 }
-.saLargeScreen .saMultiPartPanel.saHasBorder .saChatComposer .saChatTextarea {
-  border-radius: 0.5rem;
-}
-.saSmallScreen .saChatComposer .saChatTextarea {
-  border-radius: 1.5rem;
+.saSmallScreen .saChatComposer > .saChatTextarea {
   font-size: 1rem;
-  line-height: 1.25rem;
-  min-height: 3rem;
-  padding: 0.75rem 3.5rem 0.75rem 1rem;
 }
-.saChatComposer .saChatTextarea.saEmpty::before {
+.saChatComposer > .saChatTextarea.saEmpty::before {
   content: attr(data-placeholder);
   color: light-dark(var(--Gray400), var(--Gray600));
   pointer-events: none;
   position: absolute;
 }
-.saChatInline .saChatComposer .saChatTextarea {
-  border-radius: 1.5rem;
-  box-shadow: 0 1px 2px light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent)), 0 2px 0.25rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent));
-}
-.saChatComposer:has(.saChatContext:not([hidden])) .saChatTextarea {
-  padding-top: 3rem;
-}
-.saChatInline .saChatInlineContext:not([hidden]) + .saChatComposer .saChatTextarea {
-  border-radius: 0 0 1.5rem 1.5rem;
-}
 .saChatContext {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  position: absolute;
-  inset: 0 0 auto 0;
-  padding: 0.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0.75rem 0.75rem 0;
 }
-.saChatContext li {
+[hidden].saChatContext {
+  display: none;
+}
+.saChatMessageContext.saChatContext {
+  justify-content: end;
+  padding: 0;
+  margin: 0 0 0.5rem;
+}
+.saChatContext .saPill {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   border-radius: 99rem;
   height: 1.75rem;
   width: fit-content;
-  background-color: var(--Gray50);
-  outline: 0.0625rem solid var(--Gray200);
+  max-width: 100%;
+  background-color: light-dark(var(--Sa-Color-Primary50), var(--Sa-Color-Primary1300));
+  outline: 0.0625rem solid light-dark(var(--Sa-Color-Primary200), var(--Sa-Color-Primary1100));
+  color: light-dark(var(--Sa-Color-Primary800), var(--Sa-Color-Primary400));
   outline-offset: -0.0625rem;
   padding: 0.25rem 0.75rem 0.25rem 0.625rem;
   font-size: 0.75rem;
   position: relative;
 }
-.saChatContext li > .saIcon:first-child {
-  color: var(--Sa-Color-Icon);
-}
-.saChatContext li:is(:hover, :focus) .saPillRemoveButton {
-  transform: scale(1);
+.saChatContext .saPill .saChatContextPillLabel > .saIcon {
+  color: light-dark(var(--Sa-Color-Primary500), var(--Sa-Color-Primary400));
+  font-size: 1rem;
 }
 .saPillRemoveButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -35122,16 +35296,19 @@ button.saChatMessageAction:active .saIcon {
   }
 }
 .saPillRemoveButton:active,
+.saPillRemoveButton[aria-expanded="true"],
 .saPillRemoveButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saPillRemoveButton:active .saIcon,
+.saPillRemoveButton[aria-expanded="true"] .saIcon,
 .saPillRemoveButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saPillRemoveButton:active .saBadge,
+.saPillRemoveButton[aria-expanded="true"] .saBadge,
 .saPillRemoveButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -35201,6 +35378,14 @@ button.saChatMessageAction:active .saIcon {
 .saPillRemoveButton:active {
   border-radius: 0.625rem;
 }
+.saPill:is(:hover, :focus, :focus-within) .saPillRemoveButton {
+  transform: scale(1);
+}
+@media (hover: none) {
+  .saChatInline .saChatContext .saPillRemoveButton {
+    transform: scale(1);
+  }
+}
 @media (pointer: fine) {
   .saPillRemoveButton:hover {
     color: var(--White);
@@ -35232,7 +35417,8 @@ button.saChatMessageAction:active .saIcon {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: light-dark(var(--Gray100), var(--Gray1000));
+  background-color: color-mix(in oklch, light-dark(var(--Gray100), var(--Gray1000)) 85%, transparent);
+  backdrop-filter: blur(0.125rem);
   border: 1px solid var(--Sa-Color-InputFieldBorder);
   border-radius: 99rem;
   color: var(--Sa-Color-TextSecondary);
@@ -35269,11 +35455,7 @@ button.saChatMessageAction:active .saIcon {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.saChatInline .saChatComposerInstruction {
-  white-space: normal;
-  margin: 0.5rem 0 0;
-  padding: 0;
+  margin-top: auto;
 }
 .saLoadMessagesButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -35339,16 +35521,19 @@ button.saChatMessageAction:active .saIcon {
   }
 }
 .saLoadMessagesButton:active,
+.saLoadMessagesButton[aria-expanded="true"],
 .saLoadMessagesButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saLoadMessagesButton:active .saIcon,
+.saLoadMessagesButton[aria-expanded="true"] .saIcon,
 .saLoadMessagesButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saLoadMessagesButton:active .saBadge,
+.saLoadMessagesButton[aria-expanded="true"] .saBadge,
 .saLoadMessagesButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -35430,14 +35615,16 @@ button.saChatMessageAction:active .saIcon {
   display: none;
 }
 .saChatComposerToolbar {
-  display: flex;
-  gap: 0.25rem;
   position: absolute;
   inset: auto 0 0 0;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
   padding: 0.75rem;
-}
-.saSmallScreen .saChatComposerToolbar {
-  padding: 1rem;
+  pointer-events: none;
 }
 .saChatComposerToolbar > li:last-child {
   margin-left: auto;
@@ -35445,6 +35632,7 @@ button.saChatMessageAction:active .saIcon {
 .saChatButtonSend,
 .saChatButtonStop,
 .saChatComposerToolbarButton {
+  pointer-events: all;
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: var(--Font), sans-serif;
@@ -35534,6 +35722,11 @@ button.saChatMessageAction:active .saIcon {
     background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness90);
   }
 }
+.saChatComposer > .saChatButtonSend {
+  align-self: flex-end;
+  flex-shrink: 0;
+  margin: 0.75rem;
+}
 .saChatButtonStop,
 .saChatComposerToolbarButton {
   border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
@@ -35568,6 +35761,8 @@ button.saChatMessageAction:active .saIcon {
 }
 .saChatButtonStop:active,
 .saChatComposerToolbarButton:active,
+.saChatButtonStop[aria-expanded="true"],
+.saChatComposerToolbarButton[aria-expanded="true"],
 .saChatButtonStop.saOpen,
 .saChatComposerToolbarButton.saOpen {
   border-color: light-dark(var(--Sa-Color-Primary700), var(--Gray400));
@@ -35576,12 +35771,16 @@ button.saChatMessageAction:active .saIcon {
 }
 .saChatButtonStop:active .saIcon,
 .saChatComposerToolbarButton:active .saIcon,
+.saChatButtonStop[aria-expanded="true"] .saIcon,
+.saChatComposerToolbarButton[aria-expanded="true"] .saIcon,
 .saChatButtonStop.saOpen .saIcon,
 .saChatComposerToolbarButton.saOpen .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
 .saChatButtonStop:active .saBadge,
 .saChatComposerToolbarButton:active .saBadge,
+.saChatButtonStop[aria-expanded="true"] .saBadge,
+.saChatComposerToolbarButton[aria-expanded="true"] .saBadge,
 .saChatButtonStop.saOpen .saBadge,
 .saChatComposerToolbarButton.saOpen .saBadge {
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
@@ -35682,7 +35881,7 @@ button.saChatMessageAction:active .saIcon {
   animation: chatThinkingSpinner 2s ease-in-out infinite alternate;
 }
 @media (prefers-reduced-motion: reduce) {
-  .saChatInline .saChatThinkingSpinner {
+  :is(.saChatInline, .saChatFullPage) .saChatThinkingSpinner {
     animation: none;
   }
 }
@@ -35748,46 +35947,6 @@ button.saChatMessageAction:active .saIcon {
     opacity: 1;
   }
 }
-.saFloatingToolbar {
-  background-color: var(--Gray900);
-  color: var(--Gray100);
-  border-radius: 0.75rem;
-  display: flex;
-  flex-wrap: wrap;
-  position: absolute;
-  z-index: 4;
-  width: max-content;
-  max-width: calc(100% - 0.5rem);
-  padding: 0.25rem;
-  overflow-x: auto;
-}
-.saFloatingToolbar[hidden] {
-  display: none;
-}
-.saFloatingToolbar .saButtonIconToolbar {
-  color: var(--Gray200);
-}
-.saFloatingToolbar > ul {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  list-style: none;
-  margin: 0;
-  padding-inline: 0.5rem;
-}
-.saFloatingToolbar > ul:first-of-type {
-  padding-left: 0;
-}
-.saFloatingToolbar > ul:last-of-type {
-  padding-right: 0;
-}
-.saFloatingToolbar > ul + ul {
-  border-inline-start: 0.0625rem solid var(--Gray700);
-}
-.saFloatingToolbar > ul > li {
-  display: flex;
-  align-items: center;
-}
 .saChatInlineSelectionToolbar.saFloatingToolbar {
   position: fixed;
   z-index: 60;
@@ -35796,8 +35955,8 @@ button.saChatMessageAction:active .saIcon {
   position: relative;
   display: flex;
   flex-direction: column;
-  flex: 0 0 var(--sa-inline-chat-width, 24rem);
-  width: var(--sa-inline-chat-width, 24rem);
+  flex: 0 0 var(--sa-chat-inline-width, 24rem);
+  width: var(--sa-chat-inline-width, 24rem);
   min-width: 0;
   height: 100%;
   max-height: 100dvh;
@@ -35810,13 +35969,13 @@ button.saChatMessageAction:active .saIcon {
   transform: translateX(0);
   transition: margin-inline-end 200ms ease, transform 200ms ease, opacity 200ms ease, display 200ms allow-discrete;
   @starting-style {
-    margin-inline-end: calc(0px - var(--sa-inline-chat-width, 24rem));
+    margin-inline-end: calc(0px - var(--sa-chat-inline-width, 24rem));
     opacity: 0;
   }
 }
 [hidden].saChatInline {
   display: none;
-  margin-inline-end: calc(0px - var(--sa-inline-chat-width, 24rem));
+  margin-inline-end: calc(0px - var(--sa-chat-inline-width, 24rem));
   opacity: 0;
   pointer-events: none;
 }
@@ -35828,7 +35987,7 @@ button.saChatMessageAction:active .saIcon {
     position: fixed;
     inset: 0 0 0 auto;
     z-index: 50;
-    width: min(var(--sa-inline-chat-width, 24rem), 100vw);
+    width: min(var(--sa-chat-inline-width, 24rem), 100vw);
     height: 100dvh;
     box-shadow: -0.25rem 0 1rem rgba(0, 0, 0, 0.15);
     @starting-style {
@@ -35842,28 +36001,24 @@ button.saChatMessageAction:active .saIcon {
   }
 }
 .saSmallScreen .saChatInline {
-  --sa-inline-chat-header-offset: 3rem;
-  top: var(--sa-inline-chat-header-offset);
-  height: calc(100dvh - var(--sa-inline-chat-header-offset));
-  max-height: calc(100dvh - var(--sa-inline-chat-header-offset));
+  --sa-chat-inline-header-offset: 3rem;
+  top: var(--sa-chat-inline-header-offset);
+  height: calc(100dvh - var(--sa-chat-inline-header-offset));
+  max-height: calc(100dvh - var(--sa-chat-inline-header-offset));
 }
 .saSmallScreen.saSmallScreenHasTopButtons .saChatInline {
-  --sa-inline-chat-header-offset: 5.5rem;
+  --sa-chat-inline-header-offset: 5.5rem;
 }
 .saSmallScreen.saHasLogotypeHeader .saChatInline {
-  --sa-inline-chat-header-offset: 5rem;
+  --sa-chat-inline-header-offset: 5rem;
 }
 .saSmallScreen.saHasLogotypeHeader.saSmallScreenHasTopButtons .saChatInline {
-  --sa-inline-chat-header-offset: 7.5rem;
+  --sa-chat-inline-header-offset: 7.5rem;
 }
 @media (prefers-reduced-motion: reduce) {
   .saChatInline {
     transition: none;
   }
-}
-.saChatInline [data-chat-source] {
-  font-size: 0.75rem;
-  color: var(--Sa-Color-TextSecondary);
 }
 .saChatInline .saChatInlineResponseStatus {
   color: var(--Sa-Color-TextSecondary);
@@ -35922,27 +36077,6 @@ button.saChatMessageAction:active .saIcon {
 }
 .saChatContextPillLabel:focus-visible {
   outline: 0.125rem solid var(--Sa-Color-Primary600);
-}
-.saChatContext.saChatMessageContext {
-  position: static;
-  inset: auto;
-  list-style: none;
-  padding: 0;
-  margin: 0 0 0.5rem;
-}
-.saChatInline .saChatContext li {
-  max-width: 100%;
-}
-.saChatInline .saChatContext li:focus-within .saPillRemoveButton {
-  transform: scale(1);
-}
-@media (hover: none) {
-  .saChatInline .saChatContext .saPillRemoveButton {
-    transform: scale(1);
-  }
-}
-.saChatInline .saChatComposer:has(.saChatContext:not([hidden])) .saChatTextarea {
-  padding-top: calc(var(--sa-chat-context-height, 3rem) + 0.25rem);
 }
 .saChatInlineAddContext {
   position: relative;
@@ -36019,13 +36153,15 @@ span.saChatContextPillLabel {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border: 0.0625rem solid var(--Sa-Color-InputFieldBorder);
+  border-bottom: 0.0625rem solid var(--Sa-Color-InputFieldBorder);
   border-radius: 1.5rem 1.5rem 0 0;
-  height: 3rem;
-  margin-bottom: -0.0625rem;
+  min-height: 3rem;
+  flex-shrink: 0;
   background-color: light-dark(var(--Gray50), var(--Gray900));
-  animation: grow-inn 0.2s forwards;
   padding-right: 0.5rem;
+}
+.saLargeScreen .saChatFullPage .saChatInlineContext {
+  border-radius: 0;
 }
 .saChatInlineContext .saIcon {
   color: var(--Sa-Color-Icon);
@@ -36049,14 +36185,6 @@ span.saChatContextPillLabel {
   width: 2rem;
   height: 2rem;
 }
-@keyframes grow-inn {
-  from {
-    height: 2rem;
-  }
-  to {
-    height: 3rem;
-  }
-}
 .saChatInlineExcerpt {
   display: flex;
   align-items: baseline;
@@ -36066,9 +36194,6 @@ span.saChatContextPillLabel {
   font-size: 0.75rem;
   line-height: 1.5rem;
   max-width: 100%;
-  min-width: 0;
-}
-.saChatInlineExcerpt > .saChatInlineSourceLink {
   min-width: 0;
 }
 .saChatInlineSourceLink {
@@ -36081,9 +36206,6 @@ span.saChatContextPillLabel {
   color: inherit;
   text-decoration: none;
   outline-offset: -0.125rem;
-}
-.saChatInlineContext .saChatInlineSourceLink {
-  gap: 0.5rem;
 }
 .saChatInlineSourceLink > .saIcon {
   flex-shrink: 0;
@@ -36108,8 +36230,47 @@ span.saChatContextPillLabel {
   color: light-dark(var(--Sa-Color-Primary900), var(--Gray200));
 }
 .saChatInlineSourceLink[aria-disabled='true'] {
-  cursor: default;
-  opacity: 0.7;
+  cursor: not-allowed;
+  color: light-dark(var(--Gray300), var(--Gray1000));
+}
+.saChatInlineContext .saChatInlineSourceLink {
+  gap: 0.5rem;
+}
+.saChatInlineMessageSourceLink {
+  display: flex;
+  align-items: baseline;
+  gap: 0.375rem;
+  min-width: 0;
+  max-width: 100%;
+  color: inherit;
+  text-decoration: none;
+  outline-offset: -0.125rem;
+}
+.saChatInlineMessageSourceLink > .saIcon {
+  flex-shrink: 0;
+  color: inherit;
+  font-size: 1rem;
+}
+.saChatInlineMessageSourceLink > span {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.saChatInlineMessageSourceLink[href] {
+  cursor: pointer;
+}
+@media (pointer: fine) {
+  .saChatInlineMessageSourceLink[href]:hover {
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+}
+.saChatInlineMessageSourceLink[href]:active {
+  color: light-dark(var(--Sa-Color-Primary900), var(--Gray200));
+}
+.saChatInlineMessageSourceLink[aria-disabled='true'] {
+  cursor: not-allowed;
+  color: light-dark(var(--Gray300), var(--Gray1000));
 }
 ::highlight(sa-chat-source) {
   background-color: var(--Yellow200);
@@ -36236,6 +36397,46 @@ span.saChatContextPillLabel {
     min-width: 0;
     width: 0;
   }
+}
+.saFloatingToolbar {
+  background-color: var(--Gray900);
+  color: var(--Gray100);
+  border-radius: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  z-index: 4;
+  width: max-content;
+  max-width: calc(100% - 0.5rem);
+  padding: 0.25rem;
+  overflow-x: auto;
+}
+.saFloatingToolbar[hidden] {
+  display: none;
+}
+.saFloatingToolbar .saButtonIconToolbar {
+  color: var(--Gray200);
+}
+.saFloatingToolbar > ul {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding-inline: 0.5rem;
+}
+.saFloatingToolbar > ul:first-of-type {
+  padding-left: 0;
+}
+.saFloatingToolbar > ul:last-of-type {
+  padding-right: 0;
+}
+.saFloatingToolbar > ul + ul {
+  border-inline-start: 0.0625rem solid var(--Gray700);
+}
+.saFloatingToolbar > ul > li {
+  display: flex;
+  align-items: center;
 }
 .saAppInstall .saAppInstructions {
   width: fit-content;

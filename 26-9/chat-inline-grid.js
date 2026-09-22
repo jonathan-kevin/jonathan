@@ -1,8 +1,8 @@
-// Native text selection for grids and inline-chat messages; no editor dependency.
+// Native text selection for grids and chat-inline messages; no editor dependency.
 (() => {
-	const sources = document.querySelectorAll("[data-chat-selection-source], inline-chat .saChatLog");
+	const sources = document.querySelectorAll("[data-chat-selection-source], chat-inline .saChatLog, softadmin-chat[data-chat-interactive] .saChatLog");
 	for (const source of sources) {
-		const sourceChat = source.closest("inline-chat");
+		const sourceChat = source.closest("chat-inline, softadmin-chat[data-chat-interactive]");
 		const chat = sourceChat || document.getElementById(source.dataset.chatTarget);
 		let toolbar = document.getElementById(source.dataset.chatToolbar);
 		if (sourceChat) {
@@ -88,7 +88,7 @@
 		}
 
 		document.addEventListener("selectionchange", schedule);
-		document.addEventListener("inline-chat-source-jump", () => { dismissed = true; hide(); });
+		document.addEventListener("chat-inline-source-jump", () => { dismissed = true; hide(); });
 		document.addEventListener("pointerdown", event => {
 			if (toolbar.contains(event.target)) return;
 			dismissed = !source.contains(event.target);

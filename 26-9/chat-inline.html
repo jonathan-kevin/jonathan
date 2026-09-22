@@ -5,17 +5,18 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Inline chat</title>
-	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css?v=sent-context-pills-1">
+	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css?v=chat-file-cards-2">
 	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
 	<link rel="stylesheet" href="../src/fontawesome/css/duotone-regular.css">
 	<meta name="description" content="Demo">
 	<meta property="og:image" content="./Presentation/img/og-img.png">
 
 	<script src="../src/jquery-4.0.0.slim.min.js"></script>
-	<script src="./script.js?v=favorite-toasts-20260921"></script>
+	<script src="./script.js?v=message-context-outside-1"></script>
 	<script src="./live.js#css,html,js" defer></script>
-	<script src="./inline-chat.js?v=sent-context-pills-1" defer></script>
-	<script src="./inline-chat-grid.js?v=floating-toolbar-1" defer></script>
+	<script src="./chat.js?v=chat-generated-ui-1" defer></script>
+	<script src="./chat-inline.js?v=distinct-chat-layouts-1" defer></script>
+	<script src="./chat-inline-grid.js?v=shared-chat-2" defer></script>
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
 
@@ -100,7 +101,7 @@
 									<li><a class="saItem" tabindex="0" href="./copy-clipboard.html"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-clone icon saIcon"></i></div><span>Copy to clipboard<span class="saMenuItemPill saBeta">Beta</span></span></div></a></li>
 									<li><a class="saItem" tabindex="0" href="./toast.html"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-bread-slice icon saIcon"></i></div><span>Toast<span class="saMenuItemPill saDraft">Draft</span></span></div></a></li>
 									<li><a class="saItem" tabindex="0" href="./markdown.html"><div class="saItemInner"><div class="saIconWrapper"><i class="fab fa-markdown icon saIcon"></i></div><span>Markdown</span></div></a></li>
-									<li><a class="saItem" href="./inline-chat.html" aria-current="page"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-comments icon saIcon" aria-hidden="true"></i></div><span>Inline chat</span></div></a></li>
+									<li><a class="saItem" href="./chat-inline.html" aria-current="page"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-comments icon saIcon" aria-hidden="true"></i></div><span>Inline chat</span></div></a></li>
 								</ul>
 							</div>
 							<div class="saSideBarGroup">
@@ -251,7 +252,7 @@
 											<nav class="saBreadcrumbs">
 												<div class="saBackButtonWrapper"><button class="saBackButton" type="button"><i class="far fad fa-arrow-left saBack saIcon"></i></button></div>
 											</nav>
-											<button type="button" id="open-document-chat" class="saOpenChat" aria-label="Open document chat" aria-controls="grid-inline-chat" aria-expanded="true">
+											<button type="button" id="open-document-chat" class="saOpenChat" aria-label="Open document chat" aria-controls="grid-chat-inline" aria-expanded="true">
 												<i class="saIcon far fad fa-sidebar-flip" aria-hidden="true"></i>
 											</button>
 										</div>
@@ -285,7 +286,7 @@
 													<h1 class="saHeaderText">Inline chat</h1>
 												</div>
 											</div>
-											<button class="saOpenChat saButtonHeader" type="button" aria-label="Open document chat" aria-controls="grid-inline-chat" aria-expanded="true">
+											<button class="saOpenChat saButtonHeader" type="button" aria-label="Open document chat" aria-controls="grid-chat-inline" aria-expanded="true">
 												<i class="far fad fa-sidebar-flip saIcon"></i>
 											</button>
 
@@ -480,7 +481,7 @@
 															</ul>
 														</div>
 													</div>
-													<table tabindex="0" data-chat-selection-source data-chat-target="grid-inline-chat" data-chat-toolbar="grid-selection-toolbar" class="saGrid" cellpadding="0" cellspacing="0" style="--SaGridStickyOffset: 140px">
+													<table tabindex="0" data-chat-selection-source data-chat-target="grid-chat-inline" data-chat-toolbar="grid-selection-toolbar" class="saGrid" cellpadding="0" cellspacing="0" style="--SaGridStickyOffset: 140px">
 														<caption>
 																	Birds
 														</caption>
@@ -1242,10 +1243,10 @@
 				</div>
 			</div>
 		</div>
-		<inline-chat id="grid-inline-chat"></inline-chat>
+		<chat-inline id="grid-chat-inline"></chat-inline>
 	</div>
 <div id="grid-selection-toolbar" class="saFloatingToolbar saChatInlineSelectionToolbar" role="toolbar" aria-label="Selected grid text actions" aria-keyshortcuts="Alt+Shift+A" hidden>
-	<ul><li><button class="saButtonToolbarDark" type="button" data-send-selection aria-controls="grid-inline-chat">Send to chat</button></li></ul>
+	<ul><li><button class="saButtonToolbarDark" type="button" data-send-selection aria-controls="grid-chat-inline">Send to chat</button></li></ul>
 </div>
 	<script>
 		(() => {

@@ -614,14 +614,17 @@ $(document).ready(function () {
 		}
 	});
 
+	function getChatBodyContent(body) {
+		return body.querySelector(':scope > .saChatMessageBodyInner') || body;
+	}
+
 	function getChatMessageCopyText(button) {
-		const inlineAnswer = button.closest('inline-chat .saChatAiResponse article')?.querySelector('[data-chat-answer]');
+		const inlineAnswer = button.closest('.saChatAiResponse article')?.querySelector('[data-chat-answer]');
 		if (inlineAnswer) return inlineAnswer.innerText.trim();
 
-		const inlineBody = button.closest('inline-chat .saChatSender article')?.querySelector('.saChatMessageBody');
+		const inlineBody = button.closest(':is(chat-inline, softadmin-chat[data-chat-interactive]) .saChatSender article')?.querySelector('.saChatMessageBody');
 		if (inlineBody) {
-			return Array.from(inlineBody.children)
-				.filter(element => element.matches('p, blockquote'))
+			return Array.from(inlineBody.querySelectorAll(':scope > blockquote, :scope > p, :scope > .saChatMessageBodyInner > p'))
 				.map(element => element.innerText.trim())
 				.filter(Boolean)
 				.join('\n\n');
@@ -629,7 +632,7 @@ $(document).ready(function () {
 
 		const messageContent = $(button)
 			.closest('article')
-			.find('.saChatMessageContent, .saChatMessageBody > .saMarkdownContent')
+			.find('.saChatMessageContent, .saChatMessageBody > .saMarkdownContent, .saChatMessageBodyInner > .saMarkdownContent')
 			.get(0);
 
 		return messageContent?.innerText.trim() || '';
@@ -662,7 +665,7 @@ $(document).ready(function () {
 		if (!$messageBody.length || $messageBody.hasClass('saChatEdit')) return;
 
 		const editorId = `sa-chat-message-editor-${++chatEditorSequence}`;
-		const messageText = $messageBody.children('p').first().text();
+		const messageText = $(getChatBodyContent($messageBody.get(0))).children('p').first().text();
 		const $messageEdit = $('<div>', { class: 'saChatMessageEdit' });
 		const $editable = $('<div>', {
 			class: 'saChatTextarea',
@@ -712,7 +715,7 @@ $(document).ready(function () {
 				return;
 			}
 
-			$messageBody.children('p').first().text(messageText);
+			$(getChatBodyContent($messageBody.get(0))).children('p').first().text(messageText);
 		}
 
 		$messageEdit.remove();
