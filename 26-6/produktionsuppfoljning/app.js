@@ -84,7 +84,7 @@
     const limits=[0,0.75,0.9,1],colors=['saMeterRed','saMeterYellow','saMeterGreen'];
     return infoArea(['Repetition','Genrep','Konsert'].map(type=> {
       const rows = data.assignments.filter(a=>a.type === type);
-      const planned = D.sum(rows,'planned'), scheduled = D.sum(rows,'scheduled'), actual = D.sum(rows,'actual');
+      const planned = D.sum(rows,'planned'), scheduled = D.sum(rows,'scheduled');
       const fraction = planned ? Math.min(1,scheduled/planned) : 0;
       const color=colors[fraction<limits[1]?0:fraction<limits[2]?1:2];
       const intervals=colors.map((color,index)=>{
@@ -97,7 +97,7 @@
         const align=limit<0.33?'Left':limit>0.66?'Right':'Center';
         return `<text class="saMeterIntervalText saMeterText${align}" x="${x}" y="${y-2}">${num(planned*limit)}</text>`;
       }).join('');
-      return infoBox('', `<div class="saInfoBoxCol"><div class="saInfoBoxContent"><div class="saInfoSqlMeterWrapper"><div class="saMeterOuter"><h3 class="saMeterHeading">${type}</h3><svg width="100%" viewBox="0 0 260 130" role="img" aria-label="${type}: ${hours(scheduled)} schemalagt av ${hours(planned)} publicerat"><path class="saMeterUnreachedValue saMeterValue" fill="none" d="M60,115 A70,70 0 0 1 200,115"/><path class="saMeterValue ${color}" fill="none" d="M60,115 A70,70 0 0 1 200,115" pathLength="100" stroke-dasharray="${fraction*100} 100"/><text class="saMeterValueText" x="130" y="115"><tspan font-size="32">${num(scheduled)}</tspan><tspan font-size="16" dx="3">h</tspan></text>${intervals}${labels}</svg></div></div></div></div><div class="meter-details">${fields([['Publicerad plan',hours(planned)],['Rapporterad tid',hours(actual)]])}</div>`);
+      return infoBox('', `<div class="saInfoBoxCol"><div class="saInfoBoxContent"><div class="saInfoSqlMeterWrapper"><div class="saMeterOuter"><h3 class="saMeterHeading">${type}</h3><svg width="100%" viewBox="0 0 260 130" role="img" aria-label="${type}: ${hours(scheduled)} schemalagt av ${hours(planned)} publicerat"><path class="saMeterUnreachedValue saMeterValue" fill="none" d="M60,115 A70,70 0 0 1 200,115"/><path class="saMeterValue ${color}" fill="none" d="M60,115 A70,70 0 0 1 200,115" pathLength="100" stroke-dasharray="${fraction*100} 100"/><text class="saMeterValueText" x="130" y="115"><tspan font-size="32">${num(scheduled)}</tspan><tspan font-size="16" dx="3">h</tspan></text>${intervals}${labels}</svg></div></div></div></div>`);
     }));
   }
   function overview() {
