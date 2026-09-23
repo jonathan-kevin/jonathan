@@ -619,8 +619,14 @@ $(document).ready(function () {
 	}
 
 	function getChatMessageCopyText(button) {
-		const inlineAnswer = button.closest('.saChatAiResponse article')?.querySelector('[data-chat-answer]');
-		if (inlineAnswer) return inlineAnswer.innerText.trim();
+		const assistantContent = button.closest('.saChatAiResponse article')?.querySelector('.saChatMessageContent');
+		if (assistantContent) {
+			return Array.from(assistantContent.children)
+				.filter(element => !element.matches('[hidden], [data-chat-intro], [data-chat-tool-history], .saChatMessageAction'))
+				.map(element => element.innerText.trim())
+				.filter(Boolean)
+				.join('\n\n');
+		}
 
 		const inlineBody = button.closest(':is(chat-inline, softadmin-chat[data-chat-interactive]) .saChatSender article')?.querySelector('.saChatMessageBody');
 		if (inlineBody) {

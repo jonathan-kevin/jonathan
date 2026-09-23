@@ -44,7 +44,7 @@
   --Sa-Color-DestructiveButtonBackground-Brightness85: var(--Red800);
   --Sa-Color-DestructiveButtonBackground-Brightness90: var(--Red700);
   --Sa-Color-DestructiveButtonBackground-Brightness182: light-dark(var(--Red200), var(--Red1000));
-  --Sa-Color-DestructiveButtonBackground-Brightness187: light-dark(var(--Red50), color-mix(in srgb, var(--Red600) 20%, transparent));
+  --Sa-Color-DestructiveButtonBackground-Brightness187: light-dark(var(--Red50), color-mix(in oklch, var(--Red600) 20%, transparent));
   --Sa-Color-PositiveTrend: light-dark(var(--Green600), var(--Green300));
   --Sa-Color-NegativeTrend: light-dark(var(--Red600), var(--Red300));
   --Sa-Color-NeutralTrend: var(--Sa-Color-TextSecondary);
@@ -842,7 +842,7 @@ html {
   height: 1px;
   margin-top: 2px;
   margin-left: -1.5rem;
-  background: linear-gradient(to right, color-mix(in srgb, light-dark(var(--Gray200), var(--Gray800)) 4%, transparent), light-dark(var(--Gray200), var(--Gray800)), light-dark(var(--Gray200), var(--Gray800)), light-dark(var(--Gray200), var(--Gray800)), color-mix(in srgb, light-dark(var(--Gray200), var(--Gray800)) 4%, transparent));
+  background: linear-gradient(to right, color-mix(in oklch, light-dark(var(--Gray200), var(--Gray800)) 4%, transparent), light-dark(var(--Gray200), var(--Gray800)), light-dark(var(--Gray200), var(--Gray800)), light-dark(var(--Gray200), var(--Gray800)), color-mix(in oklch, light-dark(var(--Gray200), var(--Gray800)) 4%, transparent));
   transition: ease opacity 0.2s;
   opacity: 0;
 }
@@ -1045,7 +1045,7 @@ body.saPopup {
   cursor: pointer;
 }
 .editableindicator {
-  color: color-mix(in srgb, light-dark(#335079, var(--Sa-Color-Primary300)) 58%, transparent);
+  color: color-mix(in oklch, light-dark(#335079, var(--Sa-Color-Primary300)) 58%, transparent);
   padding: 0 2px 0 0.3125rem;
 }
 .saLargeScreen .listpage .editableindicator {
@@ -2262,7 +2262,7 @@ body.saPc *::-webkit-scrollbar-corner {
   background-color: transparent;
 }
 .saPopupOverlay.saVisible:not(.saLightboxOverlay) {
-  background-color: color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 20%, transparent);
+  background-color: color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 20%, transparent);
 }
 div.saPopupOverlay {
   position: fixed;
@@ -2281,7 +2281,7 @@ div.saPopupOverlay {
   background-color: transparent;
 }
 .saSideBar .saPopupOverlay.saVisible {
-  background-color: color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 20%, transparent);
+  background-color: color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 20%, transparent);
 }
 .saRightFrameRoot {
   width: 100%;
@@ -2306,7 +2306,7 @@ div.saPopupOverlay {
   width: 100%;
   height: 100%;
   z-index: 1000000000;
-  background-color: color-mix(in srgb, var(--White) 1%, transparent);
+  background-color: color-mix(in oklch, var(--White) 1%, transparent);
 }
 .saPackageButton {
   gap: 0.5rem;
@@ -2572,11 +2572,14 @@ div.saPopupOverlay {
   opacity: 1;
   visibility: visible;
 }
-.saMarkdownEditorCodeBlock .saCopyButton {
-  inset: 1rem 1rem auto auto;
+.saMarkdownEditorCodeBlock .saCopyButton,
+.saTextFileViewer .saCopyButton {
+  position: relative;
+  inset: auto;
+  opacity: 1;
+  display: inline-flex;
 }
 .saCopyButton:focus-visible,
-.saMarkdownEditorCodeBlock:is(:hover, :focus-within) .saCopyButton,
 .saInfoBoxGrid .saInfoBoxContent:is(:hover, :focus, :active) .saCopyButton,
 .saInfoBoxCol:is(:hover, :focus, :active) .saCopyButton {
   opacity: 1;
@@ -5728,7 +5731,7 @@ div.saPopupOverlay {
   animation-timing-function: ease;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 2rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent));
+  box-shadow: 0 0 2rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 80%, transparent));
 }
 .saSmallScreen .saNotificationsWrapper {
   display: block;
@@ -5787,7 +5790,7 @@ div.saPopupOverlay {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0 0.5rem 1rem;
-  background-color: color-mix(in srgb, light-dark(var(--White), var(--Gray1200)) 80%, transparent);
+  background-color: color-mix(in oklch, light-dark(var(--White), var(--Gray1200)) 80%, transparent);
   backdrop-filter: blur(8px);
 }
 .saSmallScreen .saNotificationsWrapper .saNotificationsHeader {
@@ -6151,7 +6154,7 @@ div.saPopupOverlay {
   transition: ease background-color 0.2s;
 }
 .saSideBarSmallScreenOverlay.saVisible {
-  background-color: color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 20%, transparent);
+  background-color: color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 20%, transparent);
   pointer-events: auto;
 }
 .saSmallScreen .saSideBarOuter {
@@ -6180,7 +6183,7 @@ div.saPopupOverlay {
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: color-mix(in srgb, light-dark(var(--White), var(--Gray1200)) 80%, transparent);
+  background-color: color-mix(in oklch, light-dark(var(--White), var(--Gray1200)) 80%, transparent);
   backdrop-filter: blur(4px);
 }
 .saSideBarSection.saSideBarHeaderSmallScreen .saButtonHeader {
@@ -8925,7 +8928,7 @@ div.saPopupOverlay {
   width: 100%;
   top: 0;
   z-index: 1007;
-  background-color: color-mix(in srgb, light-dark(var(--White), var(--Gray1200)) 80%, transparent);
+  background-color: color-mix(in oklch, light-dark(var(--White), var(--Gray1200)) 80%, transparent);
   backdrop-filter: blur(8px);
   box-shadow: 0 0 0 1px light-dark(var(--Gray150), var(--Gray900));
   transition: ease 0.2s opacity;
@@ -9356,7 +9359,7 @@ div.saPopupOverlay {
 }
 .saSmallScreen .saPageHeader .saLogotypeHeader .saTopRow,
 .saSmallscreensidebar .saPageHeader .saLogotypeHeader .saTopRow {
-  box-shadow: 0 0.25rem 0.25rem color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 7%, transparent);
+  box-shadow: 0 0.25rem 0.25rem color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 7%, transparent);
   height: 3rem;
 }
 .saSmallScreen .saPageHeader .saLogotypeHeader .saTopRow .saBackButton:active,
@@ -9780,7 +9783,7 @@ div.saPopupOverlay {
   flex-direction: column;
   position: relative;
   border-radius: 1rem;
-  box-shadow: 0 1px 2px light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 2px 0.25rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 0.25rem 0.5rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 0.5rem 1rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 1rem 2rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 2rem 4rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent));
+  box-shadow: 0 1px 2px light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 2px 0.25rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 0.25rem 0.5rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 0.5rem 1rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 1rem 2rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 2rem 4rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent));
   justify-content: space-between;
   background: light-dark(var(--White), var(--Gray1200));
 }
@@ -9920,12 +9923,12 @@ div.saPopupOverlay {
   color: light-dark(var(--Red600), var(--Red300));
 }
 .saDestructive.saAlert .saAlertHeader {
-  background-image: linear-gradient(45deg, light-dark(#e82349, color-mix(in srgb, var(--Red700) 96%, var(--White))) 25%, light-dark(var(--Red600), var(--Red700)) 25%, light-dark(var(--Red600), var(--Red700)) 50%, light-dark(#e82349, color-mix(in srgb, var(--Red700) 96%, var(--White))) 50%, light-dark(#e82349, color-mix(in srgb, var(--Red700) 96%, var(--White))) 75%, light-dark(var(--Red600), var(--Red700)) 75%, light-dark(var(--Red600), var(--Red700)) 100%);
+  background-image: linear-gradient(45deg, light-dark(#e82349, color-mix(in oklch, var(--Red700) 96%, var(--White))) 25%, light-dark(var(--Red600), var(--Red700)) 25%, light-dark(var(--Red600), var(--Red700)) 50%, light-dark(#e82349, color-mix(in oklch, var(--Red700) 96%, var(--White))) 50%, light-dark(#e82349, color-mix(in oklch, var(--Red700) 96%, var(--White))) 75%, light-dark(var(--Red600), var(--Red700)) 75%, light-dark(var(--Red600), var(--Red700)) 100%);
   background-size: 6rem 6rem;
 }
 .saWarning.saAlert .saAlertHeader {
   background: light-dark(var(--Yellow300), var(--Yellow900));
-  background-image: linear-gradient(45deg, light-dark(#ffbd20, color-mix(in srgb, var(--Yellow900) 92%, var(--White))) 25%, light-dark(var(--Yellow300), var(--Yellow900)) 25%, light-dark(var(--Yellow300), var(--Yellow900)) 50%, light-dark(#ffbd20, color-mix(in srgb, var(--Yellow900) 92%, var(--White))) 50%, light-dark(#ffbd20, color-mix(in srgb, var(--Yellow900) 92%, var(--White))) 75%, light-dark(var(--Yellow300), var(--Yellow900)) 75%, light-dark(var(--Yellow300), var(--Yellow900)) 100%);
+  background-image: linear-gradient(45deg, light-dark(#ffbd20, color-mix(in oklch, var(--Yellow900) 92%, var(--White))) 25%, light-dark(var(--Yellow300), var(--Yellow900)) 25%, light-dark(var(--Yellow300), var(--Yellow900)) 50%, light-dark(#ffbd20, color-mix(in oklch, var(--Yellow900) 92%, var(--White))) 50%, light-dark(#ffbd20, color-mix(in oklch, var(--Yellow900) 92%, var(--White))) 75%, light-dark(var(--Yellow300), var(--Yellow900)) 75%, light-dark(var(--Yellow300), var(--Yellow900)) 100%);
   background-size: 6rem 6rem;
 }
 .saInfo.saAlert .saAlertHeader,
@@ -9937,7 +9940,7 @@ div.saPopupOverlay {
   color: light-dark(var(--Sa-Color-Primary600), var(--Sa-Color-Primary300));
 }
 .saSuccess.saAlert .saAlertHeader {
-  background: radial-gradient(50% 50% at 100% 0, var(--Green300) 0% 5%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 6% 15%, var(--Green300) 16% 25%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 26% 35%, var(--Green300) 36% 45%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 46% 55%, var(--Green300) 56% 65%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 66% 75%, var(--Green300) 76% 85%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 86% 95%, #0000 96%), radial-gradient(50% 50% at 0 100%, var(--Green300) 0% 5%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 6% 15%, var(--Green300) 16% 25%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 26% 35%, var(--Green300) 36% 45%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 46% 55%, var(--Green300) 56% 65%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 66% 75%, var(--Green300) 76% 85%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 86% 95%, #0000 96%), radial-gradient(50% 50%, var(--Green300) 0% 5%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 6% 15%, var(--Green300) 16% 25%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 26% 35%, var(--Green300) 36% 45%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 46% 55%, var(--Green300) 56% 65%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 66% 75%, var(--Green300) 76% 85%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 86% 95%, #0000 96%), radial-gradient(50% 50%, var(--Green300) 0% 5%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 6% 15%, var(--Green300) 16% 25%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 26% 35%, var(--Green300) 36% 45%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 46% 55%, var(--Green300) 56% 65%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 66% 75%, var(--Green300) 76% 85%, light-dark(#48cf60, color-mix(in srgb, var(--Green300) 96%, var(--Black))) 86% 95%, #0000 96%) 12.5rem 12.5rem;
+  background: radial-gradient(50% 50% at 100% 0, var(--Green300) 0% 5%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 6% 15%, var(--Green300) 16% 25%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 26% 35%, var(--Green300) 36% 45%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 46% 55%, var(--Green300) 56% 65%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 66% 75%, var(--Green300) 76% 85%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 86% 95%, #0000 96%), radial-gradient(50% 50% at 0 100%, var(--Green300) 0% 5%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 6% 15%, var(--Green300) 16% 25%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 26% 35%, var(--Green300) 36% 45%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 46% 55%, var(--Green300) 56% 65%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 66% 75%, var(--Green300) 76% 85%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 86% 95%, #0000 96%), radial-gradient(50% 50%, var(--Green300) 0% 5%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 6% 15%, var(--Green300) 16% 25%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 26% 35%, var(--Green300) 36% 45%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 46% 55%, var(--Green300) 56% 65%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 66% 75%, var(--Green300) 76% 85%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 86% 95%, #0000 96%), radial-gradient(50% 50%, var(--Green300) 0% 5%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 6% 15%, var(--Green300) 16% 25%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 26% 35%, var(--Green300) 36% 45%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 46% 55%, var(--Green300) 56% 65%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 66% 75%, var(--Green300) 76% 85%, light-dark(#48cf60, color-mix(in oklch, var(--Green300) 96%, var(--Black))) 86% 95%, #0000 96%) 12.5rem 12.5rem;
   background-size: 25rem 25rem;
   background-color: light-dark(var(--Green300), var(--Green900));
 }
@@ -11851,7 +11854,7 @@ div.saPopupOverlay {
   border-radius: 1rem;
   width: 25rem;
   min-height: 25rem;
-  box-shadow: 0 0 2rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent));
+  box-shadow: 0 0 2rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 80%, transparent));
   border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
 }
 .saColumnManager .saTabGroup {
@@ -18238,7 +18241,7 @@ legend + .saInputCardsWrapper {
 @media (pointer: fine) {
   .saColor:hover {
     transform: scale(1.25);
-    box-shadow: 0 1px 2px light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent)), 0 2px 0.25rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent));
+    box-shadow: 0 1px 2px light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 80%, transparent)), 0 2px 0.25rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 80%, transparent));
   }
 }
 .saColor:active {
@@ -18252,7 +18255,7 @@ legend + .saInputCardsWrapper {
   border-radius: 100%;
   background-color: light-dark(var(--White), var(--Gray1200));
   position: absolute;
-  box-shadow: 0 2px 2px color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 20%, transparent);
+  box-shadow: 0 2px 2px color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 20%, transparent);
   transition: ease transform 0.2s, ease opacity 0.2s;
   border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   top: 50%;
@@ -18455,7 +18458,7 @@ legend + .saInputCardsWrapper {
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 1px 2px light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 2px 0.25rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 0.25rem 0.5rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 0.5rem 1rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 1rem 2rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 2rem 4rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent));
+  box-shadow: 0 1px 2px light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 2px 0.25rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 0.25rem 0.5rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 0.5rem 1rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 1rem 2rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 2rem 4rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent));
   border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background: light-dark(var(--White), var(--Gray1200));
   font-size: 0.875rem;
@@ -19728,13 +19731,13 @@ legend + .saInputCardsWrapper {
   border-radius: 0.25rem 0.25rem 0 0;
 }
 .saDragOver.saFileUploadAreaWrapper .saFolderBack {
-  box-shadow: 0 0.0625rem 0.125rem color-mix(in srgb, var(--Sa-Color-Primary900) 7%, transparent), 0 0.125rem 0.25rem color-mix(in srgb, var(--Sa-Color-Primary900) 7%, transparent), 0 0.25rem 0.5rem color-mix(in srgb, var(--Sa-Color-Primary900) 7%, transparent), 0 0.5rem 1rem color-mix(in srgb, var(--Sa-Color-Primary900) 7%, transparent);
+  box-shadow: 0 0.0625rem 0.125rem color-mix(in oklch, var(--Sa-Color-Primary900) 7%, transparent), 0 0.125rem 0.25rem color-mix(in oklch, var(--Sa-Color-Primary900) 7%, transparent), 0 0.25rem 0.5rem color-mix(in oklch, var(--Sa-Color-Primary900) 7%, transparent), 0 0.5rem 1rem color-mix(in oklch, var(--Sa-Color-Primary900) 7%, transparent);
 }
 .saDisabled .saFileUploadAreaWrapper .saFolderBack {
-  background-color: light-dark(#b2c0d3, color-mix(in srgb, var(--Gray900) 92%, var(--Black)));
+  background-color: light-dark(#b2c0d3, color-mix(in oklch, var(--Gray900) 92%, var(--Black)));
 }
 .saDisabled .saFileUploadAreaWrapper .saFolderBack::after {
-  background-color: light-dark(#b2c0d3, color-mix(in srgb, var(--Gray900) 92%, var(--Black)));
+  background-color: light-dark(#b2c0d3, color-mix(in oklch, var(--Gray900) 92%, var(--Black)));
 }
 .saFileUploadAreaWrapper .saFolderFront {
   position: absolute;
@@ -19911,7 +19914,7 @@ legend + .saInputCardsWrapper {
 }
 @media (pointer: fine) {
   .saDone.saFileUploadAreaWrapper .saFileUploadArea:hover {
-    background-color: color-mix(in srgb, light-dark(var(--Green50), var(--Green1200)) 25%, transparent);
+    background-color: color-mix(in oklch, light-dark(var(--Green50), var(--Green1200)) 25%, transparent);
     border-color: var(--Green500);
   }
 }
@@ -20083,6 +20086,9 @@ ul.saFileGroup:empty {
   border-radius: 0.75rem;
   transform-origin: top;
   background-color: light-dark(transparent, var(--Gray1100));
+}
+.saChatWrapper .saFileWrapper.saPastedText {
+  height: auto;
 }
 .saChatWrapper .saChatLog .saFileWrapper:only-child {
   grid-column: 2;
@@ -20553,7 +20559,7 @@ ul.saFileGroup:empty {
 }
 .saLoadingWrapper .saLoadingSpinner {
   transition: ease opacity 1s, ease border-color 0.2s, ease visiblity 0.4s;
-  border: 0.125rem solid color-mix(in srgb, var(--White) 20%, transparent);
+  border: 0.125rem solid color-mix(in oklch, var(--White) 20%, transparent);
   border-left: 0.125rem solid var(--White);
   animation: saLoadingSpinner 0.8s infinite linear;
   border-radius: 50%;
@@ -20580,7 +20586,7 @@ ul.saFileGroup:empty {
 }
 .saDone .saLoadingWrapper .saLoadingSpinner {
   opacity: 0;
-  border-color: color-mix(in srgb, light-dark(var(--Green400), var(--Green600)) 20%, transparent);
+  border-color: color-mix(in oklch, light-dark(var(--Green400), var(--Green600)) 20%, transparent);
   border-left-color: light-dark(var(--Green400), var(--Green600));
   animation: saLoadingSpinner 0.8s infinite linear, saLoadingSpinnerDone 0.8s forwards linear;
 }
@@ -21622,7 +21628,7 @@ ul.saFileGroup:empty {
   background-color: light-dark(var(--White), var(--Gray1200));
   border-radius: 0.5rem !important;
   height: 3rem;
-  box-shadow: 0 1px 2px light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent)), 0 2px 0.25rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent));
+  box-shadow: 0 1px 2px light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 80%, transparent)), 0 2px 0.25rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 80%, transparent));
 }
 .saMultiRowSmallScreenWrapper .saMultiRowCardInner .saLabelCell {
   display: block;
@@ -22135,7 +22141,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   color: light-dark(var(--Gray400), var(--Gray600));
 }
 .saDisabled .saSignatureCanvasRoot.saSignatureSmallScreen .saSignatureField .saButtonField .saIcon {
-  color: color-mix(in srgb, light-dark(#101010, var(--White)) 30%, transparent);
+  color: color-mix(in oklch, light-dark(#101010, var(--White)) 30%, transparent);
 }
 .saSignatureCanvasRoot.saSignatureSmallScreen .saButtonField {
   background-color: light-dark(var(--White), var(--Gray1200));
@@ -24651,7 +24657,7 @@ softadmin-nodegraph .saNodeGroup {
   justify-content: flex-start;
   gap: 0.5rem;
   border: 0.125rem dashed var(--Purple500);
-  background-color: color-mix(in srgb, light-dark(var(--Purple200), var(--Purple1000)) 10%, transparent);
+  background-color: color-mix(in oklch, light-dark(var(--Purple200), var(--Purple1000)) 10%, transparent);
   border-radius: 1.5rem;
   z-index: 0;
   padding: 0.875rem;
@@ -25099,7 +25105,7 @@ softadmin-nodegraph .saDragged {
 }
 .saSelectionRect {
   position: absolute;
-  background: color-mix(in srgb, var(--Sa-Color-Primary600) 20%, transparent);
+  background: color-mix(in oklch, var(--Sa-Color-Primary600) 20%, transparent);
   box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
   pointer-events: none;
   z-index: 90;
@@ -26444,7 +26450,7 @@ body.saMiniView {
 }
 .saSelectionArea {
   position: absolute;
-  background: color-mix(in srgb, var(--Sa-Color-Primary600) 20%, transparent);
+  background: color-mix(in oklch, var(--Sa-Color-Primary600) 20%, transparent);
   box-shadow: inset 0 0 0 1px var(--Sa-Color-Primary600);
   pointer-events: none;
   z-index: 90;
@@ -27681,7 +27687,7 @@ body.saMiniView {
   max-width: 40rem;
   width: 80%;
   border-radius: 1.5rem;
-  box-shadow: 0 1px 2px light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 85%, transparent)), 0 2px 0.25rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 85%, transparent)), 0 0.25rem 0.5rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 85%, transparent)), 0 0.5rem 1rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 85%, transparent));
+  box-shadow: 0 1px 2px light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 85%, transparent)), 0 2px 0.25rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 85%, transparent)), 0 0.25rem 0.5rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 85%, transparent)), 0 0.5rem 1rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 85%, transparent));
   border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
   background: light-dark(var(--White), var(--Gray1200));
   position: relative;
@@ -28070,7 +28076,7 @@ body.saMiniView {
 .saCalendarOverlay {
   position: fixed;
   z-index: 99;
-  background: color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 40%, transparent);
+  background: color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 40%, transparent);
   height: 100vh;
   width: 100vw;
   top: 0;
@@ -30162,7 +30168,7 @@ body.saMiniView {
   inset: 0;
   width: 100vh;
   height: 1000vh;
-  background: color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 40%, transparent);
+  background: color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 40%, transparent);
 }
 .saSmallScreenCalendar.saCalendarSection .saCalendarFilter {
   display: flex;
@@ -30794,7 +30800,7 @@ body.saMiniView {
   padding: 1rem;
   position: sticky;
   bottom: 0;
-  background-color: color-mix(in srgb, light-dark(var(--White), var(--Gray1200)) 80%, transparent);
+  background-color: color-mix(in oklch, light-dark(var(--White), var(--Gray1200)) 80%, transparent);
   backdrop-filter: blur(8px);
 }
 @media (pointer: fine) {
@@ -30852,7 +30858,7 @@ body.saMiniView {
   min-width: 2.5rem;
   border-radius: 0.75rem;
   background: light-dark(var(--Gray200), var(--Gray900));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 10%, transparent);
   transition: ease background-color 0.2s, ease box-shadow 0.2s;
   position: absolute;
 }
@@ -30862,7 +30868,7 @@ body.saMiniView {
   width: 1.25rem;
   border-radius: 0.625rem;
   background-color: var(--White);
-  box-shadow: inset 0 0 0 1px var(--Gray50), 0 1px 2px 0 color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 60%, transparent);
+  box-shadow: inset 0 0 0 1px var(--Gray50), 0 1px 2px 0 color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 60%, transparent);
   right: 1.125rem;
   top: 2px;
   position: absolute;
@@ -30903,7 +30909,7 @@ body.saMiniView {
 }
 .saDisabled.saToggleWrapper .saToggle:checked::after {
   background: light-dark(var(--Gray200), var(--Gray900));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 20%, transparent), 0 1px 2px 0 color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 60%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 20%, transparent), 0 1px 2px 0 color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 60%, transparent);
 }
 @media (pointer: fine) {
   .saDisabled.saToggleWrapper .saToggle:checked:hover::before {
@@ -30925,7 +30931,7 @@ body.saMiniView {
 }
 .saDisabled.saToggleWrapper .saToggle::after {
   background: light-dark(var(--Gray50), var(--Gray1100));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 10%, transparent), 0 1px 2px 0 color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 20%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 10%, transparent), 0 1px 2px 0 color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 20%, transparent);
 }
 @media (pointer: fine) {
   .saDisabled.saToggleWrapper .saToggle:hover::before {
@@ -31983,7 +31989,7 @@ a.saKpiOuter:active {
 }
 .saTreeViewWrapper .saTreeView > li:has(ul) > label::after {
   border-width: 0 0 1px 1px;
-  border-color: color-mix(in srgb, light-dark(var(--White), var(--Gray1200)) 0%, transparent) color-mix(in srgb, light-dark(var(--White), var(--Gray1200)) 0%, transparent) light-dark(var(--Gray200), var(--Gray800)) color-mix(in srgb, light-dark(var(--White), var(--Gray1200)) 0%, transparent);
+  border-color: color-mix(in oklch, light-dark(var(--White), var(--Gray1200)) 0%, transparent) color-mix(in oklch, light-dark(var(--White), var(--Gray1200)) 0%, transparent) light-dark(var(--Gray200), var(--Gray800)) color-mix(in oklch, light-dark(var(--White), var(--Gray1200)) 0%, transparent);
   z-index: 1;
 }
 .saTreeViewWrapper .saFileDropDescription {
@@ -32035,9 +32041,9 @@ a.saKpiOuter:active {
 }
 .saTreeViewWrapper .saTreeView .saLoadingSpinnerWrapper.saDone .saLoadingSpinner {
   opacity: 0;
-  border-top-color: color-mix(in srgb, light-dark(var(--Green400), var(--Green600)) 20%, transparent);
-  border-right-color: color-mix(in srgb, light-dark(var(--Green400), var(--Green600)) 20%, transparent);
-  border-bottom-color: color-mix(in srgb, light-dark(var(--Green400), var(--Green600)) 20%, transparent);
+  border-top-color: color-mix(in oklch, light-dark(var(--Green400), var(--Green600)) 20%, transparent);
+  border-right-color: color-mix(in oklch, light-dark(var(--Green400), var(--Green600)) 20%, transparent);
+  border-bottom-color: color-mix(in oklch, light-dark(var(--Green400), var(--Green600)) 20%, transparent);
   border-left-color: light-dark(var(--Green400), var(--Green600));
   animation: saLoadingSpinner 0.8s infinite linear, saLoadingSpinnerDone 0.8s forwards linear;
 }
@@ -33964,7 +33970,7 @@ a.saKpiOuter:active {
   padding: 0 0.5rem;
   border-radius: 0.25rem;
   color: var(--White);
-  box-shadow: 0 1px 2px color-mix(in srgb, var(--Black) 24%, transparent);
+  box-shadow: 0 1px 2px color-mix(in oklch, var(--Black) 24%, transparent);
   cursor: grab;
   user-select: none;
   touch-action: none;
@@ -34009,7 +34015,7 @@ a.saKpiOuter:active {
   top: 0;
   bottom: 0;
   width: 0.5rem;
-  background: color-mix(in srgb, var(--Black) 25%, transparent);
+  background: color-mix(in oklch, var(--Black) 25%, transparent);
   opacity: 0;
   cursor: ew-resize;
   transition: opacity 120ms ease;
@@ -34047,7 +34053,7 @@ a.saKpiOuter:active {
   color: light-dark(var(--White), var(--Gray1200));
   font-size: 0.75rem;
   line-height: 1rem;
-  box-shadow: 0 0.25rem 0.75rem color-mix(in srgb, var(--Black) 20%, transparent);
+  box-shadow: 0 0.25rem 0.75rem color-mix(in oklch, var(--Black) 20%, transparent);
   pointer-events: none;
 }
 .saGanttZoomMonth .saGanttDayHeader span,
@@ -34249,7 +34255,7 @@ a.saKpiOuter:active {
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 0.5rem;
-  box-shadow: 0 1px 2px light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 2px 0.25rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 0.25rem 0.5rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 0.5rem 1rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 1rem 2rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 2rem 4rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent));
+  box-shadow: 0 1px 2px light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 2px 0.25rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 0.25rem 0.5rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 0.5rem 1rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 1rem 2rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 2rem 4rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent));
 }
 .saLargeScreen .saMenuItemPopup.saMedium {
   width: 50rem;
@@ -34260,7 +34266,7 @@ a.saKpiOuter:active {
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 0.5rem;
-  box-shadow: 0 1px 2px light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 2px 0.25rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 0.25rem 0.5rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 0.5rem 1rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 1rem 2rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent)), 0 2rem 4rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 90%, transparent));
+  box-shadow: 0 1px 2px light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 2px 0.25rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 0.25rem 0.5rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 0.5rem 1rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 1rem 2rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent)), 0 2rem 4rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 90%, transparent));
 }
 .saMenuItemPopup.saLarge {
   top: 3.5rem;
@@ -34269,7 +34275,7 @@ a.saKpiOuter:active {
   left: 1rem;
   border-radius: 0.5rem;
   transform: none;
-  box-shadow: -1rem -0.875rem 1.875rem -0.625rem color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 20%, transparent);
+  box-shadow: -1rem -0.875rem 1.875rem -0.625rem color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 20%, transparent);
 }
 .saSmallScreen .saMenuItemPopup {
   left: 0;
@@ -34840,11 +34846,6 @@ button.saChatMessageAction:active .saIcon {
   gap: 0.25rem;
   min-width: 0;
   width: 100%;
-}
-.saChatSender .saChatMessageBodyInner {
-  align-items: flex-end;
-}
-.saChatMessageBodyInner {
   font-size: 0.875rem;
   line-height: 1.25rem;
   word-break: break-word;
@@ -34867,6 +34868,7 @@ button.saChatMessageAction:active .saIcon {
   white-space: pre-wrap;
 }
 .saChatSender .saChatMessageBodyInner {
+  align-items: flex-end;
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
   border-radius: 1.25rem 1.25rem 0.25rem 1.25rem;
 }
@@ -34878,6 +34880,84 @@ button.saChatMessageAction:active .saIcon {
   width: 100%;
   background-color: transparent;
   padding: 0;
+}
+.saCollapsed.saChatMessageText {
+  max-height: calc(var(--sa-chat-message-lines, 6) * 1lh);
+  overflow: hidden;
+}
+.saChatMessageExpand {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: var(--Font), sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  gap: 0.375rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  align-self: flex-end;
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+  background-color: transparent;
+  margin-right: -0.25rem;
+}
+.saChatMessageExpand .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saChatMessageExpand .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saChatMessageExpand .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saChatMessageExpand:has(.saIcon) {
+  padding-left: 0.625rem;
+}
+.saChatMessageExpand:active {
+  border-radius: 0.75rem;
+}
+.saChatMessageExpand .saIcon {
+  font-size: 1rem;
+  min-width: 1.125rem;
+  max-width: 1.125rem;
+}
+@media (pointer: fine) {
+  .saChatMessageExpand:hover {
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+    background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1300));
+  }
+}
+.saChatMessageExpand:active {
+  color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  background-color: light-dark(var(--White), var(--Gray1100));
+}
+.saChatMessageExpand[hidden],
+.saChatEdit .saChatMessageExpand {
+  display: none;
+}
+.saChatRestorePaste {
+  align-self: flex-start;
+  min-height: 2rem;
+  margin: 0;
+  font-size: 0.75rem;
+  text-align: start;
 }
 .saChatEdit {
   width: 100%;
@@ -34901,7 +34981,7 @@ button.saChatMessageAction:active .saIcon {
   height: 100%;
   resize: none;
   font-size: 0.875rem;
-  line-height: 1.25rem;
+  line-height: 1.5rem;
   font-family: inherit;
   color: inherit;
   min-height: 8rem;
@@ -34913,7 +34993,33 @@ button.saChatMessageAction:active .saIcon {
   overflow-y: auto;
   outline: 1px solid var(--Sa-Color-InputFieldBorder);
   outline-offset: -1px;
-  box-shadow: 0 1px 2px light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent)), 0 2px 0.25rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent));
+  box-shadow: 0 1px 2px light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 80%, transparent)), 0 2px 0.25rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 80%, transparent));
+}
+@supports (scrollbar-gutter: stable) {
+  @media (pointer: fine) {
+    .saLargeScreen .saChatMessageEdit .saChatTextarea {
+      padding-right: 0;
+      scrollbar-gutter: stable;
+    }
+    .saLargeScreen .saChatMessageEdit .saChatTextarea::-webkit-scrollbar {
+      background-color: transparent;
+    }
+    .saLargeScreen .saChatMessageEdit .saChatTextarea::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
+    .saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar {
+      background-color: light-dark(var(--Gray200), var(--Gray900));
+    }
+    .saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
+      background-color: light-dark(var(--Gray500), var(--Gray700));
+    }
+    .saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
+      background-color: light-dark(var(--Gray700), var(--Gray900));
+    }
+    .saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
+      background-color: light-dark(var(--Gray900), var(--Gray1000));
+    }
+  }
 }
 @media (pointer: fine) {
   .saChatMessageEdit .saChatTextarea:hover {
@@ -34926,27 +35032,6 @@ button.saChatMessageAction:active .saIcon {
   outline-offset: -0.125rem;
   outline-width: 0.125rem;
   background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
-}
-.saLargeScreen .saChatMessageEdit .saChatTextarea {
-  scrollbar-gutter: stable;
-}
-.saLargeScreen .saChatMessageEdit .saChatTextarea::-webkit-scrollbar {
-  background-color: transparent;
-}
-.saLargeScreen .saChatMessageEdit .saChatTextarea::-webkit-scrollbar-thumb {
-  background-color: transparent;
-}
-.saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar {
-  background-color: light-dark(var(--Gray200), var(--Gray900));
-}
-.saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
-  background-color: light-dark(var(--Gray500), var(--Gray700));
-}
-.saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
-  background-color: light-dark(var(--Gray700), var(--Gray900));
-}
-.saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
-  background-color: light-dark(var(--Gray900), var(--Gray1000));
 }
 .saSmallScreen .saChatMessageEdit .saChatTextarea {
   padding: 0.625rem 1rem 0.625rem 1rem;
@@ -35124,7 +35209,7 @@ button.saChatMessageAction:active .saIcon {
   flex-direction: column;
   position: relative;
   min-width: 0;
-  min-height: 8rem;
+  min-height: 10rem;
   border: 1px solid var(--Sa-Color-InputFieldBorder);
   border-radius: 1.5rem;
   background-color: light-dark(var(--White), var(--Gray1100));
@@ -35134,7 +35219,7 @@ button.saChatMessageAction:active .saIcon {
   border-radius: 0.5rem;
 }
 .saChatInline .saChatComposer {
-  box-shadow: 0 1px 2px light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent)), 0 2px 0.25rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 80%, transparent));
+  box-shadow: 0 1px 2px light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 80%, transparent)), 0 2px 0.25rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 80%, transparent));
 }
 .saLargeScreen .saChatFullPage .saChatComposer {
   border-radius: 0 0 1.5rem 1.5rem;
@@ -35161,26 +35246,31 @@ button.saChatMessageAction:active .saIcon {
   overflow-wrap: anywhere;
   field-sizing: content;
 }
-.saLargeScreen .saChatComposer > .saChatTextarea {
-  scrollbar-gutter: stable;
-}
-.saLargeScreen .saChatComposer > .saChatTextarea::-webkit-scrollbar {
-  background-color: transparent;
-}
-.saLargeScreen .saChatComposer > .saChatTextarea::-webkit-scrollbar-thumb {
-  background-color: transparent;
-}
-.saLargeScreen .saChatComposer > .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar {
-  background-color: light-dark(var(--Gray200), var(--Gray900));
-}
-.saLargeScreen .saChatComposer > .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
-  background-color: light-dark(var(--Gray500), var(--Gray700));
-}
-.saLargeScreen .saChatComposer > .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
-  background-color: light-dark(var(--Gray700), var(--Gray900));
-}
-.saLargeScreen .saChatComposer > .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
-  background-color: light-dark(var(--Gray900), var(--Gray1000));
+@supports (scrollbar-gutter: stable) {
+  @media (pointer: fine) {
+    .saLargeScreen .saChatComposer > .saChatTextarea {
+      padding-right: 0;
+      scrollbar-gutter: stable;
+    }
+    .saLargeScreen .saChatComposer > .saChatTextarea::-webkit-scrollbar {
+      background-color: transparent;
+    }
+    .saLargeScreen .saChatComposer > .saChatTextarea::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
+    .saLargeScreen .saChatComposer > .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar {
+      background-color: light-dark(var(--Gray200), var(--Gray900));
+    }
+    .saLargeScreen .saChatComposer > .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
+      background-color: light-dark(var(--Gray500), var(--Gray700));
+    }
+    .saLargeScreen .saChatComposer > .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
+      background-color: light-dark(var(--Gray700), var(--Gray900));
+    }
+    .saLargeScreen .saChatComposer > .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
+      background-color: light-dark(var(--Gray900), var(--Gray1000));
+    }
+  }
 }
 .saSmallScreen .saChatComposer > .saChatTextarea {
   font-size: 1rem;
@@ -35417,7 +35507,7 @@ button.saChatMessageAction:active .saIcon {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: color-mix(in oklch, light-dark(var(--Gray100), var(--Gray1000)) 85%, transparent);
+  background-color: color-mix(in oklch, light-dark(var(--White), var(--Gray1200)) 60%, transparent);
   backdrop-filter: blur(0.125rem);
   border: 1px solid var(--Sa-Color-InputFieldBorder);
   border-radius: 99rem;
@@ -35876,7 +35966,7 @@ button.saChatMessageAction:active .saIcon {
 .saChatThinkingSpinner {
   height: 1.25rem;
   width: 1.25rem;
-  background-image: radial-gradient(at top left, color-mix(in srgb, var(--White) 20%, transparent), transparent), radial-gradient(at bottom right, var(--Sa-Color-Primary700), transparent), linear-gradient(to bottom right, light-dark(var(--Sa-Color-Primary300), var(--Gray800)), var(--Sa-Color-Primary700));
+  background-image: radial-gradient(at top left, color-mix(in oklch, var(--White) 20%, transparent), transparent), radial-gradient(at bottom right, var(--Sa-Color-Primary700), transparent), linear-gradient(to bottom right, light-dark(var(--Sa-Color-Primary300), var(--Gray800)), var(--Sa-Color-Primary700));
   border-radius: 50%;
   animation: chatThinkingSpinner 2s ease-in-out infinite alternate;
 }
@@ -35951,103 +36041,9 @@ button.saChatMessageAction:active .saIcon {
   position: fixed;
   z-index: 60;
 }
-.saChatInline {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 var(--sa-chat-inline-width, 24rem);
-  width: var(--sa-chat-inline-width, 24rem);
-  min-width: 0;
-  height: 100%;
-  max-height: 100dvh;
-  box-sizing: border-box;
-  border-inline-start: 0.0625rem solid var(--Sa-Color-InputFieldBorder);
-  background: light-dark(var(--White), var(--Gray1200));
-  color: var(--Sa-Color-Text);
-  margin-inline-end: 0;
-  opacity: 1;
-  transform: translateX(0);
-  transition: margin-inline-end 200ms ease, transform 200ms ease, opacity 200ms ease, display 200ms allow-discrete;
-  @starting-style {
-    margin-inline-end: calc(0px - var(--sa-chat-inline-width, 24rem));
-    opacity: 0;
-  }
-}
-[hidden].saChatInline {
-  display: none;
-  margin-inline-end: calc(0px - var(--sa-chat-inline-width, 24rem));
-  opacity: 0;
-  pointer-events: none;
-}
-.saChatInlineResizing.saChatInline {
-  user-select: none;
-}
-@media (max-width: 1199px) {
-  .saChatInline {
-    position: fixed;
-    inset: 0 0 0 auto;
-    z-index: 50;
-    width: min(var(--sa-chat-inline-width, 24rem), 100vw);
-    height: 100dvh;
-    box-shadow: -0.25rem 0 1rem rgba(0, 0, 0, 0.15);
-    @starting-style {
-      margin-inline-end: 0;
-      transform: translateX(100%);
-    }
-  }
-  [hidden].saChatInline {
-    margin-inline-end: 0;
-    transform: translateX(100%);
-  }
-}
-.saSmallScreen .saChatInline {
-  --sa-chat-inline-header-offset: 3rem;
-  top: var(--sa-chat-inline-header-offset);
-  height: calc(100dvh - var(--sa-chat-inline-header-offset));
-  max-height: calc(100dvh - var(--sa-chat-inline-header-offset));
-}
-.saSmallScreen.saSmallScreenHasTopButtons .saChatInline {
-  --sa-chat-inline-header-offset: 5.5rem;
-}
-.saSmallScreen.saHasLogotypeHeader .saChatInline {
-  --sa-chat-inline-header-offset: 5rem;
-}
-.saSmallScreen.saHasLogotypeHeader.saSmallScreenHasTopButtons .saChatInline {
-  --sa-chat-inline-header-offset: 7.5rem;
-}
-@media (prefers-reduced-motion: reduce) {
-  .saChatInline {
-    transition: none;
-  }
-}
 .saChatInline .saChatInlineResponseStatus {
   color: var(--Sa-Color-TextSecondary);
   font-size: 0.75rem;
-}
-.saChatInlineResize {
-  position: absolute;
-  z-index: 2;
-  left: -0.25rem;
-  top: 0;
-  bottom: 0;
-  width: 0.5rem;
-  cursor: col-resize;
-  touch-action: none;
-}
-.saChatInlineResize::after {
-  content: '';
-  position: absolute;
-  inset: 0 0.1875rem;
-  background: transparent;
-}
-.saChatInlineResize:hover::after,
-.saChatInlineResize:focus-visible::after,
-.saChatInlineResizing .saChatInlineResize::after {
-  background: var(--Sa-Color-TextSecondary);
-}
-.saChatInlineResize:focus-visible {
-  outline: 0.125rem solid var(--Sa-Color-TextSecondary);
-  outline-offset: -0.125rem;
 }
 .saChatContextPillLabel {
   display: flex;
@@ -36276,19 +36272,127 @@ span.saChatContextPillLabel {
   background-color: var(--Yellow200);
   color: var(--Gray1000);
 }
-.saChatInlineHeader {
-  font-weight: 500;
-  margin-bottom: -0.25rem;
+.saInlinePanel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 var(--sa-inline-width, 24rem);
+  width: var(--sa-inline-width, 24rem);
+  min-width: 0;
+  height: 100%;
+  max-height: 100dvh;
+  box-sizing: border-box;
+  border-inline-start: 0.0625rem solid var(--Sa-Color-InputFieldBorder);
+  background: light-dark(var(--White), var(--Gray1200));
+  color: var(--Sa-Color-Text);
+  margin-inline-end: 0;
+  opacity: 1;
+  transform: translateX(0);
+  transition: margin-inline-end 200ms ease, transform 200ms ease, opacity 200ms ease, display 200ms allow-discrete;
+}
+[hidden].saInlinePanel {
+  display: none;
+  margin-inline-end: calc(0px - var(--sa-inline-width, 24rem));
+  opacity: 0;
+  pointer-events: none;
+}
+@starting-style {
+  margin-inline-end: calc(0px - var(--sa-inline-width, 24rem));
+  opacity: 0;
+}
+.saInlineResizing.saInlinePanel {
+  user-select: none;
+}
+@media (max-width: 1199px) {
+  .saInlinePanel {
+    position: fixed;
+    inset: 0 0 0 auto;
+    z-index: 50;
+    width: min(var(--sa-inline-width, 24rem), 100vw);
+    height: 100dvh;
+    box-shadow: -0.25rem 0 1rem rgba(0, 0, 0, 0.15);
+  }
+  .saInlineFullWidth.saInlinePanel {
+    width: 100vw;
+  }
+  [hidden].saInlinePanel {
+    margin-inline-end: 0;
+    transform: translateX(100%);
+  }
+  @starting-style {
+    margin-inline-end: 0;
+    transform: translateX(100%);
+  }
+}
+.saSmallScreen .saInlinePanel {
+  --sa-inline-header-offset: 3rem;
+  top: var(--sa-inline-header-offset);
+  height: calc(100dvh - var(--sa-inline-header-offset));
+  max-height: calc(100dvh - var(--sa-inline-header-offset));
+}
+.saSmallScreen.saSmallScreenHasTopButtons .saInlinePanel {
+  --sa-inline-header-offset: 5.5rem;
+}
+.saSmallScreen.saHasLogotypeHeader .saInlinePanel {
+  --sa-inline-header-offset: 5rem;
+}
+.saSmallScreen.saHasLogotypeHeader.saSmallScreenHasTopButtons .saInlinePanel {
+  --sa-inline-header-offset: 7.5rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .saInlinePanel {
+    transition: none;
+  }
+}
+.saInlineResize {
+  position: absolute;
+  z-index: 2;
+  left: -0.25rem;
+  top: 0;
+  bottom: 0;
+  width: 0.5rem;
+  cursor: col-resize;
+  touch-action: none;
+}
+.saInlineResize::after {
+  content: '';
+  position: absolute;
+  inset: 0 0.1875rem;
+  background: transparent;
+}
+.saInlineResize:hover::after,
+.saInlineResize:focus-visible::after,
+.saInlineResizing .saInlineResize::after {
+  background: var(--Sa-Color-TextSecondary);
+}
+.saInlineResize:focus-visible {
+  outline: 0.125rem solid var(--Sa-Color-TextSecondary);
+  outline-offset: -0.125rem;
+}
+.saInlineHeader {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
   padding: 0.5rem 0.5rem 0.5rem 1rem;
 }
-.saSmallScreen .saChatInlineHeader {
-  padding: 0.5rem 0.5rem 0.5rem 1rem;
+[hidden].saInlineHeader {
+  display: none;
 }
-.saChatInlineHeader .saCloseModal {
+.saInlineTitle {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-weight: 500;
+}
+.saInlineActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.saInlineClose {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   font-family: var(--Font), sans-serif;
@@ -36311,88 +36415,106 @@ span.saChatContextPillLabel {
   background-color: transparent;
   font-size: 1rem;
 }
-.saChatInlineHeader .saCloseModal .saButtonText {
+.saInlineClose .saButtonText {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5;
 }
-.saChatInlineHeader .saCloseModal .saBadgedIcon {
+.saInlineClose .saBadgedIcon {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
 }
-.saChatInlineHeader .saCloseModal .saIcon {
+.saInlineClose .saIcon {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
   transition-duration: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.saChatInlineHeader .saCloseModal:active {
+.saInlineClose:active {
   border-radius: 0.75rem;
 }
-.saChatInlineHeader .saCloseModal .saIcon {
+.saInlineClose .saIcon {
   color: var(--Sa-Color-Icon);
 }
-.saChatInlineHeader .saCloseModal.saDestructive {
+.saInlineClose.saDestructive {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
-.saChatInlineHeader .saCloseModal.saDestructive .saIcon {
+.saInlineClose.saDestructive .saIcon {
   color: var(--Sa-Color-DestructiveButtonBackground);
 }
 @media (pointer: fine) {
-  .saChatInlineHeader .saCloseModal.saDestructive:hover {
+  .saInlineClose.saDestructive:hover {
     color: var(--Sa-Color-DestructiveButtonBackground);
     background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
   }
-  .saChatInlineHeader .saCloseModal.saDestructive:hover .saIcon {
+  .saInlineClose.saDestructive:hover .saIcon {
     color: var(--Sa-Color-DestructiveButtonBackground);
   }
 }
-.saChatInlineHeader .saCloseModal.saDestructive:active {
+.saInlineClose.saDestructive:active {
   color: var(--White);
   background: var(--Sa-Color-DestructiveButtonBackground);
 }
-.saChatInlineHeader .saCloseModal.saDestructive:active > .saIcon {
+.saInlineClose.saDestructive:active > .saIcon {
   color: var(--White);
 }
 @media (pointer: fine) {
-  .saChatInlineHeader .saCloseModal:hover {
+  .saInlineClose:hover {
     background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
     color: light-dark(var(--Sa-Color-Primary600), var(--White));
   }
-  .saChatInlineHeader .saCloseModal:hover .saIcon {
+  .saInlineClose:hover .saIcon {
     color: light-dark(var(--Sa-Color-Primary600), var(--White));
   }
 }
-.saChatInlineHeader .saCloseModal:active {
+.saInlineClose:active {
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
-.saChatInlineHeader .saCloseModal:active .saIcon {
+.saInlineClose:active .saIcon {
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
-.saChatInlineHeader .saCloseModal:disabled,
-.saChatInlineHeader .saCloseModal.saDisabled {
+.saInlineClose:disabled,
+.saInlineClose.saDisabled {
   color: light-dark(var(--Gray300), var(--Gray700));
   background-color: transparent;
   cursor: not-allowed;
 }
-.saChatInlineHeader .saCloseModal:disabled .saIcon,
-.saChatInlineHeader .saCloseModal.saDisabled .saIcon {
+.saInlineClose:disabled .saIcon,
+.saInlineClose.saDisabled .saIcon {
   color: light-dark(var(--Gray300), var(--Gray700));
 }
-.saChatInlineHeader .saCloseModal::after {
-  content: '';
-  height: 3.5rem;
-  width: 3.5rem;
-  position: absolute;
-  inset: -0.5rem -0.5rem auto auto;
+.saInlineBack {
+  min-height: 2rem;
+  padding: 0;
+  background: transparent;
+  color: var(--Sa-Color-TextSecondary);
+  font: inherit;
+  cursor: pointer;
+}
+.saInlineBack:hover {
+  color: var(--Sa-Color-Text);
+}
+[hidden].saInlineBack {
+  display: none;
+}
+.saInlineContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+[hidden].saInlineContent {
+  display: none;
 }
 @media (min-width: 1200px) {
-  .saRootContentWrapper:has(> .saChatInline) > .saRightFrameRoot {
+  .saRootContentWrapper:has(> .saInlinePanel) > .saRightFrameRoot {
     flex: 1 1 0;
     min-width: 0;
     width: 0;
@@ -36580,7 +36702,7 @@ span.saChatContextPillLabel {
   padding: 0.25rem 0;
   display: none;
   font-variant-numeric: tabular-nums;
-  box-shadow: 0 1px 2px light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 85%, transparent)), 0 2px 0.25rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 85%, transparent)), 0 0.25rem 0.5rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 85%, transparent)), 0 0.5rem 1rem light-dark(color-mix(in srgb, var(--Gray900) 7%, transparent), color-mix(in srgb, var(--Black) 85%, transparent));
+  box-shadow: 0 1px 2px light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 85%, transparent)), 0 2px 0.25rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 85%, transparent)), 0 0.25rem 0.5rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 85%, transparent)), 0 0.5rem 1rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 85%, transparent));
   outline: 1px solid light-dark(var(--Gray50), var(--Gray1100));
   outline-offset: -1px;
   transform-origin: top;
@@ -36782,7 +36904,7 @@ span.saChatContextPillLabel {
   content: "";
   margin: 0 0.125rem;
   border-radius: 0.625rem;
-  box-shadow: 0 2px 2px color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 10%, transparent);
+  box-shadow: 0 2px 2px color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 10%, transparent);
   box-sizing: border-box;
   transition: 0.3s ease all, left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
   background: var(--White);
@@ -37377,7 +37499,7 @@ span.saChatContextPillLabel {
   transition: ease background-color 0.2s;
 }
 .saLightboxOverlay.saLightboxOpened::backdrop {
-  background-color: color-mix(in srgb, light-dark(var(--Gray900), var(--Black)) 20%, transparent);
+  background-color: color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 20%, transparent);
 }
 .saMarkdownContent {
   box-sizing: border-box;
@@ -37919,31 +38041,39 @@ span.saChatContextPillLabel {
 .saMarkdownEditorFill.saMarkdownEditor textarea {
   height: 100%;
   min-height: 0;
-  scrollbar-gutter: stable;
 }
-.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument::-webkit-scrollbar,
-.saMarkdownEditorFill.saMarkdownEditor textarea::-webkit-scrollbar {
-  background-color: transparent;
-}
-.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument::-webkit-scrollbar-thumb,
-.saMarkdownEditorFill.saMarkdownEditor textarea::-webkit-scrollbar-thumb {
-  background-color: transparent;
-}
-.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar,
-.saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar {
-  background-color: light-dark(var(--Gray200), var(--Gray900));
-}
-.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar-thumb,
-.saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
-  background-color: light-dark(var(--Gray500), var(--Gray700));
-}
-.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover,
-.saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
-  background-color: light-dark(var(--Gray700), var(--Gray900));
-}
-.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active,
-.saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
-  background-color: light-dark(var(--Gray900), var(--Gray1000));
+@supports (scrollbar-gutter: stable) {
+  @media (pointer: fine) {
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument,
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor textarea {
+      padding-right: 0;
+      scrollbar-gutter: stable;
+    }
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument::-webkit-scrollbar,
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor textarea::-webkit-scrollbar {
+      background-color: transparent;
+    }
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument::-webkit-scrollbar-thumb,
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor textarea::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar,
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar {
+      background-color: light-dark(var(--Gray200), var(--Gray900));
+    }
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar-thumb,
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
+      background-color: light-dark(var(--Gray500), var(--Gray700));
+    }
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover,
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
+      background-color: light-dark(var(--Gray700), var(--Gray900));
+    }
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active,
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
+      background-color: light-dark(var(--Gray900), var(--Gray1000));
+    }
+  }
 }
 .saMarkdownEditorFill.saMarkdownEditor textarea {
   resize: none;
@@ -38164,9 +38294,6 @@ span.saChatContextPillLabel {
   color: light-dark(var(--Gray950), var(--White));
   outline: 0.125rem solid var(--Orange500);
 }
-.saMarkdownEditorDocument .saMarkdownEditorCodeBlock pre {
-  padding-block-start: 3rem;
-}
 .saMarkdownEditorDocument .tableWrapper {
   overflow-x: auto;
   margin-block: 1rem;
@@ -38211,7 +38338,7 @@ span.saChatContextPillLabel {
 }
 .saMarkdownEditorTablePreview.saDeletionPreview {
   border: 0.25rem solid var(--Sa-Color-NegativeTrend);
-  background: color-mix(in srgb, var(--Sa-Color-NegativeTrend) 12%, transparent);
+  background: color-mix(in oklch, var(--Sa-Color-NegativeTrend) 12%, transparent);
 }
 .saMarkdownEditor dialog {
   padding: 0;
@@ -38264,44 +38391,6 @@ span.saChatContextPillLabel {
 }
 .saMarkdownEditor [hidden] {
   display: none;
-}
-.saMarkdownEditorCodeBlock {
-  position: relative;
-  margin-block: 1.5rem;
-}
-.saMarkdownEditorCodeBlock .saMarkdownEditorCodeBlockHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem;
-  position: absolute;
-  inset: 0 0 auto 0;
-}
-.saMarkdownEditorCodeBlock .saMarkdownEditorCodeLanguage {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-.saMarkdownEditorCodeBlock .saMarkdownEditorCodeLanguage select {
-  border-radius: 0.25rem;
-  box-shadow: none;
-  background-color: transparent;
-}
-.saMarkdownEditorCodeBlock .saInputText {
-  width: auto;
-  min-width: 8rem;
-}
-.saMarkdownEditorCodeBlock .saCopyButton {
-  position: relative;
-  inset: auto;
-  opacity: 1;
-}
-.saMarkdownEditorCodeBlock pre {
-  margin: 0;
-  border-radius: 0.5rem;
 }
 .saMarkdownEditorToolbar {
   border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
@@ -38649,6 +38738,144 @@ span.saChatContextPillLabel {
   gap: 0.25rem;
   padding-inline: 0.5rem;
 }
+.saMarkdownEditorCodeBlock {
+  position: relative;
+  margin-block: 1.5rem;
+}
+.saMarkdownEditorCodeBlock pre {
+  margin: 0;
+  border-radius: 0.5rem;
+  padding-block-start: 3.5rem;
+}
+.saMarkdownEditorCodeBlockHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  position: absolute;
+  inset: 0 0 auto 0;
+}
+.saMarkdownEditorCodeBlockActions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+.saMarkdownEditorCodeBlockAction {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: var(--Font), sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+  color: light-dark(var(--Sa-Color-Primary600), var(--Gray100));
+  background-color: transparent;
+  text-decoration: none;
+}
+.saMarkdownEditorCodeBlockAction .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saMarkdownEditorCodeBlockAction .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saMarkdownEditorCodeBlockAction .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saMarkdownEditorCodeBlockAction:active {
+  border-radius: 0.75rem;
+}
+.saMarkdownEditorCodeBlockAction .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saMarkdownEditorCodeBlockAction.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saMarkdownEditorCodeBlockAction.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saMarkdownEditorCodeBlockAction.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saMarkdownEditorCodeBlockAction.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saMarkdownEditorCodeBlockAction.saDestructive:active {
+  color: var(--White);
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saMarkdownEditorCodeBlockAction.saDestructive:active > .saIcon {
+  color: var(--White);
+}
+@media (pointer: fine) {
+  .saMarkdownEditorCodeBlockAction:hover {
+    background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+  .saMarkdownEditorCodeBlockAction:hover .saIcon {
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+}
+.saMarkdownEditorCodeBlockAction:active {
+  background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saMarkdownEditorCodeBlockAction:active .saIcon {
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saMarkdownEditorCodeBlockAction:disabled,
+.saMarkdownEditorCodeBlockAction.saDisabled {
+  color: light-dark(var(--Gray300), var(--Gray700));
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saMarkdownEditorCodeBlockAction:disabled .saIcon,
+.saMarkdownEditorCodeBlockAction.saDisabled .saIcon {
+  color: light-dark(var(--Gray300), var(--Gray700));
+}
+.saMarkdownEditorCodeBlockLanguage {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.saInputTextWrapper.saMarkdownEditorCodeBlockLanguage {
+  gap: 0.5rem;
+}
+.saInputTextWrapper.saMarkdownEditorCodeBlockLanguage select {
+  border-radius: 0.25rem;
+  box-shadow: none;
+  background-color: transparent;
+  width: auto;
+  min-width: 8rem;
+}
 .saMarkdownEditorToolbar label {
   display: flex;
   align-items: center;
@@ -38656,6 +38883,199 @@ span.saChatContextPillLabel {
   font-weight: normal;
   width: 8rem;
   margin: 0;
+}
+.saTextFileViewer [hidden] {
+  display: none !important;
+}
+.saTextFileViewerStatus {
+  font-size: 0.75rem;
+  color: var(--Sa-Color-TextSecondary);
+  padding: 0.5rem 1rem;
+  margin: 0;
+}
+.saTextFileViewerContent {
+  display: block;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+  padding: 0 1rem 1rem;
+}
+@supports (scrollbar-gutter: stable) {
+  @media (pointer: fine) {
+    .saLargeScreen .saTextFileViewerContent {
+      padding-right: 0;
+      scrollbar-gutter: stable;
+    }
+    .saLargeScreen .saTextFileViewerContent::-webkit-scrollbar {
+      background-color: transparent;
+    }
+    .saLargeScreen .saTextFileViewerContent::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
+    .saLargeScreen .saTextFileViewerContent:is(:hover, :focus-within)::-webkit-scrollbar {
+      background-color: light-dark(var(--Gray200), var(--Gray900));
+    }
+    .saLargeScreen .saTextFileViewerContent:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
+      background-color: light-dark(var(--Gray500), var(--Gray700));
+    }
+    .saLargeScreen .saTextFileViewerContent:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
+      background-color: light-dark(var(--Gray700), var(--Gray900));
+    }
+    .saLargeScreen .saTextFileViewerContent:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
+      background-color: light-dark(var(--Gray900), var(--Gray1000));
+    }
+  }
+}
+.saLargeScreen .saTextFileViewerContent {
+  padding: 0 0 1rem 1rem;
+}
+.saTextFileViewerAction {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: var(--Font), sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+  color: light-dark(var(--Sa-Color-Primary600), var(--Gray100));
+  background-color: transparent;
+  text-decoration: none;
+}
+.saTextFileViewerAction .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saTextFileViewerAction .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saTextFileViewerAction .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saTextFileViewerAction:active {
+  border-radius: 0.75rem;
+}
+.saTextFileViewerAction .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saTextFileViewerAction.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saTextFileViewerAction.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saTextFileViewerAction.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saTextFileViewerAction.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saTextFileViewerAction.saDestructive:active {
+  color: var(--White);
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saTextFileViewerAction.saDestructive:active > .saIcon {
+  color: var(--White);
+}
+@media (pointer: fine) {
+  .saTextFileViewerAction:hover {
+    background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+  .saTextFileViewerAction:hover .saIcon {
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+}
+.saTextFileViewerAction:active {
+  background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saTextFileViewerAction:active .saIcon {
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saTextFileViewerAction:disabled,
+.saTextFileViewerAction.saDisabled {
+  color: light-dark(var(--Gray300), var(--Gray700));
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saTextFileViewerAction:disabled .saIcon,
+.saTextFileViewerAction.saDisabled .saIcon {
+  color: light-dark(var(--Gray300), var(--Gray700));
+}
+[aria-pressed='true'].saTextFileViewerAction {
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+  background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+  border-color: light-dark(var(--Sa-Color-Primary200), var(--Gray800));
+}
+[aria-pressed='true'].saTextFileViewerAction .saIcon {
+  color: inherit;
+}
+.saMarkdownContent .saTextFileViewerSource {
+  margin: 0;
+  overflow: visible;
+  white-space: pre;
+  background-color: transparent;
+  border-radius: 0;
+  padding: 0;
+  border: none;
+}
+.saWrapLines.saTextFileViewerSource,
+.saWrapLines.saTextFileViewerSource > code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.saFilePreviewLink {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  color: inherit;
+}
+.saFilePreviewLink:hover {
+  text-decoration: underline;
+}
+.saTextFileViewer .hljs-keyword,
+.saTextFileViewer .hljs-selector-tag,
+.saTextFileViewer .hljs-built_in {
+  color: light-dark(var(--Purple700), var(--Purple300));
+}
+.saTextFileViewer .hljs-string,
+.saTextFileViewer .hljs-attr {
+  color: light-dark(var(--Green700), var(--Green300));
+}
+.saTextFileViewer .hljs-number,
+.saTextFileViewer .hljs-literal {
+  color: light-dark(var(--Blue700), var(--Blue300));
+}
+.saTextFileViewer .hljs-comment {
+  color: var(--Sa-Color-TextSecondary);
 }
 .saToastGroup {
   display: flex;
@@ -38730,15 +39150,11 @@ span.saChatContextPillLabel {
   content: none;
 }
 @starting-style {
-  .saToast {
-    transform: translateY(100%) scale(0.5);
-    opacity: 0;
-  }
+  transform: translateY(100%) scale(0.5);
+  opacity: 0;
   @media (prefers-reduced-motion: reduce) {
-    .saToast {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-    }
+    transform: translateY(0) scale(1);
+    opacity: 1;
   }
 }
 .saToast.saClosed {

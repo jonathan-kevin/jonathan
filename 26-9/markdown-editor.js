@@ -100,13 +100,18 @@
 				const header = document.createElement("header");
 				const languageLabel = document.createElement("label");
 				const languageSelect = document.createElement("select");
+				const angleDown = document.createElement("div");
 				const pre = document.createElement("pre");
 				const code = document.createElement("code");
 				const copyButton = document.createElement("button");
+				const codeActions = document.createElement("div");
 				wrapper.className = "saMarkdownEditorCodeBlock";
 				header.className = "saMarkdownEditorCodeBlockHeader";
 				header.contentEditable = "false";
-				languageLabel.className = "saMarkdownEditorCodeLanguage saInputTextWrapper";
+				languageLabel.className = "saMarkdownEditorCodeBlockLanguage saInputTextWrapper";
+				angleDown.className = "saTrailingIconsWrapper";
+				angleDown.innerHTML = "<i class='saIcon far fa-angle-down' aria-hidden='true'></i>";
+				languageLabel.append(angleDown);
 				languageSelect.className = "saInputText";
 				languageSelect.setAttribute("aria-label", "Code language");
 				languageSelect.append(new Option("Automatic", ""));
@@ -115,13 +120,17 @@
 					.sort((left, right) => left.label.localeCompare(right.label))
 					.forEach(({ language, label }) => languageSelect.append(new Option(label, language)));
 				copyButton.type = "button";
-				copyButton.className = "saCopyButton";
+				copyButton.className = "saCopyButton saMarkdownEditorCodeBlockAction";
 				copyButton.setAttribute("aria-label", "Copy");
 				copyButton.contentEditable = "false";
+				codeActions.className = "saMarkdownEditorCodeBlockActions";
+				codeActions.setAttribute("role", "group");
+				codeActions.setAttribute("aria-label", "Code block actions");
 				pre.append(code);
 				languageLabel.append(languageSelect);
 				copyButton.innerHTML = '<i class="saIcon far fad fa-clone" aria-hidden="true"></i><i class="saIcon far fad fa-check" aria-hidden="true"></i>';
-				header.append(languageLabel, copyButton);
+				codeActions.append(copyButton);
+				header.append(languageLabel, codeActions);
 				wrapper.append(header, pre);
 
 				const updateLanguage = () => {

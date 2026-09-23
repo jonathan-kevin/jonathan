@@ -1,124 +1,86 @@
-// Panel-specific behavior; messaging lives in chat.js.
+// Chat adapter for the shared inline panel; messaging lives in chat.js.
 (() => {
 	class InlineChat extends window.SaChatComponent {
 		get isInline() { return true; }
 
 		renderHeader(titleId) {
-			return `
-				<div class="saChatInlineResize" role="separator" tabindex="0" aria-label="Resize document chat" aria-orientation="vertical" aria-describedby="${titleId}-resize-help"></div>
-				<p id="${titleId}-resize-help" class="saScreenReaderOnly">Drag to resize. Left Arrow widens chat, Right Arrow narrows it. Hold Shift for larger steps. Home sets minimum width; End sets maximum width.</p>
-				<header class="saChatInlineHeader">
-					<h3 id="${titleId}">Document chat</h3>
-					<button class="saCloseModal" type="button" data-chat-close aria-label="Close document chat" aria-keyshortcuts="Escape"><i class="saIcon far fa-xmark" aria-hidden="true"></i></button>
-				</header>
-`;
+			return window.SaInlinePanel.createHeader({ titleId, title: "Document chat", closeLabel: "Close document chat" }).outerHTML;
 		}
 
 		initializePanel() {
-			this.setupResize();
-			this.querySelector("[data-chat-close]").addEventListener("click", () => this.close());
-		}
-
-		setupResize() {
-			this.resizeHandle = this.querySelector(".saChatInlineResize");
-			this.resizeHandle.setAttribute("aria-controls", this.id);
-			this.preferredWidth = 32 * parseFloat(getComputedStyle(document.documentElement).fontSize);
-			this.resizeHandle.addEventListener("pointerdown", event => {
-				if (event.button !== 0 || !event.isPrimary) return;
-				event.preventDefault();
-				this.resizeHandle.focus({ preventScroll: true });
-				this.resizeDrag = { id: event.pointerId, x: event.clientX, width: this.getBoundingClientRect().width };
-				this.resizeHandle.setPointerCapture(event.pointerId);
-				this.classList.add("saChatInlineResizing");
-			});
-			this.resizeHandle.addEventListener("pointermove", event => {
-				if (this.resizeDrag?.id !== event.pointerId) return;
-				this.setWidth(this.resizeDrag.width + this.resizeDrag.x - event.clientX);
-			});
-			["pointerup", "pointercancel", "lostpointercapture"].forEach(type => {
-				this.resizeHandle.addEventListener(type, () => this.endResize());
-			});
-			this.resizeHandle.addEventListener("keydown", event => {
-				const { min, max } = this.widthBounds();
-				const step = event.shiftKey ? 48 : 16;
-				const width = this.getBoundingClientRect().width;
-				const values = { ArrowLeft: width + step, ArrowRight: width - step, Home: min, End: max };
-				if (!(event.key in values)) return;
-				event.preventDefault();
-				event.stopPropagation();
-				this.setWidth(values[event.key]);
-			});
-			this.sizeObserver = new ResizeObserver(() => this.setWidth(this.preferredWidth, false));
-			this.observeSize();
-		}
-
-		observeSize() {
-			this.sizeObserver.observe(document.documentElement);
-			if (this.parentElement) this.sizeObserver.observe(this.parentElement);
-		}
-
-		widthBounds() {
-			const viewport = document.documentElement.clientWidth;
-			const frame = this.parentElement?.querySelector(":scope > .saRightFrameRoot");
-			// On desktop, leave at least 320px for the document. Small screens use an overlay.
-			const available = viewport >= 1200 && frame ? viewport - frame.getBoundingClientRect().left - 320 : viewport;
-			const max = Math.max(1, Math.min(800, available));
-			return { min: Math.min(320, max), max };
-		}
-
-		setWidth(requested, remember = true) {
-			const { min, max } = this.widthBounds();
-			const width = Math.round(Math.min(max, Math.max(min, requested)));
-			if (remember) this.preferredWidth = width;
-			this.style.setProperty("--sa-chat-inline-width", `${width}px`);
-			this.resizeHandle.setAttribute("aria-valuemin", String(Math.round(min)));
-			this.resizeHandle.setAttribute("aria-valuemax", String(Math.round(max)));
-			this.resizeHandle.setAttribute("aria-valuenow", String(width));
-			this.resizeHandle.setAttribute("aria-valuetext", `${width} pixels wide`);
-		}
-
-		endResize() {
-			const id = this.resizeDrag?.id;
-			this.resizeDrag = null;
-			this.classList.remove("saChatInlineResizing");
-			if (id !== undefined && this.resizeHandle.hasPointerCapture(id)) this.resizeHandle.releasePointerCapture(id);
-		}
-
-		open(origin) {
-			this.updatePageContext();
-			this.origin = origin || this.origin;
-			this.inert = false;
-			this.removeAttribute("aria-hidden");
-			this.hidden = false;
-			this.updateOpenControls();
-			this.setWidth(this.preferredWidth, false);
-			this.composer.focus({ preventScroll: true });
-		}
-
-		close(origin = this.origin) {
-			this.toggleContextMenu(false);
-			this.endResize();
-			if (origin?.isConnected) {
-				if (origin.editor) origin.editor.commands.focus();
-				else origin.focus({ preventScroll: true });
-			}
-			// The CSS exit transition remains visible briefly, but the closing
-			// panel must leave keyboard navigation and the accessibility tree now.
-			if (this.contains(document.activeElement)) document.activeElement.blur();
-			this.inert = true;
-			this.setAttribute("aria-hidden", "true");
-			this.hidden = true;
-			this.updateOpenControls();
-		}
-
-		updateOpenControls() {
-			document.querySelectorAll(".saOpenChat[aria-controls]").forEach(button => {
-				if (button.getAttribute("aria-controls") === this.id) {
-					button.setAttribute("aria-expanded", String(!this.hidden));
+			this.chatHeader = this.querySelector(".saInlineHeader");
+			this.chatContent = this.querySelector(".saChatWrapper");
+			this.chatContent.classList.add("saInlineContent");
+			this.panel = new window.SaInlinePanel(this, {
+				onDismiss: () => this.close(),
+				shouldDismiss: event => !event.target.closest(".saChatMessageEdit"),
+				restoreFocus: target => {
+					if (target.editor) target.editor.commands.focus();
+					else target.focus({ preventScroll: true });
 				}
 			});
 		}
 
+		reconnectPanel() { this.panel?.connect(); }
+		disconnectPanel() { this.panel?.disconnect(); }
+
+		open(origin) {
+			if (this.filePreviewState) this.closeFilePreview({ keepOpen: true, focus: false });
+			this.updatePageContext();
+			this.panel.open(origin, this.composer);
+		}
+
+		close(origin = this.panel.origin) {
+			if (this.filePreviewState) { this.closeFilePreview(); return; }
+			this.toggleContextMenu(false);
+			this.panel.close(origin);
+		}
+
+		openFile(file, origin) {
+			if (!this.fileViewer) {
+				this.fileViewer = document.createElement("text-file-viewer");
+				this.fileViewer.hidden = true;
+				this.append(this.fileViewer);
+				this.fileViewer.addEventListener("file-viewer-close", () => this.closeFilePreview());
+			}
+			if (!this.filePreviewState) {
+				const state = { wasOpen: !this.hidden, scrollTop: this.scroll.scrollTop, previousOrigin: this.panel.origin, label: this.getAttribute("aria-labelledby") };
+				this.open(origin);
+				this.filePreviewState = state;
+			}
+			this.filePreviewState.origin?.setAttribute("aria-expanded", "false");
+			this.filePreviewState.origin = origin;
+			origin?.setAttribute("aria-controls", this.fileViewer.id);
+			origin?.setAttribute("aria-expanded", "true");
+			this.toggleContextMenu(false);
+			this.classList.add("saInlineFullWidth");
+			this.chatHeader.hidden = true;
+			this.chatContent.hidden = true;
+			this.chatContent.inert = true;
+			this.setAttribute("aria-labelledby", `${this.fileViewer.id}-title`);
+			this.fileViewer.openFile(file, this.filePreviewState.wasOpen);
+		}
+
+		closeFilePreview({ keepOpen = false, focus = true } = {}) {
+			const state = this.filePreviewState;
+			if (!state) return;
+			this.filePreviewState = null;
+			state.origin?.setAttribute("aria-expanded", "false");
+			this.fileViewer.hidden = true;
+			this.fileViewer.release();
+			this.classList.remove("saInlineFullWidth");
+			this.chatHeader.hidden = false;
+			this.chatContent.hidden = false;
+			this.chatContent.inert = false;
+			this.setAttribute("aria-labelledby", state.label);
+			this.scroll.scrollTop = state.scrollTop;
+			this.panel.origin = state.previousOrigin;
+			if (!state.wasOpen && !keepOpen) this.close(state.origin);
+			else if (focus) {
+				const target = state.origin?.isConnected ? state.origin : this.composer;
+				target.focus({ preventScroll: true });
+			}
+		}
 	}
 
 	if (!customElements.get("chat-inline")) customElements.define("chat-inline", InlineChat);

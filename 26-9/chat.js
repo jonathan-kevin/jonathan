@@ -2,6 +2,8 @@
 	let sequence = 0;
 	let responseSequence = 0;
 	let sourceSequence = 0;
+	let messageSequence = 0;
+	let pasteSequence = 0;
 
 	class ChatComponent extends HTMLElement {
 		get isInline() { return false; }
@@ -19,10 +21,11 @@
 		connectedCallback() {
 			if (!this.isInline && !this.hasAttribute("data-chat-interactive")) return;
 			if (this.initialized) {
-				this.observeSize?.();
+				this.reconnectPanel?.();
 				this.observeContextControls();
 				this.startFileLoading();
 				this.observeLatest();
+				this.observeMessageExpansion();
 				return;
 			}
 			this.initialized = true;
@@ -107,6 +110,8 @@
 			this.composer = this.querySelector(".saChatTextarea");
 			this.sendButton = this.querySelector(".saChatButtonSend");
 			this.log = this.querySelector(".saChatLog");
+			this.messageExpanders = new Map();
+			this.observeMessageExpansion();
 			this.emptyMessage = this.log.firstElementChild;
 			this.ensureDateSeparator(new Date(), this.emptyMessage);
 			this.context = this.querySelector(".saChatInlineContext");
@@ -145,6 +150,7 @@
 				this.status.textContent = "Selected text removed from your next message.";
 			});
 			this.composer.addEventListener("input", () => this.updateSendButton());
+			this.composer.addEventListener("paste", event => this.handleLongPaste(event));
 			this.sendButton.addEventListener("click", event => {
 				if (!this.response) {
 					if (!this.isInline) { event.preventDefault(); this.send(); }
@@ -156,13 +162,7 @@
 			});
 			this.addEventListener("keydown", event => {
 				if (event.isComposing) return;
-				if (event.key === "Escape" && this.isInline) {
-					// Let the shared message editor cancel its own edit before closing chat.
-					if (event.target.closest(".saChatMessageEdit")) return;
-					event.preventDefault();
-					event.stopPropagation();
-					this.close();
-				} else if (event.target === this.composer && event.key === "Enter" && !event.shiftKey) {
+				if (event.target === this.composer && event.key === "Enter" && !event.shiftKey) {
 					event.preventDefault();
 					this.send();
 				}
@@ -171,6 +171,315 @@
 				event.preventDefault();
 				this.send();
 			});
+			if (!this.isInline) this.seedDemoHistory();
+		}
+
+		seedDemoHistory() {
+			// Fictional, local demo data. No requests or simulated live work on startup.
+			const yesterday = new Date();
+			yesterday.setDate(yesterday.getDate() - 1);
+			yesterday.setHours(14, 20, 0, 0);
+			const recent = new Date(Date.now() - 2 * 60 * 1000);
+			const turns = [
+				{
+					date: yesterday,
+					prompt: "Can you give me a quick status update on the customer portal rollout? I’ve attached the handover notes. What needs attention before launch?",
+					files: [{
+						name: "portal-handover.txt", type: "text/plain",
+						content: [
+							"Customer portal — launch handover",
+							"Fictional project notes for the chat demo.", "",
+							"Status: 9 of 12 launch tasks complete; 2 in progress; 1 blocked.", "",
+							"Completed: sign-in, account settings, and the main support flows.",
+							"In progress: help articles and final keyboard/accessibility checks.",
+							"Blocked: production email domain DNS verification.", "",
+							"Platform team: confirm the DNS records and complete email verification.",
+							"QA: rerun the password-reset flow after verification succeeds.",
+							"Content and design: finish help articles and accessibility checks.", "",
+							"Launch date remains provisional until the end-to-end email test passes.", "",
+							"Customer portal — launch handover",
+							"Fictional project notes for the chat demo.", "",
+							"Status: 9 of 12 launch tasks complete; 2 in progress; 1 blocked.", "",
+							"Completed: sign-in, account settings, and the main support flows.",
+							"In progress: help articles and final keyboard/accessibility checks.",
+							"Blocked: production email domain DNS verification.", "",
+							"Platform team: confirm the DNS records and complete email verification.",
+							"QA: rerun the password-reset flow after verification succeeds.",
+							"Content and design: finish help articles and accessibility checks.", "",
+							"Launch date remains provisional until the end-to-end email test passes.", "",
+							"Customer portal — launch handover",
+							"Fictional project notes for the chat demo.", "",
+							"Status: 9 of 12 launch tasks complete; 2 in progress; 1 blocked.", "",
+							"Completed: sign-in, account settings, and the main support flows.",
+							"In progress: help articles and final keyboard/accessibility checks.",
+							"Blocked: production email domain DNS verification.", "",
+							"Platform team: confirm the DNS records and complete email verification.",
+							"QA: rerun the password-reset flow after verification succeeds.",
+							"Content and design: finish help articles and accessibility checks.", "",
+							"Launch date remains provisional until the end-to-end email test passes.", "",
+							"Customer portal — launch handover",
+							"Fictional project notes for the chat demo.", "",
+							"Status: 9 of 12 launch tasks complete; 2 in progress; 1 blocked.", "",
+							"Completed: sign-in, account settings, and the main support flows.",
+							"In progress: help articles and final keyboard/accessibility checks.",
+							"Blocked: production email domain DNS verification.", "",
+							"Platform team: confirm the DNS records and complete email verification.",
+							"QA: rerun the password-reset flow after verification succeeds.",
+							"Content and design: finish help articles and accessibility checks.", "",
+							"Launch date remains provisional until the end-to-end email test passes.", "",
+							"Customer portal — launch handover",
+							"Fictional project notes for the chat demo.", "",
+							"Status: 9 of 12 launch tasks complete; 2 in progress; 1 blocked.", "",
+							"Completed: sign-in, account settings, and the main support flows.",
+							"In progress: help articles and final keyboard/accessibility checks.",
+							"Blocked: production email domain DNS verification.", "",
+							"Platform team: confirm the DNS records and complete email verification.",
+							"QA: rerun the password-reset flow after verification succeeds.",
+							"Content and design: finish help articles and accessibility checks.", "",
+							"Launch date remains provisional until the end-to-end email test passes.", "",
+							"Customer portal — launch handover",
+							"Fictional project notes for the chat demo.", "",
+							"Status: 9 of 12 launch tasks complete; 2 in progress; 1 blocked.", "",
+							"Completed: sign-in, account settings, and the main support flows.",
+							"In progress: help articles and final keyboard/accessibility checks.",
+							"Blocked: production email domain DNS verification.", "",
+							"Platform team: confirm the DNS records and complete email verification.",
+							"QA: rerun the password-reset flow after verification succeeds.",
+							"Content and design: finish help articles and accessibility checks.", "",
+							"Launch date remains provisional until the end-to-end email test passes.", ""
+						].join("\n")
+					}],
+					paragraphs: ["The rollout is close to ready: 9 of the 12 launch tasks are complete, 2 are in progress, and 1 is blocked."],
+					bullets: ["Completed: sign-in, account settings, and the main support flows have passed testing.", "In progress: the help articles and final accessibility checks.", "Blocked: the production email domain still needs DNS verification. Password-reset emails cannot be signed off until that is resolved."],
+					closing: "I’d prioritize the email verification, then rerun the password-reset test. The remaining content work can continue in parallel.",
+					activity: [
+						{ label: "Reviewed launch tasks", detail: "Checked the 12 tasks in the customer portal launch checklist.", call: 'get_project_tasks(project: "Customer portal")' },
+						{ label: "Checked project notes", detail: "Found the outstanding email verification dependency in the latest handover notes.", call: 'search_project_notes(query: "launch blockers")' }
+					]
+				},
+				{
+					date: new Date(yesterday.getTime() + 6 * 60 * 1000),
+					prompt: "Turn that into a short update I can send to the project team. Keep it practical.",
+					paragraphs: ["Here’s a draft you can share:", "The customer portal is nearly ready for launch. Nine of twelve tasks are complete; help content and accessibility checks are still in progress. The main blocker is production email domain verification."],
+					bullets: ["Platform team: confirm the DNS records and complete email verification.", "QA: rerun the password-reset flow once verification is complete.", "Content and design: finish the help articles and remaining accessibility checks."],
+					closing: "We’ll confirm the launch date once the email test passes. No message has been sent on your behalf."
+				},
+				{
+					date: recent,
+					prompt: "The email domain is verified now. Here’s the updated launch checklist. What should we check before giving the go-ahead?",
+					files: [{
+						name: "launch-checklist.md", type: "text/markdown",
+						content: [
+							"# Customer portal — launch checklist", "",
+							"Fictional checklist for the chat demo.", "",
+							"## Completed",
+							"- [x] Verify production email domain and DNS records.",
+							"- [x] Test sign-in, account settings, and support flows.", "",
+							"## Before launch",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"- [ ] Request a password reset with a test account and confirm delivery.",
+							"- [ ] Check the link opens the production portal, works once, and expires.",
+							"- [ ] Complete keyboard navigation and screen-reader checks.",
+							"- [ ] Publish and proofread the remaining help articles.",
+							"- [ ] Record QA results and obtain the launch owner’s approval.", "",
+							"**Decision:** keep launch on hold until the remaining checks pass.", ""
+						].join("\n")
+					}],
+					paragraphs: ["That removes the configuration blocker. I checked the launch checklist; the end-to-end email test still needs a recorded result."],
+					bullets: ["Request a password reset using a test account and confirm the email arrives.", "Check that the reset link works once, expires correctly, and opens the production portal.", "Finish the remaining accessibility checks and confirm the help articles are published.", "Record the test results and ask the launch owner for final approval."],
+					closing: "If those checks pass, the team can make the go/no-go decision. I haven’t changed any task statuses.",
+					activity: [{ label: "Checked remaining launch checks", detail: "Reviewed the open QA and content sign-off items in the sample checklist.", call: 'get_launch_checklist(project: "Customer portal")' }]
+				}
+			];
+			this.emptyMessage.remove();
+			this.log.querySelectorAll(":scope > .saChatDate").forEach(separator => separator.remove());
+			for (const turn of turns) {
+				const attachments = (turn.files || []).map(({ name, type, content }) => ({
+					id: ++sourceSequence,
+					text: name,
+					file: new File([content], name, { type, lastModified: turn.date.getTime() }),
+					progress: 100
+				}));
+				this.appendMessage(turn.prompt, null, attachments, turn.date);
+				this.appendHistoryResponse(turn, new Date(turn.date.getTime() + 60 * 1000));
+			}
+			this.scroll.scrollTop = this.scroll.scrollHeight;
+			this.updateLatest();
+		}
+
+		appendHistoryResponse(turn, date) {
+			const message = document.createElement("li");
+			message.className = "saChatAiResponse";
+			message.setAttribute("aria-label", "Demo assistant response");
+			message.innerHTML = `<article class="saChatMessageInner">
+				<div class="saChatAiMessageBody" tabindex="0"><div class="saChatMessageContent saMarkdownContent"></div></div>
+				<footer class="saChatMessageFooter"><time class="saChatMessageTime"></time>
+					<ul class="saChatToolbar" aria-label="Response actions">
+						<li><button type="button" aria-label="Branch (not available in this demo)" disabled><i class="saIcon far fa-code-branch" aria-hidden="true"></i></button></li>
+						<li><button class="saCopyButton saChatCopyButton" type="button" aria-label="Copy" data-tooltip="Copy"><i class="saIcon far fa-clone" aria-hidden="true"></i><i class="saIcon far fa-check" aria-hidden="true"></i></button></li>
+					</ul>
+				</footer></article>`;
+			const answer = message.querySelector(".saChatMessageContent");
+			for (const text of turn.paragraphs) {
+				const paragraph = document.createElement("p");
+				paragraph.textContent = text; answer.append(paragraph);
+			}
+			const list = document.createElement("ul");
+			for (const text of turn.bullets) {
+				const item = document.createElement("li");
+				item.textContent = text; list.append(item);
+			}
+			answer.append(list);
+			const closing = document.createElement("p");
+			closing.textContent = turn.closing; answer.append(closing);
+			if (turn.activity?.length) {
+				const history = document.createElement("div");
+				history.id = `chat-inline-tool-history-${++responseSequence}`;
+				history.dataset.chatToolHistory = "";
+				const toggle = document.createElement("button");
+				toggle.type = "button";
+				toggle.className = "saChatMessageAction";
+				toggle.dataset.chatToolToggle = "";
+				toggle.setAttribute("aria-expanded", "true");
+				toggle.setAttribute("aria-controls", history.id);
+				toggle.innerHTML = '<i class="saIcon far fa-square-terminal" aria-hidden="true"></i><span data-chat-tool-count></span><i class="saIcon far fa-angle-down" aria-hidden="true"></i>';
+				toggle.querySelector("[data-chat-tool-count]").textContent = `Performed tool calls (${turn.activity.length})`;
+				for (const activity of turn.activity) {
+					const entry = document.createElement("div");
+					entry.className = "saChatMessageAction";
+					entry.innerHTML = '<i class="saIcon far fa-square-terminal" aria-hidden="true"></i><span>Performed tool call <code></code></span>';
+					entry.querySelector("code").textContent = activity.call;
+					history.append(entry);
+				}
+				toggle.addEventListener("click", () => {
+					const expanded = toggle.getAttribute("aria-expanded") !== "true";
+					toggle.setAttribute("aria-expanded", String(expanded)); history.hidden = !expanded;
+				});
+				answer.prepend(toggle, history);
+			}
+			const time = message.querySelector("time");
+			time.dateTime = date.toISOString();
+			time.textContent = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+			this.appendToLog(message, date);
 		}
 
 		disconnectedCallback() {
@@ -178,11 +487,13 @@
 			this.contextEvents?.abort();
 			this.latestEvents?.abort();
 			this.latestObserver?.disconnect();
+			this.messageResizeObserver?.disconnect();
+			this.messageMutationObserver?.disconnect();
+			cancelAnimationFrame(this.messageExpansionFrame);
 			clearInterval(this.fileLoadingTimer);
 			this.fileLoadingTimer = null;
 			this.setFileDragActive(false);
-			this.sizeObserver?.disconnect();
-			this.endResize?.();
+			this.disconnectPanel?.();
 			if (this.response) this.finishResponse(true);
 		}
 
@@ -190,6 +501,11 @@
 			this.contextPills = this.querySelector("[data-chat-pills]");
 			this.fileList = this.querySelector("[data-chat-files]");
 			this.fileList.addEventListener("click", event => {
+				const restore = event.target.closest("[data-chat-restore-paste]");
+				if (restore) {
+					this.restorePastedText(restore.dataset.chatRestorePaste);
+					return;
+				}
 				const remove = event.target.closest("[data-chat-remove-file]");
 				if (!remove) return;
 				this.contextFiles = this.contextFiles.filter(item => String(item.id) !== remove.dataset.chatRemoveFile);
@@ -243,16 +559,84 @@
 			this.fileInput.addEventListener("cancel", () => this.addContextButton.focus());
 		}
 
-		attachFiles(files) {
+		isLongPaste(text) {
+			const characterLimit = Number(this.getAttribute("paste-character-limit")) || 2000;
+			const lineLimit = Number(this.getAttribute("paste-line-limit")) || 20;
+			return Boolean(text.trim()) && (text.length > characterLimit || text.split(/\r\n|\r|\n/).length > lineLimit);
+		}
+
+		detectPastedFormat(text) {
+			const source = text.trim();
+			// Inspect plain text, not the HTML clipboard flavour added to rich copies.
+			if (/^(?:```|~~~)[\s\S]*\n(?:```|~~~)\s*$/m.test(source)) return { extension: "md", type: "text/markdown" };
+			if (/^[\[{]/.test(source)) {
+				try { JSON.parse(source); return { extension: "json", type: "application/json" }; } catch { /* Not JSON. */ }
+			}
+			if (/^<!doctype\s+html\b/i.test(source) || (/^<(?:html|head|body|div|section|article|main|p|table|ul|ol|form|style|script)\b/i.test(source) && /<\/[a-z][\w-]*\s*>/i.test(source))) return { extension: "html", type: "text/html" };
+			if (/^(?:export\s+)?(?:interface\s+\w+\s*\{|type\s+\w+\s*=)/m.test(source)) return { extension: "ts", type: "text/typescript" };
+			if (/^(?:\/\*[\s\S]*?\*\/\s*)?(?:[.#:@\w*][^{};]*\{)/.test(source) && /\{[^{}]*[\w-]+\s*:\s*[^{};]+;[^{}]*\}/.test(source) && !/\b(?:const|let|function|return)\b/.test(source)) return { extension: "css", type: "text/css" };
+			if (/^(?:export\s+(?:default\s+)?)?(?:async\s+)?function\s+\w+\s*\([^)]*\)\s*\{/m.test(source)
+				|| /^import\s+.+\s+from\s+['"][^'"]+['"]/m.test(source)
+				|| (/^(?:export\s+)?(?:const|let|var)\s+\w+\s*=/m.test(source) && /=>|\breturn\b|\bconsole\.\w+\(/.test(source))) return { extension: "js", type: "text/javascript" };
+			if (/^(?:async\s+)?def\s+\w+\([^\n]*\):\s*\n[ \t]+\S/m.test(source)) return { extension: "py", type: "text/x-python" };
+			if (/^(?:SELECT\b[\s\S]+\bFROM\s+[\w"[\]`.]|CREATE\s+TABLE\s+[\w"[\]`.]+\s*\()/i.test(source)) return { extension: "sql", type: "application/sql" };
+			const markdownSignals = [ /^#{1,6}\s+\S/m, /^\s*[-*+]\s+(?:\[[ xX]\]\s+)?\S/m, /\[[^\]\n]+\]\(https?:\/\/[^\s)]+\)/, /\*\*[^*\n]+\*\*/, /^>\s+\S/m, /^\|?\s*:?-{3,}:?\s*\|/m ];
+			if (markdownSignals.filter(pattern => pattern.test(source)).length >= 2) return { extension: "md", type: "text/markdown" };
+			return { extension: "txt", type: "text/plain" };
+		}
+
+		handleLongPaste(event) {
+			const text = event.clipboardData?.getData("text/plain") || "";
+			if (!this.isLongPaste(text)) return;
+			const format = this.detectPastedFormat(text);
+			const file = new File([text], `pasted-text-${++pasteSequence}.${format.extension}`, { type: format.type });
+			const selection = window.getSelection();
+			let range = null;
+			if (selection?.rangeCount && this.composer.contains(selection.getRangeAt(0).startContainer)) {
+				range = selection.getRangeAt(0).cloneRange();
+				range.collapse(true);
+			}
+			// Do not delete a selection or alter anything already in the draft.
+			event.preventDefault();
+			this.attachFiles([file], { text, range, anchor: range?.startContainer });
+			this.status.textContent = `Long paste attached as ${file.name}. Existing draft preserved. Use Restore as text to put it back. Nothing was sent.`;
+		}
+
+		restorePastedText(id) {
+			const item = this.contextFiles.find(item => String(item.id) === id);
+			if (!item?.paste) return;
+			const { text, range, anchor } = item.paste;
+			const valid = range && this.composer.contains(anchor) && this.composer.contains(range.startContainer);
+			const insertion = valid ? range.cloneRange() : document.createRange();
+			if (!valid) {
+				insertion.selectNodeContents(this.composer);
+				insertion.collapse(false);
+			}
+			insertion.collapse(true);
+			this.composer.focus({ preventScroll: true });
+			const selection = window.getSelection();
+			selection.removeAllRanges(); selection.addRange(insertion);
+			// A text node preserves the paste's exact line breaks and never executes markup.
+			const node = document.createTextNode(text);
+			insertion.insertNode(node); insertion.setStartAfter(node); insertion.collapse(true);
+			selection.removeAllRanges(); selection.addRange(insertion);
+			this.contextFiles = this.contextFiles.filter(candidate => candidate !== item);
+			this.startFileLoading(); this.renderFiles(); this.updateSendButton();
+			this.status.textContent = "Pasted content restored as text. Nothing was sent.";
+		}
+
+		attachFiles(files, paste = null) {
 			let added = 0;
 			for (const file of files) {
 				if (this.contextFiles.some(item => item.file.name === file.name && item.file.size === file.size && item.file.lastModified === file.lastModified)) continue;
-				this.contextFiles.push({ id: ++sourceSequence, text: file.name, file, progress: 0, loadingStarted: Date.now(), loadingDuration: 3000 + (sourceSequence % 3) * 500 });
+				this.contextFiles.push({ id: ++sourceSequence, text: file.name, file, paste, progress: paste ? 100 : 0, loadingStarted: Date.now(), loadingDuration: 3000 + (sourceSequence % 3) * 500 });
 				added++;
 			}
 			this.renderFiles(); this.updateSendButton(); this.composer.focus();
 			this.startFileLoading();
-			this.status.textContent = added ? `Simulating loading for ${added} file${added === 1 ? "" : "s"}. Nothing is uploaded.` : "Files already attached.";
+			this.status.textContent = added
+				? paste ? "Pasted text attached and ready. Nothing is uploaded." : `Simulating loading for ${added} file${added === 1 ? "" : "s"}. Nothing is uploaded.`
+				: "Files already attached.";
 		}
 
 		startFileLoading() {
@@ -402,7 +786,7 @@
 				const page = item.id === "page";
 				const action = document.createElement(page ? "a" : "span");
 				action.className = "saChatContextPillLabel";
-				action.innerHTML = `<i class="saIcon far fad ${page ? "fa-file" : this.getFileIcon(item.file)}" aria-hidden="true"></i><span></span>`;
+				action.innerHTML = '<span></span>';
 				action.querySelector("span").textContent = item.text;
 				action.title = page ? "Current page — main reference. Go to page." : `${item.text} (${item.file.size.toLocaleString()} bytes) — local attachment`;
 				if (page) {
@@ -432,7 +816,7 @@
 				if (Array.from(list.children).some(row => row.dataset.chatFileId === String(item.id))) continue;
 				const row = document.createElement("li");
 				row.dataset.chatFileId = String(item.id);
-				row.className = `saFileWrapper saFileVisible${removable ? "" : " saExistingFile"}`;
+				row.className = `saFileWrapper saFileVisible${!removable || item.paste ? " saExistingFile" : ""}`;
 				// Reuse the icon names supported by the upload component's colour mixin.
 				const fileIcon = this.getFileIcon(item.file);
 				const icon = { "fa-file-image": "fa-image", "fa-file-audio": "fa-music", "fa-file-video": "fa-video", "fa-file-code": "fa-code" }[fileIcon] || fileIcon;
@@ -442,16 +826,29 @@
 							<div class="saLoadingSpinner"></div>
 						</div></div>
 					<div class="saFile">
-						<div class="saFileNameWrapper"><span class="saFileName"></span></div>
+						<div class="saFileNameWrapper"><button type="button" class="saFileName saFilePreviewLink" aria-expanded="false"></button></div>
 						<div class="saFileSizeWrapper"><div class="saFileSizeRow"><span class="saFileSize"></span><span class="saFileUploadProgressText" aria-hidden="true"></span></div><progress class="saFileUploadProgress" max="100" value="0"></progress></div>
 					</div>`;
 				row.querySelector(".saFileName").textContent = item.file.name;
 				row.querySelector(".saFileName").title = item.file.name;
+				const preview = row.querySelector(".saFilePreviewLink");
+				preview.setAttribute("aria-label", `View ${item.file.name}`);
+				preview.addEventListener("click", () => this.openFilePreview(item.file, preview));
 				row.querySelector(".saFileSize").textContent = this.formatFileSize(item.file.size);
 				row.title = `${item.file.name} — ${item.file.size.toLocaleString()} bytes — local attachment`;
 				row.querySelector("progress").setAttribute("aria-label", `Simulated loading: ${item.file.name}`);
 				this.updateFileLoading(row, item);
 				if (removable) {
+					if (item.paste) {
+						row.classList.add("saPastedText");
+						const restore = document.createElement("button");
+						restore.type = "button";
+						restore.className = "saChatMessageAction saChatRestorePaste";
+						restore.textContent = "Restore as text";
+						restore.setAttribute("aria-label", `Restore ${item.file.name} as text`);
+						restore.dataset.chatRestorePaste = String(item.id);
+						row.querySelector(".saFile").append(restore);
+					}
 					const controls = document.createElement("div");
 					controls.className = "saFileButtonGroup";
 					const remove = document.createElement("button");
@@ -466,6 +863,12 @@
 				list.append(row);
 			}
 			list.hidden = !items.length;
+		}
+
+		openFilePreview(file, origin) {
+			const panel = this.isInline ? this : this.closest(".saRightFrameRoot")?.parentElement.querySelector(":scope > chat-inline");
+			if (panel?.openFile) panel.openFile(file, origin);
+			else this.status.textContent = "The file viewer is not available on this page.";
 		}
 
 		formatFileSize(bytes) {
@@ -585,6 +988,12 @@
 				return;
 			}
 			const inChat = this.contains(source.target);
+			for (const [text, state] of this.messageExpanders) {
+				if (source.target.contains(text)) {
+					state.expanded = true;
+					this.updateMessageExpansion(text, state);
+				}
+			}
 			if (this.isInline && !inChat && window.matchMedia("(max-width: 1199px)").matches) this.close();
 			if (source.editor) {
 				const owner = source.editor;
@@ -654,7 +1063,7 @@
 			this.composer.focus();
 		}
 
-		appendMessage(text, context = null, contextItems = []) {
+		appendMessage(text, context = null, contextItems = [], date = new Date()) {
 			const message = document.createElement("li");
 			message.className = "saChatMessage saChatSender";
 			message.innerHTML = `<article class="saChatMessageInner">
@@ -695,14 +1104,74 @@
 				// Keep the local File objects with their message; no reads or uploads.
 				message.contextFiles = contextItems.filter(item => item.file).map(item => item.file);
 			}
-			const now = new Date();
 			const time = message.querySelector("time");
-			time.dateTime = now.toISOString();
-			time.textContent = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+			time.dateTime = date.toISOString();
+			time.textContent = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 			if ((context || contextItems.length) && !text.trim()) message.querySelector("footer").remove();
 			this.emptyMessage.remove();
-			this.appendToLog(message);
+			this.appendToLog(message, date);
+			this.addMessageExpansion(message);
 			this.scroll.scrollTop = this.scroll.scrollHeight;
+		}
+
+		observeMessageExpansion() {
+			this.messageResizeObserver?.disconnect();
+			this.messageMutationObserver?.disconnect();
+			const refresh = () => {
+				cancelAnimationFrame(this.messageExpansionFrame);
+				this.messageExpansionFrame = requestAnimationFrame(() => {
+					for (const [text, state] of this.messageExpanders) {
+						if (!this.log.contains(text)) {
+							this.messageResizeObserver.unobserve(text);
+							this.messageExpanders.delete(text);
+						} else this.updateMessageExpansion(text, state);
+					}
+				});
+			};
+			this.messageResizeObserver = new ResizeObserver(refresh);
+			for (const text of this.messageExpanders.keys()) this.messageResizeObserver.observe(text);
+			this.messageMutationObserver = new MutationObserver(refresh);
+			this.messageMutationObserver.observe(this.log, { childList: true, subtree: true, characterData: true });
+			refresh();
+		}
+
+		addMessageExpansion(message) {
+			const text = message.querySelector(".saChatMessageBodyInner > p");
+			if (!text) return;
+			text.classList.add("saChatMessageText");
+			text.id = `chat-message-text-${++messageSequence}`;
+			const button = document.createElement("button");
+			button.type = "button";
+			button.className = "saChatMessageExpand";
+			button.hidden = true;
+			button.setAttribute("aria-controls", text.id);
+			button.setAttribute("aria-expanded", "false");
+			button.textContent = "Show more";
+			const state = { button, expanded: false };
+			button.addEventListener("click", () => {
+				state.expanded = !state.expanded;
+				this.updateMessageExpansion(text, state);
+			});
+			message.querySelector(".saChatMessageBodyInner").append(button);
+			this.messageExpanders.set(text, state);
+			this.messageResizeObserver.observe(text);
+			this.updateMessageExpansion(text, state);
+		}
+
+		updateMessageExpansion(text, state) {
+			if (!text.getClientRects().length) return;
+			const configured = Number(this.getAttribute("message-line-limit"));
+			const lines = Number.isInteger(configured) && configured > 0 ? configured : 6;
+			text.style.setProperty("--sa-chat-message-lines", String(lines));
+			const lineHeight = parseFloat(getComputedStyle(text).lineHeight);
+			const overflowing = text.scrollHeight > lineHeight * lines + 1;
+			if (!overflowing) state.expanded = false;
+			text.classList.toggle("saCollapsed", overflowing && !state.expanded);
+			state.button.hidden = !overflowing;
+			state.button.setAttribute("aria-expanded", String(state.expanded));
+			const label = state.expanded ? "Show less" : "Show more";
+			if (state.button.textContent !== label) state.button.textContent = label;
+			this.updateLatest();
 		}
 
 		dateKey(date) {
@@ -785,7 +1254,6 @@
 							<i class="saIcon far fa-square-terminal" aria-hidden="true"></i>
 							<span class="saChatThinkingTextLight"></span>
 						</div>
-						<p data-chat-answer hidden></p>
 					</div>
 				</div>
 				<footer class="saChatMessageFooter" hidden>
@@ -796,8 +1264,11 @@
 					</ul>
 				</footer>
 			</article>`;
+			const paragraph = document.createElement("p");
+			paragraph.hidden = true;
+			message.querySelector(".saChatMessageContent").append(paragraph);
 			const response = {
-				message, thinking, paragraph: message.querySelector("[data-chat-answer]"), text: "",
+				message, thinking, paragraph, text: "",
 				history: message.querySelector("[data-chat-tool-history]"),
 				toggle: message.querySelector("[data-chat-tool-toggle]"),
 				active: message.querySelector("[data-chat-tool-active]")
