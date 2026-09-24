@@ -758,12 +758,13 @@
 		return plannerTones[activity.tone] || plannerTones.primary;
 	}
 
-	function renderPlannerActivity(activity, width, flow) {
+	function renderPlannerActivity(activity, width, flow, left = 2, top = 4) {
 		const tone = plannerTone(activity);
 		const description = activity.description ? `<span class="saActivityDescription saIgnoreOnDropJs">${escapeHtml(activity.description)}</span>` : '';
-		const position = flow ? 'position: relative; display: inline-flex; margin: 2px;' : 'position: absolute; left: 1px; top: 1px;';
+		const position = flow ? 'position: relative; display: inline-flex; margin: 2px;' : `position: absolute; left: ${left}px; top: ${top}px;`;
+		const tooltip = [activity.title || 'Activity', activity.description].filter(Boolean).join(' - ');
 		return `
-			<div class="saActivity saIgnoreOnDropJs saCanDrag${activity.link ? ' saHasLinks' : ''} saDynamicWidthJs saLight" style="${position} height: calc(-5px + 4.025rem); background-color: ${tone.background}; color: ${tone.color}; width: ${Math.max(20, width - 4)}px; min-width: ${Math.max(20, width - 4)}px;">
+			<div class="saActivity saIgnoreOnDropJs${activity.link ? ' saHasLinks' : ''} saDynamicWidthJs saLight" title="${escapeHtml(tooltip)}" style="${position} height: 56px; background-color: ${tone.background}; color: ${tone.color}; width: ${Math.max(1, width - 4)}px; min-width: ${Math.max(1, width - 4)}px;">
 				<div class="saActivityInner saIgnoreOnDropJs">
 					<div class="saActivityHeadingWrapper saIgnoreOnDropJs"><span class="saBoxIcons"></span><span class="saActivityHeading saIgnoreOnDropJs">${escapeHtml(activity.title || 'Activity')}</span></div>
 					${description}
@@ -789,7 +790,7 @@
 						<select class="saInputText saDropdown">${['Day', 'Work week', 'Week', 'Month'].map(option => `<option${option === period ? ' selected' : ''}>${option}</option>`).join('')}</select>
 						<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
 					</label>
-					<label class="saInputTextWrapper saLabeled shortest"><span class="saLabeledLabel">${escapeHtml(component.periodNumberLabel || (period === 'Week' ? 'Week' : 'Day'))}</span><input class="saInputText" type="number" value="${periodNumber}"></label>
+					<label class="saInputTextWrapper saLabeled shortest"><span class="saLabeledLabel">${escapeHtml(component.periodNumberLabel || (/week/i.test(period) ? 'Week' : 'Day'))}</span><input class="saInputText" type="number" value="${periodNumber}"></label>
 					<label class="saInputTextWrapper saLabeled shortest"><span class="saLabeledLabel">Year</span><input class="saInputText" type="number" value="${year}"></label>
 					<button class="saTodayButton" type="button">Today</button>
 					<div class="saToggleGroup">
@@ -800,15 +801,32 @@
 	}
 
 	function renderPlannerMiniCalendar(component) {
-		const dates = [27, 28, 29, 30, 31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
-		const rows = Array.from({ length: 5 }, (_, row) => `
-			<div class="saDateRow"><div class="saWeekNr">${34 + row}</div>${dates.slice(row * 7, row * 7 + 7).map((date, index) => `<div class="saDate saDateElement${row === 1 && index < 5 ? ' saMarked' : ''}${row === 1 && index === 2 ? ' saToday' : ''}">${date}</div>`).join('')}</div>`).join('');
+		const days = component.days || [];
+		const firstDate = days.find(day => /^\d{4}-\d{2}-\d{2}$/.test(day.date || '') && Number.isFinite(Date.parse(day.date + 'T12:00:00Z')))?.date;
+		const reference = firstDate ? new Date(firstDate + 'T12:00:00Z') : new Date();
+		const year = reference.getUTCFullYear(), month = reference.getUTCMonth();
+		const offset = (new Date(Date.UTC(year, month, 1)).getUTCDay() + 6) % 7;
+		const count = Math.ceil((offset + new Date(Date.UTC(year, month + 1, 0)).getUTCDate()) / 7);
+		const selected = new Set(days.map(day => day.date));
+		const today = new Set(days.filter(day => day.today).map(day => day.date));
+		const rows = Array.from({ length: count }, (_, row) => {
+			// ISO weeks belong to the year containing their Thursday.
+			const thursday = new Date(Date.UTC(year, month, 4 - offset + row * 7));
+			const week = Math.ceil(((thursday - Date.UTC(thursday.getUTCFullYear(), 0, 1)) / 86400000 + 1) / 7);
+			const cells = Array.from({ length: 7 }, (_, index) => {
+				const date = new Date(Date.UTC(year, month, 1 - offset + row * 7 + index));
+				const key = date.toISOString().slice(0, 10);
+				return `<div class="saDate saDateElement${selected.has(key) ? ' saMarked' : ''}${today.has(key) ? ' saToday' : ''}" data-planner-date="${key}">${date.getUTCDate()}</div>`;
+			}).join('');
+			return `<div class="saDateRow"><div class="saWeekNr">${week}</div>${cells}</div>`;
+		}).join('');
+		const monthLabel = reference.toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 		return `
-			<div class="saCalendarSidebar${component.sidebarOpen === false ? ' saClosed' : ''}">
+			<div class="saCalendarSidebar${component.sidebarOpen === false ? ' saClose' : ''}">
 				<div class="saCalendarSidebarInner">
 					<div class="saCalendarSidebarSection saSidebarCalendar">
 						<div class="saDatePicker saDatePickerRoot saManyWeeks">
-							<div class="saDatePickerMonthHeading"><span class="saCalendarSidebarHeading">${escapeHtml(component.monthLabel || 'August 2026')}</span><div class="saMonthBrowser"><button type="button"><i class="saIcon far fa-angle-left"></i></button><button type="button"><i class="saIcon far fa-angle-right"></i></button></div></div>
+							<div class="saDatePickerMonthHeading"><span class="saCalendarSidebarHeading">${escapeHtml(component.monthLabel || monthLabel)}</span><div class="saMonthBrowser"><button type="button"><i class="saIcon far fa-angle-left"></i></button><button type="button"><i class="saIcon far fa-angle-right"></i></button></div></div>
 							<div class="saDayRow"><div class="saWeekNr saEmpty"></div>${['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => `<div class="saDay">${day}</div>`).join('')}</div>
 							${rows}
 						</div>
@@ -829,7 +847,7 @@
 				</div>
 				<div class="saWeek saWeekExtra">
 					<div class="saRowSticky"><div class="saPlannerCell"></div>${showAggregate ? '<div class="saPlannerAggregateCell"></div>' : ''}</div>
-					${days.map(day => `<div class="saWeekExtraInner saDynamicWidthJs" style="width: ${dayWidth}px; min-width: ${dayWidth}px;">${(day.allDay || []).map(item => renderPlannerActivity(item, dayWidth)).join('')}</div>`).join('')}
+						${days.map(day => `<div class="saWeekExtraInner saDynamicWidthJs" style="width: ${dayWidth}px; min-width: ${dayWidth}px;">${(day.allDay || []).map(item => renderPlannerActivity(item, dayWidth, true)).join('')}</div>`).join('')}
 				</div>
 			</div>`;
 	}
@@ -845,28 +863,48 @@
 			</div>`).join('');
 	}
 
+	function plannerScale(component) {
+		const start = finiteNumber(component.startHour, 8, 0, 23);
+		const end = finiteNumber(component.endHour, 18, start + 1, 24);
+		const step = finiteNumber(component.hourStep, 2, 0.5, 6);
+		return { start, end, step };
+	}
+
+	function plannerHour(value, fallback) {
+		if (typeof value === 'string' && /^\d{1,2}:\d{2}$/.test(value)) {
+			const [hours, minutes] = value.split(':').map(Number);
+			return hours + minutes / 60;
+		}
+		return finiteNumber(value, fallback, 0, 24);
+	}
+
 	function renderPlannerResource(component, resource, dayWidth, showAggregate) {
 		const days = component.days || [];
 		const rowHeading = `<div class="saRowSticky"><div class="saPlannerCell saResourceHeadingCell"><span class="saPlannerCellHeading">${escapeHtml(resource.label || 'Resource')}</span>${resource.description ? `<span class="saPlannerCellDescription">${escapeHtml(resource.description)}</span>` : ''}</div>${showAggregate ? `<div class="saPlannerAggregateCell"><span>${escapeHtml(resource.aggregate ?? '')}</span></div>` : ''}</div>`;
-		if (!component.timescale) {
-			return `<div class="saWeek">${rowHeading}${days.map(day => {
-				const activities = (resource.activities || []).filter(activity => activity.day === day.key);
-				return `<div class="saPlannerCell saBookedCellJs saDynamicWidthJs" style="width: ${dayWidth}px; min-width: ${dayWidth}px;"><div class="saPlannerHoverTarget"></div>${activities.map(activity => renderPlannerActivity(activity, dayWidth)).join('')}</div>`;
-			}).join('')}</div>`;
-		}
-
-		const startHour = finiteNumber(component.startHour, 8, 0, 23);
-		const endHour = finiteNumber(component.endHour, 18, startHour + 1, 24);
-		const step = finiteNumber(component.hourStep, 2, 0.5, 6);
-		const slotCount = Math.max(1, Math.ceil((endHour - startHour) / step));
-		const slotWidth = dayWidth / slotCount;
-		const cells = days.flatMap(day => Array.from({ length: slotCount }, (_, slotIndex) => {
-			const slotStart = startHour + slotIndex * step;
-			const activity = (resource.activities || []).find(item => item.day === day.key && finiteNumber(item.start, startHour, 0, 24) >= slotStart && finiteNumber(item.start, startHour, 0, 24) < slotStart + step);
-			const duration = activity ? Math.max(step, finiteNumber(activity.end, slotStart + step, slotStart + step, 24) - finiteNumber(activity.start, slotStart, 0, 24)) : step;
-			return `<div class="saPlannerCell saTimeCell saBookedCellJs saDynamicWidthJs${slotIndex === slotCount - 1 ? ' saLastCellInBlock' : ''}" style="width: ${slotWidth}px; min-width: ${slotWidth}px;"><div class="saPlannerHoverTarget"></div>${activity ? renderPlannerActivity(activity, Math.min(dayWidth, slotWidth * (duration / step))) : ''}</div>`;
-		})).join('');
-		return `<div class="saWeek">${rowHeading}${cells}</div>`;
+		const scale = plannerScale(component);
+		let rowLanes = 1;
+		const cells = days.map(day => {
+			const activities = (resource.activities || []).filter(activity => activity.day === day.key);
+			const laneEnds = [];
+			const bookings = component.timescale ? activities.map(activity => {
+				const start = plannerHour(activity.start, scale.start);
+				return { activity, start: Math.max(scale.start, start), end: Math.min(scale.end, plannerHour(activity.end, start + scale.step)) };
+			}).filter(item => item.end > item.start).sort((a, b) => a.start - b.start) : activities.map((activity, index) => ({ activity, start: 0, end: 1, lane: index }));
+			const markup = bookings.map(item => {
+				if (component.timescale) {
+					let lane = laneEnds.findIndex(end => end <= item.start);
+					if (lane < 0) lane = laneEnds.length;
+					laneEnds[lane] = item.end;
+					item.lane = lane;
+				}
+				rowLanes = Math.max(rowLanes, item.lane + 1);
+				const left = component.timescale ? (item.start - scale.start) / (scale.end - scale.start) * dayWidth : 0;
+				const width = component.timescale ? (item.end - item.start) / (scale.end - scale.start) * dayWidth : dayWidth;
+				return renderPlannerActivity(item.activity, width, false, left + 2, 4 + item.lane * 60);
+			}).join('');
+			return `<div class="saPlannerCell saBookedCellJs saDynamicWidthJs saMockPlannerDay" data-planner-day="${escapeHtml(day.key)}" style="width: ${dayWidth}px; min-width: ${dayWidth}px; --planner-slot-width: ${component.timescale ? dayWidth * scale.step / (scale.end - scale.start) : dayWidth}px;">${markup}</div>`;
+		}).join('');
+		return `<div class="saWeek saMockPlannerResource" style="height: ${Math.max(68, rowLanes * 60 + 8)}px;">${rowHeading}${cells}</div>`;
 	}
 
 	function renderPlannerTimeScale(component, dayWidth, showAggregate) {
@@ -875,20 +913,25 @@
 		const endHour = finiteNumber(component.endHour, 18, startHour + 1, 24);
 		const step = finiteNumber(component.hourStep, 2, 0.5, 6);
 		const slots = Array.from({ length: Math.max(1, Math.ceil((endHour - startHour) / step)) }, (_, index) => startHour + index * step);
-		const slotWidth = dayWidth / slots.length;
-		return `<div class="saWeek saPlannerTimeHeading"><div class="saRowSticky"><div class="saPlannerCell"></div>${showAggregate ? '<div class="saPlannerAggregateCell"></div>' : ''}</div>${(component.days || []).flatMap(() => slots.map((hour, index) => `<div class="saPlannerCell saTimeCell saDynamicWidthJs${index === slots.length - 1 ? ' saLastCellInBlock' : ''}" style="width: ${slotWidth}px; min-width: ${slotWidth}px;"><span>${String(Math.floor(hour)).padStart(2, '0')}</span></div>`)).join('')}</div>`;
+		return `<div class="saWeek saPlannerTimeHeading"><div class="saRowSticky"><div class="saPlannerCell"></div>${showAggregate ? '<div class="saPlannerAggregateCell"></div>' : ''}</div>${(component.days || []).flatMap(() => slots.map((hour, index) => {
+			const slotWidth = dayWidth * (Math.min(hour + step, endHour) - hour) / (endHour - startHour);
+			const minutes = Math.round((hour % 1) * 60);
+			const label = String(Math.floor(hour)).padStart(2, '0') + (minutes ? ':' + String(minutes).padStart(2, '0') : '');
+			return `<div class="saPlannerCell saTimeCell saDynamicWidthJs${index === slots.length - 1 ? ' saLastCellInBlock saLastCellInDay' : ''}" style="width: ${slotWidth}px; min-width: ${slotWidth}px;"><span>${label}</span></div>`;
+		})).join('')}</div>`;
 	}
 
 	function renderPlanner(component) {
 		const width = ['narrow', 'medium', 'wide'].includes(component.columnWidth) ? component.columnWidth : 'medium';
-		const dayWidth = component.timescale ? { narrow: 160, medium: 240, wide: 320 }[width] : { narrow: 144, medium: 192, wide: 240 }[width];
+		const scale = plannerScale(component);
+		const dayWidth = component.timescale ? (scale.end - scale.start) * { narrow: 40, medium: 64, wide: 88 }[width] : { narrow: 144, medium: 192, wide: 240 }[width];
 		const showAggregate = component.timescale || (component.resources || []).some(resource => resource.aggregate !== undefined);
 		const classes = ['saCalendarSection', 'saDesktopCalendar', 'saResourceCalendar', 'saPlanner'];
 		if (component.timescale) classes.push('saShowTime');
 		if (width === 'narrow') classes.push('saNarrow');
 		if (component.timescale && finiteNumber(component.hourStep, 2, 0.5, 6) > 1) classes.push('saSkipHours');
 		return `
-			<softadmin-planner class="saMenuItemRoot">
+			<softadmin-planner class="saMenuItemRoot saMockPlanner">
 				<div class="${classes.join(' ')}">
 					${renderPlannerHeader(component)}
 					<div class="saCalendarSectionInner">
@@ -3296,6 +3339,7 @@
 
 	window.SoftadminMockups = {
 		registry,
+		renderPlanner,
 		renderNewEdit,
 		renderNewEditField: renderField,
 		renderSpec

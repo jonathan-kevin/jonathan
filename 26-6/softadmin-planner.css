@@ -1,0 +1,48 @@
+/* Planner sizing normally comes from the Softadmin runtime. Keep it scoped to the mock renderer. */
+.saMockPlanner .saPlanner .saCalendarSectionInner { height: clamp(24rem, 65vh, 48rem); }
+.saMockPlanner .saPlanner .saCalendar { overscroll-behavior: contain; }
+.saMockPlanner .saPlanner .saCalendarSidebarInner { top: 0; }
+.saMockPlanner .saPlanner .saCalendar > * { flex-shrink: 0; }
+.saMockPlanner .saPlanner .saStickyTop { width: max-content; min-width: 100%; }
+.saMockPlanner .saPlanner .saWeek { display: flex; flex-wrap: nowrap; flex: 0 0 auto; align-items: stretch; min-width: 100%; }
+.saMockPlanner .saPlanner .saRowSticky { flex: 0 0 auto; }
+.saMockPlanner .saPlanner .saRowSticky > .saPlannerCell { width: 168px; min-width: 168px; flex: 0 0 168px; }
+.saMockPlanner .saPlanner .saPlannerAggregateCell { width: 48px; min-width: 48px; flex: 0 0 48px; }
+.saMockPlanner .saPlanner .saDynamicWidthJs { box-sizing: border-box; flex-shrink: 0; }
+.saMockPlanner .saPlanner .saWeekDay { justify-content: center; line-height: 1.25; }
+.saMockPlanner .saPlanner .saTimeCell { height: 28px; padding: 4px 0; line-height: 18px; clip-path: none; }
+.saMockPlanner .saPlanner .saMockPlannerDay {
+	padding: 0;
+	height: 100%;
+	background-image: repeating-linear-gradient(to right, transparent 0, transparent calc(var(--planner-slot-width) - 1px), #e3e8f0 calc(var(--planner-slot-width) - 1px), #e3e8f0 var(--planner-slot-width));
+}
+.saMockPlanner .saPlanner .saMockPlannerResource { min-height: 68px; }
+.saMockPlanner .saPlanner .saResourceHeadingCell { padding: 8px; gap: 4px; justify-content: center; }
+.saMockPlanner .saPlanner .saPlannerCellHeading,
+.saMockPlanner .saPlanner .saPlannerCellDescription { line-height: 1.25; }
+.saMockPlanner .saPlanner .saActivity {
+	max-width: none;
+	box-sizing: border-box;
+	padding: 5px;
+	overflow: hidden;
+	cursor: default;
+}
+.saMockPlanner .saPlanner .saActivityInner { display: block; width: 100%; min-width: 0; margin: 0; }
+.saMockPlanner .saPlanner .saActivityHeadingWrapper { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 16px; }
+.saMockPlanner .saPlanner .saActivityHeading { font-size: 12px; line-height: 16px; }
+.saMockPlanner .saPlanner .saActivityDescription { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 12px; line-height: 14px; }
+.saMockPlanner .saPlanner .saWeekExtraInner { display: flex; flex-direction: column; position: relative; padding: 0; min-height: 0; }
+.saMockPlanner .saPlanner .saUnbookedItems { flex-direction: row; flex-wrap: wrap; min-width: 320px; min-height: 64px; flex: 1; }
+.saMockPlanner .saPlanner .saUnbookedWrapper { position: sticky; left: 0; z-index: 5; }
+.saMockPlanner .saPlanner .saCounterCell { justify-content: center; }
+@media (max-width: 600px) {
+ .saMockPlanner .saPlanner { margin: 0; width: 100%; min-width: 0; }
+	.saMockPlanner .saPlanner .saCalendarSidebar { display: none; }
+	.saMockPlanner .saPlanner .saCalendarSidebar ~ .saCalendar { left: 0; width: 100%; }
+	.saMockPlanner .saPlanner .saRowSticky > .saPlannerCell { width: 120px; min-width: 120px; flex-basis: 120px; }
+ .saMockPlanner .saPlanner .saCalendarHeaderInner { flex-wrap: wrap; }
+ .saMockPlanner .saPlanner .saCalendarHeading { width: 100%; min-width: 0; white-space: normal; }
+ .saMockPlanner .saPlanner .saCalendarHeaderInner > .saLabeled { width: auto; min-width: 0; flex: 0 1 100px; }
+ .saMockPlanner .saPlanner .saCalendarHeaderInner > .saLabeled:not(.shortest) { flex-basis: 140px; }
+ .saMockPlanner .saPlanner .saCalendarHeaderInner > .saPeriodButtons { display: flex; }
+}

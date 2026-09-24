@@ -1643,6 +1643,27 @@
 		replacements.forEach(({ current, next }) => current.replaceWith(next));
 	}
 
+	function upgradePlannerSnapshots(spec, root) {
+		const planners = [];
+		function visit(node) {
+			if (!node || typeof node !== 'object') return;
+			if (node.type === 'Planner') { planners.push(node); return; }
+			Object.values(node).forEach(value => {
+				if (Array.isArray(value)) value.forEach(visit);
+				else if (value && typeof value === 'object') visit(value);
+			});
+		}
+		visit(spec);
+		const rendered = Array.from(root.querySelectorAll('softadmin-planner'));
+		if (rendered.length !== planners.length) return;
+		rendered.forEach((current, index) => {
+			if (current.classList.contains('saMockPlanner')) return;
+			const template = document.createElement('template');
+			template.innerHTML = window.SoftadminMockups.renderPlanner(planners[index]);
+			current.replaceWith(template.content.firstElementChild);
+		});
+	}
+
 	function editNewEdit(command, message) {
 		const status = document.getElementById('SoftadminPromptStatus');
 		if (!lastDebugResult?.spec || isBusy) return null;
@@ -2665,6 +2686,7 @@
 		if (root) {
 			root.innerHTML = state.rootHtml;
 			if (state.debugResult?.spec) renderNewEditState(state.debugResult.spec, root);
+			if (state.debugResult?.spec) upgradePlannerSnapshots(state.debugResult.spec, root);
 		}
 
 		document.querySelectorAll('input[name="SoftadminComponent"]').forEach(input => {
