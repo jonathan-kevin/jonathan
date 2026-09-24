@@ -11,7 +11,7 @@
 			this.setAttribute("aria-labelledby", `${this.id}-title`);
 			const header = window.SaInlinePanel.createHeader({ titleId: `${this.id}-title`, backLabel: "Back to chat", closeLabel: "Close file preview" });
 			header.querySelector(".saInlineActions").insertAdjacentHTML("afterbegin", `
-				<a class="saTextFileViewerAction" data-viewer-download download aria-label="Download file" data-tooltip="Download file"><i class="saIcon far fa-arrow-down" aria-hidden="true"></i></a>
+				<a class="saTextFileViewerAction" data-viewer-download download aria-label="Download file" data-tooltip="Download file"><i class="saIcon far fa-arrow-down-to-bracket" aria-hidden="true"></i></a>
 				<button type="button" class="saCopyButton saTextFileViewerAction" data-viewer-copy disabled aria-label="Copy file contents" data-tooltip="Copy file contents"><i class="saIcon far fad fa-clone" aria-hidden="true"></i><i class="saIcon far fad fa-check" aria-hidden="true"></i></button>
 				<button type="button" class="saTextFileViewerAction" data-viewer-wrap aria-label="Wrap lines" data-tooltip="Wrap lines" aria-pressed="true" aria-controls="${this.id}-source"><i class="saIcon far fa-arrow-turn-down-left" aria-hidden="true"></i></button>`);
 			this.innerHTML = `${header.outerHTML}

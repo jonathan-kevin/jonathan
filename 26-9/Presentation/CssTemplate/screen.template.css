@@ -30792,7 +30792,6 @@ body.saMiniView {
   user-select: none;
   align-items: center;
   justify-content: space-between;
-  min-height: 2rem;
   color: var(--Sa-Color-Text);
 }
 .saNotificationsWrapper .saToggleWrapper {
@@ -30844,8 +30843,8 @@ body.saMiniView {
 }
 .saToggleWrapper .saToggle {
   position: relative;
-  min-width: 2.5rem;
-  height: 1.5rem;
+  min-width: 2rem;
+  height: 1.25rem;
   overflow: hidden;
   border-radius: 0.75rem;
   appearance: none;
@@ -30854,7 +30853,7 @@ body.saMiniView {
 }
 .saToggleWrapper .saToggle::before {
   content: '';
-  min-height: 1.5rem;
+  min-height: 1.125rem;
   min-width: 2.5rem;
   border-radius: 0.75rem;
   background: light-dark(var(--Gray200), var(--Gray900));
@@ -34570,22 +34569,11 @@ body.saPopup::before {
 .saLargeScreen .saMultiPartPanel.saFitToContent .saChatWrapper {
   height: 40rem;
 }
-.saMiniView.saFitToContent .saChatWrapper .saChat,
-.saLargeScreen .saMultiPartPanel.saFitToContent .saChatWrapper .saChat {
-  overflow-y: auto;
-}
 .saSmallScreen .saMultiPartPanel .saChatWrapper {
   height: 80dvh;
 }
-.saSmallScreen .saMultiPartPanel .saChatWrapper .saChat {
-  overflow-y: auto;
-}
 .saLargeScreen .saChatWrapper {
   max-width: 48rem;
-}
-.saLargeScreen .saChatWrapper.saChatReadOnly .saChat {
-  border-radius: 1rem 1rem 1rem 1rem;
-  border: 1px solid var(--Sa-Color-InputFieldBorder);
 }
 .saChatWrapper * {
   box-sizing: border-box;
@@ -34624,6 +34612,15 @@ body.saPopup::before {
   overflow-y: auto;
   border: 0;
   border-radius: 0;
+}
+.saMiniView.saFitToContent .saChatWrapper .saChat,
+.saLargeScreen .saMultiPartPanel.saFitToContent .saChatWrapper .saChat,
+.saSmallScreen .saMultiPartPanel .saChatWrapper .saChat {
+  overflow-y: auto;
+}
+.saLargeScreen .saChatWrapper.saChatReadOnly .saChat {
+  border-radius: 1rem 1rem 1rem 1rem;
+  border: 1px solid var(--Sa-Color-InputFieldBorder);
 }
 .saChatLog {
   display: flex;
@@ -34696,16 +34693,6 @@ body.saPopup::before {
   gap: 0.5rem;
   transition: ease color 0.2s;
 }
-.saChatMessageAction .saIcon {
-  color: var(--Sa-Color-Icon);
-  transition: ease transform 0.2s;
-}
-.saChatMessageAction .saIcon:last-child {
-  font-size: 0.75rem;
-}
-[aria-expanded='true'].saChatMessageAction .saIcon:last-child {
-  transform: rotate(-180deg);
-}
 .saChatMessageAction code {
   color: light-dark(var(--Gray900), var(--Gray50));
 }
@@ -34713,38 +34700,20 @@ body.saPopup::before {
   button.saChatMessageAction:hover {
     color: light-dark(var(--Sa-Color-Primary600), var(--Sa-Color-White));
   }
-  button.saChatMessageAction:hover .saIcon {
-    color: inherit;
-  }
 }
 button.saChatMessageAction:active {
   color: light-dark(var(--Sa-Color-Primary900), var(--Gray200));
 }
-button.saChatMessageAction:active .saIcon {
-  color: inherit;
-}
 .saChatSender {
   align-items: flex-end;
 }
-.saChatSender .saChatMessageInner {
-  align-items: flex-end;
-}
-.saChatSender.saChatEdit {
+.saChatEdit.saChatSender {
   padding: 0;
-}
-.saChatSender .saChatToolbar,
-.saChatSender .saChatToolbarMenu {
-  left: unset;
-  right: 0.5rem;
 }
 .saChatAiResponse {
   position: relative;
   font-size: 0.875rem;
   line-height: 1.5rem;
-}
-.saChatAiResponse:not(.saChatStreaming) .saChatMessageContent > p:not(:last-of-type),
-.saChatAiResponse.saChatStreaming .saChatMessageContent > p:not(:last-child) {
-  margin-bottom: 0.625rem;
 }
 .saChatAiResponse:has(+ .saChatAiResponse) {
   padding-bottom: 1rem;
@@ -34753,7 +34722,7 @@ button.saChatMessageAction:active .saIcon {
   font-size: 1rem;
   line-height: 1.5rem;
 }
-.saChatAiResponse.saChatStreaming {
+.saChatStreaming.saChatAiResponse {
   padding-bottom: 0rem;
 }
 .saChatMessageContent {
@@ -34761,6 +34730,10 @@ button.saChatMessageAction:active .saIcon {
 }
 :is(.saChatInline, .saChatFullPage) .saChatMessageContent {
   overflow-wrap: anywhere;
+}
+.saChatAiResponse:not(.saChatStreaming) .saChatMessageContent > p:not(:last-of-type),
+.saChatAiResponse.saChatStreaming .saChatMessageContent > p:not(:last-child) {
+  margin-bottom: 0.625rem;
 }
 .saChatSystem {
   margin: 0.5rem 0 1rem 0;
@@ -34787,6 +34760,9 @@ button.saChatMessageAction:active .saIcon {
   flex-direction: column;
   position: relative;
   width: 100%;
+}
+.saChatSender .saChatMessageInner {
+  align-items: flex-end;
 }
 .saChatMessageFooter {
   display: flex;
@@ -34844,15 +34820,12 @@ button.saChatMessageAction:active .saIcon {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  min-width: 0;
-  width: 100%;
   font-size: 0.875rem;
   line-height: 1.25rem;
   word-break: break-word;
   background-color: light-dark(var(--Gray100), var(--Gray1000));
   width: fit-content;
   padding: 0.625rem 1rem;
-  border-radius: 0.25rem;
   min-width: 2.5rem;
   transition: border-radius ease 0.2s;
   border-radius: 1.25rem 1.25rem 1.25rem 0.25rem;
@@ -34965,92 +34938,10 @@ button.saChatMessageAction:active .saIcon {
 .saChatEdit p {
   display: none;
 }
-.saChatEdit .saChatToolbar {
-  display: none;
-}
 .saChatMessageEdit {
   display: flex;
   width: 100%;
   flex-direction: column;
-}
-.saChatMessageEdit .saChatTextarea {
-  appearance: none;
-  -webkit-appearance: none;
-  background-color: transparent;
-  width: 100%;
-  height: 100%;
-  resize: none;
-  font-size: 0.875rem;
-  line-height: 1.5rem;
-  font-family: inherit;
-  color: inherit;
-  min-height: 8rem;
-  max-height: 50dvh;
-  background-color: light-dark(var(--White), var(--Gray1100));
-  border-radius: 0.75rem;
-  border: none;
-  padding: 0.625rem 0 0.625rem 1rem;
-  overflow-y: auto;
-  outline: 1px solid var(--Sa-Color-InputFieldBorder);
-  outline-offset: -1px;
-  box-shadow: 0 1px 2px light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 80%, transparent)), 0 2px 0.25rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 80%, transparent));
-}
-@supports (scrollbar-gutter: stable) {
-  @media (pointer: fine) {
-    .saLargeScreen .saChatMessageEdit .saChatTextarea {
-      padding-right: 0;
-      scrollbar-gutter: stable;
-    }
-    .saLargeScreen .saChatMessageEdit .saChatTextarea::-webkit-scrollbar {
-      background-color: transparent;
-    }
-    .saLargeScreen .saChatMessageEdit .saChatTextarea::-webkit-scrollbar-thumb {
-      background-color: transparent;
-    }
-    .saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar {
-      background-color: light-dark(var(--Gray200), var(--Gray900));
-    }
-    .saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
-      background-color: light-dark(var(--Gray500), var(--Gray700));
-    }
-    .saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
-      background-color: light-dark(var(--Gray700), var(--Gray900));
-    }
-    .saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
-      background-color: light-dark(var(--Gray900), var(--Gray1000));
-    }
-  }
-}
-@media (pointer: fine) {
-  .saChatMessageEdit .saChatTextarea:hover {
-    outline-color: var(--Sa-Color-Primary600);
-    background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
-  }
-}
-.saChatMessageEdit .saChatTextarea:focus {
-  outline-color: var(--Sa-Color-Primary600);
-  outline-offset: -0.125rem;
-  outline-width: 0.125rem;
-  background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
-}
-.saSmallScreen .saChatMessageEdit .saChatTextarea {
-  padding: 0.625rem 1rem 0.625rem 1rem;
-  font-size: 1rem;
-  line-height: 1.25rem;
-}
-.saChatMessageEdit .saChatButtonGroup {
-  display: flex;
-  padding: 0.5rem 0 1rem 1rem;
-  gap: 0.5rem;
-}
-.saSmallScreen .saChatMessageEdit .saChatButtonGroup {
-  padding: 0.5rem 0 0 0;
-}
-.saChatMessageEdit .saChatButtonGroup button {
-  min-width: 4rem;
-}
-.saSmallScreen .saChatMessageEdit .saChatButtonGroup button {
-  flex: 1;
 }
 .saChatToolbar {
   display: flex;
@@ -35163,8 +35054,12 @@ button.saChatMessageAction:active .saIcon {
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
   color: light-dark(var(--Sa-Color-Primary600), var(--White));
 }
-.saChatToolbar button.saOpen .saIcon {
-  color: light-dark(var(--Sa-Color-Primary600), var(--White));
+.saChatSender .saChatToolbar {
+  left: unset;
+  right: 0.5rem;
+}
+.saChatEdit .saChatToolbar {
+  display: none;
 }
 .saChatComposerWrapper {
   position: sticky;
@@ -35281,6 +35176,70 @@ button.saChatMessageAction:active .saIcon {
   pointer-events: none;
   position: absolute;
 }
+.saChatMessageEdit .saChatTextarea {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 100%;
+  resize: none;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  font-family: inherit;
+  color: inherit;
+  min-height: 8rem;
+  max-height: 50dvh;
+  background-color: light-dark(var(--White), var(--Gray1100));
+  border-radius: 0.75rem;
+  border: none;
+  padding: 0.625rem 0 0.625rem 1rem;
+  overflow-y: auto;
+  outline: 1px solid var(--Sa-Color-InputFieldBorder);
+  outline-offset: -1px;
+  box-shadow: 0 1px 2px light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 80%, transparent)), 0 2px 0.25rem light-dark(color-mix(in oklch, var(--Gray900) 7%, transparent), color-mix(in oklch, var(--Black) 80%, transparent));
+}
+@supports (scrollbar-gutter: stable) {
+  @media (pointer: fine) {
+    .saLargeScreen .saChatMessageEdit .saChatTextarea {
+      padding-right: 0;
+      scrollbar-gutter: stable;
+    }
+    .saLargeScreen .saChatMessageEdit .saChatTextarea::-webkit-scrollbar {
+      background-color: transparent;
+    }
+    .saLargeScreen .saChatMessageEdit .saChatTextarea::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
+    .saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar {
+      background-color: light-dark(var(--Gray200), var(--Gray900));
+    }
+    .saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
+      background-color: light-dark(var(--Gray500), var(--Gray700));
+    }
+    .saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
+      background-color: light-dark(var(--Gray700), var(--Gray900));
+    }
+    .saLargeScreen .saChatMessageEdit .saChatTextarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
+      background-color: light-dark(var(--Gray900), var(--Gray1000));
+    }
+  }
+}
+@media (pointer: fine) {
+  .saChatMessageEdit .saChatTextarea:hover {
+    outline-color: var(--Sa-Color-Primary600);
+    background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
+  }
+}
+.saChatMessageEdit .saChatTextarea:focus {
+  outline-color: var(--Sa-Color-Primary600);
+  outline-offset: -0.125rem;
+  outline-width: 0.125rem;
+  background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
+}
+.saSmallScreen .saChatMessageEdit .saChatTextarea {
+  padding: 0.625rem 1rem 0.625rem 1rem;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
 .saChatContext {
   display: flex;
   flex-wrap: wrap;
@@ -35296,26 +35255,6 @@ button.saChatMessageAction:active .saIcon {
   justify-content: end;
   padding: 0;
   margin: 0 0 0.5rem;
-}
-.saChatContext .saPill {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-radius: 99rem;
-  height: 1.75rem;
-  width: fit-content;
-  max-width: 100%;
-  background-color: light-dark(var(--Sa-Color-Primary50), var(--Sa-Color-Primary1300));
-  outline: 0.0625rem solid light-dark(var(--Sa-Color-Primary200), var(--Sa-Color-Primary1100));
-  color: light-dark(var(--Sa-Color-Primary800), var(--Sa-Color-Primary400));
-  outline-offset: -0.0625rem;
-  padding: 0.25rem 0.75rem 0.25rem 0.625rem;
-  font-size: 0.75rem;
-  position: relative;
-}
-.saChatContext .saPill .saChatContextPillLabel > .saIcon {
-  color: light-dark(var(--Sa-Color-Primary500), var(--Sa-Color-Primary400));
-  font-size: 1rem;
 }
 .saPillRemoveButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -35482,18 +35421,12 @@ button.saChatMessageAction:active .saIcon {
     background-color: var(--Sa-Color-DestructiveButtonBackground);
     border-color: transparent;
   }
-  .saPillRemoveButton:hover .saIcon {
-    color: inherit;
-  }
 }
 .saPillRemoveButton:active {
   color: var(--White);
   background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness90);
   border-color: transparent;
   border-radius: 999rem;
-}
-.saPillRemoveButton:active .saIcon {
-  color: inherit;
 }
 .saChatLatest {
   position: absolute;
@@ -35516,7 +35449,7 @@ button.saChatMessageAction:active .saIcon {
   transition: transform 0.2s ease, opacity 0.2s ease, color 0.2s ease, background-color 0.2s ease, border 0.2s ease;
   margin-top: -2rem;
 }
-.saChatLatest.saReached {
+.saReached.saChatLatest {
   transform: translate(-50%, 0.5rem);
   opacity: 0;
   pointer-events: none;
@@ -35701,7 +35634,7 @@ button.saChatMessageAction:active .saIcon {
   min-width: 1.125rem;
   max-width: 1.125rem;
 }
-.saLoadMessagesButton.saHidden {
+.saHidden.saLoadMessagesButton {
   display: none;
 }
 .saChatComposerToolbar {
@@ -36037,7 +35970,7 @@ button.saChatMessageAction:active .saIcon {
     opacity: 1;
   }
 }
-.saChatInlineSelectionToolbar.saFloatingToolbar {
+.saFloatingToolbar.saChatInlineSelectionToolbar {
   position: fixed;
   z-index: 60;
 }
@@ -36067,29 +36000,14 @@ button.saChatMessageAction:active .saIcon {
   text-overflow: ellipsis;
   max-width: 16rem;
 }
-.saChatContextPillLabel > .saIcon {
-  flex-shrink: 0;
-  transition: none;
-}
 .saChatContextPillLabel:focus-visible {
   outline: 0.125rem solid var(--Sa-Color-Primary600);
 }
-.saChatInlineAddContext {
-  position: relative;
-}
-.saChatInlineAddContext > .saContextMenu {
-  bottom: calc(100% + 0.5rem);
-  left: 0;
-  width: max-content;
-  max-width: calc(100vw - 4rem);
-  z-index: 5;
-}
-.saChatInlineAddContext > .saContextMenu .saOptionWrapper:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
 span.saChatContextPillLabel {
   cursor: default;
+}
+.saChatInlineAddContext {
+  position: relative;
 }
 .saChatInlinePageContext {
   padding: 0.625rem 0.75rem;
@@ -36120,9 +36038,6 @@ span.saChatContextPillLabel {
   line-height: 1.25rem;
   color: var(--Sa-Color-Text);
   text-decoration: none;
-}
-.saChatInlinePageContextLink > .saIcon {
-  flex-shrink: 0;
 }
 .saChatInlinePageContextLink > span {
   white-space: nowrap;
@@ -36158,9 +36073,6 @@ span.saChatContextPillLabel {
 }
 .saLargeScreen .saChatFullPage .saChatInlineContext {
   border-radius: 0;
-}
-.saChatInlineContext .saIcon {
-  color: var(--Sa-Color-Icon);
 }
 [hidden].saChatInlineContext {
   display: none;
@@ -36203,11 +36115,6 @@ span.saChatContextPillLabel {
   text-decoration: none;
   outline-offset: -0.125rem;
 }
-.saChatInlineSourceLink > .saIcon {
-  flex-shrink: 0;
-  color: inherit;
-  font-size: 1rem;
-}
 .saChatInlineSourceLink > span {
   min-width: 0;
   white-space: nowrap;
@@ -36242,11 +36149,6 @@ span.saChatContextPillLabel {
   text-decoration: none;
   outline-offset: -0.125rem;
 }
-.saChatInlineMessageSourceLink > .saIcon {
-  flex-shrink: 0;
-  color: inherit;
-  font-size: 1rem;
-}
 .saChatInlineMessageSourceLink > span {
   min-width: 0;
   white-space: nowrap;
@@ -36272,6 +36174,104 @@ span.saChatContextPillLabel {
   background-color: var(--Yellow200);
   color: var(--Gray1000);
 }
+.saChatSender .saChatToolbarMenu {
+  left: unset;
+  right: 0.5rem;
+}
+.saChatMessageEdit .saChatButtonGroup {
+  display: flex;
+  padding: 0.5rem 0 1rem 1rem;
+  gap: 0.5rem;
+}
+.saSmallScreen .saChatMessageEdit .saChatButtonGroup {
+  padding: 0.5rem 0 0 0;
+}
+.saChatMessageEdit .saChatButtonGroup button {
+  min-width: 4rem;
+}
+.saSmallScreen .saChatMessageEdit .saChatButtonGroup button {
+  flex: 1;
+}
+.saChatContext .saPill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 99rem;
+  height: 1.75rem;
+  width: fit-content;
+  max-width: 100%;
+  background-color: light-dark(var(--Sa-Color-Primary50), var(--Sa-Color-Primary1300));
+  outline: 0.0625rem solid light-dark(var(--Sa-Color-Primary200), var(--Sa-Color-Primary1100));
+  color: light-dark(var(--Sa-Color-Primary800), var(--Sa-Color-Primary400));
+  outline-offset: -0.0625rem;
+  padding: 0.25rem 0.75rem 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  position: relative;
+}
+.saChatInlineAddContext > .saContextMenu .saOptionWrapper:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.saChatInlineAddContext > .saContextMenu {
+  bottom: calc(100% + 0.5rem);
+  left: 0;
+  width: max-content;
+  max-width: calc(100vw - 4rem);
+  z-index: 5;
+}
+.saChatMessageAction .saIcon {
+  color: var(--Sa-Color-Icon);
+  transition: ease transform 0.2s;
+}
+.saChatMessageAction .saIcon:last-child {
+  font-size: 0.75rem;
+}
+[aria-expanded='true'].saChatMessageAction .saIcon:last-child {
+  transform: rotate(-180deg);
+}
+@media (pointer: fine) {
+  button.saChatMessageAction:hover .saIcon {
+    color: inherit;
+  }
+}
+button.saChatMessageAction:active .saIcon {
+  color: inherit;
+}
+.saChatToolbar button.saOpen .saIcon {
+  color: light-dark(var(--Sa-Color-Primary600), var(--White));
+}
+@media (pointer: fine) {
+  .saPillRemoveButton:hover .saIcon {
+    color: inherit;
+  }
+}
+.saPillRemoveButton:active .saIcon {
+  color: inherit;
+}
+.saChatInlineContext .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saChatContextPillLabel > .saIcon {
+  flex-shrink: 0;
+  transition: none;
+}
+.saChatInlinePageContextLink > .saIcon {
+  flex-shrink: 0;
+}
+.saChatInlineSourceLink > .saIcon {
+  flex-shrink: 0;
+  color: inherit;
+  font-size: 1rem;
+}
+.saChatInlineMessageSourceLink > .saIcon {
+  flex-shrink: 0;
+  color: inherit;
+  font-size: 1rem;
+}
+.saChatContext .saPill .saChatContextPillLabel > .saIcon {
+  color: light-dark(var(--Sa-Color-Primary500), var(--Sa-Color-Primary400));
+  font-size: 1rem;
+}
 .saInlinePanel {
   position: relative;
   display: flex;
@@ -36289,16 +36289,16 @@ span.saChatContextPillLabel {
   opacity: 1;
   transform: translateX(0);
   transition: margin-inline-end 200ms ease, transform 200ms ease, opacity 200ms ease, display 200ms allow-discrete;
+  @starting-style {
+    margin-inline-end: calc(0px - var(--sa-inline-width, 24rem));
+    opacity: 0;
+  }
 }
 [hidden].saInlinePanel {
   display: none;
   margin-inline-end: calc(0px - var(--sa-inline-width, 24rem));
   opacity: 0;
   pointer-events: none;
-}
-@starting-style {
-  margin-inline-end: calc(0px - var(--sa-inline-width, 24rem));
-  opacity: 0;
 }
 .saInlineResizing.saInlinePanel {
   user-select: none;
@@ -36311,15 +36311,15 @@ span.saChatContextPillLabel {
     width: min(var(--sa-inline-width, 24rem), 100vw);
     height: 100dvh;
     box-shadow: -0.25rem 0 1rem rgba(0, 0, 0, 0.15);
+    @starting-style {
+      margin-inline-end: 0;
+      transform: translateX(100%);
+    }
   }
   .saInlineFullWidth.saInlinePanel {
     width: 100vw;
   }
   [hidden].saInlinePanel {
-    margin-inline-end: 0;
-    transform: translateX(100%);
-  }
-  @starting-style {
     margin-inline-end: 0;
     transform: translateX(100%);
   }
@@ -36390,7 +36390,7 @@ span.saChatContextPillLabel {
 .saInlineActions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 .saInlineClose {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -36536,9 +36536,6 @@ span.saChatContextPillLabel {
 .saFloatingToolbar[hidden] {
   display: none;
 }
-.saFloatingToolbar .saButtonIconToolbar {
-  color: var(--Gray200);
-}
 .saFloatingToolbar > ul {
   display: flex;
   align-items: center;
@@ -36559,6 +36556,9 @@ span.saChatContextPillLabel {
 .saFloatingToolbar > ul > li {
   display: flex;
   align-items: center;
+}
+.saFloatingToolbar .saButtonIconToolbar {
+  color: var(--Gray200);
 }
 .saAppInstall .saAppInstructions {
   width: fit-content;
@@ -37684,6 +37684,8 @@ span.saChatContextPillLabel {
   text-decoration: inherit;
 }
 .saMarkdownContent pre {
+  color: var(--Sa-Color-Text);
+  caret-color: currentColor;
   padding: 1rem;
   margin: 0 0 1rem;
   font-family: 'GeistMono', monospace;
@@ -37798,49 +37800,6 @@ span.saChatContextPillLabel {
 }
 .saMarkdownContent ul[data-type='taskList'] > li input[type='checkbox'] {
   accent-color: var(--Sa-Color-Primary600);
-}
-.saMarkdownContent .hljs-comment,
-.saMarkdownContent .hljs-quote {
-  color: var(--Sa-Color-TextSecondary);
-}
-.saMarkdownContent .hljs-keyword,
-.saMarkdownContent .hljs-selector-tag,
-.saMarkdownContent .hljs-type {
-  color: light-dark(var(--Purple700), var(--Purple300));
-}
-.saMarkdownContent .hljs-string,
-.saMarkdownContent .hljs-regexp,
-.saMarkdownContent .hljs-addition {
-  color: light-dark(var(--Green700), var(--Green300));
-}
-.saMarkdownContent .hljs-number,
-.saMarkdownContent .hljs-literal,
-.saMarkdownContent .hljs-deletion {
-  color: light-dark(var(--Red700), var(--Red300));
-}
-.saMarkdownContent .hljs-title,
-.saMarkdownContent .hljs-section,
-.saMarkdownContent .hljs-selector-id,
-.saMarkdownContent .hljs-selector-class {
-  color: light-dark(var(--Blue700), var(--Blue300));
-}
-.saMarkdownContent .hljs-attr,
-.saMarkdownContent .hljs-attribute,
-.saMarkdownContent .hljs-variable,
-.saMarkdownContent .hljs-template-variable,
-.saMarkdownContent .hljs-built_in,
-.saMarkdownContent .hljs-symbol {
-  color: light-dark(var(--Orange800), var(--Orange300));
-}
-.saMarkdownContent .hljs-comment,
-.saMarkdownContent .hljs-quote,
-.saMarkdownContent .hljs-meta {
-  font-style: italic;
-}
-.saMarkdownContent .hljs-keyword,
-.saMarkdownContent .hljs-title,
-.saMarkdownContent .hljs-section {
-  font-weight: 600;
 }
 .saMarkdownContent input[type="checkbox"] {
   appearance: none;
@@ -38010,6 +37969,65 @@ span.saChatContextPillLabel {
 .saSmallScreen .saCheckboxHeading .saMarkdownContent input[type="checkbox"] {
   margin: 0 0.25rem 0 0.5rem;
 }
+.saMarkdownContent .hljs-comment,
+.saMarkdownContent .hljs-quote {
+  color: light-dark(var(--Gray600), var(--Gray400));
+  font-style: italic;
+}
+.saMarkdownContent .hljs-keyword {
+  color: light-dark(var(--Purple700), var(--Purple300));
+  font-weight: 600;
+}
+.saMarkdownContent .hljs-selector-tag {
+  color: light-dark(var(--Purple700), var(--Purple300));
+}
+.saMarkdownContent .hljs-string {
+  color: light-dark(var(--Green800), var(--Green200));
+}
+.saMarkdownContent .hljs-addition {
+  color: light-dark(var(--Green700), var(--Green300));
+}
+.saMarkdownContent .hljs-number {
+  color: light-dark(var(--Orange900), var(--Orange200));
+}
+.saMarkdownContent .hljs-deletion {
+  color: light-dark(var(--Red700), var(--Red300));
+}
+.saMarkdownContent .hljs-title,
+.saMarkdownContent .hljs-section {
+  color: light-dark(var(--Blue700), var(--Blue300));
+  font-weight: 600;
+}
+.saMarkdownContent .hljs-selector-id,
+.saMarkdownContent .hljs-selector-class {
+  color: light-dark(var(--Blue800), var(--Blue200));
+}
+.saMarkdownContent .hljs-attr,
+.saMarkdownContent .hljs-attribute,
+.saMarkdownContent .hljs-property {
+  color: light-dark(var(--Sky700), var(--Sky300));
+}
+.saMarkdownContent .hljs-type {
+  color: light-dark(var(--Sky800), var(--Sky200));
+}
+.saMarkdownContent .hljs-variable,
+.saMarkdownContent .hljs-template-variable,
+.saMarkdownContent .hljs-symbol {
+  color: light-dark(var(--Orange800), var(--Orange300));
+}
+.saMarkdownContent .hljs-built_in {
+  color: light-dark(var(--Pink800), var(--Pink200));
+}
+.saMarkdownContent .hljs-literal {
+  color: light-dark(var(--Pink700), var(--Pink300));
+}
+.saMarkdownContent .hljs-regexp {
+  color: light-dark(var(--Pink600), var(--Pink400));
+}
+.saMarkdownContent .hljs-meta {
+  color: light-dark(var(--Yellow800), var(--Yellow200));
+  font-style: italic;
+}
 /* Layout and readable native controls only; scoped to the POC. */
 .saMarkdownEditor {
   display: block;
@@ -38026,9 +38044,6 @@ span.saChatContextPillLabel {
   height: 100%;
   min-height: 0;
 }
-.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorToolbar {
-  flex-shrink: 0;
-}
 .saMarkdownEditorFill.saMarkdownEditor [data-visual-surface],
 .saMarkdownEditorFill.saMarkdownEditor [data-source-surface] {
   flex: 1;
@@ -38037,115 +38052,92 @@ span.saChatContextPillLabel {
 .saMarkdownEditorFill.saMarkdownEditor [data-editor-surface] {
   height: 100%;
 }
-.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument,
+.saMarkdownEditor *::selection {
+  background: var(--Sa-Color-Primary600);
+  color: var(--White);
+}
+.saMarkdownEditor dialog {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.saMarkdownEditor dialog input {
+  padding: 0.5rem;
+  border: 1px solid;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.saMarkdownEditor dialog input[type='number'] {
+  width: 6rem;
+}
+.saMarkdownEditor dialog::backdrop {
+  background: rgba(0, 0, 0, 0.25);
+}
+.saMarkdownEditor textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 20rem;
+  height: calc(100vh - 6rem - 7rem);
+  padding: 1rem;
+  resize: vertical;
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
+  background-color: light-dark(var(--White), var(--Gray1200));
+  font: 0.875rem/1.5rem 'GeistMono', monospace;
+  border-radius: 0 0 0.5rem 1rem;
+}
+.saMarkdownEditor textarea::-webkit-resizer {
+  background-image: url(../img/resizer.svg);
+}
+.saMarkdownEditor textarea[dir='rtl']::-webkit-resizer {
+  background-image: url(../img/resizer-rtl.svg);
+}
+.saMarkdownEditor textarea:focus-visible {
+  outline: none;
+}
 .saMarkdownEditorFill.saMarkdownEditor textarea {
   height: 100%;
   min-height: 0;
+  resize: none;
 }
 @supports (scrollbar-gutter: stable) {
   @media (pointer: fine) {
-    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument,
     .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor textarea {
       padding-right: 0;
       scrollbar-gutter: stable;
     }
-    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument::-webkit-scrollbar,
     .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor textarea::-webkit-scrollbar {
       background-color: transparent;
     }
-    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument::-webkit-scrollbar-thumb,
     .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor textarea::-webkit-scrollbar-thumb {
       background-color: transparent;
     }
-    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar,
     .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar {
       background-color: light-dark(var(--Gray200), var(--Gray900));
     }
-    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar-thumb,
     .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
       background-color: light-dark(var(--Gray500), var(--Gray700));
     }
-    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover,
     .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
       background-color: light-dark(var(--Gray700), var(--Gray900));
     }
-    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active,
     .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor textarea:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
       background-color: light-dark(var(--Gray900), var(--Gray1000));
     }
   }
 }
-.saMarkdownEditorFill.saMarkdownEditor textarea {
-  resize: none;
+.saMarkdownEditor p {
+  margin-block: 1.5rem;
 }
-.saMarkdownEditorFill.saMarkdownEditor .saScreenReaderOnly {
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-}
-.saMarkdownEditor *::selection {
-  background: var(--Sa-Color-Primary600);
-  color: var(--White);
+.saMarkdownEditor [hidden] {
+  display: none;
 }
 .markdown-editor-table-menu {
   position: relative;
 }
-.markdown-editor-table-menu > .saContextMenu {
-  top: calc(100% + 0.25rem);
-  padding: 0.75rem;
-  width: max-content;
-}
 .saMarkdownEditorColorControl {
   position: relative;
-}
-.saMarkdownEditorColorControl .saMarkdownEditorColorButtons {
-  display: flex;
-  align-items: stretch;
-}
-.saMarkdownEditorColorControl .saTextColorApply {
-  position: relative;
-  border-radius: 0.5rem 0 0 0.5rem;
-}
-.saMarkdownEditorColorControl .saTextColorIndicator {
-  height: 1.25rem;
-  width: 1.25rem;
-  border: 0.0625rem solid light-dark(rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.25));
-  border-radius: 0.625rem;
-  box-sizing: border-box;
-}
-.saMarkdownEditorColorControl .saTextColorMenu {
-  width: 1.25rem;
-  min-width: 1.25rem;
-  margin-left: -0.0625rem;
-  padding-inline: 0;
-  border-radius: 0 0.5rem 0.5rem 0;
-}
-.saMarkdownEditorColorControl > .saColorPicker {
-  top: calc(100% + 0.25rem);
-}
-.saMarkdownEditorColorControl .saPalette {
-  grid-template-columns: repeat(10, 1.5rem);
-}
-.saMarkdownEditorColorControl .saPalette:not(.saFooter) .saColor::before {
-  width: 2rem;
-  height: 2rem;
-}
-.saMarkdownEditorColorControl .saPalette.saFooter .saColorDefault {
-  grid-column: 1;
-}
-.saMarkdownEditorColorControl .saPalette.saFooter .saColorCustom {
-  grid-column: 2;
-}
-.saMarkdownEditorColorControl .saPalette.saFooter .saWhite {
-  grid-column: 9;
-}
-.saMarkdownEditorColorControl .saPalette.saFooter .saBlack {
-  grid-column: 10;
-}
-.saMarkdownEditorColorControl .saColorDefault {
-  background-color: var(--Sa-Color-Text);
 }
 .saMarkdownEditorFind {
   background-color: var(--Gray900);
@@ -38163,37 +38155,21 @@ span.saChatContextPillLabel {
 .saMarkdownEditorFind [hidden] {
   display: none;
 }
-.saMarkdownEditorFind .saInputText {
-  flex: 1 1 8rem;
-  width: 0;
-  min-width: 4rem;
-  height: 2rem;
-  padding: 0.25rem 0.625rem;
-  box-sizing: border-box;
-  background-color: var(--Gray800);
-  color: var(--Gray100);
-  border: 0.0625rem solid var(--Gray600);
-  border-radius: 0.375rem;
-}
-.saMarkdownEditorFind .saInputText::placeholder {
-  color: var(--Gray300);
-  opacity: 1;
-}
 .saMarkdownEditorFindRow {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+}
+@media (max-width: 480px) {
+  .saMarkdownEditorFindRow {
+    flex-wrap: wrap;
+  }
 }
 .saMarkdownEditorFindInput {
   position: relative;
   flex: 1 1 8rem;
   min-width: 8rem;
   font-size: 0.875rem;
-}
-.saMarkdownEditorFind .saMarkdownEditorFindInput > .saInputText {
-  width: 100%;
-  font-size: inherit;
-  padding-inline-end: calc(var(--find-count-width, 3ch) + 1.5rem);
 }
 .saMarkdownEditorFindCase {
   display: flex;
@@ -38217,11 +38193,6 @@ span.saChatContextPillLabel {
   margin-block-start: 0.375rem;
   padding-left: 2.25rem;
   flex-wrap: wrap;
-}
-@media (max-width: 480px) {
-  .saMarkdownEditorFindRow {
-    flex-wrap: wrap;
-  }
 }
 .saMarkdownEditorTablePicker {
   display: grid;
@@ -38285,26 +38256,6 @@ span.saChatContextPillLabel {
 .saMarkdownEditorDocument:focus-visible {
   outline: none;
 }
-.saMarkdownEditorDocument .saFindMatch {
-  background-color: var(--Yellow200);
-  color: var(--Gray1000);
-}
-.saMarkdownEditorDocument .saFindCurrent {
-  background-color: light-dark(var(--Orange300), var(--Orange1000));
-  color: light-dark(var(--Gray950), var(--White));
-  outline: 0.125rem solid var(--Orange500);
-}
-.saMarkdownEditorDocument .tableWrapper {
-  overflow-x: auto;
-  margin-block: 1rem;
-}
-.saMarkdownEditorDocument .tableWrapper table {
-  display: table;
-  width: 100%;
-  max-width: none;
-  overflow: visible;
-  margin: 0;
-}
 .saMarkdownEditorDocument th,
 .saMarkdownEditorDocument td {
   height: 2.5rem;
@@ -38313,17 +38264,35 @@ span.saChatContextPillLabel {
 .saMarkdownEditorDocument td p {
   margin: 0;
 }
-.saMarkdownEditorDocument .selectedCell {
-  outline: 2px solid Highlight;
-  outline-offset: -2px;
+.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument {
+  height: 100%;
+  min-height: 0;
 }
-.saMarkdownEditorDocument .ProseMirror-selectednode {
-  outline: 2px solid Highlight;
-}
-.saMarkdownEditorDocument .ProseMirror-separator {
-  display: inline;
-  border: 0;
-  margin: 0;
+@supports (scrollbar-gutter: stable) {
+  @media (pointer: fine) {
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument {
+      padding-right: 0;
+      scrollbar-gutter: stable;
+    }
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument::-webkit-scrollbar {
+      background-color: transparent;
+    }
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar {
+      background-color: light-dark(var(--Gray200), var(--Gray900));
+    }
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
+      background-color: light-dark(var(--Gray500), var(--Gray700));
+    }
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar-thumb:hover {
+      background-color: light-dark(var(--Gray700), var(--Gray900));
+    }
+    .saLargeScreen .saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorDocument:is(:hover, :focus-within)::-webkit-scrollbar-thumb:active {
+      background-color: light-dark(var(--Gray900), var(--Gray1000));
+    }
+  }
 }
 .saMarkdownEditorTablePreview {
   position: absolute;
@@ -38332,65 +38301,13 @@ span.saChatContextPillLabel {
   box-sizing: border-box;
   border-radius: 0.1875rem;
 }
-.saMarkdownEditorTablePreview.saInsertionPreview {
+.saInsertionPreview.saMarkdownEditorTablePreview {
   background: var(--Sa-Color-Primary600);
   box-shadow: 0 0 0 0.0625rem light-dark(var(--White), var(--Gray1200));
 }
-.saMarkdownEditorTablePreview.saDeletionPreview {
+.saDeletionPreview.saMarkdownEditorTablePreview {
   border: 0.25rem solid var(--Sa-Color-NegativeTrend);
   background: color-mix(in oklch, var(--Sa-Color-NegativeTrend) 12%, transparent);
-}
-.saMarkdownEditor dialog {
-  padding: 0;
-  border: 0;
-  background: transparent;
-}
-.saMarkdownEditor dialog input {
-  padding: 0.5rem;
-  border: 1px solid;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-.saMarkdownEditor dialog input[type='number'] {
-  width: 6rem;
-}
-.saMarkdownEditor dialog .saAlertMessage {
-  display: grid;
-  gap: 0.5rem;
-  width: 23rem;
-  max-width: 100%;
-}
-.saMarkdownEditor dialog::backdrop {
-  background: rgba(0, 0, 0, 0.25);
-}
-.saMarkdownEditor textarea {
-  display: block;
-  box-sizing: border-box;
-  width: 100%;
-  min-height: 20rem;
-  height: calc(100vh - 6rem - 7rem);
-  padding: 1rem;
-  resize: vertical;
-  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
-  background-color: light-dark(var(--White), var(--Gray1200));
-  font: 0.875rem/1.5rem 'GeistMono', monospace;
-  border-radius: 0 0 0.5rem 1rem;
-}
-.saMarkdownEditor textarea::-webkit-resizer {
-  background-image: url(../img/resizer.svg);
-}
-.saMarkdownEditor textarea[dir='rtl']::-webkit-resizer {
-  background-image: url(../img/resizer-rtl.svg);
-}
-.saMarkdownEditor textarea:focus-visible {
-  outline: none;
-}
-.saMarkdownEditor p {
-  margin-block: 1.5rem;
-}
-.saMarkdownEditor [hidden] {
-  display: none;
 }
 .saMarkdownEditorToolbar {
   border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
@@ -38422,6 +38339,17 @@ span.saChatContextPillLabel {
 .saMarkdownEditorToolbar > ul > li {
   display: flex;
   align-items: center;
+}
+.saMarkdownEditorFill.saMarkdownEditor .saMarkdownEditorToolbar {
+  flex-shrink: 0;
+}
+.saMarkdownEditorToolbar label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: normal;
+  width: 8rem;
+  margin: 0;
 }
 .saMarkdownEditorSuggestionTarget {
   text-decoration: underline dotted;
@@ -38520,15 +38448,6 @@ span.saChatContextPillLabel {
   color: var(--White);
   background-color: var(--Gray700);
 }
-.saButtonToolbarDark:enabled[aria-pressed='true'] .saIcon.fas {
-  display: flex;
-}
-.saButtonToolbarDark:enabled[aria-pressed='true'] .saIcon.far {
-  display: none;
-}
-.saButtonToolbarDark .saIcon.fas {
-  display: none;
-}
 .saButtonToolbarDark:disabled {
   cursor: not-allowed;
   color: var(--Gray700);
@@ -38536,12 +38455,6 @@ span.saChatContextPillLabel {
 }
 .saButtonToolbarDark:disabled[aria-pressed='true'] {
   background-color: var(--Gray600);
-}
-.saButtonToolbarDark:disabled[aria-pressed='true'] .saIcon.fas {
-  display: flex;
-}
-.saButtonToolbarDark:disabled[aria-pressed='true'] .saIcon.far {
-  display: none;
 }
 .saButtonToolbarDark[data-table-menu] {
   width: auto;
@@ -38607,19 +38520,10 @@ span.saChatContextPillLabel {
   color: var(--White);
   background-color: var(--Gray700);
 }
-.saButtonIconToolbarDark:enabled[aria-pressed='true'] .saIcon.fas {
-  display: flex;
-}
-.saButtonIconToolbarDark:enabled[aria-pressed='true'] .saIcon.far {
-  display: none;
-}
 .saButtonIconToolbarDark:enabled[aria-pressed='true'],
 .saButtonIconToolbarDark:enabled[aria-expanded='true'] {
   color: var(--White);
   background-color: var(--Gray700);
-}
-.saButtonIconToolbarDark .saIcon.fas {
-  display: none;
 }
 .saButtonIconToolbarDark:disabled {
   cursor: not-allowed;
@@ -38628,12 +38532,6 @@ span.saChatContextPillLabel {
 }
 .saButtonIconToolbarDark:disabled[aria-pressed='true'] {
   background-color: var(--Gray600);
-}
-.saButtonIconToolbarDark:disabled[aria-pressed='true'] .saIcon.fas {
-  display: flex;
-}
-.saButtonIconToolbarDark:disabled[aria-pressed='true'] .saIcon.far {
-  display: none;
 }
 .saButtonIconToolbarDark[data-table-menu] {
   width: auto;
@@ -38705,17 +38603,6 @@ span.saChatContextPillLabel {
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
   border-color: light-dark(var(--Sa-Color-Primary200), var(--Gray800));
 }
-.saButtonIconToolbar:enabled[aria-pressed='true'] .saIcon.fas,
-.saButtonIconToolbar:enabled[aria-expanded='true'] .saIcon.fas {
-  display: flex;
-}
-.saButtonIconToolbar:enabled[aria-pressed='true'] .saIcon.far,
-.saButtonIconToolbar:enabled[aria-expanded='true'] .saIcon.far {
-  display: none;
-}
-.saButtonIconToolbar .saIcon.fas {
-  display: none;
-}
 .saButtonIconToolbar:disabled {
   cursor: not-allowed;
   color: light-dark(var(--Gray400), var(--Gray900));
@@ -38725,27 +38612,20 @@ span.saChatContextPillLabel {
 .saButtonIconToolbar:disabled[aria-expanded='true'] {
   background-color: light-dark(var(--Gray200), var(--Gray1100));
 }
-.saButtonIconToolbar:disabled[aria-pressed='true'] .saIcon.fas,
-.saButtonIconToolbar:disabled[aria-expanded='true'] .saIcon.fas {
-  display: flex;
-}
-.saButtonIconToolbar:disabled[aria-pressed='true'] .saIcon.far,
-.saButtonIconToolbar:disabled[aria-expanded='true'] .saIcon.far {
-  display: none;
-}
 .saButtonIconToolbar[data-table-menu] {
   width: auto;
   gap: 0.25rem;
   padding-inline: 0.5rem;
 }
 .saMarkdownEditorCodeBlock {
+  color: var(--Sa-Color-Text);
   position: relative;
   margin-block: 1.5rem;
 }
 .saMarkdownEditorCodeBlock pre {
   margin: 0;
   border-radius: 0.5rem;
-  padding-block-start: 3.5rem;
+  padding-block-start: 3rem;
 }
 .saMarkdownEditorCodeBlockHeader {
   display: flex;
@@ -38876,13 +38756,172 @@ span.saChatContextPillLabel {
   width: auto;
   min-width: 8rem;
 }
-.saMarkdownEditorToolbar label {
+.saMarkdownEditorFill.saMarkdownEditor *.saScreenReaderOnly {
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.markdown-editor-table-menu > .saContextMenu {
+  top: calc(100% + 0.25rem);
+  padding: 0.75rem;
+  width: max-content;
+}
+.saMarkdownEditorColorControl .saMarkdownEditorColorButtons {
   display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-weight: normal;
-  width: 8rem;
+  align-items: stretch;
+}
+.saMarkdownEditorColorControl .saTextColorApply {
+  position: relative;
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+.saMarkdownEditorColorControl .saTextColorIndicator {
+  height: 1.25rem;
+  width: 1.25rem;
+  border: 0.0625rem solid light-dark(rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.25));
+  border-radius: 0.625rem;
+  box-sizing: border-box;
+}
+.saMarkdownEditorColorControl .saTextColorMenu {
+  width: 1.25rem;
+  min-width: 1.25rem;
+  margin-left: -0.0625rem;
+  padding-inline: 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.saMarkdownEditorColorControl > .saColorPicker {
+  top: calc(100% + 0.25rem);
+}
+.saMarkdownEditorColorControl .saPalette:not(.saFooter) .saColor::before {
+  width: 2rem;
+  height: 2rem;
+}
+.saMarkdownEditorColorControl .saPalette {
+  grid-template-columns: repeat(10, 1.5rem);
+}
+.saMarkdownEditorColorControl .saPalette.saFooter .saColorDefault {
+  grid-column: 1;
+}
+.saMarkdownEditorColorControl .saColorDefault {
+  background-color: var(--Sa-Color-Text);
+}
+.saMarkdownEditorColorControl .saPalette.saFooter .saColorCustom {
+  grid-column: 2;
+}
+.saMarkdownEditorColorControl .saPalette.saFooter .saWhite {
+  grid-column: 9;
+}
+.saMarkdownEditorColorControl .saPalette.saFooter .saBlack {
+  grid-column: 10;
+}
+.saMarkdownEditorFind .saInputText {
+  flex: 1 1 8rem;
+  width: 0;
+  min-width: 4rem;
+  height: 2rem;
+  padding: 0.25rem 0.625rem;
+  box-sizing: border-box;
+  background-color: var(--Gray800);
+  color: var(--Gray100);
+  border: 0.0625rem solid var(--Gray600);
+  border-radius: 0.375rem;
+}
+.saMarkdownEditorFind .saInputText::placeholder {
+  color: var(--Gray300);
+  opacity: 1;
+}
+.saMarkdownEditorFind .saMarkdownEditorFindInput > .saInputText {
+  width: 100%;
+  font-size: inherit;
+  padding-inline-end: calc(var(--find-count-width, 3ch) + 1.5rem);
+}
+.saMarkdownEditorDocument .saFindMatch {
+  background-color: var(--Yellow200);
+  color: var(--Gray1000);
+}
+.saMarkdownEditorDocument .saFindCurrent {
+  background-color: light-dark(var(--Orange300), var(--Orange1000));
+  color: light-dark(var(--Gray950), var(--White));
+  outline: 0.125rem solid var(--Orange500);
+}
+.saMarkdownEditorDocument .selectedCell {
+  outline: 2px solid Highlight;
+  outline-offset: -2px;
+}
+.saMarkdownEditorDocument .ProseMirror-selectednode {
+  outline: 2px solid Highlight;
+}
+.saMarkdownEditorDocument .ProseMirror-separator {
+  display: inline;
+  border: 0;
   margin: 0;
+}
+.saMarkdownEditorDocument .tableWrapper {
+  overflow-x: auto;
+  margin-block: 1rem;
+}
+.saMarkdownEditorDocument .tableWrapper table {
+  display: table;
+  width: 100%;
+  max-width: none;
+  overflow: visible;
+  margin: 0;
+}
+.saMarkdownEditor dialog .saAlertMessage {
+  display: grid;
+  gap: 0.5rem;
+  width: 23rem;
+  max-width: 100%;
+}
+.saButtonToolbarDark:enabled[aria-pressed='true'] .saIcon.fas {
+  display: flex;
+}
+.saButtonToolbarDark:enabled[aria-pressed='true'] .saIcon.far {
+  display: none;
+}
+.saButtonToolbarDark:disabled[aria-pressed='true'] .saIcon.fas {
+  display: flex;
+}
+.saButtonToolbarDark:disabled[aria-pressed='true'] .saIcon.far {
+  display: none;
+}
+.saButtonToolbarDark .saIcon.fas {
+  display: none;
+}
+.saButtonIconToolbarDark:enabled[aria-pressed='true'] .saIcon.fas {
+  display: flex;
+}
+.saButtonIconToolbarDark:enabled[aria-pressed='true'] .saIcon.far {
+  display: none;
+}
+.saButtonIconToolbarDark:disabled[aria-pressed='true'] .saIcon.fas {
+  display: flex;
+}
+.saButtonIconToolbarDark:disabled[aria-pressed='true'] .saIcon.far {
+  display: none;
+}
+.saButtonIconToolbarDark .saIcon.fas {
+  display: none;
+}
+.saButtonIconToolbar:enabled[aria-pressed='true'] .saIcon.fas,
+.saButtonIconToolbar:enabled[aria-expanded='true'] .saIcon.fas {
+  display: flex;
+}
+.saButtonIconToolbar:enabled[aria-pressed='true'] .saIcon.far,
+.saButtonIconToolbar:enabled[aria-expanded='true'] .saIcon.far {
+  display: none;
+}
+.saButtonIconToolbar:disabled[aria-pressed='true'] .saIcon.fas,
+.saButtonIconToolbar:disabled[aria-expanded='true'] .saIcon.fas {
+  display: flex;
+}
+.saButtonIconToolbar:disabled[aria-pressed='true'] .saIcon.far,
+.saButtonIconToolbar:disabled[aria-expanded='true'] .saIcon.far {
+  display: none;
+}
+.saButtonIconToolbar .saIcon.fas {
+  display: none;
 }
 .saTextFileViewer [hidden] {
   display: none !important;
@@ -38894,12 +38933,14 @@ span.saChatContextPillLabel {
   margin: 0;
 }
 .saTextFileViewerContent {
+  color: var(--Sa-Color-Text);
+  background-color: light-dark(var(--Gray50), var(--Gray1100));
   display: block;
   flex: 1;
   min-height: 0;
   min-width: 0;
   overflow: auto;
-  padding: 0 1rem 1rem;
+  padding: 1rem;
 }
 @supports (scrollbar-gutter: stable) {
   @media (pointer: fine) {
@@ -38926,9 +38967,6 @@ span.saChatContextPillLabel {
       background-color: light-dark(var(--Gray900), var(--Gray1000));
     }
   }
-}
-.saLargeScreen .saTextFileViewerContent {
-  padding: 0 0 1rem 1rem;
 }
 .saTextFileViewerAction {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -39032,9 +39070,6 @@ span.saChatContextPillLabel {
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
   border-color: light-dark(var(--Sa-Color-Primary200), var(--Gray800));
 }
-[aria-pressed='true'].saTextFileViewerAction .saIcon {
-  color: inherit;
-}
 .saMarkdownContent .saTextFileViewerSource {
   margin: 0;
   overflow: visible;
@@ -39061,21 +39096,8 @@ span.saChatContextPillLabel {
 .saFilePreviewLink:hover {
   text-decoration: underline;
 }
-.saTextFileViewer .hljs-keyword,
-.saTextFileViewer .hljs-selector-tag,
-.saTextFileViewer .hljs-built_in {
-  color: light-dark(var(--Purple700), var(--Purple300));
-}
-.saTextFileViewer .hljs-string,
-.saTextFileViewer .hljs-attr {
-  color: light-dark(var(--Green700), var(--Green300));
-}
-.saTextFileViewer .hljs-number,
-.saTextFileViewer .hljs-literal {
-  color: light-dark(var(--Blue700), var(--Blue300));
-}
-.saTextFileViewer .hljs-comment {
-  color: var(--Sa-Color-TextSecondary);
+[aria-pressed='true'].saTextFileViewerAction .saIcon {
+  color: inherit;
 }
 .saToastGroup {
   display: flex;
@@ -39150,11 +39172,15 @@ span.saChatContextPillLabel {
   content: none;
 }
 @starting-style {
-  transform: translateY(100%) scale(0.5);
-  opacity: 0;
+  .saToast {
+    transform: translateY(100%) scale(0.5);
+    opacity: 0;
+  }
   @media (prefers-reduced-motion: reduce) {
-    transform: translateY(0) scale(1);
-    opacity: 1;
+    .saToast {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
   }
 }
 .saToast.saClosed {
