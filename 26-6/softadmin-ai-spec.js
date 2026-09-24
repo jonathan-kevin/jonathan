@@ -10,6 +10,7 @@
 	let projects = { version: 1, activeId: null, projects: [] };
 	let activeProjectId = null;
 	let activeProjectRevision = null;
+	let activeProjectCustomName = null;
 	let projectAutosaveReady = false;
 	let restoringProject = false;
 	let projectDirty = false;
@@ -1209,7 +1210,7 @@
 	}
 
 	function isInteractiveEditingTarget(target) {
-		return Boolean(target.closest('.saMockPromptPanel, .saMockSelectionToolbar, .saMockFormBuilderPanel, input, textarea, select'));
+		return Boolean(target.closest('.saMockPromptPanel, .saMockSelectionToolbar, .saMockFormBuilderPanel, .saProjectRenameDialog, input, textarea, select'));
 	}
 
 	function hasNewEditForm() {
@@ -2732,14 +2733,16 @@
 	function updateProjectControls() {
 		const select = document.getElementById('SoftadminProjectHistory');
 		const newButton = document.getElementById('SoftadminNewProject');
+		const renameButton = document.getElementById('SoftadminRenameProject');
 		if (!select) return;
 		select.innerHTML = '<option value="" disabled>' + escapeHtml(localizedUiText('Project history')) + '</option>' + projects.projects.map(project => {
 			const date = project.updatedAt ? new Date(project.updatedAt).toLocaleString(selectedLanguageValue()) : '';
-			return `<option value="${escapeHtml(project.id)}">${escapeHtml(project.name || localizedUiText('New project'))}${date ? ' - ' + escapeHtml(date) : ''}</option>`;
+			return `<option value="${escapeHtml(project.id)}"${project.customName ? ' data-softadmin-no-localize' : ''}>${escapeHtml(project.name || localizedUiText('New project'))}${date ? ' - ' + escapeHtml(date) : ''}</option>`;
 		}).join('');
 		select.value = activeProjectId || '';
 		select.disabled = isBusy || projects.projects.length === 0;
 		if (newButton) newButton.disabled = isBusy;
+		if (renameButton) renameButton.disabled = isBusy || !activeProjectId;
 	}
 
 	function scheduleProjectAutosave() {
@@ -2761,7 +2764,8 @@
 			const title = state.debugResult?.spec?.frame?.title;
 			const project = {
 				id,
-				name: title && title !== newProjectTemplate.state.debugResult?.spec?.frame?.title ? title : localizedUiText('New project'),
+				name: activeProjectCustomName || (title && title !== newProjectTemplate.state.debugResult?.spec?.frame?.title ? title : localizedUiText('New project')),
+				customName: activeProjectCustomName,
 				updatedAt: new Date().toISOString(),
 				revision: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
 				prompt: document.getElementById('SoftadminPrompt')?.value || '',
@@ -2795,6 +2799,7 @@
 			document.getElementById('SoftadminPrompt').value = project.prompt || '';
 			activeProjectId = project.id || null;
 			activeProjectRevision = project.revision || null;
+			activeProjectCustomName = project.customName || null;
 			projectDirty = false;
 		} finally {
 			restoringProject = false;
@@ -2818,6 +2823,66 @@
 			projectSaveError(error);
 			updateProjectControls();
 		}
+	}
+
+	function openProjectRenameDialog() {
+		if (isBusy || !activeProjectId || !flushProjectAutosave()) return;
+		let dialog = document.getElementById('SoftadminProjectRenameDialog');
+		if (!dialog) {
+			dialog = document.createElement('dialog');
+			dialog.id = 'SoftadminProjectRenameDialog';
+			dialog.className = 'saCalendarActivityDialog saProjectRenameDialog';
+			dialog.setAttribute('aria-labelledby', 'SoftadminProjectRenameHeading');
+			dialog.innerHTML = `<form method="dialog">
+				<h2 id="SoftadminProjectRenameHeading">Rename project</h2>
+				<label><span>Project name</span><input name="projectName" required maxlength="120" autocomplete="off" data-softadmin-no-localize></label>
+				<p class="saProjectRenameError" role="alert" hidden></p>
+				<div class="saCalendarActivityDialogActions">
+					<button class="saFormButton saButtonSecondary" type="button">Cancel</button>
+					<button class="saFormButton saButtonPrimary" type="submit">Rename</button>
+				</div>
+			</form>`;
+			document.body.appendChild(dialog);
+			dialog.querySelector('button[type="button"]').addEventListener('click', () => dialog.close());
+			dialog.querySelector('input').addEventListener('input', event => event.target.setCustomValidity(''));
+			dialog.addEventListener('submit', event => {
+				event.preventDefault();
+				const input = dialog.querySelector('input');
+				const name = input.value.trim();
+				if (!name) {
+					input.setCustomValidity(localizedUiText('Enter a project name.'));
+					input.reportValidity();
+					return;
+				}
+				try {
+					const latest = projectHistory.read(window.localStorage);
+					const current = latest.projects.find(project => project.id === activeProjectId);
+					if (!current || current.revision !== activeProjectRevision) throw new Error('Project changed in another tab.');
+					const renamed = { ...current, name, customName: name, updatedAt: new Date().toISOString(), revision: `${Date.now()}-${Math.random().toString(36).slice(2)}` };
+					const next = projectHistory.upsert(latest, renamed, activeProjectRevision);
+					projectHistory.write(window.localStorage, next);
+					projects = next;
+					activeProjectCustomName = name;
+					activeProjectRevision = renamed.revision;
+					updateProjectControls();
+					setAutosaveStatus('saved', 'Saved automatically');
+					dialog.close();
+				} catch (_) {
+					const error = dialog.querySelector('.saProjectRenameError');
+					error.textContent = localizedUiText('Could not rename project. Your saved project is unchanged.');
+					error.hidden = false;
+				}
+			});
+		}
+		const current = projects.projects.find(project => project.id === activeProjectId);
+		const input = dialog.querySelector('input');
+		input.value = current?.name || localizedUiText('New project');
+		input.setCustomValidity('');
+		dialog.querySelector('.saProjectRenameError').hidden = true;
+		window.SoftadminLocalization.localize(dialog, selectedLanguageValue());
+		dialog.showModal();
+		input.focus();
+		input.select();
 	}
 
 	function startNewProject() {
@@ -3275,9 +3340,10 @@
 
 		projectSelect?.addEventListener('change', () => activateProject(projectSelect.value));
 		newProjectButton?.addEventListener('click', startNewProject);
+		document.getElementById('SoftadminRenameProject')?.addEventListener('click', openProjectRenameDialog);
 		for (const eventName of ['input', 'change']) {
 			document.addEventListener(eventName, event => {
-				if (event.target !== projectSelect) scheduleProjectAutosave();
+				if (event.target !== projectSelect && !event.target.closest('.saProjectRenameDialog')) scheduleProjectAutosave();
 			});
 		}
 		window.addEventListener('pagehide', flushProjectAutosave);

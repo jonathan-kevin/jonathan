@@ -137,6 +137,22 @@
 			display: none;
 		}
 
+		.saProjectRenameDialog { font: .875rem/1.5 Inter, Lexend, Arial, sans-serif; }
+		.saProjectRenameDialog h2 { line-height: 1.3; }
+		.saProjectRenameDialog .saCalendarActivityDialogActions { flex-wrap: wrap; }
+		.saProjectRenameDialog button {
+			min-height: 2.5rem;
+			padding: .5rem .875rem;
+			border: 1px solid #cbd5e1;
+			border-radius: .375rem;
+			font: inherit;
+			background: #fff;
+			color: #243143;
+			cursor: pointer;
+		}
+		.saProjectRenameDialog button.saButtonPrimary { background: #2563eb; border-color: #2563eb; color: #fff; }
+		.saProjectRenameDialog button:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+		.saProjectRenameError { margin: 0; color: #b42318; overflow-wrap: anywhere; }
 		.saCalendarActivityDialogActions {
 			display: flex;
 			justify-content: flex-end;
@@ -918,10 +934,10 @@
 	<script src="./softadmin-component-registry.js?v=111"></script>
 	<script src="./softadmin-calendar-editor.js?v=1"></script>
 	<script src="./softadmin-spec-runtime.js?v=92"></script>
-	<script src="./softadmin-localization.js?v=9"></script>
+	<script src="./softadmin-localization.js?v=10"></script>
 	<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
 	<script src="./softadmin-project-history.js?v=1"></script>
-	<script src="./softadmin-ai-spec.js?v=118"></script>
+	<script src="./softadmin-ai-spec.js?v=119"></script>
 	<!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
@@ -1416,6 +1432,7 @@
 												</button>
 												<div class="saMockSavedPageControls">
 													<select id="SoftadminProjectHistory" class="saMockSavedPageSelect" aria-label="Project history"><option value="">Project history</option></select>
+													<button id="SoftadminRenameProject" class="saMockDebugToggle" type="button" aria-label="Rename project" title="Rename project" disabled><i class="far fa-pen"></i></button>
 													<button id="SoftadminNewProject" class="saMockDebugToggle" type="button" aria-label="New project" title="New project"><i class="far fa-plus"></i></button>
 												</div>
 												<input id="SoftadminLogoFile" class="saMockLogoFileInput" type="file" accept="image/*">

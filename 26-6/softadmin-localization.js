@@ -8,6 +8,11 @@
 	root.SoftadminLocalization = api;
 }(typeof window !== 'undefined' ? window : globalThis, function () {
 	const messages = {
+		renameProject: { en: 'Rename project', sv: 'Byt namn på projekt' },
+		projectName: { en: 'Project name', sv: 'Projektnamn' },
+		rename: { en: 'Rename', sv: 'Byt namn' },
+		projectNameRequired: { en: 'Enter a project name.', sv: 'Ange ett projektnamn.' },
+		projectRenameFailed: { en: 'Could not rename project. Your saved project is unchanged.', sv: 'Det gick inte att byta namn på projektet. Ditt sparade projekt är oförändrat.' },
 		componentSelection: { en: 'Component selection', sv: 'Komponentval' },
 		manualSelection: { en: 'Manual selection', sv: 'Manuellt val' },
 		aiSelection: { en: 'AI decides', sv: 'AI väljer' },
