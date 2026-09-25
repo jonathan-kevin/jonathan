@@ -9,6 +9,7 @@
 - Do not nest a separately named component's styling under its ancestor merely because that ancestor triggers the change.
 - Use `.ancestor &` for ancestor conditions. For a component's own class selector, both `.modifier&` and `&.modifier` match a modifier class on the same element; prefer `.modifier&` here for consistency. There must be no space between `&` and the modifier for a same-element condition. The `&` is essential: omitting it changes which element the selector targets.
 - This is a rule about ownership, not a ban on nesting. Component-internal structure may remain nested, but separately named components should own their own styles.
+- Icons are an explicit exception: keep `.saIcon` styling and icon states nested under the parent component they belong to. Treat these icons as internal structure, not as standalone components; do not collect parent-specific icon rules in a separate `.saIcon` block.
 - Preserve selector meaning, specificity, and cascade order when moving existing rules. Do not refactor unrelated styles unless requested.
 
 Preferred:

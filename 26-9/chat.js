@@ -468,6 +468,7 @@
 					entry.className = "saChatMessageAction";
 					entry.innerHTML = '<i class="saIcon far fa-square-terminal" aria-hidden="true"></i><span>Performed tool call <code></code></span>';
 					entry.querySelector("code").textContent = activity.call;
+					entry.querySelector(".saIcon").className = this.getToolCallIcon(activity.call);
 					history.append(entry);
 				}
 				toggle.addEventListener("click", () => {
@@ -1264,20 +1265,15 @@
 					</ul>
 				</footer>
 			</article>`;
-			const paragraph = document.createElement("p");
-			paragraph.hidden = true;
-			message.querySelector(".saChatMessageContent").append(paragraph);
+			const paragraph = message.querySelector("[data-chat-intro]");
+			paragraph.textContent = "";
 			const response = {
-				message, thinking, paragraph, text: "",
+				message, thinking, paragraph, paragraphs: [paragraph], text: "", stageIndex: 0,
 				history: message.querySelector("[data-chat-tool-history]"),
 				toggle: message.querySelector("[data-chat-tool-toggle]"),
 				active: message.querySelector("[data-chat-tool-active]")
 			};
-			response.toggle.addEventListener("click", () => {
-				const expanded = response.toggle.getAttribute("aria-expanded") !== "true";
-				response.toggle.setAttribute("aria-expanded", String(expanded));
-				response.history.hidden = !expanded;
-			});
+			this.bindDemoToolHistory(response);
 			this.response = response;
 			this.followLatest(() => this.appendToLog(thinking));
 			this.status.textContent = "Message sent. Demo assistant is thinking.";
@@ -1289,18 +1285,81 @@
 					thinking.replaceWith(message);
 					message.querySelector("[data-chat-intro]").hidden = false;
 				});
-				this.runDemoToolCalls(response);
+				this.runDemoResponseStage(response);
 			}, thinkingDuration);
 		}
 
-		runDemoToolCalls(response) {
-			const calls = ["read_context()", 'search_notes(query: "document context")', "summarize_matches()"];
+		getToolCallIcon(call) {
+			// Resolve the tool name, not its arguments. Unknown tools retain the generic icon.
+			const name = String(call ?? "").split("(")[0].trim().toLowerCase();
+			const icons = {
+				read_context: "fa-book-open",
+				search_notes: "fa-magnifying-glass",
+				search_project_notes: "fa-magnifying-glass",
+				compare_notes: "fa-arrows-left-right",
+				summarize_matches: "fa-align-left",
+				get_project_tasks: "fa-list-check",
+				get_launch_checklist: "fa-clipboard-check"
+			};
+			const icon = Object.hasOwn(icons, name) ? icons[name] : "fa-square-terminal";
+			return `saIcon far ${icon}`;
+		}
+
+		bindDemoToolHistory(response) {
+			const { toggle, history } = response;
+			toggle.addEventListener("click", () => {
+				const expanded = toggle.getAttribute("aria-expanded") !== "true";
+				toggle.setAttribute("aria-expanded", String(expanded));
+				history.hidden = !expanded;
+			});
+		}
+
+		runDemoResponseStage(response) {
+			if (this.response !== response) return;
+			const stages = [
+				{ text: "I’ll review the context and look for relevant notes. This is a demo: the following tool calls are simulated." },
+				{ calls: ["read_context()", 'search_notes(query: "document context")'] },
+				{ text: "The demo notes give us a useful starting point. I’ll compare the details and pull together the main points before writing the summary." },
+				{ calls: ["compare_notes()", "summarize_matches()"] },
+				{ text: undefined }
+			];
+			const stage = stages[response.stageIndex++];
+			if (!stage) { this.finishResponse(); return; }
+			const next = () => this.runDemoResponseStage(response);
+			if (stage.calls) {
+				if (response.stageIndex > 2) {
+					// Keep each history at its place in the conversation, with its own controls.
+					response.toggle = response.toggle.cloneNode(true);
+					response.history = response.history.cloneNode(false);
+					response.active = response.active.cloneNode(true);
+					response.history.id = `chat-inline-tool-history-${++responseSequence}`;
+					response.history.hidden = true;
+					response.toggle.hidden = true;
+					response.toggle.setAttribute("aria-expanded", "false");
+					response.toggle.setAttribute("aria-controls", response.history.id);
+					this.bindDemoToolHistory(response);
+					this.followLatest(() => response.paragraph.after(response.toggle, response.history, response.active));
+				}
+				this.runDemoToolCalls(response, stage.calls, next);
+			} else {
+				if (response.stageIndex > 1) {
+					response.paragraph = document.createElement("p");
+					response.paragraphs.push(response.paragraph);
+					this.followLatest(() => response.message.querySelector(".saChatMessageContent").append(response.paragraph));
+					response.text += "\n\n";
+				}
+				this.streamDemoAnswer(response, stage.text, next);
+			}
+		}
+
+		runDemoToolCalls(response, calls, onComplete) {
 			let index = 0;
 			const nextCall = () => {
 				if (this.response !== response) return;
 				const call = calls[index];
 				this.followLatest(() => {
 					response.active.hidden = false;
+					response.active.querySelector(".saIcon").className = this.getToolCallIcon(call);
 					response.active.querySelector("span").textContent = `Performing tool call ${index + 1}/${calls.length}: ${call}`;
 				});
 				this.status.textContent = `Demo tool call ${index + 1} of ${calls.length}: ${call}`;
@@ -1311,6 +1370,7 @@
 						entry.className = "saChatMessageAction";
 						entry.innerHTML = `<i class="saIcon far fa-square-terminal" aria-hidden="true"></i><span>Performed tool call <code></code></span>`;
 						entry.querySelector("code").textContent = call;
+						entry.querySelector(".saIcon").className = this.getToolCallIcon(call);
 						response.history.append(entry);
 						response.toggle.hidden = false;
 						response.toggle.querySelector("[data-chat-tool-count]").textContent = `Performed tool calls (${++index})`;
@@ -1318,17 +1378,17 @@
 					if (index < calls.length) nextCall();
 					else {
 						this.followLatest(() => { response.active.hidden = true; });
-						this.streamDemoAnswer(response);
+						onComplete();
 					}
 				}, 1200);
 			};
 			nextCall();
 		}
 
-		streamDemoAnswer(response) {
+		streamDemoAnswer(response, content, onComplete) {
 			this.status.textContent = "Demo assistant is writing.";
 			response.paragraph.hidden = false;
-			const words = "This is a demo reply. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.".split(" ");
+			const words = (content ?? "This is a demo reply. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.").split(" ");
 			let index = 0;
 			const nextWord = () => {
 				if (this.response !== response) return;
@@ -1346,7 +1406,9 @@
 				} else {
 					// Let the last word finish revealing before flattening the answer.
 					Promise.allSettled(word.getAnimations().map(animation => animation.finished)).then(() => {
-						if (this.response === response) this.finishResponse();
+						if (this.response !== response) return;
+						this.followLatest(() => { response.paragraph.textContent = response.paragraph.textContent; });
+						onComplete();
 					});
 				}
 			};
@@ -1360,13 +1422,19 @@
 			this.followLatest(() => {
 				if (response.thinking.parentNode) response.thinking.replaceWith(response.message);
 				response.active.hidden = true;
-				response.paragraph.hidden = false;
-				response.paragraph.textContent = response.text || "Response stopped.";
+				for (const paragraph of response.paragraphs) {
+					paragraph.textContent = paragraph.textContent;
+					paragraph.hidden = !paragraph.textContent;
+				}
+				if (!response.text.trim()) {
+					response.paragraph.hidden = false;
+					response.paragraph.textContent = "Response stopped.";
+				}
 				if (stopped && response.text) {
 					const note = document.createElement("p");
 					note.className = "saChatInlineResponseStatus";
 					note.textContent = "Response stopped.";
-					response.paragraph.after(note);
+					response.message.querySelector(".saChatMessageContent").append(note);
 				}
 				response.message.classList.remove("saChatStreaming");
 				response.message.setAttribute("aria-busy", "false");

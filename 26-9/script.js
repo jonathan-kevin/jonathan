@@ -475,9 +475,73 @@ $(document).ready(function () {
 
 	updateSidebarToggleState();
 
-	$('button.saNavigator').on('click', function () {
-		$('.saSideBarOuter').toggleClass('saClosed')
-		$('.saSideBarSmallScreenOverlay').toggle();
+	// Both mobile dialogs can be open at once; only the last one unlocks the page.
+	const overlayScrollLocks = new Set();
+	let originalBodyOverflow;
+	function setOverlayScrollLock(owner, locked) {
+		if (locked) {
+			if (overlayScrollLocks.has(owner)) return;
+			if (!overlayScrollLocks.size) originalBodyOverflow = document.body.style.overflow;
+			overlayScrollLocks.add(owner);
+			document.body.style.overflow = 'hidden';
+		} else if (overlayScrollLocks.delete(owner) && !overlayScrollLocks.size) {
+			document.body.style.overflow = originalBodyOverflow;
+		}
+	}
+
+	const sidebarMobile = window.matchMedia('(max-width: 640px)');
+	const $sidebarOuter = $('.saSideBarOuter').first();
+	const sidebarDesktopPosition = document.createComment('Desktop sidebar position');
+	if ($sidebarOuter.length) $sidebarOuter[0].before(sidebarDesktopPosition);
+	const $sidebarDialog = $sidebarOuter.length ? $('<dialog>', {
+		id: 'saMobileSidebarDialog',
+		class: 'saSideBarSmallScreenOverlay',
+		'aria-label': 'Main menu'
+	}) : $();
+	$('.saSideBarSmallScreenOverlay').remove();
+	$sidebarDialog.prependTo(document.body);
+	const $sidebarClosers = $sidebarOuter.find('button.saNavigator').attr('aria-label', 'Close menu');
+	const $sidebarOpeners = $('button.saNavigator').not($sidebarClosers).attr({
+		'aria-label': 'Open menu', 'aria-haspopup': 'dialog',
+		'aria-controls': 'saMobileSidebarDialog', 'aria-expanded': 'false'
+	});
+	let sidebarReturnFocus;
+
+	function setMobileSidebarOpen(isOpen, restoreFocus = true, closeAccount = true) {
+		const dialog = $sidebarDialog[0];
+		if (!dialog || (isOpen && !sidebarMobile.matches)) return;
+		if (isOpen) {
+			if (dialog.open) return;
+			sidebarReturnFocus = document.activeElement;
+			$sidebarOuter.removeClass('saClosed').appendTo($sidebarDialog);
+			setOverlayScrollLock('sidebar', true);
+			dialog.showModal();
+			$sidebarDialog.addClass('saVisible');
+			$sidebarClosers.first().trigger('focus');
+		} else {
+			if (closeAccount && document.querySelector('dialog.saBottomSheetOverlay[open]')) setAccountMenuOpen(false);
+			$sidebarOuter.addClass('saClosed');
+			if (dialog.open) dialog.close();
+			$sidebarDialog.removeClass('saVisible');
+			sidebarDesktopPosition.after($sidebarOuter[0]);
+			setOverlayScrollLock('sidebar', false);
+			if (restoreFocus && sidebarReturnFocus?.isConnected) sidebarReturnFocus.focus();
+		}
+		$sidebarOpeners.attr('aria-expanded', String(isOpen));
+	}
+	$sidebarOpeners.on('click', function () { setMobileSidebarOpen(true); });
+	$sidebarClosers.on('click', function () { setMobileSidebarOpen(false); });
+	$sidebarDialog.on('cancel', function (event) {
+		event.preventDefault();
+		setMobileSidebarOpen(false);
+	}).on('click', function (event) {
+		if (event.target === this) setMobileSidebarOpen(false);
+	});
+	$sidebarOuter.on('click', 'a[href]', function () {
+		if ($sidebarDialog[0]?.open) setMobileSidebarOpen(false);
+	});
+	window.addEventListener('resize', function () {
+		if (!sidebarMobile.matches && $sidebarDialog[0]?.open) setMobileSidebarOpen(false, false, false);
 	});
 
 	$(document).on('click', '.saInfoBoxHeadingButton', function () {
@@ -792,28 +856,375 @@ $(document).ready(function () {
 	});
 
 
+	// Pages only need an account button; keep the shared menu in one place.
+	function createAccountMenu($trigger) {
+		if (!$trigger.length) return $();
+
+		return $(`
+			<ul class="saContextMenu saProfileMenu saNorth" id="saAccountMenu" role="menu" aria-label="Account" aria-hidden="true">
+				<li role="none" data-theme-layout="options">
+					<div class="saContextMenuHeading">Theme</div>
+				</li>
+				${[['system', 'System', 'desktop'], ['light', 'Light', 'sun-alt'], ['dark', 'Dark', 'moon']].map(([value, label, icon]) => `
+					<li role="none" data-theme-layout="options">
+						<button class="saOptionWrapper" type="button" role="menuitemradio" aria-checked="false" data-theme-choice="${value}" tabindex="-1">
+							<div class="saOption">
+								<i class="far fad fa-${icon} saIcon saOptionIcon" aria-hidden="true"></i>
+								<div class="saOptionText"><div class="saOptionTitle">${label}</div></div>
+							</div>
+						</button>
+					</li>`).join('')}
+				<li role="group" aria-label="Theme" class="saRow" data-theme-layout="buttons">
+					<button class="saOptionWrapper" type="button" role="menuitemradio" aria-checked="true" data-theme-choice="system" tabindex="-1">
+						<div class="saOption saOptionButton">
+							<i class="far fad fa-desktop saIcon saOptionIcon" aria-hidden="true"></i>
+							<div class="saOptionText">
+								<div class="saOptionTitle">System</div>
+							</div>
+						</div>
+					</button>
+					<button class="saOptionWrapper" type="button" role="menuitemradio" aria-checked="false" data-theme-choice="light" tabindex="-1">
+						<div class="saOption saOptionButton">
+							<i class="far fad fa-sun-alt saIcon saOptionIcon" aria-hidden="true"></i>
+							<div class="saOptionText">
+								<div class="saOptionTitle">Light</div>
+							</div>
+						</div>
+					</button>
+					<button class="saOptionWrapper" type="button" role="menuitemradio" aria-checked="false" data-theme-choice="dark" tabindex="-1">
+						<div class="saOption saOptionButton">
+							<i class="far fad fa-moon saIcon saOptionIcon" aria-hidden="true"></i>
+							<div class="saOptionText">
+								<div class="saOptionTitle">Dark</div>
+							</div>
+						</div>
+					</button>
+				</li>
+				<li>
+					<hr>
+				</li>
+				<li>
+					<label class="saOptionWrapper" for="saToggleCompact" tabindex="0">
+						<div class="saOption">
+							<div class="saOptionText">
+								<div class="saOptionTitle">Compact mode</div>
+								<div class="saOptionDescription">The page will reload.</div>
+							</div>
+							<input class="saToggle" type="checkbox" id="saToggleCompact"
+								checked="true">
+						</div>
+					</label>
+				</li>
+				<li>
+					<hr>
+				</li>
+				<li>
+					<button class="saOptionWrapper" id="saThemeMenuTrigger" type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="saThemeSubmenu" tabindex="-1">
+						<div class="saOption">
+							<i class="far fad fa-brush icon saIcon saOptionIcon" aria-hidden="true"></i>
+							<div class="saOptionText">Theme</div>
+							<i class="far fa-angle-right icon saIcon saOptionIcon saTrailing" aria-hidden="true"></i>
+						</div>
+					</button>
+				</li>
+				<li>
+					<a class="saOptionWrapper" tabindex="0">
+						<div class="saOption">
+							<i class="far fad fa-key-skeleton icon saIcon saOptionIcon" aria-hidden="true"></i>
+							<div class="saOptionText">Change password</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a class="saOptionWrapper" tabindex="0">
+						<div class="saOption">
+							<i class="far fad fa-circle-exclamation icon saIcon saOptionIcon" aria-hidden="true"></i>
+							<div class="saOptionText">Give feedback to Multisoft</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a class="saOptionWrapper" tabindex="0">
+						<div class="saOption">
+							<i class="far fad fa-mobile-notch icon saIcon saOptionIcon" aria-hidden="true"></i>
+							<div class="saOptionText">App</div>
+						</div>
+					</a>
+				</li>
+
+				<li>
+					<a class="saOptionWrapper" tabindex="0">
+						<div class="saOption">
+							<i class="far fad fa-pen icon saIcon saOptionIcon" aria-hidden="true"></i>
+							<div class="saOptionText">Edit contact information</div>
+						</div>
+					</a>
+				</li>
+			</ul>
+		`).css({ position: 'fixed', margin: 0, minWidth: '16rem', maxWidth: 'calc(100dvw - 16px)', maxHeight: 'min(28rem, calc(100dvh - 16px))', bottom: 'auto' }).prependTo(document.body);
+	}
+
 	const $accountDropdown = $('.saAccountDropdown').first();
-	const $accountMenu = $accountDropdown.siblings('.saProfileMenu').first();
-	const $accountMenuRoot = $accountDropdown.closest('.saListItem');
+	const $accountMenu = createAccountMenu($accountDropdown);
+	const $accountMenuItems = $accountMenu.find('.saOptionWrapper');
+	$accountMenuItems.attr('tabindex', '-1');
+	const $themeMenuTrigger = $accountMenu.find('#saThemeMenuTrigger');
+	// A separate floating menu avoids clipping by the account menu's scrolling area.
+	const $themeSubmenu = $themeMenuTrigger.length ? $(`
+		<ul class="saContextMenu saEast" id="saThemeSubmenu" role="menu" aria-labelledby="saThemeMenuTrigger" aria-hidden="true">
+			${[['system', 'System', 'desktop'], ['light', 'Light', 'sun-alt'], ['dark', 'Dark', 'moon']].map(([value, label, icon]) => `
+				<li role="none">
+					<button class="saOptionWrapper" type="button" role="menuitemradio" aria-checked="false" data-theme-choice="${value}" tabindex="-1">
+						<div class="saOption">
+							<i class="far fad fa-${icon} saIcon saOptionIcon" aria-hidden="true"></i>
+							<div class="saOptionText"><div class="saOptionTitle">${label}</div></div>
+						</div>
+					</button>
+				</li>`).join('')}
+		</ul>
+	`).css({ position: 'fixed', margin: 0, minWidth: '10rem', maxWidth: 'calc(100dvw - 16px)', maxHeight: 'calc(100dvh - 16px)', bottom: 'auto' }).insertAfter($accountMenu) : $();
+	const $themeSubmenuItems = $themeSubmenu.find('.saOptionWrapper');
+	const $accountMenus = $accountMenu.add($themeSubmenu);
+	const accountMobile = window.matchMedia('(max-width: 640px)');
+	const desktopMenuStyles = $accountMenus.map(function () { return this.getAttribute('style'); }).get();
+	const $accountSheetOverlay = $accountDropdown.length ? $(`
+		<dialog class="saPopupOverlay saBottomSheetOverlay" aria-label="Account menu">
+			<div class="saBottomSheet saAccountSheet">
+				<div class="saSheetHeader">
+					<div class="saSheetDragHandle"><div class="saDraggableThumb"></div></div>
+					<button class="saSheetButton saAccountSheetBack" type="button" aria-label="Back to account menu"><i class="far fa-angle-left saIcon" aria-hidden="true"></i></button>
+					<button class="saSheetButton" type="button" aria-label="Close account menu"><i class="far fa-xmark saIcon" aria-hidden="true"></i></button>
+				</div>
+				<div class="saSheetContent"></div>
+			</div>
+		</dialog>
+	`).prependTo(document.body) : $();
+	const $accountSheet = $accountSheetOverlay.find('.saBottomSheet');
+	const $sheetContent = $accountSheet.find('.saSheetContent');
+	const $sheetBack = $accountSheet.find('.saAccountSheetBack');
+
+	function updateAccountSheetView() {
+		const inSubmenu = $themeSubmenu.hasClass('saOpen');
+		$accountMenu.toggle(!inSubmenu).attr('aria-hidden', String(inSubmenu));
+		$themeSubmenu.toggle(inSubmenu).attr('aria-hidden', String(!inSubmenu));
+		$sheetBack.toggle(inSubmenu);
+		$accountSheetOverlay.attr('aria-label', inSubmenu ? 'Theme' : 'Account menu');
+	}
+
+	function syncAccountSheet() {
+		const dialog = $accountSheetOverlay[0];
+		if (!dialog) return;
+		const useSheet = accountMobile.matches && $accountMenu.hasClass('saOpen');
+		if (useSheet && !dialog.open) {
+			$accountMenus.removeAttr('style').addClass('saSmallScreenMenu').appendTo($sheetContent);
+			$accountSheet.css('height', '');
+			updateAccountSheetView();
+			setOverlayScrollLock('account', true);
+			dialog.showModal();
+			$accountSheetOverlay.addClass('saVisible');
+		} else if (!useSheet && dialog.open) {
+			dialog.close();
+			$accountSheetOverlay.removeClass('saVisible');
+			$accountMenus.removeClass('saSmallScreenMenu').insertAfter($accountSheetOverlay).each(function (index) {
+				this.setAttribute('style', desktopMenuStyles[index]);
+			});
+			$accountMenu.attr('aria-hidden', String(!$accountMenu.hasClass('saOpen')));
+			setOverlayScrollLock('account', false);
+		}
+	}
+
+	function closeAccountSheet() {
+		setAccountMenuOpen(false);
+		$accountDropdown.trigger('focus');
+	}
+	$accountSheet.find('[aria-label="Close account menu"]').on('click', closeAccountSheet);
+	$sheetBack.on('click', function () {
+		setThemeSubmenuOpen(false);
+		$themeMenuTrigger.trigger('focus');
+	});
+	$accountSheetOverlay.on('click', function (event) {
+		if (event.target === this) closeAccountSheet();
+	}).on('cancel', function (event) {
+		event.preventDefault();
+		if ($themeSubmenu.hasClass('saOpen')) $sheetBack.trigger('click');
+		else closeAccountSheet();
+	});
+
+	// Drag the header up to expand, or down to dismiss; menu content scrolls normally.
+	let sheetDrag;
+	$accountSheet.find('.saSheetDragHandle').on('pointerdown', function (event) {
+		if (event.button !== 0) return;
+		sheetDrag = { y: event.clientY, height: $accountSheet[0].getBoundingClientRect().height };
+		this.setPointerCapture(event.pointerId);
+	}).on('pointermove', function (event) {
+		if (!sheetDrag) return;
+		$accountSheet.css('height', Math.max(80, Math.min(window.innerHeight * 0.9, sheetDrag.height + sheetDrag.y - event.clientY)));
+	}).on('pointerup pointercancel', function (event) {
+		if (!sheetDrag) return;
+		const distance = event.clientY - sheetDrag.y;
+		sheetDrag = null;
+		if (this.hasPointerCapture(event.pointerId)) this.releasePointerCapture(event.pointerId);
+		if (event.type === 'pointerup' && distance > 100) closeAccountSheet();
+		else $accountSheet.css('height', event.type === 'pointerup' && distance < -60 ? '90dvh' : '');
+	});
+
+	// Demo-only control: compare layouts, and share a specific version using its URL.
+	const $menuDemo = $accountDropdown.length ? $(`
+		<label class="saInputTextWrapper">
+			<select aria-label="Theme menu demo" class="saInputText saDropdown" style="padding-left: 0.75rem; font-weight: 500;">
+				<option value="options">1. Standard options</option>
+				<option value="buttons">2. Buttons</option>
+				<option value="submenu">3. Submenu</option>
+			</select>
+			<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
+		</label>
+	`).appendTo($('.saTopButtons .saActionLinks').first()) : $();
+
+	function setMenuDemoVariant(variant) {
+		variant = ['options', 'buttons', 'submenu'].includes(variant) ? variant : 'buttons';
+		setThemeSubmenuOpen(false);
+		$accountMenu.find('[data-theme-layout="options"]').toggle(variant === 'options');
+		const $buttonChoices = $accountMenu.find('[data-theme-layout="buttons"]');
+		$buttonChoices.toggle(variant === 'buttons');
+		$buttonChoices.next('li').toggle(variant !== 'submenu');
+		$themeMenuTrigger.closest('li').toggle(variant === 'submenu');
+		$menuDemo.find('select').val(variant);
+		positionAccountMenu();
+	}
+
+	$menuDemo.find('select').on('change', function () {
+		setMenuDemoVariant(this.value);
+		const url = new URL(window.location.href);
+		url.searchParams.set('themeMenu', this.value);
+		history.replaceState(history.state, '', url);
+		setAccountMenuOpen(true);
+	});
+	setMenuDemoVariant(new URL(window.location.href).searchParams.get('themeMenu'));
+
+	function positionAccountMenu() {
+		syncAccountSheet();
+		if (!$accountMenu.hasClass('saOpen')) return;
+		if (accountMobile.matches) return;
+		const anchor = $accountDropdown[0].getBoundingClientRect();
+		const width = $accountMenu[0].offsetWidth;
+		const height = $accountMenu[0].offsetHeight;
+		const opensAbove = anchor.top >= height + 16 || anchor.top > window.innerHeight - anchor.bottom;
+		$accountMenu.toggleClass('saNorth', opensAbove).toggleClass('saSouth', !opensAbove).css({
+			left: Math.max(8, Math.min(anchor.left, document.documentElement.clientWidth - width - 8)),
+			top: Math.max(8, Math.min(opensAbove ? anchor.top - height - 8 : anchor.bottom + 8, window.innerHeight - height - 8))
+		});
+		positionThemeSubmenu();
+	}
+
+	function positionThemeSubmenu() {
+		if (accountMobile.matches) return;
+		if (!$themeSubmenu.hasClass('saOpen')) return;
+		const anchor = $themeMenuTrigger.find('.saOption')[0].getBoundingClientRect();
+		const parentMenu = $accountMenu[0].getBoundingClientRect();
+		const firstOptionOffset = $themeSubmenuItems.first().find('.saOption')[0].getBoundingClientRect().top
+			- $themeSubmenu[0].getBoundingClientRect().top;
+		const width = $themeSubmenu[0].offsetWidth;
+		const height = $themeSubmenu[0].offsetHeight;
+		const gap = 8;
+		const opensRight = parentMenu.right + gap + width + 8 <= document.documentElement.clientWidth;
+		const left = opensRight ? parentMenu.right + gap : parentMenu.left - gap - width;
+		$themeSubmenu.toggleClass('saEast', opensRight).toggleClass('saWest', !opensRight).css({
+			left: Math.max(8, Math.min(left, document.documentElement.clientWidth - width - 8)),
+			top: Math.max(8, Math.min(anchor.top - firstOptionOffset, window.innerHeight - height - 8))
+		});
+	}
+
+	function setThemeSubmenuOpen(isOpen, focusOption = false) {
+		$themeMenuTrigger.toggleClass('saOpen', isOpen).attr('aria-expanded', String(isOpen));
+		$themeSubmenu.toggleClass('saOpen', isOpen).attr('aria-hidden', String(!isOpen));
+		if ($accountSheetOverlay[0]?.open) updateAccountSheetView();
+		if (isOpen) {
+			positionThemeSubmenu();
+			if (focusOption) $themeSubmenuItems.filter('[aria-checked="true"]').first().trigger('focus');
+		}
+	}
+
+	$themeMenuTrigger.on('click', function () {
+		setThemeSubmenuOpen(!$themeSubmenu.hasClass('saOpen'), true);
+	});
+	$accountMenuItems.on('focusin', function () {
+		if (this !== $themeMenuTrigger[0]) setThemeSubmenuOpen(false);
+	});
+	window.addEventListener('resize', positionAccountMenu);
+	document.addEventListener('scroll', positionAccountMenu, true);
+	$accountMenu.on('animationend', positionThemeSubmenu);
 
 	function setAccountMenuOpen(isOpen) {
+		if (!isOpen) setThemeSubmenuOpen(false);
 		$accountDropdown.toggleClass('saOpen', isOpen).attr('aria-expanded', String(isOpen));
 		$accountMenu.toggleClass('saOpen', isOpen).attr('aria-hidden', String(!isOpen));
+		positionAccountMenu();
 	}
 
 	$accountDropdown.on('click', function (event) {
 		event.stopPropagation();
-		setAccountMenuOpen(!$accountDropdown.hasClass('saOpen'));
+		const isOpen = !$accountDropdown.hasClass('saOpen');
+		setAccountMenuOpen(isOpen);
+		if (isOpen) {
+			const $items = $accountMenuItems.filter(':visible');
+			const $selected = $items.filter('[aria-checked="true"]');
+			($selected.length ? $selected.first() : $items.first()).trigger('focus');
+		}
+	});
+
+	$accountDropdown.on('keydown', function (event) {
+		if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+		event.preventDefault();
+		setAccountMenuOpen(true);
+		const $items = $accountMenuItems.filter(':visible');
+		(event.key === 'ArrowDown' ? $items.first() : $items.last()).trigger('focus');
+	});
+
+	$accountMenus.on('keydown', function (event) {
+		const inSubmenu = this === $themeSubmenu[0];
+		const $items = (inSubmenu ? $themeSubmenuItems : $accountMenuItems).filter(':visible');
+		if (!inSubmenu && event.key === 'ArrowRight' && $(event.target).closest('#saThemeMenuTrigger').length) {
+			event.preventDefault();
+			setThemeSubmenuOpen(true, true);
+			return;
+		}
+		if ((event.key === 'Escape' && $themeSubmenu.hasClass('saOpen')) || (inSubmenu && event.key === 'ArrowLeft')) {
+			event.preventDefault();
+			event.stopPropagation();
+			setThemeSubmenuOpen(false);
+			$themeMenuTrigger.trigger('focus');
+			return;
+		}
+		const currentIndex = $items.index($(event.target).closest('.saOptionWrapper'));
+		let nextIndex;
+		if (event.key === 'ArrowDown') nextIndex = (currentIndex + 1) % $items.length;
+		if (event.key === 'ArrowUp') nextIndex = (currentIndex - 1 + $items.length) % $items.length;
+		if (event.key === 'Home') nextIndex = 0;
+		if (event.key === 'End') nextIndex = $items.length - 1;
+		if (nextIndex !== undefined) {
+			event.preventDefault();
+			$items.eq(nextIndex).trigger('focus');
+		} else if (event.key === 'Tab') {
+			if ($accountSheetOverlay[0]?.open) return;
+			setAccountMenuOpen(false);
+			$accountDropdown.trigger('focus');
+		} else if ((event.key === 'Enter' || event.key === ' ') && $(event.target).is('label.saOptionWrapper')) {
+			event.preventDefault();
+			document.getElementById(event.target.htmlFor)?.click();
+		}
 	});
 
 	$(document).on('click', function (event) {
-		if ($accountMenuRoot[0]?.contains(event.target)) return;
+		if ($accountDropdown[0]?.contains(event.target) || $accountMenu[0]?.contains(event.target)
+			|| $themeSubmenu[0]?.contains(event.target) || $menuDemo[0]?.contains(event.target)
+			|| $accountSheetOverlay[0]?.contains(event.target)) return;
 		setAccountMenuOpen(false);
 	});
 
 	$(document).on('keydown', function (event) {
 		if (event.key !== 'Escape' || !$accountDropdown.hasClass('saOpen')) return;
 
+		event.preventDefault();
 		setAccountMenuOpen(false);
 		$accountDropdown.trigger('focus');
 	});
@@ -821,52 +1232,73 @@ $(document).ready(function () {
 	setAccountMenuOpen(false);
 
 
-	const $themeToggle = $('#saToggleDark');
+	const $themeOptions = $accountMenus.find('[data-theme-choice]');
+	const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+	let savedTheme;
+	try {
+		savedTheme = localStorage.getItem('theme');
+	} catch {
+		// The theme still works for this page when storage is unavailable.
+	}
+	let currentTheme = normalizeTheme(savedTheme);
 
-	const savedTheme = localStorage.getItem('theme');
-	let currentTheme = savedTheme === 'light' || savedTheme === 'dark'
-		? savedTheme
-		: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+	applyTheme();
 
-	applyTheme(currentTheme);
-
-	function toggleTheme() {
-		currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-		localStorage.setItem('theme', currentTheme);
-		applyTheme(currentTheme);
+	function normalizeTheme(theme) {
+		return theme === 'light' || theme === 'dark' ? theme : 'system';
 	}
 
-	$themeToggle.on('change', function () {
-		currentTheme = this.checked ? 'dark' : 'light';
-		localStorage.setItem('theme', currentTheme);
-		applyTheme(currentTheme);
+	function setThemePreference(theme) {
+		currentTheme = normalizeTheme(theme);
+		try {
+			localStorage.setItem('theme', currentTheme);
+		} catch {
+			// Keep the selection in memory if browser storage is blocked.
+		}
+		applyTheme();
+	}
+
+	function toggleTheme() {
+		const isDark = currentTheme === 'system' ? systemTheme.matches : currentTheme === 'dark';
+		setThemePreference(isDark ? 'light' : 'dark');
+	}
+
+	$themeOptions.on('click', function () {
+		setThemePreference(this.dataset.themeChoice);
+	});
+
+	systemTheme.addEventListener('change', applyTheme);
+	window.addEventListener('storage', function (event) {
+		if (event.key !== 'theme' && event.key !== null) return;
+		currentTheme = normalizeTheme(event.newValue);
+		applyTheme();
 	});
 
 	$(document).on('keydown', function (event) {
-		const isEditable = $(event.target).is('input, select, textarea, [contenteditable="true"]');
+		const isEditable = $(event.target).closest('input, select, textarea').length > 0
+			|| event.target.isContentEditable;
 		const isThemeShortcut = !event.altKey
 			&& !event.ctrlKey
 			&& !event.metaKey
 			&& !event.shiftKey
-			&& event.key.toLowerCase() === 'd';
+			&& event.key?.toLowerCase() === 'd';
 
-		if (!isThemeShortcut || isEditable || event.repeat) return;
+		if (!isThemeShortcut || isEditable || event.repeat || event.originalEvent?.repeat
+			|| event.originalEvent?.isComposing || event.isDefaultPrevented()) return;
 
 		event.preventDefault();
 		toggleTheme();
 	});
 
-	function applyTheme(theme) {
+	function applyTheme() {
 		const root = document.documentElement;
-		const isDark = theme === 'dark';
+		if (currentTheme === 'system') root.removeAttribute('data-theme');
+		else root.setAttribute('data-theme', currentTheme);
 
-		root.setAttribute('data-theme', theme);
-		$themeToggle
-			.prop('checked', isDark)
-			.attr({
-				'aria-label': isDark ? 'Switch to light mode' : 'Switch to dark mode',
-				title: `${isDark ? 'Switch to light mode' : 'Switch to dark mode'} (D)`
-			});
+		$themeOptions.each(function () {
+			this.setAttribute('aria-checked', String(this.dataset.themeChoice === currentTheme));
+		});
+		$themeOptions.filter('[data-theme-choice="system"]').find('.saOptionDescription').text('Matches operating system');
 	}
 
 	const FAVORITE_COOLDOWN = 1500;

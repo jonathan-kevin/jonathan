@@ -15,7 +15,8 @@
 		import("https://esm.sh/@tiptap/pm@3.31.3/state"),
 		import("https://esm.sh/@tiptap/pm@3.31.3/view"),
 		import("https://esm.sh/@tiptap/pm@3.31.3/history"),
-		import("./markdown-editor-paste.js?v=2")
+		import("./markdown-editor-paste.js?v=2"),
+		import("https://esm.sh/@tiptap/pm@3.31.3/tables")
 	]);
 
 	const isValidTextColor = value => {
@@ -262,11 +263,12 @@
 			this.append(this.status);
 
 			try {
-				const [{ Editor, Mark, Extension }, { StarterKit }, { Markdown }, { Image }, { TableKit }, { CodeBlockLowlight }, { common, createLowlight }, { TaskList, TaskItem }, { Plugin, PluginKey, TextSelection }, { Decoration, DecorationSet }, { closeHistory }, { cleanPastedHTML }] = await loadEditor();
+				const [{ Editor, Mark, Extension }, { StarterKit }, { Markdown }, { Image }, { TableKit }, { CodeBlockLowlight }, { common, createLowlight }, { TaskList, TaskItem }, { Plugin, PluginKey, TextSelection }, { Decoration, DecorationSet }, { closeHistory }, { cleanPastedHTML }, { selectedRect, TableMap }] = await loadEditor();
 				if (!this.isConnected) return;
 				this.buildControls();
 				this.closeHistory = closeHistory;
 				this.TextSelection = TextSelection;
+				this.selectedTableRect = selectedRect;
 				const owner = this;
 				const searchHighlights = Extension.create({
 					name: "searchHighlights",
@@ -282,6 +284,36 @@
 									class: owner.aiPreview.phase === "thinking" ? "saMarkdownEditorThinking" : "saMarkdownEditorSuggestionTarget",
 									"aria-busy": String(owner.aiPreview.phase === "thinking")
 								})] : [])])
+							}
+						})];
+					}
+				});
+				const tableColumnAlignment = Extension.create({
+					name: "tableColumnAlignment",
+					addProseMirrorPlugins() {
+						return [new Plugin({
+							key: new PluginKey("tableColumnAlignment"),
+							appendTransaction: (transactions, _oldState, state) => {
+								if (!transactions.some(transaction => transaction.docChanged)) return null;
+								const transaction = state.tr;
+								state.doc.descendants((table, tablePosition) => {
+									if (table.type.name !== "table") return;
+									const map = TableMap.get(table);
+									if (map.problems) return false;
+									for (let column = 0; column < map.width; column++) {
+										const positions = map.cellsInRect({ left: column, right: column + 1, top: 0, bottom: map.height });
+										// New rows (including Tab at the end) inherit the column's alignment.
+										const align = positions.map(position => table.nodeAt(position).attrs.align).find(Boolean) || null;
+										for (const position of positions) {
+											const cell = table.nodeAt(position);
+											// A merged cell cannot inherit two different column alignments.
+											if (cell.attrs.colspan > 1) continue;
+											if (cell.attrs.align !== align) transaction.setNodeMarkup(tablePosition + 1 + position, undefined, { ...cell.attrs, align });
+										}
+									}
+									return false;
+								});
+								return transaction.docChanged ? transaction : null;
 							}
 						})];
 					}
@@ -303,6 +335,7 @@
 						}),
 						Image.configure({ allowBase64: true }),
 						TableKit.configure({ table: { resizable: false } }),
+						tableColumnAlignment,
 						TaskList,
 						TaskItem.configure({ nested: true, a11y: { checkboxLabel: node => `Mark task ${node.firstChild?.textContent || "item"} as ${node.attrs.checked ? "incomplete" : "complete"}` } }),
 						searchHighlights,
@@ -537,6 +570,11 @@
 							<li><button class="saButtonIconToolbarDark" type="button" data-command="addColumnBefore" aria-label="Add column left"><i class="saIcon far fad fa-arrow-left-to-line" aria-hidden="true"></i></button></li>
 							<li><button class="saButtonIconToolbarDark" type="button" data-command="addColumnAfter" aria-label="Add column right"><i class="saIcon far fad fa-arrow-right-to-line" aria-hidden="true"></i></button></li>
 							<li><button class="saButtonIconToolbarDark saDestructive" type="button" data-command="deleteColumn" aria-label="Delete column"><i class="saIcon far fad fa-xmark" aria-hidden="true"></i></button></li>
+						</ul>
+						<ul aria-label="Column alignment">
+							<li><button class="saButtonIconToolbarDark" type="button" data-command="alignColumnLeft" aria-label="Align column left" aria-pressed="false"><i class="saIcon far fad fa-align-left" aria-hidden="true"></i><i class="saIcon fas fa-align-left" aria-hidden="true"></i></button></li>
+							<li><button class="saButtonIconToolbarDark" type="button" data-command="alignColumnCenter" aria-label="Align column center" aria-pressed="false"><i class="saIcon far fad fa-align-center" aria-hidden="true"></i><i class="saIcon fas fa-align-center" aria-hidden="true"></i></button></li>
+							<li><button class="saButtonIconToolbarDark" type="button" data-command="alignColumnRight" aria-label="Align column right" aria-pressed="false"><i class="saIcon far fad fa-align-right" aria-hidden="true"></i><i class="saIcon fas fa-align-right" aria-hidden="true"></i></button></li>
 						</ul>
 						<ul aria-label="Table actions">
 							<li><button class="saButtonIconToolbarDark saDestructive" type="button" data-command="deleteTable" aria-label="Delete table"><i class="saIcon far fad fa-trash-alt" aria-hidden="true"></i></button></li>
@@ -827,6 +865,8 @@
 		}
 
 		format(command) {
+			const alignment = { alignColumnLeft: "left", alignColumnCenter: "center", alignColumnRight: "right" }[command];
+			if (alignment) return this.alignTableColumns(alignment);
 			if (command === "markdown") return this.toggleMarkdown();
 			if (command === "find") return this.findPanel.hidden ? this.openFind() : this.closeFind();
 			if (command === "link") return this.openLink();
@@ -1564,8 +1604,35 @@
 			this.status.textContent = `${matrix.length} row${matrix.length === 1 ? "" : "s"} and ${columnCount} column${columnCount === 1 ? "" : "s"} pasted into the table.`;
 		}
 
+		getTableColumnContext() {
+			if (!this.editor?.isActive("table")) return null;
+			const rect = this.selectedTableRect(this.editor.state);
+			const positions = rect.map.cellsInRect({ left: rect.left, right: rect.right, top: 0, bottom: rect.map.height });
+			return { ...rect, positions };
+		}
+
+		alignTableColumns(align) {
+			if (this.sourceMode || this.aiPreview?.phase === "review") return;
+			const context = this.getTableColumnContext();
+			if (!context) return;
+			const { state, view } = this.editor;
+			const transaction = state.tr;
+			// Markdown alignment belongs to the column, including its header.
+			for (const offset of context.positions) {
+				const position = context.tableStart + offset;
+				const cell = state.doc.nodeAt(position);
+				if (cell.attrs.align !== align) transaction.setNodeMarkup(position, undefined, { ...cell.attrs, align });
+			}
+			if (transaction.docChanged) view.dispatch(transaction);
+			this.editor.commands.focus();
+			this.updateButtons();
+			this.status.textContent = `Column${context.right - context.left > 1 ? "s" : ""} aligned ${align}.`;
+		}
+
 		getActiveTableCell() {
 			if (!this.editor?.isActive("table")) return null;
+			const { $headCell } = this.editor.state.selection;
+			if ($headCell) return this.editor.view.nodeDOM($headCell.pos);
 			const { $head } = this.editor.state.selection;
 			for (let depth = $head.depth; depth > 0; depth--) {
 				if (!["tableCell", "tableHeader"].includes($head.node(depth).type.name)) continue;
@@ -1663,6 +1730,7 @@
 			const activeHeading = [1, 2, 3, 4, 5, 6].find(level => this.editor.isActive("heading", { level }));
 			if (this.headingSelect) this.headingSelect.value = activeHeading ? String(activeHeading) : "paragraph";
 			const inTable = this.editor.isActive("table");
+			const columnContext = inTable ? this.getTableColumnContext() : null;
 			if (this.headingSelect) this.headingSelect.disabled = Boolean(readOnly);
 			if (this.colorApplyButton) this.colorApplyButton.disabled = Boolean(readOnly);
 			this.colorPickerButtons?.forEach(button => { button.disabled = Boolean(readOnly); });
@@ -1678,7 +1746,11 @@
 			};
 			this.shell.querySelectorAll("[data-command]").forEach(button => {
 				const command = button.dataset.command;
-				if (command === "markdown") {
+				const alignment = { alignColumnLeft: "left", alignColumnCenter: "center", alignColumnRight: "right" }[command];
+				if (alignment) {
+					button.disabled = Boolean(readOnly || !columnContext);
+					button.setAttribute("aria-pressed", String(Boolean(columnContext && columnContext.positions.every(offset => (columnContext.table.nodeAt(offset).attrs.align || "left") === alignment))));
+				} else if (command === "markdown") {
 					button.setAttribute("aria-pressed", String(Boolean(this.sourceMode)));
 					button.disabled = false;
 				} else if (readOnly) {

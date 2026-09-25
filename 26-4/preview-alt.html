@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -231,6 +230,8 @@
 		/* ── Resizer ─────────────────────────────────────── */
 		.resizer {
 			position: relative;
+			box-sizing: content-box;
+			width: 1200px;
 			min-width: 320px;
 			height: calc(100dvh - var(--toolbar-h) - var(--ruler-h) - 50px);
 			border: 1px solid var(--border);
@@ -661,7 +662,7 @@
 			<div class="resizer-wrap"
 				style="flex:1; width:100%; display:flex; align-items:flex-start; padding-top:8px;">
 				<div class="resizer" id="resizer">
-					<iframe id="frame" src="bento.html" width="100%" height="100%"></iframe>
+					<iframe id="frame" src="bento.html?editor=1" title="Bento layout preview" width="100%" height="100%"></iframe>
 					<div class="edge-grip" id="edgeGrip"></div>
 				</div>
 			</div>
@@ -684,6 +685,7 @@
 							<option value="2">2 Cols</option>
 							<option value="3">3 Cols</option>
 							<option value="4">4 Cols</option>
+							<option value="5">5 Cols</option>
 							<option value="6">6 Cols</option>
 							<option value="7">7 Cols</option>
 							<option value="8">8 Cols</option>
@@ -849,7 +851,7 @@
 			let selectedId = null;
 			let totalCards = 0;
 			let currentState = null;
-			let lastGridCols = 12;
+			let lastGridCols = -1;
 
 			// ── Utility ────────────────────────────────────────────
 			function getBreakpoint(w) {
@@ -861,7 +863,7 @@
 				return 'mobile'; // Renamed from base -> mobile boundary
 			}
 
-			function send(msg) { frame.contentWindow?.postMessage(msg, '*'); }
+			function send(msg) { frame.contentWindow?.postMessage(msg, window.location.origin); }
 			function buildOptions(max) { let h = '<option value="">—</option>'; for (let i = 1; i <= max; i++) h += `<option value="${i}">${i}</option>`; return h; }
 			function buildLineOptions(gridCols) { let h = '<option value="">—</option>'; for (let i = 1; i <= gridCols + 1; i++) h += `<option value="${i}">${i}</option>`; return h; }
 
@@ -896,7 +898,7 @@
 				const rulerRect = bpRuler.getBoundingClientRect();
 
 				bpRuler.style.width = sliderRect.width + 'px';
-				bpRuler.style.marginLeft = (sliderRect.left - rulerRect.left) + 'px';
+				bpRuler.style.marginLeft = (parseFloat(getComputedStyle(bpRuler).marginLeft) + sliderRect.left - rulerRect.left) + 'px';
 
 				const activeBreakpoint = getBreakpoint(width);
 				const activeIndex = BP_ORDER.indexOf(activeBreakpoint);
@@ -967,7 +969,7 @@
 			// ── Edge-grip resize ──────────────────────────────────
 			let drag = { active: false, startX: 0, startW: 0 };
 			edgeGrip.addEventListener('pointerdown', e => {
-				e.preventDefault(); drag.active = true; drag.startX = e.clientX; drag.startW = resizer.offsetWidth;
+				e.preventDefault(); drag.active = true; drag.startX = e.clientX; drag.startW = resizer.clientWidth;
 				edgeGrip.classList.add('dragging'); frame.style.pointerEvents = 'none';
 				document.body.style.cursor = 'ew-resize'; document.body.style.userSelect = 'none';
 				edgeGrip.setPointerCapture(e.pointerId);
@@ -979,10 +981,12 @@
 				const w = Math.max(320, Math.min(max, drag.startW + dx));
 				resizer.style.width = w + 'px'; slider.value = Math.round(w); updateWidth(Math.round(w));
 			});
-			edgeGrip.addEventListener('pointerup', () => {
+			function stopResize() {
 				drag.active = false; edgeGrip.classList.remove('dragging'); frame.style.pointerEvents = '';
 				document.body.style.cursor = ''; document.body.style.userSelect = '';
-			});
+			}
+			edgeGrip.addEventListener('pointerup', stopResize);
+			edgeGrip.addEventListener('pointercancel', stopResize);
 
 			// ── History ──
 			undoBtn.addEventListener('click', () => send({ type: 'UNDO' }));
@@ -990,6 +994,13 @@
 
 			// ── Sidebar Sync ─────────────────────────────────────
 			function syncSelect(select, value, sourceBp) {
+				select.querySelectorAll('[data-overflow]').forEach(option => option.remove());
+				if (value && ![...select.options].some(option => option.value === String(value))) {
+					const option = new Option(`${value} (max ${select.options.length - 1})`, value);
+					option.disabled = true;
+					option.dataset.overflow = 'true';
+					select.add(option);
+				}
 				select.value = value || '';
 				const existingTag = select.parentNode.querySelector('.inherited-tag');
 				if (existingTag) existingTag.remove();
@@ -1088,6 +1099,11 @@
 
 			function syncGlobalWrapperUI(d) {
 				gridSelect.value = d.gridCols || '';
+				const mobile = d.activeBp === 'mobile';
+				gridSelect.disabled = mobile;
+				wrapperGridBtn.disabled = mobile;
+				wrapperFlexBtn.disabled = mobile;
+				wrapperFlexColsSelect.disabled = mobile;
 
 				// FIXED: Active toggle class evaluation logic fully operational for UI buttons
 				wrapperGridBtn.classList.toggle('active', !d.flexMode);
@@ -1098,6 +1114,8 @@
 
 				if (currentState && inspectorBody.style.display !== 'none') {
 					const isFlex = !!d.flexMode;
+					modeSpanBtn.disabled = isFlex;
+					modePlacementBtn.disabled = isFlex;
 					spanFields.style.opacity = isFlex ? '0.4' : '';
 					placementFields.style.opacity = isFlex ? '0.4' : '';
 					spanFields.style.pointerEvents = isFlex ? 'none' : '';
@@ -1154,7 +1172,9 @@
 			nextCardBtn.addEventListener('click', () => navigateCard(+1));
 
 			window.addEventListener('message', e => {
+				if (e.source !== frame.contentWindow || e.origin !== window.location.origin) return;
 				const d = e.data || {};
+				if (d.type === 'EDITOR_READY') updateWidth(Math.round(resizer.clientWidth), true);
 				if (d.type === 'WRAPPER_STATE') syncGlobalWrapperUI(d);
 				if (d.type === 'CARD_STATE') { selectedId = d.id; if (d.totalCards) totalCards = d.totalCards; showInspector(true); applyState(d); if (d.hasOwnProperty('flexMode')) syncGlobalWrapperUI(d); }
 				if (d.type === 'CARD_DESELECTED') { selectedId = null; showInspector(false); cardId.textContent = '—'; cardLabel.textContent = ''; }
@@ -1169,6 +1189,7 @@
 				requestAnimationFrame(() => updateRuler(parseInt(slider.value, 10)));
 			});
 			window.addEventListener('resize', () => { updateRuler(parseInt(slider.value, 10)); });
+			canvas.addEventListener('scroll', () => { updateRuler(parseInt(slider.value, 10)); }, { passive: true });
 		})();
 	</script>
 </body>

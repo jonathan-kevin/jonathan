@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+	if (new URLSearchParams(window.location.search).get('editor') === '1') {
+		import('./bento-alt.js');
+		return;
+	}
 
 	// ── Config ─────────────────────────────────────────────
 	let activeBp = '';

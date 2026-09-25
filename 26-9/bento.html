@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="A visual workspace for beautiful, responsive bento grids.">
+	<title>Bento Studio — Responsive grid editor</title>
+	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%232b6653'/%3E%3Cpath d='M9 9h10v22H9zm13 0h9v10h-9zm0 13h9v9h-9z' fill='%23fff'/%3E%3C/svg%3E">
+	<link rel="stylesheet" href="bento.css">
+	<script src="bento-model.js" defer></script>
+	<script src="bento.js" defer></script>
+</head>
+<body>
+	<main>
+		<h1 class="sr-only">Bento grid editor</h1>
+		<div class="editor-shell">
+			<section class="workspace" aria-label="Grid workspace">
+				<div class="preview-toolbar" aria-label="Responsive preview controls">
+				<div class="breakpoint-bar" id="breakpoint-bar" role="group" aria-label="Preview breakpoint"></div>
+				<div class="viewport-bar"><div class="viewport-details"><span id="viewport-description"></span><div class="canvas-meta"><span id="canvas-scale"></span></div></div><div class="viewport-control"><label for="preview-slider" class="sr-only">Preview width</label><input id="preview-slider" type="range"><label class="width-input"><input id="preview-width" type="number" aria-label="Preview width in pixels"><span>px</span></label><button class="fit-screen" id="fit-screen" type="button" title="Fit screen to workspace">Fit</button></div></div>
+				</div>
+				<div class="canvas-area" id="canvas-area" tabindex="-1">
+					<div id="preview-holder" class="preview-holder" role="region" aria-label="Simulated screen">
+						<div class="screen-header">
+							<div class="screen-window-controls" aria-hidden="true">
+								<span class="screen-window-control"><svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5"/></svg></span>
+								<span class="screen-window-control"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5"/></svg></span>
+							</div>
+							<div class="screen-address"><span id="screen-size" aria-label="Simulated screen width"></span></div>
+							<div class="screen-window-controls" aria-hidden="true">
+								<span class="screen-window-control"><svg viewBox="0 0 16 16"><path d="M3 8h10"/></svg></span>
+								<span class="screen-window-control"><svg viewBox="0 0 16 16"><path d="M5 5V3h8v8h-2M3 5h8v8H3z"/></svg></span>
+								<span class="screen-window-control"><svg viewBox="0 0 16 16"><path d="m3 3 10 10M13 3 3 13"/></svg></span>
+							</div>
+						</div>
+						<div id="preview-frame" class="preview-frame"><ul id="bento-grid" class="saBentoGroup" aria-label="Bento cards"></ul></div>
+						<div class="empty-state" id="empty-state" hidden><span data-icon="grid"></span><h3>A little room for a big idea.</h3><p>Add your first card, or pick a layout to get going.</p><button class="button primary" id="empty-add">Add your first card</button></div>
+						<button class="screen-resizer" id="screen-resizer" type="button" role="slider" aria-label="Resize screen width" aria-orientation="horizontal" aria-valuemin="320" aria-valuemax="3840" aria-valuenow="1536" aria-controls="preview-frame" title="Drag to resize screen · Arrow keys adjust width"><span aria-hidden="true">↔</span></button>
+					</div>
+				</div>
+			</section>
+			<aside class="inspector" aria-label="Layout and card settings">
+				<div class="inspector-title"><h2 id="inspector-heading">Layout settings</h2><button class="icon-button" id="panel-toggle" aria-label="Minimize settings panel" title="Minimize settings panel" aria-expanded="true" aria-controls="panel-content"><span data-icon="minimize"></span></button></div>
+				<div id="panel-content">
+				<div class="panel-actions"><button id="add-card" class="button primary"><span data-icon="plus"></span>Add card</button><div class="history-actions"><button class="icon-button" id="undo" title="Undo (Ctrl/⌘ Z)" aria-label="Undo"><span data-icon="undo"></span></button><button class="icon-button" id="redo" title="Redo (Ctrl/⌘ Shift Z)" aria-label="Redo"><span data-icon="redo"></span></button></div></div>
+				<section class="inspector-section"><div class="section-label"><span data-icon="grid"></span><h3>Grid</h3></div><div id="grid-controls"></div></section>
+			<section class="preset-panel" id="preset-panel" aria-label="Layout presets">
+				<div class="panel-heading"><h2>Find your starting point</h2><span class="count">5</span></div>
+				<p class="panel-description">Thoughtfully arranged. Fully yours.</p>
+				<div id="preset-gallery" class="preset-gallery"></div>
+				<button class="blank-button" id="start-blank"><span data-icon="plus"></span>Start from scratch<span>Begin with an empty canvas</span></button>
+			</section>
+				<section class="inspector-section" id="card-inspector" hidden></section>
+				<section class="inheritance-note"><span data-icon="layers"></span><h3>Design big. Flow down.</h3><p>Settings flow to smaller screens until you customize them there.</p><div class="inheritance-chain" aria-label="Inheritance direction"><b>2xl</b><span>→</span><b>xl</b><span>→</span><b>lg</b><span>→</span><b>md</b><span>→</span><b>sm</b><span>→</span><b>ss</b></div><span class="note-foot">Smaller screens never change larger ones.</span></section>
+				</div>
+			</aside>
+		</div>
+	</main>
+	<div class="toast" id="toast" role="status" hidden></div>
+	<dialog id="preset-dialog"><form method="dialog"><div class="dialog-heading"><span class="eyebrow">A FRESH START</span><button class="icon-button" aria-label="Close dialog" value="cancel">×</button></div><h2 id="preset-dialog-title"></h2><div id="preset-dialog-thumb"></div><p id="preset-dialog-description"></p><p class="dialog-note">This updates every breakpoint. You can undo the whole change.</p><div class="dialog-actions"><button class="button" value="cancel">Keep my layout</button><button class="button primary" value="apply">Apply layout</button></div></form></dialog>
+</body>
+</html>

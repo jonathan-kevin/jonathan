@@ -24,6 +24,8 @@ Setting `value` does not emit `input`. User edits, formatting, and undo/redo emi
 
 The heading selector applies paragraph text or heading levels H1–H6 and follows the current cursor position. The remaining controls handle bold, italic, underline, strikethrough, titled links, images with alternative text, lists, quotes, inline code, code blocks, horizontal rules, tables, and switching between rich text and Markdown. Table actions insert and delete rows or columns. Formatting controls reflect the current selection.
 
+The table toolbar also offers left, center, and right column alignment. Place the cursor in a cell (or select multiple columns) to align the entire column, including its header. Buttons expose the current alignment through `aria-pressed`; unaligned columns use the default left setting. Alignment is saved with GitHub-flavored Markdown delimiters (`:---`, `:---:`, `---:`), survives source-view round trips, and is inherited by new rows. Alignment changes support Undo/Redo and the table toolbar's existing keyboard navigation.
+
 PNG, JPEG, GIF, WebP, AVIF, and BMP files can be dragged onto the visual editor. Files up to 10 MB are embedded as base64 data URLs so the generated Markdown remains self-contained; the filename without its extension becomes the initial alternative text and can be edited with the image dialog.
 
 Text color supports Softadmin shades 600–1000, default text color, white, black, and a custom color chooser. Colors remain in the rich document but are deliberately stripped from Markdown. Switching through Markdown therefore removes visual colors. The main color button applies the remembered color; choosing from the popup applies immediately if text was selected before it opened and keeps that text selected.
