@@ -865,7 +865,7 @@ $(document).ready(function () {
 				<li role="none" data-theme-layout="options">
 					<div class="saContextMenuHeading">Theme</div>
 				</li>
-				${[['system', 'System', 'desktop'], ['light', 'Light', 'sun-alt'], ['dark', 'Dark', 'moon']].map(([value, label, icon]) => `
+				${[['system', 'System', 'desktop'], ['light', 'Light', 'sun-alt'], ['dark', 'Dark', 'moon'], ['snake', 'Snake', 'snake']].map(([value, label, icon]) => `
 					<li role="none" data-theme-layout="options">
 						<button class="saOptionWrapper" type="button" role="menuitemradio" aria-checked="false" data-theme-choice="${value}" tabindex="-1">
 							<div class="saOption">
@@ -896,6 +896,14 @@ $(document).ready(function () {
 							<i class="far fad fa-moon saIcon saOptionIcon" aria-hidden="true"></i>
 							<div class="saOptionText">
 								<div class="saOptionTitle">Dark</div>
+							</div>
+						</div>
+					</button>
+					<button class="saOptionWrapper" type="button" role="menuitemradio" aria-checked="false" data-theme-choice="snake" tabindex="-1">
+						<div class="saOption saOptionButton">
+							<i class="far fad fa-snake saIcon saOptionIcon" aria-hidden="true"></i>
+							<div class="saOptionText">
+								<div class="saOptionTitle">Snake</div>
 							</div>
 						</div>
 					</button>
@@ -972,7 +980,7 @@ $(document).ready(function () {
 	// A separate floating menu avoids clipping by the account menu's scrolling area.
 	const $themeSubmenu = $themeMenuTrigger.length ? $(`
 		<ul class="saContextMenu saEast" id="saThemeSubmenu" role="menu" aria-labelledby="saThemeMenuTrigger" aria-hidden="true">
-			${[['system', 'System', 'desktop'], ['light', 'Light', 'sun-alt'], ['dark', 'Dark', 'moon']].map(([value, label, icon]) => `
+			${[['system', 'System', 'desktop'], ['light', 'Light', 'sun-alt'], ['dark', 'Dark', 'moon'], ['snake', 'Snake', 'snake']].map(([value, label, icon]) => `
 				<li role="none">
 					<button class="saOptionWrapper" type="button" role="menuitemradio" aria-checked="false" data-theme-choice="${value}" tabindex="-1">
 						<div class="saOption">
