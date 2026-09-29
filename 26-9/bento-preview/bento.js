@@ -87,7 +87,12 @@
 		$('preview-width').value = widths[active];
 		document.querySelectorAll('.saBentoInheritanceChain b').forEach((el, i) => el.classList.toggle('saCurrent', M.breakpoints[i].id === active));
 	}
+	function applyEditorTheme() {
+		if (previewPreferences.theme === 'system') document.documentElement.removeAttribute('data-theme');
+		else document.documentElement.dataset.theme = previewPreferences.theme;
+	}
 	function renderCards() {
+		applyEditorTheme();
 		scheduleSave();
 		resizePreview();
 		$('preview-frame').contentWindow?.postMessage({ type: 'BENTO_RENDER', state, selected, showGrid, maxWidth, previewPreferences }, location.origin);
@@ -356,6 +361,7 @@
 		if (!message || typeof message !== 'object') return;
 		if (message.type === 'BENTO_PREFERENCES') {
 			previewPreferences = { sidebarMinimized: message.sidebarMinimized === true, theme: ['light', 'dark'].includes(message.theme) ? message.theme : 'system' };
+			applyEditorTheme();
 			scheduleSave();
 		}
 		if (message.type === 'BENTO_MOVE') {
