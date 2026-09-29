@@ -289,3 +289,25 @@ test('saved tiny and icon styles migrate without losing content or breakpoint se
     assert.equal(M.card(8, restored.nextId, restored.sharedCards).style, current);
   }
 });
+
+
+test('image sizes apply to existing and future cards, survive restoration and preserve icon sizes', () => {
+  const state = M.applyPreset(M.presets[0]);
+  M.setSharedCardField(state, 'style', 'image');
+  M.setSharedCardField(state, 'wrapped', true);
+  for (const [size, modifier] of [['small', 'saSmall'], ['medium', 'saMedium'], ['large', null]]) {
+    M.setSharedCardField(state, 'imageSize', size);
+    const restored = M.restoreState(JSON.parse(JSON.stringify(state)));
+    assert.ok(restored);
+    for (const card of [...restored.cards, M.card(8, restored.nextId, restored.sharedCards)]) {
+      assert.deepEqual(M.cardStyleClasses(card), [...(modifier ? [modifier] : []), 'saWrapped']);
+    }
+  }
+  M.setSharedCardField(state, 'imageSize', 'small');
+  M.setSharedCardField(state, 'style', 'medium');
+  assert.deepEqual(M.cardStyleClasses(state.cards[0]), ['saMedium']);
+  const old = JSON.parse(JSON.stringify(state));
+  delete old.sharedCards.imageSize;
+  old.cards.forEach(c => delete c.imageSize);
+  assert.ok(M.restoreState(old).cards.every(c => c.imageSize === 'large'));
+});

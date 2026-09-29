@@ -37,10 +37,10 @@
   const photos = ['photo-1667818450198-0ee0cd1c7e79', 'photo-1668090956076-b2c9d6193e6b', 'photo-1661768261898-e2b2a6083092', 'photo-1677167113238-45922ca5ba3d', 'photo-1644318295821-12c4ddf2a36e', 'photo-1473448912268-2022ce9509d8', 'photo-1555679432-b7b7a5e3680c'].map(photo => `https://images.unsplash.com/${photo}?auto=format&fit=crop&w=1000&q=80`);
   function card(index, id, shared = {}) {
     const [title, description, icon, tone] = shortcuts[index % shortcuts.length];
-    return { id, title, description, icon, tone, showFooter: false, footerName: authors[index % authors.length], footerDate: `2026-09-${String(28 - index % 14).padStart(2, '0')}`, image: photos[index % photos.length], imageAlt: '', imageFit: 'cover', solid: false, wrapped: false, showTags: false, tags: ['Planning', 'Collaboration', 'Resources', 'Insights', 'Directory', 'Help', 'Schedule', 'Review'][index % 8], showFavorite: false, showAction: false, footerAvatar: avatars[index % avatars.length], ...structuredClone(shared), style: normalizeCardStyle(shared.style || 'small'), settings: { '2xl': { col: 1, row: 1 } } };
+    return { id, title, description, icon, tone, showFooter: false, footerName: authors[index % authors.length], footerDate: `2026-09-${String(28 - index % 14).padStart(2, '0')}`, image: photos[index % photos.length], imageAlt: '', imageFit: 'cover', imageSize: 'large', solid: false, wrapped: false, showTags: false, tags: ['Planning', 'Collaboration', 'Resources', 'Insights', 'Directory', 'Help', 'Schedule', 'Review'][index % 8], showFavorite: false, showAction: false, footerAvatar: avatars[index % avatars.length], ...structuredClone(shared), style: normalizeCardStyle(shared.style || 'small'), settings: { '2xl': { col: 1, row: 1 } } };
   }
   function setSharedCardField(state, field, value) {
-    if (!['style', 'solid', 'wrapped', 'imageFit', 'showTags', 'showFooter', 'showFavorite', 'showAction'].includes(field)) throw new Error('Not a shared card field: ' + field);
+    if (!['style', 'solid', 'wrapped', 'imageFit', 'imageSize', 'showTags', 'showFooter', 'showFavorite', 'showAction'].includes(field)) throw new Error('Not a shared card field: ' + field);
     if (field === 'style') value = normalizeCardStyle(value);
     (state.sharedCards ||= {})[field] = value;
     state.cards.forEach(c => c[field] = value);
@@ -74,7 +74,8 @@
   function normalizeCardStyle(style) { return style === 'tiny' ? 'small' : style === 'icon' ? 'large' : style; }
   function cardStyleClasses(card) {
     const style = normalizeCardStyle(card.style || 'small');
-    return [style === 'small' ? 'saSmall' : style === 'medium' ? 'saMedium' : '', style === 'image' && card.wrapped ? 'saWrapped' : ''].filter(Boolean);
+    const size = style === 'image' ? card.imageSize || 'large' : style;
+    return [size === 'small' ? 'saSmall' : size === 'medium' ? 'saMedium' : '', style === 'image' && card.wrapped ? 'saWrapped' : ''].filter(Boolean);
   }
   const cardColors = [['', 'Blue'], ['saGray', 'Gray'], ['saGreen', 'Green'], ['saRed', 'Red'], ['saOrange', 'Orange'], ['saYellow', 'Yellow'], ['saSky', 'Sky'], ['saPurple', 'Purple'], ['saPink', 'Pink']];
   function imageUrl(value) {
@@ -135,17 +136,18 @@
         }
         result.style = normalizeCardStyle(result.style);
         if (!cardColors.some(([tone]) => tone === result.tone) || !cardStyles.some(([style]) => style === result.style)
-          || !/^[a-z0-9-]+$/.test(result.icon)) throw new Error('Invalid appearance');
+          || !['small', 'medium', 'large'].includes(result.imageSize) || !/^[a-z0-9-]+$/.test(result.icon)) throw new Error('Invalid appearance');
         return result;
       });
       const result = { name: typeof value.name === 'string' ? value.name : 'Custom layout', preset: value.preset === 'blank' || presets.some(p => p.id === value.preset) ? value.preset : null,
         nextId: Math.max(0, ...ids) + 1, cards, grid: structuredClone(value.grid), sharedCards: {} };
       if (Number.isSafeInteger(value.nextId)) result.nextId = Math.max(result.nextId, value.nextId);
-      for (const field of ['style', 'solid', 'wrapped', 'imageFit', 'showTags', 'showFooter', 'showFavorite', 'showAction']) {
+      for (const field of ['style', 'solid', 'wrapped', 'imageFit', 'imageSize', 'showTags', 'showFooter', 'showFavorite', 'showAction']) {
         const stored = value.sharedCards?.[field];
         const v = field === 'style' && typeof stored === 'string' ? normalizeCardStyle(stored) : stored;
         if ((field === 'style' && cardStyles.some(([s]) => s === v)) || (field === 'imageFit' && ['cover', 'contain'].includes(v))
-          || (!['style', 'imageFit'].includes(field) && typeof v === 'boolean')) result.sharedCards[field] = v;
+          || (field === 'imageSize' && ['small', 'medium', 'large'].includes(v))
+          || (!['style', 'imageFit', 'imageSize'].includes(field) && typeof v === 'boolean')) result.sharedCards[field] = v;
       }
       return result;
     } catch { return null; }

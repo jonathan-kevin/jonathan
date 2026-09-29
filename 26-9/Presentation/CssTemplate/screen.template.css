@@ -41302,7 +41302,7 @@ pre.saCode {
   transition-duration: 0.2s;
   position: relative;
   overflow: hidden;
-  background: var(--White), var(--Gray1200);
+  background-color: light-dark(var(--White), var(--Gray1200));
 }
 .saSmall .saBentoInner {
   justify-content: space-between;
@@ -41318,6 +41318,19 @@ pre.saCode {
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Sa-Color-Primary900));
   border-color: light-dark(var(--Sa-Color-Primary600), var(--Sa-Color-Primary400));
   box-shadow: 0 0 0 0.25rem light-dark(var(--Sa-Color-Primary200), var(--Sa-Color-Primary800));
+}
+.saBentoInner::after {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  inset: 0;
+  pointer-events: none;
+  transform: translateY(55%);
+  transform-origin: bottom center;
+  transition: ease transform 0.2s, ease opacity 0.2s;
+  background-image: radial-gradient(ellipse at bottom, light-dark(var(--Sa-Color-Primary100), var(--Sa-Color-Primary1000)), transparent 60%);
+  opacity: 0.5;
 }
 @media (pointer: fine) {
   a.saBentoInner:hover {
@@ -41727,6 +41740,9 @@ a.saBentoInner:active .saBentoIcon {
 .saBentoImage:has(.saContain) {
   border-bottom: none;
 }
+.saBentoImage video {
+  width: 100%;
+}
 .saWrapped .saBentoImage {
   margin: 1rem 1rem auto auto;
   width: calc(100% - 2rem);
@@ -41745,6 +41761,9 @@ a.saBentoInner:active .saBentoIcon {
   margin-left: 1rem;
   box-shadow: inset 0 0 0 0.0625rem light-dark(var(--Sa-Color-Primary200), var(--Sa-Color-Primary800));
 }
+.saMedium .saBentoImage {
+  height: 6rem;
+}
 .saBentoImage img {
   width: 100%;
   height: 100%;
@@ -41756,6 +41775,12 @@ a.saBentoInner:active .saBentoIcon {
   object-fit: contain;
   padding: 2rem 1rem 1rem 1rem;
   background-color: transparent;
+}
+.saSmall .saBentoImage img.saContain {
+  padding: 0.25rem;
+}
+.saMedium .saBentoImage img.saContain {
+  padding: 0.5rem;
 }
 .saPillGroup {
   display: flex;
@@ -41986,6 +42011,9 @@ p.saBentoDescription {
   font-weight: 500;
   margin-left: 0.5rem;
   color: light-dark(var(--Gray900), var(--Gray100));
+}
+.saSmallScreen .saBentoName {
+  display: none;
 }
 .saBentoDate {
   font-size: 0.75rem;
