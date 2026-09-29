@@ -63,10 +63,10 @@ test('applying a preset preserves content and stable IDs by order without mutati
   before.cards[0].title = 'My custom content';
   const original = structuredClone(before);
   const after = M.applyPreset(M.presets[1],before);
-  assert.equal(after.cards.length,6);
+  assert.equal(after.cards.length,12);
   assert.deepEqual(after.cards.slice(0,5).map(c => c.id),before.cards.map(c => c.id));
   assert.equal(after.cards[0].title,'My custom content');
-  assert.equal(new Set(after.cards.map(c => c.id)).size,6);
+  assert.equal(new Set(after.cards.map(c => c.id)).size,12);
   assert.deepEqual(before,original);
   const smaller = M.applyPreset(M.presets[2],after);
   assert.equal(smaller.cards.length,5);
@@ -304,4 +304,17 @@ test('size survives type switches, presets, duplicate, new cards and saved state
   }
   assert.equal(M.duplicateCard(state,state.cards[0].id).size,'medium');
   assert.ok(M.applyPreset(M.presets.find(p=>p.id==='hub'),state).cards.every(c=>c.size==='medium'));
+});
+
+
+test('Perfect balance has twelve equal cards and the requested desktop-first columns', () => {
+  const state = M.applyPreset(M.presets.find(p => p.id === 'balanced'));
+  assert.equal(state.cards.length, 12);
+  assert.deepEqual(M.breakpoints.map(bp => M.effective(state.grid, 'columns', bp.id).value), [4, 4, 3, 2, 1, 2]);
+  assert.equal(state.grid.xl, undefined);
+  assert.equal(M.effective(state.grid, 'columns', 'xl').source, '2xl');
+  for (const card of state.cards) for (const bp of M.breakpoints) {
+    assert.equal(M.effective(card.settings, 'col', bp.id).value, 1);
+    assert.equal(M.effective(card.settings, 'row', bp.id).value, 1);
+  }
 });

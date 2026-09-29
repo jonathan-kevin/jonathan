@@ -95,7 +95,15 @@
 	});
 	document.addEventListener('submit', e => e.preventDefault());
 	document.addEventListener('keydown', e => {
-		if (e.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+		if (e.target.closest('input, textarea, select') || e.target.isContentEditable) return;
+		if (['Delete', 'Backspace'].includes(e.key) && !e.altKey && !e.ctrlKey && !e.metaKey && !e.isComposing && selected.length) {
+			e.preventDefault();
+			if (!e.repeat) {
+				if (drag) finishDrag(false);
+				send('BENTO_REMOVE');
+			}
+			return;
+		}
 		if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.repeat && !e.isComposing && e.key.toLowerCase() === 'd') {
 			e.preventDefault();
 			const dark = previewPreferences.theme === 'dark' || (previewPreferences.theme === 'system' && systemTheme.matches);

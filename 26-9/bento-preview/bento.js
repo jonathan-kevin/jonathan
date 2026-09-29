@@ -193,7 +193,7 @@
 		$('card-appearance').open = !!appearanceOpen;
 		$('card-appearance').dataset.cardId = selected.join(',');
 		$('card-appearance-fields').innerHTML = c ? `<div class="saBentoAppearance"><label class="saBentoAppearanceField">Card title<span class="saInputTextWrapper"><input class="saInputText" id="card-title" data-card-field="title" value="${esc(c.title)}" maxlength="120"></span></label><label class="saBentoAppearanceField">Description<span class="saInputTextWrapper"><input class="saInputText" id="card-description" data-card-field="description" value="${esc(c.description)}" maxlength="500"></span></label><label class="saBentoAppearanceField">Icon name<span class="saInputTextWrapper"><input class="saInputText" id="card-icon" data-card-field="icon" value="${esc(c.icon || 'link')}" placeholder="car" maxlength="80" pattern="[a-zA-Z0-9-]+" title="Enter an icon name, for example car or arrow-right"></span></label><label class="saBentoAppearanceField">Color · ${multi ? 'selected cards' : 'this card'}<span class="saInputTextWrapper"><select class="saInputText saDropdown" id="card-tone" data-card-field="tone">${M.cardColors.map(([value, label]) => `<option value="${value}" ${value === c.tone ? 'selected' : ''}>${label}</option>`).join('')}</select><span class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down" aria-hidden="true"></i></span></span></label></div>` : '';
-		$('card-inspector').innerHTML = c ? `<section class="saBentoInspectorSection" id="card-layout"><div class="saBentoSectionLabel">${icon('grid')}<h3>Card layout</h3><span class="saBentoSelectedLabel">${multi ? cards.length + ' cards selected' : 'Card ' + String(state.cards.indexOf(c) + 1).padStart(2, '0')}</span></div>${property(c.settings, 'col', 'Column span', 'card', 1, 16)}${property(c.settings, 'row', 'Row span', 'card', 1, 16)}${cards.some(card => M.effective(card.settings, 'col', active).value > columns) ? '<div class="saBentoValidation">Selected cards exceed the grid width.<button class="saDefaultButtonSecondary" id="fit-card">Fit to ' + columns + ' columns</button></div>' : ''}<div class="saActionLinks saBentoCardActions"><button class="saDefaultButtonSecondary" id="duplicate-card"><i class="saIcon far fa-clone" aria-hidden="true"></i>Duplicate${multi ? ' cards' : ''}</button><button class="saDefaultButtonSecondary saDestructive" id="remove-card">${icon('trash')}Remove ${multi ? 'cards' : 'card'}</button></div><p class="saBentoGlobalNote">Card order, additions and removals apply to every screen.</p></section>` : '';
+		$('card-inspector').innerHTML = c ? `<section class="saBentoInspectorSection" id="card-layout"><div class="saBentoSectionLabel">${icon('grid')}<h3>Card layout</h3><span class="saBentoSelectedLabel">${multi ? cards.length + ' cards selected' : 'Card ' + String(state.cards.indexOf(c) + 1).padStart(2, '0')}</span></div>${property(c.settings, 'col', 'Column span', 'card', 1, 16)}${property(c.settings, 'row', 'Row span', 'card', 1, 16)}${cards.some(card => M.effective(card.settings, 'col', active).value > columns) ? '<div class="saBentoValidation">Selected cards exceed the grid width.<button class="saDefaultButtonSecondary" id="fit-card">Fit to ' + columns + ' columns</button></div>' : ''}<div class="saActionLinks saBentoCardActions"><button class="saDefaultButtonSecondary" id="duplicate-card"><i class="saIcon far fa-clone" aria-hidden="true"></i>Duplicate${multi ? ' cards' : ''}</button><button class="saDefaultButtonSecondary saDestructive" id="remove-card" aria-keyshortcuts="Delete Backspace" title="Remove selected cards (Delete or Backspace)">${icon('trash')}Remove ${multi ? 'cards' : 'card'}</button></div><p class="saBentoGlobalNote">Card order, additions and removals apply to every screen.</p></section>` : '';
 		if (c) {
 			for (const field of ['title', 'description', 'icon']) {
 				const input = $(`card-${field}`);
@@ -378,9 +378,21 @@
 		if (message.type === 'BENTO_SELECT' && state.cards.some(c => c.id === message.id)) { selected = M.selectCard(selected, message.id, message.additive === true); renderCards(); renderInspector(); }
 		if (message.type === 'BENTO_CLEAR') clearSelection();
 		if (message.type === 'BENTO_ADD') addCard();
+		if (message.type === 'BENTO_REMOVE') removeSelectedCards();
 		if (message.type === 'BENTO_UNDO') history(undoStack, redoStack);
 		if (message.type === 'BENTO_REDO') history(redoStack, undoStack);
 	});
+	function removeSelectedCards() {
+		if (!selected.length) return;
+		commit(() => {
+			const index = state.cards.findIndex(c => selected.includes(c.id));
+			const single = selected.length === 1;
+			state.cards = state.cards.filter(c => !selected.includes(c.id));
+			const next = single ? state.cards[Math.min(index, state.cards.length - 1)] : null;
+			selected = next ? [next.id] : [];
+			state.preset = null;
+		});
+	}
 	document.querySelector('.saBentoInspector').addEventListener('click', e => {
 		const step = e.target.closest('[data-step]');
 		const reset = e.target.closest('[data-reset]');
@@ -395,7 +407,7 @@
 		} else if (e.target.closest('#duplicate-card')) {
 			commit(() => { selected = selectedCards().map(card => M.duplicateCard(state, card.id).id); });
 		} else if (e.target.closest('#remove-card')) {
-			commit(() => { const index = state.cards.findIndex(c => selected.includes(c.id)), single = selected.length === 1; state.cards = state.cards.filter(c => !selected.includes(c.id)); const next = single ? state.cards[Math.min(index, state.cards.length - 1)] : null; selected = next ? [next.id] : []; state.preset = null; });
+			removeSelectedCards();
 		} else if (e.target.closest('#fit-card')) commit(() => { const columns = M.effective(state.grid, 'columns', active).value; selectedCards().forEach(card => { if (M.effective(card.settings, 'col', active).value > columns) (card.settings[active] ||= {}).col = columns; }); state.preset = null; });
 		else if (e.target.closest('#fit-all')) commit(() => {
 			const cols = M.effective(state.grid, 'columns', active).value;
@@ -445,7 +457,12 @@
 			}
 			return;
 		}
-		if (e.target.closest('input,textarea,select,[contenteditable="true"]')) return;
+		if (e.target.closest('input,textarea,select') || e.target.isContentEditable) return;
+		if (['Delete', 'Backspace'].includes(e.key) && !e.altKey && !e.ctrlKey && !e.metaKey && !e.isComposing && selected.length) {
+			e.preventDefault();
+			if (!e.repeat) removeSelectedCards();
+			return;
+		}
 		if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.repeat && !e.isComposing && e.key.toLowerCase() === 'd') {
 			e.preventDefault();
 			const dark = previewPreferences.theme === 'dark' || (previewPreferences.theme === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);

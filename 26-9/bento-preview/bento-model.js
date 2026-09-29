@@ -60,7 +60,7 @@
       return c;
     });
     return { name: preset.name, preset: preset.id, nextId, cards, sharedCards: structuredClone(previous.sharedCards || {}),
-      grid: { '2xl': { columns: preset.columns }, md: { columns: 2 } } };
+      grid: layouts.gridSettings(preset) };
   }
 
   function affected(settings, property, breakpoint) {
