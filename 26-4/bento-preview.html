@@ -29,7 +29,7 @@
 			--amber: #f59e0b;
 			--sidebar-w: 240px;
 			--toolbar-h: 44px;
-			--ruler-h: 28px;
+			--ruler-h: 40px;
 			--edge-grip: 8px;
 		}
 
@@ -150,8 +150,18 @@
 		}
 
 		/* ── Canvas ──────────────────────────────────────── */
+		.preview-pane {
+			flex: 1;
+			min-width: 0;
+			min-height: 0;
+			display: flex;
+			flex-direction: column;
+			container-type: inline-size;
+		}
+
 		.canvas {
 			flex: 1;
+			min-height: 0;
 			overflow: auto;
 			padding: 0 32px 20px 20px;
 			display: flex;
@@ -164,19 +174,17 @@
 		.bp-ruler {
 			height: var(--ruler-h);
 			min-height: var(--ruler-h);
-			width: 100%;
 			position: relative;
-			margin: 8px 0 4px 0;
+			margin: 8px 32px 4px 20px;
 			flex-shrink: 0;
-			align-self: flex-start;
+			user-select: none;
 		}
 
 		.bp-ruler-track {
 			position: absolute;
 			left: 0;
 			right: 0;
-			top: 50%;
-			transform: translateY(-50%);
+			top: 12px;
 			height: 2px;
 			background: var(--border);
 			border-radius: 1px;
@@ -203,11 +211,35 @@
 		}
 
 		.bp-tick-label {
-			font-size: 8px;
+			font-size: 10px;
 			color: var(--muted);
 			letter-spacing: 0.04em;
 			margin-top: 1px;
+			white-space: nowrap;
 			transition: color 0.15s;
+		}
+
+		.bp-tick[data-bp="mobile"] {
+			transform: none;
+			align-items: flex-start;
+		}
+
+		.bp-current {
+			position: absolute;
+			z-index: 1;
+			top: 8px;
+			width: 10px;
+			height: 10px;
+			border: 2px solid var(--bg);
+			border-radius: 50%;
+			background: var(--green);
+			transform: translateX(-50%);
+			pointer-events: none;
+		}
+
+		@container (max-width: 600px) {
+			.bp-tick-value { display: none; }
+			.bp-tick-label { font-size: 9px; }
 		}
 
 		.bp-tick.at-or-past .bp-tick-line {
@@ -655,15 +687,18 @@
 	</div>
 
 	<div class="main">
-		<div class="canvas" id="canvas">
-			<div class="bp-ruler" id="bpRuler">
+		<div class="preview-pane">
+			<div class="bp-ruler" id="bpRuler" role="img" aria-label="Preview width breakpoints">
 				<div class="bp-ruler-track"></div>
+				<div class="bp-current" id="bpCurrent"></div>
 			</div>
-			<div class="resizer-wrap"
-				style="flex:1; width:100%; display:flex; align-items:flex-start; padding-top:8px;">
-				<div class="resizer" id="resizer">
-					<iframe id="frame" src="bento.html?editor=1" title="Bento layout preview" width="100%" height="100%"></iframe>
-					<div class="edge-grip" id="edgeGrip"></div>
+			<div class="canvas" id="canvas">
+				<div class="resizer-wrap"
+					style="flex:1; width:100%; display:flex; align-items:flex-start; padding-top:8px;">
+					<div class="resizer" id="resizer">
+						<iframe id="frame" src="bento.html?editor=1" title="Bento layout preview" width="100%" height="100%"></iframe>
+						<div class="edge-grip" id="edgeGrip"></div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -840,6 +875,7 @@
 
 			// Marker lines for your ruler track layout view
 			const BP_TICKS = [
+				{ bp: 'mobile', w: 320 },
 				{ bp: 'sm', w: 640 },
 				{ bp: 'md', w: 768 },
 				{ bp: 'lg', w: 1024 },
@@ -879,13 +915,16 @@
 			}
 			populateSelects(12);
 
-			// ── FIXED: Breakpoint ruler ───────────────────────────
+			// The ruler shares the slider's range, but has its own stable track.
+			const rulerPosition = width => Math.max(0, Math.min(100, (width - SLIDER_MIN) / (SLIDER_MAX - SLIDER_MIN) * 100));
+			const bpCurrent = document.getElementById('bpCurrent');
 			BP_TICKS.forEach(({ bp, w }) => {
 				const tick = document.createElement('div');
 				tick.className = 'bp-tick';
 				tick.dataset.bp = bp;
 				tick.dataset.w = w;
-				tick.innerHTML = `<div class="bp-tick-line"></div><div class="bp-tick-label">${bp}</div>`;
+				tick.style.left = rulerPosition(w) + '%';
+				tick.innerHTML = `<div class="bp-tick-line"></div><div class="bp-tick-label">${bp}<span class="bp-tick-value"> · ${w}</span></div>`;
 				bpRuler.appendChild(tick);
 			});
 
@@ -894,23 +933,13 @@
 			}));
 
 			function updateRuler(width) {
-				const sliderRect = slider.getBoundingClientRect();
-				const rulerRect = bpRuler.getBoundingClientRect();
-
-				bpRuler.style.width = sliderRect.width + 'px';
-				bpRuler.style.marginLeft = (parseFloat(getComputedStyle(bpRuler).marginLeft) + sliderRect.left - rulerRect.left) + 'px';
-
 				const activeBreakpoint = getBreakpoint(width);
-				const activeIndex = BP_ORDER.indexOf(activeBreakpoint);
+				bpCurrent.style.left = rulerPosition(width) + '%';
+				bpRuler.setAttribute('aria-label', `Preview width ${width} pixels, ${activeBreakpoint} breakpoint. Scale ${SLIDER_MIN} to ${SLIDER_MAX} pixels.`);
 
 				tickEls.forEach(({ tick, bp, w }) => {
-					const pct = (w - SLIDER_MIN) / (SLIDER_MAX - SLIDER_MIN);
-					tick.style.left = (pct * 100) + '%';
-
-					const tickIndex = BP_ORDER.indexOf(bp);
-					// DESKTOP FIRST LOGIC: A lower index in BP_ORDER means it's a larger screen context!
 					const isActive = (activeBreakpoint === bp);
-					const atOrPast = (tickIndex >= activeIndex);
+					const atOrPast = width >= w;
 
 					tick.classList.toggle('at-or-past', atOrPast);
 					tick.classList.toggle('is-active', isActive);
@@ -922,7 +951,7 @@
 				const bp = getBreakpoint(width);
 				widthLabel.textContent = `${width}px · ${bp === '2xl' ? '2xl (base)' : bp}`;
 
-				document.querySelectorAll('[data-bp]').forEach(btn => {
+				document.querySelectorAll('button[data-bp]').forEach(btn => {
 					btn.classList.toggle('active', btn.dataset.bp === bp);
 				});
 
@@ -940,7 +969,7 @@
 				updateWidth(w);
 			});
 
-			document.querySelectorAll('[data-bp]').forEach(btn => {
+			document.querySelectorAll('button[data-bp]').forEach(btn => {
 				btn.addEventListener('click', () => {
 					const map = { mobile: 360, sm: 640, md: 768, lg: 1024, xl: 1280, '2xl': 1536 };
 					const w = map[btn.dataset.bp];
@@ -1186,10 +1215,7 @@
 			frame.addEventListener('load', () => {
 				updateWidth(parseInt(slider.value, 10), true);
 				send({ type: 'GET_TOTAL_CARDS' }); send({ type: 'GET_WRAPPER_STATE' });
-				requestAnimationFrame(() => updateRuler(parseInt(slider.value, 10)));
 			});
-			window.addEventListener('resize', () => { updateRuler(parseInt(slider.value, 10)); });
-			canvas.addEventListener('scroll', () => { updateRuler(parseInt(slider.value, 10)); }, { passive: true });
 		})();
 	</script>
 </body>

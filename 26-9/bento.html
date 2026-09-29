@@ -1,62 +1,1000 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="A visual workspace for beautiful, responsive bento grids.">
-	<title>Bento Studio — Responsive grid editor</title>
-	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%232b6653'/%3E%3Cpath d='M9 9h10v22H9zm13 0h9v10h-9zm0 13h9v9h-9z' fill='%23fff'/%3E%3C/svg%3E">
-	<link rel="stylesheet" href="bento.css">
-	<script src="bento-model.js" defer></script>
-	<script src="bento.js" defer></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bento</title>
+	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css?v=bento-classes">
+	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
+	<link rel="stylesheet" href="../src/fontawesome/css/duotone-regular.css">
+	<meta name="description" content="Demo">
+	<meta property="og:image" content="./Presentation/img/og-img.png">
+
+	<script src="../src/jquery-4.0.0.slim.min.js"></script>
+	<script src="./script.js"></script>
+	<script src="./live.js" defer></script>
+	<script src="./bento-layouts.js?v=spotlight-default" defer></script>
+	<script src="./bento.js?v=bento-pressed-1" defer></script>
+	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
-<body>
-	<main>
-		<h1 class="sr-only">Bento grid editor</h1>
-		<div class="editor-shell">
-			<section class="workspace" aria-label="Grid workspace">
-				<div class="preview-toolbar" aria-label="Responsive preview controls">
-				<div class="breakpoint-bar" id="breakpoint-bar" role="group" aria-label="Preview breakpoint"></div>
-				<div class="viewport-bar"><div class="viewport-details"><span id="viewport-description"></span><div class="canvas-meta"><span id="canvas-scale"></span></div></div><div class="viewport-control"><label for="preview-slider" class="sr-only">Preview width</label><input id="preview-slider" type="range"><label class="width-input"><input id="preview-width" type="number" aria-label="Preview width in pixels"><span>px</span></label><button class="fit-screen" id="fit-screen" type="button" title="Fit screen to workspace">Fit</button></div></div>
-				</div>
-				<div class="canvas-area" id="canvas-area" tabindex="-1">
-					<div id="preview-holder" class="preview-holder" role="region" aria-label="Simulated screen">
-						<div class="screen-header">
-							<div class="screen-window-controls" aria-hidden="true">
-								<span class="screen-window-control"><svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5"/></svg></span>
-								<span class="screen-window-control"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5"/></svg></span>
-							</div>
-							<div class="screen-address"><span id="screen-size" aria-label="Simulated screen width"></span></div>
-							<div class="screen-window-controls" aria-hidden="true">
-								<span class="screen-window-control"><svg viewBox="0 0 16 16"><path d="M3 8h10"/></svg></span>
-								<span class="screen-window-control"><svg viewBox="0 0 16 16"><path d="M5 5V3h8v8h-2M3 5h8v8H3z"/></svg></span>
-								<span class="screen-window-control"><svg viewBox="0 0 16 16"><path d="m3 3 10 10M13 3 3 13"/></svg></span>
-							</div>
+
+<body class="saBentoSizingDemo saRootBody saLargeScreen saPc saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
+	<div class="saRootContentWrapper">
+		<div class="saSideBarOuter saSideBarOuterJs saClosed">
+			<form name="aspnetForm" method="post" action="./softadmin.aspx" id="aspnetForm">
+				<aside class="saAside">
+					<nav id="SideBar" class="saSideBar saSideBarJs saExpanded">
+						<div class="saAccessibilityBannerHolderJs">
+							<ul class="saAccessibilityBanner">
+								<li><a tabindex="0">Skip to content</a></li>
+								<li><a tabindex="0">Skip to menu</a></li>
+							</ul>
 						</div>
-						<div id="preview-frame" class="preview-frame"><ul id="bento-grid" class="saBentoGroup" aria-label="Bento cards"></ul></div>
-						<div class="empty-state" id="empty-state" hidden><span data-icon="grid"></span><h3>A little room for a big idea.</h3><p>Add your first card, or pick a layout to get going.</p><button class="button primary" id="empty-add">Add your first card</button></div>
-						<button class="screen-resizer" id="screen-resizer" type="button" role="slider" aria-label="Resize screen width" aria-orientation="horizontal" aria-valuemin="320" aria-valuemax="3840" aria-valuenow="1536" aria-controls="preview-frame" title="Drag to resize screen · Arrow keys adjust width"><span aria-hidden="true">↔</span></button>
-					</div>
-				</div>
-			</section>
-			<aside class="inspector" aria-label="Layout and card settings">
-				<div class="inspector-title"><h2 id="inspector-heading">Layout settings</h2><button class="icon-button" id="panel-toggle" aria-label="Minimize settings panel" title="Minimize settings panel" aria-expanded="true" aria-controls="panel-content"><span data-icon="minimize"></span></button></div>
-				<div id="panel-content">
-				<div class="panel-actions"><button id="add-card" class="button primary"><span data-icon="plus"></span>Add card</button><div class="history-actions"><button class="icon-button" id="undo" title="Undo (Ctrl/⌘ Z)" aria-label="Undo"><span data-icon="undo"></span></button><button class="icon-button" id="redo" title="Redo (Ctrl/⌘ Shift Z)" aria-label="Redo"><span data-icon="redo"></span></button></div></div>
-				<section class="inspector-section"><div class="section-label"><span data-icon="grid"></span><h3>Grid</h3></div><div id="grid-controls"></div></section>
-			<section class="preset-panel" id="preset-panel" aria-label="Layout presets">
-				<div class="panel-heading"><h2>Find your starting point</h2><span class="count">5</span></div>
-				<p class="panel-description">Thoughtfully arranged. Fully yours.</p>
-				<div id="preset-gallery" class="preset-gallery"></div>
-				<button class="blank-button" id="start-blank"><span data-icon="plus"></span>Start from scratch<span>Begin with an empty canvas</span></button>
-			</section>
-				<section class="inspector-section" id="card-inspector" hidden></section>
-				<section class="inheritance-note"><span data-icon="layers"></span><h3>Design big. Flow down.</h3><p>Settings flow to smaller screens until you customize them there.</p><div class="inheritance-chain" aria-label="Inheritance direction"><b>2xl</b><span>→</span><b>xl</b><span>→</span><b>lg</b><span>→</span><b>md</b><span>→</span><b>sm</b><span>→</span><b>ss</b></div><span class="note-foot">Smaller screens never change larger ones.</span></section>
-				</div>
-			</aside>
+						<section class="saSideBarSection saSideBarHeaderSmallScreen">
+							<img class="saSideBarHeaderSmallScreenLogo">
+							<div class="saTitle">
+								<h1>Softadmin® Development System</h1>
+							</div>
+							<button class="saNavigator saButtonHeader" type="button">
+								<i class="saIcon far fad fa-xmark"></i>
+							</button>
+						</section>
+						<section class="saSideBarSection saSideBarHeader saSideBarSectionJs">
+							<img class="saCustomerLogo" alt="Softadmin® Development System logo" src="../src/img/logo.svg">
+							<ul class="saSideBarInputGroup">
+								<li>
+									<a class="saSideBarSearchLink" tabindex="0">
+										<div><i class="far fad fa-magnifying-glass saIcon"></i></div>
+									</a>
+									<label class="saSideBarSearch">
+										<input id="SideBarSearchInput" class="saSearchInput saInputText" type="search" placeholder="Search...">
+										<i class="far fad fa-magnifying-glass saIcon"></i>
+									</label>
+								</li>
+								<li>
+									<button class="saImpersonatorWrapper" type="button" value="admin" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="saImpersonatorLabel saImpersonatorValue" aria-controls="saImpersonatorDropdown">
+										<span class="saImpersonator">
+											<span class="saImpersonatorValue" id="saImpersonatorValue">admin 300</span>
+											<span class="saImpersonatorLabel" id="saImpersonatorLabel">User</span>
+											<i class="saIcon far fad fa-angle-down saTrailing"></i>
+											<span class="saImpersonatorLetter">A</span>
+										</span>
+									</button>
+								</li>
+							</ul>
+						</section>
+						<section class="saSideBarSection saSideBarBody saSideBarSectionJs">
+							<div class="saSideBarGroup saSideBarFavorites">
+								<div class="saSideBarFavoritesHeader">
+									<button class="saButtonFavorites" type="button"><span>Favorites</span><i class="saIcon saIcon far fad fa-angle-down"></i></button>
+									<button class="saButtonFavoritesMinimized" type="button"><i class="saIcon saIcon far fad fa-angle-down"></i></button>
+									<button class="saButtonFavoritesEdit" type="button">Edit</button>
+								</div>
+								<ul class="saItemList">
+									<li><a class="saItem saFavorite" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i
+														class="far fad fa-bolt icon saIcon"></i></div>
+												<span>Quick fixes</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fad fa-message icon saIcon"></i>
+												</div><span>Chat</span>
+											</div>
+										</a></li>
+									<li><a class="saItem saFavorite saDynamicTooltipJs" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fad fa-compass icon saIcon"></i>
+												</div><span>Location finder</span>
+											</div>
+										</a></li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Menu</h3>
+								<ul class="saItemList">
+									<li><a class="saItem" tabindex="0" href="./btn-color.html"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-brain icon saIcon"></i></div><span>Button color<span class="saMenuItemPill saAdminOnly">Admin</span></div></a></li>
+									<li><a class="saItem" tabindex="0" href="./copy-clipboard.html"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-clone icon saIcon"></i></div><span>Copy to clipboard<span class="saMenuItemPill saBeta">Beta</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0" href="./toast.html"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-bread-slice icon saIcon"></i></div><span>Toast<span class="saMenuItemPill saDraft">Draft</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0" href="./markdown.html"><div class="saItemInner"><div class="saIconWrapper"><i class="fab fa-markdown icon saIcon"></i></div><span>Markdown</span></div></a></li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Models</h3>
+								<ul class="saItemList">
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-brain icon saIcon"></i></div><span>4.1<span class="saMenuItemPill saAdminOnly">Admin</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-o icon saIcon"></i></div><span>4o<span class="saMenuItemPill saIssues">Issues</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-minus-square icon saIcon"></i></div><span>4o mini<span class="saMenuItemPill saDraft">Draft</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-car icon saIcon"></i></div><span>3.5 Turbo<span class="saMenuItemPill saBeta">Beta</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-c icon saIcon"></i></div><span>Claude 3.5<span class="saMenuItemPill saDeprecated">Deprecated</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-c icon saIcon"></i></div><span>Claude 3 Opus<span class="saMenuItemPill saNew">New</span></span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-g icon saIcon"></i></div><span>Gemini Pro</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-g icon saIcon"></i></div><span>Gemini Flash</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-l icon saIcon"></i></div><span>Llama 3</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-m icon saIcon"></i></div><span>Mistral Large</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-m icon saIcon"></i></div><span>Mixtral 8x7B</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-r icon saIcon"></i></div><span>Command R+</span></div></a></li>
+									<li><a class="saItem" tabindex="0"><div class="saItemInner"><div class="saIconWrapper"><i class="far fad fa-glasses icon saIcon"></i></div><span>DeepSeek Chat</span></div></a></li>
+								</ul>
+							</div>
+							<div class="saSideBarGroup">
+								<h3>Summer</h3>
+								<ul class="saItemList">
+									<li>
+										<a class="saItem" tabindex="0">
+											<div class="saItemInner">
+												<div class="saIconWrapper"><i class="far fad fa-sun-alt icon saIcon"></i></div>
+												<span>Sun</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</section>
+						<section class="saSideBarSection saSideBarFooter saSideBarSectionJs">
+							<div class="saSideBarFooterPrimary">
+								<div class="saListItem">
+									<button class="saAccountDropdown" type="button" aria-expanded="false" aria-controls="saAccountMenu" aria-haspopup="menu">
+										<div class="saAccountAvatar">FL</div>
+										<span class="saAccountName">Firstname Lastname</span>
+										<i class="far fad fa-angle-down saIcon"></i>
+									</button>
+								</div>
+								<ul class="saSideBarToolbar">
+									<li>
+										<button type="button">
+											<div class="saIconWrapper">
+												<i class="far fad fa-gear icon saIcon"></i>
+											</div>
+											<span>Admin</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper"><i class="far fad fa-chart-network icon saIcon"></i></div>
+											<span>Database designer</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper"><i class="far fad fa-window-restore icon saIcon"></i></div>
+											<span>New tab</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper"><i class="far fad fa-circle-question icon saIcon"></i></div>
+												<span>View help page - General help</span>
+										</button></li>
+									<li class="saNotificationsItem">
+										<button id="largeScreenNotifications" type="button">
+											<div class="saSidenavItem"><i class="far fad fa-bell saIcon"></i></div>
+											<div class="saBadgeCount saUrgent">2</div>
+										</button>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarFooterSecondary">
+								<a class="saSoftadminLogo" target="_blank" rel="noopener noreferrer" tabindex="-1" href="https://www.softadmin.com/">
+									<img class="saLogo" src="./Presentation/img/softadmin-logo-minimized.svg">
+									<img class="saWordmark" src="./Presentation/img/softadmin-logo-expanded.svg">
+								</a>
+								<button class="saExpander saDynamicTooltipJs" type="button" aria-label="Minimize sidebar" aria-controls="SideBar" aria-expanded="true" aria-keyshortcuts="Alt+M"><i class="far fad fa-angles-left saIcon" aria-hidden="true"></i></button>
+							</div>
+						</section>
+					</nav>
+				</aside>
+			</form>
 		</div>
-	</main>
-	<div class="toast" id="toast" role="status" hidden></div>
-	<dialog id="preset-dialog"><form method="dialog"><div class="dialog-heading"><span class="eyebrow">A FRESH START</span><button class="icon-button" aria-label="Close dialog" value="cancel">×</button></div><h2 id="preset-dialog-title"></h2><div id="preset-dialog-thumb"></div><p id="preset-dialog-description"></p><p class="dialog-note">This updates every breakpoint. You can undo the whole change.</p><div class="dialog-actions"><button class="button" value="cancel">Keep my layout</button><button class="button primary" value="apply">Apply layout</button></div></form></dialog>
+		<div class="saSideBarSmallScreenOverlay" id="SideBarSmallScreenOverlay" style="display: none;"></div>
+		<div class="saRightFrameRoot">
+			<div id="body" class="right standardview saPc saLargeScreen saCompact saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
+				<div class="pagecontentframe">
+					<form class="interface">
+						<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs">
+												<div class="saBackButtonWrapper"><button class="saBackButton" type="button"><i class="far fad fa-arrow-left saBack saIcon"></i></button></div>
+											</nav>
+										</div>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Bento</h1>
+												<div class="saNoSpinner">
+													<button type="button" class="saFavoriteToggle"><i class="saIcon far fad fa-star"></i><i class="saIcon fas fa-star"></i></button>
+												</div>
+												<ul class="saSpecialLinksWrapper"></ul>
+											</div>
+										</div>
+										<nav class="saNavigationBar">
+											<div class="saTopButtons">
+												<div class="saActionLinks" style="flex-wrap: wrap;">
+<button class="saTopLink saActionLink saButtonPrimary" type="button" title="Example action"><div class="saIconHolder saOptionIcon"><i class="saIcon far fad fa-plus" aria-hidden="true"></i></div><span class="saButtonText saOptionText">New task</span></button>
+<button class="saTopLink saActionLink saButtonSecondary" type="button" title="Example action"><div class="saIconHolder saOptionIcon"><i class="saIcon far fad fa-chart-line" aria-hidden="true"></i></div><span class="saButtonText saOptionText">View reports</span></button>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button" data-bento-breakpoint disabled aria-label="Current breakpoint">2xl</button>
+													<button class="saTopLink saActionLink saButtonPrimary" type="button" data-bento-add aria-controls="bento"><div class="saIconHolder saOptionIcon"><i class="far fad fa-plus saIcon" aria-hidden="true"></i></div><span class="saButtonText saOptionText">Add card</span></button>
+													<label class="saInputTextWrapper saBentoColumnPicker" style="margin-right: 0;"><select aria-label="Layout preset" class="saInputText saDropdown" data-bento-preset style="padding-left: 0.75rem; font-weight: 500;"></select><div class="saTrailingIconsWrapper"><i class="saIcon far fad fa-angle-down" aria-hidden="true"></i></div></label>
+													<label class="saInputTextWrapper saBentoColumnPicker" style="margin-right: 0;">
+														<select aria-label="Grid columns" class="saInputText saDropdown" data-bento-columns style="padding-left: 0.75rem; font-weight: 500;"></select>
+														<div class="saTrailingIconsWrapper"><i class="saIcon far fad fa-angle-down" aria-hidden="true"></i></div>
+													</label>
+													<label class="saInputTextWrapper saBentoColumnPicker" style="margin-right: 0;">
+														<select aria-label="Card columns" class="saInputText saDropdown" data-bento-card-columns style="padding-left: 0.75rem; font-weight: 500;"></select>
+														<div class="saTrailingIconsWrapper"><i class="saIcon far fad fa-angle-down" aria-hidden="true"></i></div>
+													</label>
+													<label class="saInputTextWrapper saBentoColumnPicker" style="margin-right: 0;">
+														<select aria-label="Card rows" class="saInputText saDropdown" data-bento-card-rows style="padding-left: 0.75rem; font-weight: 500;"></select>
+														<div class="saTrailingIconsWrapper"><i class="saIcon far fad fa-angle-down" aria-hidden="true"></i></div>
+													</label>
+													<button class="saTopLink saActionLink saButtonSecondary" type="button" data-bento-grid-toggle aria-pressed="true" aria-controls="bento">
+														<div class="saIconHolder saOptionIcon"><i class="far fad fa-border-all saIcon" aria-hidden="true"></i></div><span class="saButtonText saOptionText">Grid lines</span>
+													</button>
+												</div>
+											</div>
+										</nav>
+									</div>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<button class="saSmallScreenBackButton saButtonHeader" type="button"><i class="far fad fa-arrow-left saBack saIcon"></i></button>
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+													<h1 class="saHeaderText">Bento</h1>
+												</div>
+											</div>
+											<button class="saNotifications saButtonHeader" type="button" aria-expanded="false">
+												<i class="far fad fa-bell saIcon"></i>
+												<div class="saBadgeCount saUrgent">2</div>
+											</button>
+											<button class="saNavigator saButtonHeader" type="button" aria-label="Open menu" data-tooltip="Open menu">
+												<div class="saNavBar"><i class="saIcon far fad fa-bars"></i>
+												</div>
+											</button>
+										</div>
+									</div>
+									<nav class="saBottomRow saActionLinkBar">
+										<div class="saTopButtons saActionLinks">
+											<button class="saTopLink saActionLink saButtonPrimary" type="button" title="Example action"><div class="saIconHolder saOptionIcon"><i class="saIcon far fad fa-plus" aria-hidden="true"></i></div><span class="saButtonText saOptionText">New task</span></button>
+											<button class="saTopLink saActionLink saButtonSecondary" type="button" title="Example action"><div class="saIconHolder saOptionIcon"><i class="saIcon far fad fa-chart-line" aria-hidden="true"></i></div><span class="saButtonText saOptionText">View reports</span></button>
+											<button class="saTopLink saActionLink saButtonSecondary" type="button" data-bento-breakpoint disabled aria-label="Current breakpoint">2xl</button>
+											<button class="saTopLink saActionLink saButtonPrimary" type="button" data-bento-add aria-controls="bento"><div class="saIconHolder saOptionIcon"><i class="far fad fa-plus saIcon" aria-hidden="true"></i></div><span class="saButtonText saOptionText">Add card</span></button>
+											<label class="saInputTextWrapper saBentoColumnPicker"><select aria-label="Layout preset" class="saInputText saDropdown" data-bento-preset style="padding-left: 0.75rem; font-weight: 500;"></select><div class="saTrailingIconsWrapper"><i class="saIcon far fad fa-angle-down" aria-hidden="true"></i></div></label>
+											<label class="saInputTextWrapper saBentoColumnPicker" style="margin-right: 0;">
+												<select aria-label="Grid columns" class="saInputText saDropdown" data-bento-columns style="padding-left: 0.75rem; font-weight: 500; margin-right: 0;"></select>
+												<div class="saTrailingIconsWrapper"><i class="saIcon far fad fa-angle-down" aria-hidden="true"></i></div>
+											</label>
+											<label class="saInputTextWrapper saBentoColumnPicker" style="margin-right: 0;"><select aria-label="Card columns" class="saInputText saDropdown" data-bento-card-columns style="padding-left: 0.75rem; font-weight: 500;"></select><div class="saTrailingIconsWrapper"><i class="saIcon far fad fa-angle-down" aria-hidden="true"></i></div></label>
+											<label class="saInputTextWrapper saBentoColumnPicker" style="margin-right: 0;"><select aria-label="Card rows" class="saInputText saDropdown" data-bento-card-rows style="padding-left: 0.75rem; font-weight: 500;"></select><div class="saTrailingIconsWrapper"><i class="saIcon far fad fa-angle-down" aria-hidden="true"></i></div></label>
+											<button class="saTopLink saActionLink saButtonSecondary" type="button" data-bento-grid-toggle aria-pressed="true" aria-controls="bento">
+												<div class="saIconHolder saOptionIcon"><i class="far fad fa-border-all saIcon" aria-hidden="true"></i></div><span class="saButtonText saOptionText">Grid lines</span>
+											</button>
+										</div>
+									</nav>
+								</div>
+							</div>
+						</header>
+						<div class="maincolinner gradients">
+							<main id="MI_M" class="menuitem pagecontentframe">
+								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable" style="height: calc(100dvh - 7.5rem);">
+									<div class="scrollcontent-inner">
+										<div class="maincolbody">
+											<ul class="saBentoWrapper saGridCol4 saMdGridCol2 saShowGridLines" id="bento">
+												<li class="saBento saFeatured saCol4 saRow2 saWrapped saMdCol2 saXsCol1 saXsRow1">
+													<article>
+														<div class="saBentoInner">
+															<div class="saBentoImage">
+																<img loading="lazy" src="https://images.unsplash.com/photo-1667818450198-0ee0cd1c7e79?q=80&amp;w=2000&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">Aviation</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>The Secret Social Lives of Sparrows</span></h2>
+																<p class="saBentoDescription">Sparrows may look like humble backyard visitors, but their social behavior is incredibly rich. These birds maintain lifelong partnerships, engage in group communication through subtle chirps, and even exhibit signs of peer influence.
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/andi-lane">
+																		<div class="saBentoName">Lina Forsberg</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-12-01">1 aug 2026</time>
+																</div>
+																<div class="saBentoButtonGroup">
+																	<button type="button" class="saDefaultButtonSecondary">Birds of a Feather</button>
+																	<button type="button" class="saDefaultButtonSecondary">Flock together</button>
+																</div>
+															</div>
+														</div>
+													</article>
+												</li>
+												<li class="saBento saCol2 saRow2 saGreen saXsCol1 saXsRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoImage">
+																<img loading="lazy" src="https://rwi.lu.se/wp-content/uploads/2022/02/justice-scaled.jpg" alt="Lady justice" loading="lazy">
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">Legal</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>Why Bird Law Is Important</span></h2>
+																<p class="saBentoDescription">
+																	Bird Law is a niche yet crucial branch of avian governance that outlines the legal frameworks surrounding bird disputes.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/noah-pierre">
+																		<div class="saBentoName">Emil Jansson</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-12-02">2 aug 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saSmall saCol2 saRow2 saXsRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-list-check" aria-hidden="true"></i>
+															</div>
+															<div class="saBentoBody">
+																<h2 class="saBentoHeading"><span>My tasks</span></h2>
+																<p class="saBentoDescription">
+																	View your tasks and upcoming deadlines.
+																</p>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saSmall saPink saCol2 saRow1 saXsCol1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-folder-open" aria-hidden="true"></i>
+															</div>
+															<div class="saBentoBody">
+																<h2 class="saBentoHeading"><span>Projects</span></h2>
+																<p class="saBentoDescription">
+																	View your projects and latest progress.
+																</p>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saSmall saRed saCol1 saRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-file-lines" aria-hidden="true"></i>
+															</div>
+															<div class="saBentoBody">
+																<h2 class="saBentoHeading"><span>Documents</span></h2>
+																<p class="saBentoDescription">
+																	Find shared files and useful templates.
+																</p>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saSmall saYellow saCol1 saRow1 saXsCol2">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-chart-line" aria-hidden="true"></i>
+															</div>
+															<div class="saBentoBody">
+																<h2 class="saBentoHeading"><span>Reports</span></h2>
+																<p class="saBentoDescription">
+																	View key figures and business reports.
+																</p>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saSmall saSkyBlue saCol2 saRow2 saXsCol1 saXsRow1">
+													<article>
+														<button type="button" class="saBentoButton" aria-pressed="false"><i class="saIcon far fad fa-heart"></i><i class="saIcon fas fa-heart"></i></button>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon"><i class="saIcon far fad fa-users" aria-hidden="true"></i></div>
+															<div class="saBentoBody">
+																<h2 class="saBentoHeading"><span>People</span></h2>
+																<p class="saBentoDescription">
+																	Find your colleagues and team details.
+																</p>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saSmall saOrange saCol2 saRow2 saXsCol1 saXsRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon"><i class="saIcon far fad fa-circle-question" aria-hidden="true"></i></div>
+															<div class="saBentoBody">
+																<h2 class="saBentoHeading"><span>Support</span></h2>
+																<p class="saBentoDescription">
+																	Find useful guides and get extra help.
+																</p>
+															</div>
+														</a>
+													</article>
+												</li>
+											</ul>
+											<!--<ul class="saBentoWrapper saGridCol8 saXlGridCol6 saLgGridCol4 saMdGridCol2 saShowGridLines" id="bento">
+												<li class="saBento saFeatured saCol4 saRow2 saWrapped saMdCol2 saXsCol1 saXsRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoImage">
+																<img loading="lazy" src="https://images.unsplash.com/photo-1667818450198-0ee0cd1c7e79?q=80&amp;w=2000&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">Aviation</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>The Secret Social Lives of Sparrows</span></h2>
+																<p class="saBentoDescription">Sparrows may look like humble backyard visitors, but their social behavior is incredibly rich. These birds maintain lifelong partnerships, engage in group communication through subtle chirps, and even exhibit signs of peer influence.
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/andi-lane">
+																		<div class="saBentoName">Lina Forsberg</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-12-01">1 aug 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol2 saRow1 saPurple saXsCol1">
+													<article>
+														<button type="button" class="saBentoButton" aria-pressed="false"><i class="saIcon far fad fa-heart"></i><i class="saIcon fas fa-heart"></i></button>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoImage" style="display: none;">
+																<img loading="lazy" src="https://images.pexels.com/photos/14495310/pexels-photo-14495310.jpeg">
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">Aviation</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>Magpies: The Masters of Memory</span></h2>
+																<p class="saBentoDescription">Magpies can remember hundreds of hiding spots for their food and recall them months later.</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/ava-wright">
+																		<div class="saBentoName">Anna Bergström</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-09-15">15 sep 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol2 saRow1 saXsCol1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoImage" style="display: none;">
+																<img loading="lazy" src="https://images.pexels.com/photos/7522827/pexels-photo-7522827.jpeg">
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">Aviation</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>Starlings and the Murmuration Mystery</span></h2>
+																<p class="saBentoDescription">
+																	Starlings create mesmerizing aerial displays called murmurations, moving in perfect synchrony.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/drew-cano">
+																		<div class="saBentoName">Oskar Nilsson</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-09-22">22 sep 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol2 saRow1 saPink saXsCol1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoImage" style="display: none;">
+																<img loading="lazy" src="https://images.pexels.com/photos/11461473/pexels-photo-11461473.jpeg">
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill saBlue">Beaks</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>Woodpeckers: Nature’s Drummers</span></h2>
+																<p class="saBentoDescription">
+																	Woodpeckers drum on trees not just for food, but to communicateterritory and attract mates.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/olivia-rhye">
+																		<div class="saBentoName">Maja Svensson</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-10-01">1 okt 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol2 saRow1 saOrange saXsCol1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoImage" style="display: none;">
+																<img loading="lazy" src="https://images.pexels.com/photos/31374567/pexels-photo-31374567.jpeg">
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill saOrange">Silence</li>
+																	<li class="saPill saRed">Migration</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>Owls: Silent Hunters of the Night</span></h2>
+																<p class="saBentoDescription">
+																	Owls fly almost silently thanks to unique feather structures that muffle sound.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/orlando-diggs">
+																		<div class="saBentoName">Erik Johansson</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-10-10">10 okt 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol2 saRow2 saPink saXsCol1 saXsRow1">
+													<article>
+														<button type="button" class="saBentoButton" aria-pressed="false"><i class="saIcon far fad fa-heart"></i><i class="saIcon fas fa-heart"></i></button>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-brain"></i>
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">Aviation</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>Crows Are Smarter Than Your Dog</span></h2>
+																<p class="saBentoDescription">
+																	Crows don’t just mimic—they solve puzzles, recognize faces, and even pass knowledge across generations.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/noah-pierre">
+																		<div class="saBentoName">Emil Jansson</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-12-02">2 aug 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol2 saRow2 saGray saXsCol1 saXsRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoImage">
+																<img loading="lazy" src="https://images.unsplash.com/photo-1668090956076-b2c9d6193e6b?q=80&amp;w=2670&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">Aviation</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>How Swallows Navigate the Globe</span></h2>
+																<p class="saBentoDescription">
+																	Every year, swallows migrate thousands of kilometers between continents with unerring accuracy.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/loki-bright">
+																		<div class="saBentoName">Johan Lindström</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-12-02">2 aug 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol2 saRow2 saRed saWrapped saXsCol1 saXsRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-eye"></i>
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">
+																		Aviation
+																	</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>Why Robins Are Always Watching</span></h2>
+																<p class="saBentoDescription">
+																	Robins may seem like innocent garden guests, but their keen eyesight and territorial behavior make them relentless observers.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/aliah-lane">
+																		<div class="saBentoName">Karin Holmberg</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-12-02">2 aug 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol2 saRow2 saOrange saXsCol1 saXsRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoImage">
+																<img loading="lazy" src="https://images.unsplash.com/photo-1661768261898-e2b2a6083092">
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">Aviation</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>The Return of the White-Tailed Eagle</span></h2>
+																<p class="saBentoDescription">
+																	Driven to near extinction in parts of Europe, the white-tailed eagle has made a dramatic comeback thanks to conservation efforts.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/zaid-schwartz">
+																		<div class="saBentoName">Niklas Eklund</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-12-02">2 aug 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+
+
+												<li class="saBento saCol2 saRow2 saGreen saXsCol1 saXsRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-comments"></i>
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">
+																		Aviation
+																	</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>Parrots Don’t Just Copy — They Learn</span></h2>
+																<p class="saBentoDescription">
+																	Parrots are far more than mimics. In controlled environments, they’ve demonstrated the ability to understand context, learn new words unprompted, and even joke around with humans.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/caitlyn-king">
+																		<div class="saBentoName">Sara Wiman</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-12-02">2 aug 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol2 saRow2 saGreen saXsCol1 saXsRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoImage">
+																<img loading="lazy" src="https://images.unsplash.com/photo-1677167113238-45922ca5ba3d?q=80&amp;w=2672&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">Aviation</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>Nightjars and the Art of Silence</span><i class="fa-arrow-up-right saIcon far"></i>
+																</h2>
+																<p class="saBentoDescription">
+																	Nightjars are the silent phantoms of twilight. These birds fly with an almost supernatural quietness, thanks to feather adaptations that absorb sound.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/ashwin-santiago">
+																		<div class="saBentoName">David Skoglund</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-12-02">2 aug 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol2 saRow2 saPurple saXsCol1 saXsRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-helicopter"></i>
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">Aviation</li>
+																	<li class="saPill saRed">Migration</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>Hummingbirds: Nature’s Helicopters</span></h2>
+																<p class="saBentoDescription">
+																	Hummingbirds are evolutionary marvels. They can	hover,	fly backward, and flap their wings up to 80 times per second.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/liam-hood">
+																		<div class="saBentoName">Emil Mårtensson</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-12-02">2 aug 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol2 saRow2 saSkyBlue saXsCol1 saXsRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoImage">
+																<img loading="lazy" src="https://images.unsplash.com/photo-1644318295821-12c4ddf2a36e?q=80&amp;w=2670&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">
+																		Aviation
+																	</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>The Birds Eye View, How Ireland Went From Sugar to Honey</span></h2>
+																<p class="saBentoDescription">
+																	Hummingbirds are evolutionary marvels. They can hover, fly backward, and flap their wings up to 80 times per second.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/liam-hood">
+																		<div class="saBentoName">Emil Mårtensson</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-12-02">2 aug 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol1 saRow1 saSmall saOrange">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-helicopter"></i>
+															</div>
+															<div class="saBentoBody">
+																<h2 class="saBentoHeading"><span>The Tiny Creatures of the Night</span></h2>
+																<p class="saBentoDescription">
+																	Hummingbirds are evolutionary marvels. They can hover, fly backward, and flap their wings up to 80 times per second.
+																</p>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol1 saRow1 saSmall saGreen">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-binoculars"></i>
+															</div>
+															<div class="saBentoBody">
+																<h2 class="saBentoHeading"><span>Forest Watchers</span></h2>
+																<p class="saBentoDescription">
+																	Woodpeckers are forest sentinels, using their sharp hearing and powerful beaks to patrol trees and clear out pests.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/andi-lane">
+																		<div class="saBentoName">Lina Forsberg</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-12-04">4 aug 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol1 saRow1 saSmall saPurple">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-moon-stars"></i>
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">Aviation</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>Masters of the Dusk</span></h2>
+																<p class="saBentoDescription">
+																	Swifts dominate twilight skies, flying thousands of kilometers and even sleeping on the wing during migration.
+																</p>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol1 saRow1 saSmall">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-mountain"></i>
+															</div>
+															<div class="saBentoBody">
+																<h2 class="saBentoHeading"><span>Echoes in the Highlands</span></h2>
+																<p class="saBentoDescription">
+																	Alpine choughs thrive in brutal altitudes, gliding between peaks and scavenging with calculated intelligence.
+																</p>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol1 saRow1 saSmall saPink">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-wind"></i>
+															</div>
+															<div class="saBentoBody">
+																<h2 class="saBentoHeading"><span>Whispers on the Wind</span></h2>
+																<p class="saBentoDescription">
+																	Starlings move in murmuration, forming massive clouds of precision flight that ripple like smoke across the sky.
+																</p>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol1 saRow1 saSmall saRed">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-fire"></i>
+															</div>
+															<div class="saBentoBody">
+																<h2 class="saBentoHeading"><span>Feathers &amp; Flame</span></h2>
+																<p class="saBentoDescription">
+																	The red cardinal is a striking presence in snowy forests, its call slicing through the frost with a burst of warmth.
+																</p>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol1 saRow1 saSmall saYellow">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-feather"></i>
+															</div>
+															<div class="saBentoBody">
+																<h2 class="saBentoHeading"><span>Goldfinch in the Meadow</span></h2>
+																<p class="saBentoDescription">
+																	With a song like wind chimes and flight like a rollercoaster, the goldfinch is joy incarnate among wildflowers.
+																</p>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol1 saRow1 saSmall saSkyBlue">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon"><i class="saIcon far fad fa-compass"></i></div>
+															<div class="saBentoBody">
+																<h2 class="saBentoHeading"><span>Guided by the Stars</span></h2>
+																<p class="saBentoDescription">
+																	Migratory thrushes chart their course at night by sensing magnetic fields and reading starlight like ancient maps.
+																</p>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol2 saRow2 saPurple saXsCol1 saXsRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoIcon">
+																<i class="saIcon far fad fa-music"></i>
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">Major Keys</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>Eagles Don’t Perch with Pigeons</span></h2>
+																<p class="saBentoDescription">
+																	In the words of DJ Khaled, “They don’t want you to fly — so what you gon’ do? Soar.”
+																</p>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saFeatured saCol4 saRow2 saGreen saMdCol2 saXsCol1 saXsRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoImage">
+																<img loading="lazy" src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=80&amp;w=2641&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill saGreen">Ecology</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>How Forests Remember</span></h2>
+																<p class="saBentoDescription">
+																	Forests are not just collections of trees — they’re dynamic memory systems.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/andi-lane">
+																		<div class="saBentoName">Lina Forsberg</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-12-04">4 aug 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol2 saRow2 saOrange saWrapped saXsCol1 saXsRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoImage">
+																<img loading="lazy" src="https://images.unsplash.com/photo-1555679432-b7b7a5e3680c?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill saPurple">Seabirds</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>Clowns of the Coastline</span></h2>
+																<p class="saBentoDescription">
+																	Puffins might look comical with their colorful beaks and upright posture, but they are elite flyers and expert swimmers.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/loki-bright">
+																		<div class="saBentoName">Johan Lindström</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-12-06">6 aug 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+												<li class="saBento saCol2 saRow2 saGreen saXsCol1 saXsRow1">
+													<article>
+														<a href="#" class="saBentoInner">
+															<div class="saBentoImage">
+																<img loading="lazy" src="https://rwi.lu.se/wp-content/uploads/2022/02/justice-scaled.jpg" alt="Lady justice" loading="lazy">
+															</div>
+															<div class="saBentoBody">
+																<ul class="saPillGroup">
+																	<li class="saPill">Legal</li>
+																</ul>
+																<h2 class="saBentoHeading"><span>Why Bird Law Is Important</span></h2>
+																<p class="saBentoDescription">
+																	Bird Law is a niche yet crucial branch of avian governance that outlines the legal frameworks surrounding bird disputes.
+																</p>
+																<div class="saBentoFooter">
+																	<div class="saBentoAuthor">
+																		<img loading="lazy" class="saBentoAvatar" src="https://untitledui.com/images/avatars/noah-pierre">
+																		<div class="saBentoName">Emil Jansson</div>
+																	</div>
+																	<time class="saBentoDate" datetime="2027-12-02">2 aug 2026</time>
+																</div>
+															</div>
+														</a>
+													</article>
+												</li>
+											</ul>-->
+										</div>
+									</div>
+								</div>
+							</main>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+<template id="bento-card-template"><li class="saBento saCol1 saRow1 saSmall"><article><a href="#" class="saBentoInner"><div class="saBentoIcon"><i class="saIcon far fad fa-layer-group" aria-hidden="true"></i></div><div class="saBentoBody"><h2 class="saBentoHeading"><span></span></h2><p class="saBentoDescription">Add a link to a page you use often.</p></div></a></article></li></template>
 </body>
-</html>

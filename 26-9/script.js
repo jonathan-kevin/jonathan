@@ -862,55 +862,6 @@ $(document).ready(function () {
 
 		return $(`
 			<ul class="saContextMenu saProfileMenu saNorth" id="saAccountMenu" role="menu" aria-label="Account" aria-hidden="true">
-				<li role="none" data-theme-layout="options">
-					<div class="saContextMenuHeading">Theme</div>
-				</li>
-				${[['system', 'System', 'desktop'], ['light', 'Light', 'sun-alt'], ['dark', 'Dark', 'moon'], ['contrast', 'High contrast', 'circle-half-stroke']].map(([value, label, icon]) => `
-					<li role="none" data-theme-layout="options">
-						<button class="saOptionWrapper" type="button" role="menuitemradio" aria-checked="false" data-theme-choice="${value}" tabindex="-1">
-							<div class="saOption">
-								<i class="far fad fa-${icon} saIcon saOptionIcon" aria-hidden="true"></i>
-								<div class="saOptionText"><div class="saOptionTitle">${label}</div></div>
-							</div>
-						</button>
-					</li>`).join('')}
-				<li role="group" aria-label="Theme" class="saRow" data-theme-layout="buttons">
-					<button class="saOptionWrapper" type="button" role="menuitemradio" aria-checked="true" data-theme-choice="system" tabindex="-1">
-						<div class="saOption saOptionButton">
-							<i class="far fad fa-desktop saIcon saOptionIcon" aria-hidden="true"></i>
-							<div class="saOptionText">
-								<div class="saOptionTitle">System</div>
-							</div>
-						</div>
-					</button>
-					<button class="saOptionWrapper" type="button" role="menuitemradio" aria-checked="false" data-theme-choice="light" tabindex="-1">
-						<div class="saOption saOptionButton">
-							<i class="far fad fa-sun-alt saIcon saOptionIcon" aria-hidden="true"></i>
-							<div class="saOptionText">
-								<div class="saOptionTitle">Light</div>
-							</div>
-						</div>
-					</button>
-					<button class="saOptionWrapper" type="button" role="menuitemradio" aria-checked="false" data-theme-choice="dark" tabindex="-1">
-						<div class="saOption saOptionButton">
-							<i class="far fad fa-moon saIcon saOptionIcon" aria-hidden="true"></i>
-							<div class="saOptionText">
-								<div class="saOptionTitle">Dark</div>
-							</div>
-						</div>
-					</button>
-					<button class="saOptionWrapper" type="button" role="menuitemradio" aria-checked="false" data-theme-choice="contrast" tabindex="-1">
-						<div class="saOption saOptionButton">
-							<i class="far fad fa-circle-half-stroke saIcon saOptionIcon" aria-hidden="true"></i>
-							<div class="saOptionText">
-								<div class="saOptionTitle">High contrast</div>
-							</div>
-						</div>
-					</button>
-				</li>
-				<li>
-					<hr>
-				</li>
 				<li>
 					<label class="saOptionWrapper" for="saToggleCompact" tabindex="0">
 						<div class="saOption">
@@ -1076,38 +1027,6 @@ $(document).ready(function () {
 		else $accountSheet.css('height', event.type === 'pointerup' && distance < -60 ? '90dvh' : '');
 	});
 
-	// Demo-only control: compare layouts, and share a specific version using its URL.
-	const $menuDemo = $accountDropdown.length ? $(`
-		<label class="saInputTextWrapper">
-			<select aria-label="Theme menu demo" class="saInputText saDropdown" style="padding-left: 0.75rem; font-weight: 500;">
-				<option value="options">1. Standard options</option>
-				<option value="buttons">2. Buttons</option>
-				<option value="submenu">3. Submenu</option>
-			</select>
-			<div class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down"></i></div>
-		</label>
-	`).appendTo($('.saTopButtons .saActionLinks').first()) : $();
-
-	function setMenuDemoVariant(variant) {
-		variant = ['options', 'buttons', 'submenu'].includes(variant) ? variant : 'buttons';
-		setThemeSubmenuOpen(false);
-		$accountMenu.find('[data-theme-layout="options"]').toggle(variant === 'options');
-		const $buttonChoices = $accountMenu.find('[data-theme-layout="buttons"]');
-		$buttonChoices.toggle(variant === 'buttons');
-		$buttonChoices.next('li').toggle(variant !== 'submenu');
-		$themeMenuTrigger.closest('li').toggle(variant === 'submenu');
-		$menuDemo.find('select').val(variant);
-		positionAccountMenu();
-	}
-
-	$menuDemo.find('select').on('change', function () {
-		setMenuDemoVariant(this.value);
-		const url = new URL(window.location.href);
-		url.searchParams.set('themeMenu', this.value);
-		history.replaceState(history.state, '', url);
-		setAccountMenuOpen(true);
-	});
-	setMenuDemoVariant(new URL(window.location.href).searchParams.get('themeMenu'));
 
 	function positionAccountMenu() {
 		syncAccountSheet();
@@ -1175,8 +1094,7 @@ $(document).ready(function () {
 		setAccountMenuOpen(isOpen);
 		if (isOpen) {
 			const $items = $accountMenuItems.filter(':visible');
-			const $selected = $items.filter('[aria-checked="true"]');
-			($selected.length ? $selected.first() : $items.first()).trigger('focus');
+			$items.first().trigger('focus');
 		}
 	});
 
@@ -1224,7 +1142,7 @@ $(document).ready(function () {
 
 	$(document).on('click', function (event) {
 		if ($accountDropdown[0]?.contains(event.target) || $accountMenu[0]?.contains(event.target)
-			|| $themeSubmenu[0]?.contains(event.target) || $menuDemo[0]?.contains(event.target)
+			|| $themeSubmenu[0]?.contains(event.target)
 			|| $accountSheetOverlay[0]?.contains(event.target)) return;
 		setAccountMenuOpen(false);
 	});
@@ -1306,7 +1224,6 @@ $(document).ready(function () {
 		$themeOptions.each(function () {
 			this.setAttribute('aria-checked', String(this.dataset.themeChoice === currentTheme));
 		});
-		$themeOptions.filter('[data-theme-choice="system"]').find('.saOptionDescription').text('Matches operating system');
 	}
 
 	const FAVORITE_COOLDOWN = 1500;
