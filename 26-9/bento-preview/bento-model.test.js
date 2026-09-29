@@ -264,50 +264,44 @@ test('mixed spans step individually and clamp at the allowed bounds', () => {
 });
 
 
-test('icon sizes use Softadmin modifiers and inset applies only to images', () => {
-  for (const [style, expected] of [['small', ['saSmall']], ['medium', ['saMedium']], ['large', []], ['image', ['saWrapped']], ['text', []]]) {
-    assert.deepEqual(M.cardStyleClasses({ style, wrapped: true }), expected);
-  }
-  assert.deepEqual(M.cardStyleClasses({ style: 'image', wrapped: false }), []);
-  assert.equal(M.card(0, 1).style, 'small');
-  assert.equal(M.card(0, 1, { style: 'medium' }).style, 'medium');
-});
-
-test('saved tiny and icon styles migrate without losing content or breakpoint settings', () => {
-  for (const [legacy, current] of [['tiny', 'small'], ['icon', 'large']]) {
-    const state = M.applyPreset(M.presets[0]);
-    state.sharedCards.style = legacy;
-    state.cards.forEach(c => c.style = legacy);
-    state.cards[0].title = 'My saved shortcut';
-    state.cards[0].settings.xs = { col: 2, row: 3 };
-    const restored = M.restoreState(JSON.parse(JSON.stringify(state)));
-    assert.ok(restored);
-    assert.equal(restored.sharedCards.style, current);
-    assert.ok(restored.cards.every(c => c.style === current));
-    assert.equal(restored.cards[0].title, state.cards[0].title);
-    assert.deepEqual(restored.cards[0].settings, state.cards[0].settings);
-    assert.equal(M.card(8, restored.nextId, restored.sharedCards).style, current);
-  }
-});
-
-
-test('image sizes apply to existing and future cards, survive restoration and preserve icon sizes', () => {
-  const state = M.applyPreset(M.presets[0]);
-  M.setSharedCardField(state, 'style', 'image');
-  M.setSharedCardField(state, 'wrapped', true);
-  for (const [size, modifier] of [['small', 'saSmall'], ['medium', 'saMedium'], ['large', null]]) {
-    M.setSharedCardField(state, 'imageSize', size);
-    const restored = M.restoreState(JSON.parse(JSON.stringify(state)));
-    assert.ok(restored);
-    for (const card of [...restored.cards, M.card(8, restored.nextId, restored.sharedCards)]) {
-      assert.deepEqual(M.cardStyleClasses(card), [...(modifier ? [modifier] : []), 'saWrapped']);
+test('independent sizes use Softadmin modifiers for icons, images and Nothing', () => {
+  for (const style of ['icon', 'image', 'text']) {
+    for (const [size, cls] of [['small', 'saSmall'], ['medium', 'saMedium'], ['large', null]]) {
+      assert.deepEqual(M.cardStyleClasses({style, size, wrapped:true}), [...(cls ? [cls] : []), ...(style === 'image' ? ['saWrapped'] : [])]);
     }
   }
-  M.setSharedCardField(state, 'imageSize', 'small');
-  M.setSharedCardField(state, 'style', 'medium');
-  assert.deepEqual(M.cardStyleClasses(state.cards[0]), ['saMedium']);
-  const old = JSON.parse(JSON.stringify(state));
-  delete old.sharedCards.imageSize;
-  old.cards.forEach(c => delete c.imageSize);
-  assert.ok(M.restoreState(old).cards.every(c => c.imageSize === 'large'));
+  assert.equal(M.card(0,1).style, 'icon');
+  assert.equal(M.card(0,1).size, 'small');
+});
+
+test('legacy icon and image styles migrate without losing saved appearance or content', () => {
+  for (const [legacy, imageSize, size] of [['tiny', null, 'small'], ['small', null, 'small'], ['medium', null, 'medium'], ['large', null, 'large'], ['icon', null, 'large'], ['image', 'small', 'small'], ['image', 'medium', 'medium'], ['image', null, 'large']]) {
+    const state = M.applyPreset(M.presets[0]);
+    state.sharedCards = {style:legacy};
+    if (imageSize) state.sharedCards.imageSize = imageSize;
+    state.cards.forEach(c => { c.style=legacy; delete c.size; if (imageSize) c.imageSize=imageSize; });
+    state.cards[0].title = 'Saved shortcut';
+    state.cards[0].settings.xs = {col:2,row:3};
+    const restored = M.restoreState(JSON.parse(JSON.stringify(state)));
+    assert.ok(restored);
+    assert.equal(restored.sharedCards.style, legacy === 'image' ? 'image' : 'icon');
+    assert.equal(restored.sharedCards.size, size);
+    assert.ok(restored.cards.every(c=>c.size===size));
+    assert.equal(restored.cards[0].title, 'Saved shortcut');
+    assert.deepEqual(restored.cards[0].settings, state.cards[0].settings);
+    assert.equal(M.card(8,restored.nextId,restored.sharedCards).size,size);
+  }
+});
+
+test('size survives type switches, presets, duplicate, new cards and saved state', () => {
+  const state = M.applyPreset(M.presets[0]);
+  M.setSharedCardField(state,'size','medium');
+  for (const style of ['image','text','icon']) {
+    M.setSharedCardField(state,'style',style);
+    assert.ok(state.cards.every(c=>c.size==='medium' && c.style===style));
+    assert.equal(M.card(8,state.nextId,state.sharedCards).size,'medium');
+    assert.deepEqual(M.restoreState(JSON.parse(JSON.stringify(state))),state);
+  }
+  assert.equal(M.duplicateCard(state,state.cards[0].id).size,'medium');
+  assert.ok(M.applyPreset(M.presets.find(p=>p.id==='hub'),state).cards.every(c=>c.size==='medium'));
 });

@@ -16,7 +16,7 @@ The editor and iframe use the shared Softadmin stylesheet, components, colors, a
 
 ## Appearance and preview
 
-The initially collapsed All card settings section is shown without a selection. It controls Small icon/Medium icon/Large icon/Image/Nothing styles, solid backgrounds, inset visuals, image fit, tags, footers, heart favorites and bottom actions for existing and future cards. Titles, descriptions, icon names, colors and spans remain individual. Images use per-card Unsplash photos; tags, author/avatar/date and action labels use per-card sample content. Appearance is independent of breakpoints.
+The initially collapsed All card settings section is shown without a selection. It controls Icon/Image/Nothing styles and independent Small/Medium/Large sizes, solid backgrounds, inset visuals, image fit, tags, footers, heart favorites and bottom actions for existing and future cards. Titles, descriptions, icon names, colors and spans remain individual. Images use per-card Unsplash photos; tags, author/avatar/date and action labels use per-card sample content. Appearance is independent of breakpoints.
 
 The toolbar provides breakpoint buttons, a pixel-width input, Fit, grid lines and dashed breakpoint guides. Drag the preview edge or use its arrow keys to resize continuously. The inspector can be minimized. Inside the preview, the Softadmin sidebar can be minimized with its expander (Alt+M); mobile has a menu toggle. Press D to switch the preview between light and dark mode, or open the existing account menu and choose Theme → System/Light/Dark. The shortcut ignores typing fields. The preview theme is independent of the outer editor.
 
@@ -35,4 +35,4 @@ Shift-click adds or removes cards from the selection; a plain click selects one 
 
 The Max width toolbar toggle adds/removes `saMaxWidth` on the preview’s `saBentoWrapper`, using the existing 100rem limit. Its state is remembered with the other preview preferences.
 
-Card styles use Softadmin radio buttons. Small icon adds `saSmall`, Medium icon adds `saMedium`, and Large icon uses the default styling without a size class. Image settings (Inset image and Cover/Contain) appear directly beneath the Image radio when selected. Legacy saved tiny/icon styles migrate to small/large without losing the saved layout.
+Card style and size are separate groups of three selectable radio cards: Icon/Image/Nothing and Small/Medium/Large. Small adds `saSmall`, Medium adds `saMedium`, and Large uses no size modifier. Size is retained when switching styles. Image-only Inset image and Cover/Contain controls appear below the style choices, before Size. Legacy combined icon styles and image sizes migrate without losing the saved layout.

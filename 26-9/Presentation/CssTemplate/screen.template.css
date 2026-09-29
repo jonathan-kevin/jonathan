@@ -41319,7 +41319,7 @@ pre.saCode {
   border-color: light-dark(var(--Sa-Color-Primary600), var(--Sa-Color-Primary400));
   box-shadow: 0 0 0 0.25rem light-dark(var(--Sa-Color-Primary200), var(--Sa-Color-Primary800));
 }
-.saBentoInner::after {
+.saBentoInner::before {
   content: '';
   position: absolute;
   height: 100%;
@@ -41331,6 +41331,7 @@ pre.saCode {
   transition: ease transform 0.2s, ease opacity 0.2s;
   background-image: radial-gradient(ellipse at bottom, light-dark(var(--Sa-Color-Primary100), var(--Sa-Color-Primary1000)), transparent 60%);
   opacity: 0.5;
+  z-index: 0;
 }
 @media (pointer: fine) {
   a.saBentoInner:hover {
@@ -41338,7 +41339,7 @@ pre.saCode {
     border-color: light-dark(var(--Sa-Color-Primary200), var(--Sa-Color-Primary800));
     color: light-dark(var(--Sa-Color-Primary600), var(--Sa-Color-Primary400));
   }
-  a.saBentoInner:hover::after {
+  a.saBentoInner:hover::before {
     transform: scale(1) translateY(0);
     opacity: 1;
   }
@@ -41362,7 +41363,7 @@ a.saBentoInner:active {
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Sa-Color-Primary900));
   color: light-dark(var(--Sa-Color-Primary700), var(--Sa-Color-Primary300));
 }
-a.saBentoInner:active::after {
+a.saBentoInner:active::before {
   transform: translateY(25%);
   opacity: 1;
 }
@@ -41375,7 +41376,7 @@ a.saBentoInner:active .saBentoIcon {
 .saSmall a.saBentoInner:active .saBentoIcon {
   border-radius: 1rem;
 }
-.saGreen a.saBentoInner::after {
+.saGreen a.saBentoInner::before {
   background-image: radial-gradient(ellipse at bottom, light-dark(var(--Green100), var(--Green1000)), transparent 60%);
 }
 .saSolid.saGreen a.saBentoInner {
@@ -41412,7 +41413,7 @@ a.saBentoInner:active .saBentoIcon {
   color: light-dark(var(--White), var(--Gray1300));
   box-shadow: none;
 }
-.saGray a.saBentoInner::after {
+.saGray a.saBentoInner::before {
   background-image: radial-gradient(ellipse at bottom, light-dark(var(--Gray100), var(--Gray1000)), transparent 60%);
 }
 .saSolid.saGray a.saBentoInner {
@@ -41449,7 +41450,7 @@ a.saBentoInner:active .saBentoIcon {
   color: light-dark(var(--White), var(--Gray1300));
   box-shadow: none;
 }
-.saRed a.saBentoInner::after {
+.saRed a.saBentoInner::before {
   background-image: radial-gradient(ellipse at bottom, light-dark(var(--Red100), var(--Red1000)), transparent 60%);
 }
 .saSolid.saRed a.saBentoInner {
@@ -41486,7 +41487,7 @@ a.saBentoInner:active .saBentoIcon {
   color: light-dark(var(--White), var(--Gray1300));
   box-shadow: none;
 }
-.saOrange a.saBentoInner::after {
+.saOrange a.saBentoInner::before {
   background-image: radial-gradient(ellipse at bottom, light-dark(var(--Orange100), var(--Orange1000)), transparent 60%);
 }
 .saSolid.saOrange a.saBentoInner {
@@ -41523,7 +41524,7 @@ a.saBentoInner:active .saBentoIcon {
   color: light-dark(var(--White), var(--Gray1300));
   box-shadow: none;
 }
-.saYellow a.saBentoInner::after {
+.saYellow a.saBentoInner::before {
   background-image: radial-gradient(ellipse at bottom, light-dark(var(--Yellow100), var(--Yellow1000)), transparent 60%);
 }
 .saSolid.saYellow a.saBentoInner {
@@ -41560,7 +41561,7 @@ a.saBentoInner:active .saBentoIcon {
   color: light-dark(var(--White), var(--Gray1300));
   box-shadow: none;
 }
-.saSky a.saBentoInner::after {
+.saSky a.saBentoInner::before {
   background-image: radial-gradient(ellipse at bottom, light-dark(var(--Sky100), var(--Sky1000)), transparent 60%);
 }
 .saSolid.saSky a.saBentoInner {
@@ -41597,7 +41598,7 @@ a.saBentoInner:active .saBentoIcon {
   color: light-dark(var(--White), var(--Gray1300));
   box-shadow: none;
 }
-.saPurple a.saBentoInner::after {
+.saPurple a.saBentoInner::before {
   background-image: radial-gradient(ellipse at bottom, light-dark(var(--Purple100), var(--Purple1000)), transparent 60%);
 }
 .saSolid.saPurple a.saBentoInner {
@@ -41634,7 +41635,7 @@ a.saBentoInner:active .saBentoIcon {
   color: light-dark(var(--White), var(--Gray1300));
   box-shadow: none;
 }
-.saPink a.saBentoInner::after {
+.saPink a.saBentoInner::before {
   background-image: radial-gradient(ellipse at bottom, light-dark(var(--Pink100), var(--Pink1000)), transparent 60%);
 }
 .saSolid.saPink a.saBentoInner {
@@ -42853,5 +42854,45 @@ p.saBentoDescription {
 .saBentoImageOptions {
   display: grid;
   gap: 0.75rem;
-  margin: 0.5rem 0 0.75rem 1.75rem;
+  margin: 0;
+}
+.saBentoChoiceCards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+.saBentoChoiceCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 5rem;
+  padding: 0.75rem 0.25rem;
+  cursor: pointer;
+}
+.saBentoChoiceCard:has(:checked) {
+  background-color: light-dark(var(--Blue50), var(--Blue1200));
+  border-color: light-dark(var(--Blue600), var(--Blue400));
+  color: light-dark(var(--Blue700), var(--Blue200));
+}
+.saBentoChoiceCard:has(:focus-visible) {
+  outline: 0.125rem solid light-dark(var(--Blue600), var(--Blue400));
+  outline-offset: 0.125rem;
+}
+.saBentoChoiceCard input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.saBentoChoiceCard .saIcon {
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+}
+.saBentoChoiceCard .saIcon.saBentoSizesmall {
+  font-size: 0.75rem;
+}
+.saBentoChoiceCard .saIcon.saBentoSizemedium {
+  font-size: 1.125rem;
 }

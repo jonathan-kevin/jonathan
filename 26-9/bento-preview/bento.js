@@ -160,10 +160,15 @@
 		const select = (field, label, choices, value) => `<label class="saBentoAppearanceField">${label}<span class="saInputTextWrapper"><select class="saInputText saDropdown" id="card-${field}" data-card-field="${field}">${mixed(field) ? '<option value="" selected disabled>Varies by card</option>' : ''}${choices.map(([id, name]) => `<option value="${id}" ${!mixed(field) && id === value ? 'selected' : ''}>${name}</option>`).join('')}</select><span class="saTrailingIconsWrapper"><i class="saIcon far fa-angle-down" aria-hidden="true"></i></span></span></label>`;
 		const toggle = (field, label) => `<label class="saToggleWrapper"><span class="saToggleLabelWrapper"><span class="saToggleLabel">${label}</span></span><input class="saToggle" type="checkbox" role="switch" id="card-${field}" data-card-field="${field}" ${c[field] ? 'checked' : ''}></label>`;
 		const image = c.style === 'image' && !mixed('style');
-		const styles = `<fieldset class="saRadioWrapper saBentoStyleOptions"><legend>Card style</legend>${M.cardStyles.map(([value, label]) => `<label class="saRadioLabel"><input class="saRadio" type="radio" name="card-style" id="card-style-${value}" data-card-field="style" value="${value}" ${!mixed('style') && c.style === value ? 'checked' : ''}><span>${label}</span></label>${value === 'image' && image ? `<div class="saBentoImageOptions" role="group" aria-label="Image settings">${select('imageSize', 'Image size', [['small', 'Small'], ['medium', 'Medium'], ['large', 'Large']], c.imageSize || 'large')}${toggle('wrapped', 'Inset image')}${select('imageFit', 'Image fit', [['cover', 'Cover'], ['contain', 'Contain']], c.imageFit || 'cover')}</div>` : ''}`).join('')}</fieldset>`;
+		const choices = (field, label, options) => `<fieldset class="saBentoStyleOptions"><legend>${label}</legend><div class="saBentoChoiceCards">${options.map(([value, name]) => `<label class="saDefaultButtonSecondary saBentoChoiceCard"><input class="saRadio" type="radio" name="card-${field}" id="card-${field}-${value}" data-card-field="${field}" value="${value}" ${!mixed(field) && c[field] === value ? 'checked' : ''}><i class="saIcon far fa-${field === 'size' ? 'square' : { icon: 'icons', image: 'image', text: 'ban' }[value]} ${field === 'size' ? 'saBentoSize' + value : ''}" aria-hidden="true"></i><span>${name}</span></label>`).join('')}</div></fieldset>`;
+		const styles = choices('style', 'Card style', M.cardStyles);
+		const imageOptions = image ? `<div class="saBentoImageOptions" role="group" aria-label="Image settings">${toggle('wrapped', 'Inset image')}${select('imageFit', 'Image fit', [['cover', 'Cover'], ['contain', 'Contain']], c.imageFit || 'cover')}</div>` : '';
+
 		return `<div class="saBentoAppearance">
 			<h3>Appearance · all cards</h3>
 			${styles}
+			${imageOptions}
+			${choices('size', 'Size', M.cardSizes)}
 			${toggle('solid', 'Solid background')}
 			${toggle('showTags', 'Show tags')}
 			${toggle('showFooter', 'Show footer')}
