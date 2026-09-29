@@ -1,0 +1,978 @@
+.FileIconColored() {
+	background-color: @ColorPurple100;
+	color: @ColorPurple600;
+	border: 1px solid @ColorPurple600;
+
+	&.fa-file-word {
+		background-color: @ColorBlue100;
+		color: @ColorBlue600;
+		border: 1px solid @ColorBlue600;
+	}
+
+	&.fa-video {
+		background-color: @ColorOrange100;
+		color: @ColorOrange600;
+		border: 1px solid @ColorOrange600;
+	}
+
+	&.fa-file-excel {
+		background-color: @ColorGreen100;
+		color: @ColorGreen600;
+		border: 1px solid @ColorGreen600;
+	}
+
+	&.fa-file-pdf {
+		background-color: @ColorRed100;
+		color: @ColorRed600;
+		border: 1px solid @ColorRed600;
+	}
+
+	&.fa-image {
+		background-color: @ColorPink100;
+		color: @ColorPink600;
+		border: 1px solid @ColorPink600;
+	}
+
+	&.fa-xmark {
+		background-color: @ColorRed600;
+		color: @ColorWhite;
+		border: none;
+	}
+
+	&.fa-question {
+		background-color: @ColorYellow400;
+		color: @ColorWhite;
+		border: none;
+	}
+}
+
+.LoadingSpinner() {
+	.saLoadingWrapper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		height: 1.25rem;
+		width: 1.25rem;
+		transition: ease transform .2s, ease width .2s;
+	}
+
+	.saLoading {
+		display: none;
+		width: 1.25rem;
+		height: 1.25rem;
+		border-radius: 50%;
+		stroke-width: 2;
+		stroke: @ColorWhite;
+		stroke-miterlimit: 10;
+		box-shadow: inset 0 0 0 @ColorGreen400;
+		animation: saFiller .4s ease-in-out .4s forwards, saScaler .2s ease-in-out .8s both;
+	}
+
+	.saLoadingCircle {
+		stroke-dasharray: 166;
+		stroke-dashoffset: 166;
+		stroke-width: 4;
+		stroke-miterlimit: 10;
+		stroke: @ColorGreen400;
+		fill: none;
+		animation: saStroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+	}
+
+	.saLoadingCheck {
+		transform-origin: 50% 50%;
+		stroke-dasharray: 48;
+		stroke-dashoffset: 48;
+		animation: saStroke 0.2s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+		stroke-linecap: round;
+	}
+
+	.saLoadingSpinner,
+	.saLoadingSpinner:after {
+		border-radius: 50%;
+		width: 1.25rem;
+		height: 1.25rem;
+		position: absolute;
+	}
+
+	.saLoadingSpinner {
+		transition: ease opacity 1s, ease border-color 0.2s, ease visiblity 0.4s;
+		border-top: 2px solid fade(@ColorWhite, 20);
+		border-right: 2px solid fade(@ColorWhite, 20);
+		border-bottom: 2px solid fade(@ColorWhite, 20);
+		border-left: 2px solid @ColorWhite;
+		animation: saLoadingSpinner 0.8s infinite linear;
+	}
+
+	.saLoadingDark .saLoadingSpinner {
+		border-top-color: @ColorGray100;
+		border-right-color: @ColorGray100;
+		border-bottom-color: @ColorGray100;
+		border-left-color: @ColorGray600;
+	}
+}
+
+.saFileUploadAreaWrapper.saMultipleFilesArea {
+	.saFolderWrapper {
+		pointer-events: none;
+		.FlexCentered();
+		padding-top: 1rem;
+		transition: ease transform 0.2s;
+	}
+
+	.saFolder {
+		.FlexCentered();
+		transition: ease-in-out transform 0.2s;
+		perspective: 5rem;
+		transform-origin: bottom;
+	}
+
+	.saFolderBack {
+		.FlexCentered();
+		position: relative;
+		width: 4rem;
+		height: 3rem;
+		background-color: var(--Sa-Color-Primary700);
+		border-radius: 0 0.375rem 0.375rem 0.375rem;
+		transition: ease-in-out box-shadow 0.2s;
+
+		&::after {
+			content: '';
+			width: 1.25rem;
+			height: 0.5rem;
+			background-color: var(--Sa-Color-Primary700);
+			position: absolute;
+			top: -0.375rem;
+			left: 0;
+			border-radius: 0.25rem 0.25rem 0 0;
+		}
+	}
+
+	.saFolderFront {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		border-radius: 0.375rem;
+		transform-origin: bottom;
+		transition: transform 0.3s ease-in-out;
+		background-color: var(--Sa-Color-Primary600);
+		.FlexCentered();
+		z-index: 2;
+
+		.saIcon {
+			font-size: 1.25rem;
+			color: @ColorWhite;
+		}
+	}
+
+	.saPaper {
+		background-color: darken(@ColorGray100, 4);
+		width: 70%;
+		height: 70%;
+		position: absolute;
+		bottom: 0.5rem;
+		border-radius: 0.25rem;
+		transition: transform 0.3s ease-in-out, opacity 0.2s ease-out;
+		z-index: 0;
+		opacity: 0;
+
+		&:nth-child(2) {
+			background-color: @ColorGray100;
+			width: 80%;
+			height: 60%;
+			transition: transform 0.4s ease-in-out, opacity 0.2s ease-out;
+			z-index: 1;
+		}
+
+		&:nth-child(3) {
+			background-color: @ColorWhite;
+			width: 90%;
+			height: 50%;
+			transition: transform 0.5s ease-in-out, opacity 0.2s ease-out;
+			z-index: 1;
+		}
+	}
+
+	.saFileWrapper {
+		border: 1px solid var(--Sa-Color-InputFieldBorder);
+		border-bottom: none;
+		padding: 0.5rem;
+
+		&:first-child {
+			border-radius: 0.5rem 0.5rem 0 0;
+		}
+
+		&:last-child {
+			border-radius: 0 0 0.5rem 0.5rem;
+			border-bottom: 1px solid var(--Sa-Color-InputFieldBorder);
+		}
+
+		&:only-child {
+			border-radius: 0.5rem 0.5rem;
+			border-bottom: 1px solid var(--Sa-Color-InputFieldBorder);
+		}
+	}
+}
+
+.saFileUploadAreaWrapper.saFullSizeArea {
+	.saFileIcon {
+		display: none;
+	}
+
+	.saFileWrapper {
+		padding: 1.5rem;
+		position: absolute;
+		bottom: 0;
+		background-color: transparent;
+
+		&.saEmptyFile,
+		&.saError {
+			background-color: transparent;
+		}
+	}
+
+	.saDossierWrapper {
+		position: relative;
+		transition: ease transform 0.2s, ease box-shadow 0.2s;
+		border-radius: 0.375rem;
+	}
+
+	.saDossier {
+		.FlexCentered();
+		pointer-events: none;
+		transition: ease transform .2s, ease box-shadow .2s, ease border-radius .2s, ease background .2s, ease width .2s, ease height .2s;
+		transform-origin: bottom;
+		position: relative;
+		width: 3rem;
+		height: 4rem;
+		background-color: var(--Sa-Color-Primary600);
+		border-radius: 0.375rem;
+		clip-path: polygon(0 0, 68% 0, 100% 24%, 100% 100%, 0 100%);
+
+		.saIcon {
+			font-size: 1.25rem;
+			color: @ColorWhite;
+		}
+	}
+
+	.saDossierDogear {
+		position: absolute;
+		width: 1rem;
+		height: 1rem;
+		top: 0;
+		right: 0;
+		border-radius: 0 0.375rem 0 0.375rem;
+		transform-origin: bottom;
+		transition: transform .2s ease, clip-path .2s ease, background .2s ease, opacity .1s ease;
+		background-color: var(--Sa-Color-Primary500);
+		.FlexCentered();
+		z-index: 2;
+		clip-path: polygon(0 0, 100% 100%, 0 100%);
+	}
+
+	&.saHasFiles {
+		.saFileUploadAreaText {
+			visibility: hidden;
+		}
+
+		.saDossier {
+			display: none;
+		}
+
+		.saDossierDogear {
+			display: none;
+		}
+
+		.saEnabledIcon {
+			display: none;
+		}
+
+		.saFileIcon {
+			display: flex;
+			margin-bottom: 1rem;
+
+			.saIcon {
+				font-size: 1.25rem;
+				width: 3rem;
+				height: 3rem;
+				border-radius: 0.5rem;
+				.FlexCentered();
+				.FileIconColored();
+
+				.saDisabled & {
+					background-color: @ColorGray200;
+					color: @ColorGray300;
+				}
+			}
+		}
+	}
+}
+
+.saFileUploadAreaWrapper.saCompactFileArea {
+	&.saHasFiles {
+		.saFileUploadAreaText {
+			display: none;
+		}
+
+		.saFileErrorMessage {
+			display: none;
+		}
+	}
+
+	.saFile .saIcon {
+		font-size: 1rem;
+		height: 1.5rem;
+		width: 1.5rem;
+		min-width: 1.5rem;
+		border-radius: 0.25rem;
+	}
+
+	.saFileButtonGroup .saDeleteButton {
+		height: 1.5rem;
+		width: 1.5rem;
+		border-radius: 0.25rem;
+	}
+
+	.saFileWrapper {
+		padding: 2px;
+		gap: 0.5rem;
+		min-height: unset;
+		background-color: transparent;
+
+		&.saEmptyFile,
+		&.saError {
+			background-color: transparent;
+		}
+	}
+
+	.saFileUploadArea {
+		height: 2rem;
+		overflow: hidden;
+		padding: 0;
+		border-radius: 0.5rem;
+		justify-content: center;
+		overflow: hidden;
+
+		&:active {
+			border-radius: 0.75rem;
+
+			.saHasFiles&,
+			.saDisabled & {
+				border-radius: 0.5rem;
+			}
+		}
+
+		.saFileInner {
+			flex-direction: row;
+			justify-content: space-between;
+		}
+
+		.saFileSizeRow {
+			width: unset;
+			gap: 1rem;
+			margin-top: 1px;
+		}
+
+		.saFileSizeWrapper {
+			justify-content: center;
+			min-width: fit-content;
+			flex: 1;
+		}
+
+		.saFileNameWrapper {
+			overflow: hidden;
+		}
+
+		.saFileName {
+			overflow: hidden;
+		}
+
+		.saFileUploadProgress {
+			opacity: 0;
+			position: absolute;
+			pointer-events: none;
+		}
+	}
+
+	.saSmallScreen & {
+		.saFileUploadArea {
+			height: 2.75rem;
+		}
+	}
+}
+
+.saFileUploadAreaWrapper.saHasFiles {
+	.saFileUploadArea {
+		cursor: default;
+
+		.Hover({
+			border-color: @ColorGray300;
+		});
+
+		&:active {
+			border-radius: 1rem;
+			background-color: var(--Sa-Color-Primary50);
+			border-color: @ColorGray300;
+		}
+
+		.saHighlightFieldError:not(.saDisabled) & {
+			background-color: @ColorRed100;
+			border-color: @ColorRed600;
+
+			.Hover({
+				border-color: @ColorRed700;
+			});
+		}
+	}
+
+	.saDisabled & .saFileWrapper {
+		opacity: 0.5;
+	}
+}
+
+.saFileUploadAreaWrapper.saDone .saFileUploadArea {
+	background-color: @ColorGreen50;
+	border-color: @ColorGreen400;
+
+	.Hover({
+		border-color: @ColorGreen400;
+	});
+
+	&:active {
+		background-color: @ColorGreen50;
+		border-color: @ColorGreen400;
+	}
+}
+
+.saFileUploadAreaWrapper.saDone.saHasEmptyFile .saFileUploadArea {
+	background-color: @ColorYellow50;
+	border-color: @ColorYellow300;
+
+	.Hover({
+		border-color: @ColorYellow400;
+	});
+
+	&:active {
+		background-color: @ColorYellow50;
+		border-color: @ColorYellow400;
+	}
+}
+
+.saLargeScreen .saInputWrapper.saFileValidation .saValidationMessage {
+	width: 40rem;
+}
+
+.saLargeScreen .saMultiRowCell .saMultiRowInputWrapper.saFileValidation .saValidationMessage {
+	width: 27rem;
+}
+
+.saFileUploadAreaWrapper {
+	width: 40rem;
+	display: flex;
+	flex-direction: column;
+	.LoadingSpinner();
+	color: var(--Sa-Color-Text);
+
+	.saHighlightFieldError & {
+		.saFileUploadArea {
+			background-color: @ColorRed100;
+			border-color: @ColorRed600;
+		}
+	}
+
+	.saMultiRowCell & {
+		width: 27rem;
+	}
+
+	.saDisabledIcon {
+		display: none;
+	}
+
+	.saDisabled & {
+		cursor: not-allowed;
+
+		.saDisabledIcon {
+			display: flex;
+		}
+
+		.saEnabledIcon {
+			display: none;
+		}
+
+		.saFileUploadArea {
+			cursor: not-allowed;
+			background-color: @ColorGray100;
+			border-color: @ColorGray150;
+
+			.Hover({
+				background-color: @ColorGray100;
+				border-color: @ColorGray150;
+			});
+
+			&:active {
+				background-color: @ColorGray100;
+				border-color: @ColorGray150;
+				border-radius: 1rem;
+
+				.saFolderWrapper,
+				.saDossierWrapper {
+					transform: scale(1);
+				}
+			}
+
+			.saFileUploadAreaText {
+				color: @ColorGray300;
+			}
+
+			.saLink {
+				color: @ColorGray300;
+
+				.Hover({
+					text-decoration: none;
+				});
+
+				&:active {
+					color: @ColorGray300;
+				}
+			}
+
+			.saFolderBack {
+				background-color: darken(@ColorGray200, 8);
+
+				&::after {
+					background-color: darken(@ColorGray200, 8);
+				}
+			}
+
+			.saPaper {
+				display: none;
+			}
+
+			.saFolderFront,
+			.saDossier {
+				background-color: @ColorGray200;
+
+				.saIcon {
+					color: @ColorGray300;
+				}
+			}
+
+			.saDossierDogear {
+				background-color: @ColorGray150;
+			}
+		}
+
+		.saFileGroup {
+			opacity: 0.5;
+		}
+
+		.saFileButtonGroup .saDeleteButton {
+			display: none;
+		}
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	.saSmallScreen & {
+		width: 100%;
+	}
+
+	.saFileUploadArea {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		position: relative;
+		width: 100%;
+		border: 2px dashed @ColorGray300;
+		border-radius: 1rem;
+		padding: 1.5rem;
+		cursor: pointer;
+		background-color: @ColorGray50;
+		transition: ease border-color .2s, ease border-radius .2s, ease background .2s;
+		.UserSelectNone();
+
+		&:hover,
+		&:focus-within {
+			border-color: var(--Sa-Color-Primary600);
+			background-color: var(--Sa-Color-Primary50);
+		}
+
+		&:active {
+			background-color: var(--Sa-Color-Primary100);
+			border-color: var(--Sa-Color-Primary600);
+			border-radius: 1.5rem;
+
+			.saFolderWrapper,
+			.saDossierWrapper {
+				transform: scale(0.96);
+			}
+		}
+
+		input[type="file"] {
+			display: none;
+			opacity: 0;
+			.AppearanceNone();
+			position: absolute;
+			left: 0;
+			top: 0;
+			visibility: hidden;
+		}
+
+		.saSmallScreen & {
+			padding: 1rem;
+		}
+
+		&.saDragOver,
+		.saSmallScreen &:focus-within {
+			border-color: var(--Sa-Color-Primary600);
+			background-color: @ColorBlue100;
+
+			.saFolderWrapper {
+				.saFolder {
+					transform: translateY(-0.5rem);
+				}
+
+				.saPaper {
+					transform: translateY(-0.25rem);
+					opacity: 1;
+				}
+
+				.saFolderBack {
+					.BoxShadowMedium();
+				}
+
+				.saFolderFront {
+					transform: rotateX(-15deg) scaleY(0.65);
+				}
+			}
+
+			.saDossierWrapper {
+				transform: translateY(-0.5rem);
+				.BoxShadowMedium();
+
+				.saDossierDogear {
+					clip-path: polygon(0 0, 100% 100%, 100% 0);
+					background-color: var(--Sa-Color-Primary600);
+				}
+			}
+		}
+
+		.saFileUploadAreaInner {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 1rem;
+			width: 100%;
+		}
+
+		.saFileUploadAreaText {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 0.5rem;
+			text-align: center;
+			width: 100%;
+		}
+
+		.saFileUploadAreaHeading {
+			font-size: 0.875rem;
+			line-height: 1.125rem;
+		}
+
+		.saLink {
+			color: var(--Sa-Color-Primary600);
+
+			.Hover({
+				text-decoration: underline;
+			});
+
+			&:active {
+				color: var(--Sa-Color-Primary700);
+			}
+		}
+
+		.saFileUploadAreaDescription {
+			font-size: 0.75rem;
+			line-height: 1rem;
+			width: 100%;
+			color: @ColorGray700;
+		}
+	}
+
+	.saFileGroup {
+		display: flex;
+		flex-wrap: wrap;
+		padding-top: 0.5rem;
+
+		&:empty {
+			display: none;
+		}
+	}
+
+	.saFileWrapper {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		position: relative;
+		width: 100%;
+		min-height: 3rem;
+		overflow: hidden;
+
+		&.saError {
+			background-color: @ColorRed100;
+		}
+
+		&.saEmptyFile {
+			background-color: @ColorYellow50;
+		}
+	}
+
+	.saFileUploadProgress {
+		display: flex;
+		width: 100%;
+		.AppearanceNone();
+		height: 2px;
+		width: 100%;
+		transition: ease opacity 0.2s, ease width 0.2s;
+
+		&::-webkit-progress-bar {
+			background-color: @ColorGray150;
+			border-radius: 2px;
+		}
+
+		&::-webkit-progress-value {
+			background-color: var(--Sa-Color-Primary600);
+			border-radius: 2px;
+			transition: ease opacity 0.2s, ease width 0.2s;
+		}
+	}
+
+	.saDone .saFileUploadProgress::-webkit-progress-value {
+		background-color: @ColorGreen400;
+	}
+
+	.saFileButtonGroup {
+		display: flex;
+		gap: 0.25rem;
+		align-items: center;
+
+		.saDeleteButton {
+			.Button();
+			.IconButtonSizeCompact();
+			background-color: transparent;
+			color: @ColorRed600;
+
+			.Hover({
+				background-color: @ColorRed600;
+				color: @ColorWhite;
+			});
+
+			&:active {
+				background-color: @ColorRed700;
+				color: @ColorWhite;
+			}
+
+			&::after {
+				content: '';
+				height: 3rem;
+				width: 3rem;
+				position: absolute;
+			}
+		}
+	}
+
+	.saFile {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+		flex: 1;
+		width: 100%;
+		overflow: hidden;
+		height: fit-content;
+
+		.saIcon {
+			.FlexCentered();
+			.FileIconColored();
+			font-size: 1.25rem;
+			border-radius: 0.25rem;
+			height: 2rem;
+			min-width: 2rem;
+		}
+	}
+
+	.saFileInner {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		width: 100%;
+		overflow: hidden;
+		transition: ease margin 0.2s;
+		min-width: 0;
+	}
+
+	.saFileNameWrapper {
+		display: flex;
+		font-size: 0.875rem;
+		line-height: 1rem;
+
+		.saSmallScreen & {
+			display: inline-grid;
+		}
+	}
+
+	.saFileName {
+		.Ellipsis();
+		overflow: hidden;
+		line-height: 1.125rem;
+		color: var(--Sa-Color-Text);
+	}
+
+	.saFileSizeWrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		width: 100%;
+	}
+
+	.saFileSizeRow {
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		color: var(--Sa-Color-TextSecondary);
+	}
+
+	.saFileSize {
+		white-space: nowrap;
+	}
+
+	.saError,
+	.saEmptyFile {
+		.saFileSizeRow,
+		.saFileUploadProgress {
+			display: none;
+		}
+
+		.saFileErrorMessage {
+			display: flex;
+		}
+	}
+
+	.saError .saLoadingWrapper {
+		display: none;
+	}
+
+	.saError .saFileErrorMessage {
+		color: @ColorRed700;
+	}
+
+	.saEmptyFile .saFileErrorMessage {
+		color: @ColorYellow700;
+	}
+
+	.saFileErrorMessage {
+		display: none;
+		font-size: 0.875rem;
+		line-height: 1rem;
+	}
+
+	.saPending .saLoadingSpinner {
+		animation: none;
+		border-left-color: @ColorGray100;
+	}
+
+	.saDone {
+		&.saSkipAnimation {
+			.saLoading {
+				animation: none;
+				box-shadow: inset 0 0 0 1.25rem @ColorGreen400;
+			}
+
+			.saLoadingCheck {
+				animation: none;
+				stroke-dashoffset: 0;
+			}
+		}
+
+		.saLoading {
+			display: flex;
+		}
+
+		.saLoadingSpinner {
+			opacity: 0;
+			border-top-color: fade(@ColorGreen400, 20);
+			border-right-color: fade(@ColorGreen400, 20);
+			border-bottom-color: fade(@ColorGreen400, 20);
+			border-left-color: @ColorGreen400;
+			animation: saLoadingSpinner .8s infinite linear, saLoadingSpinnerDone .8s forwards linear;
+		}
+	}
+
+	.saExistingFile {
+		.saLoading {
+			animation: none;
+			box-shadow: none;
+		}
+
+		.saLoadingCircle {
+			display: none;
+		}
+
+		.saLoadingCheck {
+			animation: none;
+			stroke: @ColorGreen400;
+			stroke-dashoffset: 0;
+		}
+
+		.saLoadingSpinner {
+			display: none;
+			animation: none;
+		}
+	}
+}
+
+@keyframes saLoadingSpinner {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes saLoadingSpinnerDone {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes saStroke {
+	100% {
+		stroke-dashoffset: 0;
+	}
+}
+
+@keyframes saScaler {
+	0% {
+		transform: scale(1);
+	}
+
+	80% {
+		transform: scale(1.1);
+	}
+}
+
+@keyframes saFiller {
+	100% {
+		box-shadow: inset 0 0 0 1.25rem @ColorGreen400;
+	}
+}

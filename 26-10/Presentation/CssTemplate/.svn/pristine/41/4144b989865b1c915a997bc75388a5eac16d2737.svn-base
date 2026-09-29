@@ -1,0 +1,104 @@
+.saInfoSqlMeterWrapper {
+	display: flex;
+
+	.saMeterOuter {
+		display: flex;
+		flex-flow: column;
+		align-items: center;
+		width: 100%;
+		fill: var(--Sa-Color-Text);
+	}
+
+	a.saMeterOuter {
+		.Hover({
+			text-decoration: none;
+
+			.saMeterHeading {
+				opacity: .8;
+			}
+		});
+	}
+
+	.saMeterHeading {
+		.InfoBoxControlHeading();
+	}
+
+	.saMeterValue {
+		stroke-width: 32;
+	}
+
+	.saIntervalVisibleArc {
+		stroke-width: 4;
+	}
+
+	.saIntervalTooltip {
+		stroke-width: 15;
+		stroke: transparent;
+	}
+
+	.saMeterUnreachedValue {
+		stroke: @ColorGray100;
+	}
+
+	.saMeterValueDefaultColor {
+		stroke: @ColorBlue600;
+	}
+
+	.saMeterGreen {
+		stroke: @ColorGreen300;
+	}
+
+	.saMeterYellow {
+		stroke: @ColorYellow300;
+	}
+
+	.saMeterRed {
+		stroke: @ColorRed500;
+	}
+
+	.saMeterIntervalWithTooltip {
+		.Hover({
+			.saMeterValueDefaultColor {
+				stroke: @ColorBlue700;
+			}
+
+			.saMeterGreen {
+				stroke: @ColorGreen400;
+			}
+
+			.saMeterYellow {
+				stroke: @ColorYellow400;
+			}
+
+			.saMeterRed {
+				stroke: @ColorRed600;
+			}
+		});
+	}
+
+	.saMeterValueText {
+		text-anchor: middle;
+	}
+
+	.saMeterIntervalText {
+		fill: var(--Sa-Color-TextSecondary);
+		font-size: 0.5rem;
+
+		&.saMeterTextLeft {
+			text-anchor: end;
+		}
+
+		&.saMeterTextCenter {
+			text-anchor: middle;
+		}
+
+		&.saMeterTextRight {
+			text-anchor: start;
+		}
+	}
+
+	.saSmallScreen & {
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+}

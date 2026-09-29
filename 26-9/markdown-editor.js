@@ -2,6 +2,8 @@
 	"use strict";
 
 	let nextId = 0;
+	const tablePickerMaxRows = 9;
+	const tablePickerMaxColumns = 8;
 	let dependencies;
 	const loadEditor = () => dependencies ||= Promise.all([
 		import("https://esm.sh/@tiptap/core@3.31.3"),
@@ -436,9 +438,9 @@
 		buildControls() {
 			this.controlId = `markdown-editor-${++nextId}`;
 			const id = this.controlId;
-			const tablePickerRows = Array.from({ length: 6 }, (_, rowIndex) => {
+			const tablePickerRows = Array.from({ length: tablePickerMaxRows - 1 }, (_, rowIndex) => {
 				const rows = rowIndex + 2;
-				const cells = Array.from({ length: 6 }, (_, columnIndex) => {
+				const cells = Array.from({ length: tablePickerMaxColumns }, (_, columnIndex) => {
 					const columns = columnIndex + 1;
 					const initial = rows === 3 && columns === 3;
 					return `<button type="button" role="gridcell" tabindex="${initial ? "0" : "-1"}" data-table-rows="${rows}" data-table-columns="${columns}" aria-label="${columns} column${columns === 1 ? "" : "s"} by ${rows} rows, including header"></button>`;
@@ -517,12 +519,12 @@
 					</ul>
 					<ul aria-label="Tables">
 						<li class="markdown-editor-table-menu">
-							<button class="saButtonIconToolbar" type="button" data-table-picker-button aria-label="Insert table" aria-haspopup="grid" aria-expanded="false" aria-controls="${id}-table-picker"><i class="saIcon far fad fa-table" aria-hidden="true"></i></button>
+							<button class="saButtonIconToolbar" type="button" data-table-picker-button aria-label="Insert table" aria-haspopup="grid" aria-expanded="false" aria-controls="${id}-table-picker"><i class="saIcon far fad fa-table" aria-hidden="true"></i><i class="saIcon fas fa-table" aria-hidden="true"></i></button>
 							<div class="saContextMenu saSouth" hidden>
 								<div class="saMarkdownEditorTablePicker" id="${id}-table-picker" role="grid" aria-label="Choose table size" aria-describedby="${id}-table-picker-status" data-table-picker>
 									${tablePickerRows}
 								</div>
-								<p id="${id}-table-picker-status" class="saMarkdownEditorTablePickerStatus" aria-live="polite">3 columns × 3 rows</p>
+								<span id="${id}-table-picker-status" class="saMarkdownEditorTablePickerStatus" aria-live="polite">3 columns × 3 rows</span>
 							</div>
 						</li>
 					</ul>
@@ -1412,12 +1414,12 @@
 			event.preventDefault();
 			let rows = Number(current.dataset.tableRows);
 			let columns = Number(current.dataset.tableColumns);
-			if (event.key === "ArrowDown") rows = Math.min(7, rows + 1);
+			if (event.key === "ArrowDown") rows = Math.min(tablePickerMaxRows, rows + 1);
 			if (event.key === "ArrowUp") rows = Math.max(2, rows - 1);
-			if (event.key === "ArrowRight") columns = Math.min(6, columns + 1);
+			if (event.key === "ArrowRight") columns = Math.min(tablePickerMaxColumns, columns + 1);
 			if (event.key === "ArrowLeft") columns = Math.max(1, columns - 1);
 			if (event.key === "Home") columns = 1;
-			if (event.key === "End") columns = 6;
+			if (event.key === "End") columns = tablePickerMaxColumns;
 			const next = this.tablePicker.querySelector(`[data-table-rows="${rows}"][data-table-columns="${columns}"]`);
 			this.previewTableSize(next);
 			this.focusTablePickerCell(next);

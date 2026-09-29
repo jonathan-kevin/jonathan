@@ -1,0 +1,253 @@
+.saTimelineWrapper {
+	display: flex;
+	width: 100%;
+	box-sizing: border-box;
+
+	.saLargeScreen & {
+		padding-bottom: 1rem;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+}
+
+.saTimeline {
+	display: flex;
+	flex-direction: row;
+	gap: 2rem;
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+	padding: 2px 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+	grid-auto-flow: row;
+
+	.saSmallScreen & {
+		padding: 2px 0.5rem;
+		gap: 0rem;
+		grid-template-columns: repeat(auto-fit, minmax(2.75rem, 1fr));
+	}
+
+	.saStep {
+		position: relative;
+
+		&:not(:last-child)::before {
+			content: '';
+			height: 1px;
+			width: calc(100% + 2rem);
+			position: absolute;
+			background-color: @ColorGray200;
+			top: 0.75rem;
+			left: 50%;
+			z-index: -2;
+
+			.saSmallScreen & {
+				top: 1.375rem;
+				width: 100%;
+			}
+		}
+	}
+
+	.saStepInner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+		min-height: 1.5rem;
+		color: @ColorGray900;
+		transition: ease background-color 0.2s, ease box-shadow 0.2s;
+		cursor: default;
+
+		.saSmallScreen & {
+			.FlexCentered();
+			height: 2.75rem;
+			padding: 0;
+		}
+	}
+
+	[aria-current="true"] .saStepInner {
+		color: @ColorBlue600;
+
+		.saStepIcon {
+			background-color: @ColorBlue600;
+			color: @ColorWhite;
+			border-color: transparent;
+		}
+
+		.saStepDescription {
+			color: @ColorBlue600;
+		}
+	}
+
+	.saComplete .saStepInner {
+		color: @ColorGray600;
+
+		.saStepIcon {
+			background-color: @ColorGreen500;
+			color: @ColorWhite;
+			border-color: transparent;
+		}
+	}
+
+	.saError .saStepInner {
+		color: @ColorRed600;
+
+		.saStepDescription {
+			color: currentColor;
+		}
+
+		.saStepIcon {
+			background-color: @ColorRed600;
+			color: @ColorWhite;
+			border-color: transparent;
+		}
+	}
+
+	.saWarning .saStepInner {
+		color: @ColorYellow600;
+
+		.saStepDescription {
+			color: currentColor;
+		}
+
+		.saStepIcon {
+			background-color: @ColorYellow500;
+			color: @ColorWhite;
+			border-color: transparent;
+		}
+	}
+
+	.saStep a.saStepInner {
+		cursor: pointer;
+
+		.Hover({
+			color: @ColorBlue600;
+
+			.saStepIcon {
+				color: @ColorWhite;
+				background-color: @ColorBlue600;
+				border-color: transparent;
+
+				.saIcon {
+					transform: translateY(-1.5rem);
+				}
+			}
+
+			.saStepDescription,
+			.saStepHeading .saIcon {
+				color: currentColor;
+			}
+		});
+
+		&:focus-visible {
+			color: @ColorBlue600;
+
+			.saStepIcon {
+				color: @ColorWhite;
+				background-color: @ColorBlue600;
+				border-color: transparent;
+
+				.saIcon {
+					transform: translateY(-1.5rem);
+				}
+			}
+
+			.saStepDescription,
+			.saStepHeading .saIcon {
+				color: currentColor;
+			}
+		}
+
+
+		&:active {
+			color: @ColorBlue700;
+
+			.saStepIcon {
+				color: @ColorWhite;
+				background-color: @ColorBlue700;
+				border-color: transparent;
+			}
+
+			.saStepDescription,
+			.saStepHeading .saIcon {
+				color: currentColor;
+			}
+		}
+	}
+
+	.saStepIcon {
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		height: 1.5rem;
+		width: 1.5rem;
+		min-width: 1.5rem;
+		border: 1px solid @ColorGray150;
+		background-color: @ColorGray100;
+		color: @ColorGray700;
+		border-radius: 9999rem;
+		font-size: 0.875rem;
+		line-height: 1.5rem;
+		text-align: center;
+		transition: ease 0.2s background-color, ease 0.2s color,
+			ease 0.2s border-color, ease 0.2s box-shadow;
+		overflow: hidden;
+		position: relative;
+
+		.saIcon {
+			.FlexCentered();
+			height: 1.5rem;
+			width: 1.5rem;
+			transition: ease 0.2s transform;
+			position: absolute;
+			top: -1px;
+			left: -1px;
+
+			&.fa-arrow-up-right {
+				top: 1.5rem;
+			}
+		}
+
+		&.saIcon {
+			.FlexCentered();
+			min-height: 1.5rem;
+			transition: ease 0.2s transform;
+		}
+	}
+
+	.saStepText {
+		text-align: center;
+		gap: 0.25rem;
+		font-size: 0.875rem;
+		padding-bottom: 2px;
+		max-width: 17rem;
+		overflow-wrap: anywhere;
+
+		.saSmallScreen & {
+			display: none;
+		}
+
+		.saIcon {
+			font-size: 0.75rem;
+			padding-left: 0.25rem;
+			color: @ColorGray500;
+		}
+	}
+
+	.saStepHeading {
+		font-weight: 500;
+		font-size: 0.875rem;
+		line-height: 1rem;
+		transition: ease color 0.2s;
+	}
+
+	.saStepDescription {
+		font-size: 0.75rem;
+		line-height: 1;
+		color: @ColorGray600;
+		margin-top: 0.25rem;
+		transition: ease color 0.2s;
+	}
+}

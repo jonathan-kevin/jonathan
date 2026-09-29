@@ -1,0 +1,357 @@
+.saMultiRowWrapper {
+	.saSmallScreen & {
+		// Make the new row button take up full width.
+		display: flex;
+		flex-direction: column;
+		margin-right: 0;
+	}
+
+	.saMultiRowTableWrapper {
+		.saSmallScreen & {
+			overflow-x: scroll;
+			width: calc(100vw - 2.125rem) !important;
+		}
+	}
+
+	.saMultiRow {
+		display: table;
+		padding-top: 2px; /* align column titles with field label */
+
+		.saInputTextWrapper {
+			/* @todo: base class should not have this margin! */
+			margin: 0;
+		}
+
+		.saLabelsBefore & {
+			padding-top: 0.5rem; /* align column titles with field label */
+		}
+	}
+
+	.saMultiRowDragHandle {
+		display: table-cell;
+		height: 100%;
+		min-width: 2rem;
+		max-width: 2rem;
+		cursor: grab;
+
+		&.saDisabled {
+			pointer-events: none;
+
+			.saIcon {
+				color: @ColorGray200;
+			}
+		}
+
+		&>div {
+			.FlexCentered();
+			height: 2rem;
+			width: 2rem;
+			position: relative;
+
+			.saSmallScreen & {
+				&::after{
+					content: '';
+					height: 2.75rem;
+					width: 2.75rem;
+					position: absolute;
+				}
+			}
+		}
+
+		.saIcon {
+			font-size: 1rem;
+			color: var(--Sa-Color-Icon);
+		}
+	}
+
+	&:has(.saMultiRowDragHandle) {
+		.saMultiRowNewRowButton {
+			margin-left: 2rem;
+		}
+	}
+
+	.saMultiRowHead,
+	.saMultiRowRow {
+		display: table-row;
+	}
+
+	.saMultiRowHeadGroup,
+	.saMultiRowRowsGroup {
+		display: contents;
+	}
+
+	.saMultiRowCellWrapper {
+		display: table-cell;
+		padding: 0 0.5rem 0.5rem 0;
+		vertical-align: top;
+
+		.saMultiRowHead & {
+			height: 1rem;
+		}
+
+		.saMultiRowRow & {
+			height: 2.5rem;
+
+			.saCompact & {
+				height: 2rem;
+			}
+		}
+
+		&:last-child {
+			padding-right: 0;
+		}
+	}
+
+	.saMultiRowCell {
+		display: flex;
+		gap: 0.5rem;
+		flex-direction: row;
+	}
+
+	.saMultiRowInputWrapper {
+		display: flex;
+		flex-direction: column;
+
+		.saAiHoverAnimation {
+			.AiIconHoverAnimation();
+		}
+	}
+
+	.saMultiRow .saLabel {
+		max-width: unset;
+		display: flex;
+		flex-direction: row;
+		gap: 0.5rem;
+		font-size: 0.875rem;
+		line-height: 1rem;
+		font-weight: 400;
+		word-break: keep-all;
+		text-wrap: nowrap;
+		.AiIcon();
+	}
+
+	ul.saMultiRowButtons {
+		display: flex;
+		flex-direction: row;
+		gap: 0.5rem;
+
+		li {
+			width: 2rem;
+			height: 2rem;
+		}
+	}
+}
+
+.saMultiRowSmallScreenWrapper {
+	display: block;
+
+	ol, ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	* {
+		box-sizing: border-box;
+		user-select: none;
+	}
+
+	.saMultiRowNewRowButton {
+		margin-top: 1rem;
+	}
+
+	&:has(.saMultiRowCardDragHandle) {
+		.saMultiRowNewRowButton {
+			margin-left: 1rem;
+		}
+	}
+
+	.saMultiRowSmallScreen {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.saMultiRowCard {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+		margin-top: -1px;
+		transition: height ease 2s;
+
+		&:not(.saOpen) {
+			height: 3rem;
+		}
+
+		&.saDragAndDropPlaceholder {
+			position: relative;
+
+			&::after {
+				content: '';
+				position: absolute;
+				height: 100%;
+				top: 0;
+				left: 1rem;
+				width: calc(100% - 1rem);
+				background-color: @ColorGray100;
+			}
+		}
+
+		&:first-child {
+			.saMultiRowCardInner {
+				border-top-left-radius: 0.75rem;
+				border-top-right-radius: 0.75rem;
+			}
+		}
+
+		&:last-child {
+			.saMultiRowCardInner {
+				border-bottom-left-radius: 0.75rem;
+				border-bottom-right-radius: 0.75rem;
+			}
+		}
+
+		.saRemove.saMultiRowCardInner {
+			transition: ease 0.5s background-color, ease 0.5s border-color;
+			border-color: @ColorRed600;
+			background-color: @ColorRed100;
+		}
+	}
+
+	.saMultiRowCardInner {
+		display: flex;
+		flex-direction: column;
+		border: 1px solid @ColorGray200;
+		overflow: hidden;
+		width: 100%;
+		background-color: @ColorGray50;
+		transition: ease 0.2s background-color, ease 0.2s border-color, ease 0.2s border-radius, ease 0.2s box-shadow;
+
+		.ui-sortable-helper & {
+			background-color: @ColorWhite;
+			border-radius: 0.5rem !important;
+			height: 3rem;
+			.BoxShadowWeak();
+		}
+
+		.saLabelCell {
+			display: block;
+			.AiIcon();
+		}
+	}
+
+	.saMultiRowCardDragHandle {
+		position: relative;
+		padding: 1rem 0.5rem 0 0;
+		color: @ColorGray500;
+		font-size: 1rem;
+		cursor: grab;
+
+		&::after {
+			content: '';
+			height: 3rem;
+			width: 2.75rem;
+			position: absolute;
+			top: 0;
+			left: -1rem;
+		}
+	}
+
+	.saMultiRowButtonsSmallScreen {
+		display: flex;
+		flex-direction: row;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+
+		button {
+			min-width: 2.5rem;
+			min-height: 2.5rem;
+		}
+	}
+
+	.saMultiRowSmallScreenWrapper .saMultiRowSmallScreen .saMultiRowCard .saFieldCell:last-child {
+		padding-bottom: 0;
+	}
+
+	.saMultiRowCardHeader {
+		display: flex;
+		align-items: safe center;
+		gap: 0.5rem;
+		width: 100%;
+		background-color: transparent;
+		color: var(--Sa-Color-Text);
+		line-height: 1;
+		padding: 0.5rem 1rem;
+		min-height: 3rem;
+		text-align: left;
+		overflow-wrap: anywhere;
+		transition: background-color ease 0.2s;
+		overflow: hidden;
+
+		.Hover({
+			background-color: var(--Sa-Color-Primary50);
+
+			.saMultiRowCardHeading,
+			.saMultiRowCardDesc,
+			.saIcon {
+				color: var(--Sa-Color-Primary700);
+			}
+		});
+
+		&:active {
+			background-color: var(--Sa-Color-Primary100);
+
+			.saMultiRowCardHeading,
+			.saMultiRowCardDesc,
+			.saIcon {
+				color: var(--Sa-Color-Primary800);
+			}
+		}
+
+		.saIcon {
+			font-size: 1rem;
+			color: var(--Sa-Color-Icon);
+		}
+
+		.saIcon {
+			margin-left: auto;
+			transition: ease 0.2s transform;
+		}
+	}
+
+	.saOpen .saMultiRowCardHeader .fa-angle-down {
+		transform: rotate(180deg);
+	}
+
+	.saMultiRowCardHeading {
+		font-size: 1rem;
+		font-weight: 500;
+		transition: color ease 0.2s;
+	}
+
+	.saMultiRowCardBodyWrapper {
+		height: 0;
+		transition: height ease 0.2s, padding ease 0.2s;
+		interpolate-size: allow-keywords;
+		visibility: hidden;
+		overflow: hidden;
+	}
+
+	.saOpen .saMultiRowCardBodyWrapper {
+		height: auto;
+		visibility: visible;
+	}
+
+	.saMultiRowCardBody {
+		padding: 1rem;
+	}
+
+	.saEmptyState {
+		border: 1px solid @ColorGray200;
+		background-color: @ColorGray50;
+		border-radius: 0.5rem;
+	}
+
+	.saIconOnlyFieldButton:not(.saDestructive):not(.saDisabled) {
+		background-color: @ColorWhite;
+	}
+}

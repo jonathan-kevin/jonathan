@@ -1,0 +1,823 @@
+.saLargeScreen .saSmallScreenHeader {
+	display: none;
+}
+
+.saSmallScreen .saDesktopHeader {
+	display: none;
+}
+
+.saPageHeader,
+.saPartHeader,
+.saPartButtons {
+	.ContextMenu();
+
+	.saSpecialLinksWrapper {
+		display: flex;
+
+		&:empty {
+			display: none;
+		}
+
+		#IFDEF GreenExcelButton .saExcel button {
+			.ButtonExcel();
+		}
+
+		button {
+			.Button();
+			.ButtonGhost();
+			.IconButtonSizeCompact();
+		}
+	}
+}
+
+.saPageHeader,
+.saPartButtons {
+	.saExtraButtonList {
+		display: flex;
+		flex: 1;
+		justify-content: flex-end;
+		gap: 0.5rem;
+	}
+
+	.NavigationBar();
+}
+
+.saLargeScreen .saPageHeaderHolder {
+	box-sizing: border-box;
+	position: relative;
+}
+
+.saLargeScreen.saPopup .saPageHeader {
+	margin: @PageHeaderPopupMargin @PageHeaderPopupMargin 0 @PageHeaderPopupMargin;
+	padding-top: 0;
+}
+
+.saLargeScreen .saPageHeader {
+	box-sizing: border-box;
+	margin: 0 1.5rem @PageHeaderMargin 1.5rem;
+	padding-top: 0.5rem;
+
+	.saTopRow {
+		height: 2rem;
+	}
+
+	.saBottomRow {
+		margin-top: -0.25rem;
+		margin-bottom: 0.25rem;
+	}
+
+	.saHeader {
+		box-sizing: border-box;
+		flex-wrap: nowrap;
+		flex-direction: row;
+		width: 100%;
+		position: relative;
+	}
+
+	.saHeaderWrapper {
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+.saPageHeader {
+	justify-content: center;
+	transition: ease .2s all;
+	display: flex;
+
+	.saHeaderText {
+		.Ellipsis();
+		color: var(--Sa-Color-Text);
+	}
+
+	.saBottomRow {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		min-width: 0;
+	}
+
+	.saMarkFavorite i {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1rem;
+		height: 1.5rem;
+		min-width: 1.5rem;
+
+		&::after {
+			content: '';
+			height: 2.75rem;
+			width: 2.75rem;
+			position: absolute;
+		}
+	}
+
+	.saHeader {
+		margin: auto;
+		top: 0;
+		display: flex;
+		align-items: stretch;
+	}
+
+	.saRowWrapper {
+		display: flex;
+		flex-direction: column;
+		flex-basis: 100%;
+		justify-content: space-between;
+		min-width: 0;
+	}
+
+	.saTopRow {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		max-height: fit-content;
+		flex-shrink: 1;
+		min-width: 0;
+	}
+
+	.saBreadcrumbs {
+		display: flex;
+		align-items: center;
+		min-width: 0;
+		flex-shrink: 99;
+		width: 100%;
+		min-height: 1.5rem;
+		max-height: 1.5rem;
+
+		.saBackButtonWrapper {
+			margin-right: 1rem;
+		}
+	}
+
+	.saBackButtonWrapper {
+		max-width: 2rem;
+
+		&:has(button:disabled) {
+			cursor: not-allowed;
+		}
+	}
+
+	.saBackButton {
+		.Button();
+		border-radius: 0.25rem;
+		margin-left: -0.5rem;
+		padding: 0;
+		position: relative;
+
+		.saLargeScreen & {
+			.ButtonGhost();
+			.IconButtonSizeCompact();
+
+			.Hover({
+				.saBack {
+					transform: translateX(-2px);
+				}
+			});
+
+			&:disabled {
+				background-color: transparent;
+
+				.saIcon {
+					color: @ColorGray100;
+				}
+			}
+		}
+
+		&::after {
+			content: '';
+			height: 3.5rem;
+			width: 3.5rem;
+			opacity: 0;
+			position: absolute;
+			right: -0.5rem;
+			top: -1rem;
+		}
+
+		.saIcon {
+			transition: all .2s ease;
+		}
+	}
+
+	.saBreadcrumb {
+		height: 1.25rem;
+		white-space: nowrap;
+		font-size: 0.875rem;
+		display: flex;
+		align-items: center;
+
+		> a,
+		> div {
+			text-decoration: none;
+			color: var(--Sa-Color-Link);
+			cursor: pointer;
+		}
+
+		> a:hover {
+			text-decoration: underline;
+		}
+
+		> a:active {
+			color: var(--Sa-Color-Link-Brightness80);
+		}
+
+		.saContextMenuWrapper {
+			display: none;
+		}
+
+		&.saOpen .saContextMenuWrapper {
+			display: flex;
+			position: absolute;
+
+			.saContextMenu {
+				top: 0.5rem;
+			}
+		}
+	}
+
+	.saBreadcrumbSeparator {
+		font-weight: 300;
+		margin: 0.5rem;
+		color: @ColorGray200;
+	}
+
+	.saBreadcrumbs .saNoLinkBreadcrumb {
+		color: var(--Sa-Color-TextSecondary);
+		pointer-events: none;
+	}
+
+	.saBreadcrumb:last-child {
+		padding-right: 2rem;
+	}
+
+	.saNavigator {
+		display: none;
+	}
+
+	.saTitle {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		min-width: 0;
+		width: 100%;
+		flex-shrink: 1;
+		max-width: fit-content;
+	}
+}
+
+//--------Standard MODE--------
+.saStandard.saLargeScreenHasTopButtons .saPageHeader .saHeader {
+	height: @LongHeaderHeightStandard;
+}
+
+.saStandard .saPageHeader {
+	.saHeader {
+		gap: 1.5rem;
+		height: @HeaderHeightStandard;
+	}
+
+	.saTopRow {
+		min-height: 1rem;
+	}
+
+	.saHeaderWrapper {
+		gap: 0.5rem;
+		flex: 1;
+		min-width: 0;
+		margin-right: 1.5rem;
+	}
+
+	.saTitle {
+		gap: 1rem;
+	}
+
+	.saMarkFavorite i {
+		font-size: 1.25rem;
+		height: 2rem;
+		min-width: 2rem;
+	}
+}
+
+//--------COMPACT MODE--------
+.saCompact.saLargeScreenHasTopButtons .saPageHeader .saHeader {
+	height: @LongHeaderHeightCompact;
+}
+
+.saCompact .saPageHeader {
+	.saHeader {
+		min-width: 0;
+		gap: 1rem;
+		height: @HeaderHeightCompact;
+	}
+
+	.saTopRow {
+		min-height: 1rem;
+	}
+
+	.saHeaderWrapper {
+		flex: 1;
+		gap: 0;
+		min-width: 0;
+	}
+
+	.saBreadcrumbs {
+		font-size: 0.875rem;
+	}
+
+	.saTitle {
+		gap: 0.5rem;
+	}
+}
+
+//--------MOBILE MODE--------
+.saSmallScreen .saPageHeader,
+.saSmallscreensidebar .saPageHeader {
+	z-index: @ZIndexSmallscreenPageHeader;
+	position: relative;
+
+	.saLogotypeHeader {
+		.saLogoRow {
+			max-width: 100%;
+			height: 2rem;
+			box-sizing: border-box;
+			position: relative;
+			background-color: @ColorWhite;
+			z-index: @ZIndexSmallscreenPageHeader;
+		}
+
+		.saLogotype {
+			height: 2rem;
+			max-width: 100%;
+		}
+
+		.saSmallScreenHasTopButtons& {
+			.saTopRow {
+				box-shadow: none;
+			}
+
+			&.saHideButtons .saTopRow {
+				box-shadow: 0 0.25rem 0.25rem fade(@ColorGray900, 7);
+			}
+		}
+
+		.saTopRow {
+			background-color: @ColorWhite;
+			box-shadow: 0 0.25rem 0.25rem fade(@ColorGray900, 7);
+			height: @ShortHeaderHeightSmallscreen;
+
+			.saBackButton:active {
+				background: @ColorGray300;
+			}
+
+			h1 {
+				color: var(--Sa-Color-Text);
+			}
+
+			.saIcon {
+				color: var(--Sa-Color-Icon);
+			}
+
+			.saNavBarStripe {
+				background-color: @ColorGray500;
+			}
+		}
+
+		.saBottomRow {
+			top: 5.5rem;
+		}
+	}
+
+	.saHeader {
+		padding: 0;
+		flex-direction: column;
+		min-width: 0;
+		width: 100%;
+		z-index: 2;
+		color: @ColorWhite;
+		border: none;
+
+		&.saHideButtons .saBottomRow {
+			transform: translateY(-4rem);
+			box-shadow: none;
+		}
+	}
+
+	.saNotificationWrapper {
+		position: relative;
+		display: flex;
+		min-width: 2.5rem;
+		height: 2.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: none;
+		border-radius: 0.5rem;
+
+		.saBadgeCount {
+			position: absolute;
+			height: 1rem;
+			min-width: 1rem;
+			right: 0;
+			top: 0;
+
+			&.saEmpty {
+				display: none;
+			}
+		}
+
+		.saIcon {
+			font-size: 1.5rem;
+			min-height: 1.625rem;
+			color: @ColorWhite;
+			align-items: start;
+		}
+	}
+
+	.saBackButton {
+		min-width: 2.5rem;
+		height: 2.5rem;
+		position: relative;
+		margin-left: -0.5rem;
+		background-color: transparent;
+
+		i {
+			color: @ColorWhite;
+		}
+
+		.Hover({
+			background: none;
+		});
+
+		&:active {
+			background: var(--Sa-Color-Primary800);
+		}
+
+		&::after {
+			content: '';
+			height: 3.5rem;
+			width: 3.5rem;
+			top: -0.5rem;
+			left: -0.5rem;
+			padding: 0;
+		}
+	}
+
+	.saTopRow {
+		padding: 0.5rem 0.5rem 0.5rem 1rem;
+		background: var(--Sa-Color-Primary600);
+		gap: 0.5rem;
+		position: relative;
+		max-width: 100%;
+		box-sizing: border-box;
+		z-index: @ZIndexSmallscreenPageHeader;
+	}
+
+	.saBottomRow {
+		position: absolute;
+		top: 3.4375rem;
+		width: calc(100% - 2rem);
+		background: @ColorWhite;
+		z-index: @ZIndexSmallscreenTopButtons;
+		padding: 0.75rem 1rem;
+		gap: 0;
+		transition: ease transform .4s, ease box-shadow .2s;
+		.BoxShadowWeak();
+	}
+
+	.saHeaderWrapper {
+		display: flex;
+		width: 100%;
+		justify-content: flex-start;
+		text-align: left;
+		align-items: center;
+		min-width: 0;
+	}
+
+	.saBreadcrumbs {
+		display: none;
+	}
+
+	.saTitle {
+		justify-content: center;
+		flex: 1;
+		min-width: 0;
+		gap: 0.5rem;
+
+		p {
+			.Ellipsis();
+		}
+
+		h1 {
+			.Ellipsis();
+			min-width: 0;
+			font-size: 1rem;
+			line-height: 2rem;
+			font-weight: 600;
+			color: @ColorWhite;
+			text-align: left;
+			justify-content: flex-start;
+		}
+	}
+
+	.saNavigator {
+		display: flex;
+		height: 2.5rem;
+		min-width: 2.5rem;
+		align-items: center;
+		justify-content: space-evenly;
+		cursor: pointer;
+		border-radius: 0.5rem;
+		transition: all 0.2s;
+		color: var(--Sa-Color-TextSecondary);
+		z-index: 2;
+		position: relative;
+		background: none;
+	}
+
+	.saNavigator:active {
+		color: var(--Sa-Color-Primary800);
+	}
+}
+
+.saSmallScreen.saPopup .saNavigator {
+	display: none;
+}
+
+.saNavBar {
+	width: 1.5rem;
+	cursor: pointer;
+	display: flex;
+	gap: 0.5rem;
+	flex-direction: column;
+}
+
+.saNavBarStripe {
+	display: block;
+	width: 100%;
+	border-radius: 2px;
+	height: 2px;
+	background: @ColorWhite;
+	transition: all .3s;
+	position: relative;
+}
+
+.saActive .saNavBarStripe:nth-child(1) {
+	animation: ease .4s top-1 forwards;
+}
+
+.saInactive .saNavBarStripe:nth-child(1) {
+	animation: ease .4s top-2 forwards;
+}
+
+.saActive .saNavBarStripe:nth-child(2) {
+	animation: ease .4s scaled-1 forwards;
+}
+
+.saInactive .saNavBarStripe:nth-child(2) {
+	animation: ease .4s scaled-2 forwards;
+}
+
+.saActive .saNavBarStripe:nth-child(3) {
+	animation: ease .4s bottom-1 forwards;
+}
+
+.saInactive .saNavBarStripe:nth-child(3) {
+	animation: ease .4s bottom-2 forwards;
+}
+
+// -------------------------------- TABVIEW -------------------------------- //
+.saLargeScreen.saMiniView .saPageHeader {
+	margin: 0 1.5rem 0 1.5rem;
+	padding-top: 0;
+
+	.saHeader {
+		margin: 0;
+		padding: @TabHeaderPadding;
+		border: none;
+		box-shadow: none;
+		width: 100%;
+		padding: 1rem 0;
+	}
+
+	.saBackButton {
+		margin-left: 0.25rem;
+	}
+}
+
+.saStandard.saMiniView .saPageHeader .saHeader {
+	height: @ShortMiniViewHeaderHeightStandard;
+}
+
+.saStandard.saMiniView.saLargeScreenHasTopButtons .saPageHeader .saHeader {
+	height: @LongMiniViewHeaderHeightStandard;
+}
+
+.saCompact.saMiniView .saPageHeader .saHeader {
+	height: @ShortMiniViewHeaderHeightCompact;
+}
+
+.saCompact.saMiniView.saLargeScreenHasTopButtons .saPageHeader .saHeader {
+	height: @LongMiniViewHeaderHeightCompact;
+}
+
+// -------------------------------- Multipart ------------------------------ //
+.saLargeScreen .saSmallScreenNavigationBar {
+	display: none;
+}
+
+.saSmallScreen .saDesktopNavigationBar {
+	display: none;
+}
+
+.saLargeScreen .saPartHeader {
+	&.saHideHeader {
+		display: none;
+	}
+
+	.saExpandWrapper {
+		display: none;
+	}
+}
+
+.saSmallScreen .saPartHeader {
+	padding: 0.5rem 0.5rem 0.5rem 1rem;
+
+	.saAdminLink,
+	.saExcel {
+		display: none;
+	}
+
+	&.saHideHeader {
+		padding: 0.5rem;
+	}
+}
+
+.saSmallScreen .saExpandWrapper {
+	.saExpand {
+		.Button();
+		.IconButtonSizeCompact();
+		.ButtonGhost();
+
+		&.saClosed .saIcon {
+			transform: rotate(180deg);
+		}
+
+		&::after {
+			content: '';
+			height: 3rem;
+			width: 3rem;
+			position: absolute;
+			margin-right: -0.5rem;
+		}
+	}
+}
+
+.saLargeScreen .saHasBorder .saPartHeader {
+	padding: 1rem 1rem 0 1rem;
+}
+
+.saPartHeader {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	box-sizing: border-box;
+	padding-bottom: 0.5rem;
+
+	.saPartTitleWrapper {
+		display: flex;
+		gap: 0.25rem;
+		flex-shrink: 1;
+		width: 100%;
+		max-width: fit-content;
+	}
+
+	.saPartHeading {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		box-sizing: border-box;
+		gap: 0.25rem;
+
+		h2 {
+			overflow-wrap: anywhere;
+			line-height: 1.875rem;
+		}
+	}
+}
+
+.saPartButtons .saTopButtons {
+	min-width: 0;
+}
+
+.saPartButtons .saNavigationBar {
+	padding-bottom: 0.5rem;
+}
+
+.saStandard .saPartButtons .saNavigationBar {
+	padding-bottom: 1rem;
+}
+
+.saCompact .saPartButtons .saTopButtons {
+	gap: 0.5rem;
+}
+
+.saSmallScreen .saPartButtons .saTopButtons {
+	justify-content: space-between;
+}
+
+@keyframes top-1 {
+	0% {
+		top: 0;
+		transform: rotate(0);
+	}
+
+	50% {
+		top: 0.625rem;
+		transform: rotate(0);
+	}
+
+	100% {
+		top: 0.625rem;
+		transform: rotate(45deg);
+	}
+}
+
+@keyframes top-2 {
+	0% {
+		top: 0.625rem;
+		transform: rotate(45deg);
+	}
+
+	50% {
+		top: 0.625rem;
+		transform: rotate(0deg);
+	}
+
+	100% {
+		top: 0;
+		transform: rotate(0deg);
+	}
+}
+
+@keyframes bottom-1 {
+	0% {
+		bottom: 0;
+		transform: rotate(0);
+	}
+
+	50% {
+		bottom: 0.625rem;
+		transform: rotate(0);
+	}
+
+	100% {
+		bottom: 0.625rem;
+		transform: rotate(135deg);
+	}
+}
+
+@keyframes bottom-2 {
+	0% {
+		bottom: 0.625rem;
+		transform: rotate(135deg);
+	}
+
+	50% {
+		bottom: 0.625rem;
+		transform: rotate(0);
+	}
+
+	100% {
+		bottom: 0;
+		transform: rotate(0);
+	}
+}
+
+@keyframes scaled-1 {
+	50% {
+		transform: scale(0);
+	}
+
+	100% {
+		transform: scale(0);
+	}
+}
+
+@keyframes scaled-2 {
+	0% {
+		transform: scale(0);
+	}
+
+	50% {
+		transform: scale(0);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}

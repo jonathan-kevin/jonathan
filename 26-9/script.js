@@ -373,7 +373,7 @@ $(document).ready(function () {
 
 		if (isSmall) {
 			$body
-				.removeClass('saLargeScreen saPc')
+				.removeClass('saLargeScreen saPc saCompact')
 				.addClass('saSmallScreen saSmallscreensidebar saSmallScreenSidebarJs saMobile');
 
 			$bodyAlt
@@ -382,7 +382,7 @@ $(document).ready(function () {
 		} else {
 			$body
 				.removeClass('saSmallScreen saSmallscreensidebar saSmallScreenSidebarJs saMobile')
-				.addClass('saLargeScreen saPc');
+				.addClass('saLargeScreen saCompact saPc');
 
 			$bodyAlt
 				.removeClass('smallscreen saSmallScreen saSmallScreenJs saMobile')

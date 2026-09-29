@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Bird Adoption Records</title>
-	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css?v=sidebar-dialog-20260925">
+	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css?v=grid-filter-less-20260929">
 	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
 	<link rel="stylesheet" href="../src/fontawesome/css/duotone-regular.css">
 	<meta name="description" content="Demo">
@@ -15,6 +15,7 @@
 	<script src="./script.js?v=sidebar-dialog-20260925"></script>
 	<script src="./live.js#css,html,js" defer></script>
 	<script src="./markdown-editor.js" defer></script>
+	<script src="./table-filter.js?v=5" defer></script>
 	<link rel="icon" type="image/png" size="16x16" href="../src/img/favicon.svg">
 </head>
 
@@ -1432,22 +1433,21 @@
 		(() => {
 			const grid = document.querySelector(".saGrid");
 			const selectAllCheckbox = grid?.querySelector("thead .saGridCheckbox input[type='checkbox']");
-			const rowCheckboxes = Array.from(
-				grid?.querySelectorAll("tbody .saGridCheckbox input[type='checkbox']") ?? []
-			);
+			const rowCheckboxes = Array.from(grid?.querySelectorAll("tbody .saGridRow .saGridCheckbox input[type='checkbox']") ?? []);
 			const selectedItemsCounter = document.querySelector(".saSelectedItemsCounter");
 
 			if (!selectAllCheckbox || !selectedItemsCounter || rowCheckboxes.length === 0) return;
 
 			const updateSelectionState = () => {
-				const selectedCount = rowCheckboxes.filter((checkbox) => checkbox.checked).length;
+				const visibleCheckboxes = rowCheckboxes.filter((checkbox) => !checkbox.closest("tr").hidden);
+				const selectedCount = visibleCheckboxes.filter((checkbox) => checkbox.checked).length;
 				selectedItemsCounter.textContent = `${selectedCount} selected`;
-				selectAllCheckbox.checked = selectedCount === rowCheckboxes.length;
-				selectAllCheckbox.indeterminate = selectedCount > 0 && selectedCount < rowCheckboxes.length;
+				selectAllCheckbox.checked = visibleCheckboxes.length > 0 && selectedCount === visibleCheckboxes.length;
+				selectAllCheckbox.indeterminate = selectedCount > 0 && selectedCount < visibleCheckboxes.length;
 			};
 
 			selectAllCheckbox.addEventListener("change", () => {
-				rowCheckboxes.forEach((checkbox) => {
+				rowCheckboxes.filter((checkbox) => !checkbox.closest("tr").hidden).forEach((checkbox) => {
 					checkbox.checked = selectAllCheckbox.checked;
 				});
 				updateSelectionState();
@@ -1456,6 +1456,7 @@
 			rowCheckboxes.forEach((checkbox) => {
 				checkbox.addEventListener("change", updateSelectionState);
 			});
+			grid.addEventListener("table-filter-change", updateSelectionState);
 
 			updateSelectionState();
 		})();

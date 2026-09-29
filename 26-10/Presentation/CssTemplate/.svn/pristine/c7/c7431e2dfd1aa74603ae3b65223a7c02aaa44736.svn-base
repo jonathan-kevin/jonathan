@@ -1,0 +1,1137 @@
+@FieldWidthShortest: 3.5rem;
+@FieldWidthShort: 6rem;
+@FieldWidthMediumShort: 8.75rem;
+@FieldWidthMediumLong: 16rem;
+@FieldWidthLong: 23.5rem;
+@FieldWidthLongest: 40rem;
+.DisabledControl() {
+	border-color: transparent;
+	box-shadow: none;
+	background: @ColorGray100;
+	color: @ColorGray400;
+}
+
+input.saCheckbox {
+	.AppearanceNone();
+	background-color: @ColorWhite;
+	font: inherit;
+	min-width: 1.25rem;
+	height: 1.25rem;
+	border: 2px solid @ColorGray600;
+	border-radius: 0.375rem;
+	display: flex;
+	cursor: pointer;
+	transition: border 0.2s, background-color 0.2s;
+	position: relative;
+
+	&::after {
+		content: "";
+		position: absolute;
+		height: 2.5rem;
+		min-width: 2.5rem;
+		color: transparent;
+		background-color: transparent;
+		box-sizing: border-box;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	// Unchecked.
+	.Hover({
+		background-color: var(--Sa-Color-Primary100);
+		border-color: var(--Sa-Color-Primary600);
+	});
+
+	&:active {
+		background-color: var(--Sa-Color-Primary200);
+	}
+
+	&:disabled {
+		background-color: @ColorGray100;
+		pointer-events: none;
+		border-color: @ColorGray200;
+	}
+
+	// Checked.
+	&:checked {
+		background-color: var(--Sa-Color-Primary600);
+		border-color: var(--Sa-Color-Primary700);
+
+		.Hover({
+			background-color: var(--Sa-Color-Primary400);
+			border-color: var(--Sa-Color-Primary600);
+		});
+
+		&:active {
+			background-color: var(--Sa-Color-Primary500);
+		}
+
+		&:disabled {
+			background-color: @ColorGray100;
+			pointer-events: none;
+			border-color: @ColorGray200;
+
+			&::before {
+				background-color: @ColorGray600;
+			}
+		}
+	}
+
+	&::before {
+		content: "";
+		width: 1.125rem;
+		height: 1.125rem;
+		transition: transform 0.1s ease;
+		background-color: @ColorWhite;
+		transform-origin: center;
+		clip-path: polygon( 78.5% 38.5%, 46.5% 70.5%, 46.5% 70.5%, 46.172% 70.799%, 45.792% 71.092%, 45.371% 71.373%, 44.916% 71.636%, 44.438% 71.875%, 43.944% 72.084%, 43.445% 72.257%, 42.948% 72.388%, 42.464% 72.471%, 42% 72.5%, 42% 72.5%, 41.537% 72.485%, 41.052% 72.436%, 40.556% 72.352%, 40.056% 72.228%, 39.563% 72.063%, 39.084% 71.852%, 38.63% 71.594%, 38.208% 71.284%, 37.829% 70.921%, 37.5% 70.5%, 21.5% 54.5%, 21.5% 54.5%, 20.825% 53.708%, 20.3% 52.844%, 19.925% 51.926%, 19.7% 50.972%, 19.625% 50%, 19.7% 49.028%, 19.925% 48.074%, 20.3% 47.156%, 20.825% 46.292%, 21.5% 45.5%, 21.5% 45.5%, 22.292% 44.825%, 23.156% 44.3%, 24.074% 43.925%, 25.028% 43.7%, 26% 43.625%, 26.972% 43.7%, 27.926% 43.925%, 28.844% 44.3%, 29.708% 44.825%, 30.5% 45.5%, 42% 57%, 69.5% 29.5%, 69.5% 29.5%, 70.292% 28.825%, 71.156% 28.3%, 72.074% 27.925%, 73.028% 27.7%, 74% 27.625%, 74.972% 27.7%, 75.926% 27.925%, 76.844% 28.3%, 77.708% 28.825%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 79.175% 30.292%, 79.7% 31.156%, 80.075% 32.074%, 80.3% 33.028%, 80.375% 34%, 80.3% 34.972%, 80.075% 35.926%, 79.7% 36.844%, 79.175% 37.708%, 78.5% 38.5% );		transform: scale(0);
+		transform: translate(-50%, -50%) scale(0);
+		position: absolute;
+		top: 50%;
+		left: 50%;
+	}
+
+	&:checked::before {
+		transform: translate(-50%, -50%) scale(1);
+	}
+
+	// Indeterminate.
+	&:indeterminate {
+		background-color: var(--Sa-Color-Primary600);
+		border-color: var(--Sa-Color-Primary700);
+
+		.Hover({
+			background-color: var(--Sa-Color-Primary400);
+			border-color: var(--Sa-Color-Primary600);
+		});
+
+		&:active {
+			background-color: var(--Sa-Color-Primary500);
+		}
+
+		&:disabled {
+			background-color: @ColorGray100;
+			pointer-events: none;
+			border-color: @ColorGray200;
+
+			&::before {
+				background-color: @ColorGray600;
+			}
+		}
+	}
+
+	&:indeterminate::before {
+		content: "";
+		width: 0.625rem;
+		height: 0.1875rem;
+		border-radius: 1px;
+		transition: transform 0.1s;
+		background-color: @ColorWhite;
+		clip-path: none;
+		transform: translate(-50%, -50%) scale(1);
+	}
+
+	.saHighlightFieldError &:not(:disabled) {
+		&:not(:indeterminate) {
+			border-color: @ColorRed600;
+
+			&:checked {
+				background-color: @ColorRed600;
+				border-color: @ColorRed700;
+
+				.Hover({
+					background-color: @ColorRed400;
+					border-color: @ColorRed600;
+				});
+
+				&:active {
+					background-color: @ColorRed500;
+				}
+			}
+
+			.Hover({
+				background-color: @ColorRed100;
+			});
+
+			&:active {
+				background-color: @ColorRed200;
+			}
+		}
+	}
+
+	.saHighlightFieldWarning &:not(:disabled) {
+		&:not(:indeterminate) {
+			border-color: @ColorYellow500;
+
+			&::before {
+				background-color: @ColorYellow700;
+			}
+
+			&:checked {
+				background-color: @ColorYellow300;
+				border-color: @ColorYellow500;
+
+				.Hover({
+					background-color: @ColorYellow200;
+					border-color: @ColorYellow500;
+				});
+
+				&:active {
+					background-color: @ColorYellow100;
+				}
+			}
+
+			.Hover({
+				background-color: @ColorYellow100;
+			});
+
+			&:active {
+				background-color: @ColorYellow200;
+			}
+		}
+	}
+
+	.saCheckboxHeading & {
+		margin-right: 0.75rem;
+	}
+
+	.saSmallScreen .saCheckboxHeading & {
+		margin: 0 0.25rem 0 0.5rem;
+	}
+}
+
+.saLargeScreen .saCheckboxControl {
+	padding: 0.375rem 0.625rem 0.375rem 0;
+}
+
+.saHighlightFieldError:not(.saDisabled) {
+	&.saInputTextWrapper .saInputText,
+	.saSignatureOuter,
+	&.saInputDateRange {
+		background-color: @ColorRed50;
+		box-shadow: inset 0 0 0 2px @ColorRed600;
+
+		.Hover ({
+			box-shadow: inset 0 0 0 2px @ColorRed700;
+		});
+
+		&:focus-within {
+			box-shadow: inset 0 0 0 2px @ColorRed700;
+		}
+	}
+
+	select:not(.saListBox) option:nth-child(even) {
+		background: @ColorRed100;
+	}
+
+	&.saTextboxWithPopupWrapper select {
+		background: @ColorWhite;
+	}
+}
+
+.saHighlightFieldWarning:not(.saDisabled) {
+	&.saInputTextWrapper .saInputText,
+	&.saInputDateRange {
+		background-color: @ColorYellow50;
+		box-shadow: inset 0 0 0 2px @ColorYellow300;
+
+		.Hover ({
+			box-shadow: inset 0 0 0 2px @ColorYellow400;
+		});
+
+		&:focus-within {
+			box-shadow: inset 0 0 0 2px @ColorYellow400;
+		}
+	}
+
+	select:not(.saListBox) option:nth-child(even) {
+		background: @ColorYellow100;
+	}
+
+	&.saTextboxWithPopupWrapper select {
+		background: @ColorWhite;
+	}
+}
+
+/*---------------------------------------- TextBox ----------------------------------------*/
+select.saInputText {
+	cursor: pointer;
+}
+
+.saInputTextWrapper.saLabeled {
+	.saLabeledLabel {
+		position: absolute;
+		pointer-events: none;
+		color: var(--Sa-Color-TextSecondary);
+		.StandardTransition();
+		top: 0.5rem;
+		left: 0.5rem;
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+		width: calc(~'100% - 2rem');
+		height: 1.125rem;
+
+		&.saGroupingGridLabel {
+			font-size: 0.875rem;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			transition: ease font-size 0.1s;
+			color: var(--Sa-Color-Text);
+
+			.saCompact & {
+				top: 0.4375rem;
+			}
+		}
+
+		.saCompact & {
+			top: 0.25rem;
+		}
+
+		.saSmallScreen & {
+			top: 0.75rem;
+			left: 0.75rem;
+		}
+	}
+
+	.saInputText {
+		padding-top: 0.75rem;
+		padding-left: 0.5rem;
+		padding-bottom: 0;
+
+		&.saGridGroupingDropdown {
+			color: transparent;
+			background-color: @ColorWhite;
+			padding: 0.75rem 1.25rem 0 0.5rem;
+			min-width: 7.5rem;
+			.AppearanceNone();
+			max-width: 8.75rem;
+			text-overflow: ellipsis;
+		}
+	}
+
+	&.saGroupingGrid.saIsGrouped,
+	&.saGroupingGrid:focus-within {
+		.saLabeledLabel {
+			top: 2px;
+			font-size: 0.75rem;
+			color: var(--Sa-Color-TextSecondary);
+		}
+
+		.saGridGroupingDropdown {
+			color: var(--Sa-Color-Text);
+		}
+	}
+}
+
+.saInputTextWrapper {
+	.DefaultFieldWrapper();
+	position: relative;
+	margin-right: 1rem;
+
+	&.saEditableDropdown {
+		margin-right: 0;
+	}
+
+	/*&.saHasLeadingIcon .saInputText {
+		padding-left: 2.75rem;
+	}*/
+
+	/*.saCompact */&.saHasLeadingIcon .saInputText {
+		padding-left: 2rem;
+
+		.saSmallScreen & {
+			padding-left: 2.75rem;
+		}
+	}
+
+	/*&.saHasTrailingIcons .saInputText {
+		padding-right: 2.75rem;
+	}
+
+	.saCompact */&.saHasTrailingIcons .saInputText {
+		padding-right: 2rem;
+
+		.saSmallScreen & {
+			padding-right: 2.75rem;
+		}
+	}
+
+	.saLeadingIconWrapper {
+		position: absolute;
+		color: var(--Sa-Color-IconDark);
+		left: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		z-index: 1;
+		font-size: 1.25rem;
+		padding: 0 0.5rem 0 0.25rem;
+		height: 2rem;
+		min-width: 2rem;
+
+		.saSmallScreen & {
+			height: 2.75rem;
+			min-width: 2.75rem;
+		}
+	}
+
+	.saTrailingIconsWrapper {
+		display: flex;
+		position: absolute;
+		right: 0;
+		pointer-events: none;
+		align-items: center;
+		min-width: 2rem;
+
+		.saIcon {
+			position: relative;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: auto;
+			transition-property: color, background-color, border-radius;
+			transition-duration: .2s;
+			transition-timing-function: ease;
+			color: var(--Sa-Color-IconDark);
+			background-color: transparent;
+		}
+
+		.saActionIcon:not(:disabled) {
+			cursor: pointer;
+			pointer-events: auto;
+			background: transparent;
+			border: none;
+			border-radius: 0.25rem;
+			.StandardTransition();
+
+			.saIcon {
+				color: var(--Sa-Color-Primary600);
+			}
+
+			.Hover({
+				background: var(--Sa-Color-Primary600-Brightness180);
+
+				&::after {
+					height: 0;
+				}
+			});
+
+			&:active {
+				background: var(--Sa-Color-Primary600);
+				transform: scale(.96);
+				border-radius: 0.5rem;
+
+				.saIcon {
+					color: var(--Sa-Color-InputFieldIconInverted);
+				}
+
+				&::after {
+					height: 0;
+				}
+			}
+
+			&.saActive {
+				background: var(--Sa-Color-Primary600);
+				border-radius: 0.5rem;
+
+				.saIcon {
+					color: var(--Sa-Color-InputFieldIconInverted);
+				}
+
+				&::after {
+					height: 0;
+				}
+			}
+		}
+	}
+
+	.saDropdown + .saTrailingIconsWrapper {
+		.saIcon {
+			font-size: 0.875rem;
+		}
+
+		.saSmallScreen & .saIcon {
+			font-size: 1rem;
+		}
+	}
+
+	.saInputText {
+		width: 100%;
+		max-width: 100%;
+		background: @ColorWhite;
+		font: inherit;
+		color: inherit;
+		box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+		border: none;
+		transition: background-color .2s ease, box-shadow .2s ease;
+		width: 100%;
+		box-sizing: border-box;
+		.AppearanceNone();
+
+		&::-webkit-calendar-picker-indicator {
+			display: none;
+		}
+
+		&.saDropdown {
+			.AppearanceNone();
+			text-overflow: ellipsis;
+			padding-right: 2rem;
+
+			&:disabled {
+				opacity: 1;
+				cursor: default;
+			}
+
+			optgroup {
+				color: var(--Sa-Color-Label);
+				font-weight: normal;
+				font-style: normal;
+
+				option {
+					color: initial;
+				}
+			}
+		}
+
+		&:focus-visible {
+			outline: none;
+		}
+
+		.Hover({
+			box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600);
+		});
+
+		&:focus-within {
+			background: var(--Sa-Color-Primary50);
+			box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600);
+		}
+
+		&::placeholder {
+			color: var(--Sa-Color-TextSecondary);
+		}
+
+		//Disabled
+		&:disabled {
+			.DisabledControl();
+		}
+	}
+}
+
+/* Style in standard mode for future use
+.saStandard .saInputTextWrapper,
+.saSmallScreen .saInputTextWrapper {
+	.saInputText {
+		height: 2.5rem;
+		border-radius: 0.5rem;
+		padding: 0 0.75rem;
+	}
+
+	.saTrailingIconsWrapper {
+		height: 2.5rem;
+		gap: 0.5rem;
+		padding: 0 0.75rem 0 0.5rem;
+
+		.saIcon {
+			font-size: 1.25rem;
+
+			&.saActionIcon:not(:disabled) {
+				padding-left: 0.5rem;
+				padding-right: 0.5rem;
+				margin-right: -0.5rem;
+				width: 2rem;
+				height: 2rem;
+			}
+		}
+	}
+}*/
+
+/*.saCompact*/.saInputTextWrapper { // This is actually compact mode specific but for now it is used everywhere.
+	.saInputText {
+		height: 2rem;
+		border-radius: 0.5rem;
+		padding: 0 0.625rem;
+		min-width: 0;
+		font-size: 0.875rem;
+	}
+
+	.saTrailingIconsWrapper {
+		gap: 0.25rem;
+		height: 2rem;
+		min-width: 2rem;
+		justify-content: center;
+		padding: 0 0.5rem;
+		box-sizing: border-box;
+
+		.saActionIcon {
+			padding-left: 0.25rem;
+			padding-right: 0.25rem;
+			margin-right: -0.25rem;
+			pointer-events: auto;
+			width: 1.5rem;
+			height: 1.5rem;
+			border-radius: 0.25rem;
+
+			&:active {
+				border-radius: 0.5rem;
+			}
+		}
+
+		.saIcon {
+			font-size: 1rem;
+		}
+	}
+
+	.saSmallScreen & {
+		.saTrailingIconsWrapper {
+			height: 2.75rem;
+			min-width: 2.75rem;
+
+			.saActionIcon {
+				width: 2.25rem;
+				height: 2.25rem;
+			}
+
+			.saIcon {
+				font-size: 1.25rem;
+			}
+		}
+	}
+
+	.saLeadingIconWrapper {
+		padding: 0 0.25rem;
+	}
+}
+
+.saSmallScreen {
+	.saInputText {
+		font-size: 1rem;
+		height: 2.75rem;
+		padding: 0 1rem;
+	}
+}
+
+.saInputTextWrapper:has(.saListBox) {
+	flex-direction: unset;
+}
+
+.saInputTextWrapper .saInputText.saListBox {
+	box-shadow: none !important;
+	outline: 1px solid var(--Sa-Color-InputFieldBorder);
+	outline-offset: -1px;
+	border: 2px solid transparent;
+	height: unset;
+	padding: 0.5rem;
+
+	.saPc .saLabeled& {
+		padding-top: 1.125rem;
+	}
+
+	.saPc & {
+		line-height: 1.5rem;
+		height: unset;
+		overflow: auto;
+
+		&+.saTrailingIconsWrapper {
+			display: none;
+		}
+	}
+
+	.saMobile .saLabeled& {
+		padding-top: 0.75rem;
+	}
+
+	.saMobile & {
+		padding: 0 1.5rem 0 1rem;
+		height: unset;
+
+		&+.saTrailingIconsWrapper .saIcon {
+			font-size: 0.875rem;
+		}
+	}
+
+	&:enabled
+	{
+		.Hover({
+		outline: 2px solid var(--Sa-Color-Primary600);
+		outline-offset: -2px;
+		});
+
+		.saHighlightFieldError& {
+			outline: 2px solid @ColorRed600;
+			outline-offset: -2px;
+
+			.Hover ({
+				outline: 2px solid @ColorRed700;
+			});
+
+			&:focus-within {
+				outline: 2px solid @ColorRed700;
+			}
+		}
+
+		.saHighlightFieldWarning& {
+			outline: 2px solid @ColorYellow300;
+			outline-offset: -2px;
+
+			.Hover ({
+				outline: 2px solid @ColorYellow400;
+			});
+
+			&:focus-within {
+				outline: 2px solid @ColorYellow400;
+			}
+		}
+	}
+
+	&:disabled {
+		outline: none;
+		cursor: default;
+
+		.saHighlightFieldError& {
+			background: @ColorGray100 !important;
+		}
+	}
+
+	&:focus-within {
+		outline: 2px solid var(--Sa-Color-Primary600);
+		outline-offset: -2px;
+	}
+
+	&:disabled option {
+		pointer-events: none;
+		color: @ColorGray400;
+	}
+
+	option {
+		text-overflow: ellipsis;
+		overflow: hidden;
+
+		&:checked {
+			color: @ColorWhite;
+			background: @ColorGray400;
+			background-image: linear-gradient(0deg, @ColorGray400, @ColorGray400); //For Edge
+		}
+
+		&:first-child,
+		&:not(:checked, :hover)+ :checked,
+		&:not(:checked, :hover)+ :hover {
+			border-top-left-radius: 0.25rem;
+			border-top-right-radius: 0.25rem;
+		}
+
+		&:checked:has(+ :not(:checked, :hover)),
+		&:hover:has(+ :not(:checked, :hover)),
+		&:last-child {
+			border-bottom-left-radius: 0.25rem;
+			border-bottom-right-radius: 0.25rem;
+		}
+	}
+
+	option {
+		.Hover({
+			color: @ColorWhite;
+			background: @ColorGray500;
+			background-image: linear-gradient(0deg, @ColorGray500, @ColorGray500); //For Edge
+		});
+	}
+
+	&:focus option:checked {
+		color: @ColorWhite;
+		background: var(--Sa-Color-Primary600) linear-gradient(0deg, var(--Sa-Color-Primary600) 0%, var(--Sa-Color-Primary600) 100%);
+
+		.Hover({
+			color: @ColorWhite;
+			background: var(--Sa-Color-Primary700);
+			background-image: linear-gradient(0deg, var(--Sa-Color-Primary700), var(--Sa-Color-Primary700)); //For Edge
+		});
+
+		.saHighlightFieldError& {
+			background: @ColorRed600;
+			background-image: linear-gradient(0deg, @ColorRed600, @ColorRed600); //For Edge
+
+			.Hover({
+				color: @ColorWhite;
+				background: @ColorRed700;
+				background-image: linear-gradient(0deg, @ColorRed700, @ColorRed700); //For Edge
+			});
+		}
+	}
+}
+
+.saSelectedValueWrapper .saTag {
+	display: flex;
+	align-items: center;
+	font-size: 0.875rem;
+	cursor: pointer;
+}
+
+.saOptionListWrapper {
+	z-index: @ZIndexInputPicker;
+	margin-top: 0.3125rem;
+	position: absolute;
+	background: @ColorWhite;
+	display: none;
+	flex-direction: column;
+	width: fit-content;
+	min-width: calc(100%);
+	max-width: 44.5rem;
+	flex: 2;
+	overscroll-behavior: contain;
+	padding: 0.25rem;
+	border-radius: 0.75rem;
+	overflow-y: auto;
+	overflow-x: hidden;
+	border: 1px solid @ColorGray50;
+	min-height: 2rem;
+	max-height: 28rem;
+	.StandardTransition();
+	.BoxShadowStrong();
+
+	.saSearchSpinnerWrapper {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex: 1;
+
+		.saSpinner {
+			font-size: 1rem;
+			color: @ColorGray500;
+		}
+	}
+
+	&.saListColumns {
+		max-width: 75rem;
+	}
+
+	.saSmallScreen & {
+		padding: 0;
+		width: 95vw;
+	}
+
+	.saSmallScreen .saMultiRowField & {
+		width: 75vw;
+	}
+
+	&:focus {
+		outline: none;
+	}
+
+	ul {
+		display: table;
+		width: 100%
+	}
+
+	li {
+		font-size: 0.875rem;
+		cursor: pointer;
+		list-style: none;
+
+		height: 2.5rem;
+		border-radius: 0.5rem;
+		.StandardTransition();
+		color: var(--Sa-Color-Label);
+		display: table-row;
+		width: 100%;
+
+		.Hover({
+			background: @ColorGray50;
+
+			.saSmallScreen & {
+				background: inherit;
+			}
+		});
+
+		&.saFocus {
+			background: @ColorGray50;
+			color: var(--Sa-Color-Primary600);
+		}
+
+		.saStandard & {
+			min-height: 2.5rem;
+		}
+
+		.saCompact & {
+			min-height: 2rem;
+			max-height: 2rem;
+			border-radius: 0.25rem;
+		}
+
+		span {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			display: table-cell;
+			line-height: 0.875rem;
+			padding: 0.75rem 0.5rem 0.5rem 0.5rem;
+
+			&:not(:first-child) {
+				font-size: 0.75rem;
+			}
+
+			&:last-child {
+				padding: 0;
+				width: 100%;
+			}
+		}
+
+		&.saNoResults {
+			gap: 0.5rem;
+			height: unset;
+			pointer-events: none;
+
+			span {
+				padding: 0.5rem;
+			}
+
+			.saIcon {
+				font-size: 1rem;
+				color: black;
+			}
+		}
+	}
+}
+
+.saMandatoryStar {
+	margin-left: 0.25rem;
+	margin-right: 0.5rem;
+	color: @ColorRed600;
+	font-weight: bold;
+}
+
+.saIconOnlyFieldButton {
+	.FieldButton();
+	.IconButtonSizeCompact();
+}
+
+.saLabeledFieldButton {
+	.FieldButton();
+	.ButtonSizeCompact();
+	overflow: hidden;
+	justify-content: safe center;
+}
+
+.FieldButton() {
+	.Button();
+	.ButtonSecondary();
+	background-color: @ColorGray50;
+	line-height: 0.875rem;
+
+	&.saDestructive {
+		background-color: @ColorRed50;
+	}
+
+	&.saDisabled,
+	&.saDisabled:hover,
+	&.saDisabled:active {
+		cursor: default;
+		background-color: @ColorGray100;
+		color: @ColorGray400;
+		border-color: transparent;
+		border-radius: 0.5rem;
+		transition-duration: 0.5s;
+
+		.saIcon {
+			color: @ColorGray300;
+		}
+	}
+}
+
+.saValidationMessage {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	color: var(--Sa-Color-Text);
+	margin-top: 0.5rem;
+	min-width: 6rem;
+	font-size: 0.875rem;
+	line-height: 1rem;
+
+	.saIcon {
+		font-size: 1.25rem;
+		position: relative;
+	}
+
+	&.saError {
+		color: @ColorRed600;
+
+		.saIcon {
+			color: @ColorRed600;
+		}
+	}
+
+	&.saInfo {
+		.saIcon {
+			color: @ColorBlue600;
+		}
+	}
+
+	&.saWarning {
+		color: @ColorYellow600;
+
+		.saIcon {
+			color: @ColorYellow300;
+
+			// Make the exclamation mark inside the warning triangle black instead of white.
+			&::after {
+				content: "";
+				height: 0.875rem;
+				width: 0.375rem;
+				border-radius: 0.25rem;
+				background-color: @ColorGray900;
+				position: absolute;
+				left: 50%;
+				transform: translateX(-50%);
+				bottom: 2px;
+				z-index: -1;
+			}
+		}
+	}
+
+	&.saSuccess {
+		color: @ColorGreen600;
+
+		.saIcon {
+			color: @ColorGreen500;
+		}
+	}
+}
+
+.saInfoIndicator {
+	color: var(--Sa-Color-InfoIndicator);
+	font-size: 1rem;
+
+	& .saIcon {
+		color: inherit;
+		font-size: 1rem;
+	}
+}
+
+.saInputAffixWrapper {
+	display: flex;
+	align-items: center;
+	height: 2rem;
+	gap: 0.25rem;
+	border-radius: 0.5rem;
+	padding: 0 0.625rem;
+	box-sizing: border-box;
+	font-size: 0.875rem;
+	cursor: text;
+	background-color: @ColorWhite;
+	box-shadow: inset 0 0 0 1px var(--Sa-Color-InputFieldBorder);
+	transition: background-color .2s ease, box-shadow .2s ease;
+	width: 100%;
+
+	&.saDropDown {
+		cursor: pointer;
+	}
+
+	.saSmallScreen & {
+		font-size: 1rem;
+	}
+
+	&:has(:enabled) {
+		.Hover({
+			box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600);
+		});
+
+		&:focus-within {
+			box-shadow: inset 0 0 0 2px var(--Sa-Color-Primary600);
+			background-color: @ColorBlue50;
+		}
+
+		&.saHighlightFieldError {
+			background-color: @ColorRed50;
+			box-shadow: inset 0 0 0 2px @ColorRed600;
+
+			.Hover({
+				box-shadow: inset 0 0 0 2px @ColorRed700;
+			});
+
+			&:focus-within {
+				box-shadow: inset 0 0 0 2px @ColorRed700;
+			}
+		}
+
+		&.saHighlightFieldWarning {
+			background-color: @ColorYellow50;
+			box-shadow: inset 0 0 0 2px @ColorYellow300;
+
+			.Hover({
+				box-shadow: inset 0 0 0 2px @ColorYellow400;
+			});
+
+			&:focus-within {
+				box-shadow: inset 0 0 0 2px @ColorYellow400;
+			}
+		}
+	}
+
+	&:has(:disabled) {
+		.DisabledControl();
+		.saInputAffixText {
+			color: @ColorGray300;
+		}
+	}
+
+	.saInputAffixText {
+		max-width: 80%;
+	}
+
+	&:has(.saInputAffixText ~ .saInputAffixText) { // Checks whether saInputAffixText has a sibling with the same class indicating that both a prefix and suffix are present.
+		.saInputAffixText {
+			max-width: 40%;
+		}
+	}
+}
+
+.saGridInputAffixWrapper {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.saInputAffix {
+	.AppearanceNone();
+	width: 100%;
+	height: 100%;
+	background-color: transparent;
+	font: inherit;
+	color: inherit;
+	border: none;
+	outline: none;
+	padding-inline: 0;
+	padding-block: 0;
+
+	&::-webkit-inner-spin-button,
+	&::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		display: none;
+	}
+
+	&::placeholder {
+		color: var(--Sa-Color-TextSecondary);
+	}
+	.saDropDown & {
+		cursor: pointer;
+	}
+
+	&:-webkit-autofill {
+		// Workaround to prevent the autofill from changing the background color as it removes the boxshadow around the input.
+		transition: background-color 100000s ease-in-out 0s;
+	}
+}
+
+.saInputAffixText {
+	.UserSelectNone();
+	.Ellipsis();
+	background-color: transparent;
+	pointer-events: none;
+	color: var(--Sa-Color-TextSecondary);
+	flex-shrink: 0;
+}

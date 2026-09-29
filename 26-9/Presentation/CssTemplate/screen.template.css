@@ -16,11 +16,15 @@
   --Sa-Color-GridFoot: light-dark(var(--Gray50), var(--Gray1100));
   --Sa-Color-GridRowHighlight: light-dark(var(--Gray50), var(--Gray1000));
   --Sa-Color-GridRowChecked: light-dark(var(--Blue50), var(--Blue1200));
+  --Sa-Color-GridHeadingText: var(--Sa-Color-Text);
+  --Sa-Color-ExcelButton: light-dark(var(--Green500), var(--Green300));
+  --Sa-Color-ExcelButtonHover: light-dark(var(--Green600), var(--Green400));
+  --Sa-Color-ExcelButtonActive: light-dark(var(--Green700), var(--Green200));
+  --Sa-Color-ExcelButton-Brightness90: light-dark(var(--Green50), var(--Green1200));
+  --Sa-Color-ExcelButton-Brightness80: light-dark(var(--Green100), var(--Green1100));
   --Sa-Color-SideBarFavoriteIcon: var(--Sa-Color-TextSecondary);
   --Sa-Color-SideBarFavoriteBackground: light-dark(var(--Gray50), var(--Gray1100));
   --Sa-Color-SideBarFavoriteBorder: light-dark(var(--Gray200), var(--Gray800));
-  --Sa-Color-SideBarLogoBackground: light-dark(var(--Purple100), var(--Purple1100));
-  --Sa-Color-SideBarLogoBorder: light-dark(var(--Purple200), var(--Purple1000));
   --Sa-Color-MenuGroupFeatureColor1: light-dark(var(--Blue600), var(--Blue300));
   --Sa-Color-MenuGroupFeatureColor1-Brightness190: light-dark(var(--Blue100), var(--Blue1000));
   --Sa-Color-MenuGroupFeatureColor1-Brightness180: light-dark(var(--Blue200), var(--Blue900));
@@ -38,7 +42,6 @@
   --Sa-Color-MenuGroupFeatureColor5-Brightness190: light-dark(var(--Green100), var(--Green1000));
   --Sa-Color-TooltipText: var(--White);
   --Sa-Color-TooltipBackground: var(--Gray900);
-  --Sa-Color-GridHeadingText: var(--Sa-Color-Text);
   --Sa-Color-InfoBoxLabel: var(--Sa-Color-TextSecondary);
   --Sa-Color-DestructiveButtonBackground: var(--Red600);
   --Sa-Color-DestructiveButtonBackground-Brightness85: var(--Red800);
@@ -120,7 +123,6 @@
   --Sa-Color-GridHeadSorted: light-dark(var(--Gray200), var(--Gray900));
   --Sa-Color-Primary800-Brightness180: light-dark(var(--Blue200), var(--Blue1100));
   --Sa-Color-ToggleExtendedDescription: var(--Sa-Color-TextSecondary);
-  --Sa-ColorText: var(--Sa-Color-Text);
   --Sa-Color-Favorite: light-dark(var(--Gray200), var(--Gray700));
   --Sa-Color-FavoriteHover: var(--Yellow200);
   --Sa-Color-FavoriteBackgroundHover: var(--Yellow50);
@@ -37017,7 +37019,7 @@ span.saChatContextPillLabel {
   width: 1.5rem;
 }
 .saContextMenu input.saToggle::before {
-  content: "";
+  content: '';
   margin: 0 0.125rem;
   border-radius: 0.625rem;
   box-shadow: 0 2px 2px color-mix(in oklch, light-dark(var(--Gray900), var(--Black)) 10%, transparent);
@@ -37209,20 +37211,20 @@ span.saChatContextPillLabel {
   border-color: currentColor;
   color: light-dark(var(--Red700), var(--Red200));
 }
-.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"], [aria-expanded="true"]) .saOption {
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected='true'], [aria-checked='true'], [aria-expanded='true']) .saOption {
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
   color: light-dark(var(--Sa-Color-Primary700), var(--White));
 }
-.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"], [aria-expanded="true"]) .saOption .saOptionDescription,
-.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"], [aria-expanded="true"]) .saOption :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected='true'], [aria-checked='true'], [aria-expanded='true']) .saOption .saOptionDescription,
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected='true'], [aria-checked='true'], [aria-expanded='true']) .saOption :is(.saOptionIcon, .saIconHolder .saIcon:first-child) {
   color: inherit;
   --fa-secondary-opacity: 0.25;
 }
-.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"], [aria-expanded="true"]) .saOption .saOptionDescription.saTrailing,
-.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"], [aria-expanded="true"]) .saOption :is(.saOptionIcon, .saIconHolder .saIcon:first-child).saTrailing {
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected='true'], [aria-checked='true'], [aria-expanded='true']) .saOption .saOptionDescription.saTrailing,
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected='true'], [aria-checked='true'], [aria-expanded='true']) .saOption :is(.saOptionIcon, .saIconHolder .saIcon:first-child).saTrailing {
   transform: translateX(0.25rem);
 }
-.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected="true"], [aria-checked="true"], [aria-expanded="true"]) .saOption .saBadge {
+.saContextMenu .saOptionWrapper:is(.saFocus, [aria-selected='true'], [aria-checked='true'], [aria-expanded='true']) .saOption .saBadge {
   background-color: var(--Sa-Color-Primary700);
   color: light-dark(var(--Sa-Color-Primary100), var(--White));
   border-color: currentColor;
@@ -37505,6 +37507,171 @@ span.saChatContextPillLabel {
 .saAccountSheet .saAccountSheetBack {
   left: 0.25rem;
   right: auto;
+}
+.saGridHeadingRow:has(.saGridFilterTrigger) .saGridHeadingInner {
+  padding-right: 2rem !important;
+}
+.saGridFilterTrigger {
+  position: absolute;
+  right: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--Sa-Color-Icon);
+  cursor: pointer;
+}
+.saGridFilterTrigger .fas {
+  position: absolute;
+  transform: scale(0);
+}
+@media (pointer: fine) {
+  .saGridFilterTrigger:hover {
+    background: light-dark(var(--Sa-Color-Primary100), var(--Gray1000));
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+}
+.saGridFilterTrigger.saFiltered,
+.saGridFilterTrigger[data-sort-direction="desc"],
+.saGridFilterTrigger[data-sort-direction="asc"],
+.saGridFilterTrigger:focus-visible,
+.saGridFilterTrigger[aria-expanded='true'] {
+  background: light-dark(var(--Sa-Color-Primary100), var(--Gray1000));
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+  opacity: 1;
+}
+.saGridFilterTrigger.saFiltered .far,
+.saGridFilterTrigger[data-sort-direction="desc"] .far,
+.saGridFilterTrigger[data-sort-direction="asc"] .far,
+.saGridFilterTrigger:focus-visible .far,
+.saGridFilterTrigger[aria-expanded='true'] .far {
+  transform: scale(0);
+}
+.saGridFilterTrigger.saFiltered .fas,
+.saGridFilterTrigger[data-sort-direction="desc"] .fas,
+.saGridFilterTrigger[data-sort-direction="asc"] .fas,
+.saGridFilterTrigger:focus-visible .fas,
+.saGridFilterTrigger[aria-expanded='true'] .fas {
+  transform: scale(1);
+}
+.saGridFilterMenu {
+  position: fixed;
+  width: 18rem;
+  max-width: calc(100vw - 1rem);
+  max-height: min(30rem, calc(100vh - 1rem));
+  padding-bottom: 0;
+  color: var(--Sa-Color-Text);
+}
+.saGridFilterMenu .saInputTextWrapper {
+  margin-right: 0;
+}
+.saGridFilterActions {
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid light-dark(var(--Gray150), var(--Gray900));
+}
+.saGridFilterCondition {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0.75rem;
+  border: 0;
+  border-bottom: 1px solid light-dark(var(--Gray150), var(--Gray900));
+}
+.saGridFilterCondition legend {
+  padding: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.saGridFilterCondition select,
+.saGridFilterCondition input {
+  width: 100%;
+  box-sizing: border-box;
+}
+.saGridFilterConditionInputs {
+  display: flex;
+  flex-direction: column;
+}
+.saGridFilterConditionInputs input[hidden] {
+  display: none;
+}
+.saGridFilterConditionHint {
+  margin: 0.375rem 0 0;
+  font-size: 0.75rem;
+  color: var(--Sa-Color-TextSecondary);
+}
+.saGridFilterConditionHint[hidden] {
+  display: none;
+}
+.saGridFilterSearch {
+  padding: 0.75rem 0.75rem 0.5rem;
+}
+.saGridFilterSearch input {
+  width: 100%;
+  box-sizing: border-box;
+}
+.saGridFilterSelectAll,
+.saGridFilterValue {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.saGridFilterSelectAll:hover,
+.saGridFilterValue:hover {
+  background: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
+}
+.saGridFilterSelectAll input,
+.saGridFilterValue input {
+  flex: none;
+}
+.saGridFilterValues {
+  min-height: 2rem;
+  max-height: 10rem;
+  overflow-y: auto;
+}
+.saGridFilterNoValues {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  min-height: 2rem;
+  padding: 0.25rem 0.75rem;
+  color: var(--Sa-Color-TextSecondary);
+}
+.saGridFilterNoValues .saIcon {
+  min-width: 1.25rem;
+  font-size: 1rem;
+  text-align: center;
+}
+.saGridFilterFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.625rem 0.75rem;
+  border-top: 1px solid light-dark(var(--Gray150), var(--Gray900));
+}
+.saGridFilterEmpty[hidden] {
+  display: none !important;
+}
+.saGridFilterEmpty td {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--Sa-Color-TextSecondary);
+}
+.saGridRow[hidden] {
+  display: none !important;
 }
 .saLightboxOverlay .saLightboxContainer {
   display: flex;
@@ -38331,18 +38498,18 @@ span.saChatContextPillLabel {
 }
 .saMarkdownEditorTablePicker {
   display: grid;
-  gap: 0.1875rem;
+  gap: 0.25rem;
 }
 .saMarkdownEditorTablePicker [role='row'] {
   display: flex;
-  gap: 0.1875rem;
+  gap: 0.25rem;
 }
 .saMarkdownEditorTablePicker [role='gridcell'] {
   width: 1.25rem;
   height: 1.25rem;
   padding: 0;
   border: 0.0625rem solid light-dark(var(--Gray300), var(--Gray700));
-  border-radius: 0.1875rem;
+  border-radius: 0.25rem;
   background: light-dark(var(--White), var(--Gray1100));
   cursor: pointer;
 }
@@ -38355,7 +38522,7 @@ span.saChatContextPillLabel {
   outline-offset: 0.0625rem;
 }
 .saMarkdownEditorTablePickerStatus {
-  margin: 0.5rem 0 0;
+  margin: 0.25rem 0 0;
   text-align: center;
   font-size: 0.75rem;
   color: var(--Sa-Color-TextSecondary);
@@ -39539,14 +39706,16 @@ pre.saCode {
   --column-width: calc((100% - var(--total-gap)) / var(--columns));
   --pattern-width: calc(var(--column-width) + 1rem);
 }
-.saBentoWrapper.saShowGridLines::after {
+.saShowGridLines.saBentoWrapper::after {
   content: '';
   position: absolute;
   width: 100%;
   height: 100%;
   pointer-events: none;
   z-index: 9999;
-  background-image: repeating-linear-gradient(to right, rgba(255, 166, 0, 0.3) 0, rgba(255, 166, 0, 0.3) 0.0625rem, rgba(255, 166, 0, 0.05) 0.0625rem, rgba(255, 166, 0, 0.05) calc(var(--column-width) - 0.0625rem), rgba(255, 166, 0, 0.3) calc(var(--column-width) - 0.0625rem), rgba(255, 166, 0, 0.3) var(--column-width), transparent var(--column-width), transparent var(--pattern-width));
+  --grid-line-color: color-mix(in srgb, light-dark(var(--Orange500), var(--Orange400)) 30%, transparent);
+  --grid-fill-color: color-mix(in srgb, light-dark(var(--Orange500), var(--Orange400)) 5%, transparent);
+  background-image: repeating-linear-gradient(to right, var(--grid-line-color) 0, var(--grid-line-color) 0.0625rem, var(--grid-fill-color) 0.0625rem, var(--grid-fill-color) calc(var(--column-width) - 0.0625rem), var(--grid-line-color) calc(var(--column-width) - 0.0625rem), var(--grid-line-color) var(--column-width), transparent var(--column-width), transparent var(--pattern-width));
 }
 .saGridCol1 {
   --columns: 1;
@@ -41297,12 +41466,11 @@ pre.saCode {
   border-radius: 1rem;
   height: 100%;
   color: light-dark(var(--Gray900), var(--Gray100));
-  background-color: light-dark(var(--White), var(--Gray1300));
-  transition-property: color, background-color, border-color, transform, border-radius, opacity;
-  transition-duration: 0.2s;
+  background-color: light-dark(var(--White), var(--Gray1200));
   position: relative;
   overflow: hidden;
-  background-color: light-dark(var(--White), var(--Gray1200));
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
 }
 .saSmall .saBentoInner {
   justify-content: space-between;
@@ -41310,6 +41478,12 @@ pre.saCode {
 .saSolid .saBentoInner {
   background-color: light-dark(var(--Sa-Color-Primary50), var(--Sa-Color-Primary1200));
   border-color: light-dark(var(--Sa-Color-Primary200), var(--Sa-Color-Primary800));
+}
+.saDisabled .saBentoInner {
+  cursor: not-allowed;
+  background-color: light-dark(var(--Gray100), var(--Gray1000));
+  border-color: transparent;
+  color: light-dark(var(--Gray300), var(--Gray400));
 }
 .saBento:has(.saBentoButtonWrapper) .saBentoInner {
   padding-bottom: 3rem;
@@ -41726,6 +41900,13 @@ a.saBentoInner:active .saBentoIcon {
   height: 6rem;
   font-size: 2rem;
 }
+.saDisabled .saBentoIcon {
+  color: light-dark(var(--Gray400), var(--Gray300));
+  background-image: none;
+  background-color: light-dark(var(--Gray200), var(--Gray900));
+  border: none;
+  box-shadow: none;
+}
 .saBentoIcon .saIcon {
   z-index: 1;
 }
@@ -41958,6 +42139,9 @@ h2.saBentoHeading {
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
+.saDisabled h2.saBentoHeading {
+  color: light-dark(var(--Gray300), var(--Gray400));
+}
 .saSmall h2.saBentoHeading {
   font-size: 0.875rem;
 }
@@ -41974,6 +42158,9 @@ p.saBentoDescription {
   line-height: 1.25;
   z-index: 1;
   color: light-dark(var(--Gray700), var(--Gray200));
+}
+.saDisabled p.saBentoDescription {
+  color: light-dark(var(--Gray300), var(--Gray400));
 }
 .saBentoFooter {
   display: flex;
@@ -42399,11 +42586,12 @@ p.saBentoDescription {
 .saBentoCardActions {
   display: flex;
   margin-top: 1.5rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.5rem;
 }
 .saBentoCardActions button {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
 }
 .saBentoPanelDescription,
 .saBentoGlobalNote {

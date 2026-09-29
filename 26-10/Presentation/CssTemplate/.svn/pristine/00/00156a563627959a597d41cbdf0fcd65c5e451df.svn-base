@@ -1,0 +1,117 @@
+.saMultiPartPanel.saHasBorder,
+.saSmallScreen .saMultiPartPanel {
+	.Border();
+	border-radius: 1rem;
+}
+
+.saMultiPartContainer {
+	position: relative;
+	display: grid;
+	gap: 1rem;
+
+	.saMultiPartPanel {
+		visibility: hidden;
+		overflow: hidden;
+		padding: 0;
+		scrollbar-gutter: stable;
+
+		.saLargeScreen &.saHasBorder .saMultiPartContent {
+			padding: 1rem 0 1rem 1rem;
+		}
+	}
+
+	.saMultiPartPanel .menuitem {
+		width: 100%;
+		overflow: hidden
+	}
+
+	.saMultiPartContent .saMenuItemRoot {
+		overflow-x: auto;
+		overflow-y: hidden;
+		display: block;
+	}
+
+	.saMultiPartContent .gridbottompadding {
+		display: none;
+	}
+
+	.saMultiPartContent .treewrapper {
+		min-width: 0;
+		border: none;
+		box-shadow: none;
+	}
+}
+
+.saSmallScreen {
+	.saMultiPartContainer {
+		position: static;
+		margin-bottom: 5rem;
+		display: block;
+	}
+
+	.saMultiPartPanel {
+		position: static;
+		margin: 1rem;
+	}
+
+	.saMultiPartPanel .calendar .globalsettings .tabs {
+		box-shadow: none;
+		border: none;
+	}
+
+	.saClosed .saMultiPartContent {
+		display: none
+	}
+
+	.saMultiPartContent {
+		margin-left: 0;
+		overflow: auto;
+		padding: 0 1rem 1rem 1rem;
+
+		.saGridWrapper {
+			padding: 0;
+		}
+
+		.saTabViewInner {
+			margin: 0;
+			width: unset;
+		}
+
+		&:has(.saListGrid),
+		&:has(.saSmallScreenCalendar) {
+			padding: 0;
+
+			.saInfoBoxAreaWrapper {
+				padding: 1rem 1rem 0 1rem;
+			}
+
+			.saInfoArea:last-child .saInfoBoxAreaWrapper {
+				padding-bottom: 1rem;
+			}
+
+			.saPartButtons {
+				padding: 1rem 1rem 0 1rem;
+			}
+		}
+
+		.saButtons {
+			padding: 0;
+		}
+
+		.saInfoBoxAreaWrapper {
+			padding: 1rem 0;
+		}
+
+		.saInfoBoxArea {
+			margin: 0;
+		}
+
+		.saInfoArea:last-child .saInfoBoxAreaWrapper {
+			padding-bottom: 0;
+		}
+
+		.saSmallScreenCalendar {
+			max-width: 100%;
+		}
+	}
+}

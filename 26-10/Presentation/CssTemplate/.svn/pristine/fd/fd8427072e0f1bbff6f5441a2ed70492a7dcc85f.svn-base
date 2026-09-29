@@ -1,0 +1,189 @@
+.saInfoSqlChartWrapper {
+	display: flex;
+
+	[data-sa-link] {
+		cursor: pointer;
+	}
+
+	.saChartWrapper {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-flow: column;
+
+		.saChartHeading {
+			.InfoBoxControlHeading();
+		}
+
+		.saChartDescription {
+			font-size: 0.75rem;
+			color: var(--Sa-Color-TextSecondary);
+		}
+
+		.saChartDescription + svg,
+		.saChartHeading + svg,
+		.saChartDescription + div,
+		.saChartHeading + div {
+			margin-top: 0.75rem;
+		}
+
+		.saLegendItem {
+			cursor: default;
+			pointer-events: bounding-box;
+
+			&[data-sa-link] {
+				cursor: pointer;
+			}
+
+			.saLegendText {
+				.Ellipsis();
+			}
+		}
+
+		.saPieArc {
+			transition: 0.5s;
+			stroke: white;
+			stroke-width: 3;
+			stroke-linejoin: bevel;
+
+			&.saSeriesHover {
+				transform: scale(1.05);
+			}
+		}
+
+		// Just visual "candy" so can afford to use :has.
+		.saPieChart:has(.saSeriesHover) .saPieArc:not(.saSeriesHover) {
+			opacity: .8;
+		}
+
+		.saPieChart:has(.saSeriesHover) .saLegendItem:not(.saSeriesHover)	{
+			opacity: .7;
+		}
+
+		.saGridLine {
+			color: @ColorGray200;
+
+			.saStrongLine {
+				color: @ColorGray600;
+			}
+		}
+
+		.saXYChartLabel {
+			font-family: 'Lexend', sans-serif;
+			color: var(--Sa-Color-TextSecondary);
+			fill: var(--Sa-Color-TextSecondary);
+		}
+
+		.saChartAxisTitle {
+			fill: var(--Sa-Color-Text);
+		}
+
+		.saXAxis {
+			color: @ColorGray200;
+
+			&.saStrongLine {
+				color: @ColorGray400;
+			}
+		}
+
+		.saChartLine {
+			stroke-width: 4;
+
+			&.saSeriesHover {
+				stroke-width: 5;
+			}
+		}
+
+		.saLineArea {
+			pointer-events: none;
+		}
+
+		.saRange {
+			opacity: 0.5;
+			pointer-events: none;
+		}
+
+		.saLineMarker {
+			stroke-width: 4;
+
+			&.saHidden {
+				opacity: 0;
+				stroke-opacity: 0;
+			}
+		}
+
+		.saBarLabel {
+			fill: var(--Sa-Color-Text);
+			font-weight: 600;
+		}
+
+		.saStackedPartLabel {
+			pointer-events: none;
+		}
+
+		.saTwoLabelRows:nth-child(odd) text {
+			transform: translate(0, 3rem);
+		}
+
+		// Just visual "candy" so can afford to use :has.
+		.saBar,
+		.saStackedPart,
+		.saRange,
+		.saLineMarker,
+		.saLineArea,
+		.saChartLine,
+		.saLegendItem {
+			.StandardTransition();
+		}
+
+		.saXYChart:has(.saSeriesHover) .saChartLine:not(.saSeriesHover) {
+			opacity: .5;
+		}
+
+		.saXYChart:has(.saSeriesHover) .saLineArea:not(.saSeriesHover)	{
+			opacity: .5;
+		}
+
+		.saXYChart:has(.saSeriesHover) .saLineMarker:not(.saSeriesHover):not(.saHidden)	{
+			stroke-opacity: .5;
+		}
+
+		.saXYChart:has(.saSeriesHover) .saRange:not(.saSeriesHover)	{
+			opacity: .3;
+		}
+
+		.saXYChart:has(.saSeriesHover) .saLegendItem:not(.saSeriesHover)	{
+			opacity: .5;
+		}
+
+		.saXYChart:has(.saSeriesHover) .saBar:not(.saSeriesHover)	{
+			opacity: .5;
+		}
+
+		.saXYChart:has(.saSeriesHover) .saStackedPart:not(.saSeriesHover)	{
+			opacity: .5;
+		}
+	}
+
+	.saEmptyState.saXYChart {
+		border-radius: 1rem;
+		background-color: @ColorGray50;
+		border: 1px solid @ColorGray200;
+	 }
+
+	.saEmptyState.saPieChart {
+		border-radius: 12.5rem;
+		background-color: @ColorGray50;
+		border: 1px solid @ColorGray200;
+		width: 12.5rem;
+		height: 12.5rem;
+	}
+
+	.saEmptyStateHeading {
+		font-size: 0.875rem;
+	}
+
+	.saEmptyStateDescription {
+		font-size: 0.75rem;
+	}
+}

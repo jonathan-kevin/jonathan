@@ -1,0 +1,132 @@
+.saLinkList.saMenuBoxWrapper {
+	.saUnread .saMenuItem {
+		.saLinkListRowHeading span,
+		.saLinkListRowLabel {
+			font-weight: 600;
+		}
+
+		&::before {
+			content: '';
+			height: 0.5rem;
+			min-width: 0.5rem;
+			border-radius: 0.25rem;
+			position: absolute;
+			top: calc(50% - 0.25rem);
+			left: 0.75rem;
+			background: @ColorBlue600;
+		}
+	}
+
+	.saMenuItemWrapper:not(:first-child)::after {
+		content: '';
+		height: 1px;
+		width: calc(100% - 1rem);
+		position: absolute;
+		top: 0;
+		right: 0.5rem;
+		background-color: @ColorGray100;
+	}
+
+	.saMenuItemWrapper {
+		.Hover({
+			&::after,
+			+.saMenuItemWrapper::after {
+				opacity: 0;
+			}
+		})
+	}
+
+	.saMenuBox.saHasUnread {
+		.saMenuItemWrapper::after {
+			width: calc(100% - 2.5rem);
+		}
+
+		.saMenuItem {
+			padding-left: 2rem;
+		}
+	}
+
+	.saMenuBox .saMenuItem {
+		gap: 0.25rem;
+		padding-right: 0;
+		padding: 0.5rem;
+		height: unset;
+		flex-direction: column;
+		justify-content: center;
+		align-items: unset;
+		cursor: pointer;
+
+		.Hover({
+			.saLinkListRowLabel {
+				color: var(--Sa-Color-LabelHover);
+			}
+		});
+
+		&:active .saLinkListRowLabel {
+			color: var(--Sa-Color-LabelHover);
+		}
+	}
+
+	.saLinkListRowLabel {
+		font-size: 0.75rem;
+		line-height: 0.875rem;
+		color: @ColorGray600;
+		transition: ease all 0.2s;
+		.LineClamp(1);
+	}
+
+	.saLinkListRowHeading {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+
+		span {
+			font-size: 0.875rem;
+			line-height: 1.125rem;
+			font-weight: 400;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+}
+
+.saLargeScreen .saLinkList {
+	.saMenuBox.saHasUnread .saMenuBoxHeading {
+		padding-left: 2rem;
+	}
+}
+
+.saSmallScreen .saMultiPartContainer .saLinkList.saMenuBoxWrapper {
+	margin: 0;
+
+	.saMenuBox {
+		border: 0;
+		padding: 0.5rem 0;
+	}
+
+	.saMenuItem::after {
+		width: 100%;
+	}
+}
+
+.saSmallScreen .saMultiPartContent:has(.saMenuGroup) {
+	padding: 0;
+
+	.saMenuBoxWrapper {
+		margin: 0;
+		gap: 0;
+	}
+
+	.saMenuBox {
+		border-left: none;
+		border-right: none;
+		border-bottom: none;
+		border-radius: 0;
+	}
+
+	.saMenuItem::after {
+		width: calc(100% + 1rem);
+		left: -0.5rem;
+	}
+}

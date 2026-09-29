@@ -1,0 +1,43 @@
+// Mixins
+
+.SystemIconColors() {
+	color: var(--Sa-Color-Icon);
+
+	&.iconred {
+		color: var(--Sa-Color-SystemIconRed);
+	}
+
+	&.iconyellow {
+		color: var(--Sa-Color-SystemIconYellow);
+	}
+
+	&.icongreen {
+		color: var(--Sa-Color-SystemIconGreen);
+	}
+
+	&.iconblue {
+		color: var(--Sa-Color-SystemIconBlue);
+	}
+
+	&.iconblack {
+		color: var(--Sa-Color-SystemIconBlack);
+	}
+
+	&.iconwhite {
+		color: @ColorWhite;
+	}
+}
+
+// Styles
+
+.systemicon:not(.customcolor) {
+	.icon {
+		.SystemIconColors();
+	}
+}
+
+.systemicon.customcolor {
+	.icon {
+		color: inherit;
+	}
+}

@@ -1,0 +1,126 @@
+@RadioButtonSize: 1.25rem;
+@FieldPadding: ((2rem - @RadioButtonSize) / 2px);
+
+.saRadioWrapper {
+	.RadioButton();
+
+	.saRadioLabel {
+		font-weight: 400;
+		cursor: pointer;
+		display: flex;
+		flex-direction: row;
+		gap: 0.5rem;
+		box-sizing: border-box;
+		align-items: center;
+		position: relative;
+		transition: ease border-radius .2s, ease color .2s, ease background-color .2s;
+		padding: @FieldPadding 0;
+
+		span {
+			font-size: 0.875rem;
+			line-height: 1rem;
+		}
+
+		&:has(:disabled) {
+			pointer-events: none;
+		}
+
+		.saLargeScreen & {
+			margin-right: 1rem;
+		}
+	}
+
+	.saRadioGrid {
+		display: grid;
+	}
+
+	.saRadioColumnGroup {
+		display: flex;
+		flex-direction: row;
+		gap: 0.5rem;
+	}
+
+	.saRadioColumn {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&.saHighlightFieldError {
+		input.saRadio:checked:enabled {
+			.RadioButtonErrorHover();
+
+			+ span {
+				color: @ColorRed600;
+			}
+		}
+
+		.saSmallScreen & .saRadioLabel:has(:checked :enabled) {
+			.Hover({
+				span {
+					color: @ColorRed600;
+				}
+			});
+
+			&:active {
+				span {
+					color: @ColorRed600;
+				}
+			}
+		}
+	}
+
+	&.saHighlightFieldWarning {
+		input.saRadio:checked:enabled {
+			.RadioButtonWarningHover();
+
+			+ span {
+				color: @ColorYellow600;
+			}
+		}
+
+		.saSmallScreen & .saRadioLabel:has(:checked :enabled) {
+			&:active {
+				box-shadow: inset 0 0 0 2px @ColorYellow600;
+				background: @ColorYellow50;
+
+				span {
+					color: @ColorYellow600;
+				}
+			}
+		}
+	}
+
+	.saSmallScreen & {
+		.saRadioLabel {
+			width: fit-content;
+			padding: 0.5rem 0.5rem 0.5rem 0;
+			min-height: 2.75rem;
+			border-radius: 0.5rem;
+			transition-property: border-radius, color, background, box-shadow;
+			height: 100%;
+
+			&:has(:disabled) {
+				color: @ColorGray600;
+			}
+		}
+
+		.saRadioGrid {
+			display: flex;
+			flex-direction: column;
+			gap: 0;
+		}
+
+		.saRadioColumnGroup {
+			flex-direction: column;
+			gap: 0;
+		}
+
+		.saRadioColumn {
+			gap: 0;
+		}
+	}
+
+	.saSmallScreen .saMultiRowWrapper & .saRadioLabel {
+		padding: 0.25rem 0.75rem 0.25rem 2px;
+	}
+}
