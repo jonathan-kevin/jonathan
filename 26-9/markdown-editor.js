@@ -251,12 +251,22 @@
 	});
 
 	class MarkdownEditor extends HTMLElement {
+		static get observedAttributes() { return ["readonly"]; }
+
+		get readOnly() { return this.hasAttribute("readonly"); }
+
+		set readOnly(value) { this.toggleAttribute("readonly", Boolean(value)); }
+
+		attributeChangedCallback(name) {
+			if (name === "readonly") this.updateReadOnlyState();
+		}
+
 		async connectedCallback() {
 			if (this.loading || this.editor) return;
 			this.source = this.querySelector("textarea");
 			if (!this.source) return;
 			this.sourceMode = false;
-			this.source.readOnly = false;
+			this.source.readOnly = this.readOnly;
 			this.loading = true;
 			this.status = document.createElement("p");
 			this.status.setAttribute("role", "status");
@@ -322,6 +332,7 @@
 				});
 				this.editor = new Editor({
 					element: this.surface,
+				editable: !this.readOnly,
 					extensions: [
 						StarterKit.configure({
 							// Keep the document within the Markdown features this POC exposes.
@@ -363,6 +374,7 @@
 								// Emit input only after Markdown has caught up with the document.
 								input: (_view, event) => { event.stopPropagation(); return false; },
 								dragover: (_view, event) => {
+							if (this.readOnly) return false;
 									if (!Array.from(event.dataTransfer?.items || []).some(item => item.kind === "file")) return false;
 									event.preventDefault();
 									event.dataTransfer.dropEffect = "copy";
@@ -370,6 +382,7 @@
 								}
 							},
 							handleDrop: (view, event, _slice, moved) => {
+							if (this.readOnly) return false;
 								if (moved) return false;
 								const droppedFiles = Array.from(event.dataTransfer?.files || []);
 								if (!droppedFiles.length) return false;
@@ -384,6 +397,7 @@
 								return true;
 							},
 							handlePaste: (_view, event) => {
+							if (this.readOnly) return false;
 								if (event.clipboardData?.getData("text/html")) return false;
 								if (!this.editor.isActive("table")) return false;
 								const text = event.clipboardData?.getData("text/plain") || "";
@@ -394,12 +408,12 @@
 								return true;
 							},
 							handleKeyDown: (_view, event) => {
-								if (!event.isComposing && event.altKey && event.shiftKey && event.key.toLowerCase() === "t" && this.editor.isActive("table")) {
+							if (!this.readOnly && !event.isComposing && event.altKey && event.shiftKey && event.key.toLowerCase() === "t" && this.editor.isActive("table")) {
 									event.preventDefault();
 									this.focusTableToolbarButton(this.tableToolbar.querySelector("button:not(:disabled)"));
 									return true;
 								}
-							if (!event.isComposing && !event.altKey && (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+							if (!this.readOnly && !event.isComposing && !event.altKey && (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
 								event.preventDefault();
 								this.openLink();
 								return true;
@@ -422,6 +436,7 @@
 					}
 				});
 				this.bindControls();
+			this.updateReadOnlyState();
 				this.sync(false);
 				this.status.textContent = "";
 			} catch (error) {
@@ -636,6 +651,8 @@
 			this.tableToolbar = this.shell.querySelector("[data-table-toolbar]");
 			this.selectionToolbar = this.shell.querySelector("[data-selection-toolbar]");
 			this.selectionFeedback = this.shell.querySelector("[data-selection-feedback]");
+			this.editorHelp = this.shell.querySelector(`#${id}-help`);
+			this.editHelpText = this.editorHelp.textContent;
 			this.tablePreview = this.shell.querySelector("[data-table-preview]");
 			this.colorControl = this.shell.querySelector(".saMarkdownEditorColorControl");
 			this.colorApplyButton = this.shell.querySelector("[data-apply-text-color]");
@@ -666,6 +683,9 @@
 		bindControls() {
 			this.events = new AbortController();
 			const options = { signal: this.events.signal };
+			const readOnlyButton = document.getElementById("toggleMarkdownReadOnly");
+			this.readOnlyButton = readOnlyButton?.getAttribute("aria-controls") === this.id ? readOnlyButton : null;
+			this.readOnlyButton?.addEventListener("click", () => { this.readOnly = !this.readOnly; }, options);
 			// Handle preview decisions before editor keymaps or button activation consume them.
 			this.shell.addEventListener("keydown", event => {
 				if (!this.aiPreview || event.isComposing || event.target.closest("dialog")) return;
@@ -686,7 +706,7 @@
 					this.updateSelectionToolbar();
 					if (!this.selectionToolbar.hidden) this.selectionToolbar.querySelector('[tabindex="0"]').focus();
 				}
-				if (!this.sourceMode && !event.isComposing && (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "f" && !event.target.closest("dialog")) {
+				if (!this.sourceMode && !this.readOnly && !event.isComposing && (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "f" && !event.target.closest("dialog")) {
 					event.preventDefault();
 					this.openFind();
 				}
@@ -793,6 +813,7 @@
 			}, options);
 			this.headingSelect = this.shell.querySelector("[data-heading-level]");
 			this.headingSelect.addEventListener("change", () => {
+				if (this.readOnly) return;
 				const value = this.headingSelect.value;
 				const chain = this.editor.chain().focus();
 				if (value === "paragraph") chain.setParagraph().run();
@@ -866,7 +887,35 @@
 			}, options);
 		}
 
+		updateReadOnlyState() {
+			const readOnly = this.readOnly;
+			if (this.fillWhenEditable === undefined) this.fillWhenEditable = this.classList.contains("saMarkdownEditorFill");
+			this.classList.toggle("saMarkdownEditorFill", !readOnly && this.fillWhenEditable);
+			this.classList.toggle("saMarkdownEditorReadOnly", readOnly);
+			if (this.source) this.source.readOnly = readOnly;
+			this.readOnlyButton?.setAttribute("aria-pressed", String(readOnly));
+			if (!this.editor) return;
+			if (readOnly) {
+				this.cancelThinkingPreview(false);
+				if (this.sourceMode) this.toggleMarkdown(true);
+				this.closeFind(false);
+				this.closeColorPicker();
+				this.closeTablePicker();
+				this.shell.querySelectorAll("dialog[open]").forEach(dialog => dialog.close());
+			}
+			this.editor.setEditable(!readOnly, false);
+			this.editor.view.dom.setAttribute("aria-readonly", String(readOnly));
+			this.editorHelp.textContent = readOnly ? "Read-only content. Select text to send it to chat." : this.editHelpText;
+			this.shell.querySelector(".saMarkdownEditorToolbar").hidden = readOnly;
+			this.selectionToolbar.querySelector('[data-selection-action="improve"]').closest("li").hidden = readOnly;
+			this.shell.querySelectorAll(".saMarkdownEditorCodeBlock select").forEach(select => { select.disabled = readOnly; });
+			this.selectionToolbar.hidden = true;
+			this.updateButtons();
+			this.scheduleSelectionToolbar();
+		}
+
 		format(command) {
+			if (this.readOnly) return;
 			const alignment = { alignColumnLeft: "left", alignColumnCenter: "center", alignColumnRight: "right" }[command];
 			if (alignment) return this.alignTableColumns(alignment);
 			if (command === "markdown") return this.toggleMarkdown();
@@ -1079,7 +1128,7 @@
 		}
 
 		handleSelectionToolbarKeydown(event) {
-			const buttons = Array.from(this.selectionToolbar.querySelectorAll("button"));
+			const buttons = Array.from(this.selectionToolbar.querySelectorAll("button")).filter(button => !button.closest("[hidden]"));
 			if (event.key === "Escape") {
 				event.preventDefault();
 				const { from, to } = this.editor.state.selection;
@@ -1097,6 +1146,7 @@
 		}
 
 		runSelectionAction(action) {
+			if (this.readOnly && action !== "send-to-chat") return;
 			if (this.aiPreview) {
 				if (action === "send-to-chat" && this.aiPreview.phase === "review") this.applyThinkingPreview();
 				else if (action === "improve") {
@@ -1182,8 +1232,8 @@
 			this.aiPreview = null;
 			if (originalState) {
 				this.editor.view.updateState(originalState);
-				this.editor.setEditable(true, false);
-				this.editor.view.dom.removeAttribute("aria-readonly");
+				this.editor.setEditable(!this.readOnly, false);
+				this.editor.view.dom.setAttribute("aria-readonly", String(this.readOnly));
 			}
 			this.setThinkingControls(false);
 			this.updateButtons();
@@ -1341,7 +1391,7 @@
 		}
 
 		replaceMatches(all) {
-			if (this.findPanel.hidden || this.replaceRow.hidden || this.aiPreview?.phase === "review") return;
+			if (this.readOnly || this.findPanel.hidden || this.replaceRow.hidden || this.aiPreview?.phase === "review") return;
 			const matches = this.getSearchMatches();
 			const { from, to } = this.editor.state.selection;
 			const targets = all ? matches : matches.filter(match => match.from === from && match.to === to);
@@ -1447,7 +1497,8 @@
 			this.focusTableToolbarButton(buttons[next]);
 		}
 
-		toggleMarkdown() {
+		toggleMarkdown(allowReadOnlyExit = false) {
+			if (this.readOnly && !(allowReadOnlyExit && this.sourceMode)) return;
 			this.cancelThinkingPreview();
 			this.closeFind(false);
 			this.sourceMode = !this.sourceMode;
@@ -1466,7 +1517,7 @@
 				this.sourceSurface.hidden = true;
 				this.visualSurface.hidden = false;
 				this.markdownButton.setAttribute("aria-label", "View as markdown");
-				this.editor.commands.focus();
+				if (!allowReadOnlyExit) this.editor.commands.focus();
 			}
 			this.updateButtons();
 		}
@@ -1547,6 +1598,7 @@
 		}
 
 		insertTable(rows, columns) {
+			if (this.readOnly) return;
 			this.closeTablePicker();
 			this.editor.chain().focus().insertTable({
 				rows,
@@ -1557,6 +1609,7 @@
 		}
 
 		pasteTableData(value, delimiter) {
+			if (this.readOnly) return;
 			const matrix = parseDelimitedData(value, delimiter);
 			const columnCount = Math.max(...matrix.map(row => row.length));
 			if (!matrix.length || !columnCount || matrix.length > 100 || columnCount > 20) {
@@ -1614,7 +1667,7 @@
 		}
 
 		alignTableColumns(align) {
-			if (this.sourceMode || this.aiPreview?.phase === "review") return;
+			if (this.readOnly || this.sourceMode || this.aiPreview?.phase === "review") return;
 			const context = this.getTableColumnContext();
 			if (!context) return;
 			const { state, view } = this.editor;
@@ -1647,7 +1700,7 @@
 		updateTableToolbar() {
 			if (!this.tableToolbar || !this.editor) return;
 			const cell = this.getActiveTableCell();
-			const visible = Boolean(cell && !this.sourceMode && this.aiPreview?.phase !== "review");
+			const visible = Boolean(cell && !this.readOnly && !this.sourceMode && this.aiPreview?.phase !== "review");
 			this.tableToolbar.hidden = !visible;
 			if (!visible) {
 				this.tableToolbar.removeAttribute("style");
@@ -1727,8 +1780,9 @@
 
 		updateButtons() {
 			if (!this.editor) return;
+			this.editor.view.dom.querySelectorAll('input[type="checkbox"]').forEach(input => { input.disabled = this.readOnly; });
 			this.findButton?.setAttribute("aria-expanded", String(Boolean(this.findPanel && !this.findPanel.hidden)));
-			const readOnly = this.sourceMode || this.aiPreview?.phase === "review";
+			const readOnly = this.readOnly || this.sourceMode || this.aiPreview?.phase === "review";
 			const activeHeading = [1, 2, 3, 4, 5, 6].find(level => this.editor.isActive("heading", { level }));
 			if (this.headingSelect) this.headingSelect.value = activeHeading ? String(activeHeading) : "paragraph";
 			const inTable = this.editor.isActive("table");
@@ -1754,7 +1808,7 @@
 					button.setAttribute("aria-pressed", String(Boolean(columnContext && columnContext.positions.every(offset => (columnContext.table.nodeAt(offset).attrs.align || "left") === alignment))));
 				} else if (command === "markdown") {
 					button.setAttribute("aria-pressed", String(Boolean(this.sourceMode)));
-					button.disabled = false;
+					button.disabled = this.readOnly;
 				} else if (readOnly) {
 					button.disabled = true;
 				} else if (types[command]) {
@@ -1801,7 +1855,7 @@
 			this.shell?.querySelectorAll("dialog[open]").forEach(dialog => dialog.close());
 			this.editor?.destroy();
 			this.editor = null;
-			if (this.source) { this.source.readOnly = false; this.append(this.source); }
+			if (this.source) { this.source.readOnly = this.readOnly; this.append(this.source); }
 			this.shell?.remove();
 		}
 
