@@ -165,20 +165,20 @@
   --Gray1100: #1e2935;
   --Gray1200: #171f2a;
   --Gray1300: #111821;
-  --Blue50: #f7faff;
-  --Blue100: #e5efff;
-  --Blue200: #bbd6ff;
-  --Blue300: #93bdff;
-  --Blue400: #6ea3ff;
-  --Blue500: #4582f4;
-  --Blue600: #2d6ce1;
-  --Blue700: #1c57c6;
-  --Blue800: #0f44a6;
-  --Blue900: #063384;
-  --Blue1000: #042b75;
-  --Blue1100: #022363;
-  --Blue1200: #011b50;
-  --Blue1300: #011442;
+  --Blue50: oklch(98.426% 0.00749 260.893);
+  --Blue100: oklch(94.937% 0.02422 259.882);
+  --Blue200: oklch(86.988% 0.06422 258.657);
+  --Blue300: oklch(79.325% 0.10491 259.255);
+  --Blue400: oklch(71.878% 0.14635 260.823);
+  --Blue500: oklch(62.53% 0.18264 261.566);
+  --Blue600: oklch(55.839% 0.19011 261.408);
+  --Blue700: oklch(48.951% 0.18379 261.585);
+  --Blue800: oklch(42.009% 0.16716 261.544);
+  --Blue900: oklch(35.131% 0.14397 261.37);
+  --Blue1000: oklch(31.909% 0.13389 261.625);
+  --Blue1100: oklch(28.287% 0.11942 261.413);
+  --Blue1200: oklch(24.457% 0.10284 261.168);
+  --Blue1300: oklch(21.305% 0.09153 261.823);
   --Red50: #fff7f7;
   --Red100: #ffe8e7;
   --Red200: #ffc6c5;
@@ -277,22 +277,22 @@
   --Pink1100: #51013b;
   --Pink1200: #41012f;
   --Pink1300: #350125;
-  --Bluze-Hue: 261;
-  --Bluze-Chroma: 0.19;
-  --Bluze50: oklch(98% calc(var(--Bluze-Chroma) * 0.08) var(--Bluze-Hue));
-  --Bluze100: oklch(94% calc(var(--Bluze-Chroma) * 0.18) var(--Bluze-Hue));
-  --Bluze200: oklch(87% calc(var(--Bluze-Chroma) * 0.42) var(--Bluze-Hue));
-  --Bluze300: oklch(79% calc(var(--Bluze-Chroma) * 0.65) var(--Bluze-Hue));
-  --Bluze400: oklch(70% calc(var(--Bluze-Chroma) * 0.85) var(--Bluze-Hue));
-  --Bluze500: oklch(62% calc(var(--Bluze-Chroma) * 0.96) var(--Bluze-Hue));
-  --Bluze600: oklch(55% var(--Bluze-Chroma) var(--Bluze-Hue));
-  --Bluze700: oklch(48% calc(var(--Bluze-Chroma) * 0.96) var(--Bluze-Hue));
-  --Bluze800: oklch(41% calc(var(--Bluze-Chroma) * 0.88) var(--Bluze-Hue));
-  --Bluze900: oklch(34% calc(var(--Bluze-Chroma) * 0.78) var(--Bluze-Hue));
-  --Bluze1000: oklch(32% calc(var(--Bluze-Chroma) * 0.68) var(--Bluze-Hue));
-  --Bluze1100: oklch(28% calc(var(--Bluze-Chroma) * 0.58) var(--Bluze-Hue));
-  --Bluze1200: oklch(24% calc(var(--Bluze-Chroma) * 0.48) var(--Bluze-Hue));
-  --Bluze1300: oklch(21% calc(var(--Bluze-Chroma) * 0.38) var(--Bluze-Hue));
+  --Hue: 261;
+  --Chroma: 0.19;
+  --50: oklch(98% calc(var(--Chroma) * 0.08) var(--Hue));
+  --100: oklch(94% calc(var(--Chroma) * 0.18) var(--Hue));
+  --200: oklch(87% calc(var(--Chroma) * 0.42) var(--Hue));
+  --300: oklch(79% calc(var(--Chroma) * 0.65) var(--Hue));
+  --400: oklch(70% calc(var(--Chroma) * 0.85) var(--Hue));
+  --500: oklch(62% calc(var(--Chroma) * 0.96) var(--Hue));
+  --600: oklch(55% var(--Chroma) var(--Hue));
+  --700: oklch(48% calc(var(--Chroma) * 0.96) var(--Hue));
+  --800: oklch(41% calc(var(--Chroma) * 0.88) var(--Hue));
+  --900: oklch(34% calc(var(--Chroma) * 0.78) var(--Hue));
+  --1000: oklch(32% calc(var(--Chroma) * 0.68) var(--Hue));
+  --1100: oklch(28% calc(var(--Chroma) * 0.58) var(--Hue));
+  --1200: oklch(24% calc(var(--Chroma) * 0.48) var(--Hue));
+  --1300: oklch(21% calc(var(--Chroma) * 0.38) var(--Hue));
 }
 :root[data-theme="light"] {
   color-scheme: light;
@@ -42176,13 +42176,20 @@ p.saBentoDescription {
   font-weight: 500;
 }
 .saBentoButtonWrapper {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
   padding: 0 1rem 1rem 1rem;
   position: absolute;
   bottom: 0;
   width: 100%;
 }
-.saBentoButtonWrapper .saDefaultButtonSecondary {
+.saBentoActionButton {
   width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .saBentoAuthor {
   display: flex;
@@ -42683,6 +42690,7 @@ p.saBentoDescription {
 }
 .saBentoPresetCheck {
   color: light-dark(var(--Sa-Color-Primary600), var(--Sa-Color-Primary500));
+  font-size: 0.75rem;
 }
 .saBentoPresetTag {
   display: none;
@@ -43083,4 +43091,394 @@ p.saBentoDescription {
 }
 .saBentoChoiceCard .saIcon.saBentoSizemedium {
   font-size: 1.125rem;
+}
+.saChätRoot {
+  display: block;
+  min-width: 0;
+}
+.saChätWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 40rem;
+  height: calc(100dvh - 9rem);
+  padding: 1rem;
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
+  border-radius: 1.5rem;
+  background: var(--Sa-Color-Background);
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  box-sizing: border-box;
+}
+.saChätWrapper * {
+  box-sizing: border-box;
+}
+.saSmallScreen .saChätWrapper {
+  border: none;
+  border-radius: 0;
+}
+.saChät {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 40rem;
+}
+.saChätDay {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+  padding-bottom: 2rem;
+}
+.saChätDay:not(:last-child) {
+  margin-bottom: 3rem;
+}
+h2.saChätDate {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0 2rem;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1rem;
+}
+h2.saChätDate time {
+  display: inline-flex;
+  align-items: center;
+  height: 1.5rem;
+  padding: 0.25rem 0.5rem;
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
+  border-radius: 999px;
+  background: var(--Gray50);
+}
+.saChätList {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  gap: 0.5rem;
+}
+.saSmallScreen .saChätList {
+  gap: 1rem;
+}
+.saChätEntry {
+  min-width: 0;
+}
+.saChätUser.saChätEntry {
+  display: flex;
+}
+.saChätSender.saChätEntry {
+  display: flex;
+  justify-content: flex-end;
+}
+.saChätEntryInner {
+  display: flex;
+  align-items: flex-end;
+  min-width: 0;
+  width: 100%;
+  gap: 0.5rem;
+}
+.saChätSender .saChätEntryInner {
+  justify-content: flex-end;
+}
+.saChätAvatar {
+  height: 1.5rem;
+  width: 1.5rem;
+  aspect-ratio: 1;
+  border-radius: 1rem;
+  margin-bottom: 1.75rem;
+}
+.saChätArticle {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 100%;
+}
+.saChätSender .saChätArticle {
+  align-items: flex-end;
+}
+.saChätSender .saChätArticle,
+.saChätUser .saChätArticle {
+  max-width: 85%;
+}
+.saChätMessageFooter {
+  display: flex;
+  gap: 0.25rem;
+  font-size: 0.6875rem;
+  color: var(--Sa-Color-TextSecondary);
+  opacity: 0;
+}
+.saChätSender .saChätMessageFooter {
+  justify-content: flex-end;
+}
+.saSmallScreen .saChätMessageFooter {
+  opacity: 1;
+}
+.saLargeScreen .saChätEntry:is(:hover, :focus-within) .saChätMessageFooter {
+  opacity: 1;
+}
+.saChätMessageToolbar {
+  display: flex;
+  gap: 0.25rem;
+}
+.saChätMessageToolbar button {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: var(--Font), sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: light-dark(var(--Sa-Color-Primary600), var(--Gray100));
+  background-color: transparent;
+  border-radius: 0.375rem;
+  padding: 0 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  max-width: 1.5rem;
+  min-width: 1.5rem;
+  font-size: 0.875rem;
+}
+.saChätMessageToolbar button .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saChätMessageToolbar button .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saChätMessageToolbar button .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saChätMessageToolbar button .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+.saChätMessageToolbar button.saDestructive {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saChätMessageToolbar button.saDestructive .saIcon {
+  color: var(--Sa-Color-DestructiveButtonBackground);
+}
+@media (pointer: fine) {
+  .saChätMessageToolbar button.saDestructive:hover {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    background: var(--Sa-Color-DestructiveButtonBackground-Brightness187);
+  }
+  .saChätMessageToolbar button.saDestructive:hover .saIcon {
+    color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saChätMessageToolbar button.saDestructive:active {
+  color: var(--White);
+  background: var(--Sa-Color-DestructiveButtonBackground);
+}
+.saChätMessageToolbar button.saDestructive:active > .saIcon {
+  color: var(--White);
+}
+@media (pointer: fine) {
+  .saChätMessageToolbar button:hover {
+    background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+  .saChätMessageToolbar button:hover .saIcon {
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
+  }
+}
+.saChätMessageToolbar button:active {
+  background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saChätMessageToolbar button:active .saIcon {
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saChätMessageToolbar button:disabled,
+.saChätMessageToolbar button.saDisabled {
+  color: light-dark(var(--Gray300), var(--Gray700));
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saChätMessageToolbar button:disabled .saIcon,
+.saChätMessageToolbar button.saDisabled .saIcon {
+  color: light-dark(var(--Gray300), var(--Gray700));
+}
+.saChätMessageToolbar button:active {
+  border-radius: 0.625rem;
+}
+.saChätMessage {
+  overflow-wrap: anywhere;
+  line-height: 1.5rem;
+  width: fit-content;
+}
+.saChätSender .saChätMessage {
+  padding: 0.5rem 1rem;
+  border-radius: 1.25rem 1.25rem 0.25rem 1.25rem;
+  background: var(--Sa-Color-Primary100);
+}
+.saChätUser .saChätMessage {
+  padding: 0.5rem 1rem;
+  border-radius: 1.25rem 1.25rem 1.25rem 0.25rem;
+  background: var(--Gray100);
+}
+.saChätThinking {
+  width: fit-content;
+  margin: 1rem 0 0;
+  background: linear-gradient(90deg, var(--Gray500) 30%, var(--Gray200) 60%, var(--Gray200) 80%);
+  background-clip: text;
+  color: transparent;
+  line-height: 1rem;
+}
+.saChätDisclaimer {
+  flex: 0 0 auto;
+  margin: auto 0 1rem;
+  color: var(--Sa-Color-TextSecondary);
+  line-height: 1.5;
+  font-size: 0.75rem;
+  text-align: center;
+}
+.saChätComposer {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: flex-start;
+  min-height: 10rem;
+  padding: 1rem;
+  border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
+  border-radius: 1rem;
+  background: var(--White);
+  position: sticky;
+  bottom: 0;
+  top: 0;
+}
+.saChätComposer:focus-within {
+  border-color: var(--Sa-Color-Primary300);
+}
+.saChätInput {
+  box-sizing: border-box;
+  field-sizing: content;
+  width: 100%;
+  min-height: 2.5rem;
+  max-height: 40dvh;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--Sa-Color-Text);
+  font: inherit;
+  line-height: 1.4;
+  resize: none;
+  overflow-y: auto;
+}
+.saChätInput::placeholder {
+  color: var(--Gray400);
+  opacity: 1;
+}
+.saChätSend {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: var(--Font), sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  background-color: var(--Sa-Color-Primary600);
+  color: var(--Sa-Color-PrimaryButtonLabel);
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  max-width: 2rem;
+  min-width: 2rem;
+  font-size: 1rem;
+  border-radius: 99rem;
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+}
+.saChätSend .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saChätSend .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saChätSend .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saChätSend .saIcon {
+  color: var(--Sa-Color-PrimaryButtonIcon);
+}
+.saChätSend .saBadge {
+  color: var(--Sa-Color-Primary600);
+  background: var(--Sa-Color-PrimaryButtonIcon);
+  border-color: var(--Sa-Color-Primary600);
+}
+@media (pointer: fine) {
+  .saChätSend:hover {
+    background-color: var(--Sa-Color-Primary700);
+  }
+  .saChätSend:hover .saBadge {
+    background-color: var(--Sa-Color-PrimaryButtonIcon);
+    border-color: var(--Sa-Color-Primary700);
+  }
+}
+.saChätSend:active,
+.saChätSend.saOpen {
+  background-color: var(--Sa-Color-Primary800);
+}
+.saChätSend:active .saBadge,
+.saChätSend.saOpen .saBadge {
+  color: var(--Sa-Color-Primary800);
+  border-color: 2px solid var(--Sa-Color-Primary800);
+}
+.saChätSend:disabled {
+  background: light-dark(var(--Sa-Color-Primary200), var(--Gray900));
+  color: light-dark(var(--Sa-Color-PrimaryButtonLabel), var(--Gray700));
+}
+.saChätSend:disabled .saIcon {
+  color: light-dark(var(--Sa-Color-PrimaryButtonIcon), var(--Gray700));
+}
+.saChätSend.saDestructive {
+  background-color: var(--Sa-Color-DestructiveButtonBackground);
+  color: var(--White);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness182);
+}
+@media (pointer: fine) {
+  .saChätSend.saDestructive:hover {
+    background-color: var(--Sa-Color-DestructiveButtonBackground-Brightness90);
+  }
+}
+.saChätSend:active {
+  border-radius: 0.75rem;
+}
+.saChätLatest[hidden] {
+  display: none;
 }

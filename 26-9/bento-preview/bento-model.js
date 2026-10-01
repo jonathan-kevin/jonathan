@@ -106,7 +106,7 @@
   }
   function cardArticle(c, label, selected) {
     const favorite = c.showFavorite ? `<button type="button" class="saBentoButton" aria-pressed="false" aria-label="Favorite ${escapeHtml(c.title)}"><i class="saIcon far fad fa-heart" aria-hidden="true"></i><i class="saIcon fas fa-heart" aria-hidden="true"></i></button>` : '';
-    const action = c.showAction ? `<div class="saBentoButtonWrapper"><a class="saDefaultButtonSecondary" href="#">Open ${escapeHtml(c.title)}</a></div>` : '';
+    const action = c.showAction ? `<div class="saBentoButtonWrapper"><button type="button" class="saDefaultButtonSecondary saBentoActionButton">Open ${escapeHtml(c.title)}</button><button type="button" class="saDefaultButtonSecondary saBentoActionButton">About ${escapeHtml(c.title)}</button></div>` : '';
     return `<article>${favorite}<a href="#" class="saBentoInner ${c.solid ? 'saSolid' : ''}" role="button" aria-pressed="${selected}" aria-label="${escapeHtml(label)}">${cardContent(c)}</a>${action}</article>`;
   }
   function duplicateCard(state, id) {

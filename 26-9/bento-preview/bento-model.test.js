@@ -111,8 +111,12 @@ test('extended content uses shared card structures without nested action links',
   assert.match(html, /saPill">&lt;Team&gt;/);
   assert.match(html, /src="team.png"/);
   assert.match(html, /fa-heart/);
-  assert.match(html, /<\/a><div class="saBentoButtonWrapper"><a/);
-  assert.match(html, /href="#">Open My tasks/);
+  assert.match(html, /<\/a><div class="saBentoButtonWrapper"><button/);
+  assert.match(html, /<button type="button" class="saDefaultButtonSecondary saBentoActionButton">Open My tasks<\/button><button type="button" class="saDefaultButtonSecondary saBentoActionButton">About My tasks<\/button>/);
+  assert.equal((html.match(/<button type="button" class="saDefaultButtonSecondary saBentoActionButton">/g) || []).length, 2);
+  const other = M.card(1, 2);
+  other.showAction = true;
+  assert.match(M.cardArticle(other, 'Project card', false), /Open Projects<\/button>.*About Projects<\/button>/);
   c.description = '';
   assert.doesNotMatch(M.cardContent(c), /Add a link to a page/);
 });
