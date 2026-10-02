@@ -18,13 +18,16 @@
 		import("https://esm.sh/@tiptap/pm@3.31.3/view"),
 		import("https://esm.sh/@tiptap/pm@3.31.3/history"),
 		import("./markdown-editor-paste.js?v=2"),
-		import("https://esm.sh/@tiptap/pm@3.31.3/tables")
+		import("https://esm.sh/@tiptap/pm@3.31.3/tables"),
+		import("https://esm.sh/@tiptap/extension-code@3.31.3")
 	]);
 
 	const isValidTextColor = value => {
 		const color = String(value || "").trim();
 		return color.length <= 128 && !/[\u0000-\u001f;]/.test(color) && CSS.supports("color", color);
 	};
+	// Short numeric colors would be indistinguishable from issue references such as #123.
+	const completeHexColorPattern = /^#(?:[0-9a-f]{8}|[0-9a-f]{6})$/i;
 	const droppedImageTypes = new Set(["image/png", "image/jpeg", "image/gif", "image/webp", "image/avif", "image/bmp"]);
 	const maxDroppedImageBytes = 10 * 1024 * 1024;
 	const isSafeUrl = value => /^(?:(?:https?):\/\/\S+|(?:mailto|tel):\S+|#\S+|(?:\.{0,2}\/)[^\s]+|(?:[a-z0-9_-]+\/)*[a-z0-9_.~-]+(?:[?#]\S*)?)$/i.test(value);
@@ -249,6 +252,51 @@
 			return { "Mod-u": () => this.editor.commands.toggleUnderline() };
 		}
 	});
+	const createHexCode = (Code, InputRule, PasteRule) => Code.extend({
+		addAttributes() {
+			return {
+				...this.parent?.(),
+				hexColor: {
+					default: null,
+					parseHTML: element => completeHexColorPattern.test(element.textContent || "") ? element.textContent : null,
+					renderHTML: attributes => completeHexColorPattern.test(attributes.hexColor || "") ? {
+						class: "saMarkdownEditorHexColor",
+						style: `--sa-markdown-editor-swatch: ${attributes.hexColor}`
+					} : {}
+				}
+			};
+		},
+
+		parseMarkdown(token, helpers) {
+			const value = token.text || "";
+			return helpers.applyMark("code", [{ type: "text", text: value }], completeHexColorPattern.test(value) ? { hexColor: value } : null);
+		},
+
+		addInputRules() {
+			return [...(this.parent?.() || []), new InputRule({
+				find: /(^|[^\w/#])(#(?:[0-9a-f]{8}|[0-9a-f]{6}))([ \t.,;:!?])$/i,
+				handler: ({ state, range, match }) => {
+					if (state.doc.rangeHasMark(range.from, range.to, state.schema.marks.link)) return null;
+					const color = match[2];
+					const from = range.from + match[0].indexOf(color);
+					const transaction = state.tr.insertText(match[3], range.to);
+					transaction.addMark(from, from + color.length, this.type.create({ hexColor: color }));
+					transaction.removeStoredMark(this.type);
+				}
+			})];
+		},
+
+		addPasteRules() {
+			return [...(this.parent?.() || []), new PasteRule({
+				find: /(?<![\w/#])(#(?:[0-9a-f]{8}|[0-9a-f]{6}))(?!\w)/gi,
+				handler: ({ state, range, match }) => {
+					if (state.doc.rangeHasMark(range.from, range.to, state.schema.marks.link)) return null;
+					state.tr.addMark(range.from, range.to, this.type.create({ hexColor: match[1] }));
+					state.tr.removeStoredMark(this.type);
+				}
+			})];
+		}
+	});
 
 	class MarkdownEditor extends HTMLElement {
 		static get observedAttributes() { return ["readonly"]; }
@@ -275,7 +323,7 @@
 			this.append(this.status);
 
 			try {
-				const [{ Editor, Mark, Extension }, { StarterKit }, { Markdown }, { Image }, { TableKit }, { CodeBlockLowlight }, { common, createLowlight }, { TaskList, TaskItem }, { Plugin, PluginKey, TextSelection }, { Decoration, DecorationSet }, { closeHistory }, { cleanPastedHTML }, { selectedRect, TableMap }] = await loadEditor();
+				const [{ Editor, Mark, Extension, InputRule, PasteRule }, { StarterKit }, { Markdown }, { Image }, { TableKit }, { CodeBlockLowlight }, { common, createLowlight }, { TaskList, TaskItem }, { Plugin, PluginKey, TextSelection }, { Decoration, DecorationSet }, { closeHistory }, { cleanPastedHTML }, { selectedRect, TableMap }, { Code }] = await loadEditor();
 				if (!this.isConnected) return;
 				this.buildControls();
 				this.closeHistory = closeHistory;
@@ -296,6 +344,29 @@
 									class: owner.aiPreview.phase === "thinking" ? "saMarkdownEditorThinking" : "saMarkdownEditorSuggestionTarget",
 									"aria-busy": String(owner.aiPreview.phase === "thinking")
 								})] : [])])
+							}
+						})];
+					}
+				});
+				const hexCodeAttributes = Extension.create({
+					name: "hexCodeAttributes",
+					addProseMirrorPlugins() {
+						return [new Plugin({
+							key: new PluginKey("hexCodeAttributes"),
+							appendTransaction: (transactions, _oldState, state) => {
+								if (!transactions.some(transaction => transaction.docChanged)) return null;
+								const transaction = state.tr;
+								const codeType = state.schema.marks.code;
+								state.doc.descendants((node, position) => {
+									if (!node.isText) return;
+									const mark = node.marks.find(item => item.type === codeType);
+									if (!mark) return;
+									const color = completeHexColorPattern.test(node.text) ? node.text : null;
+									if (mark.attrs.hexColor === color) return;
+									transaction.removeMark(position, position + node.nodeSize, mark);
+									transaction.addMark(position, position + node.nodeSize, codeType.create({ ...mark.attrs, hexColor: color }));
+								});
+								return transaction.docChanged ? transaction.setMeta("addToHistory", false) : null;
 							}
 						})];
 					}
@@ -337,6 +408,7 @@
 						StarterKit.configure({
 							// Keep the document within the Markdown features this POC exposes.
 							underline: false,
+							code: false,
 							codeBlock: false,
 							link: {
 								openOnClick: false,
@@ -352,6 +424,8 @@
 						TaskList,
 						TaskItem.configure({ nested: true, a11y: { checkboxLabel: node => `Mark task ${node.firstChild?.textContent || "item"} as ${node.attrs.checked ? "incomplete" : "complete"}` } }),
 						searchHighlights,
+						createHexCode(Code, InputRule, PasteRule),
+						hexCodeAttributes,
 						createCodeBlock(CodeBlockLowlight, createLowlight(common)),
 						createTextColor(Mark),
 						createUnderline(Mark),
