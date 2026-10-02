@@ -3,6 +3,7 @@ import {
   ArrowLeft,
   ArrowRight,
   Check,
+  ChevronDown,
   FileText,
   Home,
   Plus,
@@ -19,6 +20,9 @@ import {
   siJcb,
   siKlarna,
 } from "simple-icons";
+import forestImage from "./assets/lodging-forest.jpg";
+import familyImage from "./assets/lodging-family.jpg";
+import viewImage from "./assets/lodging-view.jpg";
 
 export type FlowEntry =
   "day" | "stay" | "group" | "rental" | "school" | "activity";
@@ -130,25 +134,28 @@ type FlowBooking = {
 };
 const cabins: Record<
   Exclude<CabinId, "none">,
-  { name: string; beds: number; price: number; detail: string }
+  { name: string; beds: number; price: number; detail: string; image: string }
 > = {
   forest: {
     name: "Skogsstugan",
     beds: 2,
     price: 795,
     detail: "Liten stuga nära skogen · pentry",
+    image: forestImage,
   },
   family: {
     name: "Familjestugan",
     beds: 4,
     price: 1195,
     detail: "Rymlig stuga för familjen · kök",
+    image: familyImage,
   },
   view: {
     name: "Utsiktsstugan",
     beds: 6,
     price: 1795,
     detail: "Stor stuga med utsikt · kök och altan",
+    image: viewImage,
   },
 };
 const activities: Record<
@@ -1411,7 +1418,7 @@ export function BookingFlow({
     setError("");
   };
   const cabinCards = (optional: boolean) => (
-    <div className="flow-options">
+    <div className="flow-options flow-lodging-list">
       {optional && (
         <button
           type="button"
@@ -1437,24 +1444,29 @@ export function BookingFlow({
         <button
           type="button"
           key={id}
-          className={`flow-option ${draft.cabin === id ? "selected" : ""}`}
+          className={`flow-option flow-lodging-card ${draft.cabin === id ? "selected" : ""}`}
           onClick={() => setCabin(id)}
         >
-          <span className="flow-option-icon">
-            <Home size={22} />
+          <span className="flow-lodging-image">
+            <img src={cabin.image} alt="" loading="lazy" />
+            <span>Illustrationsbild</span>
           </span>
-          <span>
+          <span className="flow-lodging-info">
             <strong>{cabin.name}</strong>
             <small>{cabin.detail}</small>
-            <small>
-              {cabin.beds} bäddar · Tillgänglig för din period ·{" "}
-              {numberOfCabins && draft.cabin === id
-                ? numberOfCabins
-                : Math.ceil(guests / cabin.beds)}{" "}
-              {Math.ceil(guests / cabin.beds) === 1 ? "stuga" : "stugor"}
-            </small>
+            <span className="flow-lodging-meta">
+              <span>{cabin.beds} bäddar</span>
+              <span>Tillgänglig för din period</span>
+              <span>
+                {numberOfCabins && draft.cabin === id
+                  ? numberOfCabins
+                  : Math.ceil(guests / cabin.beds)}{" "}
+                {Math.ceil(guests / cabin.beds) === 1 ? "stuga" : "stugor"}
+              </span>
+            </span>
           </span>
-          <span className="flow-option-price">
+          <span className="flow-lodging-price">
+            <small>Totalt för perioden</small>
             <strong>
               {money(
                 cabin.price *
@@ -1466,8 +1478,10 @@ export function BookingFlow({
               {money(cabin.price)}/natt
               {optional && nights === 0 ? " · minst 1 natt" : ""}
             </small>
+            {draft.cabin === id && (
+              <span className="flow-lodging-selected"><Check size={15} /> Valt boende</span>
+            )}
           </span>
-          {draft.cabin === id && <Check size={19} />}
         </button>
       ))}
     </div>
@@ -1578,8 +1592,14 @@ export function BookingFlow({
             >
               <summary>
                 <strong>{dateText(date)}</strong>
-                <span>
-                  {assignedCount} av {guests} deltagare bokade
+                <span className="flow-session-summary-right">
+                  <span className="flow-session-count-full">
+                    {assignedCount} av {guests} deltagare bokade
+                  </span>
+                  <span className="flow-session-count-compact">
+                    {assignedCount} av {guests} bokade
+                  </span>
+                  <ChevronDown className="flow-session-chevron" size={18} aria-hidden="true" />
                 </span>
               </summary>
               <div className="flow-session-content">
