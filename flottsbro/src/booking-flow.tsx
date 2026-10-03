@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
   Check,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   FileText,
   Home,
   Plus,
@@ -21,8 +23,11 @@ import {
   siKlarna,
 } from "simple-icons";
 import forestImage from "./assets/lodging-forest.jpg";
+import forestImage2 from "./assets/lodging-forest-2.jpg";
 import familyImage from "./assets/lodging-family.jpg";
+import familyImage2 from "./assets/lodging-family-2.jpg";
 import viewImage from "./assets/lodging-view.jpg";
+import viewImage2 from "./assets/lodging-view-2.jpg";
 
 export type FlowEntry =
   "day" | "stay" | "group" | "rental" | "school" | "activity";
@@ -73,7 +78,7 @@ export type FlowContact = {
   note?: string;
 };
 export type FlowDraft = {
-  flowVersion?: 3 | 4;
+  flowVersion?: 3 | 4 | 5;
   entry: FlowEntry;
   season: FlowSeason;
   step: number;
@@ -134,28 +139,43 @@ type FlowBooking = {
 };
 const cabins: Record<
   Exclude<CabinId, "none">,
-  { name: string; beds: number; price: number; detail: string; image: string }
+  {
+    name: string;
+    beds: number;
+    price: number;
+    detail: string;
+    images: { src: string; alt: string }[];
+  }
 > = {
   forest: {
     name: "Skogsstugan",
     beds: 2,
     price: 795,
     detail: "Liten stuga nära skogen · pentry",
-    image: forestImage,
+    images: [
+      { src: forestImage, alt: "Snötäckt stuga vid skogen" },
+      { src: forestImage2, alt: "Liten trästuga bland tallar" },
+    ],
   },
   family: {
     name: "Familjestugan",
     beds: 4,
     price: 1195,
     detail: "Rymlig stuga för familjen · kök",
-    image: familyImage,
+    images: [
+      { src: familyImage, alt: "Ljust vardagsrum med kök" },
+      { src: familyImage2, alt: "Vardagsrum med sittgrupp" },
+    ],
   },
   view: {
     name: "Utsiktsstugan",
     beds: 6,
     price: 1795,
     detail: "Stor stuga med utsikt · kök och altan",
-    image: viewImage,
+    images: [
+      { src: viewImage, alt: "Ljust sovrum" },
+      { src: viewImage2, alt: "Vardagsrum med stora fönster" },
+    ],
   },
 };
 const activities: Record<
@@ -265,7 +285,7 @@ export const createFlowDraft = (
 ): FlowDraft => {
   const start = season === "winter" ? "2027-02-10" : "2027-07-12";
   return {
-    flowVersion: 4,
+    flowVersion: 5,
     entry,
     season,
     step: 0,
@@ -473,20 +493,31 @@ export function BookingFlow({
   onFinish: () => void;
   onHome: () => void;
 }) {
-  const [draft, setDraft] = useState<FlowDraft>(
-    initial
-      ? {
-          ...initial,
-          flowVersion: 4,
-          step:
-            initial.flowVersion === 4
-              ? initial.step
-              : initial.flowVersion === 3
-                ? ([0, 2, 3, 4, 1, 5, 6, 7, 8][initial.step] ?? 0)
-                : ([0, 2, 3, 1, 5, 6, 7, 8][initial.step] ?? 0),
-        }
-      : createFlowDraft(entry, season),
-  );
+  const [draft, setDraft] = useState<FlowDraft>(() => {
+    if (!initial) return createFlowDraft(entry, season);
+    const previousStep =
+      initial.flowVersion === 5 || initial.flowVersion === 4
+        ? initial.step
+        : initial.flowVersion === 3
+          ? ([0, 2, 3, 4, 1, 5, 6, 7, 8][initial.step] ?? 0)
+          : ([0, 2, 3, 1, 5, 6, 7, 8][initial.step] ?? 0);
+    const migratedStep =
+      initial.flowVersion === 5
+        ? previousStep
+        : previousStep >= 5
+          ? previousStep + 1
+          : previousStep;
+    return {
+      ...initial,
+      flowVersion: 5,
+      step:
+        initial.entry === "activity" && migratedStep === 4
+          ? 3
+          : initial.entry === "school" && migratedStep === 5
+            ? 4
+            : migratedStep,
+    };
+  });
   const [active, setActive] = useState(Boolean(initial));
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
@@ -497,6 +528,9 @@ export function BookingFlow({
   const [bulkOpen, setBulkOpen] = useState(false);
   const [bulkText, setBulkText] = useState("");
   const [newPersonIndex, setNewPersonIndex] = useState<number | null>(null);
+  const [cabinImageIndex, setCabinImageIndex] = useState<
+    Record<Exclude<CabinId, "none">, number>
+  >({ forest: 0, family: 0, view: 0 });
   const stepsRef = useRef<HTMLElement>(null);
   const update = (change: Partial<FlowDraft>) => {
     setDraft((current) => ({ ...current, ...change }));
@@ -662,15 +696,26 @@ export function BookingFlow({
       ? draft.season === "winter"
         ? "SkiPass"
         : "Cykelpass"
-      : "Boende",
-    ["rental", "school", "activity"].includes(draft.entry)
-      ? "Pass & aktiviteter"
-      : "Aktiviteter",
+      : ["rental", "school", "activity"].includes(draft.entry)
+        ? `Boende & ${draft.season === "winter" ? "SkiPass" : "cykelpass"}`
+        : "Boende",
+    "Aktiviteter",
+    draft.season === "winter" ? "Skidskola" : "Cykelskola",
     "Mat",
     "Uppgifter",
     "Granska",
     "Betala",
   ];
+  const visibleSteps = stageLabels
+    .map((_, index) => index)
+    .filter(
+      (index) =>
+        !(draft.entry === "activity" && index === 4) &&
+        !(draft.entry === "school" && index === 5),
+    );
+  const stepPosition = visibleSteps.indexOf(draft.step);
+  const followingStep = visibleSteps[stepPosition + 1] ?? draft.step;
+  const previousStep = visibleSteps[stepPosition - 1] ?? 0;
   const changeParty = (nextAdults: number, nextChildren: number) => {
     const remap = (index: number) => {
       if (index < draft.adults) return index < nextAdults ? index : null;
@@ -949,8 +994,9 @@ export function BookingFlow({
     if (
       (draft.step === 2 ||
         draft.step === 4 ||
-        draft.step === 7 ||
-        draft.step === 8) &&
+        draft.step === 5 ||
+        draft.step === 8 ||
+        draft.step === 9) &&
       unscheduledOfferings.length > 0
     ) {
       setError(
@@ -958,7 +1004,7 @@ export function BookingFlow({
       );
       return;
     }
-    if (draft.step === 6) {
+    if (draft.step === 7) {
       if (
         !draft.name.trim() ||
         !/^\S+@\S+\.\S+$/.test(draft.email) ||
@@ -974,23 +1020,23 @@ export function BookingFlow({
         return;
       }
     }
-    if (draft.step === 7 && group && incompleteCount > 0) {
+    if (draft.step === 8 && group && incompleteCount > 0) {
       setError(
         `Komplettera ${incompleteCount} deltagare innan du går vidare till betalning.`,
       );
       return;
     }
-    if (draft.step === 7 && total <= 0) {
+    if (draft.step === 8 && total <= 0) {
       setError(
         "Välj minst en upplevelse eller ett boende innan du går vidare.",
       );
       return;
     }
-    if (draft.step === 7 && !draft.terms) {
+    if (draft.step === 8 && !draft.terms) {
       setError("Godkänn exempelvillkoren för att fortsätta.");
       return;
     }
-    if (draft.step === 8) {
+    if (draft.step === 9) {
       if (!draft.payment) {
         setError("Välj ett betalningssätt.");
         return;
@@ -1019,7 +1065,7 @@ export function BookingFlow({
       update({ draftBookingId: preliminary.id, step: 1 });
     } else if (draft.step === 1 && group)
       update({ participants: preparedParticipants(), step: 2 });
-    else update({ step: draft.step + 1 });
+    else update({ step: followingStep });
     setActive(true);
     setError("");
   };
@@ -1395,7 +1441,11 @@ export function BookingFlow({
       else setPass(draft.season === "winter" ? "full" : "bike");
     } else if (draft.step === 3) {
       if (mainIsCabin) setPass(draft.season === "winter" ? "full" : "bike");
-      else setCabin("forest");
+      else {
+        setCabin("forest");
+        if (["rental", "school", "activity"].includes(draft.entry))
+          setPass(draft.season === "winter" ? "full" : "bike");
+      }
     } else if (draft.step === 4) {
       const id: ActivityId = draft.season === "winter" ? "snowshoe" : "canoe";
       const selected = [...new Set([...draft.activities, id])];
@@ -1403,20 +1453,31 @@ export function BookingFlow({
         activities: selected,
         sessionAssignments: {
           ...draft.sessionAssignments,
-          ...exampleSessionAssignments([
-            ...(draft.schoolLesson && draft.schoolLesson !== "none"
-              ? ["school"]
-              : []),
-            ...selected,
-          ]),
+          ...exampleSessionAssignments(selected),
         },
       });
-    } else if (draft.step === 5) update({ meal: "lunch", mealDays: dates });
-    else if (draft.step === 6) fillExampleContact();
-    else if (draft.step === 7) update({ terms: true });
-    else if (draft.step === 8) update({ payment: group ? "invoice" : "card" });
+    } else if (draft.step === 5)
+      update({
+        schoolLesson: "group",
+        schoolLevel: "beginner",
+        sessionAssignments: {
+          ...draft.sessionAssignments,
+          ...exampleSessionAssignments(["school"], "group"),
+        },
+      });
+    else if (draft.step === 6) update({ meal: "lunch", mealDays: dates });
+    else if (draft.step === 7) fillExampleContact();
+    else if (draft.step === 8) update({ terms: true });
+    else if (draft.step === 9) update({ payment: group ? "invoice" : "card" });
     setError("");
   };
+  const changeCabinImage = (id: Exclude<CabinId, "none">, direction: number) =>
+    setCabinImageIndex((current) => ({
+      ...current,
+      [id]:
+        (current[id] + direction + cabins[id].images.length) %
+        cabins[id].images.length,
+    }));
   const cabinCards = (optional: boolean) => (
     <div className="flow-options flow-lodging-list">
       {optional && (
@@ -1441,48 +1502,78 @@ export function BookingFlow({
           typeof cabins.forest,
         ][]
       ).map(([id, cabin]) => (
-        <button
-          type="button"
+        <div
           key={id}
           className={`flow-option flow-lodging-card ${draft.cabin === id ? "selected" : ""}`}
-          onClick={() => setCabin(id)}
         >
-          <span className="flow-lodging-image">
-            <img src={cabin.image} alt="" loading="lazy" />
-            <span>Illustrationsbild</span>
-          </span>
-          <span className="flow-lodging-info">
-            <strong>{cabin.name}</strong>
-            <small>{cabin.detail}</small>
-            <span className="flow-lodging-meta">
-              <span>{cabin.beds} bäddar</span>
-              <span>Tillgänglig för din period</span>
-              <span>
-                {numberOfCabins && draft.cabin === id
-                  ? numberOfCabins
-                  : Math.ceil(guests / cabin.beds)}{" "}
-                {Math.ceil(guests / cabin.beds) === 1 ? "stuga" : "stugor"}
+          <div className="flow-lodging-image">
+            <img
+              src={cabin.images[cabinImageIndex[id]].src}
+              alt={`Illustrationsbild: ${cabin.images[cabinImageIndex[id]].alt}`}
+              loading="lazy"
+            />
+            <button
+              type="button"
+              className="flow-lodging-arrow previous"
+              aria-label={`Föregående bild av ${cabin.name}`}
+              onClick={() => changeCabinImage(id, -1)}
+            >
+              <ChevronLeft size={18} />
+            </button>
+            <button
+              type="button"
+              className="flow-lodging-arrow next"
+              aria-label={`Nästa bild av ${cabin.name}`}
+              onClick={() => changeCabinImage(id, 1)}
+            >
+              <ChevronRight size={18} />
+            </button>
+            <span className="flow-lodging-image-count" aria-live="polite">
+              {cabinImageIndex[id] + 1} / {cabin.images.length}
+            </span>
+            <span className="flow-lodging-image-label">Illustrationsbild</span>
+          </div>
+          <button
+            type="button"
+            className="flow-lodging-choice"
+            aria-pressed={draft.cabin === id}
+            onClick={() => setCabin(id)}
+          >
+            <span className="flow-lodging-info">
+              <strong>{cabin.name}</strong>
+              <small>{cabin.detail}</small>
+              <span className="flow-lodging-meta">
+                <span>{cabin.beds} bäddar</span>
+                <span>Tillgänglig för din period</span>
+                <span>
+                  {numberOfCabins && draft.cabin === id
+                    ? numberOfCabins
+                    : Math.ceil(guests / cabin.beds)}{" "}
+                  {Math.ceil(guests / cabin.beds) === 1 ? "stuga" : "stugor"}
+                </span>
               </span>
             </span>
-          </span>
-          <span className="flow-lodging-price">
-            <small>Totalt för perioden</small>
-            <strong>
-              {money(
-                cabin.price *
-                  Math.ceil(guests / cabin.beds) *
-                  Math.max(1, nights),
+            <span className="flow-lodging-price">
+              <small>Totalt för perioden</small>
+              <strong>
+                {money(
+                  cabin.price *
+                    Math.ceil(guests / cabin.beds) *
+                    Math.max(1, nights),
+                )}
+              </strong>
+              <small>
+                {money(cabin.price)}/natt
+                {optional && nights === 0 ? " · minst 1 natt" : ""}
+              </small>
+              {draft.cabin === id && (
+                <span className="flow-lodging-selected">
+                  <Check size={15} /> Valt boende
+                </span>
               )}
-            </strong>
-            <small>
-              {money(cabin.price)}/natt
-              {optional && nights === 0 ? " · minst 1 natt" : ""}
-            </small>
-            {draft.cabin === id && (
-              <span className="flow-lodging-selected"><Check size={15} /> Valt boende</span>
-            )}
-          </span>
-        </button>
+            </span>
+          </button>
+        </div>
       ))}
     </div>
   );
@@ -1903,22 +1994,29 @@ export function BookingFlow({
         </h1>
         <p>Välj din period och bygg en vistelse som passar ditt sällskap.</p>
       </div>
-      <nav ref={stepsRef} className="flow-steps" aria-label="Bokningssteg">
-        {stageLabels.map((label, index) => (
+      <nav
+        ref={stepsRef}
+        className="flow-steps"
+        aria-label="Bokningssteg"
+        style={{ "--flow-step-count": visibleSteps.length } as CSSProperties}
+      >
+        {visibleSteps.map((step, position) => (
           <button
-            key={label}
+            key={step}
             type="button"
             className={
-              index === draft.step
+              step === draft.step
                 ? "current"
-                : index < draft.step
+                : position < stepPosition
                   ? "completed"
                   : ""
             }
-            onClick={() => index < draft.step && update({ step: index })}
+            onClick={() => position < stepPosition && update({ step })}
           >
-            <span>{index < draft.step ? <Check size={13} /> : index + 1}</span>
-            <small>{label}</small>
+            <span>
+              {position < stepPosition ? <Check size={13} /> : position + 1}
+            </span>
+            <small>{stageLabels[step]}</small>
           </button>
         ))}
       </nav>
@@ -1929,7 +2027,7 @@ export function BookingFlow({
           <section className="flow-panel">
             <div className="flow-panel-head">
               <span className="flow-kicker">
-                STEG {draft.step + 1} AV {stageLabels.length}
+                STEG {stepPosition + 1} AV {visibleSteps.length}
               </span>
               <h2>{stageLabels[draft.step]}</h2>
             </div>
@@ -2607,38 +2705,47 @@ export function BookingFlow({
                 <p className="flow-muted">
                   {mainIsCabin
                     ? "Vill du lägga till ett pass för vistelsen? Du kan också fortsätta utan pass."
-                    : "Vill du lägga till boende för vistelsen? Du kan också fortsätta utan boende."}
+                    : ["rental", "school", "activity"].includes(draft.entry)
+                      ? "Komplettera med boende och pass om du vill. Båda är valfria."
+                      : "Vill du lägga till boende för vistelsen? Du kan också fortsätta utan boende."}
                 </p>
-                {mainIsCabin ? passCards(true) : cabinCards(true)}
+                {mainIsCabin ? (
+                  passCards(true)
+                ) : (
+                  <>
+                    {cabinCards(true)}
+                    {["rental", "school", "activity"].includes(draft.entry) && (
+                      <>
+                        <h3>
+                          {draft.season === "winter" ? "SkiPass" : "Cykelpass"}
+                        </h3>
+                        {passCards(true)}
+                      </>
+                    )}
+                  </>
+                )}
               </>
             )}
             {draft.step === 4 && (
               <>
                 <p className="flow-muted">
-                  Välj fler upplevelser för sällskapet, eller fortsätt utan
-                  tillval.
+                  Välj aktiviteter för sällskapet. För varje aktivitet väljer
+                  du sedan dag, ledig tid och vilka personer som deltar.
                 </p>
-                {["rental", "school", "activity"].includes(draft.entry) && (
-                  <>
-                    <h3>
-                      {draft.season === "winter" ? "SkiPass" : "Cykelpass"}
-                    </h3>
-                    {passCards(true)}
-                  </>
-                )}
-                {draft.entry !== "school" && (
-                  <>
-                    <h3>
-                      {draft.season === "winter" ? "Skidskola" : "Cykelskola"}
-                    </h3>
-                    {schoolCards(true)}
-                  </>
-                )}
-                <h3>Aktiviteter</h3>
                 {activityCards()}
               </>
             )}
             {draft.step === 5 && (
+              <>
+                <p className="flow-muted">
+                  Vill du lägga till {draft.season === "winter" ? "skidskola" : "cykelskola"}?
+                  Välj lektion och boka dag, tid och deltagare, eller fortsätt
+                  utan lektion.
+                </p>
+                {schoolCards(true)}
+              </>
+            )}
+            {draft.step === 6 && (
               <>
                 <p className="flow-muted">
                   Välj måltid och vilka dagar den ska ingå. Priset uppdateras
@@ -2727,7 +2834,7 @@ export function BookingFlow({
                 </div>
               </>
             )}
-            {draft.step === 6 && (
+            {draft.step === 7 && (
               <>
                 <div className="flow-subhead">
                   <h3>Kontaktperson</h3>
@@ -2934,7 +3041,7 @@ export function BookingFlow({
                 )}
               </>
             )}
-            {draft.step === 7 && (
+            {draft.step === 8 && (
               <>
                 <p className="flow-muted">
                   Kontrollera din bokning innan du går vidare till betalning.
@@ -3026,7 +3133,7 @@ export function BookingFlow({
                 </label>
               </>
             )}
-            {draft.step === 8 && (
+            {draft.step === 9 && (
               <>
                 <p className="flow-muted">
                   Välj hur du vill{" "}
@@ -3133,7 +3240,7 @@ export function BookingFlow({
             {error && (
               <div role="alert" className="flow-error">
                 {error}
-                {group && draft.step === 7 && incompleteCount > 0 && (
+                {group && draft.step === 8 && incompleteCount > 0 && (
                   <button
                     type="button"
                     className="flow-text-button"
@@ -3142,31 +3249,35 @@ export function BookingFlow({
                     Gå till deltagare
                   </button>
                 )}
-                {draft.step >= 7 && unscheduledOfferings.length > 0 && (
+                {draft.step >= 8 && unscheduledOfferings.length > 0 && (
                   <button
                     type="button"
                     className="flow-text-button"
                     onClick={() =>
                       update({
                         step:
-                          draft.entry === "school" || draft.entry === "activity"
-                            ? 2
-                            : 4,
+                          unscheduledOfferings[0] === "school"
+                            ? draft.entry === "school"
+                              ? 2
+                              : 5
+                            : draft.entry === "activity"
+                              ? 2
+                              : 4,
                       })
                     }
                   >
-                    Gå till pass och tider
+                    Gå till dagar och tider
                   </button>
                 )}
               </div>
             )}
             <div className="flow-actions">
-              {draft.step > 0 && (
+              {stepPosition > 0 && (
                 <button
                   type="button"
                   className="flow-back"
                   onClick={() => {
-                    update({ step: draft.step - 1 });
+                    update({ step: previousStep });
                     setError("");
                   }}
                 >
@@ -3174,11 +3285,11 @@ export function BookingFlow({
                 </button>
               )}
               <button type="button" className="flow-primary" onClick={next}>
-                {draft.step === 8
+                {draft.step === 9
                   ? group && draft.payment === "invoice"
                     ? "Slutför & skapa fakturaunderlag"
                     : "Bekräfta bokning"
-                  : draft.step === 7
+                  : draft.step === 8
                     ? "Godkänn och välj betalning"
                     : "Fortsätt"}
                 <ArrowRight size={17} />

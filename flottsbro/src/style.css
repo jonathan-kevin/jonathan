@@ -3638,7 +3638,7 @@ footer {
 }
 .flow-steps {
   display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--flow-step-count, 10), minmax(0, 1fr));
   gap: 5px;
   margin: 30px 0 35px;
 }
@@ -3980,11 +3980,12 @@ footer {
 }
 .flow-lodging-card {
   display: grid;
-  grid-template-columns: minmax(165px, 195px) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(165px, 195px) minmax(0, 1fr);
   align-items: stretch;
   gap: 0;
   padding: 0;
   overflow: hidden;
+  cursor: default;
 }
 .flow-lodging-image {
   position: relative;
@@ -3993,20 +3994,74 @@ footer {
   background: #dae8db;
 }
 .flow-lodging-image img {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.flow-lodging-image > span {
+.flow-lodging-image-count,
+.flow-lodging-image-label {
   position: absolute;
-  right: 8px;
   bottom: 8px;
   padding: 3px 6px;
   border-radius: 4px;
   background: rgb(15 38 28 / 72%);
   color: #fff;
   font-size: 10px;
+}
+.flow-lodging-image-count {
+  left: 8px;
+}
+.flow-lodging-image-label {
+  right: 8px;
+}
+.flow-lodging-arrow {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  transform: translateY(-50%);
+  border: 1px solid rgb(255 255 255 / 65%);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 90%);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 14%);
+  color: #234b34;
+  cursor: pointer;
+}
+.flow-lodging-arrow:hover {
+  background: #fff;
+}
+.flow-lodging-arrow.previous {
+  left: 8px;
+}
+.flow-lodging-arrow.next {
+  right: 8px;
+}
+.flow-lodging-arrow:focus-visible,
+.flow-lodging-choice:focus-visible {
+  outline: 2px solid #276c4b;
+  outline-offset: -3px;
+}
+.flow-lodging-choice {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.flow-lodging-choice:hover {
+  background: rgb(239 248 241 / 65%);
 }
 .flow-lodging-info {
   min-width: 0;
@@ -4065,8 +4120,11 @@ footer {
   .flow-lodging-card {
     grid-template-columns: 1fr;
   }
+  .flow-lodging-choice {
+    grid-template-columns: 1fr;
+  }
   .flow-lodging-image {
-    height: 170px;
+    height: 185px;
     min-height: 0;
   }
   .flow-lodging-info {
@@ -4312,7 +4370,7 @@ footer {
   }
   .flow-steps {
     overflow-x: auto;
-    grid-template-columns: repeat(8, 100px);
+    grid-template-columns: repeat(var(--flow-step-count, 10), 100px);
   }
   .flow-shell {
     padding: 26px 16px 70px;
@@ -4690,7 +4748,7 @@ footer {
 
 /* One participant per table row, with all fields in the same horizontal context. */
 .flow-steps {
-  grid-template-columns: repeat(9, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--flow-step-count, 10), minmax(0, 1fr));
 }
 .flow-people-list {
   display: block;
@@ -4831,7 +4889,7 @@ footer {
 }
 @media (max-width: 900px) {
   .flow-steps {
-    grid-template-columns: repeat(9, 100px);
+    grid-template-columns: repeat(var(--flow-step-count, 10), 100px);
   }
 }
 @media (max-width: 650px) {
