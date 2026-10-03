@@ -3875,6 +3875,13 @@ footer {
   cursor: pointer;
   color: #245f49;
 }
+@media (max-width: 720px) {
+  .flow-party > div,
+  .flow-party > label {
+    width: 100%;
+    min-width: 0;
+  }
+}
 .flow-fields {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -5150,7 +5157,21 @@ footer {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 12px;
+  grid-column: 1 / -1;
+}
+.product-finder-form.has-children .product-finder-submit {
+  grid-column: 1 / -1;
+  min-height: 48px;
+}
+@media (min-width: 1001px) {
+  .product-finder-form.has-children .product-finder-ages {
+    grid-row: 2;
+  }
+  .product-finder-form.has-children .product-finder-submit {
+    grid-column: 3;
+    grid-row: 1;
+    min-height: 66px;
+  }
 }
 .product-finder-ages label {
   display: grid;
@@ -5234,6 +5255,16 @@ footer {
   }
 }
 @media (max-width: 650px) {
+  .product-finder-ages {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .product-finder-ages label,
+  .product-finder-ages input {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
   .product-finder {
     padding: 19px 15px 15px;
     margin-bottom: 18px;

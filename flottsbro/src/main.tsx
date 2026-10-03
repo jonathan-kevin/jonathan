@@ -1490,7 +1490,8 @@ function ProductFinder({
     season === "winter" ? "2027-02-13" : "2027-07-15",
   );
   const [adults, setAdults] = useState(2);
-  const [children, setChildren] = useState(0);
+  const [childrenInput, setChildrenInput] = useState("0");
+  const children = Number(childrenInput) || 0;
   const [childAges, setChildAges] = useState<(number | null)[]>([]);
   const [error, setError] = useState("");
   useEffect(() => {
@@ -1577,7 +1578,7 @@ function ProductFinder({
           </button>
         ))}
       </div>
-      <div className="product-finder-form">
+      <div className={`product-finder-form${children > 0 ? " has-children" : ""}`}>
         <div className="product-finder-field product-finder-period">
           <span className="product-finder-label">
             <CalendarDays size={17} /> Period
@@ -1641,13 +1642,17 @@ function ProductFinder({
                 inputMode="numeric"
                 pattern="[0-9]*"
                 maxLength={2}
-                value={children}
+                value={childrenInput}
+                onFocus={() => {
+                  if (children === 0) setChildrenInput("");
+                }}
+                onBlur={() => {
+                  if (childrenInput === "") setChildrenInput("0");
+                }}
                 onChange={(event) => {
-                  const count = Math.max(
-                    0,
-                    Math.min(30, Number(event.target.value) || 0),
-                  );
-                  setChildren(count);
+                  const digits = event.target.value.replace(/\D/g, "");
+                  const count = Math.min(30, Number(digits) || 0);
+                  setChildrenInput(digits === "" ? "" : String(count));
                   setChildAges((current) =>
                     Array.from({ length: count }, (_, i) => current[i] ?? null),
                   );
@@ -1656,6 +1661,29 @@ function ProductFinder({
             </label>
           </div>
         </div>
+        {children > 0 && (
+          <div className="product-finder-ages">
+            {childAges.map((age, index) => (
+              <label key={index}>
+                Barn {index + 1}, ålder vid resan
+                <input
+                  type="tel"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  maxLength={2}
+                  value={age ?? ""}
+                  onChange={(event) => {
+                    const digits = event.target.value.replace(/\D/g, "");
+                    const age = digits === "" ? null : Math.min(17, Number(digits));
+                    setChildAges((current) =>
+                      current.map((item, i) => (i === index ? age : item)),
+                    );
+                  }}
+                />
+              </label>
+            ))}
+          </div>
+        )}
         <button
           className="product-finder-submit"
           type="button"
@@ -1666,29 +1694,6 @@ function ProductFinder({
           <ArrowRight size={19} />
         </button>
       </div>
-      {children > 0 && (
-        <div className="product-finder-ages">
-          {childAges.map((age, index) => (
-            <label key={index}>
-              Barn {index + 1}, ålder vid resan
-              <input
-                type="tel"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                maxLength={2}
-                value={age ?? ""}
-                onChange={(event) => {
-                  const digits = event.target.value.replace(/\D/g, "");
-                  const age = digits === "" ? null : Math.min(17, Number(digits));
-                  setChildAges((current) =>
-                    current.map((item, i) => (i === index ? age : item)),
-                  );
-                }}
-              />
-            </label>
-          ))}
-        </div>
-      )}
       {error && (
         <p className="product-finder-error" role="alert">
           {error}
