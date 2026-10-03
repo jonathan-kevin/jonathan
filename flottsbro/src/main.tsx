@@ -1622,9 +1622,10 @@ function ProductFinder({
             <label>
               Vuxna
               <input
-                type="number"
-                min={0}
-                max={30}
+                type="tel"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={2}
                 value={adults}
                 onChange={(event) =>
                   setAdults(
@@ -1636,9 +1637,10 @@ function ProductFinder({
             <label>
               Barn
               <input
-                type="number"
-                min={0}
-                max={30}
+                type="tel"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={2}
                 value={children}
                 onChange={(event) => {
                   const count = Math.max(
@@ -1670,21 +1672,18 @@ function ProductFinder({
             <label key={index}>
               Barn {index + 1}, ålder vid resan
               <input
-                type="number"
-                min={0}
-                max={17}
+                type="tel"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={2}
                 value={age ?? ""}
-                onChange={(event) =>
+                onChange={(event) => {
+                  const digits = event.target.value.replace(/\D/g, "");
+                  const age = digits === "" ? null : Math.min(17, Number(digits));
                   setChildAges((current) =>
-                    current.map((item, i) =>
-                      i === index
-                        ? event.target.value === ""
-                          ? null
-                          : Number(event.target.value)
-                        : item,
-                    ),
-                  )
-                }
+                    current.map((item, i) => (i === index ? age : item)),
+                  );
+                }}
               />
             </label>
           ))}

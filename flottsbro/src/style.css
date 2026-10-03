@@ -3987,21 +3987,34 @@ footer {
   overflow: hidden;
   cursor: default;
 }
-.flow-lodging-image {
+.flow-lodging-gallery {
   position: relative;
   display: block;
   min-height: 168px;
   background: #dae8db;
 }
-.flow-lodging-image img {
+.flow-lodging-image {
   position: absolute;
   inset: 0;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  overscroll-behavior-inline: contain;
+}
+.flow-lodging-image::-webkit-scrollbar {
+  display: none;
+}
+.flow-lodging-image img {
   display: block;
+  flex: 0 0 100%;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  scroll-snap-align: start;
 }
-.flow-lodging-image-count,
 .flow-lodging-image-label {
   position: absolute;
   bottom: 8px;
@@ -4011,11 +4024,34 @@ footer {
   color: #fff;
   font-size: 10px;
 }
-.flow-lodging-image-count {
-  left: 8px;
-}
 .flow-lodging-image-label {
   right: 8px;
+  pointer-events: none;
+}
+.flow-lodging-dots {
+  position: absolute;
+  left: 9px;
+  bottom: 9px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 7px;
+  border-radius: 100px;
+  background: rgb(15 38 28 / 45%);
+}
+.flow-lodging-dots button {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 55%);
+  cursor: pointer;
+}
+.flow-lodging-dots button.active {
+  width: 9px;
+  height: 9px;
+  background: #fff;
 }
 .flow-lodging-arrow {
   position: absolute;
@@ -4032,9 +4068,17 @@ footer {
   box-shadow: 0 2px 8px rgb(0 0 0 / 14%);
   color: #234b34;
   cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, background 0.15s ease;
 }
 .flow-lodging-arrow:hover {
   background: #fff;
+}
+.flow-lodging-gallery:hover .flow-lodging-arrow,
+.flow-lodging-gallery:focus-within .flow-lodging-arrow {
+  opacity: 1;
+  pointer-events: auto;
 }
 .flow-lodging-arrow.previous {
   left: 8px;
@@ -4043,6 +4087,7 @@ footer {
   right: 8px;
 }
 .flow-lodging-arrow:focus-visible,
+.flow-lodging-dots button:focus-visible,
 .flow-lodging-choice:focus-visible {
   outline: 2px solid #276c4b;
   outline-offset: -3px;
@@ -4123,9 +4168,12 @@ footer {
   .flow-lodging-choice {
     grid-template-columns: 1fr;
   }
-  .flow-lodging-image {
+  .flow-lodging-gallery {
     height: 185px;
     min-height: 0;
+  }
+  .flow-lodging-arrow {
+    display: none;
   }
   .flow-lodging-info {
     padding: 16px 16px 12px;
@@ -5064,11 +5112,11 @@ footer {
   background: transparent;
   color: #1b3a2c;
   font:
-    700 13px Manrope,
+    700 16px Manrope,
     sans-serif;
   min-width: 0;
   width: 100%;
-  height: 27px;
+  height: 30px;
   padding: 0;
   outline: 0;
 }
@@ -5621,4 +5669,23 @@ footer {
 }
 #group-participants {
   scroll-margin-top: 18px;
+}
+
+/* iOS zooms focused form controls when their computed text size is below 16px. */
+input,
+select,
+textarea {
+  font-size: max(1rem, 16px) !important;
+}
+
+@media (hover: none) {
+  .flow-lodging-arrow {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-lodging-image {
+    scroll-behavior: auto;
+  }
 }

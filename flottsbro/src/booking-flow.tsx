@@ -531,6 +531,9 @@ export function BookingFlow({
   const [cabinImageIndex, setCabinImageIndex] = useState<
     Record<Exclude<CabinId, "none">, number>
   >({ forest: 0, family: 0, view: 0 });
+  const cabinImageRefs = useRef<
+    Partial<Record<Exclude<CabinId, "none">, HTMLDivElement>>
+  >({});
   const stepsRef = useRef<HTMLElement>(null);
   const update = (change: Partial<FlowDraft>) => {
     setDraft((current) => ({ ...current, ...change }));
@@ -1471,13 +1474,26 @@ export function BookingFlow({
     else if (draft.step === 9) update({ payment: group ? "invoice" : "card" });
     setError("");
   };
-  const changeCabinImage = (id: Exclude<CabinId, "none">, direction: number) =>
-    setCabinImageIndex((current) => ({
-      ...current,
-      [id]:
-        (current[id] + direction + cabins[id].images.length) %
-        cabins[id].images.length,
-    }));
+  const showCabinImage = (id: Exclude<CabinId, "none">, index: number) => {
+    const gallery = cabinImageRefs.current[id];
+    if (!gallery) return;
+    const next = (index + cabins[id].images.length) % cabins[id].images.length;
+    gallery.scrollTo({
+      left: next * gallery.clientWidth,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+    });
+  };
+  const syncCabinImage = (id: Exclude<CabinId, "none">, gallery: HTMLDivElement) => {
+    const index = Math.min(
+      cabins[id].images.length - 1,
+      Math.max(0, Math.round(gallery.scrollLeft / gallery.clientWidth)),
+    );
+    setCabinImageIndex((current) =>
+      current[id] === index ? current : { ...current, [id]: index },
+    );
+  };
   const cabinCards = (optional: boolean) => (
     <div className="flow-options flow-lodging-list">
       {optional && (
@@ -1506,17 +1522,30 @@ export function BookingFlow({
           key={id}
           className={`flow-option flow-lodging-card ${draft.cabin === id ? "selected" : ""}`}
         >
-          <div className="flow-lodging-image">
-            <img
-              src={cabin.images[cabinImageIndex[id]].src}
-              alt={`Illustrationsbild: ${cabin.images[cabinImageIndex[id]].alt}`}
-              loading="lazy"
-            />
+          <div className="flow-lodging-gallery">
+            <div
+              className="flow-lodging-image"
+              ref={(node) => {
+                if (node) cabinImageRefs.current[id] = node;
+                else delete cabinImageRefs.current[id];
+              }}
+              onScroll={(event) => syncCabinImage(id, event.currentTarget)}
+              aria-label={`Bilder av ${cabin.name}`}
+            >
+              {cabin.images.map((image, index) => (
+                <img
+                  key={image.src}
+                  src={image.src}
+                  alt={`Illustrationsbild ${index + 1}: ${image.alt}`}
+                  loading="lazy"
+                />
+              ))}
+            </div>
             <button
               type="button"
               className="flow-lodging-arrow previous"
               aria-label={`Föregående bild av ${cabin.name}`}
-              onClick={() => changeCabinImage(id, -1)}
+              onClick={() => showCabinImage(id, cabinImageIndex[id] - 1)}
             >
               <ChevronLeft size={18} />
             </button>
@@ -1524,12 +1553,21 @@ export function BookingFlow({
               type="button"
               className="flow-lodging-arrow next"
               aria-label={`Nästa bild av ${cabin.name}`}
-              onClick={() => changeCabinImage(id, 1)}
+              onClick={() => showCabinImage(id, cabinImageIndex[id] + 1)}
             >
               <ChevronRight size={18} />
             </button>
-            <span className="flow-lodging-image-count" aria-live="polite">
-              {cabinImageIndex[id] + 1} / {cabin.images.length}
+            <span className="flow-lodging-dots" aria-label={`Bild ${cabinImageIndex[id] + 1} av ${cabin.images.length}`}>
+              {cabin.images.map((image, index) => (
+                <button
+                  key={image.src}
+                  type="button"
+                  className={index === cabinImageIndex[id] ? "active" : ""}
+                  aria-label={`Visa bild ${index + 1} av ${cabin.name}`}
+                  aria-current={index === cabinImageIndex[id] ? "true" : undefined}
+                  onClick={() => showCabinImage(id, index)}
+                />
+              ))}
             </span>
             <span className="flow-lodging-image-label">Illustrationsbild</span>
           </div>
