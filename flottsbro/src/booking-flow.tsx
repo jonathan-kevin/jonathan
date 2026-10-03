@@ -2630,7 +2630,7 @@ export function BookingFlow({
                     {filteredParticipants.length > visibleParticipants && (
                       <button
                         type="button"
-                        className="flow-text-button"
+                        className="flow-text-button flow-show-more-participants"
                         onClick={() =>
                           setVisibleParticipants(filteredParticipants.length)
                         }
