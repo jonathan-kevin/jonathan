@@ -3177,16 +3177,27 @@ footer {
   outline: 2px solid #75ab88;
   outline-offset: 2px;
 }
-.store-header > .store-language {
+.store-header > .store-language,
+.admin-language {
   position: relative;
   cursor: pointer;
 }
-.store-header > .store-language select {
+.store-header > .store-language select,
+.admin-language select {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   opacity: 0;
+}
+.admin-language .store-language-current {
+  font-size: 14px;
+}
+@media (max-width: 600px) {
+  .admin-language .admin-language-label,
+  .topbar-right .avatar {
+    display: none;
+  }
 }
 .store-language-compact,
 .store-language-menu {

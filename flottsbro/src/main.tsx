@@ -5417,6 +5417,42 @@ function Group({
   );
 }
 
+function displayBookingText(value: string, language: "sv" | "en") {
+  return language === "sv" ? value : value
+    .replaceAll("Boende & aktivitet", "Stay & activity")
+    .replaceAll("Familjestugan", "Family cabin")
+    .replaceAll("Skogsstugan", "Forest cabin")
+    .replaceAll("Utsiktsstugan", "View cabin")
+    .replaceAll("Snöskovandring", "Snowshoe hike")
+    .replaceAll("SkiPass heldag", "Full-day SkiPass")
+    .replaceAll("SkiPass 3 timmar", "Three-hour SkiPass")
+    .replaceAll("Skidpass familj", "Family SkiPass")
+    .replaceAll("Cykelpass", "Bike pass")
+    .replaceAll("Cykelhyra", "Bike rental")
+    .replaceAll("Skidhyra", "Ski rental")
+    .replaceAll("Utrustningshyra", "Equipment rental")
+    .replaceAll("Simulerad betalning", "Simulated payment")
+    .replaceAll("Fakturaunderlag skapat", "Invoice details created")
+    .replaceAll("Faktura väntar", "Invoice pending")
+    .replaceAll("Återbetalning väntar", "Refund pending")
+    .replaceAll("Bokning skapad", "Booking created")
+    .replaceAll("Avbokad", "Cancelled")
+    .replaceAll("Lärare", "Teacher")
+    .replaceAll("Sverige", "Sweden")
+    .replaceAll("Skidåkning", "Skiing")
+    .replaceAll("Medföljande", "Accompanying")
+    .replaceAll(" kl ", " at ")
+    .replaceAll("kort", "card")
+    .replaceAll("stugor", "cabins")
+    .replaceAll("stuga", "cabin")
+    .replaceAll("nätter", "nights")
+    .replaceAll("natt", "night")
+    .replaceAll("dagar", "days")
+    .replaceAll("personer", "people")
+    .replaceAll("barn", "children")
+    .replace(/(\d[\d\s\u00a0]*)\s*kr\b/g, (_all, amount: string) => `${amount.trim()} SEK`);
+}
+
 function BookingsPage({
   bookings,
   accountEmail,
@@ -5436,30 +5472,7 @@ function BookingsPage({
   const mine = accountEmail ? bookings.filter((booking) =>
     booking.accountEmail?.toLowerCase() === accountEmail.toLowerCase(),
   ) : [];
-  const displayBookingText = (value: string) => language === "sv" ? value : value
-    .replaceAll("Boende & aktivitet", "Stay & activity")
-    .replaceAll("Familjestugan", "Family cabin")
-    .replaceAll("Skogsstugan", "Forest cabin")
-    .replaceAll("Utsiktsstugan", "View cabin")
-    .replaceAll("SkiPass heldag", "Full-day SkiPass")
-    .replaceAll("SkiPass 3 timmar", "Three-hour SkiPass")
-    .replaceAll("Skidpass familj", "Family SkiPass")
-    .replaceAll("Cykelpass", "Bike pass")
-    .replaceAll("Cykelhyra", "Bike rental")
-    .replaceAll("Skidhyra", "Ski rental")
-    .replaceAll("Utrustningshyra", "Equipment rental")
-    .replaceAll("Simulerad betalning", "Simulated payment")
-    .replaceAll("Fakturaunderlag skapat", "Invoice details created")
-    .replaceAll("Faktura väntar", "Invoice pending")
-    .replaceAll("Återbetalning väntar", "Refund pending")
-    .replaceAll("kort", "card")
-    .replaceAll("stugor", "cabins")
-    .replaceAll("stuga", "cabin")
-    .replaceAll("nätter", "nights")
-    .replaceAll("natt", "night")
-    .replaceAll("dagar", "days")
-    .replaceAll("personer", "people")
-    .replaceAll("barn", "children");
+  const bookingText = (value: string) => displayBookingText(value, language);
   const statusText = (status: Status) => language === "sv" ? status :
     ({ Bekräftad: "Confirmed", Preliminär: "Provisional", Avbokad: "Cancelled" }[status]);
   return (
@@ -5475,7 +5488,7 @@ function BookingsPage({
           <div className="customer-booking-head">
             <div>
               <span className="eyebrow">{booking.id}</span>
-              <h2>{displayBookingText(bookingTypeName(booking))}</h2>
+              <h2>{bookingText(bookingTypeName(booking))}</h2>
               <p>{booking.date}{booking.endDate && booking.endDate !== booking.date ? ` – ${booking.endDate}` : ""}</p>
             </div>
             <Badge tone={booking.status === "Avbokad" ? "red" : booking.status === "Preliminär" ? "amber" : "green"}>
@@ -5483,14 +5496,14 @@ function BookingsPage({
             </Badge>
           </div>
           <div className="customer-booking-items">
-            {booking.items.map((item, index) => <span key={index}>{displayBookingText(item)}</span>)}
+            {booking.items.map((item, index) => <span key={index}>{bookingText(item)}</span>)}
           </div>
           <div className="customer-booking-meta">
             <span><strong>Totalt:</strong> {SEK(booking.total)}</span>
-            <span><strong>Betalning:</strong> {language === "en" && booking.payment === "Betald" ? "Paid" : displayBookingText(booking.payment)}</span>
+            <span><strong>Betalning:</strong> {language === "en" && booking.payment === "Betald" ? "Paid" : bookingText(booking.payment)}</span>
           </div>
           {booking.history.length > 0 && <p className="customer-booking-history">
-            <strong>{language === "en" ? "Latest update:" : "Senaste händelse:"}</strong> {displayBookingText(booking.history.at(-1) ?? "")}
+            <strong>{language === "en" ? "Latest update:" : "Senaste händelse:"}</strong> {bookingText(booking.history.at(-1) ?? "")}
           </p>}
           <details className="customer-booking-practical">
             <summary>Bekräftelse och praktisk information</summary>
@@ -5529,8 +5542,9 @@ function BookingsPage({
   );
 }
 
-function Admin({ bookings, onEdit, onCancel }: {
+function Admin({ bookings, language, onEdit, onCancel }: {
   bookings: Booking[];
+  language: "sv" | "en";
   onEdit: (booking: Booking) => void;
   onCancel: (booking: Booking) => void;
 }) {
@@ -5625,6 +5639,9 @@ function Admin({ bookings, onEdit, onCancel }: {
   const selectedCapacityIssues = booking && selectedDraft
     ? capacityIssues(selectedDraft, bookings, { forest: 2, family: 4, view: 6 }, booking.id)
     : [];
+  const bookingText = (value: string) => displayBookingText(value, language);
+  const statusText = (status: Status) => language === "sv" ? status :
+    ({ Bekräftad: "Confirmed", Preliminär: "Provisional", Avbokad: "Cancelled" }[status]);
   return (
     <>
       <SectionHead
@@ -5733,7 +5750,7 @@ function Admin({ bookings, onEdit, onCancel }: {
                         : "green"
                   }
                 >
-                  {b.status}
+                  {statusText(b.status)}
                 </Badge>
               </span>
             </button>
@@ -5760,7 +5777,7 @@ function Admin({ bookings, onEdit, onCancel }: {
                         : "green"
                   }
                 >
-                  {booking.status}
+                  {statusText(booking.status)}
                 </Badge>
               </div>
               <div className="admin-booking-actions">
@@ -5783,7 +5800,7 @@ function Admin({ bookings, onEdit, onCancel }: {
                   <BookingTypeIcon booking={booking} />
                 </span>
                 <div>
-                  <strong>{bookingTypeName(booking)}</strong>
+                  <strong>{bookingText(bookingTypeName(booking))}</strong>
                   <span>{booking.date}</span>
                 </div>
               </div>
@@ -5792,10 +5809,10 @@ function Admin({ bookings, onEdit, onCancel }: {
                 {booking.items.map((item, i) => (
                   <div className="detail-line" key={i}>
                     <Check size={15} />
-                    {item}
+                    {bookingText(item)}
                   </div>
                 ))}
-                <p>{booking.details}</p>
+                <p>{bookingText(booking.details)}</p>
               </div>
               {booking.contact && (
                 <div className="detail-section">
@@ -5805,13 +5822,13 @@ function Admin({ bookings, onEdit, onCancel }: {
                       {booking.contact.contactPerson || booking.name}
                     </strong>
                     {booking.contact.position
-                      ? ` · ${booking.contact.position}`
+                      ? ` · ${bookingText(booking.contact.position)}`
                       : ""}
                   </p>
                   <p>
                     {booking.email} · {booking.contact.phone}
                   </p>
-                  <p>{formatAddress(booking.contact)}</p>
+                  <p>{bookingText(formatAddress(booking.contact))}</p>
                   {booking.kind === "group" && (
                     <p>
                       Faktura: {booking.contact.billingEmail || booking.email}
@@ -5842,7 +5859,7 @@ function Admin({ bookings, onEdit, onCancel }: {
                         booking.payment.includes("väntar") ? "amber" : "green"
                       }
                     >
-                      {booking.payment}
+                      {bookingText(booking.payment)}
                     </Badge>
                   </div>
                 </div>
@@ -5944,7 +5961,7 @@ function Admin({ bookings, onEdit, onCancel }: {
                 {booking.history.map((h, i) => (
                   <div className="history" key={i}>
                     <span className="history-dot" />
-                    {h}
+                    {bookingText(h)}
                   </div>
                 ))}
               </div>
@@ -6436,6 +6453,7 @@ function App() {
     if (language === "sv") localStorage.removeItem("flottsbro-language");
     else localStorage.setItem("flottsbro-language", language);
     document.documentElement.lang = language;
+    document.title = language === "en" ? "Flottsbro · Experiences & stays" : "Flottsbro · Upplevelser & boende";
   }, [language]);
   useEffect(() => installPublicTranslation(language), [language, page]);
   useEffect(() => {
@@ -6824,11 +6842,25 @@ function App() {
                 Flottsbro <span>/</span> <strong>Administration</strong>
               </div>
               <div className="topbar-right">
+                <label className="store-language admin-language" data-no-translate>
+                  <Globe2 size={17} aria-hidden="true" />
+                  <span className="admin-language-label">{language === "en" ? "Language" : "Språk"}</span>
+                  <span className="store-language-current">{language === "en" ? "English" : "Svenska"}</span>
+                  <select
+                    aria-label="Språk / Language"
+                    value={language}
+                    onChange={(event) => setLanguage(event.target.value as "sv" | "en")}
+                  >
+                    <option value="sv">Svenska</option>
+                    <option value="en">English</option>
+                  </select>
+                  <ChevronDown size={14} aria-hidden="true" />
+                </label>
                 <span className="avatar">FB</span>
               </div>
             </header>
             <main className="page-content">
-              <Admin bookings={bookings} onEdit={editBooking} onCancel={cancelBooking} />
+              <Admin bookings={bookings} language={language} onEdit={editBooking} onCancel={cancelBooking} />
             </main>
             <footer>
               <span>© 2026 Flottsbro · Bokningssystem</span>
@@ -6895,7 +6927,7 @@ function App() {
                 <Globe2 size={17} aria-hidden="true" />
                 <span>Språk / Language</span>
                 <select
-                  aria-label="Språk / Language i menyn"
+                  aria-label={language === "en" ? "Language in menu" : "Språk / Language i menyn"}
                   value={language}
                   onChange={(event) => setLanguage(event.target.value as "sv" | "en")}
                 >
