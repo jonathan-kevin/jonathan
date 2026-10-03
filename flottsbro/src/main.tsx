@@ -6901,6 +6901,9 @@ function App() {
             <label className="store-language" data-no-translate>
               <Globe2 size={17} aria-hidden="true" />
               <span>{language === "en" ? "Language" : "Språk"}</span>
+              <span className="store-language-current">
+                {language === "en" ? "English" : "Svenska"}
+              </span>
               <select
                 aria-label="Språk / Language"
                 value={language}
