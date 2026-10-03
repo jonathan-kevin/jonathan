@@ -28,6 +28,19 @@ import familyImage from "./assets/lodging-family.jpg";
 import familyImage2 from "./assets/lodging-family-2.jpg";
 import viewImage from "./assets/lodging-view.jpg";
 import viewImage2 from "./assets/lodging-view-2.jpg";
+import {
+  cabinUnitsLeft,
+  cabinUnitsNeeded,
+  capacityIssues,
+  equipmentDemand,
+  equipmentStock,
+  equipmentUnitsLeft,
+  passUnitsLeft,
+  sessionCapacity,
+  sessionSeatsLeft,
+  type CapacityRecord,
+  type EquipmentKind,
+} from "./capacity";
 
 export type FlowEntry =
   "day" | "stay" | "group" | "rental" | "school" | "activity";
@@ -108,6 +121,9 @@ export type FlowDraft = {
   payment: PaymentId | null;
   terms: boolean;
   draftBookingId?: string;
+  editBookingId?: string;
+  editOriginalTotal?: number;
+  rebookOf?: string;
   total: number;
 };
 type FlowBooking = {
@@ -133,6 +149,7 @@ type FlowBooking = {
   contact?: FlowContact;
   lodging?: boolean;
   meal?: boolean;
+  flowSnapshot?: FlowDraft;
 };
 const cabins: Record<
   Exclude<CabinId, "none">,
@@ -259,8 +276,6 @@ const sessionTimes = (offering: string, lesson?: SchoolLesson) =>
       ? ["10:00", "13:00", "15:00"]
       : ["09:00", "11:00", "14:00"]
     : ["10:00", "14:00"];
-const sessionCapacity = (offering: string, lesson?: SchoolLesson) =>
-  offering === "school" ? (lesson === "private" ? 1 : 8) : 12;
 const dateText = (date: string, language: "sv" | "en") =>
   new Date(`${date}T12:00:00Z`).toLocaleDateString(language === "en" ? "en-GB" : "sv-SE", {
     weekday: "short",
@@ -477,23 +492,29 @@ export function BookingFlow({
   entry,
   season,
   language,
+  bookings,
   initial,
   onDraft,
   onComplete,
   onUpdate,
   onFinish,
   onHome,
+  onBookings,
+  onInvoice,
   onChangeAccount,
 }: {
   entry: FlowEntry;
   season: FlowSeason;
   language: "sv" | "en";
+  bookings: CapacityRecord[];
   initial?: FlowDraft;
   onDraft: (draft: FlowDraft) => void;
   onComplete: (booking: FlowBooking) => void;
   onUpdate: (id: string, booking: FlowBooking) => void;
   onFinish: () => void;
   onHome: () => void;
+  onBookings: () => void;
+  onInvoice: (booking: FlowBooking) => void;
   onChangeAccount: (draft: FlowDraft) => void;
 }) {
   const [draft, setDraft] = useState<FlowDraft>(() => {
@@ -533,6 +554,7 @@ export function BookingFlow({
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [done, setDone] = useState(false);
+  const [doneBooking, setDoneBooking] = useState<FlowBooking | null>(null);
   // Test card fields stay in component state and are never saved with the draft.
   const [testCard, setTestCard] = useState({
     holder: "",
@@ -804,6 +826,18 @@ export function BookingFlow({
           )
         : draft.childAges,
     });
+  const previousBookingDraft = draft.editBookingId
+    ? bookings.find((item) => item.id === draft.editBookingId)?.flowSnapshot
+    : undefined;
+  const changedParts = previousBookingDraft ? [
+    (previousBookingDraft.start !== draft.start || previousBookingDraft.end !== draft.end) && "period",
+    (previousBookingDraft.adults !== draft.adults || previousBookingDraft.children !== draft.children || previousBookingDraft.groupCount !== draft.groupCount || JSON.stringify(previousBookingDraft.guests) !== JSON.stringify(draft.guests) || JSON.stringify(previousBookingDraft.participants) !== JSON.stringify(draft.participants)) && "deltagare",
+    previousBookingDraft.cabin !== draft.cabin && "boende",
+    previousBookingDraft.pass !== draft.pass && "pass",
+    (JSON.stringify(previousBookingDraft.activities) !== JSON.stringify(draft.activities) || JSON.stringify(previousBookingDraft.sessionAssignments) !== JSON.stringify(draft.sessionAssignments)) && "aktiviteter och tider",
+    previousBookingDraft.schoolLesson !== draft.schoolLesson && "skola",
+    (JSON.stringify(previousBookingDraft.borrowGuests) !== JSON.stringify(draft.borrowGuests) || JSON.stringify(previousBookingDraft.rentalDetails) !== JSON.stringify(draft.rentalDetails)) && "utrustning",
+  ].filter(Boolean).join(", ") : "uppgifter";
   const setCabin = (cabin: CabinId) =>
     update({
       cabin,
@@ -833,7 +867,7 @@ export function BookingFlow({
     id?: string,
   ): FlowBooking => ({
     id:
-      id ?? `${group ? "GR" : "FL"}-${Math.floor(1000 + Math.random() * 8999)}`,
+      id ?? draft.editBookingId ?? `${group ? "GR" : "FL"}-${Math.floor(1000 + Math.random() * 8999)}`,
     kind: group ? "group" : selectedCabin ? "stay" : "day",
     sourceEntry: draft.entry,
     status,
@@ -846,6 +880,7 @@ export function BookingFlow({
     name: group ? draft.org : draft.name,
     email: draft.email,
     contact: draft.contact,
+    flowSnapshot: { ...draft, step: 0, editBookingId: undefined, editOriginalTotal: undefined, rebookOf: undefined },
     date: draft.start,
     endDate: draft.end,
     total,
@@ -880,14 +915,18 @@ export function BookingFlow({
     ],
     details: `${draft.start}–${draft.end} · ${guests} ${guests === 1 ? "person" : "personer"}`,
     history: [
-      `${status === "Preliminär" ? "Preliminär bokning" : "Bokning"} skapad ${new Date().toISOString().slice(0, 10)}`,
+      draft.editBookingId
+        ? `Bokning ändrad ${new Date().toISOString().slice(0, 10)} · ändrat: ${changedParts || "kontaktuppgifter"} · tidigare ${money(draft.editOriginalTotal ?? 0)}, nytt totalpris ${money(total)} · betalning/faktura uppdaterad`
+        : draft.rebookOf
+          ? `Bokning skapad ${new Date().toISOString().slice(0, 10)} utifrån ${draft.rebookOf}`
+        : `${status === "Preliminär" ? "Preliminär bokning" : "Bokning"} skapad ${new Date().toISOString().slice(0, 10)}`,
     ],
   });
   useEffect(() => {
     if (active && !done) onDraft({ ...draft, total });
   }, [active, done, draft, total]);
   useEffect(() => {
-    if (group && draft.draftBookingId && !done)
+    if (group && draft.draftBookingId && !draft.editBookingId && !done)
       onUpdate(
         draft.draftBookingId,
         booking("Preliminär", draft.draftBookingId),
@@ -935,6 +974,12 @@ export function BookingFlow({
     (offering) => !scheduledSlots.some((slot) => slot.offering === offering),
   );
   const next = () => {
+    const availabilityProblems = capacityIssues(
+      draft,
+      bookings,
+      Object.fromEntries(Object.entries(cabins).map(([key, cabin]) => [key, cabin.beds])),
+      draft.editBookingId ?? draft.draftBookingId,
+    );
     if (
       draft.step === 0 &&
       (dateDiff(draft.start, draft.end) < (mainIsCabin ? 1 : 0) ||
@@ -989,6 +1034,10 @@ export function BookingFlow({
     }
     if (draft.step === 2 && mainIsCabin && draft.cabin === "none") {
       setError("Välj ett boende för att fortsätta.");
+      return;
+    }
+    if ((draft.step === 2 && mainIsCabin || draft.step === 8 || draft.step === 11) && availabilityProblems.length) {
+      setError(availabilityProblems[0]);
       return;
     }
     if (
@@ -1088,14 +1137,16 @@ export function BookingFlow({
         setError("Bekräfta den simulerade signeringen för att slutföra.");
         return;
       }
-      const final = booking("Bekräftad", draft.draftBookingId);
-      if (draft.draftBookingId) onUpdate(draft.draftBookingId, final);
+      const existingId = draft.editBookingId ?? draft.draftBookingId;
+      const final = booking("Bekräftad", existingId);
+      if (existingId) onUpdate(existingId, final);
       else onComplete(final);
       onFinish();
+      setDoneBooking(final);
       setDone(true);
       return;
     }
-    if (draft.step === 0 && group && !draft.draftBookingId) {
+    if (draft.step === 0 && group && !draft.draftBookingId && !draft.editBookingId) {
       const preliminary = booking("Preliminär");
       onComplete(preliminary);
       update({ draftBookingId: preliminary.id, step: 1 });
@@ -1557,7 +1608,15 @@ export function BookingFlow({
           Exclude<CabinId, "none">,
           typeof cabins.forest,
         ][]
-      ).map(([id, cabin]) => (
+      ).map(([id, cabin]) => {
+          const unitsNeeded = cabinUnitsNeeded(draft, cabin.beds);
+          const stayEnd = draft.end > draft.start ? draft.end : offsetDate(draft.start, 1);
+          const unitsLeft = cabinUnitsLeft(
+            bookings, id, cabin.beds, draft.start, stayEnd,
+            draft.editBookingId ?? draft.draftBookingId,
+          );
+          const available = unitsLeft >= unitsNeeded;
+          return (
         <div
           key={id}
           className={`flow-option flow-lodging-card ${draft.cabin === id ? "selected" : ""}`}
@@ -1615,6 +1674,7 @@ export function BookingFlow({
             type="button"
             className="flow-lodging-choice"
             aria-pressed={draft.cabin === id}
+            disabled={!available}
             onClick={() => setCabin(id)}
           >
             <span className="flow-lodging-info">
@@ -1622,7 +1682,7 @@ export function BookingFlow({
               <small>{cabin.detail}</small>
               <span className="flow-lodging-meta">
                 <span>{cabin.beds} bäddar</span>
-                <span>Tillgänglig för din period</span>
+                <span>{available ? `${unitsLeft} lediga stugor för perioden` : "Fullbokat för perioden"}</span>
                 <span>
                   {numberOfCabins && draft.cabin === id
                     ? numberOfCabins
@@ -1652,7 +1712,8 @@ export function BookingFlow({
             </span>
           </button>
         </div>
-      ))}
+          );
+      })}
     </div>
   );
   const passCards = (optional: boolean) => (
@@ -1678,6 +1739,7 @@ export function BookingFlow({
           type="button"
           key={pass}
           className={`flow-option ${draft.pass === pass ? "selected" : ""}`}
+          disabled={dates.some((date) => passUnitsLeft(bookings, draft.season, date, draft.editBookingId ?? draft.draftBookingId) < guests)}
           onClick={() => setPass(pass)}
         >
           <span>
@@ -1700,6 +1762,7 @@ export function BookingFlow({
               {money(pass === "bike" ? 300 : pass === "three" ? 240 : 370)}
             </strong>
             <small>från / vuxen / dag</small>
+            <small>{Math.min(...dates.map((date) => passUnitsLeft(bookings, draft.season, date, draft.editBookingId ?? draft.draftBookingId)))} platser kvar per dag som minst</small>
           </span>
           {draft.pass === pass && <Check size={19} />}
         </button>
@@ -1725,7 +1788,6 @@ export function BookingFlow({
   };
   const sessionPlanner = (offering: string, title: string) => {
     const times = sessionTimes(offering, draft.schoolLesson);
-    const capacity = sessionCapacity(offering, draft.schoolLesson);
     const booked = scheduledSlots.filter(
       (slot) => slot.offering === offering,
     ).length;
@@ -1748,6 +1810,10 @@ export function BookingFlow({
             Object.entries(assignments).filter(
               ([index, value]) => Number(index) < guests && value === time,
             ).length;
+          const externalLeft = (time: string) => sessionSeatsLeft(
+            bookings, offering, date, time, draft.schoolLesson,
+            draft.editBookingId ?? draft.draftBookingId,
+          );
           const assignedCount = Object.keys(assignments).filter(
             (index) =>
               Number(index) < guests &&
@@ -1776,7 +1842,7 @@ export function BookingFlow({
                   {times.map((time) => (
                     <span key={time}>
                       <strong>kl {time}</strong> ·{" "}
-                      {Math.max(0, capacity - used(time))} platser kvar
+                      {Math.max(0, externalLeft(time) - used(time))} platser kvar
                     </span>
                   ))}
                 </div>
@@ -1792,7 +1858,7 @@ export function BookingFlow({
                             Object.entries(next).filter(
                               ([person, value]) =>
                                 Number(person) < guests && value === time,
-                            ).length < capacity,
+                            ).length < externalLeft(time),
                         );
                         if (available) next[index] = available;
                       }
@@ -1850,7 +1916,7 @@ export function BookingFlow({
                       >
                         <option value="">Deltar inte</option>
                         {times.map((time) => {
-                          const remaining = Math.max(0, capacity - used(time));
+                          const remaining = Math.max(0, externalLeft(time) - used(time));
                           return (
                             <option
                               key={time}
@@ -2032,16 +2098,32 @@ export function BookingFlow({
           <h1>
             {group && draft.payment === "invoice"
               ? "Fakturaunderlag skapat"
-              : "Bokningen är klar"}
+              : draft.editBookingId ? "Bokningen är uppdaterad" : "Bokningen är klar"}
           </h1>
           <p>
-            Bokningen är sparad. Du hittar den och
-            {group ? " deltagarlistan" : " dina uppgifter"} under Mina
-            bokningar.
+            {language === "en"
+              ? `Booking ${doneBooking?.id} is saved. The confirmation is available under My bookings. No email is sent in this demo.`
+              : `Bokning ${doneBooking?.id} är sparad. Bekräftelsen finns under Mina bokningar. Inget e-postmeddelande skickas i demosystemet.`}
           </p>
-          <button className="flow-primary" onClick={onHome}>
-            Till startsidan <ArrowRight size={17} />
-          </button>
+          <div className="flow-success-details">
+            <h2>Inför besöket</h2>
+            <p><strong>Period:</strong> {draft.start} – {draft.end}</p>
+            <p><strong>Plats:</strong> {language === "en" ? `Flottsbro, Häggstavägen 20, Huddinge. Show booking number ${doneBooking?.id} on arrival.` : `Flottsbro, Häggstavägen 20, Huddinge. Visa bokningsnummer ${doneBooking?.id} vid ankomst.`}</p>
+            {sessionRows.length > 0 && <div>
+              <strong>Bokade tider</strong>
+              {sessionRows.map((row) => <p key={row.key}>{row.label} · {dateText(row.date, language)} {language === "en" ? "at" : "kl"} {row.time} · {row.people.join(", ")}</p>)}
+            </div>}
+            <p><strong>Utrustning:</strong> {language === "en"
+              ? `${borrowCount ? `${borrowCount} people collect rented equipment at the rental desk.` : "Bring your own equipment if the activity requires it."} Dress for the weather.`
+              : `${borrowCount ? `${borrowCount} personer hämtar hyrd utrustning vid uthyrningen.` : "Ta med egen utrustning om aktiviteten kräver det."} Klä dig efter väder.`}</p>
+            <p><strong>Totalt:</strong> {money(total)} · {doneBooking?.payment}</p>
+            {draft.editBookingId && <p><strong>Ändring:</strong> Tidigare {money(draft.editOriginalTotal ?? 0)} · skillnad {money(total - (draft.editOriginalTotal ?? 0))}.</p>}
+          </div>
+          <div className="flow-success-actions">
+            <button className="flow-primary" onClick={onBookings}>Visa mina bokningar <ArrowRight size={17} /></button>
+            {group && draft.payment === "invoice" && doneBooking && <button type="button" className="flow-back" onClick={() => onInvoice(doneBooking)}>Ladda ned fakturaunderlag</button>}
+            <button className="flow-back" onClick={onHome}>Till startsidan</button>
+          </div>
         </div>
       </main>
     );
@@ -2067,6 +2149,8 @@ export function BookingFlow({
                       : "Boka sommaräventyr"}
         </h1>
         <p>Välj din period och bygg en vistelse som passar ditt sällskap.</p>
+        {draft.rebookOf && <p className="flow-hint">Uppgifter från bokning {draft.rebookOf} är ifyllda. Granska dem och ändra vid behov.</p>}
+        {draft.editBookingId && <p className="flow-hint">Du ändrar bokning {draft.editBookingId}. Det nya priset visas innan du godkänner.</p>}
       </div>
       <nav
         ref={stepsRef}
@@ -2238,6 +2322,14 @@ export function BookingFlow({
             )}
             {draft.step === 1 && (
               <>
+                <div className="flow-capacity-summary">
+                  <strong>Utrustning som är ledig på startdagen</strong>
+                  {(Object.keys(equipmentStock) as EquipmentKind[])
+                    .filter((kind) => kind === "bike" ? draft.season === "summer" : draft.season === "winter")
+                    .map((kind) => <span key={kind}>
+                      {kind === "ski" ? "Skidor" : kind === "snowboard" ? "Snowboard" : "Cyklar"}: {equipmentDemand(draft, kind)} valda · {equipmentUnitsLeft(bookings, kind, draft.start, draft.editBookingId ?? draft.draftBookingId)} lediga av {equipmentStock[kind]}
+                    </span>)}
+                </div>
                 {group ? (
                   <>
                     <div className="flow-subhead" id="group-participants">
@@ -2546,15 +2638,16 @@ export function BookingFlow({
                       </button>
                     )}
                     <p className="flow-hint">
-                      Din preliminära bokning sparas automatiskt. Du kan
-                      fortsätta med deltagarlistan senare.
+                      {draft.editBookingId
+                        ? "Ändringarna autosparas som utkast. Slutför flödet för att uppdatera bokningen."
+                        : "Din preliminära bokning sparas automatiskt. Du kan fortsätta med deltagarlistan senare."}
                     </p>
                     <button
                       type="button"
                       className="flow-text-button"
                       onClick={onHome}
                     >
-                      Spara och fortsätt senare
+                      Fortsätt senare
                     </button>
                   </>
                 ) : (
@@ -3234,12 +3327,15 @@ export function BookingFlow({
                 </div>
                 <div className="flow-verification-total">
                   <span>
-                    {draft.payment === "invoice"
+                    {draft.editBookingId
+                      ? total >= (draft.editOriginalTotal ?? 0) ? "Ändring att godkänna" : "Minskning att godkänna"
+                      : draft.payment === "invoice"
                       ? "Fakturaunderlag för"
                       : "Att betala"}
                   </span>
-                  <strong>{money(total)}</strong>
+                  <strong>{money(draft.editBookingId ? Math.abs(total - (draft.editOriginalTotal ?? 0)) : total)}</strong>
                 </div>
+                {draft.editBookingId && <p className="flow-muted">Tidigare total {money(draft.editOriginalTotal ?? 0)} · nytt totalpris {money(total)}. Betalningen eller fakturan justeras i denna simulering.</p>}
                 {draft.payment === "card" ? (
                   <>
                     <p className="flow-test-card-hint">

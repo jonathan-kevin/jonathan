@@ -17,6 +17,7 @@ import {
   type FlowSeason,
 } from "./booking-flow";
 import { installPublicTranslation } from "./locale";
+import { capacityIssues, cabinStock, cabinUnitsLeft, cabinUnitsNeeded, equipmentDemand, equipmentStock, equipmentUnitsLeft, passDemand, passStock, passUnitsLeft, sessionCapacity, sessionSeatsLeft, type EquipmentKind } from "./capacity";
 import {
   Activity,
   ArrowLeft,
@@ -162,6 +163,7 @@ type Booking = {
   lodging?: boolean;
   meal?: boolean;
   extraActivities?: ExtraActivityKey[];
+  flowSnapshot?: FlowDraft;
 };
 const bookingTypeName = (booking: Booking) =>
   booking.sourceEntry === "rental"
@@ -419,7 +421,7 @@ const exampleParticipants = (): Participant[] =>
   Array.from({ length: 84 }, (_, i) => ({
     name: exampleName(i),
     role: i < 80 ? null : "teacher",
-    birthDate: i < 80 ? exampleBirthDate(i) : "",
+    birthDate: i < 76 ? exampleBirthDate(i) : "",
     activity:
       i >= 80
         ? "Medföljande"
@@ -445,6 +447,8 @@ const seed: Booking[] = [
     items: ["Skidpass familj", "Skidhyra 2 barn"],
     details: "2 vuxna, 2 barn · Skostorlekar 34 och 37",
     childAges: [10, 12],
+    guestNames: ["Anna Lind", "Erik Lind", "Maja Lind", "Leo Lind"],
+    childBirthDates: ["2016-05-14", "2014-08-22"],
     history: ["Bokning bekräftad 2026-09-26"],
   },
   {
@@ -461,9 +465,11 @@ const seed: Booking[] = [
       city: "Huddinge",
     },
     date: "2027-07-12",
-    total: 4105,
-    items: ["Stuga B · 3 nätter", "Cykling familj", "Cykelhyra 2 st"],
+    total: 9265,
+    items: ["Familjestugan · 3 nätter", "Cykelpass · 4 dagar", "Cykelhyra · 2 personer"],
     details: "2 adults, 2 children · English confirmation",
+    guestNames: ["Emma Miller", "James Miller", "Olivia Miller", "Noah Miller"],
+    childBirthDates: ["2015-04-19", "2013-09-11"],
     history: ["Booking confirmed 2026-09-20"],
     nights: 3,
   },
@@ -489,6 +495,92 @@ const seed: Booking[] = [
     participants: exampleParticipants(),
   },
 ];
+const draftForBooking = (booking: Booking, edit: boolean): FlowDraft => {
+  const season: FlowSeason = booking.flowSnapshot?.season ??
+    (Number(booking.date.slice(5, 7)) >= 5 && Number(booking.date.slice(5, 7)) <= 9 ? "summer" : "winter");
+  const entry: FlowEntry = booking.flowSnapshot?.entry ?? booking.sourceEntry ??
+    (booking.kind === "stay" ? "stay" : booking.kind === "group" ? "group" : "day");
+  const draft = booking.flowSnapshot
+    ? structuredClone(booking.flowSnapshot)
+    : createFlowDraft(entry, season);
+  if (draft.pass === "none") {
+    if (booking.items.some((item) => /skipass|skidpass/i.test(item))) draft.pass = "full";
+    else if (booking.items.some((item) => /cykelpass|cykling/i.test(item))) draft.pass = "bike";
+  }
+  if (draft.cabin === "none" && booking.kind === "stay") draft.cabin = "family";
+  if (!booking.flowSnapshot) {
+    draft.start = booking.date;
+    const inferredNights = booking.nights ?? Number(booking.items.join(" ").match(/(\d+) nätter?/)?.[1] ?? 0);
+    draft.end = booking.endDate ?? (inferredNights ? dateOffset(booking.date, inferredNights) : booking.date);
+    draft.org = booking.kind === "group" ? booking.name : "";
+    draft.participants = booking.participants ?? [];
+    draft.groupCount = booking.participants?.length ?? draft.groupCount;
+    if (booking.kind === "stay") draft.cabin = "family";
+    draft.pass = booking.items.some((item) => /skidpass|skidåkning/i.test(item))
+      ? "full" : booking.items.some((item) => /cykl/i.test(item)) ? "bike" : "none";
+    if (booking.kind !== "group") {
+      draft.adults = Number(booking.details.match(/(\d+) (?:vux|adults?)/i)?.[1] ?? 2);
+      draft.children = booking.childBirthDates?.length ?? booking.childAges?.length ?? Number(booking.details.match(/(\d+) (?:barn|children)/i)?.[1] ?? 0);
+      draft.guests = booking.guestNames ?? Array.from({ length: draft.adults + draft.children }, (_, index) =>
+        index === 0 ? booking.name : index < draft.adults ? `Vuxen ${index + 1}` : `Barn ${index - draft.adults + 1}`,
+      );
+      draft.childBirthDates = booking.childBirthDates ?? (booking.childAges ?? []).map((age, index) =>
+        `${Number(booking.date.slice(0, 4)) - age}-01-${String(index + 10).padStart(2, "0")}`,
+      );
+      draft.childAges = draft.childBirthDates.map((date) => Number(booking.date.slice(0, 4)) - Number(date.slice(0, 4)));
+      if (booking.id === "FL-2418") {
+        draft.borrowGuests = [2, 3];
+        draft.rentalDetails = {
+          2: { activity: "Skidåkning", shoe: "34", height: "145", weight: "40" },
+          3: { activity: "Skidåkning", shoe: "37", height: "155", weight: "48" },
+        };
+      } else if (booking.id === "FL-2392") {
+        draft.borrowGuests = [0, 1];
+        draft.rentalDetails = {
+          0: { activity: "Cykling", shoe: "", height: "170", weight: "" },
+          1: { activity: "Cykling", shoe: "", height: "180", weight: "" },
+        };
+      }
+    }
+  }
+  return {
+    ...draft,
+    flowVersion: 5,
+    step: 0,
+    draftBookingId: edit && booking.status === "Preliminär" ? booking.id : undefined,
+    editBookingId: edit && booking.status !== "Preliminär" ? booking.id : undefined,
+    editOriginalTotal: edit && booking.status !== "Preliminär" ? booking.total : undefined,
+    name: booking.kind === "group" ? (booking.contact?.contactPerson || booking.name) : booking.name,
+    email: booking.email,
+    contact: { ...emptyContact(), ...booking.contact },
+    checkoutMode: "login",
+    payment: null,
+    terms: false,
+  };
+};
+const downloadInvoiceCsv = (booking: Booking) => {
+  const quote = (value: string | number) => `"${String(value).replaceAll('"', '""')}"`;
+  const rows = [
+    ["Fakturaunderlag", booking.id],
+    ["Organisation", booking.name],
+    ["Kontaktperson", booking.contact?.contactPerson || booking.name],
+    ["Faktura e-post", booking.contact?.billingEmail || booking.email],
+    ["Organisationsnummer", booking.contact?.organisationNumber || ""],
+    ["Referens", booking.contact?.invoiceReference || ""],
+    ["Adress", formatAddress(booking.contact ?? emptyContact())],
+    ["Period", `${booking.date}–${booking.endDate || booking.date}`],
+    ...booking.items.map((item) => ["Bokad tjänst", item]),
+    ["Totalt SEK", booking.total],
+    ["Betalstatus", booking.payment],
+  ];
+  const csv = rows.map((row) => row.map(quote).join(",")).join("\r\n");
+  const url = URL.createObjectURL(new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `fakturaunderlag-${booking.id}.csv`;
+  link.click();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+};
 const STORAGE_KEY = "flottsbro-bookings-v1";
 const CART_KEY = "flottsbro-cart-v1";
 const normalizeBooking = (booking: Booking): Booking => {
@@ -497,9 +589,16 @@ const normalizeBooking = (booking: Booking): Booking => {
     booking.id === "GR-0812" && !booking.participants?.length
       ? original?.participants
       : booking.participants;
-  return {
+  const normalized: Booking = {
     ...booking,
     contact: booking.contact ?? original?.contact,
+    items: booking.id === "FL-2392" && booking.items.some((item) => item.includes("Stuga B"))
+      ? original?.items ?? booking.items : booking.items,
+    guestNames: booking.guestNames ?? original?.guestNames,
+    childBirthDates: booking.childBirthDates ?? original?.childBirthDates,
+    childAges: booking.childAges ?? original?.childAges,
+    endDate: booking.endDate ?? original?.endDate,
+    nights: booking.nights ?? original?.nights,
     date:
       booking.id === "FL-2418" && booking.date === "2026-10-10"
         ? "2027-02-10"
@@ -507,8 +606,8 @@ const normalizeBooking = (booking: Booking): Booking => {
     total:
       booking.id === "FL-2418" && [1495, 1740].includes(booking.total)
         ? 1840
-        : booking.id === "FL-2392" && [6890, 5890].includes(booking.total)
-          ? 4105
+        : booking.id === "FL-2392" && [6890, 5890, 4105].includes(booking.total)
+          ? 9265
           : booking.id === "GR-0812" && booking.total === 20800
             ? 28200
             : booking.total,
@@ -534,14 +633,18 @@ const normalizeBooking = (booking: Booking): Booking => {
       equipment: participant.equipment || equipmentChoice(participant),
     })),
   };
+  return {
+    ...normalized,
+    flowSnapshot: normalized.flowSnapshot ?? draftForBooking(normalized, false),
+  };
 };
 const load = (): Booking[] => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     const parsed: Booking[] = raw ? JSON.parse(raw) : seed;
-    return Array.isArray(parsed) ? parsed.map(normalizeBooking) : seed;
+    return Array.isArray(parsed) ? parsed.map(normalizeBooking) : seed.map(normalizeBooking);
   } catch {
-    return seed;
+    return seed.map(normalizeBooking);
   }
 };
 const loadCart = (): CartEntry[] => {
@@ -5311,10 +5414,150 @@ function Group({
   );
 }
 
-function Admin({ bookings }: { bookings: Booking[] }) {
+function BookingsPage({
+  bookings,
+  accountEmail,
+  language,
+  onEdit,
+  onRebook,
+  onCancel,
+}: {
+  bookings: Booking[];
+  accountEmail: string | null;
+  language: "sv" | "en";
+  onEdit: (booking: Booking) => void;
+  onRebook: (booking: Booking) => void;
+  onCancel: (booking: Booking) => void;
+}) {
+  const [email, setEmail] = useState(accountEmail ?? "");
+  const [searched, setSearched] = useState(Boolean(accountEmail));
+  const [cancelBooking, setCancelBooking] = useState<Booking | null>(null);
+  useEffect(() => {
+    if (accountEmail) {
+      setEmail(accountEmail);
+      setSearched(true);
+    }
+  }, [accountEmail]);
+  const mine = searched ? bookings.filter((booking) =>
+    booking.email.toLowerCase() === email.trim().toLowerCase(),
+  ) : [];
+  const displayBookingText = (value: string) => language === "sv" ? value : value
+    .replaceAll("Boende & aktivitet", "Stay & activity")
+    .replaceAll("Familjestugan", "Family cabin")
+    .replaceAll("Skogsstugan", "Forest cabin")
+    .replaceAll("Utsiktsstugan", "View cabin")
+    .replaceAll("SkiPass heldag", "Full-day SkiPass")
+    .replaceAll("SkiPass 3 timmar", "Three-hour SkiPass")
+    .replaceAll("Skidpass familj", "Family SkiPass")
+    .replaceAll("Cykelpass", "Bike pass")
+    .replaceAll("Cykelhyra", "Bike rental")
+    .replaceAll("Skidhyra", "Ski rental")
+    .replaceAll("Utrustningshyra", "Equipment rental")
+    .replaceAll("Simulerad betalning", "Simulated payment")
+    .replaceAll("Fakturaunderlag skapat", "Invoice details created")
+    .replaceAll("Faktura väntar", "Invoice pending")
+    .replaceAll("Återbetalning väntar", "Refund pending")
+    .replaceAll("kort", "card")
+    .replaceAll("stugor", "cabins")
+    .replaceAll("stuga", "cabin")
+    .replaceAll("nätter", "nights")
+    .replaceAll("natt", "night")
+    .replaceAll("dagar", "days")
+    .replaceAll("personer", "people")
+    .replaceAll("barn", "children");
+  const statusText = (status: Status) => language === "sv" ? status :
+    ({ Bekräftad: "Confirmed", Preliminär: "Provisional", Avbokad: "Cancelled" }[status]);
+  return (
+    <div className="customer-bookings">
+      <SectionHead
+        eyebrow="MINA BOKNINGAR"
+        title="Dina bokningar"
+        description="Se bekräftelser, boka igen eller ändra en befintlig vistelse."
+      />
+      <div className="card padded customer-bookings-lookup">
+        <label className="field">
+          E-postadress för bokningen
+          <input
+            type="email"
+            value={email}
+            onChange={(event) => { setEmail(event.target.value); setSearched(false); }}
+            placeholder="namn@exempel.se"
+          />
+        </label>
+        <Button onClick={() => setSearched(true)} disabled={!/^\S+@\S+\.\S+$/.test(email.trim())}>
+          Visa bokningar <ArrowRight size={16} />
+        </Button>
+        <small>Exempel: anna@example.com, miller@example.com eller bokning@bjorkskolan.se.</small>
+      </div>
+      {searched && !mine.length && <div className="card padded">Inga bokningar hittades för adressen.</div>}
+      {mine.map((booking) => (
+        <article className="card padded customer-booking" key={booking.id}>
+          <div className="customer-booking-head">
+            <div>
+              <span className="eyebrow">{booking.id}</span>
+              <h2>{displayBookingText(bookingTypeName(booking))}</h2>
+              <p>{booking.date}{booking.endDate && booking.endDate !== booking.date ? ` – ${booking.endDate}` : ""}</p>
+            </div>
+            <Badge tone={booking.status === "Avbokad" ? "red" : booking.status === "Preliminär" ? "amber" : "green"}>
+              {statusText(booking.status)}
+            </Badge>
+          </div>
+          <div className="customer-booking-items">
+            {booking.items.map((item, index) => <span key={index}>{displayBookingText(item)}</span>)}
+          </div>
+          <div className="customer-booking-meta">
+            <span><strong>Totalt:</strong> {SEK(booking.total)}</span>
+            <span><strong>Betalning:</strong> {language === "en" && booking.payment === "Betald" ? "Paid" : displayBookingText(booking.payment)}</span>
+          </div>
+          {booking.history.length > 0 && <p className="customer-booking-history">
+            <strong>{language === "en" ? "Latest update:" : "Senaste händelse:"}</strong> {displayBookingText(booking.history.at(-1) ?? "")}
+          </p>}
+          <details className="customer-booking-practical">
+            <summary>Bekräftelse och praktisk information</summary>
+            <p><strong>Bokningsnummer:</strong> {booking.id}. {language === "en" ? "Show it on arrival at Flottsbro, Häggstavägen 20 in Huddinge." : "Visa det vid ankomst till Flottsbro, Häggstavägen 20 i Huddinge."}</p>
+            <p><strong>Period:</strong> {booking.date}{booking.endDate && booking.endDate !== booking.date ? ` – ${booking.endDate}` : ""}. {language === "en" ? "Check the booked times for each activity above." : "Kontrollera bokade tider per aktivitet ovan."}</p>
+            <p><strong>Inför besöket:</strong> Klä dig efter väder. Hyrd utrustning hämtas vid uthyrningen. Ta med egen utrustning om du valt det.</p>
+            <p><strong>Kontakt:</strong> {booking.email}{booking.contact?.phone ? ` · ${booking.contact.phone}` : ""}.</p>
+            <small>Bekräftelsen visas i demosystemet; inget e-postmeddelande skickas.</small>
+          </details>
+          <div className="customer-booking-actions">
+            <Button variant="secondary" onClick={() => onRebook(booking)}>Boka igen</Button>
+            {booking.status !== "Avbokad" && (
+              <>
+                <Button variant="secondary" onClick={() => onEdit(booking)}>
+                  {booking.status === "Preliminär" ? "Komplettera bokningen" : "Ändra bokningen"}
+                </Button>
+                <Button variant="ghost" onClick={() => setCancelBooking(booking)}>Avboka</Button>
+              </>
+            )}
+            {booking.kind === "group" && booking.payment === "Fakturaunderlag skapat" && booking.status === "Bekräftad" && (
+              <Button variant="secondary" onClick={() => downloadInvoiceCsv(booking)}>
+                <Download size={16} /> Fakturaunderlag
+              </Button>
+            )}
+          </div>
+        </article>
+      ))}
+      {cancelBooking && <ConfirmDialog
+        title="Avboka bokningen?"
+        description={`Bokning ${cancelBooking.id} markeras som avbokad. Betalstatus och historik uppdateras.`}
+        confirmLabel="Avboka bokningen"
+        onClose={() => setCancelBooking(null)}
+        onConfirm={() => { onCancel(cancelBooking); setCancelBooking(null); }}
+      />}
+    </div>
+  );
+}
+
+function Admin({ bookings, onEdit, onCancel }: {
+  bookings: Booking[];
+  onEdit: (booking: Booking) => void;
+  onCancel: (booking: Booking) => void;
+}) {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<"all" | Kind>("all");
   const [selected, setSelected] = useState(bookings[0]?.id || "");
+  const [cancelBooking, setCancelBooking] = useState<Booking | null>(null);
   const filtered = bookings.filter(
     (b) =>
       (filter === "all" || b.kind === filter) &&
@@ -5393,8 +5636,15 @@ function Admin({ bookings }: { bookings: Booking[] }) {
   };
   const active = bookings.filter((b) => b.status !== "Avbokad");
   const revenue = active
-    .filter((b) => b.payment.startsWith("Betald"))
+    .filter((b) => b.payment.startsWith("Betald") || b.payment.startsWith("Simulerad betalning"))
     .reduce((s, b) => s + b.total, 0);
+  const invoiced = active
+    .filter((b) => b.payment === "Fakturaunderlag skapat")
+    .reduce((s, b) => s + b.total, 0);
+  const selectedDraft = booking ? draftForBooking(booking, false) : null;
+  const selectedCapacityIssues = booking && selectedDraft
+    ? capacityIssues(selectedDraft, bookings, { forest: 2, family: 4, view: 6 }, booking.id)
+    : [];
   return (
     <>
       <SectionHead
@@ -5407,6 +5657,13 @@ function Admin({ bookings }: { bookings: Booking[] }) {
           </Button>
         }
       />
+      <details className="admin-demo-guide card">
+        <summary>Vad visas i demon?</summary>
+        <p><strong>Kundanpassad prototyp:</strong> Gästflöde, gruppbokning, deltagarlista, personalvy, ändringar, prisberäkning och CSV export visas i samma gränssnitt.</p>
+        <p><strong>Simulerat:</strong> Inloggning, betalning, signering, tillgänglighet och lager använder exempeldata i webbläsaren. Inga pengar dras och ingen e-post skickas.</p>
+        <p><strong>Inför en verklig lösning:</strong> Konton, betalväxel, bokningslager, fakturering, kundmeddelanden och behörigheter behöver kopplas till riktiga tjänster. Priser, villkor och kapaciteter behöver fastställas av Flottsbro.</p>
+        <p><strong>Systembyte i den här demon:</strong> Gäst och personal använder två vyer i samma app. Data lagras lokalt i den aktuella webbläsaren.</p>
+      </details>
       <div className="stats">
         <div className="stat card">
           <span>Aktiva bokningar</span>
@@ -5416,10 +5673,10 @@ function Admin({ bookings }: { bookings: Booking[] }) {
           </small>
         </div>
         <div className="stat card">
-          <span>Betalt totalt</span>
+          <span>Registrerat betalt</span>
           <strong>{SEK(revenue)}</strong>
           <small>
-            <CreditCard size={14} /> Betalstatus
+            <CreditCard size={14} /> Inklusive simulerade betalningar
           </small>
         </div>
         <div className="stat card">
@@ -5430,10 +5687,15 @@ function Admin({ bookings }: { bookings: Booking[] }) {
           </small>
         </div>
         <div className="stat card">
-          <span>Platser per grupptillfälle</span>
+          <span>Fakturaunderlag</span>
+          <strong>{SEK(invoiced)}</strong>
+          <small><FileText size={14} /> Slutförda grupper</small>
+        </div>
+        <div className="stat card">
+          <span>Max per gruppbokning</span>
           <strong>120</strong>
           <small>
-            <Activity size={14} /> Maximal gruppstorlek
+            <Activity size={14} /> Gräns för deltagarlistan
           </small>
         </div>
       </div>
@@ -5521,6 +5783,21 @@ function Admin({ bookings }: { bookings: Booking[] }) {
                   {booking.status}
                 </Badge>
               </div>
+              <div className="admin-booking-actions">
+                {booking.status !== "Avbokad" && (
+                  <>
+                    <Button variant="secondary" onClick={() => onEdit(booking)}>
+                      {booking.status === "Preliminär" ? "Komplettera" : "Ändra bokning"}
+                    </Button>
+                    <Button variant="ghost" onClick={() => setCancelBooking(booking)}>Avboka</Button>
+                  </>
+                )}
+                {booking.kind === "group" && booking.payment === "Fakturaunderlag skapat" && booking.status === "Bekräftad" && (
+                  <Button variant="secondary" onClick={() => downloadInvoiceCsv(booking)}>
+                    <Download size={15} /> Fakturaunderlag
+                  </Button>
+                )}
+              </div>
               <div className="detail-type">
                 <span className={`admin-kind ${booking.kind}`}>
                   <BookingTypeIcon booking={booking} />
@@ -5601,6 +5878,9 @@ function Admin({ bookings }: { bookings: Booking[] }) {
                 <div className="detail-section">
                   <h3>Förberedelser</h3>
                   <p>
+                    {(booking.participants ?? []).filter((person) => !participantComplete(person, booking.date)).length} deltagare har uppgifter kvar att komplettera.
+                  </p>
+                  <p>
                     {booking.participants?.filter((p) => p.role !== "teacher")
                       .length || 0}{" "}
                     elever och{" "}
@@ -5642,6 +5922,41 @@ function Admin({ bookings }: { bookings: Booking[] }) {
                       <Download size={15} /> Exportera arbetsunderlag
                     </Button>
                   )}
+                  {(booking.participants ?? []).filter((person) => !participantComplete(person, booking.date)).length > 0 && (
+                    <p className="admin-capacity-warning">
+                      Saknade uppgifter: {(booking.participants ?? []).map((person, index) => !participantComplete(person, booking.date) ? person.name || `Deltagare ${index + 1}` : null).filter(Boolean).slice(0, 8).join(", ")}
+                      {(booking.participants ?? []).filter((person) => !participantComplete(person, booking.date)).length > 8 ? " …" : ""}.
+                    </p>
+                  )}
+                </div>
+              )}
+              {selectedDraft && booking.status !== "Avbokad" && (
+                <div className="detail-section">
+                  <h3>Kapacitet för bokningen</h3>
+                  {selectedDraft.cabin !== "none" && (
+                    <p>
+                      {cabinUnitsNeeded(selectedDraft, { forest: 2, family: 4, view: 6 }[selectedDraft.cabin])} stugor valda · {cabinUnitsLeft(bookings, selectedDraft.cabin, { forest: 2, family: 4, view: 6 }[selectedDraft.cabin], selectedDraft.start, selectedDraft.end, booking.id)} av {cabinStock[selectedDraft.cabin]} lediga för perioden utöver bokningen.
+                    </p>
+                  )}
+                  {selectedDraft.pass !== "none" && <p>
+                    {selectedDraft.season === "winter" ? "SkiPass" : "Cykelpass"}: {passDemand(selectedDraft)} bokade · {passUnitsLeft(bookings, selectedDraft.season, selectedDraft.start, booking.id)} av {passStock[selectedDraft.season]} lediga på startdagen utöver bokningen.
+                  </p>}
+                  {(Object.keys(equipmentStock) as EquipmentKind[]).map((kind) => {
+                    const count = equipmentDemand(selectedDraft, kind);
+                    return count ? <p key={kind}>
+                      {kind === "ski" ? "Skidor" : kind === "snowboard" ? "Snowboard" : "Cyklar"}: {count} bokade · {equipmentUnitsLeft(bookings, kind, selectedDraft.start, booking.id)} av {equipmentStock[kind]} lediga på startdagen utöver bokningen.
+                    </p> : null;
+                  })}
+                  {Object.entries(selectedDraft.sessionAssignments ?? {}).flatMap(([key, assignments]) => {
+                    const date = key.slice(-10);
+                    const offering = key.slice(0, -11);
+                    return [...new Set(Object.values(assignments))].filter(Boolean).map((time) => <p key={`${key}-${time}`}>
+                      {offering === "school" ? "Skola" : offering} {date} kl {time}: {Object.values(assignments).filter((value) => value === time).length} bokade · {sessionSeatsLeft(bookings, offering, date, time, selectedDraft.schoolLesson, booking.id)} av {sessionCapacity(offering, selectedDraft.schoolLesson)} lediga utöver bokningen.
+                    </p>);
+                  })}
+                  {selectedCapacityIssues.length
+                    ? selectedCapacityIssues.map((issue) => <p className="admin-capacity-warning" key={issue}>{issue}</p>)
+                    : <p>Inga kapacitetskonflikter med övriga bokningar.</p>}
                 </div>
               )}
               <div className="detail-section">
@@ -5659,6 +5974,13 @@ function Admin({ bookings }: { bookings: Booking[] }) {
           )}
         </div>
       </div>
+      {cancelBooking && <ConfirmDialog
+        title="Avboka bokningen?"
+        description={`Bokning ${cancelBooking.id} markeras som avbokad. Betalstatus och historik uppdateras.`}
+        confirmLabel="Avboka bokningen"
+        onClose={() => setCancelBooking(null)}
+        onConfirm={() => { onCancel(cancelBooking); setCancelBooking(null); }}
+      />}
     </>
   );
 }
@@ -5860,6 +6182,7 @@ function CartDrawer({
 // Kept available while older saved bookings are still supported.
 void Stay;
 void Group;
+void Day;
 function AuthPage({
   view,
   bookingEntry,
@@ -6129,7 +6452,8 @@ function App() {
   const [signedInName, setSignedInName] = useState<string | null>(null);
   const [shouldPersist, setShouldPersist] = useState(false);
   useEffect(() => {
-    localStorage.setItem("flottsbro-language", language);
+    if (language === "sv") localStorage.removeItem("flottsbro-language");
+    else localStorage.setItem("flottsbro-language", language);
     document.documentElement.lang = language;
   }, [language]);
   useEffect(() => installPublicTranslation(language), [language, page]);
@@ -6167,8 +6491,10 @@ function App() {
   const clearSavedData = () => {
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(CART_KEY);
+    localStorage.removeItem("flottsbro-language");
+    setLanguage("sv");
     setShouldPersist(false);
-    setBookings(seed);
+    setBookings(seed.map(normalizeBooking));
     setResetOpen(false);
     setPage("overview");
     setMobileOpen(false);
@@ -6182,6 +6508,7 @@ function App() {
   };
   const launchFlow = (draft: FlowDraft) => {
     setSeason(draft.season);
+    setDayMode("new");
     setSearchDraft(draft);
     setSearchEpoch((value) => value + 1);
     setPendingDraft(null);
@@ -6189,6 +6516,28 @@ function App() {
     setMobileOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const editBooking = (booking: Booking) => launchFlow(draftForBooking(booking, true));
+  const rebookBooking = (booking: Booking) => {
+    const draft = draftForBooking(booking, false);
+    draft.start = dateOffset(draft.start, 7);
+    draft.end = dateOffset(draft.end, 7);
+    draft.sessionAssignments = Object.fromEntries(
+      Object.entries(draft.sessionAssignments ?? {}).map(([key, people]) => [
+        `${key.slice(0, -10)}${dateOffset(key.slice(-10), 7)}`,
+        people,
+      ]),
+    );
+    draft.step = 8;
+    draft.rebookOf = booking.id;
+    launchFlow(draft);
+  };
+  const cancelBooking = (booking: Booking) => onUpdate(booking.id, (current) => ({
+    ...current,
+    status: "Avbokad",
+    payment: current.payment.includes("Faktura") || current.payment.includes("faktura")
+      ? "Faktura makulerad" : "Återbetalning väntar · simulerad",
+    history: [...current.history, `Avbokad ${today()} · bekräftelsen uppdaterad`],
+  }));
   const beginFlow = (draft: FlowDraft) => {
     if (signedInEmail) {
       launchFlow({
@@ -6236,13 +6585,6 @@ function App() {
     setSeason(next);
     setMobileOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-  const onDayCartChange = (draft: DayDraft) => {
-    const id = draft.activity === "ski" ? "day-winter" : "day-summer";
-    setCartItems((items) => [
-      ...items.filter((item) => item.id !== id),
-      { id, draft },
-    ]);
   };
   const onFlowDraftChange = (draft: FlowDraft) => {
     const id = `flow-${draft.entry}-${draft.season}` as const;
@@ -6361,16 +6703,13 @@ function App() {
         <Overview go={go} season={season} onSearch={startFromFinder} />
       )}
       {page === "day" && dayMode === "return" && (
-        <Day
-          key={`${dayMode}-${season}-${dayEpoch}`}
-          initialMode={dayMode}
-          initialActivity={season === "winter" ? "ski" : "bike"}
-          initialDraft={undefined}
-          onCartChange={onDayCartChange}
+        <BookingsPage
           bookings={bookings}
-          onBook={onBook}
-          onUpdate={onUpdate}
-          go={go}
+          accountEmail={signedInEmail}
+          language={language}
+          onEdit={editBooking}
+          onRebook={rebookBooking}
+          onCancel={cancelBooking}
         />
       )}
       {(page === "stay" ||
@@ -6393,6 +6732,7 @@ function App() {
               entry={entry}
               season={season}
               language={language}
+              bookings={bookings}
               initial={initial}
               onDraft={onFlowDraftChange}
               onComplete={onBook}
@@ -6410,6 +6750,8 @@ function App() {
                 setCartItems((items) => items.filter((item) => item.id !== id));
               }}
               onHome={() => go("overview")}
+              onBookings={openBookings}
+              onInvoice={downloadInvoiceCsv}
               onChangeAccount={(draft) => {
                 setPendingDraft(draft);
                 setAuthView("choice");
@@ -6479,7 +6821,7 @@ function App() {
               </div>
             </header>
             <main className="page-content">
-              <Admin bookings={bookings} />
+              <Admin bookings={bookings} onEdit={editBooking} onCancel={cancelBooking} />
             </main>
             <footer>
               <span>© 2026 Flottsbro · Bokningssystem</span>
