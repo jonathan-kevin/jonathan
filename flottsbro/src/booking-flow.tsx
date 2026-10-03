@@ -1423,6 +1423,27 @@ export function BookingFlow({
     ];
     const exampleBorrowGuests =
       draft.entry === "rental" ? [0] : (draft.borrowGuests ?? []);
+    const exampleGroupParticipants = group
+      ? Array.from({ length: draft.groupCount }, (_, i) => {
+          const teacher = i === 0;
+          const borrowing = !teacher && i % 5 !== 0;
+          const height = 138 + ((i * 7) % 37);
+          return {
+            name: names[i % names.length],
+            role: teacher ? ("teacher" as const) : null,
+            birthDate: teacher
+              ? ""
+              : `${Number(draft.start.slice(0, 4)) - (12 + (i % 6))}-${String(1 + ((i * 3) % 12)).padStart(2, "0")}-${String(4 + ((i * 7) % 24)).padStart(2, "0")}`,
+            activity: draft.season === "summer"
+              ? "Cykling"
+              : borrowing && i % 6 === 0 ? "Snowboard" : "Skidåkning",
+            equipment: borrowing ? ("borrow" as const) : ("own" as const),
+            shoe: borrowing ? String(Math.round(33 + (height - 138) / 4) + (i % 2)) : "",
+            height: borrowing ? String(height) : "",
+            weight: borrowing ? String(Math.round((height - 100) * 0.82) + (i % 5) * 2) : "",
+          };
+        })
+      : draft.participants;
     update({
       childAges: Array.from({ length: draft.children }, (_, i) => 8 + i),
       guests: Array.from({ length: guests }, (_, i) => names[i % names.length]),
@@ -1442,18 +1463,10 @@ export function BookingFlow({
           },
         ]),
       ),
-      participants: group
-        ? Array.from({ length: draft.groupCount }, (_, i) => ({
-            name: names[i % names.length],
-            role: i === 0 ? "teacher" : null,
-            birthDate: i === 0 ? "1986-04-18" : "2012-05-14",
-            activity: draft.pass === "bike" ? "Cykling" : "Skidåkning",
-            equipment: i < draft.borrowCount && i !== 0 ? "borrow" : "own",
-            shoe: "38",
-            height: "155",
-            weight: "48",
-          }))
-        : draft.participants,
+      participants: exampleGroupParticipants,
+      borrowCount: group
+        ? exampleGroupParticipants.filter((person) => person.equipment === "borrow").length
+        : draft.borrowCount,
     });
   };
   const fillExampleContact = () =>
