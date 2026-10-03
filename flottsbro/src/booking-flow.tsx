@@ -2622,13 +2622,13 @@ export function BookingFlow({
                               }
                             />
                             <span>Låna utrustning</span>
-                            <small>
-                              {borrows
-                                ? `${money(equipmentUnit)} per dag`
-                                : draft.entry === "rental"
-                                  ? "Ingen hyra för den här personen"
-                                  : "Egen utrustning eller ingen aktivitet"}
-                            </small>
+                            {(borrows || draft.entry === "rental") && (
+                              <small>
+                                {borrows
+                                  ? `${money(equipmentUnit)} per dag`
+                                  : "Ingen hyra för den här personen"}
+                              </small>
+                            )}
                           </label>
                           {borrows && (
                             <div className="flow-fields flow-guest-gear">

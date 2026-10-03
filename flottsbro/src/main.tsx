@@ -192,7 +192,7 @@ function BookingTypeIcon({
 type Page = "overview" | FlowEntry | "admin" | "auth";
 type Season = "winter" | "summer";
 type CheckoutMode = "guest" | "login";
-type AuthView = "choice" | "login" | "account";
+type AuthView = "choice" | "login" | "signup" | "account";
 type PaymentMethod =
   "swish" | "card" | "applepay" | "googlepay" | "klarna" | "invoice";
 type ExtraActivityKey = "snowshoe" | "sledding" | "canoe" | "climbing";
@@ -5882,9 +5882,11 @@ function AuthPage({
   bookingEntry,
   bookingSeason,
   signedInEmail,
+  signedInName,
   onBack,
   onGuest,
   onShowLogin,
+  onShowSignup,
   onLogin,
   onBookings,
   onSignOut,
@@ -5893,16 +5895,25 @@ function AuthPage({
   bookingEntry: FlowEntry | null;
   bookingSeason: Season;
   signedInEmail: string | null;
+  signedInName: string | null;
   onBack: () => void;
   onGuest: () => void;
   onShowLogin: () => void;
-  onLogin: (email: string) => void;
+  onShowSignup: () => void;
+  onLogin: (email: string, name?: string) => void;
   onBookings: () => void;
   onSignOut: () => void;
 }) {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  useEffect(() => {
+    setPassword("");
+    setConfirmPassword("");
+    setError("");
+  }, [view]);
   const entryName = bookingEntry
     ? ({
         stay: "boende",
@@ -5922,6 +5933,21 @@ function AuthPage({
     setError("");
     setPassword("");
     onLogin(email.trim());
+  };
+  const submitSignup = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!name.trim() || !/^\S+@\S+\.\S+$/.test(email.trim()) || password.length < 4) {
+      setError("Ange namn, en giltig e-postadress och ett lösenord med minst fyra tecken.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Lösenorden stämmer inte överens.");
+      return;
+    }
+    setError("");
+    setPassword("");
+    setConfirmPassword("");
+    onLogin(email.trim(), name.trim());
   };
   return (
     <div className="auth-page">
@@ -5989,20 +6015,88 @@ function AuthPage({
                 <ArrowRight size={18} />
               </button>
             </form>
-            {bookingEntry && (
-              <button type="button" className="auth-text-button" onClick={onGuest}>
-                Fortsätt som gäst i stället
-              </button>
-            )}
+            <button type="button" className="auth-text-button" onClick={onShowSignup}>
+              Ny här? Skapa konto
+            </button>
             <p className="auth-note">
               Inloggningen är simulerad. Inga riktiga konton används och lösenordet sparas inte.
+            </p>
+          </>
+        )}
+        {view === "signup" && (
+          <>
+            <h1>Skapa konto</h1>
+            <p className="auth-intro">
+              Fyll i dina uppgifter för att fortsätta med ett simulerat konto.
+            </p>
+            <form className="auth-form" onSubmit={submitSignup}>
+              <label>
+                För- och efternamn
+                <input
+                  type="text"
+                  autoComplete="name"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  placeholder="Ditt namn"
+                  required
+                />
+              </label>
+              <label>
+                E-postadress
+                <input
+                  type="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="namn@exempel.se"
+                  required
+                />
+              </label>
+              <label>
+                Lösenord
+                <input
+                  type="password"
+                  autoComplete="new-password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  placeholder="Minst fyra tecken"
+                  minLength={4}
+                  required
+                />
+              </label>
+              <label>
+                Bekräfta lösenord
+                <input
+                  type="password"
+                  autoComplete="new-password"
+                  value={confirmPassword}
+                  onChange={(event) => setConfirmPassword(event.target.value)}
+                  placeholder="Skriv lösenordet igen"
+                  minLength={4}
+                  required
+                />
+              </label>
+              {error && <p className="auth-error" role="alert">{error}</p>}
+              <button type="submit" className="auth-primary">
+                {bookingEntry ? "Skapa konto och fortsätt" : "Skapa konto"}
+                <ArrowRight size={18} />
+              </button>
+            </form>
+            <button type="button" className="auth-text-button" onClick={onShowLogin}>
+              Har du redan ett konto? Logga in
+            </button>
+            <p className="auth-note">
+              Kontot skapas bara för den här visningen. Inga riktiga konton eller lösenord sparas.
             </p>
           </>
         )}
         {view === "account" && (
           <>
             <h1>Mitt konto</h1>
-            <p className="auth-intro">Du är inloggad som <strong>{signedInEmail}</strong>.</p>
+            <p className="auth-intro">
+              Du är inloggad som <strong>{signedInName || signedInEmail}</strong>
+              {signedInName && <> · {signedInEmail}</>}.
+            </p>
             <div className="auth-account-actions">
               <button type="button" className="auth-primary" onClick={onBookings}>
                 Mina bokningar <ArrowRight size={18} />
@@ -6034,6 +6128,7 @@ function App() {
   const [authView, setAuthView] = useState<AuthView>("choice");
   const [pendingDraft, setPendingDraft] = useState<FlowDraft | null>(null);
   const [signedInEmail, setSignedInEmail] = useState<string | null>(null);
+  const [signedInName, setSignedInName] = useState<string | null>(null);
   const [shouldPersist, setShouldPersist] = useState(false);
   useEffect(() => {
     if (shouldPersist)
@@ -6080,6 +6175,7 @@ function App() {
     setSearchDraft(null);
     setPendingDraft(null);
     setSignedInEmail(null);
+    setSignedInName(null);
   };
   const launchFlow = (draft: FlowDraft) => {
     setSeason(draft.season);
@@ -6096,6 +6192,7 @@ function App() {
         ...draft,
         checkoutMode: "login",
         email: draft.email || signedInEmail,
+        name: draft.name || signedInName || "",
       });
     } else if (draft.checkoutMode) {
       launchFlow(draft);
@@ -6193,20 +6290,27 @@ function App() {
   const continueAsGuest = () => {
     if (pendingDraft) {
       setSignedInEmail(null);
+      setSignedInName(null);
       launchFlow({ ...pendingDraft, checkoutMode: "guest" });
     }
   };
-  const completeLogin = (email: string) => {
+  const completeLogin = (email: string, name?: string) => {
     setSignedInEmail(email);
+    setSignedInName(name ?? null);
     if (pendingDraft)
       launchFlow({
         ...pendingDraft,
         checkoutMode: "login",
         email: pendingDraft.email || email,
+        name: pendingDraft.name || name || "",
       });
     else setAuthView("account");
   };
   const backFromAuth = () => {
+    if (authView === "signup") {
+      setAuthView("login");
+      return;
+    }
     if (pendingDraft && authView === "login") {
       setAuthView("choice");
       return;
@@ -6236,13 +6340,16 @@ function App() {
           bookingEntry={pendingDraft?.entry ?? null}
           bookingSeason={pendingDraft?.season ?? season}
           signedInEmail={signedInEmail}
+          signedInName={signedInName}
           onBack={backFromAuth}
           onGuest={continueAsGuest}
           onShowLogin={() => setAuthView("login")}
+          onShowSignup={() => setAuthView("signup")}
           onLogin={completeLogin}
           onBookings={openBookings}
           onSignOut={() => {
             setSignedInEmail(null);
+            setSignedInName(null);
             setAuthView("login");
           }}
         />
