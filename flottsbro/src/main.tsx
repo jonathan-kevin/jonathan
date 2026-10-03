@@ -47,6 +47,7 @@ import {
   Sun,
   TentTree,
   Trash2,
+  UserRound,
   Users,
   WandSparkles,
   X,
@@ -188,9 +189,10 @@ function BookingTypeIcon({
   if (booking.kind === "stay") return <Home size={size} />;
   return <Users size={size} />;
 }
-type Page = "overview" | FlowEntry | "admin";
+type Page = "overview" | FlowEntry | "admin" | "auth";
 type Season = "winter" | "summer";
 type CheckoutMode = "guest" | "login";
+type AuthView = "choice" | "login" | "account";
 type PaymentMethod =
   "swish" | "card" | "applepay" | "googlepay" | "klarna" | "invoice";
 type ExtraActivityKey = "snowshoe" | "sledding" | "canoe" | "climbing";
@@ -5875,6 +5877,147 @@ function CartDrawer({
 // Kept available while older saved bookings are still supported.
 void Stay;
 void Group;
+function AuthPage({
+  view,
+  bookingEntry,
+  bookingSeason,
+  signedInEmail,
+  onBack,
+  onGuest,
+  onShowLogin,
+  onLogin,
+  onBookings,
+  onSignOut,
+}: {
+  view: AuthView;
+  bookingEntry: FlowEntry | null;
+  bookingSeason: Season;
+  signedInEmail: string | null;
+  onBack: () => void;
+  onGuest: () => void;
+  onShowLogin: () => void;
+  onLogin: (email: string) => void;
+  onBookings: () => void;
+  onSignOut: () => void;
+}) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const entryName = bookingEntry
+    ? ({
+        stay: "boende",
+        day: bookingSeason === "winter" ? "SkiPass" : "cykelpass",
+        rental: "hyra",
+        school: bookingSeason === "winter" ? "skidskola" : "cykelskola",
+        activity: "aktiviteter",
+        group: "gruppbokning",
+      } as Record<FlowEntry, string>)[bookingEntry]
+    : null;
+  const submit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!/^\S+@\S+\.\S+$/.test(email.trim()) || password.length < 4) {
+      setError("Ange en giltig e-postadress och minst fyra tecken i lösenordet.");
+      return;
+    }
+    setError("");
+    setPassword("");
+    onLogin(email.trim());
+  };
+  return (
+    <div className="auth-page">
+      <button type="button" className="auth-back" onClick={onBack}>
+        <ArrowLeft size={17} /> Tillbaka
+      </button>
+      <div className="auth-card">
+        <span className="eyebrow">FLOTTSBRO</span>
+        {entryName && <p className="auth-context">Din bokning · {entryName}</p>}
+        {view === "choice" && (
+          <>
+            <h1>Hur vill du fortsätta?</h1>
+            <p className="auth-intro">
+              Välj hur du vill påbörja bokningen. Kontaktuppgifter fyller du i senare.
+            </p>
+            <div className="auth-options">
+              <button type="button" onClick={onShowLogin}>
+                <span className="auth-option-icon"><UserRound size={22} /></span>
+                <strong>Logga in</strong>
+                <small>Simulerad inloggning</small>
+                <ArrowRight size={18} />
+              </button>
+              <button type="button" onClick={onGuest}>
+                <span className="auth-option-icon"><Users size={22} /></span>
+                <strong>Fortsätt som gäst</strong>
+                <small>Du kan boka utan konto</small>
+                <ArrowRight size={18} />
+              </button>
+            </div>
+          </>
+        )}
+        {view === "login" && (
+          <>
+            <h1>Logga in</h1>
+            <p className="auth-intro">
+              Ange din e-postadress för att fortsätta.
+            </p>
+            <form className="auth-form" onSubmit={submit}>
+              <label>
+                E-postadress
+                <input
+                  type="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="namn@exempel.se"
+                  required
+                />
+              </label>
+              <label>
+                Lösenord
+                <input
+                  type="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  placeholder="Minst fyra tecken"
+                  minLength={4}
+                  required
+                />
+              </label>
+              {error && <p className="auth-error" role="alert">{error}</p>}
+              <button type="submit" className="auth-primary">
+                {bookingEntry ? "Logga in och fortsätt" : "Logga in"}
+                <ArrowRight size={18} />
+              </button>
+            </form>
+            {bookingEntry && (
+              <button type="button" className="auth-text-button" onClick={onGuest}>
+                Fortsätt som gäst i stället
+              </button>
+            )}
+            <p className="auth-note">
+              Inloggningen är simulerad. Inga riktiga konton används och lösenordet sparas inte.
+            </p>
+          </>
+        )}
+        {view === "account" && (
+          <>
+            <h1>Mitt konto</h1>
+            <p className="auth-intro">Du är inloggad som <strong>{signedInEmail}</strong>.</p>
+            <div className="auth-account-actions">
+              <button type="button" className="auth-primary" onClick={onBookings}>
+                Mina bokningar <ArrowRight size={18} />
+              </button>
+              <button type="button" className="auth-text-button" onClick={onSignOut}>
+                Logga ut
+              </button>
+            </div>
+            <p className="auth-note">Kontot är simulerat i den här prototypen.</p>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
 function App() {
   const [page, setPage] = useState<Page>("overview");
   const [dayMode, setDayMode] = useState<"new" | "return">("new");
@@ -5888,6 +6031,9 @@ function App() {
   const [bookings, setBookings] = useState<Booking[]>(load);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [resetOpen, setResetOpen] = useState(false);
+  const [authView, setAuthView] = useState<AuthView>("choice");
+  const [pendingDraft, setPendingDraft] = useState<FlowDraft | null>(null);
+  const [signedInEmail, setSignedInEmail] = useState<string | null>(null);
   const [shouldPersist, setShouldPersist] = useState(false);
   useEffect(() => {
     if (shouldPersist)
@@ -5932,10 +6078,46 @@ function App() {
     setCartOpen(false);
     setSeason("winter");
     setSearchDraft(null);
+    setPendingDraft(null);
+    setSignedInEmail(null);
+  };
+  const launchFlow = (draft: FlowDraft) => {
+    setSeason(draft.season);
+    setSearchDraft(draft);
+    setSearchEpoch((value) => value + 1);
+    setPendingDraft(null);
+    setPage(draft.entry);
+    setMobileOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  const beginFlow = (draft: FlowDraft) => {
+    if (signedInEmail) {
+      launchFlow({
+        ...draft,
+        checkoutMode: "login",
+        email: draft.email || signedInEmail,
+      });
+    } else if (draft.checkoutMode) {
+      launchFlow(draft);
+    } else {
+      setPendingDraft(draft);
+      setAuthView("choice");
+      setPage("auth");
+      setMobileOpen(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
   const go = (p: Page) => {
-    if (p === "day") setDayMode("new");
+    if (["day", "stay", "group", "rental", "school", "activity"].includes(p)) {
+      const entry = p as FlowEntry;
+      if (entry === "day") setDayMode("new");
+      const saved = cartItems.find((item) => item.id === `flow-${entry}-${season}`)
+        ?.draft as FlowDraft | undefined;
+      beginFlow(saved ?? createFlowDraft(entry, season));
+      return;
+    }
     setSearchDraft(null);
+    setPendingDraft(null);
     setPage(p);
     setMobileOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -5948,11 +6130,7 @@ function App() {
     draft.children = selection.children;
     draft.childAges = selection.childAges;
     draft.step = 1;
-    setSearchDraft(draft);
-    setSearchEpoch((value) => value + 1);
-    setPage(selection.entry);
-    setMobileOpen(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    beginFlow(draft);
   };
   const switchSeason = (next: Season) => {
     setSeason(next);
@@ -5986,10 +6164,7 @@ function App() {
     setDayMode("new");
     if (entry.id.startsWith("flow-")) {
       const draft = entry.draft as FlowDraft;
-      setSearchDraft(null);
-      setSeason(draft.season);
-      setPage(draft.entry);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      beginFlow(draft);
       return;
     }
     setSeason(entry.id === "day-winter" ? "winter" : "summer");
@@ -6001,6 +6176,46 @@ function App() {
     setPage("day");
     setMobileOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  const openAccount = () => {
+    const activeFlow =
+      ["day", "stay", "group", "rental", "school", "activity"].includes(page) &&
+      !(page === "day" && dayMode === "return")
+        ? (cartItems.find((item) => item.id === `flow-${page}-${season}`)
+            ?.draft as FlowDraft | undefined)
+        : undefined;
+    setPendingDraft(activeFlow ?? null);
+    setAuthView(signedInEmail ? "account" : "login");
+    setPage("auth");
+    setMobileOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  const continueAsGuest = () => {
+    if (pendingDraft) {
+      setSignedInEmail(null);
+      launchFlow({ ...pendingDraft, checkoutMode: "guest" });
+    }
+  };
+  const completeLogin = (email: string) => {
+    setSignedInEmail(email);
+    if (pendingDraft)
+      launchFlow({
+        ...pendingDraft,
+        checkoutMode: "login",
+        email: pendingDraft.email || email,
+      });
+    else setAuthView("account");
+  };
+  const backFromAuth = () => {
+    if (pendingDraft && authView === "login") {
+      setAuthView("choice");
+      return;
+    }
+    if (pendingDraft?.checkoutMode) {
+      launchFlow(pendingDraft);
+      return;
+    }
+    go("overview");
   };
   const brand = (
     <span className="brand-inner">
@@ -6015,6 +6230,23 @@ function App() {
   );
   const guestContent = (
     <>
+      {page === "auth" && (
+        <AuthPage
+          view={authView}
+          bookingEntry={pendingDraft?.entry ?? null}
+          bookingSeason={pendingDraft?.season ?? season}
+          signedInEmail={signedInEmail}
+          onBack={backFromAuth}
+          onGuest={continueAsGuest}
+          onShowLogin={() => setAuthView("login")}
+          onLogin={completeLogin}
+          onBookings={openBookings}
+          onSignOut={() => {
+            setSignedInEmail(null);
+            setAuthView("login");
+          }}
+        />
+      )}
       {page === "overview" && (
         <Overview go={go} season={season} onSearch={startFromFinder} />
       )}
@@ -6067,6 +6299,12 @@ function App() {
                 setCartItems((items) => items.filter((item) => item.id !== id));
               }}
               onHome={() => go("overview")}
+              onChangeAccount={(draft) => {
+                setPendingDraft(draft);
+                setAuthView("choice");
+                setPage("auth");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
             />
           );
         })()}
@@ -6182,6 +6420,15 @@ function App() {
               </button>
             </nav>
             <button
+              type="button"
+              className={`store-account-button${page === "auth" ? " active" : ""}`}
+              onClick={openAccount}
+              aria-label={signedInEmail ? "Mitt konto" : "Logga in"}
+            >
+              <UserRound size={19} />
+              <span>{signedInEmail ? "Mitt konto" : "Logga in"}</span>
+            </button>
+            <button
               className="store-cart-button"
               onClick={() => setCartOpen(true)}
               aria-label={`Varukorg, ${cartItems.length} ${cartItems.length === 1 ? "pågående bokning" : "pågående bokningar"}`}
@@ -6200,7 +6447,7 @@ function App() {
               <Menu size={23} />
             </button>
           </header>
-          <div className="season-bar">
+          {page !== "auth" && <div className="season-bar">
             <div
               className="season-switch"
               role="tablist"
@@ -6228,7 +6475,7 @@ function App() {
                 ? "Boende, skidåkning & upplevelser"
                 : "Boende, cykling & upplevelser"}
             </span>
-          </div>
+          </div>}
           <main className="page-content store-content">{guestContent}</main>
           <footer className="store-footer">
             <span>© 2026 Flottsbro · Huddinge, Stockholm</span>

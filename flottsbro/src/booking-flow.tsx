@@ -483,6 +483,7 @@ export function BookingFlow({
   onUpdate,
   onFinish,
   onHome,
+  onChangeAccount,
 }: {
   entry: FlowEntry;
   season: FlowSeason;
@@ -492,6 +493,7 @@ export function BookingFlow({
   onUpdate: (id: string, booking: FlowBooking) => void;
   onFinish: () => void;
   onHome: () => void;
+  onChangeAccount: (draft: FlowDraft) => void;
 }) {
   const [draft, setDraft] = useState<FlowDraft>(() => {
     if (!initial) return createFlowDraft(entry, season);
@@ -1018,7 +1020,7 @@ export function BookingFlow({
         !draft.checkoutMode
       ) {
         setError(
-          "Fyll i kontaktperson, e-post, telefon, adress och välj konto eller gäst.",
+          "Fyll i kontaktperson, e-post, telefon och adress.",
         );
         return;
       }
@@ -3053,30 +3055,19 @@ export function BookingFlow({
                     </label>
                   )}
                 </div>
-                <h3>Fortsätt som</h3>
-                <div className="flow-meal-types">
-                  {(["guest", "login"] as const).map((mode) => (
-                    <button
-                      key={mode}
-                      type="button"
-                      className={draft.checkoutMode === mode ? "selected" : ""}
-                      onClick={() => update({ checkoutMode: mode })}
-                    >
-                      <strong>{mode === "guest" ? "Gäst" : "Logga in"}</strong>
-                      <small>
-                        {mode === "guest"
-                          ? "Boka med dina kontaktuppgifter"
-                          : "Kontoinloggning simuleras"}
-                      </small>
-                    </button>
-                  ))}
+                <div className="flow-account-summary">
+                  <div>
+                    <strong>
+                      {draft.checkoutMode === "login"
+                        ? "Inloggad bokning"
+                        : "Bokning som gäst"}
+                    </strong>
+                    <span>Du valde detta när du påbörjade bokningen.</span>
+                  </div>
+                  <button type="button" onClick={() => onChangeAccount(draft)}>
+                    Ändra
+                  </button>
                 </div>
-                {draft.checkoutMode === "login" && (
-                  <p className="flow-hint">
-                    Kontoinloggning simuleras i den här prototypen. Du kan
-                    slutföra bokningen med dina kontaktuppgifter.
-                  </p>
-                )}
               </>
             )}
             {draft.step === 8 && (

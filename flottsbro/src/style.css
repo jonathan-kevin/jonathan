@@ -1293,6 +1293,30 @@ footer {
   place-items: center;
   position: relative;
 }
+.store-account-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: none;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid #d9e7dd;
+  border-radius: 11px;
+  background: #fff;
+  color: #235b42;
+  font-size: 13px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.store-account-button:hover,
+.store-account-button.active {
+  background: #edf5ee;
+}
+.store-account-button:focus-visible {
+  outline: 3px solid #89b794;
+  outline-offset: 3px;
+}
 .store-cart-button:hover {
   background: #dfeee1;
 }
@@ -3352,6 +3376,23 @@ footer {
   .store-header {
     height: 64px;
     padding: 0 17px;
+    gap: 6px;
+  }
+  .store-account-button {
+    width: 38px;
+    min-height: 38px;
+    padding: 0;
+    margin-left: auto;
+  }
+  .store-account-button span {
+    display: none;
+  }
+  .store-cart-button {
+    width: 38px;
+    height: 38px;
+  }
+  .store-menu {
+    margin-left: 0;
   }
   .store-brand strong {
     font-size: 16px;
@@ -5724,5 +5765,187 @@ textarea {
 @media (prefers-reduced-motion: reduce) {
   .flow-lodging-image {
     scroll-behavior: auto;
+  }
+}
+
+.auth-page {
+  width: min(680px, 100%);
+  margin: 24px auto 72px;
+}
+.auth-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  background: transparent;
+  color: #245f46;
+  font-weight: 750;
+  padding: 8px 0;
+  margin-bottom: 14px;
+}
+.auth-card {
+  border: 1px solid #d8e5db;
+  border-radius: 18px;
+  background: #fff;
+  padding: clamp(24px, 5vw, 44px);
+  box-shadow: 0 18px 42px #153d2810;
+}
+.auth-card h1 {
+  font-size: clamp(29px, 5vw, 39px);
+  margin: 10px 0 9px;
+}
+.auth-context {
+  color: #617d69;
+  font-size: 13px;
+  margin: 10px 0 0;
+}
+.auth-intro {
+  color: #5b7464;
+  max-width: 50ch;
+  margin-bottom: 27px;
+}
+.auth-options {
+  display: grid;
+  gap: 11px;
+}
+.auth-options button {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 20px;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 2px 14px;
+  width: 100%;
+  padding: 17px;
+  border: 1px solid #d8e5db;
+  border-radius: 13px;
+  background: #fff;
+  color: #1e4431;
+  text-align: left;
+}
+.auth-options button:hover,
+.auth-options button:focus-visible {
+  border-color: #4b916b;
+  background: #f7fbf7;
+}
+.auth-option-icon {
+  grid-row: 1 / 3;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #e8f3ea;
+}
+.auth-options strong {
+  font-size: 16px;
+}
+.auth-options small {
+  color: #687f6f;
+  font-size: 13px;
+}
+.auth-options button > svg {
+  grid-column: 3;
+  grid-row: 1 / 3;
+}
+.auth-form {
+  display: grid;
+  gap: 16px;
+}
+.auth-form label {
+  display: grid;
+  gap: 7px;
+  color: #304b3a;
+  font-size: 13px;
+  font-weight: 750;
+}
+.auth-form input {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 13px;
+  border: 1px solid #cbdccf;
+  border-radius: 9px;
+  background: #fff;
+  color: #1b3728;
+}
+.auth-form input:focus-visible {
+  outline: 2px solid #5b9c70;
+  outline-offset: 2px;
+}
+.auth-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 49px;
+  border: 0;
+  border-radius: 9px;
+  background: #245f46;
+  color: #fff;
+  font-weight: 800;
+}
+.auth-primary:hover {
+  background: #194b38;
+}
+.auth-text-button {
+  display: block;
+  border: 0;
+  background: transparent;
+  color: #245f46;
+  font-weight: 750;
+  margin: 18px auto 0;
+  padding: 5px;
+}
+.auth-note {
+  color: #728679;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 23px 0 0;
+}
+.auth-error {
+  color: #a32f2f;
+  margin: 0;
+}
+.auth-account-actions {
+  display: grid;
+  gap: 4px;
+}
+.flow-account-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid #dce8df;
+  border-radius: 10px;
+  background: #f7faf7;
+  padding: 15px 17px;
+  margin-top: 20px;
+}
+.flow-account-summary div {
+  display: grid;
+  gap: 3px;
+}
+.flow-account-summary span {
+  color: #64786b;
+  font-size: 12px;
+}
+.flow-account-summary button {
+  border: 0;
+  background: transparent;
+  color: #245f46;
+  font-weight: 750;
+}
+@media (max-width: 700px) {
+  .store-header {
+    gap: 6px;
+  }
+  .store-account-button {
+    margin-left: auto;
+  }
+  .store-cart-button {
+    margin-left: 0;
+  }
+  .auth-page {
+    margin: 2px auto 44px;
   }
 }
