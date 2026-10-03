@@ -2129,7 +2129,7 @@ export function BookingFlow({
                         >
                           −
                         </button>
-                        {draft.adults}
+                        <output className="flow-party-count">{draft.adults}</output>
                         <button
                           type="button"
                           onClick={() =>
@@ -2155,7 +2155,7 @@ export function BookingFlow({
                         >
                           −
                         </button>
-                        {draft.children}
+                        <output className="flow-party-count">{draft.children}</output>
                         <button
                           type="button"
                           onClick={() =>
