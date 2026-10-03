@@ -2120,7 +2120,9 @@ export function BookingFlow({
             {draft.editBookingId && <p><strong>Ändring:</strong> Tidigare {money(draft.editOriginalTotal ?? 0)} · skillnad {money(total - (draft.editOriginalTotal ?? 0))}.</p>}
           </div>
           <div className="flow-success-actions">
-            <button className="flow-primary" onClick={onBookings}>Visa mina bokningar <ArrowRight size={17} /></button>
+            {draft.checkoutMode === "login" && (
+              <button className="flow-primary" onClick={onBookings}>Visa mina bokningar <ArrowRight size={17} /></button>
+            )}
             {group && draft.payment === "invoice" && doneBooking && <button type="button" className="flow-back" onClick={() => onInvoice(doneBooking)}>Ladda ned fakturaunderlag</button>}
             <button className="flow-back" onClick={onHome}>Till startsidan</button>
           </div>

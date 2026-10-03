@@ -138,6 +138,7 @@ const formatAddress = (contact: ContactDetails) =>
     .join(", ");
 type Booking = {
   id: string;
+  accountEmail?: string;
   kind: Kind;
   sourceEntry?: FlowEntry;
   status: Status;
@@ -591,6 +592,8 @@ const normalizeBooking = (booking: Booking): Booking => {
       : booking.participants;
   const normalized: Booking = {
     ...booking,
+    accountEmail: booking.accountEmail ?? original?.email ??
+      (booking.flowSnapshot?.checkoutMode === "login" ? booking.email : undefined),
     contact: booking.contact ?? original?.contact,
     items: booking.id === "FL-2392" && booking.items.some((item) => item.includes("Stuga B"))
       ? original?.items ?? booking.items : booking.items,
@@ -5429,17 +5432,9 @@ function BookingsPage({
   onRebook: (booking: Booking) => void;
   onCancel: (booking: Booking) => void;
 }) {
-  const [email, setEmail] = useState(accountEmail ?? "");
-  const [searched, setSearched] = useState(Boolean(accountEmail));
   const [cancelBooking, setCancelBooking] = useState<Booking | null>(null);
-  useEffect(() => {
-    if (accountEmail) {
-      setEmail(accountEmail);
-      setSearched(true);
-    }
-  }, [accountEmail]);
-  const mine = searched ? bookings.filter((booking) =>
-    booking.email.toLowerCase() === email.trim().toLowerCase(),
+  const mine = accountEmail ? bookings.filter((booking) =>
+    booking.accountEmail?.toLowerCase() === accountEmail.toLowerCase(),
   ) : [];
   const displayBookingText = (value: string) => language === "sv" ? value : value
     .replaceAll("Boende & aktivitet", "Stay & activity")
@@ -5474,22 +5469,7 @@ function BookingsPage({
         title="Dina bokningar"
         description="Se bekräftelser, boka igen eller ändra en befintlig vistelse."
       />
-      <div className="card padded customer-bookings-lookup">
-        <label className="field">
-          E-postadress för bokningen
-          <input
-            type="email"
-            value={email}
-            onChange={(event) => { setEmail(event.target.value); setSearched(false); }}
-            placeholder="namn@exempel.se"
-          />
-        </label>
-        <Button onClick={() => setSearched(true)} disabled={!/^\S+@\S+\.\S+$/.test(email.trim())}>
-          Visa bokningar <ArrowRight size={16} />
-        </Button>
-        <small>Exempel: anna@example.com, miller@example.com eller bokning@bjorkskolan.se.</small>
-      </div>
-      {searched && !mine.length && <div className="card padded">Inga bokningar hittades för adressen.</div>}
+      {!mine.length && <div className="card padded">Du har inga bokningar kopplade till ditt konto än.</div>}
       {mine.map((booking) => (
         <article className="card padded customer-booking" key={booking.id}>
           <div className="customer-booking-head">
@@ -6450,6 +6430,7 @@ function App() {
   const [pendingDraft, setPendingDraft] = useState<FlowDraft | null>(null);
   const [signedInEmail, setSignedInEmail] = useState<string | null>(null);
   const [signedInName, setSignedInName] = useState<string | null>(null);
+  const [returnToBookingsAfterLogin, setReturnToBookingsAfterLogin] = useState(false);
   const [shouldPersist, setShouldPersist] = useState(false);
   useEffect(() => {
     if (language === "sv") localStorage.removeItem("flottsbro-language");
@@ -6468,7 +6449,11 @@ function App() {
   }, [cartItems]);
   const onBook = (b: Booking) => {
     setShouldPersist(true);
-    setBookings((bs) => [b, ...bs]);
+    setBookings((bs) => [{
+      ...b,
+      accountEmail: signedInEmail && b.flowSnapshot?.checkoutMode === "login"
+        ? signedInEmail : undefined,
+    }, ...bs]);
     if (b.kind === "day")
       setCartItems((items) =>
         items.filter(
@@ -6486,7 +6471,9 @@ function App() {
   };
   const onUpdate = (id: string, fn: (b: Booking) => Booking) => {
     setShouldPersist(true);
-    setBookings((bs) => bs.map((b) => (b.id === id ? fn(b) : b)));
+    setBookings((bs) => bs.map((b) => b.id === id
+      ? { ...fn(b), accountEmail: b.accountEmail }
+      : b));
   };
   const clearSavedData = () => {
     localStorage.removeItem(STORAGE_KEY);
@@ -6505,6 +6492,7 @@ function App() {
     setPendingDraft(null);
     setSignedInEmail(null);
     setSignedInName(null);
+    setReturnToBookingsAfterLogin(false);
   };
   const launchFlow = (draft: FlowDraft) => {
     setSeason(draft.season);
@@ -6539,6 +6527,7 @@ function App() {
     history: [...current.history, `Avbokad ${today()} · bekräftelsen uppdaterad`],
   }));
   const beginFlow = (draft: FlowDraft) => {
+    setReturnToBookingsAfterLogin(false);
     if (signedInEmail) {
       launchFlow({
         ...draft,
@@ -6613,13 +6602,26 @@ function App() {
     setPage(entry.id === "stay-summer" ? "stay" : "day");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-  const openBookings = () => {
+  const showBookings = () => {
     setDayMode("return");
     setPage("day");
     setMobileOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const openBookings = () => {
+    if (!signedInEmail) {
+      setPendingDraft(null);
+      setReturnToBookingsAfterLogin(true);
+      setAuthView("login");
+      setPage("auth");
+      setMobileOpen(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    showBookings();
+  };
   const openAccount = () => {
+    setReturnToBookingsAfterLogin(false);
     const activeFlow =
       ["day", "stay", "group", "rental", "school", "activity"].includes(page) &&
       !(page === "day" && dayMode === "return")
@@ -6633,6 +6635,7 @@ function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const continueAsGuest = () => {
+    setReturnToBookingsAfterLogin(false);
     if (pendingDraft) {
       setSignedInEmail(null);
       setSignedInName(null);
@@ -6649,7 +6652,10 @@ function App() {
         email: pendingDraft.email || email,
         name: pendingDraft.name || name || "",
       });
-    else setAuthView("account");
+    else if (returnToBookingsAfterLogin) {
+      setReturnToBookingsAfterLogin(false);
+      showBookings();
+    } else setAuthView("account");
   };
   const backFromAuth = () => {
     if (authView === "signup") {
@@ -6664,6 +6670,7 @@ function App() {
       launchFlow(pendingDraft);
       return;
     }
+    setReturnToBookingsAfterLogin(false);
     go("overview");
   };
   const brand = (
