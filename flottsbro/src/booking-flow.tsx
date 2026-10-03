@@ -45,7 +45,6 @@ type ActivityId =
   | "natureWalk";
 type PaymentId =
   "swish" | "card" | "applepay" | "googlepay" | "klarna" | "invoice";
-type MealId = "breakfast" | "lunch" | "dinner";
 type SchoolLesson = "none" | "group" | "private";
 export type FlowParticipant = {
   name: string;
@@ -97,8 +96,6 @@ export type FlowDraft = {
   schoolTime?: "10:00" | "13:00";
   sessionAssignments?: Record<string, Record<number, string>>;
   borrowCount: number;
-  meal: MealId;
-  mealDays: string[];
   guests: string[];
   childBirthDates: string[];
   borrowGuests: number[];
@@ -310,8 +307,6 @@ export const createFlowDraft = (
     schoolTime: "10:00",
     sessionAssignments: {},
     borrowCount: 0,
-    meal: "lunch",
-    mealDays: [],
     guests: [],
     childBirthDates: [],
     borrowGuests: [],
@@ -497,6 +492,11 @@ export function BookingFlow({
 }) {
   const [draft, setDraft] = useState<FlowDraft>(() => {
     if (!initial) return createFlowDraft(entry, season);
+    const savedDraft: FlowDraft & { meal?: unknown; mealDays?: unknown } = {
+      ...initial,
+    };
+    delete savedDraft.meal;
+    delete savedDraft.mealDays;
     const previousStep =
       initial.flowVersion === 5 || initial.flowVersion === 4
         ? initial.step
@@ -509,15 +509,18 @@ export function BookingFlow({
         : previousStep >= 5
           ? previousStep + 1
           : previousStep;
-    return {
-      ...initial,
-      flowVersion: 5,
-      step:
-        initial.entry === "activity" && migratedStep === 4
+    const activeStep =
+      migratedStep === 6
+        ? 7
+        : initial.entry === "activity" && migratedStep === 4
           ? 3
           : initial.entry === "school" && migratedStep === 5
             ? 4
-            : migratedStep,
+            : migratedStep;
+    return {
+      ...savedDraft,
+      flowVersion: 5,
+      step: activeStep,
     };
   });
   const [active, setActive] = useState(Boolean(initial));
@@ -636,22 +639,12 @@ export function BookingFlow({
     : (draft.borrowGuests ?? []).filter((index) => index < guests).length;
   const equipmentUnit = group ? 200 : draft.season === "winter" ? 230 : 220;
   const equipmentTotal = borrowCount * equipmentUnit * days;
-  const mealUnit = group
-    ? { breakfast: 75, lunch: 115, dinner: 149 }[draft.meal]
-    : draft.meal === "breakfast"
-      ? draft.adults * 89 + draft.children * 59
-      : draft.meal === "lunch"
-        ? draft.adults * 159 + draft.children * 99
-        : draft.adults * 189 + draft.children * 119;
-  const mealTotal =
-    draft.mealDays.length * (group ? mealUnit * guests : mealUnit);
   const total =
     cabinTotal +
     passTotal +
     activityTotal +
     schoolTotal +
-    equipmentTotal +
-    mealTotal;
+    equipmentTotal;
   const sessionRows = Array.from(
     new Set(
       scheduledSlots.map(
@@ -682,10 +675,10 @@ export function BookingFlow({
   });
   const mainIsCabin = draft.entry === "stay";
   const extraPassStep = ["rental", "school", "activity"].includes(draft.entry);
-  const stageLabels = [
-    "Period & sällskap",
-    "Deltagare",
-    mainIsCabin
+  const stageLabels: Record<number, string> = {
+    0: "Period & sällskap",
+    1: "Deltagare",
+    2: mainIsCabin
       ? "Boende"
       : draft.entry === "rental"
         ? "Hyra"
@@ -698,29 +691,35 @@ export function BookingFlow({
             : draft.season === "winter"
               ? "SkiPass"
               : "Cykelpass",
-    mainIsCabin
+    3: mainIsCabin
       ? draft.season === "winter"
         ? "SkiPass"
         : "Cykelpass"
       : "Boende",
-    "Aktiviteter",
-    draft.season === "winter" ? "Skidskola" : "Cykelskola",
-    "Mat",
-    "Uppgifter",
-    "Granska",
-    "Betala",
-    draft.season === "winter" ? "SkiPass" : "Cykelpass",
-  ];
+    4: "Aktiviteter",
+    5: draft.season === "winter" ? "Skidskola" : "Cykelskola",
+    7: "Uppgifter",
+    8: "Granska",
+    9: "Betala",
+    10: draft.season === "winter" ? "SkiPass" : "Cykelpass",
+  };
   // Keep saved step IDs stable while placing the optional pass after lodging.
   const visibleSteps = [
-    0, 1, 2, 3,
+    0,
+    1,
+    2,
+    3,
     ...(extraPassStep ? [10] : []),
-    4, 5, 6, 7, 8, 9,
+    4,
+    5,
+    7,
+    8,
+    9,
   ].filter(
-      (index) =>
-        !(draft.entry === "activity" && index === 4) &&
-        !(draft.entry === "school" && index === 5),
-    );
+    (index) =>
+      !(draft.entry === "activity" && index === 4) &&
+      !(draft.entry === "school" && index === 5),
+  );
   const stepPosition = visibleSteps.indexOf(draft.step);
   const followingStep = visibleSteps[stepPosition + 1] ?? draft.step;
   const previousStep = visibleSteps[stepPosition - 1] ?? 0;
@@ -783,7 +782,6 @@ export function BookingFlow({
           return date >= start && date <= end;
         }),
       ),
-      mealDays: draft.mealDays.filter((day) => day >= start && day <= end),
       childAges: draft.childBirthDates.length
         ? draft.childBirthDates.map((date, i) =>
             date ? ageOnDate(date, start) : (draft.childAges[i] ?? null),
@@ -836,7 +834,6 @@ export function BookingFlow({
     endDate: draft.end,
     total,
     lodging: Boolean(selectedCabin),
-    meal: draft.mealDays.length > 0,
     nights: selectedCabin ? Math.max(1, nights) : undefined,
     childAges: draft.childAges.filter((age): age is number => age !== null),
     childBirthDates: draft.childBirthDates,
@@ -861,11 +858,6 @@ export function BookingFlow({
       ...(borrowCount
         ? [
             `Utrustningshyra · ${borrowCount} ${borrowCount === 1 ? "person" : "personer"} · ${money(equipmentTotal)}`,
-          ]
-        : []),
-      ...(draft.mealDays.length
-        ? [
-            `${{ breakfast: "Frukost", lunch: "Lunch", dinner: "Middag" }[draft.meal]} · ${draft.mealDays.length} dagar · ${money(mealTotal)}`,
           ]
         : []),
       ...(group ? [`${students} elever · ${teachers} lärare`] : []),
@@ -1471,7 +1463,6 @@ export function BookingFlow({
           ...exampleSessionAssignments(["school"], "group"),
         },
       });
-    else if (draft.step === 6) update({ meal: "lunch", mealDays: dates });
     else if (draft.step === 7) fillExampleContact();
     else if (draft.step === 8) update({ terms: true });
     else if (draft.step === 9) update({ payment: group ? "invoice" : "card" });
@@ -1981,10 +1972,6 @@ export function BookingFlow({
     borrowCount > 0 && {
       label: `Utrustning · ${borrowCount} ${borrowCount === 1 ? "person" : "personer"}`,
       value: equipmentTotal,
-    },
-    draft.mealDays.length > 0 && {
-      label: `${{ breakfast: "Frukost", lunch: "Lunch", dinner: "Middag" }[draft.meal]} · ${draft.mealDays.length} dagar`,
-      value: mealTotal,
     },
   ].filter((item): item is { label: string; value: number } =>
     Boolean(item && item.value > 0),
@@ -2783,95 +2770,6 @@ export function BookingFlow({
                 {schoolCards(true)}
               </>
             )}
-            {draft.step === 6 && (
-              <>
-                <p className="flow-muted">
-                  Välj måltid och vilka dagar den ska ingå. Priset uppdateras
-                  dag för dag.
-                </p>
-                <div className="flow-meal-types">
-                  {(["breakfast", "lunch", "dinner"] as MealId[]).map(
-                    (meal) => (
-                      <button
-                        type="button"
-                        className={draft.meal === meal ? "selected" : ""}
-                        key={meal}
-                        onClick={() => update({ meal })}
-                      >
-                        <strong>
-                          {
-                            {
-                              breakfast: "Frukost",
-                              lunch: "Lunch",
-                              dinner: "Middag",
-                            }[meal]
-                          }
-                        </strong>
-                        <small>
-                          {money(
-                            group
-                              ? { breakfast: 75, lunch: 115, dinner: 149 }[meal]
-                              : meal === "breakfast"
-                                ? 89
-                                : meal === "lunch"
-                                  ? 159
-                                  : 189,
-                          )}{" "}
-                          från / person
-                        </small>
-                      </button>
-                    ),
-                  )}
-                </div>
-                <div className="flow-meal-actions">
-                  <button
-                    type="button"
-                    onClick={() => update({ mealDays: dates })}
-                  >
-                    Varje dag
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => update({ mealDays: [] })}
-                  >
-                    Ingen mat
-                  </button>
-                </div>
-                <div className="flow-meal-days">
-                  {dates.map((date) => (
-                    <label key={date}>
-                      <input
-                        type="checkbox"
-                        checked={draft.mealDays.includes(date)}
-                        onChange={() =>
-                          update({
-                            mealDays: draft.mealDays.includes(date)
-                              ? draft.mealDays.filter((day) => day !== date)
-                              : [...draft.mealDays, date].sort(),
-                          })
-                        }
-                      />
-                      <span>
-                        {new Date(`${date}T12:00:00Z`).toLocaleDateString(
-                          "sv-SE",
-                          {
-                            weekday: "long",
-                            day: "numeric",
-                            month: "long",
-                            timeZone: "UTC",
-                          },
-                        )}
-                      </span>
-                      <strong>
-                        {draft.mealDays.includes(date)
-                          ? money(group ? mealUnit * guests : mealUnit)
-                          : "–"}
-                      </strong>
-                    </label>
-                  ))}
-                </div>
-              </>
-            )}
             {draft.step === 7 && (
               <>
                 <div className="flow-subhead">
@@ -3354,8 +3252,8 @@ export function BookingFlow({
           </div>
           {group && (
             <small>
-              Lärare är kostnadsfria för aktiviteter. Boende och mat beräknas
-              för hela gruppen.
+              Lärare är kostnadsfria för aktiviteter. Boende beräknas för hela
+              gruppen.
             </small>
           )}
         </aside>

@@ -1989,7 +1989,6 @@ function Day({
       (initialActivity === "ski" ? "2027-02-10" : "2027-07-10"),
   );
   const [lodging, setLodging] = useState(initialDraft?.lodging ?? false);
-  const [meal, setMeal] = useState(initialDraft?.meal ?? false);
   const [extraActivities, setExtraActivities] = useState<ExtraActivityKey[]>(
     initialDraft?.extraActivities ?? [],
   );
@@ -2039,7 +2038,6 @@ function Day({
   const lodgingPrice = lodging
     ? Math.ceil((adults + children) / 4) * 895 * lodgingNights
     : 0;
-  const mealPrice = meal ? (adults * 159 + children * 99) * visitDays : 0;
   const extraPrice = extraActivities.reduce(
     (sum, key) =>
       sum + EXTRA_ACTIVITIES[key].price * (adults + children) * visitDays,
@@ -2059,7 +2057,6 @@ function Day({
             : (adults + children) * 180
           : 0)) +
     lodgingPrice +
-    mealPrice +
     extraPrice;
   useEffect(() => {
     if (cartActive && !confirmed && mode === "new")
@@ -2069,7 +2066,6 @@ function Day({
         date,
         endDate,
         lodging,
-        meal,
         extraActivities,
         slot,
         adults,
@@ -2094,7 +2090,6 @@ function Day({
     date,
     endDate,
     lodging,
-    meal,
     extraActivities,
     slot,
     adults,
@@ -2125,7 +2120,6 @@ function Day({
       setDate(activity === "ski" ? "2027-02-10" : "2027-07-10");
       setEndDate(activity === "ski" ? "2027-02-12" : "2027-07-12");
       setLodging(true);
-      setMeal(true);
       setExtraActivities([activity === "ski" ? "snowshoe" : "canoe"]);
       if (activity === "bike") setSlot("10:00");
       setRental(activity === "bike" || children > 0);
@@ -2182,7 +2176,6 @@ function Day({
       date,
       endDate,
       lodging,
-      meal,
       extraActivities,
       total: price,
       items: [
@@ -2198,9 +2191,6 @@ function Day({
           ? [
               `Boende · ${lodgingNights} nätter · pris från ${SEK(lodgingPrice)}`,
             ]
-          : []),
-        ...(meal
-          ? [`Lunch på värdshuset · ${visitDays} dagar · ${SEK(mealPrice)}`]
           : []),
         ...extraActivities.map(
           (key) =>
@@ -2721,18 +2711,6 @@ function Day({
                         </small>
                       </span>
                     </label>
-                    <label className="checkbox-row">
-                      <input
-                        type="checkbox"
-                        checked={meal}
-                        onChange={(e) => setMeal(e.target.checked)}
-                      />
-                      <span>
-                        <strong>Lunch på värdshuset</strong>
-                        <small>159 kr per vuxen, 99 kr per barn och dag.</small>
-                      </span>
-                      <b>{SEK((adults * 159 + children * 99) * visitDays)}</b>
-                    </label>
                   </div>
                 </div>
               )}
@@ -2868,14 +2846,6 @@ function Day({
                       <strong>
                         {lodging
                           ? `${lodgingNights} nätter · från ${SEK(lodgingPrice)}`
-                          : "Nej"}
-                      </strong>
-                    </div>
-                    <div>
-                      <span>Mat</span>
-                      <strong>
-                        {meal
-                          ? `Lunch på värdshuset · ${SEK(mealPrice)}`
                           : "Nej"}
                       </strong>
                     </div>
@@ -3034,12 +3004,6 @@ function Day({
                   <SummaryLine
                     label={`Boende · ${lodgingNights} nätter · från`}
                     price={lodgingPrice}
-                  />
-                )}
-                {meal && (
-                  <SummaryLine
-                    label={`Lunch · ${visitDays} ${visitDays === 1 ? "dag" : "dagar"}`}
-                    price={mealPrice}
                   />
                 )}
                 {extraActivities.map((key) => (
@@ -5710,6 +5674,13 @@ function CartDrawer({
   onRemove: (id: CartEntry["id"]) => void;
   onBrowse: () => void;
 }) {
+  const hasOldMealPrice = (entry: CartEntry) =>
+    entry.id.startsWith("flow-")
+      ? Boolean(
+          (entry.draft as FlowDraft & { mealDays?: string[] }).mealDays?.length,
+        )
+      : Boolean((entry.draft as DayDraft | StayDraft).meal);
+  const needsPriceRefresh = items.some(hasOldMealPrice);
   return (
     <div className="cart-overlay" onMouseDown={onClose}>
       <aside
@@ -5785,7 +5756,11 @@ function CartDrawer({
                             : draft.adults + draft.children}{" "}
                           personer
                         </span>
-                        <b>{SEK(draft.total)}</b>
+                        <b>
+                          {hasOldMealPrice(entry)
+                            ? "Pris uppdateras när du fortsätter"
+                            : SEK(draft.total)}
+                        </b>
                         <div className="cart-item-actions">
                           <button onClick={() => onContinue(entry)}>
                             Fortsätt boka <ArrowRight size={15} />
@@ -5838,7 +5813,11 @@ function CartDrawer({
                         {date} · {guests}
                         {!day ? ` · ${(draft as StayDraft).nights} nätter` : ""}
                       </span>
-                      <b>{SEK(draft.total)}</b>
+                      <b>
+                        {hasOldMealPrice(entry)
+                          ? "Pris uppdateras när du fortsätter"
+                          : SEK(draft.total)}
+                      </b>
                       <div className="cart-item-actions">
                         <button onClick={() => onContinue(entry)}>
                           Fortsätt boka <ArrowRight size={15} />
@@ -5859,7 +5838,9 @@ function CartDrawer({
               <div>
                 <span>Summa pågående bokningar</span>
                 <strong>
-                  {SEK(items.reduce((sum, item) => sum + item.draft.total, 0))}
+                  {needsPriceRefresh
+                    ? "Uppdateras när du fortsätter"
+                    : SEK(items.reduce((sum, item) => sum + item.draft.total, 0))}
                 </strong>
               </div>
               <p>
