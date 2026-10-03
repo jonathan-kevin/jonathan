@@ -681,6 +681,7 @@ export function BookingFlow({
     };
   });
   const mainIsCabin = draft.entry === "stay";
+  const extraPassStep = ["rental", "school", "activity"].includes(draft.entry);
   const stageLabels = [
     "Period & sällskap",
     "Deltagare",
@@ -701,19 +702,21 @@ export function BookingFlow({
       ? draft.season === "winter"
         ? "SkiPass"
         : "Cykelpass"
-      : ["rental", "school", "activity"].includes(draft.entry)
-        ? `Boende & ${draft.season === "winter" ? "SkiPass" : "cykelpass"}`
-        : "Boende",
+      : "Boende",
     "Aktiviteter",
     draft.season === "winter" ? "Skidskola" : "Cykelskola",
     "Mat",
     "Uppgifter",
     "Granska",
     "Betala",
+    draft.season === "winter" ? "SkiPass" : "Cykelpass",
   ];
-  const visibleSteps = stageLabels
-    .map((_, index) => index)
-    .filter(
+  // Keep saved step IDs stable while placing the optional pass after lodging.
+  const visibleSteps = [
+    0, 1, 2, 3,
+    ...(extraPassStep ? [10] : []),
+    4, 5, 6, 7, 8, 9,
+  ].filter(
       (index) =>
         !(draft.entry === "activity" && index === 4) &&
         !(draft.entry === "school" && index === 5),
@@ -1446,11 +1449,9 @@ export function BookingFlow({
       else setPass(draft.season === "winter" ? "full" : "bike");
     } else if (draft.step === 3) {
       if (mainIsCabin) setPass(draft.season === "winter" ? "full" : "bike");
-      else {
-        setCabin("forest");
-        if (["rental", "school", "activity"].includes(draft.entry))
-          setPass(draft.season === "winter" ? "full" : "bike");
-      }
+      else setCabin("forest");
+    } else if (draft.step === 10) {
+      setPass(draft.season === "winter" ? "full" : "bike");
     } else if (draft.step === 4) {
       const id: ActivityId = draft.season === "winter" ? "snowshoe" : "canoe";
       const selected = [...new Set([...draft.activities, id])];
@@ -2745,25 +2746,22 @@ export function BookingFlow({
                 <p className="flow-muted">
                   {mainIsCabin
                     ? "Vill du lägga till ett pass för vistelsen? Du kan också fortsätta utan pass."
-                    : ["rental", "school", "activity"].includes(draft.entry)
-                      ? "Komplettera med boende och pass om du vill. Båda är valfria."
-                      : "Vill du lägga till boende för vistelsen? Du kan också fortsätta utan boende."}
+                    : "Vill du lägga till boende för vistelsen? Du kan också fortsätta utan boende."}
                 </p>
                 {mainIsCabin ? (
                   passCards(true)
                 ) : (
-                  <>
-                    {cabinCards(true)}
-                    {["rental", "school", "activity"].includes(draft.entry) && (
-                      <>
-                        <h3>
-                          {draft.season === "winter" ? "SkiPass" : "Cykelpass"}
-                        </h3>
-                        {passCards(true)}
-                      </>
-                    )}
-                  </>
+                  cabinCards(true)
                 )}
+              </>
+            )}
+            {draft.step === 10 && (
+              <>
+                <p className="flow-muted">
+                  Vill du lägga till {draft.season === "winter" ? "SkiPass" : "cykelpass"}?
+                  Du kan också fortsätta utan pass.
+                </p>
+                {passCards(true)}
               </>
             )}
             {draft.step === 4 && (
