@@ -4092,13 +4092,13 @@ footer {
   margin-top: 12px;
 }
 .flow-party {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 15px;
   margin-top: 23px;
 }
 .flow-party > div {
-  min-width: 185px;
+  min-width: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -4120,6 +4120,12 @@ footer {
   gap: 13px;
   font-weight: 750;
 }
+.flow-party > label {
+  min-width: 0;
+}
+.flow-party > label:first-of-type {
+  grid-column: 1;
+}
 .flow-party-count {
   display: inline-block;
   min-width: 2ch;
@@ -4136,6 +4142,12 @@ footer {
   color: #245f49;
 }
 @media (max-width: 720px) {
+  .flow-party {
+    grid-template-columns: 1fr;
+  }
+  .flow-party > label:first-of-type {
+    grid-column: auto;
+  }
   .flow-party > div,
   .flow-party > label {
     width: 100%;
