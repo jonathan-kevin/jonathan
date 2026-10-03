@@ -4230,6 +4230,13 @@ footer {
   border-color: #2b7550;
   box-shadow: 0 0 0 1px #2b7550;
 }
+.flow-option > .flow-option-check {
+  flex: 0 0 19px;
+  visibility: hidden;
+}
+.flow-option.selected > .flow-option-check {
+  visibility: visible;
+}
 .flow-option > span:nth-child(2),
 .flow-option > span:first-child:not(.flow-option-icon):not(.flow-payment-icon) {
   flex: 1;
@@ -4658,6 +4665,15 @@ footer {
   }
   .flow-option {
     flex-wrap: wrap;
+  }
+  .flow-option:not(.flow-lodging-card) {
+    position: relative;
+    padding-right: 44px;
+  }
+  .flow-option > .flow-option-check {
+    position: absolute;
+    top: 14px;
+    right: 14px;
   }
   .flow-option-price {
     margin-left: auto;

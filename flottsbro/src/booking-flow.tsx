@@ -1613,7 +1613,7 @@ export function BookingFlow({
             <strong>Inget boende</strong>
             <small>Jag ordnar boende själv eller kommer över dagen.</small>
           </span>
-          {draft.cabin === "none" && <Check size={19} />}
+          <Check size={19} className="flow-option-check" aria-hidden="true" />
         </button>
       )}
       {(
@@ -1741,7 +1741,7 @@ export function BookingFlow({
             <strong>Inget pass</strong>
             <small>Jag vill bara boka boende eller andra aktiviteter.</small>
           </span>
-          {draft.pass === "none" && <Check size={19} />}
+          <Check size={19} className="flow-option-check" aria-hidden="true" />
         </button>
       )}
       {(draft.season === "winter"
@@ -1777,7 +1777,7 @@ export function BookingFlow({
             <small>från / vuxen / dag</small>
             <small>{Math.min(...dates.map((date) => passUnitsLeft(bookings, draft.season, date, draft.editBookingId ?? draft.draftBookingId)))} platser kvar per dag som minst</small>
           </span>
-          {draft.pass === pass && <Check size={19} />}
+          <Check size={19} className="flow-option-check" aria-hidden="true" />
         </button>
       ))}
     </div>
@@ -1977,9 +1977,7 @@ export function BookingFlow({
               </strong>
               <small>Fortsätt utan lektion.</small>
             </span>
-            {(!draft.schoolLesson || draft.schoolLesson === "none") && (
-              <Check size={19} />
-            )}
+            <Check size={19} className="flow-option-check" aria-hidden="true" />
           </button>
         )}
         {(["group", "private"] as SchoolLesson[]).map((lesson) => (
@@ -2017,7 +2015,7 @@ export function BookingFlow({
               <strong>{money(lesson === "group" ? 495 : 895)}</strong>
               <small>per person / pass</small>
             </span>
-            {draft.schoolLesson === lesson && <Check size={19} />}
+            <Check size={19} className="flow-option-check" aria-hidden="true" />
           </button>
         ))}
       </div>
@@ -2067,7 +2065,7 @@ export function BookingFlow({
                 <strong>{money(activities[id].price)}</strong>
                 <small>per person / pass</small>
               </span>
-              {draft.activities.includes(id) && <Check size={19} />}
+              <Check size={19} className="flow-option-check" aria-hidden="true" />
             </button>
           ))}
       </div>
