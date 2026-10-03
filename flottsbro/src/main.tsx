@@ -16,6 +16,7 @@ import {
   type FlowEntry,
   type FlowSeason,
 } from "./booking-flow";
+import { installPublicTranslation } from "./locale";
 import {
   Activity,
   ArrowLeft,
@@ -29,6 +30,7 @@ import {
   CreditCard,
   Download,
   FileText,
+  Globe2,
   Home,
   Info,
   LayoutDashboard,
@@ -5890,6 +5892,15 @@ function AuthPage({
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const fillExampleAccount = () => {
+    setEmail("anna.lind@example.com");
+    setPassword("demo1234");
+    if (view === "signup") {
+      setName("Anna Lind");
+      setConfirmPassword("demo1234");
+    }
+    setError("");
+  };
   useEffect(() => {
     setPassword("");
     setConfirmPassword("");
@@ -5932,6 +5943,9 @@ function AuthPage({
   };
   return (
     <div className="auth-page">
+      {(view === "login" || view === "signup") && (
+        <AutoFillButton onClick={fillExampleAccount} />
+      )}
       <button type="button" className="auth-back" onClick={onBack}>
         <ArrowLeft size={17} /> Tillbaka
       </button>
@@ -6094,6 +6108,9 @@ function AuthPage({
   );
 }
 function App() {
+  const [language, setLanguage] = useState<"sv" | "en">(() =>
+    localStorage.getItem("flottsbro-language") === "en" ? "en" : "sv",
+  );
   const [page, setPage] = useState<Page>("overview");
   const [dayMode, setDayMode] = useState<"new" | "return">("new");
   const [season, setSeason] = useState<Season>("winter");
@@ -6111,6 +6128,11 @@ function App() {
   const [signedInEmail, setSignedInEmail] = useState<string | null>(null);
   const [signedInName, setSignedInName] = useState<string | null>(null);
   const [shouldPersist, setShouldPersist] = useState(false);
+  useEffect(() => {
+    localStorage.setItem("flottsbro-language", language);
+    document.documentElement.lang = language;
+  }, [language]);
+  useEffect(() => installPublicTranslation(language), [language, page]);
   useEffect(() => {
     if (shouldPersist)
       localStorage.setItem(STORAGE_KEY, JSON.stringify(bookings));
@@ -6370,6 +6392,7 @@ function App() {
               key={`${entry}-${season}-${dayEpoch}-${stayEpoch}-${searchEpoch}`}
               entry={entry}
               season={season}
+              language={language}
               initial={initial}
               onDraft={onFlowDraftChange}
               onComplete={onBook}
@@ -6467,7 +6490,20 @@ function App() {
       ) : (
         <>
           <div className="store-announcement">
-            Upplevelser nära Stockholm · Boka enkelt online
+            <span>Upplevelser nära Stockholm · Boka enkelt online</span>
+            <label className="store-language store-language-compact" data-no-translate>
+              <Globe2 size={15} aria-hidden="true" />
+              <span>{language === "sv" ? "SV / EN" : "EN / SV"}</span>
+              <select
+                aria-label="Språk / Language"
+                value={language}
+                onChange={(event) => setLanguage(event.target.value as "sv" | "en")}
+              >
+                <option value="sv">SV</option>
+                <option value="en">English</option>
+              </select>
+              <ChevronDown size={12} aria-hidden="true" />
+            </label>
           </div>
           <header className="store-header">
             <button className="store-brand" onClick={() => go("overview")}>
@@ -6506,7 +6542,33 @@ function App() {
               <button className="store-staff-link" onClick={() => go("admin")}>
                 För personal <ArrowRight size={14} />
               </button>
+              <label className="store-language store-language-menu" data-no-translate>
+                <Globe2 size={17} aria-hidden="true" />
+                <span>Språk / Language</span>
+                <select
+                  aria-label="Språk / Language i menyn"
+                  value={language}
+                  onChange={(event) => setLanguage(event.target.value as "sv" | "en")}
+                >
+                  <option value="sv">Svenska</option>
+                  <option value="en">English</option>
+                </select>
+                <ChevronDown size={14} aria-hidden="true" />
+              </label>
             </nav>
+            <label className="store-language" data-no-translate>
+              <Globe2 size={17} aria-hidden="true" />
+              <span>{language === "en" ? "Language" : "Språk"}</span>
+              <select
+                aria-label="Språk / Language"
+                value={language}
+                onChange={(event) => setLanguage(event.target.value as "sv" | "en")}
+              >
+                <option value="sv">Svenska</option>
+                <option value="en">English</option>
+              </select>
+              <ChevronDown size={14} aria-hidden="true" />
+            </label>
             <button
               type="button"
               className={`store-account-button${page === "auth" ? " active" : ""}`}

@@ -261,8 +261,8 @@ const sessionTimes = (offering: string, lesson?: SchoolLesson) =>
     : ["10:00", "14:00"];
 const sessionCapacity = (offering: string, lesson?: SchoolLesson) =>
   offering === "school" ? (lesson === "private" ? 1 : 8) : 12;
-const dateText = (date: string) =>
-  new Date(`${date}T12:00:00Z`).toLocaleDateString("sv-SE", {
+const dateText = (date: string, language: "sv" | "en") =>
+  new Date(`${date}T12:00:00Z`).toLocaleDateString(language === "en" ? "en-GB" : "sv-SE", {
     weekday: "short",
     day: "numeric",
     month: "short",
@@ -347,10 +347,12 @@ function DatePicker({
   start,
   end,
   onChange,
+  language,
 }: {
   start: string;
   end: string;
   onChange: (from: string, to: string) => void;
+  language: "sv" | "en";
 }) {
   const [month, setMonth] = useState(start.slice(0, 7));
   const [ending, setEnding] = useState(false);
@@ -366,7 +368,7 @@ function DatePicker({
     (_, i) => i - before + 1,
   );
   const dateLabel = (value: string) =>
-    new Date(`${value}T12:00:00Z`).toLocaleDateString("sv-SE", {
+    new Date(`${value}T12:00:00Z`).toLocaleDateString(language === "en" ? "en-GB" : "sv-SE", {
       day: "numeric",
       month: "short",
       year: "numeric",
@@ -417,7 +419,7 @@ function DatePicker({
           <ArrowLeft size={16} />
         </button>
         <strong>
-          {first.toLocaleDateString("sv-SE", {
+          {first.toLocaleDateString(language === "en" ? "en-GB" : "sv-SE", {
             month: "long",
             year: "numeric",
             timeZone: "UTC",
@@ -428,7 +430,9 @@ function DatePicker({
         </button>
       </div>
       <div className="flow-days">
-        {["Må", "Ti", "On", "To", "Fr", "Lö", "Sö"].map((day) => (
+        {(language === "en"
+          ? ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
+          : ["Må", "Ti", "On", "To", "Fr", "Lö", "Sö"]).map((day) => (
           <span key={day}>{day}</span>
         ))}
         {cells.map((day, i) =>
@@ -472,6 +476,7 @@ function DatePicker({
 export function BookingFlow({
   entry,
   season,
+  language,
   initial,
   onDraft,
   onComplete,
@@ -482,6 +487,7 @@ export function BookingFlow({
 }: {
   entry: FlowEntry;
   season: FlowSeason;
+  language: "sv" | "en";
   initial?: FlowDraft;
   onDraft: (draft: FlowDraft) => void;
   onComplete: (booking: FlowBooking) => void;
@@ -527,6 +533,14 @@ export function BookingFlow({
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [done, setDone] = useState(false);
+  // Test card fields stay in component state and are never saved with the draft.
+  const [testCard, setTestCard] = useState({
+    holder: "",
+    number: "",
+    expiry: "",
+    cvc: "",
+  });
+  const [mockApproval, setMockApproval] = useState(false);
   const [visibleParticipants, setVisibleParticipants] = useState(12);
   const [participantSearch, setParticipantSearch] = useState("");
   const [missingOnly, setMissingOnly] = useState(false);
@@ -702,6 +716,7 @@ export function BookingFlow({
     8: "Granska",
     9: "Betala",
     10: draft.season === "winter" ? "SkiPass" : "Cykelpass",
+    11: "Bekräfta",
   };
   // Keep saved step IDs stable while placing the optional pass after lodging.
   const visibleSteps = [
@@ -715,6 +730,7 @@ export function BookingFlow({
     7,
     8,
     9,
+    11,
   ].filter(
     (index) =>
       !(draft.entry === "activity" && index === 4) &&
@@ -826,7 +842,7 @@ export function BookingFlow({
         ? "Faktura väntar"
         : draft.payment === "invoice"
           ? "Fakturaunderlag skapat"
-          : `Betalsätt valt · ${{ swish: "Swish", card: "kort", applepay: "Apple Pay", googlepay: "Google Pay", klarna: "Klarna", invoice: "faktura" }[draft.payment ?? "card"]}`,
+          : `Simulerad betalning · ${{ swish: "Swish", card: "kort", applepay: "Apple Pay", googlepay: "Google Pay", klarna: "Klarna", invoice: "faktura" }[draft.payment ?? "card"]}`,
     name: group ? draft.org : draft.name,
     email: draft.email,
     contact: draft.contact,
@@ -1050,6 +1066,26 @@ export function BookingFlow({
         setError(
           "Ange fakturaadress för e-post och organisationsnummer under Uppgifter.",
         );
+        return;
+      }
+    }
+    if (draft.step === 11) {
+      if (!draft.payment) {
+        setError("Välj ett betalningssätt innan du slutför bokningen.");
+        return;
+      }
+      if (draft.payment === "card") {
+        if (
+          !testCard.holder.trim() ||
+          testCard.number.replace(/\D/g, "") !== "4242424242424242" ||
+          testCard.expiry.trim() !== "12/29" ||
+          testCard.cvc.trim() !== "123"
+        ) {
+          setError("Använd testkortet 4242 4242 4242 4242, 12/29 och 123.");
+          return;
+        }
+      } else if (!mockApproval) {
+        setError("Bekräfta den simulerade signeringen för att slutföra.");
         return;
       }
       const final = booking("Bekräftad", draft.draftBookingId);
@@ -1466,6 +1502,16 @@ export function BookingFlow({
     else if (draft.step === 7) fillExampleContact();
     else if (draft.step === 8) update({ terms: true });
     else if (draft.step === 9) update({ payment: group ? "invoice" : "card" });
+    else if (draft.step === 11) {
+      if (draft.payment === "card")
+        setTestCard({
+          holder: draft.name || "Anna Lind",
+          number: "4242 4242 4242 4242",
+          expiry: "12/29",
+          cvc: "123",
+        });
+      else setMockApproval(true);
+    }
     setError("");
   };
   const showCabinImage = (id: Exclude<CabinId, "none">, index: number) => {
@@ -1714,7 +1760,7 @@ export function BookingFlow({
               open={dayIndex === 0}
             >
               <summary>
-                <strong>{dateText(date)}</strong>
+                <strong>{dateText(date, language)}</strong>
                 <span className="flow-session-summary-right">
                   <span className="flow-session-count-full">
                     {assignedCount} av {guests} deltagare bokade
@@ -1787,7 +1833,7 @@ export function BookingFlow({
                           )}
                       </span>
                       <select
-                        aria-label={`${participantLabel(index)}, ${dateText(date)}`}
+                         aria-label={`${participantLabel(index)}, ${dateText(date, language)}`}
                         value={
                           times.includes(assignments[index])
                             ? assignments[index]
@@ -2069,6 +2115,7 @@ export function BookingFlow({
                   start={draft.start}
                   end={draft.end}
                   onChange={setPeriod}
+                  language={language}
                 />
                 {group ? (
                   <div className="flow-fields">
@@ -3014,7 +3061,7 @@ export function BookingFlow({
                         {sessionRows.map((row) => (
                           <p key={row.key}>
                             <strong>
-                              {row.label} · {dateText(row.date)} kl {row.time}
+                              {row.label} · {dateText(row.date, language)} kl {row.time}
                             </strong>
                             <small>{row.people.join(", ")}</small>
                           </p>
@@ -3061,9 +3108,13 @@ export function BookingFlow({
             {draft.step === 9 && (
               <>
                 <p className="flow-muted">
-                  Välj hur du vill{" "}
-                  {group ? "slutföra gruppbokningen" : "betala"}. Inga pengar
-                  dras i det här flödet.
+                  {language === "en"
+                    ? group
+                      ? "Choose how to complete the group booking. No money is charged in this flow."
+                      : "Choose how to pay. No money is charged in this flow."
+                    : group
+                      ? "Välj hur du vill slutföra gruppbokningen. Inga pengar dras i det här flödet."
+                      : "Välj hur du vill betala. Inga pengar dras i det här flödet."}
                 </p>
                 <fieldset
                   className="flow-payment-list"
@@ -3088,7 +3139,10 @@ export function BookingFlow({
                         name="payment-method"
                         value={method}
                         checked={draft.payment === method}
-                        onChange={() => update({ payment: method })}
+                        onChange={() => {
+                          update({ payment: method });
+                          setMockApproval(false);
+                        }}
                       />
                       <span className="flow-payment-label">
                         {
@@ -3162,6 +3216,128 @@ export function BookingFlow({
                 </fieldset>
               </>
             )}
+            {draft.step === 11 && (
+              <div className="flow-verification">
+                <div className="flow-verification-heading">
+                  <span className="eyebrow">SIMULERAD BETALNING</span>
+                  <h3>
+                    {draft.payment === "card"
+                      ? "Ange testkort"
+                      : draft.payment === "invoice"
+                        ? "Signera fakturaunderlaget"
+                        : "Godkänn betalningen"}
+                  </h3>
+                  <p>
+                    Detta är ett demomoment. Inga pengar dras och ingen extern
+                    betaltjänst kontaktas.
+                  </p>
+                </div>
+                <div className="flow-verification-total">
+                  <span>
+                    {draft.payment === "invoice"
+                      ? "Fakturaunderlag för"
+                      : "Att betala"}
+                  </span>
+                  <strong>{money(total)}</strong>
+                </div>
+                {draft.payment === "card" ? (
+                  <>
+                    <p className="flow-test-card-hint">
+                      Använd endast testkortet: <strong>4242 4242 4242 4242</strong>
+                      {" · "}giltigt till <strong>12/29</strong>{" · "}CVC <strong>123</strong>.
+                    </p>
+                    <div className="flow-fields flow-verification-fields">
+                      <label className="flow-verification-wide">
+                        Namn på kortet
+                        <input
+                          type="text"
+                          autoComplete="off"
+                          value={testCard.holder}
+                          onChange={(event) =>
+                            setTestCard({ ...testCard, holder: event.target.value })
+                          }
+                        />
+                      </label>
+                      <label className="flow-verification-wide">
+                        Testkortsnummer
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          autoComplete="off"
+                          maxLength={19}
+                          placeholder="4242 4242 4242 4242"
+                          value={testCard.number}
+                          onChange={(event) =>
+                            setTestCard({ ...testCard, number: event.target.value })
+                          }
+                        />
+                      </label>
+                      <label>
+                        Giltigt till
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          autoComplete="off"
+                          maxLength={5}
+                          placeholder="12/29"
+                          value={testCard.expiry}
+                          onChange={(event) =>
+                            setTestCard({ ...testCard, expiry: event.target.value })
+                          }
+                        />
+                      </label>
+                      <label>
+                        CVC
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          autoComplete="off"
+                          maxLength={3}
+                          placeholder="123"
+                          value={testCard.cvc}
+                          onChange={(event) =>
+                            setTestCard({ ...testCard, cvc: event.target.value })
+                          }
+                        />
+                      </label>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flow-mock-signature">
+                    <div className="flow-mock-signature-icon">
+                      <Check size={24} />
+                    </div>
+                    <div>
+                      <strong>
+                        {draft.payment === "invoice"
+                          ? "Godkänn som kontaktperson"
+                          : draft.payment === "swish"
+                            ? "Simulera signering med BankID"
+                            : draft.payment === "klarna"
+                              ? "Simulera godkännande hos Klarna"
+                              : draft.payment === "applepay"
+                                ? "Simulera godkännande med Apple Pay"
+                                : "Simulera godkännande med Google Pay"}
+                      </strong>
+                      <p>
+                        {draft.name || draft.contact.contactPerson || "Kontaktpersonen"}
+                        {draft.payment === "invoice" && draft.org
+                          ? ` · ${draft.org}`
+                          : ""}
+                      </p>
+                    </div>
+                    <label className="flow-mock-approval">
+                      <input
+                        type="checkbox"
+                        checked={mockApproval}
+                        onChange={(event) => setMockApproval(event.target.checked)}
+                      />
+                      Jag godkänner den simulerade signeringen.
+                    </label>
+                  </div>
+                )}
+              </div>
+            )}
             {error && (
               <div role="alert" className="flow-error">
                 {error}
@@ -3210,10 +3386,14 @@ export function BookingFlow({
                 </button>
               )}
               <button type="button" className="flow-primary" onClick={next}>
-                {draft.step === 9
+                {draft.step === 11
                   ? group && draft.payment === "invoice"
-                    ? "Slutför & skapa fakturaunderlag"
-                    : "Bekräfta bokning"
+                    ? "Signera & skapa fakturaunderlag"
+                    : draft.payment === "card"
+                      ? "Simulera kortbetalning"
+                      : "Simulera signering & slutför"
+                  : draft.step === 9
+                    ? "Fortsätt till bekräftelse"
                   : draft.step === 8
                     ? "Godkänn och välj betalning"
                     : "Fortsätt"}
