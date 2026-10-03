@@ -2467,8 +2467,8 @@ export function BookingFlow({
                             <th scope="col">Namn</th>
                             <th scope="col">Roll</th>
                             <th scope="col">Födelsedatum</th>
-                            <th scope="col">Aktivitet</th>
                             <th scope="col">Låna</th>
+                            <th scope="col">Aktivitet</th>
                             <th scope="col">Skostorlek</th>
                             <th scope="col">Längd (cm)</th>
                             <th scope="col">Vikt (kg)</th>
@@ -2533,6 +2533,20 @@ export function BookingFlow({
                                     aria-label={`Födelsedatum för deltagare ${index + 1}`}
                                   />
                                 </td>
+                                <td className="flow-people-loan-cell">
+                                  <input
+                                    type="checkbox"
+                                    checked={person.equipment === "borrow"}
+                                    onChange={(event) =>
+                                      participantChange(index, {
+                                        equipment: event.target.checked
+                                          ? "borrow"
+                                          : "own",
+                                      })
+                                    }
+                                    aria-label={`Låna utrustning för ${person.name || `deltagare ${index + 1}`}`}
+                                  />
+                                </td>
                                 <td>
                                   {person.equipment === "borrow" ? (
                                     <select
@@ -2560,20 +2574,6 @@ export function BookingFlow({
                                   ) : (
                                     <span className="flow-people-na">–</span>
                                   )}
-                                </td>
-                                <td className="flow-people-loan-cell">
-                                  <input
-                                    type="checkbox"
-                                    checked={person.equipment === "borrow"}
-                                    onChange={(event) =>
-                                      participantChange(index, {
-                                        equipment: event.target.checked
-                                          ? "borrow"
-                                          : "own",
-                                      })
-                                    }
-                                    aria-label={`Låna utrustning för ${person.name || `deltagare ${index + 1}`}`}
-                                  />
                                 </td>
                                 {(["shoe", "height", "weight"] as const).map(
                                   (field) => (
