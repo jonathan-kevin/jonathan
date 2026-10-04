@@ -555,6 +555,7 @@ const draftForBooking = (booking: Booking, edit: boolean): FlowDraft => {
     email: booking.email,
     contact: { ...emptyContact(), ...booking.contact },
     checkoutMode: "login",
+    rebookQuick: false,
     payment: null,
     terms: false,
   };
@@ -6628,16 +6629,27 @@ function App() {
   const editBooking = (booking: Booking) => launchFlow(draftForBooking(booking, true));
   const rebookBooking = (booking: Booking) => {
     const draft = draftForBooking(booking, false);
-    draft.start = dateOffset(draft.start, 7);
-    draft.end = dateOffset(draft.end, 7);
+    const nextStart = dateOffset(draft.start, 7) < dateOffset(today(), 1)
+      ? dateOffset(today(), 7)
+      : dateOffset(draft.start, 7);
+    const dayShift = dateSpan(draft.start, nextStart);
+    draft.start = nextStart;
+    draft.end = dateOffset(draft.end, dayShift);
     draft.sessionAssignments = Object.fromEntries(
       Object.entries(draft.sessionAssignments ?? {}).map(([key, people]) => [
-        `${key.slice(0, -10)}${dateOffset(key.slice(-10), 7)}`,
+        `${key.slice(0, -10)}${dateOffset(key.slice(-10), dayShift)}`,
         people,
       ]),
     );
-    draft.step = 8;
+    draft.childAges = draft.childBirthDates.map((date, index) =>
+      date
+        ? Number(nextStart.slice(0, 4)) - Number(date.slice(0, 4)) -
+          (nextStart.slice(5) < date.slice(5) ? 1 : 0)
+        : draft.childAges[index] ?? null,
+    );
+    draft.step = booking.kind === "group" ? 0 : 8;
     draft.rebookOf = booking.id;
+    draft.rebookQuick = booking.kind !== "group";
     launchFlow(draft);
   };
   const cancelBooking = (booking: Booking) => onUpdate(booking.id, (current) => ({

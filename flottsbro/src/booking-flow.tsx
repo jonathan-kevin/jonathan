@@ -125,6 +125,7 @@ export type FlowDraft = {
   editBookingId?: string;
   editOriginalTotal?: number;
   rebookOf?: string;
+  rebookQuick?: boolean;
   total: number;
 };
 type FlowBooking = {
@@ -249,6 +250,107 @@ const activities: Record<
     detail: "Upptäck Flottsbros stigar med guide",
   },
 };
+type FactText = { sv: string; en: string };
+type ProductFactsData = {
+  audience: FactText;
+  prerequisites: FactText;
+  included: FactText;
+  equipment: FactText;
+};
+const activityGuidance: Record<ActivityId, ProductFactsData> = {
+  snowshoe: {
+    audience: { sv: "Från 8 år", en: "Ages 8 and up" },
+    prerequisites: { sv: "Ingen tidigare erfarenhet behövs", en: "No previous experience needed" },
+    included: { sv: "Guide och snöskor", en: "Guide and snowshoes" },
+    equipment: { sv: "Varma kläder och vinterskor", en: "Warm clothes and winter boots" },
+  },
+  sledding: {
+    audience: { sv: "Barn och vuxna", en: "Children and adults" },
+    prerequisites: { sv: "Inga förkunskaper", en: "No previous experience needed" },
+    included: { sv: "Pulka och ledare", en: "Sled and activity leader" },
+    equipment: { sv: "Varma kläder och vinterskor", en: "Warm clothes and winter boots" },
+  },
+  canoe: {
+    audience: { sv: "Från 8 år", en: "Ages 8 and up" },
+    prerequisites: { sv: "Genomgång ges på plats", en: "Instructions are given on site" },
+    included: { sv: "Kanot och flytväst", en: "Canoe and life jacket" },
+    equipment: { sv: "Kläder som tål vatten", en: "Clothes suitable for the water" },
+  },
+  climbing: {
+    audience: { sv: "Barn och vuxna", en: "Children and adults" },
+    prerequisites: { sv: "Säkerhetsgenomgång ges på plats", en: "Safety briefing is given on site" },
+    included: { sv: "Bana och säkerhetsutrustning", en: "Course and safety equipment" },
+    equipment: { sv: "Bekväma kläder och stadiga skor", en: "Comfortable clothes and sturdy shoes" },
+  },
+  winterNature: {
+    audience: { sv: "Från 6 år", en: "Ages 6 and up" },
+    prerequisites: { sv: "Inga förkunskaper", en: "No previous experience needed" },
+    included: { sv: "Naturguide och varm dryck", en: "Nature guide and warm drink" },
+    equipment: { sv: "Varma kläder och vinterskor", en: "Warm clothes and winter boots" },
+  },
+  winterGames: {
+    audience: { sv: "Alla åldrar", en: "All ages" },
+    prerequisites: { sv: "Inga förkunskaper", en: "No previous experience needed" },
+    included: { sv: "Ledda lekar utomhus", en: "Guided outdoor games" },
+    equipment: { sv: "Varma kläder och vinterskor", en: "Warm clothes and winter boots" },
+  },
+  orienteering: {
+    audience: { sv: "Barn och vuxna", en: "Children and adults" },
+    prerequisites: { sv: "Banor finns för olika nivåer", en: "Courses are available for different levels" },
+    included: { sv: "Karta och markerade banor", en: "Map and marked courses" },
+    equipment: { sv: "Bekväma kläder och stadiga skor", en: "Comfortable clothes and sturdy shoes" },
+  },
+  natureWalk: {
+    audience: { sv: "Barn och vuxna", en: "Children and adults" },
+    prerequisites: { sv: "Inga förkunskaper", en: "No previous experience needed" },
+    included: { sv: "Guidad vandring", en: "Guided walk" },
+    equipment: { sv: "Kläder efter väder och stadiga skor", en: "Weather-appropriate clothes and sturdy shoes" },
+  },
+};
+const passGuidance: Record<"full" | "three" | "bike", ProductFactsData> = {
+  full: {
+    audience: { sv: "Vuxna och barn som vill åka skidor eller snowboard", en: "Adults and children who want to ski or snowboard" },
+    prerequisites: { sv: "Välj backe efter din nivå; nybörjare kan boka skidskola", en: "Choose a slope for your level; beginners can book ski school" },
+    included: { sv: "Lift och backar under hela dagen", en: "Lifts and slopes for the full day" },
+    equipment: { sv: "Skidor eller snowboard, pjäxor och hjälm behövs; hyra väljs separat", en: "Skis or snowboard, boots and helmet are needed; rental is chosen separately" },
+  },
+  three: {
+    audience: { sv: "Vuxna och barn som vill åka en kortare stund", en: "Adults and children planning a shorter visit" },
+    prerequisites: { sv: "Välj backe efter din nivå; nybörjare kan boka skidskola", en: "Choose a slope for your level; beginners can book ski school" },
+    included: { sv: "Lift och backar i tre timmar", en: "Lifts and slopes for three hours" },
+    equipment: { sv: "Skidor eller snowboard, pjäxor och hjälm behövs; hyra väljs separat", en: "Skis or snowboard, boots and helmet are needed; rental is chosen separately" },
+  },
+  bike: {
+    audience: { sv: "Vuxna och barn som vill cykla på lederna", en: "Adults and children who want to ride the trails" },
+    prerequisites: { sv: "Du behöver kunna cykla på led", en: "You need to be able to ride on a trail" },
+    included: { sv: "Lift och cykelleder under dagen", en: "Lift and bike trails for the day" },
+    equipment: { sv: "Cykel och hjälm behövs; hyra väljs separat", en: "Bike and helmet are needed; rental is chosen separately" },
+  },
+};
+const schoolGuidance = (season: FlowSeason, lesson: "group" | "private"): ProductFactsData => ({
+  audience: season === "winter"
+    ? { sv: "Nybörjare och de som vill utveckla sin skidåkning", en: "Beginners and skiers who want to improve" }
+    : { sv: "Nybörjare och de som vill utveckla sin cykling", en: "Beginners and riders who want to improve" },
+  prerequisites: { sv: "Ingen erfarenhet krävs för nybörjarnivån", en: "No experience needed for the beginner level" },
+  included: lesson === "group"
+    ? { sv: "90 minuter med instruktör i liten grupp", en: "90 minutes with an instructor in a small group" }
+    : { sv: "60 minuter med egen instruktör", en: "60 minutes with a private instructor" },
+  equipment: season === "winter"
+    ? { sv: "Skidor eller snowboard, pjäxor och hjälm behövs; hyra väljs separat", en: "Skis or snowboard, boots and helmet are needed; rental is chosen separately" }
+    : { sv: "Cykel och hjälm behövs; hyra väljs separat", en: "Bike and helmet are needed; rental is chosen separately" },
+});
+function ProductFacts({ info, language }: { info: ProductFactsData; language: "sv" | "en" }) {
+  const labels = language === "en"
+    ? { audience: "Who it's for", prerequisites: "Experience", included: "Included", equipment: "Equipment" }
+    : { audience: "För vem", prerequisites: "Förkunskaper", included: "Ingår", equipment: "Utrustning" };
+  return (
+    <span className="flow-product-facts">
+      {(["audience", "prerequisites", "included", "equipment"] as const).map((key) => (
+        <span key={key}><b>{labels[key]}</b>{info[key][language]}</span>
+      ))}
+    </span>
+  );
+}
 const activityIds = Object.keys(activities) as ActivityId[];
 const money = (value: number) =>
   new Intl.NumberFormat("sv-SE", {
@@ -593,6 +695,7 @@ export function BookingFlow({
     setError("");
   };
   const group = draft.entry === "group";
+  const quickRebook = Boolean(draft.rebookQuick && !group);
   const guests = group ? draft.groupCount : draft.adults + draft.children;
   const teachers = draft.participants
     .slice(0, draft.groupCount)
@@ -776,7 +879,7 @@ export function BookingFlow({
     11: "Bekräfta",
   };
   // Keep saved step IDs stable while placing the optional pass after lodging.
-  const visibleSteps = [
+  const standardSteps = [
     0,
     1,
     2,
@@ -793,6 +896,7 @@ export function BookingFlow({
       !(draft.entry === "activity" && index === 4) &&
       !(draft.entry === "school" && index === 5),
   );
+  const visibleSteps = quickRebook ? [8, 9, 11] : standardSteps;
   const stepPosition = visibleSteps.indexOf(draft.step);
   const followingStep = visibleSteps[stepPosition + 1] ?? draft.step;
   const previousStep = visibleSteps[stepPosition - 1] ?? 0;
@@ -861,6 +965,23 @@ export function BookingFlow({
           )
         : draft.childAges,
     });
+  const shiftRebookStart = (start: string) => {
+    const dayShift = dateDiff(draft.start, start);
+    const end = offsetDate(draft.end, dayShift);
+    update({
+      start,
+      end,
+      sessionAssignments: Object.fromEntries(
+        Object.entries(draft.sessionAssignments ?? {}).map(([key, people]) => [
+          `${key.slice(0, -10)}${offsetDate(key.slice(-10), dayShift)}`,
+          people,
+        ]),
+      ),
+      childAges: draft.childBirthDates.map((date, index) =>
+        date ? ageOnDate(date, start) : draft.childAges[index] ?? null,
+      ),
+    });
+  };
   const previousBookingDraft = draft.editBookingId
     ? bookings.find((item) => item.id === draft.editBookingId)?.flowSnapshot
     : undefined;
@@ -915,7 +1036,7 @@ export function BookingFlow({
     name: group ? draft.org : draft.name,
     email: draft.email,
     contact: draft.contact,
-    flowSnapshot: { ...draft, step: 0, editBookingId: undefined, editOriginalTotal: undefined, rebookOf: undefined },
+    flowSnapshot: { ...draft, step: 0, editBookingId: undefined, editOriginalTotal: undefined, rebookOf: undefined, rebookQuick: undefined },
     date: draft.start,
     endDate: draft.end,
     total,
@@ -1045,6 +1166,13 @@ export function BookingFlow({
       setError(
         "Ange namn för alla deltagare och giltiga födelsedatum för barnen.",
       );
+      return;
+    }
+    if (
+      quickRebook && draft.step === 8 &&
+      (guests < 1 || draft.childAges.some((age) => age === null || age < 0 || age > 17))
+    ) {
+      setError("Sällskapet behöver uppdateras för det nya datumet.");
       return;
     }
     if (
@@ -1815,6 +1943,7 @@ export function BookingFlow({
                 : "Lift och skidåkning på Flottsbro"}{" "}
               · {days} {days === 1 ? "dag" : "dagar"}
             </small>
+            <ProductFacts info={passGuidance[pass as "full" | "three" | "bike"]} language={language} />
           </span>
           <span className="flow-option-price">
             <strong>
@@ -2056,7 +2185,7 @@ export function BookingFlow({
             <Check size={19} className="flow-option-check" aria-hidden="true" />
           </button>
         )}
-        {(["group", "private"] as SchoolLesson[]).map((lesson) => (
+        {(["group", "private"] as ("group" | "private")[]).map((lesson) => (
           <button
             type="button"
             key={lesson}
@@ -2086,6 +2215,7 @@ export function BookingFlow({
                   ? "Lär tillsammans med instruktör i liten grupp"
                   : "Personlig undervisning med instruktör"}
               </small>
+              <ProductFacts info={schoolGuidance(draft.season, lesson)} language={language} />
             </span>
             <span className="flow-option-price">
               <strong>{money(lesson === "group" ? 495 : 895)}</strong>
@@ -2136,6 +2266,7 @@ export function BookingFlow({
               <span>
                 <strong>{activities[id].name}</strong>
                 <small>{activities[id].detail}</small>
+                <ProductFacts info={activityGuidance[id]} language={language} />
               </span>
               <span className="flow-option-price">
                 <strong>{money(activities[id].price)}</strong>
@@ -3220,6 +3351,33 @@ export function BookingFlow({
             )}
             {draft.step === 8 && (
               <>
+                {quickRebook && (
+                  <div className="flow-rebook-quick">
+                    <div>
+                      <strong>Samma upplägg, nytt datum</strong>
+                      <p>Personer, utrustning och tillval är hämtade från din tidigare bokning. Kontrollera priset och välj ett nytt startdatum.</p>
+                    </div>
+                    <label>
+                      Nytt startdatum
+                      <input
+                        type="date"
+                        min={new Date().toISOString().slice(0, 10)}
+                        value={draft.start}
+                        onChange={(event) => event.target.value && shiftRebookStart(event.target.value)}
+                      />
+                    </label>
+                    <span>Slutdatum: {draft.end}</span>
+                    <button
+                      type="button"
+                      className="flow-text-button"
+                      onClick={() => {
+                        update({ step: 0, rebookQuick: false });
+                      }}
+                    >
+                      Ändra deltagare eller tillval
+                    </button>
+                  </div>
+                )}
                 <p className="flow-muted">
                   Kontrollera din bokning innan du går vidare till betalning.
                 </p>
@@ -3555,6 +3713,17 @@ export function BookingFlow({
                     onClick={() => update({ step: 1 })}
                   >
                     Gå till deltagare
+                  </button>
+                )}
+                {quickRebook && draft.step === 8 && (
+                  <button
+                    type="button"
+                    className="flow-text-button"
+                    onClick={() => {
+                      update({ step: 0, rebookQuick: false });
+                    }}
+                  >
+                    Anpassa bokningen
                   </button>
                 )}
                 {draft.step >= 8 && unscheduledOfferings.length > 0 && (

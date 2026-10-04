@@ -4356,6 +4356,7 @@ footer {
 .flow-option > span:nth-child(2),
 .flow-option > span:first-child:not(.flow-option-icon):not(.flow-payment-icon) {
   flex: 1;
+  min-width: 0;
 }
 .flow-option strong,
 .flow-option small {
@@ -4368,6 +4369,25 @@ footer {
   color: #6d7d70;
   margin-top: 4px;
   line-height: 1.4;
+}
+.flow-product-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 16px;
+  margin-top: 13px;
+  padding-top: 12px;
+  border-top: 1px solid #e2ebe4;
+}
+.flow-product-facts > span {
+  color: #536b5c;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.flow-product-facts b {
+  display: block;
+  margin-bottom: 2px;
+  color: #315b43;
+  font-size: 11px;
 }
 .flow-option-price {
   text-align: right;
@@ -4697,6 +4717,47 @@ footer {
 .flow-person > .flow-fields {
   margin: 10px 0 0;
 }
+.flow-rebook-quick {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 22px;
+  padding: 18px;
+  border: 1px solid #cfe3d5;
+  border-radius: 12px;
+  background: #f4faf6;
+}
+.flow-rebook-quick strong {
+  color: #1d4933;
+}
+.flow-rebook-quick p {
+  margin: 5px 0 0;
+  color: #617669;
+  line-height: 1.5;
+}
+.flow-rebook-quick label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.flow-rebook-quick input {
+  width: min(100%, 240px);
+  min-height: 44px;
+  border: 1px solid #bdd4c4;
+  border-radius: 8px;
+  padding: 9px 11px;
+  background: white;
+  color: #1d3c2b;
+  font: inherit;
+  font-size: 16px;
+}
+.flow-rebook-quick > span {
+  color: #617669;
+  font-size: 13px;
+}
+.flow-rebook-quick .flow-text-button {
+  justify-self: start;
+}
 .flow-review {
   border: 1px solid #e0e9e2;
   border-radius: 12px;
@@ -4826,6 +4887,12 @@ footer {
   }
   .flow-option-price {
     margin-left: auto;
+  }
+  .flow-product-facts {
+    grid-template-columns: 1fr;
+  }
+  .flow-option:has(.flow-product-facts) > span:first-child {
+    flex-basis: 100%;
   }
   .flow-actions {
     flex-wrap: wrap;
