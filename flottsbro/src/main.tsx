@@ -6780,14 +6780,22 @@ function App() {
     }
   };
   const completeLogin = (email: string, name?: string) => {
+    const emailName = email.split("@")[0].split("+")[0]
+      .split(/[._-]+/)
+      .filter(Boolean)
+      .map((part) => part[0].toLocaleUpperCase("sv-SE") + part.slice(1))
+      .join(" ");
+    const accountName = name?.trim() || bookings.find((booking) =>
+      booking.kind === "day" && booking.email.toLowerCase() === email.toLowerCase(),
+    )?.name || emailName;
     setSignedInEmail(email);
-    setSignedInName(name ?? null);
+    setSignedInName(accountName || null);
     if (pendingDraft)
       launchFlow({
         ...pendingDraft,
         checkoutMode: "login",
         email: pendingDraft.email || email,
-        name: pendingDraft.name || name || "",
+        name: pendingDraft.name || accountName || "",
       });
     else if (returnToBookingsAfterLogin) {
       setReturnToBookingsAfterLogin(false);
@@ -6876,6 +6884,7 @@ function App() {
               entry={entry}
               season={season}
               language={language}
+              accountName={signedInName}
               bookings={bookings}
               initial={initial}
               onDraft={onFlowDraftChange}

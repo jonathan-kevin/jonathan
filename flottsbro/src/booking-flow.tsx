@@ -608,6 +608,7 @@ export function BookingFlow({
   entry,
   season,
   language,
+  accountName,
   bookings,
   initial,
   onDraft,
@@ -622,6 +623,7 @@ export function BookingFlow({
   entry: FlowEntry;
   season: FlowSeason;
   language: "sv" | "en";
+  accountName?: string | null;
   bookings: CapacityRecord[];
   initial?: FlowDraft;
   onDraft: (draft: FlowDraft) => void;
@@ -633,8 +635,12 @@ export function BookingFlow({
   onInvoice: (booking: FlowBooking) => void;
   onChangeAccount: (draft: FlowDraft) => void;
 }) {
+  const withAccountGuest = (flowDraft: FlowDraft): FlowDraft =>
+    accountName?.trim() && flowDraft.entry !== "group" && flowDraft.adults > 0 && !flowDraft.guests[0]?.trim()
+      ? { ...flowDraft, guests: [accountName.trim(), ...flowDraft.guests.slice(1)] }
+      : flowDraft;
   const [draft, setDraft] = useState<FlowDraft>(() => {
-    if (!initial) return createFlowDraft(entry, season);
+    if (!initial) return withAccountGuest(createFlowDraft(entry, season));
     const savedDraft: FlowDraft & { meal?: unknown; mealDays?: unknown } = {
       ...initial,
     };
@@ -660,11 +666,11 @@ export function BookingFlow({
           : initial.entry === "school" && migratedStep === 5
             ? 4
             : migratedStep;
-    return {
+    return withAccountGuest({
       ...savedDraft,
       flowVersion: 5,
       step: activeStep,
-    };
+    });
   });
   const [active, setActive] = useState(Boolean(initial));
   const [error, setError] = useState("");
@@ -922,7 +928,9 @@ export function BookingFlow({
       guests: [
         ...Array.from(
           { length: nextAdults },
-          (_, index) => draft.guests[index] ?? "",
+          (_, index) => index < draft.adults
+            ? draft.guests[index] ?? ""
+            : index === 0 ? accountName?.trim() ?? "" : "",
         ),
         ...Array.from(
           { length: nextChildren },
