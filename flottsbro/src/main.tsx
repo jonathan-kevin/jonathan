@@ -51,6 +51,7 @@ import {
   Sun,
   TentTree,
   Trash2,
+  UserPlus,
   UserRound,
   Users,
   WandSparkles,
@@ -6383,19 +6384,22 @@ function AuthPage({
               Välj hur du vill påbörja bokningen. Kontaktuppgifter fyller du i senare.
             </p>
             <div className="auth-options">
+              <button type="button" className="auth-option-primary" onClick={onShowSignup}>
+                <span className="auth-option-icon"><UserPlus size={22} /></span>
+                <strong>Skapa konto</strong>
+                <small>Se dina bokningar på ett ställe</small>
+                <ArrowRight size={18} />
+              </button>
               <button type="button" onClick={onShowLogin}>
                 <span className="auth-option-icon"><UserRound size={22} /></span>
                 <strong>Logga in</strong>
-                <small>Simulerad inloggning</small>
-                <ArrowRight size={18} />
-              </button>
-              <button type="button" onClick={onGuest}>
-                <span className="auth-option-icon"><Users size={22} /></span>
-                <strong>Fortsätt som gäst</strong>
-                <small>Du kan boka utan konto</small>
+                <small>Har du redan ett konto?</small>
                 <ArrowRight size={18} />
               </button>
             </div>
+            <button type="button" className="auth-guest-link" onClick={onGuest}>
+              Fortsätt som gäst <ArrowRight size={16} />
+            </button>
           </>
         )}
         {view === "login" && (

@@ -338,6 +338,8 @@ const english: Record<string, string> = {
   "Hur vill du fortsätta?": "How would you like to continue?",
   "Din bokning ·": "Your booking ·",
   "Välj hur du vill påbörja bokningen. Kontaktuppgifter fyller du i senare.": "Choose how to start your booking. You will add contact details later.",
+  "Se dina bokningar på ett ställe": "See your bookings in one place",
+  "Har du redan ett konto?": "Already have an account?",
   "Simulerad inloggning": "Simulated sign in",
   "Fortsätt som gäst": "Continue as a guest",
   "Du kan boka utan konto": "You can book without an account",
