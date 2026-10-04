@@ -2,14 +2,19 @@ import { type CSSProperties, useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
+  Bike,
   Check,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  Compass,
   FileText,
+  GraduationCap,
   Home,
+  MountainSnow,
   Plus,
   Search,
+  Ticket,
   Trash2,
   WandSparkles,
 } from "lucide-react";
@@ -92,7 +97,7 @@ export type FlowContact = {
   note?: string;
 };
 export type FlowDraft = {
-  flowVersion?: 3 | 4 | 5;
+  flowVersion?: 3 | 4 | 5 | 6;
   entry: FlowEntry;
   season: FlowSeason;
   step: number;
@@ -413,7 +418,7 @@ export const createFlowDraft = (
 ): FlowDraft => {
   const start = season === "winter" ? "2027-02-10" : "2027-07-12";
   return {
-    flowVersion: 5,
+    flowVersion: 6,
     entry,
     season,
     step: 0,
@@ -647,28 +652,24 @@ export function BookingFlow({
     delete savedDraft.meal;
     delete savedDraft.mealDays;
     const previousStep =
-      initial.flowVersion === 5 || initial.flowVersion === 4
+      initial.flowVersion === 6 || initial.flowVersion === 5 || initial.flowVersion === 4
         ? initial.step
         : initial.flowVersion === 3
           ? ([0, 2, 3, 4, 1, 5, 6, 7, 8][initial.step] ?? 0)
           : ([0, 2, 3, 1, 5, 6, 7, 8][initial.step] ?? 0);
     const migratedStep =
-      initial.flowVersion === 5
+      initial.flowVersion === 6 || initial.flowVersion === 5
         ? previousStep
         : previousStep >= 5
           ? previousStep + 1
           : previousStep;
-    const activeStep =
-      migratedStep === 6
-        ? 7
-        : initial.entry === "activity" && migratedStep === 4
-          ? 3
-          : initial.entry === "school" && migratedStep === 5
-            ? 4
-            : migratedStep;
+    const activeStep = migratedStep === 6
+      ? 7
+      : [4, 5, 10].includes(migratedStep) || (initial.entry === "rental" && migratedStep === 2)
+        ? 3 : migratedStep;
     return withAccountGuest({
       ...savedDraft,
-      flowVersion: 5,
+      flowVersion: 6,
       step: activeStep,
     });
   });
@@ -691,6 +692,8 @@ export function BookingFlow({
   const [bulkOpen, setBulkOpen] = useState(false);
   const [bulkText, setBulkText] = useState("");
   const [newPersonIndex, setNewPersonIndex] = useState<number | null>(null);
+  const [openAddon, setOpenAddon] = useState<"lodging" | "pass" | "activities" | "school" | "equipment" | null>(null);
+  const [returnToAddons, setReturnToAddons] = useState(false);
   const [cabinImageIndex, setCabinImageIndex] = useState<
     Record<Exclude<CabinId, "none">, number>
   >({ forest: 0, family: 0, view: 0 });
@@ -856,58 +859,32 @@ export function BookingFlow({
     };
   });
   const mainIsCabin = draft.entry === "stay";
-  const extraPassStep = ["rental", "school", "activity"].includes(draft.entry);
   const stageLabels: Record<number, string> = {
     0: "Period & sällskap",
     1: "Deltagare",
     2: mainIsCabin
       ? "Boende"
-      : draft.entry === "rental"
-        ? "Hyra"
-        : draft.entry === "school"
-          ? draft.season === "winter"
-            ? "Skidskola"
-            : "Cykelskola"
-          : draft.entry === "activity"
-            ? "Aktiviteter"
-            : draft.season === "winter"
-              ? "SkiPass"
-              : "Cykelpass",
-    3: mainIsCabin
-      ? draft.season === "winter"
-        ? "SkiPass"
-        : "Cykelpass"
-      : "Boende",
-    4: "Aktiviteter",
-    5: draft.season === "winter" ? "Skidskola" : "Cykelskola",
+      : draft.entry === "school"
+        ? draft.season === "winter" ? "Skidskola" : "Cykelskola"
+        : draft.entry === "activity"
+          ? "Aktiviteter"
+          : draft.season === "winter" ? "SkiPass" : "Cykelpass",
+    3: "Tillägg",
     7: "Uppgifter",
     8: "Granska",
     9: "Betala",
-    10: draft.season === "winter" ? "SkiPass" : "Cykelpass",
     11: "Bekräfta",
   };
-  // Keep saved step IDs stable while placing the optional pass after lodging.
-  const standardSteps = [
-    0,
-    1,
-    2,
-    3,
-    ...(extraPassStep ? [10] : []),
-    4,
-    5,
-    7,
-    8,
-    9,
-    11,
-  ].filter(
-    (index) =>
-      !(draft.entry === "activity" && index === 4) &&
-      !(draft.entry === "school" && index === 5),
-  );
+  // Keep saved step IDs stable while collecting all optional products in step 3.
+  const standardSteps = draft.entry === "rental"
+    ? [0, 1, 3, 7, 8, 9, 11]
+    : [0, 1, 2, 3, 7, 8, 9, 11];
   const visibleSteps = quickRebook ? [8, 9, 11] : standardSteps;
   const stepPosition = visibleSteps.indexOf(draft.step);
   const followingStep = visibleSteps[stepPosition + 1] ?? draft.step;
-  const previousStep = visibleSteps[stepPosition - 1] ?? 0;
+  const previousStep = returnToAddons && draft.step === 1
+    ? 3
+    : visibleSteps[stepPosition - 1] ?? 0;
   const changeParty = (nextAdults: number, nextChildren: number) => {
     const remap = (index: number) => {
       if (index < draft.adults) return index < nextAdults ? index : null;
@@ -1209,7 +1186,16 @@ export function BookingFlow({
       setError("Välj ett boende för att fortsätta.");
       return;
     }
-    if ((draft.step === 2 && mainIsCabin || draft.step === 8 || draft.step === 11) && availabilityProblems.length) {
+    if (draft.step === 3 && draft.cabin !== "none" && dateDiff(draft.start, draft.end) < 1) {
+      setError("Boende kräver minst en natt. Ändra slutdatum under Period & sällskap.");
+      return;
+    }
+    if (draft.step === 2 && mainIsCabin && selectedCabin &&
+      cabinUnitsLeft(bookings, draft.cabin as Exclude<CabinId, "none">, selectedCabin.beds, draft.start, draft.end, draft.editBookingId ?? draft.draftBookingId) < numberOfCabins) {
+      setError("Det valda boendet är inte längre tillgängligt för perioden. Välj ett annat boende.");
+      return;
+    }
+    if ([3, 8, 11].includes(draft.step) && availabilityProblems.length) {
       setError(availabilityProblems[0]);
       return;
     }
@@ -1229,20 +1215,22 @@ export function BookingFlow({
       setError("Välj minst en aktivitet för att fortsätta.");
       return;
     }
-    if (
-      (draft.step === 2 ||
-        draft.step === 4 ||
-        draft.step === 5 ||
-        draft.step === 8 ||
-        draft.step === 9) &&
-      unscheduledOfferings.length > 0
-    ) {
+    const missingMainSchedule = draft.entry === "school"
+      ? unscheduledOfferings.includes("school")
+      : draft.entry === "activity"
+        ? unscheduledOfferings.some((offering) => draft.activities.includes(offering as ActivityId))
+        : false;
+    if (((draft.step === 2 && missingMainSchedule) || [3, 8, 9].includes(draft.step)) &&
+      unscheduledOfferings.length > 0) {
+      if (draft.step === 3)
+        setOpenAddon(unscheduledOfferings[0] === "school" ? "school" : "activities");
       setError(
         "Välj minst en deltagare, dag och ledig tid för varje vald lektion eller aktivitet.",
       );
       return;
     }
-    if ([2, 4, 8, 11].includes(draft.step) && underageSlots.length > 0) {
+    if (((draft.step === 2 && draft.entry === "activity") || [3, 8, 11].includes(draft.step)) && underageSlots.length > 0) {
+      if (draft.step === 3) setOpenAddon("activities");
       const slot = underageSlots[0];
       const activity = activities[slot.offering as ActivityId];
       setError(`${participantLabel(slot.index)} är för ung för ${activity.name}. Åldersgränsen är ${activity.minAge} år.`);
@@ -1330,8 +1318,9 @@ export function BookingFlow({
       onComplete(preliminary);
       update({ draftBookingId: preliminary.id, step: 1 });
     } else if (draft.step === 1 && group)
-      update({ participants: preparedParticipants(), step: 2 });
-    else update({ step: followingStep });
+      update({ participants: preparedParticipants(), step: returnToAddons ? 3 : 2 });
+    else update({ step: draft.step === 1 && returnToAddons ? 3 : followingStep });
+    if (draft.step === 1) setReturnToAddons(false);
     setActive(true);
     setError("");
   };
@@ -1721,33 +1710,30 @@ export function BookingFlow({
             ...exampleSessionAssignments([id]),
           },
         });
-      } else if (draft.entry === "rental") update({ borrowGuests: [0] });
-      else setPass(draft.season === "winter" ? "full" : "bike");
+      } else setPass(draft.season === "winter" ? "full" : "bike");
     } else if (draft.step === 3) {
-      if (mainIsCabin) setPass(draft.season === "winter" ? "full" : "bike");
-      else setCabin("forest");
-    } else if (draft.step === 10) {
-      setPass(draft.season === "winter" ? "full" : "bike");
-    } else if (draft.step === 4) {
       const id: ActivityId = draft.season === "winter" ? "snowshoe" : "canoe";
       const selected = [...new Set([...draft.activities, id])];
+      const lesson = draft.schoolLesson === "none" ? "group" : draft.schoolLesson ?? "group";
+      const nextEnd = nights === 0 ? offsetDate(draft.start, 1) : draft.end;
+      const sampleCabin = draft.cabin !== "none" ? draft.cabin
+        : (["view", "family", "forest"] as const).find((cabin) =>
+          cabinUnitsLeft(bookings, cabin, cabins[cabin].beds, draft.start, nextEnd, draft.editBookingId ?? draft.draftBookingId)
+            >= Math.ceil(guests / cabins[cabin].beds),
+        ) ?? "none";
       update({
+        cabin: sampleCabin,
+        end: sampleCabin !== "none" ? nextEnd : draft.end,
+        pass: draft.pass === "none" ? (draft.season === "winter" ? "full" : "bike") : draft.pass,
         activities: selected,
-        sessionAssignments: {
-          ...draft.sessionAssignments,
-          ...exampleSessionAssignments(selected),
-        },
-      });
-    } else if (draft.step === 5)
-      update({
-        schoolLesson: "group",
+        schoolLesson: lesson,
         schoolLevel: "beginner",
         sessionAssignments: {
           ...draft.sessionAssignments,
-          ...exampleSessionAssignments(["school"], "group"),
+          ...exampleSessionAssignments([...selected, "school"], lesson),
         },
       });
-    else if (draft.step === 7) fillExampleContact();
+    } else if (draft.step === 7) fillExampleContact();
     else if (draft.step === 8) update({ terms: true });
     else if (draft.step === 9) update({ payment: group ? "invoice" : "card" });
     else if (draft.step === 11) {
@@ -2289,6 +2275,84 @@ export function BookingFlow({
       {draft.activities.map((id) => sessionPlanner(id, activities[id].name))}
     </>
   );
+  const addonPrice = (value: number) => language === "en"
+    ? `${new Intl.NumberFormat("en-GB").format(value)} SEK`
+    : money(value);
+  const notAdded = language === "en" ? "Not added" : "Inte tillagt";
+  const activityCountLabel = language === "en"
+    ? "selected"
+    : draft.activities.length === 1 ? "vald" : "valda";
+  const schoolLessonLabel = draft.schoolLesson === "private"
+    ? language === "en" ? "Private lesson" : "Privatlektion"
+    : language === "en" ? "Group lesson" : "Grupplektion";
+  const optionalAddons = [
+    {
+      id: "lodging" as const,
+      show: !mainIsCabin,
+      icon: <Home size={21} />,
+      title: "Boende",
+      description: language === "en" ? "Choose a cabin for your dates" : "Välj stuga för perioden",
+      summary: selectedCabin
+        ? `${language === "en" ? ({ none: "", forest: "Forest Cabin", family: "Family Cabin", view: "View Cabin" } as Record<CabinId, string>)[draft.cabin] : selectedCabin.name} · ${addonPrice(cabinTotal)}`
+        : notAdded,
+      selected: Boolean(selectedCabin),
+      content: () => cabinCards(true),
+    },
+    {
+      id: "pass" as const,
+      show: draft.entry !== "day" && draft.entry !== "group",
+      icon: <Ticket size={21} />,
+      title: draft.season === "winter" ? "SkiPass" : "Cykelpass",
+      description: language === "en" ? "Lift access during your visit" : "Lift och åkning under vistelsen",
+      summary: draft.pass !== "none"
+        ? `${days} ${language === "en" ? days === 1 ? "day" : "days" : days === 1 ? "dag" : "dagar"} · ${addonPrice(passTotal)}`
+        : notAdded,
+      selected: draft.pass !== "none",
+      content: () => passCards(true),
+    },
+    {
+      id: "activities" as const,
+      show: draft.entry !== "activity",
+      icon: <Compass size={21} />,
+      title: "Aktiviteter",
+      description: language === "en" ? "Choose an activity, day, time and guests" : "Välj aktivitet, dag, tid och deltagare",
+      summary: draft.activities.length
+        ? `${draft.activities.length} ${activityCountLabel} · ${activityTotal > 0 ? addonPrice(activityTotal) : language === "en" ? "choose times" : "välj tider"}`
+        : notAdded,
+      selected: draft.activities.length > 0,
+      content: activityCards,
+    },
+    {
+      id: "school" as const,
+      show: draft.entry !== "school",
+      icon: <GraduationCap size={21} />,
+      title: draft.season === "winter" ? "Skidskola" : "Cykelskola",
+      description: language === "en" ? "Lessons with available times" : "Lektioner med lediga tider",
+      summary: draft.schoolLesson && draft.schoolLesson !== "none"
+        ? `${schoolLessonLabel} · ${schoolTotal > 0 ? addonPrice(schoolTotal) : language === "en" ? "choose times" : "välj tider"}`
+        : notAdded,
+      selected: Boolean(draft.schoolLesson && draft.schoolLesson !== "none"),
+      content: () => schoolCards(true),
+    },
+    {
+      id: "equipment" as const,
+      show: draft.entry !== "rental",
+      icon: draft.season === "winter" ? <MountainSnow size={21} /> : <Bike size={21} />,
+      title: "Hyra utrustning",
+      description: language === "en" ? "Equipment is chosen per guest" : "Behovet anges per deltagare",
+      summary: borrowCount
+        ? `${borrowCount} ${language === "en" ? borrowCount === 1 ? "guest" : "guests" : borrowCount === 1 ? "person" : "personer"} · ${addonPrice(equipmentTotal)}`
+        : language === "en" ? "No rental selected" : "Ingen hyra vald",
+      selected: borrowCount > 0,
+      content: () => <div className="flow-addon-equipment">
+        <p>{language === "en" ? "Choose equipment and sizes for each person in the participant step." : "Utrustning och storlekar anges för varje person på deltagarsteget."}</p>
+        <button type="button" className="flow-text-button" onClick={() => {
+          setReturnToAddons(true);
+          update({ step: 1 });
+        }}>{language === "en" ? "Change guests' equipment" : "Ändra deltagarnas utrustning"} <ArrowRight size={16} /></button>
+      </div>,
+    },
+  ].filter((addon) => addon.show);
   const itemized = [
     draft.pass !== "none" && {
       label: `${draft.pass === "bike" ? "Cykelpass" : "SkiPass"} · ${passHours}`,
@@ -3067,37 +3131,14 @@ export function BookingFlow({
                 <p className="flow-muted">
                   {mainIsCabin
                     ? "Välj boende för din period. Vi visar totalpriset och antal stugor som behövs för sällskapet."
-                    : draft.entry === "rental"
-                      ? "Din utrustning baseras på deltagarnas val. Kontrollera hyran här innan du fortsätter."
-                      : draft.entry === "school"
-                        ? "Välj lektion och nivå. Boka sedan dag och ledig tid för varje deltagare."
-                        : draft.entry === "activity"
-                          ? "Välj aktiviteter och boka dag och ledig tid för deltagarna."
-                          : "Välj ditt huvudpass. Du kan komplettera med boende och aktiviteter i de följande stegen."}
+                    : draft.entry === "school"
+                      ? "Välj lektion och nivå. Boka sedan dag och ledig tid för varje deltagare."
+                      : draft.entry === "activity"
+                        ? "Välj aktiviteter och boka dag och ledig tid för deltagarna."
+                        : "Välj ditt huvudpass. Du kan lägga till boende och aktiviteter på nästa sida."}
                 </p>
                 {mainIsCabin ? (
                   cabinCards(false)
-                ) : draft.entry === "rental" ? (
-                  <div className="flow-rental-main">
-                    <strong>
-                      {borrowCount}{" "}
-                      {borrowCount === 1 ? "person hyr" : "personer hyr"}{" "}
-                      {draft.season === "winter"
-                        ? "skidor eller snowboard"
-                        : "cykel"}
-                    </strong>
-                    <span>
-                      {money(equipmentTotal)} för perioden ·{" "}
-                      {money(equipmentUnit)} per person och dag
-                    </span>
-                    <button
-                      type="button"
-                      className="flow-text-button"
-                      onClick={() => update({ step: 1 })}
-                    >
-                      Ändra deltagare och utrustning
-                    </button>
-                  </div>
                 ) : draft.entry === "school" ? (
                   schoolCards(false)
                 ) : draft.entry === "activity" ? (
@@ -3110,43 +3151,29 @@ export function BookingFlow({
             {draft.step === 3 && (
               <>
                 <p className="flow-muted">
-                  {mainIsCabin
-                    ? "Vill du lägga till ett pass för vistelsen? Du kan också fortsätta utan pass."
-                    : "Vill du lägga till boende för vistelsen? Du kan också fortsätta utan boende."}
+                  Komplettera din bokning om du vill. Öppna ett kort för att se val, pris och lediga tider. Du kan fortsätta utan tillägg.
                 </p>
-                {mainIsCabin ? (
-                  passCards(true)
-                ) : (
-                  cabinCards(true)
-                )}
-              </>
-            )}
-            {draft.step === 10 && (
-              <>
-                <p className="flow-muted">
-                  Vill du lägga till {draft.season === "winter" ? "SkiPass" : "cykelpass"}?
-                  Du kan också fortsätta utan pass.
-                </p>
-                {passCards(true)}
-              </>
-            )}
-            {draft.step === 4 && (
-              <>
-                <p className="flow-muted">
-                  Välj aktiviteter för sällskapet. För varje aktivitet väljer
-                  du sedan dag, ledig tid och vilka personer som deltar.
-                </p>
-                {activityCards()}
-              </>
-            )}
-            {draft.step === 5 && (
-              <>
-                <p className="flow-muted">
-                  Vill du lägga till {draft.season === "winter" ? "skidskola" : "cykelskola"}?
-                  Välj lektion och boka dag, tid och deltagare, eller fortsätt
-                  utan lektion.
-                </p>
-                {schoolCards(true)}
+                <div className="flow-addon-list">
+                  {optionalAddons.map((addon) => (
+                    <section className={`flow-addon-card ${addon.selected ? "selected" : ""}`} key={addon.id}>
+                      <button
+                        type="button"
+                        className="flow-addon-trigger"
+                        aria-expanded={openAddon === addon.id}
+                        onClick={() => setOpenAddon((current) => current === addon.id ? null : addon.id)}
+                      >
+                        <span className="flow-addon-icon" aria-hidden="true">{addon.icon}</span>
+                        <span className="flow-addon-heading">
+                          <strong>{addon.title}</strong>
+                          <small>{addon.description}</small>
+                        </span>
+                        <span className="flow-addon-state">{addon.summary}</span>
+                        <ChevronDown size={19} className="flow-addon-chevron" aria-hidden="true" />
+                      </button>
+                      {openAddon === addon.id && <div className="flow-addon-content">{addon.content()}</div>}
+                    </section>
+                  ))}
+                </div>
               </>
             )}
             {draft.step === 7 && (
@@ -3723,22 +3750,18 @@ export function BookingFlow({
                     Anpassa bokningen
                   </button>
                 )}
-                {draft.step >= 8 && unscheduledOfferings.length > 0 && (
+                {(draft.step === 3 || draft.step >= 8) && unscheduledOfferings.length > 0 && (
                   <button
                     type="button"
                     className="flow-text-button"
-                    onClick={() =>
-                      update({
-                        step:
-                          unscheduledOfferings[0] === "school"
-                            ? draft.entry === "school"
-                              ? 2
-                              : 5
-                            : draft.entry === "activity"
-                              ? 2
-                              : 4,
-                      })
-                    }
+                    onClick={() => {
+                      const offering = unscheduledOfferings[0];
+                      const mainOffering = offering === "school"
+                        ? draft.entry === "school"
+                        : draft.entry === "activity";
+                      if (!mainOffering) setOpenAddon(offering === "school" ? "school" : "activities");
+                      update({ step: mainOffering ? 2 : 3 });
+                    }}
                   >
                     Gå till dagar och tider
                   </button>
@@ -3751,6 +3774,7 @@ export function BookingFlow({
                   type="button"
                   className="flow-back"
                   onClick={() => {
+                    if (draft.step === 1) setReturnToAddons(false);
                     update({ step: previousStep });
                     setError("");
                   }}
@@ -3769,6 +3793,12 @@ export function BookingFlow({
                     ? "Fortsätt till bekräftelse"
                   : draft.step === 8
                     ? "Godkänn och välj betalning"
+                    : draft.step === 3
+                      ? "Fortsätt till uppgifter"
+                      : draft.step === 2
+                        ? "Se tillägg"
+                        : draft.step === 1 && returnToAddons
+                          ? "Tillbaka till tillägg"
                     : "Fortsätt"}
                 <ArrowRight size={17} />
               </button>

@@ -548,7 +548,7 @@ const draftForBooking = (booking: Booking, edit: boolean): FlowDraft => {
   }
   return {
     ...draft,
-    flowVersion: 5,
+    flowVersion: 6,
     step: 0,
     draftBookingId: edit && booking.status === "Preliminär" ? booking.id : undefined,
     editBookingId: edit && booking.status !== "Preliminär" ? booking.id : undefined,
