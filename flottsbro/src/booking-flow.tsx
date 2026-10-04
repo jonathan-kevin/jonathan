@@ -103,6 +103,7 @@ export type FlowDraft = {
   org: string;
   cabin: CabinId;
   pass: PassId;
+  passStartTime?: "09:00" | "13:00";
   activities: ActivityId[];
   schoolLesson?: SchoolLesson;
   schoolLevel?: "beginner" | "continuing";
@@ -194,13 +195,14 @@ const cabins: Record<
 };
 const activities: Record<
   ActivityId,
-  { name: string; season: FlowSeason; price: number; detail: string }
+  { name: string; season: FlowSeason; price: number; detail: string; minAge?: number }
 > = {
   snowshoe: {
     name: "Snöskovandring",
     season: "winter",
     price: 149,
     detail: "Guidad tur · från 8 år",
+    minAge: 8,
   },
   sledding: {
     name: "Pulkäventyr",
@@ -213,6 +215,7 @@ const activities: Record<
     season: "summer",
     price: 189,
     detail: "Kanot och flytväst · från 8 år",
+    minAge: 8,
   },
   climbing: {
     name: "Äventyrsbana",
@@ -225,6 +228,7 @@ const activities: Record<
     season: "winter",
     price: 129,
     detail: "Naturguide och varm dryck · från 6 år",
+    minAge: 6,
   },
   winterGames: {
     name: "Snölek med ledare",
@@ -291,6 +295,14 @@ const emptyContact = (): FlowContact => ({
   country: "Sverige",
   billingEmail: "",
 });
+const validPostalCode = (contact: FlowContact) => {
+  const country = (contact.country ?? "").trim().toLocaleLowerCase("sv-SE");
+  const postalCode = contact.postalCode.trim();
+  if (!country || !postalCode) return false;
+  return ["sverige", "sweden", "se"].includes(country)
+    ? /^\d{3}\s?\d{2}$/.test(postalCode)
+    : postalCode.length >= 3;
+};
 export const createFlowDraft = (
   entry: FlowEntry,
   season: FlowSeason,
@@ -619,6 +631,26 @@ export function BookingFlow({
       : index < draft.adults
         ? `Vuxen ${index + 1}`
         : `Barn ${index - draft.adults + 1}`);
+  const participantAge = (index: number, date: string) => {
+    if (group) {
+      const person = draft.participants[index];
+      if (person?.role === "teacher") return 18;
+      return person?.birthDate ? ageOnDate(person.birthDate, date) : null;
+    }
+    if (index < draft.adults) return 18;
+    const child = index - draft.adults;
+    const birthDate = draft.childBirthDates[child];
+    return birthDate
+      ? ageOnDate(birthDate, date)
+      : draft.childAges[child] ?? null;
+  };
+  const underageSlots = scheduledSlots.filter((slot) => {
+    const minimum = slot.offering === "school"
+      ? undefined
+      : activities[slot.offering as ActivityId].minAge;
+    const age = participantAge(slot.index, slot.date);
+    return minimum !== undefined && age !== null && age < minimum;
+  });
   const nights = Math.max(0, dateDiff(draft.start, draft.end));
   const selectedCabin = draft.cabin === "none" ? null : cabins[draft.cabin];
   const numberOfCabins = selectedCabin
@@ -650,6 +682,9 @@ export function BookingFlow({
           ? (draft.adults * 300 + draft.children * 190) * days
           : (draft.adults * (draft.pass === "three" ? 240 : 370) + childPass) *
             days;
+  const passHours = draft.pass === "three"
+    ? draft.passStartTime === "13:00" ? "13:00–16:00" : "09:00–12:00"
+    : draft.pass === "bike" ? "09:00–17:00" : "09:00–16:00";
   const activityTotal = scheduledSlots.reduce(
     (sum, slot) =>
       sum +
@@ -833,7 +868,7 @@ export function BookingFlow({
     (previousBookingDraft.start !== draft.start || previousBookingDraft.end !== draft.end) && "period",
     (previousBookingDraft.adults !== draft.adults || previousBookingDraft.children !== draft.children || previousBookingDraft.groupCount !== draft.groupCount || JSON.stringify(previousBookingDraft.guests) !== JSON.stringify(draft.guests) || JSON.stringify(previousBookingDraft.participants) !== JSON.stringify(draft.participants)) && "deltagare",
     previousBookingDraft.cabin !== draft.cabin && "boende",
-    previousBookingDraft.pass !== draft.pass && "pass",
+    (previousBookingDraft.pass !== draft.pass || previousBookingDraft.passStartTime !== draft.passStartTime) && "pass och tid",
     (JSON.stringify(previousBookingDraft.activities) !== JSON.stringify(draft.activities) || JSON.stringify(previousBookingDraft.sessionAssignments) !== JSON.stringify(draft.sessionAssignments)) && "aktiviteter och tider",
     previousBookingDraft.schoolLesson !== draft.schoolLesson && "skola",
     (JSON.stringify(previousBookingDraft.borrowGuests) !== JSON.stringify(draft.borrowGuests) || JSON.stringify(previousBookingDraft.rentalDetails) !== JSON.stringify(draft.rentalDetails)) && "utrustning",
@@ -846,7 +881,7 @@ export function BookingFlow({
           ? offsetDate(draft.start, 1)
           : draft.end,
     });
-  const setPass = (pass: PassId) => update({ pass });
+  const setPass = (pass: PassId) => update({ pass, passStartTime: pass === "three" ? draft.passStartTime ?? "09:00" : undefined });
   const toggleActivity = (id: ActivityId) => {
     const removing = draft.activities.includes(id);
     update({
@@ -894,7 +929,7 @@ export function BookingFlow({
     items: [
       ...(draft.pass !== "none"
         ? [
-            `${draft.pass === "bike" ? "Cykelpass" : draft.pass === "three" ? "SkiPass 3 timmar" : "SkiPass heldag"} · ${days} dagar · ${money(passTotal)}`,
+            `${draft.pass === "bike" ? "Cykelpass" : draft.pass === "three" ? "SkiPass 3 timmar" : "SkiPass heldag"} · ${passHours} · ${days} dagar · ${money(passTotal)}`,
           ]
         : []),
       ...(selectedCabin
@@ -1069,11 +1104,17 @@ export function BookingFlow({
       );
       return;
     }
+    if ([2, 4, 8, 11].includes(draft.step) && underageSlots.length > 0) {
+      const slot = underageSlots[0];
+      const activity = activities[slot.offering as ActivityId];
+      setError(`${participantLabel(slot.index)} är för ung för ${activity.name}. Åldersgränsen är ${activity.minAge} år.`);
+      return;
+    }
     if (draft.step === 7) {
       if (
         !draft.name.trim() ||
         !/^\S+@\S+\.\S+$/.test(draft.email) ||
-        !/^\d{3}\s?\d{2}$/.test(draft.contact.postalCode) ||
+        !validPostalCode(draft.contact) ||
         !draft.contact.street.trim() ||
         !draft.contact.city.trim() ||
         !draft.contact.phone.trim() ||
@@ -1500,10 +1541,16 @@ export function BookingFlow({
           return [
             sessionKey(offering, date),
             Object.fromEntries(
-              Array.from(
-                { length: Math.min(guests, times.length * capacity) },
-                (_, index) => [index, times[Math.floor(index / capacity)]],
-              ),
+              Array.from({ length: guests }, (_, index) => index)
+                .filter((index) => {
+                  const minimum = offering === "school"
+                    ? undefined
+                    : activities[offering as ActivityId].minAge;
+                  const age = participantAge(index, date);
+                  return minimum === undefined || age === null || age >= minimum;
+                })
+                .slice(0, times.length * capacity)
+                .map((index, position) => [index, times[Math.floor(position / capacity)]]),
             ),
           ];
         }),
@@ -1780,6 +1827,25 @@ export function BookingFlow({
           <Check size={19} className="flow-option-check" aria-hidden="true" />
         </button>
       ))}
+      {draft.pass !== "none" && (
+        <div className="flow-pass-hours">
+          {draft.pass === "three" ? (
+            <label>
+              Välj tid för 3-timmarspasset
+              <select
+                value={draft.passStartTime ?? "09:00"}
+                onChange={(event) => update({ passStartTime: event.target.value as FlowDraft["passStartTime"] })}
+              >
+                <option value="09:00">09:00–12:00</option>
+                <option value="13:00">13:00–16:00</option>
+              </select>
+            </label>
+          ) : (
+            <p>{draft.pass === "bike" ? "Tillgänglig tid för cykelpass" : "Tillgänglig tid för heldagspass"}: <strong>{passHours}</strong></p>
+          )}
+          <small>Tiderna gäller varje vald dag och är exempel i denna bokning.</small>
+        </div>
+      )}
     </div>
   );
   const setSessionTime = (
@@ -1865,6 +1931,11 @@ export function BookingFlow({
                     onClick={() => {
                       const next = { ...assignments };
                       for (let index = 0; index < guests; index++) {
+                        const minimum = offering === "school"
+                          ? undefined
+                          : activities[offering as ActivityId].minAge;
+                        const age = participantAge(index, date);
+                        if (minimum !== undefined && age !== null && age < minimum) continue;
                         if (times.includes(next[index])) continue;
                         const available = times.find(
                           (time) =>
@@ -1902,14 +1973,20 @@ export function BookingFlow({
                   )}
                 </div>
                 <div className="flow-session-people">
-                  {Array.from({ length: guests }, (_, index) => (
-                    <label key={index}>
+                  {Array.from({ length: guests }, (_, index) => {
+                    const minimum = offering === "school"
+                      ? undefined
+                      : activities[offering as ActivityId].minAge;
+                    const age = participantAge(index, date);
+                    const tooYoung = minimum !== undefined && age !== null && age < minimum;
+                    return <label key={index}>
                       <span>
                         <strong>{participantLabel(index)}</strong>
                         {group &&
                           draft.participants[index]?.role === "teacher" && (
                             <small>Lärare · gratis</small>
                           )}
+                        {tooYoung && <small className="flow-session-age-note">{language === "en" ? `Minimum age: ${minimum}` : `Åldersgräns: ${minimum} år`}</small>}
                       </span>
                       <select
                          aria-label={`${participantLabel(index)}, ${dateText(date, language)}`}
@@ -1935,7 +2012,7 @@ export function BookingFlow({
                               key={time}
                               value={time}
                               disabled={
-                                remaining === 0 && assignments[index] !== time
+                                tooYoung || (remaining === 0 && assignments[index] !== time)
                               }
                             >
                               kl {time} · {remaining} kvar
@@ -1944,7 +2021,7 @@ export function BookingFlow({
                         })}
                       </select>
                     </label>
-                  ))}
+                  })}
                 </div>
               </div>
             </details>
@@ -2074,7 +2151,7 @@ export function BookingFlow({
   );
   const itemized = [
     draft.pass !== "none" && {
-      label: draft.pass === "bike" ? "Cykelpass" : "SkiPass",
+      label: `${draft.pass === "bike" ? "Cykelpass" : "SkiPass"} · ${passHours}`,
       value: passTotal,
     },
     selectedCabin && {
@@ -2119,6 +2196,7 @@ export function BookingFlow({
           <div className="flow-success-details">
             <h2>Inför besöket</h2>
             <p><strong>Period:</strong> {draft.start} – {draft.end}</p>
+            {draft.pass !== "none" && <p><strong>{draft.pass === "bike" ? "Cykelpass" : "SkiPass"}:</strong> {passHours} · {days} {language === "en" ? days === 1 ? "day" : "days" : days === 1 ? "dag" : "dagar"}</p>}
             <p><strong>Plats:</strong> {language === "en" ? `Flottsbro, Häggstavägen 20, Huddinge. Show booking number ${doneBooking?.id} on arrival.` : `Flottsbro, Häggstavägen 20, Huddinge. Visa bokningsnummer ${doneBooking?.id} vid ankomst.`}</p>
             {sessionRows.length > 0 && <div>
               <strong>Bokade tider</strong>
@@ -3061,6 +3139,7 @@ export function BookingFlow({
                   <label>
                     Postnummer
                     <input
+                      autoComplete="postal-code"
                       value={draft.contact.postalCode}
                       onChange={(e) =>
                         update({
@@ -3083,6 +3162,19 @@ export function BookingFlow({
                         })
                       }
                       placeholder="Huddinge"
+                    />
+                  </label>
+                  <label>
+                    Land
+                    <input
+                      autoComplete="country-name"
+                      value={draft.contact.country ?? ""}
+                      onChange={(e) =>
+                        update({
+                          contact: { ...draft.contact, country: e.target.value },
+                        })
+                      }
+                      placeholder="Sverige"
                     />
                   </label>
                   {group && (
@@ -3178,8 +3270,7 @@ export function BookingFlow({
                   <div>
                     <span>Adress</span>
                     <strong>
-                      {draft.contact.street}, {draft.contact.postalCode}{" "}
-                      {draft.contact.city}
+                      {[draft.contact.street, draft.contact.addressLine2, `${draft.contact.postalCode} ${draft.contact.city}`, draft.contact.country].filter(Boolean).join(", ")}
                     </strong>
                   </div>
                   {itemized.map((item) => (

@@ -5600,9 +5600,16 @@ function Admin({ bookings, language, onEdit, onCancel }: {
   };
   const exportPrep = (b: Booking) => {
     const q = (v: string) => '"' + v.replaceAll('"', '""') + '"';
+    const people = Array.from(
+      { length: Math.max(b.flowSnapshot?.groupCount ?? 0, b.participants?.length ?? 0) },
+      (_, index) => b.participants?.[index] ?? {
+        name: "", role: null, birthDate: "", activity: "", equipment: "own" as const,
+        shoe: "", height: "", weight: "",
+      },
+    );
     const rows = [
       "Namn,Roll,Födelsedatum,Aktivitet,Lånar utrustning,Skostorlek,Längd (cm),Vikt (kg)",
-      ...(b.participants || []).map((p) =>
+      ...people.map((p) =>
         [
           p.name,
           p.role === "teacher" ? "Lärare" : "",
@@ -5638,6 +5645,21 @@ function Admin({ bookings, language, onEdit, onCancel }: {
   const selectedDraft = booking ? draftForBooking(booking, false) : null;
   const selectedCapacityIssues = booking && selectedDraft
     ? capacityIssues(selectedDraft, bookings, { forest: 2, family: 4, view: 6 }, booking.id)
+    : [];
+  const groupPeople = booking?.kind === "group"
+    ? Array.from(
+        { length: Math.max(booking.flowSnapshot?.groupCount ?? 0, booking.participants?.length ?? 0) },
+        (_, index): Participant => booking.participants?.[index] ?? {
+          name: "",
+          role: null,
+          birthDate: "",
+          activity: "",
+          equipment: "own",
+          shoe: "",
+          height: "",
+          weight: "",
+        },
+      )
     : [];
   const bookingText = (value: string) => displayBookingText(value, language);
   const statusText = (status: Status) => language === "sv" ? status :
@@ -5875,43 +5897,43 @@ function Admin({ bookings, language, onEdit, onCancel }: {
                 <div className="detail-section">
                   <h3>Förberedelser</h3>
                   <p>
-                    {(booking.participants ?? []).filter((person) => !participantComplete(person, booking.date)).length} deltagare har uppgifter kvar att komplettera.
+                    {groupPeople.filter((person) => !participantComplete(person, booking.date)).length} deltagare har uppgifter kvar att komplettera.
                   </p>
                   <p>
-                    {booking.participants?.filter((p) => p.role !== "teacher")
-                      .length || 0}{" "}
+                    {groupPeople.filter((p) => p.role !== "teacher")
+                      .length}{" "}
                     elever och{" "}
-                    {booking.participants?.filter((p) => p.role === "teacher")
-                      .length || 0}{" "}
+                    {groupPeople.filter((p) => p.role === "teacher")
+                      .length}{" "}
                     lärare registrerade. Lärare är gratis.
                   </p>
                   <p>
                     Skidåkning:{" "}
-                    {booking.participants?.filter(
+                    {groupPeople.filter(
                       (p) => p.activity === "Skidåkning",
-                    ).length || 0}
+                    ).length}
                     . Snowboard:{" "}
-                    {booking.participants?.filter(
+                    {groupPeople.filter(
                       (p) => p.activity === "Snowboard",
-                    ).length || 0}
+                    ).length}
                     . Medföljande:{" "}
-                    {booking.participants?.filter(
+                    {groupPeople.filter(
                       (p) => p.activity === "Medföljande",
-                    ).length || 0}
+                    ).length}
                     .
                   </p>
                   <p>
-                    {booking.participants?.filter(
+                    {groupPeople.filter(
                       (p) => equipmentChoice(p) === "borrow",
-                    ).length || 0}{" "}
+                    ).length}{" "}
                     lånar utrustning.{" "}
-                    {booking.participants?.filter(
+                    {groupPeople.filter(
                       (p) => equipmentChoice(p) === "own",
-                    ).length || 0}{" "}
+                    ).length}{" "}
                     tar med egen. Arbetsunderlaget visar födelsedatum och mått
                     för dem som lånar.
                   </p>
-                  {!!booking.participants?.length && (
+                  {groupPeople.length > 0 && (
                     <Button
                       variant="secondary"
                       onClick={() => exportPrep(booking)}
@@ -5919,11 +5941,50 @@ function Admin({ bookings, language, onEdit, onCancel }: {
                       <Download size={15} /> Exportera arbetsunderlag
                     </Button>
                   )}
-                  {(booking.participants ?? []).filter((person) => !participantComplete(person, booking.date)).length > 0 && (
+                  {groupPeople.some((person) => !participantComplete(person, booking.date)) && (
                     <p className="admin-capacity-warning">
-                      Saknade uppgifter: {(booking.participants ?? []).map((person, index) => !participantComplete(person, booking.date) ? person.name || `Deltagare ${index + 1}` : null).filter(Boolean).slice(0, 8).join(", ")}
-                      {(booking.participants ?? []).filter((person) => !participantComplete(person, booking.date)).length > 8 ? " …" : ""}.
+                      Saknade uppgifter: {groupPeople.map((person, index) => !participantComplete(person, booking.date) ? person.name || `Deltagare ${index + 1}` : null).filter(Boolean).slice(0, 8).join(", ")}
+                      {groupPeople.filter((person) => !participantComplete(person, booking.date)).length > 8 ? " …" : ""}.
                     </p>
+                  )}
+                  {groupPeople.length > 0 && (
+                    <details className="admin-participants">
+                      <summary>Deltagarlista ({groupPeople.length})</summary>
+                      <div className="admin-participants-scroll">
+                        <table>
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Namn</th>
+                              <th scope="col">Roll</th>
+                              <th scope="col">Födelsedatum</th>
+                              <th scope="col">Aktivitet</th>
+                              <th scope="col">Utrustning</th>
+                              <th scope="col">Skostorlek</th>
+                              <th scope="col">Längd</th>
+                              <th scope="col">Vikt</th>
+                              <th scope="col">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {groupPeople.map((person, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{person.name || "—"}</td>
+                                <td>{person.role === "teacher" ? "Lärare" : "Elev"}</td>
+                                <td>{person.birthDate || "—"}</td>
+                                <td>{bookingText(person.activity) || "—"}</td>
+                                <td>{equipmentChoice(person) === "borrow" ? "Lånar" : "Egen"}</td>
+                                <td>{person.shoe || "—"}</td>
+                                <td>{person.height || "—"}</td>
+                                <td>{person.weight || "—"}</td>
+                                <td>{participantComplete(person, booking.date) ? "Klar" : "Saknas"}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </details>
                   )}
                 </div>
               )}
@@ -6075,7 +6136,7 @@ function CartDrawer({
                           {draft.entry === "group"
                             ? draft.groupCount
                             : draft.adults + draft.children}{" "}
-                          personer
+                          {(draft.entry === "group" ? draft.groupCount : draft.adults + draft.children) === 1 ? "person" : "personer"}
                         </span>
                         <b>
                           {hasOldMealPrice(entry)
