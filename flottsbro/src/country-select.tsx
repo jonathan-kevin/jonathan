@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Check, ChevronDown, Search, X } from "lucide-react";
-import { countryCode, countryFlag, countryOptions, type CountryOption } from "./countries";
+import { countryCode, countryOptions, type CountryOption } from "./countries";
 
 type Props = {
   value: string;
@@ -12,6 +12,8 @@ const normalize = (value: string) => value
   .normalize("NFD")
   .replace(/[\u0300-\u036f]/g, "")
   .toLocaleLowerCase();
+const flagPosition = (code: string) =>
+  `${(65 - code.charCodeAt(1)) * 24}px ${(65 - code.charCodeAt(0)) * 18}px`;
 
 export function CountrySelect({ value, language, onChange }: Props) {
   const [open, setOpen] = useState(false);
@@ -73,7 +75,7 @@ export function CountrySelect({ value, language, onChange }: Props) {
         }}
       >
         <span id={`${id}-value`}>
-          {selected && <span className="flow-country-flag" aria-hidden="true">{countryFlag(selected.code)}</span>}
+          {selected && <span className="flow-country-flag" style={{ backgroundPosition: flagPosition(selected.code) }} aria-hidden="true" />}
           {selected?.[language] || value || (language === "en" ? "Choose country" : "Välj land")}
         </span>
         <ChevronDown size={17} aria-hidden="true" />
@@ -126,7 +128,7 @@ export function CountrySelect({ value, language, onChange }: Props) {
                 onMouseEnter={() => setActive(index)}
                 onClick={() => choose(option)}
               >
-                <span className="flow-country-flag" aria-hidden="true">{countryFlag(option.code)}</span>
+                <span className="flow-country-flag" style={{ backgroundPosition: flagPosition(option.code) }} aria-hidden="true" />
                 <span>{option[language]}</span>
                 {option.code === selectedCode && <Check size={16} aria-hidden="true" />}
               </button>

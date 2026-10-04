@@ -30,8 +30,3 @@ export const countryLabel = (value: string | undefined, language: "sv" | "en") =
   const code = countryCode(value);
   return code ? countries.getName(code, language) ?? value ?? "" : value ?? "";
 };
-
-export const countryFlag = (code: string) =>
-  /^[A-Z]{2}$/.test(code)
-    ? String.fromCodePoint(...[...code].map((letter) => 127397 + letter.charCodeAt(0)))
-    : "";
