@@ -68,8 +68,8 @@ export const sessionSeatsLeft = (
     draft.sessionAssignments?.[`${offering}:${date}`] ?? {},
   ).filter((slot) => slot === time).length, 0);
 
-export const equipmentKind = (activity: string | undefined, season: FlowDraft["season"]): EquipmentKind =>
-  activity === "Snowboard" ? "snowboard" : activity === "Cykling" || season === "summer" ? "bike" : "ski";
+export const equipmentKind = (activity: string | undefined, season: FlowDraft["season"]): EquipmentKind | null =>
+  season === "summer" ? "bike" : activity === "Snowboard" ? "snowboard" : activity === "Skidåkning" ? "ski" : null;
 
 export const equipmentDemand = (draft: FlowDraft, kind: EquipmentKind) => {
   if (draft.entry === "group") return draft.participants.slice(0, draft.groupCount)

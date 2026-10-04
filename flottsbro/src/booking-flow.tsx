@@ -70,7 +70,7 @@ export type FlowParticipant = {
   weight: string;
 };
 type RentalDetails = {
-  activity: "Skidåkning" | "Snowboard" | "Cykling";
+  activity: "" | "Skidåkning" | "Snowboard" | "Cykling";
   shoe: string;
   height: string;
   weight: string;
@@ -1257,7 +1257,7 @@ export function BookingFlow({
           name: cells[0] ?? "",
           role,
           birthDate,
-          activity: draft.season === "winter" ? "Skidåkning" : "Cykling",
+          activity: draft.season === "winter" && equipment === "borrow" ? "" : draft.season === "winter" ? "Skidåkning" : "Cykling",
           equipment,
           shoe: "",
           height: "",
@@ -1365,8 +1365,7 @@ export function BookingFlow({
           name: read(cells, ["namn"], 0),
           role,
           birthDate,
-          activity:
-            activity || (draft.season === "winter" ? "Skidåkning" : "Cykling"),
+          activity: activity || (draft.season === "winter" ? "" : "Cykling"),
           equipment:
             /^(ja|yes|låna|hyra|borrow|rent)$/i.test(equipmentText) ||
             (!equipmentText && Boolean(shoe || height || weight))
@@ -2631,6 +2630,9 @@ export function BookingFlow({
                                         equipment: event.target.checked
                                           ? "borrow"
                                           : "own",
+                                        ...(event.target.checked && draft.season === "winter"
+                                          ? { activity: "" }
+                                          : {}),
                                       })
                                     }
                                     aria-label={`Låna utrustning för ${person.name || `deltagare ${index + 1}`}`}
@@ -2649,6 +2651,7 @@ export function BookingFlow({
                                     >
                                       {draft.season === "winter" ? (
                                         <>
+                                          <option value="">Välj utrustning</option>
                                           <option value="Skidåkning">
                                             Skidor
                                           </option>
@@ -2754,7 +2757,7 @@ export function BookingFlow({
                       const borrows = (draft.borrowGuests ?? []).includes(i);
                       const details = draft.rentalDetails?.[i] ?? {
                         activity:
-                          draft.season === "winter" ? "Skidåkning" : "Cykling",
+                          draft.season === "winter" ? "" : "Cykling",
                         shoe: "",
                         height: "",
                         weight: "",
@@ -2837,6 +2840,9 @@ export function BookingFlow({
                                     : (draft.borrowGuests ?? []).filter(
                                         (index) => index !== i,
                                       ),
+                                  ...(event.target.checked && draft.season === "winter"
+                                    ? { rentalDetails: { ...draft.rentalDetails, [i]: { ...details, activity: "" } } }
+                                    : {}),
                                 })
                               }
                             />
@@ -2853,7 +2859,7 @@ export function BookingFlow({
                             <div className="flow-fields flow-guest-gear">
                               {draft.season === "winter" && (
                                 <label>
-                                  Utrustning
+                                  Vad vill du låna?
                                   <select
                                     value={details.activity}
                                     onChange={(event) =>
@@ -2863,6 +2869,7 @@ export function BookingFlow({
                                       )
                                     }
                                   >
+                                    <option value="">Välj skidor eller snowboard</option>
                                     <option value="Skidåkning">Skidor</option>
                                     <option value="Snowboard">Snowboard</option>
                                   </select>
