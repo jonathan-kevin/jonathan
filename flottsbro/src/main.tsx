@@ -18,6 +18,7 @@ import {
 } from "./booking-flow";
 import { installPublicTranslation } from "./locale";
 import { capacityIssues, cabinStock, cabinUnitsLeft, cabinUnitsNeeded, equipmentDemand, equipmentStock, equipmentUnitsLeft, passDemand, passStock, passUnitsLeft, sessionCapacity, sessionSeatsLeft, type EquipmentKind } from "./capacity";
+import { countryLabel } from "./countries";
 import {
   Activity,
   ArrowLeft,
@@ -127,12 +128,12 @@ const validGroupContact = (contact: ContactDetails) =>
   validContact(contact) &&
   Boolean(contact.contactPerson?.trim()) &&
   /^\S+@\S+\.\S+$/.test(contact.billingEmail || "");
-const formatAddress = (contact: ContactDetails) =>
+const formatAddress = (contact: ContactDetails, language: "sv" | "en" = "sv") =>
   [
     contact.street,
     contact.addressLine2,
     `${contact.postalCode} ${contact.city}`,
-    contact.country || "Sverige",
+    countryLabel(contact.country || "Sverige", language),
   ]
     .filter(Boolean)
     .join(", ");
@@ -5863,7 +5864,7 @@ function Admin({ bookings, language, onEdit, onCancel }: {
                   <p>
                     {booking.email} · {booking.contact.phone}
                   </p>
-                  <p>{bookingText(formatAddress(booking.contact))}</p>
+                  <p>{formatAddress(booking.contact, language)}</p>
                   {booking.kind === "group" && (
                     <p>
                       Faktura: {booking.contact.billingEmail || booking.email}

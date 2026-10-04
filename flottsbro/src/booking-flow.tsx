@@ -28,6 +28,8 @@ import familyImage from "./assets/lodging-family.jpg";
 import familyImage2 from "./assets/lodging-family-2.jpg";
 import viewImage from "./assets/lodging-view.jpg";
 import viewImage2 from "./assets/lodging-view-2.jpg";
+import { CountrySelect } from "./country-select";
+import { countryLabel } from "./countries";
 import {
   cabinUnitsLeft,
   cabinUnitsNeeded,
@@ -3143,13 +3145,6 @@ export function BookingFlow({
               <>
                 <div className="flow-subhead">
                   <h3>Kontaktperson</h3>
-                  <button
-                    type="button"
-                    className="flow-example"
-                    onClick={fillExampleContact}
-                  >
-                    <WandSparkles size={15} /> Fyll i exempeluppgifter
-                  </button>
                 </div>
                 {!group && (
                   <p className="flow-muted">
@@ -3248,6 +3243,13 @@ export function BookingFlow({
                 </div>
                 <h3>{group ? "Adress och fakturauppgifter" : "Adress"}</h3>
                 <div className="flow-fields">
+                  <CountrySelect
+                    value={draft.contact.country ?? ""}
+                    language={language}
+                    onChange={(country) => update({
+                      contact: { ...draft.contact, country },
+                    })}
+                  />
                   <label>
                     Gatuadress
                     <input
@@ -3300,19 +3302,6 @@ export function BookingFlow({
                         })
                       }
                       placeholder="Huddinge"
-                    />
-                  </label>
-                  <label>
-                    Land
-                    <input
-                      autoComplete="country-name"
-                      value={draft.contact.country ?? ""}
-                      onChange={(e) =>
-                        update({
-                          contact: { ...draft.contact, country: e.target.value },
-                        })
-                      }
-                      placeholder="Sverige"
                     />
                   </label>
                   {group && (
@@ -3435,7 +3424,7 @@ export function BookingFlow({
                   <div>
                     <span>Adress</span>
                     <strong>
-                      {[draft.contact.street, draft.contact.addressLine2, `${draft.contact.postalCode} ${draft.contact.city}`, draft.contact.country].filter(Boolean).join(", ")}
+                      {[draft.contact.street, draft.contact.addressLine2, `${draft.contact.postalCode} ${draft.contact.city}`, countryLabel(draft.contact.country, language)].filter(Boolean).join(", ")}
                     </strong>
                   </div>
                   {itemized.map((item) => (
