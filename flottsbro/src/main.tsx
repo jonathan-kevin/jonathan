@@ -5661,6 +5661,19 @@ function Admin({ bookings, language, onEdit, onCancel }: {
         },
       )
     : [];
+  const guestPeople = booking?.kind !== "group" && selectedDraft
+    ? Array.from(
+        { length: selectedDraft.adults + selectedDraft.children },
+        (_, index) => ({
+          name: selectedDraft.guests?.[index] || booking?.guestNames?.[index] ||
+            (index < selectedDraft.adults ? `Vuxen ${index + 1}` : `Barn ${index - selectedDraft.adults + 1}`),
+          birthDate: index < selectedDraft.adults ? "" : selectedDraft.childBirthDates?.[index - selectedDraft.adults] || "",
+          borrows: selectedDraft.borrowGuests?.includes(index) ?? false,
+          details: selectedDraft.rentalDetails?.[index] || booking?.rentalDetails?.[index],
+        }),
+      )
+    : [];
+  const guestBorrowCount = guestPeople.filter((person) => person.borrows).length;
   const bookingText = (value: string) => displayBookingText(value, language);
   const statusText = (status: Status) => language === "sv" ? status :
     ({ Bekräftad: "Confirmed", Preliminär: "Provisional", Avbokad: "Cancelled" }[status]);
@@ -5865,6 +5878,35 @@ function Admin({ bookings, language, onEdit, onCancel }: {
                   {booking.contact.note && (
                     <p>Meddelande: {booking.contact.note}</p>
                   )}
+                </div>
+              )}
+              {booking.kind !== "group" && guestPeople.length > 0 && (
+                <div className="detail-section">
+                  <h3>Deltagare & utrustning</h3>
+                  <p>{guestBorrowCount
+                    ? `${guestBorrowCount} av ${guestPeople.length} deltagare lånar utrustning. Utrustning hämtas vid uthyrningen.`
+                    : "Ingen i sällskapet lånar utrustning."}</p>
+                  <div className="admin-guest-list">
+                    {guestPeople.map((person, index) => (
+                      <div className="admin-guest-card" key={index}>
+                        <div className="admin-guest-card-head">
+                          <div>
+                            <strong>{person.name}</strong>
+                            {person.birthDate && <small>Födelsedatum: {person.birthDate}</small>}
+                          </div>
+                          <span className={person.borrows ? "borrowed" : ""}>{person.borrows ? "Lånar" : "Egen"}</span>
+                        </div>
+                        {person.borrows && (
+                          <dl className="admin-guest-measurements">
+                            <div><dt>Utrustning</dt><dd>{bookingText(person.details?.activity === "Skidåkning" ? "Skidor" : person.details?.activity === "Cykling" ? "Cykel" : person.details?.activity || "Saknas")}</dd></div>
+                            <div><dt>Skostorlek</dt><dd>{person.details?.shoe || "—"}</dd></div>
+                            <div><dt>Längd (cm)</dt><dd>{person.details?.height || "—"}</dd></div>
+                            <div><dt>Vikt (kg)</dt><dd>{person.details?.weight || "—"}</dd></div>
+                          </dl>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
               <div className="detail-section">
