@@ -1800,8 +1800,7 @@ function ProductFinder({
           type="button"
           onClick={submit}
         >
-          Fortsätt till{" "}
-          {choices.find((choice) => choice.id === entry)?.label.toLowerCase()}{" "}
+          Boka
           <ArrowRight size={19} />
         </button>
       </div>
