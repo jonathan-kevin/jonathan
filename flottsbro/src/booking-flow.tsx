@@ -40,7 +40,6 @@ import {
   cabinUnitsNeeded,
   capacityIssues,
   equipmentDemand,
-  equipmentStock,
   equipmentUnitsLeft,
   passUnitsLeft,
   sessionCapacity,
@@ -693,7 +692,6 @@ export function BookingFlow({
   const [bulkText, setBulkText] = useState("");
   const [newPersonIndex, setNewPersonIndex] = useState<number | null>(null);
   const [openAddon, setOpenAddon] = useState<"lodging" | "pass" | "activities" | "school" | "equipment" | null>(null);
-  const [returnToAddons, setReturnToAddons] = useState(false);
   const [cabinImageIndex, setCabinImageIndex] = useState<
     Record<Exclude<CabinId, "none">, number>
   >({ forest: 0, family: 0, view: 0 });
@@ -862,7 +860,9 @@ export function BookingFlow({
   const stageLabels: Record<number, string> = {
     0: "Period & sällskap",
     1: "Deltagare",
-    2: mainIsCabin
+    2: draft.entry === "rental"
+      ? "Hyra utrustning"
+      : mainIsCabin
       ? "Boende"
       : draft.entry === "school"
         ? draft.season === "winter" ? "Skidskola" : "Cykelskola"
@@ -876,15 +876,11 @@ export function BookingFlow({
     11: "Bekräfta",
   };
   // Keep saved step IDs stable while collecting all optional products in step 3.
-  const standardSteps = draft.entry === "rental"
-    ? [0, 1, 3, 7, 8, 9, 11]
-    : [0, 1, 2, 3, 7, 8, 9, 11];
+  const standardSteps = [0, 1, 2, 3, 7, 8, 9, 11];
   const visibleSteps = quickRebook ? [8, 9, 11] : standardSteps;
   const stepPosition = visibleSteps.indexOf(draft.step);
   const followingStep = visibleSteps[stepPosition + 1] ?? draft.step;
-  const previousStep = returnToAddons && draft.step === 1
-    ? 3
-    : visibleSteps[stepPosition - 1] ?? 0;
+  const previousStep = visibleSteps[stepPosition - 1] ?? 0;
   const changeParty = (nextAdults: number, nextChildren: number) => {
     const remap = (index: number) => {
       if (index < draft.adults) return index < nextAdults ? index : null;
@@ -1162,25 +1158,22 @@ export function BookingFlow({
       setError("Sällskapet behöver uppdateras för det nya datumet.");
       return;
     }
-    if (
-      draft.step === 1 &&
-      !group &&
-      (draft.borrowGuests ?? []).some(
-        (index) =>
-          index < guests &&
-          (!draft.rentalDetails?.[index]?.activity ||
-            !draft.rentalDetails[index].height ||
-            (draft.season === "winter" &&
-              (!draft.rentalDetails[index].shoe ||
-                !draft.rentalDetails[index].weight))),
-      )
-    ) {
-      setError("Fyll i utrustningsuppgifterna för alla som lånar.");
-      return;
-    }
-    if (draft.step === 1 && draft.entry === "rental" && borrowCount === 0) {
+    if (draft.step === 2 && draft.entry === "rental" && borrowCount === 0) {
       setError("Markera minst en person som ska hyra utrustning.");
       return;
+    }
+    if ((draft.step === 2 && draft.entry === "rental") || [3, 8, 9, 11].includes(draft.step)) {
+      const incompleteEquipment = group
+        ? preparedParticipants().some((person) => person.equipment === "borrow" &&
+          (!person.activity || !person.height || (draft.season === "winter" && (!person.shoe || !person.weight))))
+        : (draft.borrowGuests ?? []).some((index) => index < guests &&
+          (!draft.rentalDetails?.[index]?.activity || !draft.rentalDetails[index].height ||
+            (draft.season === "winter" && (!draft.rentalDetails[index].shoe || !draft.rentalDetails[index].weight))));
+      if (incompleteEquipment) {
+        if (draft.step === 3) setOpenAddon("equipment");
+        setError("Fyll i utrustningsuppgifterna för alla som hyr.");
+        return;
+      }
     }
     if (draft.step === 2 && mainIsCabin && draft.cabin === "none") {
       setError("Välj ett boende för att fortsätta.");
@@ -1318,9 +1311,8 @@ export function BookingFlow({
       onComplete(preliminary);
       update({ draftBookingId: preliminary.id, step: 1 });
     } else if (draft.step === 1 && group)
-      update({ participants: preparedParticipants(), step: returnToAddons ? 3 : 2 });
-    else update({ step: draft.step === 1 && returnToAddons ? 3 : followingStep });
-    if (draft.step === 1) setReturnToAddons(false);
+      update({ participants: preparedParticipants(), step: 2 });
+    else update({ step: followingStep });
     setActive(true);
     setError("");
   };
@@ -1333,11 +1325,7 @@ export function BookingFlow({
   const participantComplete = (person: FlowParticipant) =>
     Boolean(person.name.trim()) &&
     (person.role === "teacher" ||
-      Boolean(person.birthDate && person.birthDate < draft.start)) &&
-    (person.equipment === "own" ||
-      Boolean(
-        person.activity && person.shoe && person.height && person.weight,
-      ));
+      Boolean(person.birthDate && person.birthDate < draft.start));
   const participantRows = preparedParticipants().map((person, index) => ({
     person,
     index,
@@ -1683,6 +1671,23 @@ export function BookingFlow({
       ),
     );
   const autoFillStep = () => {
+    const fillRental = () => {
+      if (group) update({ participants: preparedParticipants().map((person, index) => {
+        const borrows = person.role !== "teacher" && index % 4 !== 0;
+        return { ...person, equipment: borrows ? "borrow" as const : "own" as const,
+          activity: draft.season === "summer" ? "Cykling" : index % 3 === 0 ? "Snowboard" : "Skidåkning",
+          height: borrows ? String(145 + index % 35) : "",
+          shoe: borrows ? String(35 + index % 9) : "",
+          weight: borrows ? String(42 + index % 26) : "" };
+      }) });
+      else {
+        const indices = Array.from({ length: guests }, (_, index) => index).filter((index) => index % 3 !== 2);
+        update({ borrowGuests: indices, rentalDetails: Object.fromEntries(indices.map((index) => [index, {
+          activity: draft.season === "summer" ? "Cykling" : index % 2 ? "Snowboard" : "Skidåkning",
+          height: String(150 + index * 8), shoe: String(36 + index * 2), weight: String(49 + index * 8),
+        }])) });
+      }
+    };
     if (draft.step === 0) {
       if (group) update({ org: "Björkängsskolan", groupCount: 24 });
       else if (draft.entry === "school")
@@ -1691,7 +1696,8 @@ export function BookingFlow({
     } else if (draft.step === 1) {
       fillExampleParticipants();
     } else if (draft.step === 2) {
-      if (mainIsCabin) setCabin("family");
+      if (draft.entry === "rental") fillRental();
+      else if (mainIsCabin) setCabin("family");
       else if (draft.entry === "school")
         update({
           schoolLesson: "group",
@@ -1712,6 +1718,18 @@ export function BookingFlow({
         });
       } else setPass(draft.season === "winter" ? "full" : "bike");
     } else if (draft.step === 3) {
+      if (openAddon === "equipment") fillRental();
+      else if (openAddon === "pass") setPass(draft.season === "winter" ? "full" : "bike");
+      else if (openAddon === "lodging") setCabin("family");
+      else if (openAddon === "activities") {
+        const id: ActivityId = draft.season === "winter" ? "snowshoe" : "canoe";
+        update({ activities: [...new Set([...draft.activities, id])], sessionAssignments: {
+          ...draft.sessionAssignments, ...exampleSessionAssignments([id]),
+        } });
+      } else if (openAddon === "school") update({ schoolLesson: "group", schoolLevel: "beginner", sessionAssignments: {
+        ...draft.sessionAssignments, ...exampleSessionAssignments(["school"], "group"),
+      } });
+      else {
       const id: ActivityId = draft.season === "winter" ? "snowshoe" : "canoe";
       const selected = [...new Set([...draft.activities, id])];
       const lesson = draft.schoolLesson === "none" ? "group" : draft.schoolLesson ?? "group";
@@ -1733,6 +1751,7 @@ export function BookingFlow({
           ...exampleSessionAssignments([...selected, "school"], lesson),
         },
       });
+      }
     } else if (draft.step === 7) fillExampleContact();
     else if (draft.step === 8) update({ terms: true });
     else if (draft.step === 9) update({ payment: group ? "invoice" : "card" });
@@ -2285,6 +2304,73 @@ export function BookingFlow({
   const schoolLessonLabel = draft.schoolLesson === "private"
     ? language === "en" ? "Private lesson" : "Privatlektion"
     : language === "en" ? "Group lesson" : "Grupplektion";
+  const equipmentCards = () => {
+    const choices = draft.season === "winter"
+      ? [{ value: "own", title: language === "en" ? "Own equipment" : "Egen utrustning", kind: null },
+        { value: "Skidåkning", title: language === "en" ? "Skis" : "Skidor", kind: "ski" as EquipmentKind },
+        { value: "Snowboard", title: "Snowboard", kind: "snowboard" as EquipmentKind }]
+      : [{ value: "own", title: language === "en" ? "Own equipment" : "Egen utrustning", kind: null },
+        { value: "Cykling", title: language === "en" ? "Bike" : "Cykel", kind: "bike" as EquipmentKind }];
+    return <div className="flow-equipment-page">
+      <p className="flow-muted">{language === "en"
+        ? "Choose rental equipment for each guest. You can mix skis and snowboards. Sizes are needed only for guests renting equipment."
+        : "Välj utrustning för varje deltagare. Skidor och snowboard kan kombineras. Mått behövs bara för den som hyr."}</p>
+      <div className="flow-capacity-summary">
+        <strong>{language === "en" ? "Available on your first day" : "Ledigt på startdagen"}</strong>
+        {choices.filter((choice) => choice.kind).map((choice) => <span key={choice.value}>
+          {choice.title}: {equipmentDemand(draft, choice.kind!)} {language === "en" ? "selected" : "valda"} · {equipmentUnitsLeft(bookings, choice.kind!, draft.start, draft.editBookingId ?? draft.draftBookingId)} {language === "en" ? "available" : "lediga"}
+        </span>)}
+      </div>
+      <div className="flow-equipment-people">
+        {Array.from({ length: guests }, (_, index) => {
+          const person = group ? preparedParticipants()[index] : null;
+          const details = draft.rentalDetails?.[index] ?? { activity: "" as const, shoe: "", height: "", weight: "" };
+          const borrows = group ? person?.equipment === "borrow" : (draft.borrowGuests ?? []).includes(index);
+          const activity = group ? person?.activity : details.activity;
+          const name = group
+            ? person?.name || `${language === "en" ? "Participant" : "Deltagare"} ${index + 1}`
+            : draft.guests[index] || `${index < draft.adults ? language === "en" ? "Adult" : "Vuxen" : language === "en" ? "Child" : "Barn"} ${index < draft.adults ? index + 1 : index - draft.adults + 1}`;
+          const selectChoice = (choice: string) => {
+            if (group) participantChange(index, {
+              equipment: choice === "own" ? "own" : "borrow",
+              activity: choice === "own" ? person?.activity ?? "" : choice,
+            });
+            else update({
+              borrowGuests: choice === "own"
+                ? (draft.borrowGuests ?? []).filter((guest) => guest !== index)
+                : [...new Set([...(draft.borrowGuests ?? []), index])],
+              rentalDetails: { ...draft.rentalDetails, [index]: { ...details,
+                activity: choice === "own" ? details.activity : choice as RentalDetails["activity"] } },
+            });
+          };
+          const changeMeasurement = (field: "shoe" | "height" | "weight", value: string) => {
+            if (group) participantChange(index, { [field]: value });
+            else update({ rentalDetails: { ...draft.rentalDetails, [index]: { ...details, [field]: value } } });
+          };
+          return <section className="flow-equipment-person" key={index}>
+            <div className="flow-equipment-person-head"><strong>{name}</strong><span>{borrows ? `${money(equipmentUnit)} / ${language === "en" ? "day" : "dag"}` : language === "en" ? "No rental" : "Ingen hyra"}</span></div>
+            <div className="flow-equipment-choices" role="group" aria-label={`${language === "en" ? "Equipment for" : "Utrustning för"} ${name}`}>
+              {choices.map((choice) => <button type="button" key={choice.value}
+                className={`flow-equipment-choice ${choice.value === (borrows ? activity : "own") ? "selected" : ""}`}
+                aria-pressed={choice.value === (borrows ? activity : "own")}
+                onClick={() => selectChoice(choice.value)}>
+                <strong>{choice.title}</strong>
+                <small>{choice.kind ? `${money(equipmentUnit)} / ${language === "en" ? "day" : "dag"}` : language === "en" ? "No extra charge" : "Utan tillägg"}</small>
+                <Check size={17} aria-hidden="true" />
+              </button>)}
+            </div>
+            {borrows && <div className="flow-fields flow-equipment-measures">
+              <label>{language === "en" ? "Height (cm)" : "Längd (cm)"}<input inputMode="numeric" value={group ? person?.height ?? "" : details.height} onChange={(event) => changeMeasurement("height", event.target.value)} /></label>
+              {draft.season === "winter" && <>
+                <label>{language === "en" ? "Shoe size" : "Skostorlek"}<input inputMode="numeric" value={group ? person?.shoe ?? "" : details.shoe} onChange={(event) => changeMeasurement("shoe", event.target.value)} /></label>
+                <label>{language === "en" ? "Weight (kg)" : "Vikt (kg)"}<input inputMode="numeric" value={group ? person?.weight ?? "" : details.weight} onChange={(event) => changeMeasurement("weight", event.target.value)} /></label>
+              </>}
+            </div>}
+          </section>;
+        })}
+      </div>
+    </div>;
+  };
   const optionalAddons = [
     {
       id: "lodging" as const,
@@ -2339,20 +2425,47 @@ export function BookingFlow({
       show: draft.entry !== "rental",
       icon: draft.season === "winter" ? <MountainSnow size={21} /> : <Bike size={21} />,
       title: "Hyra utrustning",
-      description: language === "en" ? "Equipment is chosen per guest" : "Behovet anges per deltagare",
+      description: language === "en" ? "Choose equipment per guest" : "Välj utrustning per deltagare",
       summary: borrowCount
         ? `${borrowCount} ${language === "en" ? borrowCount === 1 ? "guest" : "guests" : borrowCount === 1 ? "person" : "personer"} · ${addonPrice(equipmentTotal)}`
         : language === "en" ? "No rental selected" : "Ingen hyra vald",
       selected: borrowCount > 0,
-      content: () => <div className="flow-addon-equipment">
-        <p>{language === "en" ? "Choose equipment and sizes for each person in the participant step." : "Utrustning och storlekar anges för varje person på deltagarsteget."}</p>
-        <button type="button" className="flow-text-button" onClick={() => {
-          setReturnToAddons(true);
-          update({ step: 1 });
-        }}>{language === "en" ? "Change guests' equipment" : "Ändra deltagarnas utrustning"} <ArrowRight size={16} /></button>
-      </div>,
+      content: equipmentCards,
     },
   ].filter((addon) => addon.show);
+  const finishAddon = () => {
+    if (openAddon === "equipment") {
+      const incomplete = group
+        ? preparedParticipants().some((person) => person.equipment === "borrow" &&
+          (!person.activity || !person.height || (draft.season === "winter" && (!person.shoe || !person.weight))))
+        : (draft.borrowGuests ?? []).some((index) => index < guests &&
+          (!draft.rentalDetails?.[index]?.activity || !draft.rentalDetails[index].height ||
+            (draft.season === "winter" && (!draft.rentalDetails[index].shoe || !draft.rentalDetails[index].weight))));
+      if (incomplete) { setError("Fyll i utrustningsuppgifterna för alla som hyr."); return; }
+    }
+    if ((openAddon === "activities" || openAddon === "school") &&
+      unscheduledOfferings.some((offering) => openAddon === "school" ? offering === "school" : offering !== "school")) {
+      setError("Välj minst en deltagare, dag och ledig tid för varje vald lektion eller aktivitet.");
+      return;
+    }
+    if (openAddon === "activities") {
+      const slot = underageSlots[0];
+      if (slot) {
+        const activity = activities[slot.offering as ActivityId];
+        setError(`${participantLabel(slot.index)} är för ung för ${activity.name}. Åldersgränsen är ${activity.minAge} år.`);
+        return;
+      }
+    }
+    if (openAddon === "lodging" && selectedCabin &&
+      cabinUnitsLeft(bookings, draft.cabin as Exclude<CabinId, "none">, selectedCabin.beds, draft.start, draft.end,
+        draft.editBookingId ?? draft.draftBookingId) < numberOfCabins) {
+      setError("Det valda boendet är inte längre tillgängligt för perioden. Välj ett annat boende.");
+      return;
+    }
+    setOpenAddon(null);
+    setError("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   const itemized = [
     draft.pass !== "none" && {
       label: `${draft.pass === "bike" ? "Cykelpass" : "SkiPass"} · ${passHours}`,
@@ -2464,7 +2577,12 @@ export function BookingFlow({
                   ? "completed"
                   : ""
             }
-            onClick={() => position < stepPosition && update({ step })}
+            onClick={() => {
+              if (position < stepPosition) {
+                setOpenAddon(null);
+                update({ step });
+              }
+            }}
           >
             <span>
               {position < stepPosition ? <Check size={13} /> : position + 1}
@@ -2482,7 +2600,9 @@ export function BookingFlow({
               <span className="flow-kicker">
                 STEG {stepPosition + 1} AV {visibleSteps.length}
               </span>
-              <h2>{stageLabels[draft.step]}</h2>
+              <h2>{draft.step === 3 && openAddon
+                ? optionalAddons.find((addon) => addon.id === openAddon)?.title ?? stageLabels[draft.step]
+                : stageLabels[draft.step]}</h2>
             </div>
             {draft.step === 0 && (
               <>
@@ -2617,14 +2737,6 @@ export function BookingFlow({
             )}
             {draft.step === 1 && (
               <>
-                <div className="flow-capacity-summary">
-                  <strong>Utrustning som är ledig på startdagen</strong>
-                  {(Object.keys(equipmentStock) as EquipmentKind[])
-                    .filter((kind) => kind === "bike" ? draft.season === "summer" : draft.season === "winter")
-                    .map((kind) => <span key={kind}>
-                      {kind === "ski" ? "Skidor" : kind === "snowboard" ? "Snowboard" : "Cyklar"}: {equipmentDemand(draft, kind)} valda · {equipmentUnitsLeft(bookings, kind, draft.start, draft.editBookingId ?? draft.draftBookingId)} lediga av {equipmentStock[kind]}
-                    </span>)}
-                </div>
                 {group ? (
                   <>
                     <div className="flow-subhead" id="group-participants">
@@ -2633,8 +2745,8 @@ export function BookingFlow({
                     </div>
                     <p className="flow-muted">
                       Markera lärare där det behövs. Elever behöver
-                      födelsedatum. Utrustningsmått krävs bara för den som
-                      lånar. Du kan fortsätta med en ofullständig lista och
+                      födelsedatum. Utrustning väljer du senare under Tillägg.
+                      Du kan fortsätta med en ofullständig lista och
                       komplettera den före betalning.
                     </p>
                     <div className="flow-list-actions">
@@ -2760,11 +2872,6 @@ export function BookingFlow({
                             <th scope="col">Namn</th>
                             <th scope="col">Roll</th>
                             <th scope="col">Födelsedatum</th>
-                            <th scope="col">Låna</th>
-                            <th scope="col">Aktivitet</th>
-                            <th scope="col">Skostorlek</th>
-                            <th scope="col">Längd (cm)</th>
-                            <th scope="col">Vikt (kg)</th>
                             <th scope="col">Status</th>
                             <th scope="col">
                               <span className="sr-only">Ta bort</span>
@@ -2826,73 +2933,6 @@ export function BookingFlow({
                                     aria-label={`Födelsedatum för deltagare ${index + 1}`}
                                   />
                                 </td>
-                                <td className="flow-people-loan-cell">
-                                  <input
-                                    type="checkbox"
-                                    checked={person.equipment === "borrow"}
-                                    onChange={(event) =>
-                                      participantChange(index, {
-                                        equipment: event.target.checked
-                                          ? "borrow"
-                                          : "own",
-                                        ...(event.target.checked && draft.season === "winter"
-                                          ? { activity: "" }
-                                          : {}),
-                                      })
-                                    }
-                                    aria-label={`Låna utrustning för ${person.name || `deltagare ${index + 1}`}`}
-                                  />
-                                </td>
-                                <td>
-                                  {person.equipment === "borrow" ? (
-                                    <select
-                                      value={person.activity}
-                                      onChange={(event) =>
-                                        participantChange(index, {
-                                          activity: event.target.value,
-                                        })
-                                      }
-                                      aria-label={`Aktivitet för deltagare ${index + 1}`}
-                                    >
-                                      {draft.season === "winter" ? (
-                                        <>
-                                          <option value="">Välj utrustning</option>
-                                          <option value="Skidåkning">
-                                            Skidor
-                                          </option>
-                                          <option value="Snowboard">
-                                            Snowboard
-                                          </option>
-                                        </>
-                                      ) : (
-                                        <option value="Cykling">Cykel</option>
-                                      )}
-                                    </select>
-                                  ) : (
-                                    <span className="flow-people-na">–</span>
-                                  )}
-                                </td>
-                                {(["shoe", "height", "weight"] as const).map(
-                                  (field) => (
-                                    <td key={field}>
-                                      <input
-                                        value={
-                                          person.equipment === "borrow"
-                                            ? person[field]
-                                            : ""
-                                        }
-                                        disabled={person.equipment !== "borrow"}
-                                        onChange={(event) =>
-                                          participantChange(index, {
-                                            [field]: event.target.value,
-                                          })
-                                        }
-                                        inputMode="numeric"
-                                        aria-label={`${field === "shoe" ? "Skostorlek" : field === "height" ? "Längd i centimeter" : "Vikt i kilogram"} för deltagare ${index + 1}`}
-                                      />
-                                    </td>
-                                  ),
-                                )}
                                 <td>
                                   <span
                                     className={`flow-people-status ${participantComplete(person) ? "complete" : "missing"}`}
@@ -2916,7 +2956,7 @@ export function BookingFlow({
                             ))}
                           {!filteredParticipants.length && (
                             <tr>
-                              <td colSpan={11} className="flow-people-empty">
+                              <td colSpan={6} className="flow-people-empty">
                                 Inga deltagare matchar sökningen.
                               </td>
                             </tr>
@@ -2952,31 +2992,12 @@ export function BookingFlow({
                 ) : (
                   <>
                     <p className="flow-muted">
-                      Ange namn och utrustningsbehov för varje person. Barn
-                      behöver också födelsedatum. Utrustningsuppgifter visas
-                      bara när du markerar lån.
+                      Ange namn för varje person. Barn behöver också
+                      födelsedatum. Utrustning väljer du senare.
                     </p>
                     {Array.from({ length: guests }, (_, i) => {
                       const isChild = i >= draft.adults;
                       const childIndex = i - draft.adults;
-                      const borrows = (draft.borrowGuests ?? []).includes(i);
-                      const details = draft.rentalDetails?.[i] ?? {
-                        activity:
-                          draft.season === "winter" ? "" : "Cykling",
-                        shoe: "",
-                        height: "",
-                        weight: "",
-                      };
-                      const changeDetail = (
-                        field: keyof RentalDetails,
-                        value: string,
-                      ) =>
-                        update({
-                          rentalDetails: {
-                            ...draft.rentalDetails,
-                            [i]: { ...details, [field]: value },
-                          },
-                        });
                       return (
                         <div className="flow-person flow-guest-person" key={i}>
                           <h3>
@@ -3034,91 +3055,6 @@ export function BookingFlow({
                               </label>
                             )}
                           </div>
-                          <label className="flow-guest-borrow">
-                            <input
-                              type="checkbox"
-                              checked={borrows}
-                              onChange={(event) =>
-                                update({
-                                  borrowGuests: event.target.checked
-                                    ? [...(draft.borrowGuests ?? []), i]
-                                    : (draft.borrowGuests ?? []).filter(
-                                        (index) => index !== i,
-                                      ),
-                                  ...(event.target.checked && draft.season === "winter"
-                                    ? { rentalDetails: { ...draft.rentalDetails, [i]: { ...details, activity: "" } } }
-                                    : {}),
-                                })
-                              }
-                            />
-                            <span>Låna utrustning</span>
-                            {(borrows || draft.entry === "rental") && (
-                              <small>
-                                {borrows
-                                  ? `${money(equipmentUnit)} per dag`
-                                  : "Ingen hyra för den här personen"}
-                              </small>
-                            )}
-                          </label>
-                          {borrows && (
-                            <div className="flow-fields flow-guest-gear">
-                              {draft.season === "winter" && (
-                                <label>
-                                  Vad vill du låna?
-                                  <select
-                                    value={details.activity}
-                                    onChange={(event) =>
-                                      changeDetail(
-                                        "activity",
-                                        event.target.value,
-                                      )
-                                    }
-                                  >
-                                    <option value="">Välj skidor eller snowboard</option>
-                                    <option value="Skidåkning">Skidor</option>
-                                    <option value="Snowboard">Snowboard</option>
-                                  </select>
-                                </label>
-                              )}
-                              <label>
-                                Längd (cm)
-                                <input
-                                  inputMode="numeric"
-                                  value={details.height}
-                                  onChange={(event) =>
-                                    changeDetail("height", event.target.value)
-                                  }
-                                />
-                              </label>
-                              {draft.season === "winter" && (
-                                <>
-                                  <label>
-                                    Skostorlek
-                                    <input
-                                      inputMode="numeric"
-                                      value={details.shoe}
-                                      onChange={(event) =>
-                                        changeDetail("shoe", event.target.value)
-                                      }
-                                    />
-                                  </label>
-                                  <label>
-                                    Vikt (kg)
-                                    <input
-                                      inputMode="numeric"
-                                      value={details.weight}
-                                      onChange={(event) =>
-                                        changeDetail(
-                                          "weight",
-                                          event.target.value,
-                                        )
-                                      }
-                                    />
-                                  </label>
-                                </>
-                              )}
-                            </div>
-                          )}
                         </div>
                       );
                     })}
@@ -3131,13 +3067,17 @@ export function BookingFlow({
                 <p className="flow-muted">
                   {mainIsCabin
                     ? "Välj boende för din period. Vi visar totalpriset och antal stugor som behövs för sällskapet."
+                    : draft.entry === "rental"
+                      ? "Välj vilka deltagare som vill hyra utrustning och fyll i deras mått. Olika deltagare kan välja olika utrustning."
                     : draft.entry === "school"
                       ? "Välj lektion och nivå. Boka sedan dag och ledig tid för varje deltagare."
                       : draft.entry === "activity"
                         ? "Välj aktiviteter och boka dag och ledig tid för deltagarna."
                         : "Välj ditt huvudpass. Du kan lägga till boende och aktiviteter på nästa sida."}
                 </p>
-                {mainIsCabin ? (
+                  {draft.entry === "rental" ? (
+                    equipmentCards()
+                  ) : mainIsCabin ? (
                   cabinCards(false)
                 ) : draft.entry === "school" ? (
                   schoolCards(false)
@@ -3150,30 +3090,33 @@ export function BookingFlow({
             )}
             {draft.step === 3 && (
               <>
-                <p className="flow-muted">
-                  Komplettera din bokning om du vill. Öppna ett kort för att se val, pris och lediga tider. Du kan fortsätta utan tillägg.
-                </p>
-                <div className="flow-addon-list">
-                  {optionalAddons.map((addon) => (
-                    <section className={`flow-addon-card ${addon.selected ? "selected" : ""}`} key={addon.id}>
-                      <button
-                        type="button"
-                        className="flow-addon-trigger"
-                        aria-expanded={openAddon === addon.id}
-                        onClick={() => setOpenAddon((current) => current === addon.id ? null : addon.id)}
-                      >
-                        <span className="flow-addon-icon" aria-hidden="true">{addon.icon}</span>
-                        <span className="flow-addon-heading">
-                          <strong>{addon.title}</strong>
-                          <small>{addon.description}</small>
-                        </span>
-                        <span className="flow-addon-state">{addon.summary}</span>
-                        <ChevronDown size={19} className="flow-addon-chevron" aria-hidden="true" />
-                      </button>
-                      {openAddon === addon.id && <div className="flow-addon-content">{addon.content()}</div>}
-                    </section>
-                  ))}
-                </div>
+                {openAddon ? (
+                  <div className="flow-addon-vertical">
+                    <button type="button" className="flow-text-button flow-addon-return" onClick={() => { setOpenAddon(null); setError(""); }}>
+                      <ArrowLeft size={16} /> {language === "en" ? "All add-ons" : "Alla tillägg"}
+                    </button>
+                    {optionalAddons.find((addon) => addon.id === openAddon)?.content()}
+                  </div>
+                ) : <>
+                  <p className="flow-muted">
+                    {language === "en"
+                      ? "Add more to your visit if you like. Each choice opens on its own page; when you're done, you can choose another."
+                      : "Lägg till mer i din vistelse om du vill. Varje tillägg öppnas för sig. När du är klar kan du välja ett till."}
+                  </p>
+                  <div className="flow-addon-list">
+                    {optionalAddons.map((addon) => (
+                      <section className={`flow-addon-card ${addon.selected ? "selected" : ""}`} key={addon.id}>
+                        <button type="button" className="flow-addon-trigger"
+                          onClick={() => { setOpenAddon(addon.id); setError(""); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
+                          <span className="flow-addon-icon" aria-hidden="true">{addon.icon}</span>
+                          <span className="flow-addon-heading"><strong>{addon.title}</strong><small>{addon.description}</small></span>
+                          <span className="flow-addon-state">{addon.summary}</span>
+                          <ArrowRight size={19} className="flow-addon-chevron" aria-hidden="true" />
+                        </button>
+                      </section>
+                    ))}
+                  </div>
+                </>}
               </>
             )}
             {draft.step === 7 && (
@@ -3739,6 +3682,14 @@ export function BookingFlow({
                     Gå till deltagare
                   </button>
                 )}
+                {draft.step >= 8 && error === "Fyll i utrustningsuppgifterna för alla som hyr." && (
+                  <button type="button" className="flow-text-button" onClick={() => {
+                    setOpenAddon(draft.entry === "rental" ? null : "equipment");
+                    update({ step: draft.entry === "rental" ? 2 : 3 });
+                  }}>
+                    Gå till utrustning
+                  </button>
+                )}
                 {quickRebook && draft.step === 8 && (
                   <button
                     type="button"
@@ -3774,15 +3725,15 @@ export function BookingFlow({
                   type="button"
                   className="flow-back"
                   onClick={() => {
-                    if (draft.step === 1) setReturnToAddons(false);
-                    update({ step: previousStep });
+                    if (draft.step === 3 && openAddon) setOpenAddon(null);
+                    else update({ step: previousStep });
                     setError("");
                   }}
                 >
                   <ArrowLeft size={17} /> Tillbaka
                 </button>
               )}
-              <button type="button" className="flow-primary" onClick={next}>
+              <button type="button" className="flow-primary" onClick={draft.step === 3 && openAddon ? finishAddon : next}>
                 {draft.step === 11
                   ? group && draft.payment === "invoice"
                     ? "Signera & skapa fakturaunderlag"
@@ -3794,11 +3745,9 @@ export function BookingFlow({
                   : draft.step === 8
                     ? "Godkänn och välj betalning"
                     : draft.step === 3
-                      ? "Fortsätt till uppgifter"
+                      ? openAddon ? language === "en" ? "Done, back to add-ons" : "Klart, tillbaka till tillägg" : "Fortsätt till uppgifter"
                       : draft.step === 2
                         ? "Se tillägg"
-                        : draft.step === 1 && returnToAddons
-                          ? "Tillbaka till tillägg"
                     : "Fortsätt"}
                 <ArrowRight size={17} />
               </button>
