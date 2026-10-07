@@ -1307,12 +1307,10 @@ function Field({
   );
 }
 function SectionHead({
-  eyebrow,
   title,
   description,
   action,
 }: {
-  eyebrow?: string;
   title: string;
   description?: string;
   action?: React.ReactNode;
@@ -1320,7 +1318,6 @@ function SectionHead({
   return (
     <div className="section-head">
       <div>
-        {eyebrow && <div className="eyebrow">{eyebrow}</div>}
         <h1>{title}</h1>
         {description && <p>{description}</p>}
       </div>
@@ -1499,10 +1496,8 @@ function Confirmation({
       <div className="success-icon">
         <Check size={30} />
       </div>
-      <div className="eyebrow">
-        {en ? "BOOKING" : "BOKNING"} {id}
-      </div>
       <h2>{title}</h2>
+      <p className="booking-reference">{en ? "Booking" : "Bokning"} {id}</p>
       <p>{text}</p>
       <div className="confirm-row">
         <Badge tone="green">
@@ -1669,7 +1664,6 @@ function ProductFinder({
     <section className="product-finder" aria-label="Hitta din upplevelse">
       <div className="product-finder-head">
         <div>
-          <span className="eyebrow">BOKA FLOTTSBRO</span>
           <h2>Vad vill du göra?</h2>
         </div>
         <span>En plats. Alla möjligheter.</span>
@@ -1838,9 +1832,6 @@ function Overview({
       <ProductFinder season={season} onSearch={onSearch} />
       <div className={`hero store-hero ${season}`}>
         <div className="hero-copy">
-          <span className="store-kicker">
-            {winter ? "VINTER PÅ FLOTTSBRO" : "SOMMAR PÅ FLOTTSBRO"}
-          </span>
           <h1>
             {winter ? "Gör plats för" : "Upptäck sommaren"}
             <br />
@@ -1881,9 +1872,6 @@ function Overview({
       </div>
       <div className="section-head small-gap store-section-head">
         <div>
-          <div className="eyebrow">
-            {winter ? "VINTER" : "SOMMAR"} · HITTA DIN UPPLEVELSE
-          </div>
           <h2>
             {winter ? "Välj en vinterupplevelse" : "Välj en sommarupplevelse"}
           </h2>
@@ -1899,9 +1887,6 @@ function Overview({
             <span>{winter ? "En dag i backen" : "Ut på stigarna"}</span>
           </span>
           <span className="store-product-body">
-            <span className="store-product-type">
-              {winter ? "SKIPASS" : "CYKELPASS"}
-            </span>
             <strong>{winter ? "Skidpass" : "Cykling"}</strong>
             <span>
               {winter
@@ -1924,7 +1909,6 @@ function Overview({
               <span>Stanna lite längre</span>
             </span>
             <span className="store-product-body">
-              <span className="store-product-type">BOENDE</span>
               <strong>Boende & aktivitet</strong>
               <span>
                 Ta en paus från vardagen med boende, cykling och utrustning i
@@ -1946,7 +1930,6 @@ function Overview({
               <span>Bättre tillsammans</span>
             </span>
             <span className="store-product-body">
-              <span className="store-product-type">GRUPPER</span>
               <strong>Gruppbokning</strong>
               <span>
                 Planera flera dagar för klassen, föreningen eller företaget med
@@ -1968,7 +1951,6 @@ function Overview({
               <span>Stanna längre</span>
             </span>
             <span className="store-product-body">
-              <span className="store-product-type">BOENDE</span>
               <strong>Bo på Flottsbro</strong>
               <span>
                 Jämför stugor efter antal bäddar och pris för hela perioden.
@@ -1988,7 +1970,6 @@ function Overview({
             <span>Utrustning som passar</span>
           </span>
           <span className="store-product-body">
-            <span className="store-product-type">HYRA</span>
             <strong>
               {winter ? "Hyr skidor eller snowboard" : "Hyr cykel"}
             </strong>
@@ -2009,9 +1990,6 @@ function Overview({
             <span>Lär tillsammans</span>
           </span>
           <span className="store-product-body">
-            <span className="store-product-type">
-              {winter ? "SKIDSKOLA" : "CYKELSKOLA"}
-            </span>
             <strong>{winter ? "Boka skidskola" : "Boka cykelskola"}</strong>
             <span>Välj grupp- eller privatlektion, nivå och tid.</span>
             <span className="store-product-bottom">
@@ -2028,7 +2006,6 @@ function Overview({
             <span>Mer att uppleva</span>
           </span>
           <span className="store-product-body">
-            <span className="store-product-type">AKTIVITETER</span>
             <strong>
               {winter ? "Aktiviteter i snön" : "Sommaraktiviteter"}
             </strong>
@@ -2326,7 +2303,7 @@ function Day({
   if (confirmed)
     return (
       <>
-        <SectionHead eyebrow="AKTIVITETER" title="Dagsbesök" />
+        <SectionHead title="Dagsbesök" />
         <Confirmation
           title="Vi ses på Flottsbro!"
           id={confirmed}
@@ -2361,7 +2338,6 @@ function Day({
         <AutoFillButton onClick={autoFill} />
       )}
       <SectionHead
-        eyebrow={mode === "return" ? "MINA BOKNINGAR" : "AKTIVITETER"}
         title={
           mode === "return"
             ? "Dina bokningar"
@@ -3446,7 +3422,6 @@ function Stay({
     return (
       <>
         <SectionHead
-          eyebrow={en ? "STAY & ACTIVITY" : "BOENDE & AKTIVITET"}
           title={en ? "Your trip is booked" : "Din resa är bokad"}
           action={
             <button
@@ -3509,9 +3484,6 @@ function Stay({
         />
         <div className="card padded amend">
           <div>
-            <div className="eyebrow">
-              {en ? "CHANGE YOUR TRIP" : "FÖRÄNDRA RESAN"}
-            </div>
             <h2>
               {extended
                 ? en
@@ -3543,7 +3515,6 @@ function Stay({
     <>
       <AutoFillButton onClick={autoFill} en={en} />
       <SectionHead
-        eyebrow="BOENDE & AKTIVITET"
         title={en ? "Plan your summer stay" : "Planera sommarvistelsen"}
         description={
           en
@@ -4628,7 +4599,6 @@ function Group({
     <div className="invoice-document card">
       <div className="invoice-header">
         <div>
-          <div className="eyebrow">FLOTTSBRO · FAKTURAUNDERLAG</div>
           <h2>{issued ? "Fakturaunderlag" : "Granska fakturaunderlaget"}</h2>
           <span>Underlag FU-{draftId}</span>
         </div>
@@ -4745,7 +4715,7 @@ function Group({
   if (done)
     return (
       <>
-        <SectionHead eyebrow="GRUPPBOKNING" title="Gruppbokningen är klar" />
+        <SectionHead title="Gruppbokningen är klar" />
         <Confirmation
           title="Redo för friluftsdagen"
           id={draftId}
@@ -4768,7 +4738,6 @@ function Group({
     <>
       {step < 2 && <AutoFillButton onClick={autoFill} />}
       <SectionHead
-        eyebrow="GRUPPBOKNING"
         title="Planera en friluftsdag tillsammans"
         description="Boka på gruppnivå först, komplettera deltagarna senare och följ vad som saknas."
         action={
@@ -5004,7 +4973,6 @@ function Group({
               </div>
             </div>
             <div className="group-summary card">
-              <div className="eyebrow">BOKNINGSÖVERSIKT</div>
               <div className="big-number">{count}</div>
               <span>preliminärt antal deltagare</span>
               <p className="group-next-note">
@@ -5029,10 +4997,9 @@ function Group({
         <>
           <div className="group-step-intro card">
             <div>
-              <div className="eyebrow">PRELIMINÄR BOKNING {draftId}</div>
               <strong>{org}</strong>
               <span>
-                {date}–{endDate} · preliminärt {count} deltagare
+                {date}–{endDate} · preliminärt {count} deltagare · Bokning {draftId}
               </span>
             </div>
             <Button
@@ -5074,7 +5041,6 @@ function Group({
           </div>
           <div className="section-head participants-head">
             <div>
-              <div className="eyebrow">DELTAGARLISTA</div>
               <h2>Samla in deltagaruppgifter</h2>
               <p>
                 Alla räknas som elever om de inte markeras som lärare. Lärare är
@@ -5492,13 +5458,11 @@ function BookingsPage({
   return (
     <div className="customer-bookings">
       <SectionHead
-        eyebrow="MINA BOKNINGAR"
         title="Dina bokningar"
         description="Se bekräftelser, boka igen eller ändra en befintlig vistelse."
       />
       {reusableBooking && <section className="card padded customer-saved-details" aria-labelledby="saved-details-title">
         <div>
-          <span className="eyebrow">{language === "en" ? "SAVED DETAILS" : "SPARADE UPPGIFTER"}</span>
           <h2 id="saved-details-title">{language === "en" ? "Faster next time" : "Snabbare nästa gång"}</h2>
           <p>{language === "en"
             ? `Guests and equipment sizes from booking ${reusableBooking.id} can be used again. Choose new dates and review the details before confirming.`
@@ -5526,9 +5490,8 @@ function BookingsPage({
         <article className="card padded customer-booking" key={booking.id}>
           <div className="customer-booking-head">
             <div>
-              <span className="eyebrow">{booking.id}</span>
               <h2>{bookingText(bookingTypeName(booking))}</h2>
-              <p>{booking.date}{booking.endDate && booking.endDate !== booking.date ? ` – ${booking.endDate}` : ""}</p>
+              <p>{booking.date}{booking.endDate && booking.endDate !== booking.date ? ` – ${booking.endDate}` : ""} · {booking.id}</p>
             </div>
             <Badge tone={booking.status === "Avbokad" ? "red" : booking.status === "Preliminär" ? "amber" : "green"}>
               {statusText(booking.status)}
@@ -5719,7 +5682,6 @@ function Admin({ bookings, language, onEdit, onCancel }: {
   return (
     <>
       <SectionHead
-        eyebrow="FLOTTSBRO · PERSONALVY"
         title="Bokningsöversikt"
         description="Se gäster, grupper, betalstatus och ändringar från ett gränssnitt."
         action={
@@ -5838,9 +5800,8 @@ function Admin({ bookings, language, onEdit, onCancel }: {
             <>
               <div className="detail-head">
                 <div>
-                  <div className="eyebrow">BOKNING {booking.id}</div>
                   <h2>{booking.name}</h2>
-                  <span>{booking.email}</span>
+                  <span>{booking.email} · Bokning {booking.id}</span>
                 </div>
                 <Badge
                   tone={
@@ -6185,7 +6146,6 @@ function CartDrawer({
       >
         <div className="cart-head">
           <div>
-            <span className="eyebrow">DIN BESTÄLLNING</span>
             <h2 id="cart-title">
               Varukorg <span>({items.length})</span>
             </h2>
@@ -6237,10 +6197,6 @@ function CartDrawer({
                         <ShoppingBag size={20} />
                       </div>
                       <div className="cart-item-main">
-                        <span className="cart-item-type">
-                          {draft.season === "winter" ? "VINTER" : "SOMMAR"} ·
-                          PÅGÅENDE BOKNING
-                        </span>
                         <strong>{title}</strong>
                         <span>
                           {draft.start} – {draft.end} ·{" "}
@@ -6300,10 +6256,6 @@ function CartDrawer({
                       )}
                     </div>
                     <div className="cart-item-main">
-                      <span className="cart-item-type">
-                        {entry.id === "day-winter" ? "VINTER" : "SOMMAR"} ·{" "}
-                        {day ? "DAGSBESÖK" : "BOENDE"}
-                      </span>
                       <strong>{title}</strong>
                       <span>
                         {date} · {guests}
@@ -6445,7 +6397,6 @@ function AuthPage({
         <ArrowLeft size={17} /> Tillbaka
       </button>
       <div className="auth-card">
-        <span className="eyebrow">FLOTTSBRO</span>
         {entryName && <p className="auth-context">Din bokning · {entryName}</p>}
         {view === "choice" && (
           <>

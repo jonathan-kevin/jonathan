@@ -2538,7 +2538,6 @@ export function BookingFlow({
   return (
     <main className="flow-shell">
       <div className="flow-intro">
-        <span className="eyebrow">BOKA FLOTTSBRO</span>
         <h1>
           {group
             ? "Boka för din grupp"
@@ -2597,9 +2596,6 @@ export function BookingFlow({
         <div className="flow-main">
           <section className="flow-panel">
             <div className="flow-panel-head">
-              <span className="flow-kicker">
-                STEG {stepPosition + 1} AV {visibleSteps.length}
-              </span>
               <h2>{draft.step === 3 && openAddon
                 ? optionalAddons.find((addon) => addon.id === openAddon)?.title ?? stageLabels[draft.step]
                 : stageLabels[draft.step]}</h2>
@@ -3548,7 +3544,6 @@ export function BookingFlow({
             {draft.step === 11 && (
               <div className="flow-verification">
                 <div className="flow-verification-heading">
-                  <span className="eyebrow">SIMULERAD BETALNING</span>
                   <h3>
                     {draft.payment === "card"
                       ? "Ange testkort"
@@ -3755,7 +3750,6 @@ export function BookingFlow({
           </section>
         </div>
         <aside className="flow-summary">
-          <span className="eyebrow">DIN VISTELSE</span>
           <h3>
             {draft.start} – {draft.end}
           </h3>
