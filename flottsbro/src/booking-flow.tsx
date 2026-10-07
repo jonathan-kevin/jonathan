@@ -1047,7 +1047,7 @@ export function BookingFlow({
       ),
       ...(borrowCount
         ? [
-            `Utrustningshyra · ${borrowCount} ${borrowCount === 1 ? "person" : "personer"} · ${money(equipmentTotal)}`,
+            `${draft.season === "summer" ? "Downhillcykel inkl. hjälm och skydd" : "Utrustningshyra"} · ${borrowCount} ${borrowCount === 1 ? "person" : "personer"} · ${money(equipmentTotal)}`,
           ]
         : []),
       ...(group ? [`${students} elever · ${teachers} lärare`] : []),
@@ -2310,7 +2310,7 @@ export function BookingFlow({
         { value: "Skidåkning", title: language === "en" ? "Skis" : "Skidor", kind: "ski" as EquipmentKind },
         { value: "Snowboard", title: "Snowboard", kind: "snowboard" as EquipmentKind }]
       : [{ value: "own", title: language === "en" ? "Own equipment" : "Egen utrustning", kind: null },
-        { value: "Cykling", title: language === "en" ? "Bike" : "Cykel", kind: "bike" as EquipmentKind }];
+        { value: "Cykling", title: language === "en" ? "Downhill bike incl. helmet and protection" : "Downhillcykel inkl. hjälm och skydd", kind: "bike" as EquipmentKind }];
     return <div className="flow-equipment-page">
       <p className="flow-muted">{language === "en"
         ? "Choose rental equipment for each guest. You can mix skis and snowboards. Sizes are needed only for guests renting equipment."
@@ -2487,7 +2487,7 @@ export function BookingFlow({
       value: schoolTotal,
     },
     borrowCount > 0 && {
-      label: `Utrustning · ${borrowCount} ${borrowCount === 1 ? "person" : "personer"}`,
+      label: `${draft.season === "summer" ? "Downhillcykel inkl. hjälm och skydd" : "Utrustning"} · ${borrowCount} ${borrowCount === 1 ? "person" : "personer"}`,
       value: equipmentTotal,
     },
   ].filter((item): item is { label: string; value: number } =>

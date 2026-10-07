@@ -469,7 +469,7 @@ const seed: Booking[] = [
     },
     date: "2027-07-12",
     total: 9265,
-    items: ["Familjestugan · 3 nätter", "Cykelpass · 4 dagar", "Cykelhyra · 2 personer"],
+    items: ["Familjestugan · 3 nätter", "Cykelpass · 4 dagar", "Downhillcykel inkl. hjälm och skydd · 2 personer"],
     details: "2 adults, 2 children · English confirmation",
     guestNames: ["Emma Miller", "James Miller", "Olivia Miller", "Noah Miller"],
     childBirthDates: ["2015-04-19", "2013-09-11"],
@@ -598,8 +598,12 @@ const normalizeBooking = (booking: Booking): Booking => {
     accountEmail: booking.accountEmail ?? original?.email ??
       (booking.flowSnapshot?.checkoutMode === "login" ? booking.email : undefined),
     contact: booking.contact ?? original?.contact,
-    items: booking.id === "FL-2392" && booking.items.some((item) => item.includes("Stuga B"))
-      ? original?.items ?? booking.items : booking.items,
+    items: booking.id === "FL-2392"
+      ? (booking.items.some((item) => item.includes("Stuga B"))
+        ? original?.items ?? booking.items
+        : booking.items.map((item) => item.includes("Cykelhyra")
+          ? "Downhillcykel inkl. hjälm och skydd · 2 personer" : item))
+      : booking.items,
     guestNames: booking.guestNames ?? original?.guestNames,
     childBirthDates: booking.childBirthDates ?? original?.childBirthDates,
     childAges: booking.childAges ?? original?.childAges,
@@ -5430,6 +5434,7 @@ function displayBookingText(value: string, language: "sv" | "en") {
     .replaceAll("SkiPass 3 timmar", "Three-hour SkiPass")
     .replaceAll("Skidpass familj", "Family SkiPass")
     .replaceAll("Cykelpass", "Bike pass")
+    .replaceAll("Downhillcykel inkl. hjälm och skydd", "Downhill bike incl. helmet and protection")
     .replaceAll("Cykelhyra", "Bike rental")
     .replaceAll("Skidhyra", "Ski rental")
     .replaceAll("Utrustningshyra", "Equipment rental")
@@ -5474,6 +5479,12 @@ function BookingsPage({
   const mine = accountEmail ? bookings.filter((booking) =>
     booking.accountEmail?.toLowerCase() === accountEmail.toLowerCase(),
   ) : [];
+  const reusableBooking = mine.find((booking) => booking.kind !== "group");
+  const reusableGuests = reusableBooking?.guestNames ?? reusableBooking?.flowSnapshot?.guests ?? [];
+  const reusableRental = reusableBooking?.rentalDetails ?? reusableBooking?.flowSnapshot?.rentalDetails ?? {};
+  const rentalProfiles = (reusableBooking?.flowSnapshot?.borrowGuests ?? [])
+    .filter((index) => index < reusableGuests.length && reusableRental[index])
+    .map((index) => ({ name: reusableGuests[index], details: reusableRental[index] }));
   const bookingText = (value: string) => displayBookingText(value, language);
   const statusText = (status: Status) => language === "sv" ? status :
     ({ Bekräftad: "Confirmed", Preliminär: "Provisional", Avbokad: "Cancelled" }[status]);
@@ -5484,6 +5495,31 @@ function BookingsPage({
         title="Dina bokningar"
         description="Se bekräftelser, boka igen eller ändra en befintlig vistelse."
       />
+      {reusableBooking && <section className="card padded customer-saved-details" aria-labelledby="saved-details-title">
+        <div>
+          <span className="eyebrow">{language === "en" ? "SAVED DETAILS" : "SPARADE UPPGIFTER"}</span>
+          <h2 id="saved-details-title">{language === "en" ? "Faster next time" : "Snabbare nästa gång"}</h2>
+          <p>{language === "en"
+            ? `Guests and equipment sizes from booking ${reusableBooking.id} can be used again. Choose new dates and review the details before confirming.`
+            : `Deltagare och utrustningsmått från bokning ${reusableBooking.id} kan användas igen. Välj nya datum och granska uppgifterna innan du bekräftar.`}</p>
+        </div>
+        <div className="customer-saved-columns">
+          <div>
+            <strong>{language === "en" ? "Guests" : "Deltagare"}</strong>
+            <p>{reusableGuests.length ? reusableGuests.join(", ") : reusableBooking.name}</p>
+          </div>
+          <div>
+            <strong>{language === "en" ? "Equipment details" : "Utrustningsuppgifter"}</strong>
+            {rentalProfiles.length ? <ul>{rentalProfiles.map(({ name, details }, index) => <li key={`${name}-${index}`}>
+              {name}: {details.activity === "Skidåkning" ? language === "en" ? "Skis" : "Skidor" : details.activity === "Cykling" ? language === "en" ? "Downhill bike" : "Downhillcykel" : details.activity}
+              {details.shoe ? ` · ${language === "en" ? "shoe size" : "skostorlek"} ${details.shoe}` : ""}
+              {details.height ? ` · ${details.height} cm` : ""}
+              {details.weight ? ` · ${details.weight} kg` : ""}
+            </li>)}</ul> : <p>{language === "en" ? "No previous rental saved." : "Ingen tidigare hyra sparad."}</p>}
+          </div>
+        </div>
+        <Button onClick={() => onRebook(reusableBooking)}>{language === "en" ? "Book again with saved details" : "Boka igen med sparade uppgifter"} <ArrowRight size={16} /></Button>
+      </section>}
       {!mine.length && <div className="card padded">Du har inga bokningar kopplade till ditt konto än.</div>}
       {mine.map((booking) => (
         <article className="card padded customer-booking" key={booking.id}>
@@ -6089,17 +6125,46 @@ function Admin({ bookings, language, onEdit, onCancel }: {
 
 function CartDrawer({
   items,
+  language,
   onClose,
   onContinue,
   onRemove,
   onBrowse,
 }: {
   items: CartEntry[];
+  language: "sv" | "en";
   onClose: () => void;
   onContinue: (entry: CartEntry) => void;
   onRemove: (id: CartEntry["id"]) => void;
   onBrowse: () => void;
 }) {
+  const flowLines = (draft: FlowDraft) => {
+    const days = Math.max(1, dateSpan(draft.start, draft.end) + 1);
+    const nights = Math.max(1, dateSpan(draft.start, draft.end));
+    const rented = draft.entry === "group"
+      ? draft.participants.filter((person) => person.equipment === "borrow").length
+      : (draft.borrowGuests ?? []).filter((index) => index < draft.adults + draft.children).length;
+    const lodging = ({ forest: "Skogsstugan", family: "Familjestugan", view: "Utsiktsstugan" } as Record<string, string>)[draft.cabin];
+    return [
+      ...(lodging ? [{ type: language === "en" ? "Stay" : "Boende", detail: `${lodging} · ${nights} ${language === "en" ? nights === 1 ? "night" : "nights" : nights === 1 ? "natt" : "nätter"}` }] : []),
+      ...(draft.pass !== "none" ? [{ type: language === "en" ? "Activity" : "Aktivitet", detail: `${draft.pass === "bike" ? language === "en" ? "Bike pass" : "Cykelpass" : "SkiPass"} · ${days} ${language === "en" ? days === 1 ? "day" : "days" : days === 1 ? "dag" : "dagar"}` }] : []),
+      ...draft.activities.map((activity) => ({
+        type: language === "en" ? "Activity" : "Aktivitet",
+        detail: ({
+          snowshoe: language === "en" ? "Snowshoe walk" : "Snöskovandring",
+          sledding: language === "en" ? "Sledding" : "Pulkäventyr",
+          canoe: language === "en" ? "Canoe tour" : "Kanottur",
+          climbing: language === "en" ? "Adventure course" : "Äventyrsbana",
+          winterNature: language === "en" ? "Winter nature tour" : "Vinteräventyr i skogen",
+          winterGames: language === "en" ? "Snow games" : "Snölek med ledare",
+          orienteering: language === "en" ? "Orienteering" : "Skogsorientering",
+          natureWalk: language === "en" ? "Guided nature walk" : "Guidad naturvandring",
+        } as Record<string, string>)[activity] ?? activity,
+      })),
+      ...(draft.schoolLesson && draft.schoolLesson !== "none" ? [{ type: language === "en" ? "Lesson" : "Lektion", detail: draft.season === "winter" ? "Skidskola" : "Cykelskola" }] : []),
+      ...(rented ? [{ type: language === "en" ? "Equipment" : "Utrustning", detail: `${draft.season === "summer" ? language === "en" ? "Downhill bike incl. helmet and protection" : "Downhillcykel inkl. hjälm och skydd" : language === "en" ? "Ski or snowboard rental" : "Skidor eller snowboard"} · ${rented} ${language === "en" ? rented === 1 ? "guest" : "guests" : rented === 1 ? "person" : "personer"}` }] : []),
+    ];
+  };
   const hasOldMealPrice = (entry: CartEntry) =>
     entry.id.startsWith("flow-")
       ? Boolean(
@@ -6148,6 +6213,7 @@ function CartDrawer({
               {items.map((entry) => {
                 if (entry.id.startsWith("flow-")) {
                   const draft = entry.draft as FlowDraft;
+                  const lines = flowLines(draft);
                   const title =
                     draft.entry === "group"
                       ? "Gruppbokning"
@@ -6182,6 +6248,9 @@ function CartDrawer({
                             : draft.adults + draft.children}{" "}
                           {(draft.entry === "group" ? draft.groupCount : draft.adults + draft.children) === 1 ? "person" : "personer"}
                         </span>
+                        {lines.length > 0 && <ul className="cart-breakdown">
+                          {lines.map((line, index) => <li key={`${line.type}-${index}`}><span>{line.type}</span><span>{line.detail}</span></li>)}
+                        </ul>}
                         <b>
                           {hasOldMealPrice(entry)
                             ? "Pris uppdateras när du fortsätter"
@@ -6318,7 +6387,7 @@ function AuthPage({
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const fillExampleAccount = () => {
-    setEmail("anna.lind@example.com");
+    setEmail("anna@example.com");
     setPassword("demo1234");
     if (view === "signup") {
       setName("Anna Lind");
@@ -7157,6 +7226,7 @@ function App() {
       {page !== "admin" && cartOpen && (
         <CartDrawer
           items={cartItems}
+          language={language}
           onClose={() => setCartOpen(false)}
           onContinue={continueCartItem}
           onRemove={removeCartItem}
