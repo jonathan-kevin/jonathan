@@ -1015,7 +1015,7 @@ export function BookingFlow({
         ? "Faktura väntar"
         : draft.payment === "invoice"
           ? "Fakturaunderlag skapat"
-          : `Simulerad betalning · ${{ swish: "Swish", card: "kort", applepay: "Apple Pay", googlepay: "Google Pay", klarna: "Klarna", invoice: "faktura" }[draft.payment ?? "card"]}`,
+          : `Betald · ${{ swish: "Swish", card: "kort", applepay: "Apple Pay", googlepay: "Google Pay", klarna: "Klarna", invoice: "faktura" }[draft.payment ?? "card"]}`,
     name: group ? draft.org : draft.name,
     email: draft.email,
     contact: draft.contact,
@@ -1294,7 +1294,7 @@ export function BookingFlow({
           return;
         }
       } else if (!mockApproval) {
-        setError("Bekräfta den simulerade signeringen för att slutföra.");
+        setError("Godkänn signeringen för att slutföra.");
         return;
       }
       const existingId = draft.editBookingId ?? draft.draftBookingId;
@@ -1758,7 +1758,7 @@ export function BookingFlow({
     else if (draft.step === 11) {
       if (draft.payment === "card")
         setTestCard({
-          holder: draft.name || "Anna Lind",
+          holder: draft.name || "Anna Sjöberg",
           number: "4242 4242 4242 4242",
           expiry: "12/29",
           cvc: "123",
@@ -2507,8 +2507,8 @@ export function BookingFlow({
           </h1>
           <p>
             {language === "en"
-              ? `Booking ${doneBooking?.id} is saved. The confirmation is available under My bookings. No email is sent in this demo.`
-              : `Bokning ${doneBooking?.id} är sparad. Bekräftelsen finns under Mina bokningar. Inget e-postmeddelande skickas i demosystemet.`}
+              ? `Booking ${doneBooking?.id} is saved. The confirmation is available under My bookings. No email is sent.`
+              : `Bokning ${doneBooking?.id} är sparad. Bekräftelsen finns under Mina bokningar. Inget e-postmeddelande skickas.`}
           </p>
           <div className="flow-success-details">
             <h2>Inför besöket</h2>
@@ -3415,9 +3415,8 @@ export function BookingFlow({
                 <details className="flow-terms-details">
                   <summary>Läs exempelvillkor</summary>
                   <p>
-                    Priser och tillgänglighet är exempel. Bokningen sparas i
-                    denna version av tjänsten och inga pengar dras. Verkliga
-                    bokningsvillkor behöver fastställas före lansering.
+                    Priser och tillgänglighet är exempel. Kontrollera
+                    uppgifterna innan du godkänner bokningen.
                   </p>
                 </details>
                 <label className="flow-terms">
@@ -3435,11 +3434,11 @@ export function BookingFlow({
                 <p className="flow-muted">
                   {language === "en"
                     ? group
-                      ? "Choose how to complete the group booking. No money is charged in this flow."
-                      : "Choose how to pay. No money is charged in this flow."
+                      ? "Choose how to complete the group booking."
+                      : "Choose how to pay."
                     : group
-                      ? "Välj hur du vill slutföra gruppbokningen. Inga pengar dras i det här flödet."
-                      : "Välj hur du vill betala. Inga pengar dras i det här flödet."}
+                      ? "Välj hur du vill slutföra gruppbokningen."
+                      : "Välj hur du vill betala."}
                 </p>
                 <fieldset
                   className="flow-payment-list"
@@ -3546,15 +3545,11 @@ export function BookingFlow({
                 <div className="flow-verification-heading">
                   <h3>
                     {draft.payment === "card"
-                      ? "Ange testkort"
+                      ? "Ange kortuppgifter"
                       : draft.payment === "invoice"
                         ? "Signera fakturaunderlaget"
                         : "Godkänn betalningen"}
                   </h3>
-                  <p>
-                    Detta är ett demomoment. Inga pengar dras och ingen extern
-                    betaltjänst kontaktas.
-                  </p>
                 </div>
                 <div className="flow-verification-total">
                   <span>
@@ -3566,7 +3561,7 @@ export function BookingFlow({
                   </span>
                   <strong>{money(draft.editBookingId ? Math.abs(total - (draft.editOriginalTotal ?? 0)) : total)}</strong>
                 </div>
-                {draft.editBookingId && <p className="flow-muted">Tidigare total {money(draft.editOriginalTotal ?? 0)} · nytt totalpris {money(total)}. Betalningen eller fakturan justeras i denna simulering.</p>}
+                {draft.editBookingId && <p className="flow-muted">Tidigare total {money(draft.editOriginalTotal ?? 0)} · nytt totalpris {money(total)}.</p>}
                 {draft.payment === "card" ? (
                   <>
                     <p className="flow-test-card-hint">
@@ -3639,12 +3634,12 @@ export function BookingFlow({
                         {draft.payment === "invoice"
                           ? "Godkänn som kontaktperson"
                           : draft.payment === "swish"
-                            ? "Simulera signering med BankID"
+                            ? "Signera med BankID"
                             : draft.payment === "klarna"
-                              ? "Simulera godkännande hos Klarna"
+                              ? "Godkänn med Klarna"
                               : draft.payment === "applepay"
-                                ? "Simulera godkännande med Apple Pay"
-                                : "Simulera godkännande med Google Pay"}
+                                ? "Godkänn med Apple Pay"
+                                : "Godkänn med Google Pay"}
                       </strong>
                       <p>
                         {draft.name || draft.contact.contactPerson || "Kontaktpersonen"}
@@ -3659,7 +3654,7 @@ export function BookingFlow({
                         checked={mockApproval}
                         onChange={(event) => setMockApproval(event.target.checked)}
                       />
-                      Jag godkänner den simulerade signeringen.
+                      Jag godkänner signeringen.
                     </label>
                   </div>
                 )}
@@ -3733,8 +3728,8 @@ export function BookingFlow({
                   ? group && draft.payment === "invoice"
                     ? "Signera & skapa fakturaunderlag"
                     : draft.payment === "card"
-                      ? "Simulera kortbetalning"
-                      : "Simulera signering & slutför"
+                      ? "Betala med kort"
+                      : "Signera och slutför"
                   : draft.step === 9
                     ? "Fortsätt till bekräftelse"
                   : draft.step === 8

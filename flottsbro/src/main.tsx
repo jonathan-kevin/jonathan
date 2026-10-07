@@ -443,7 +443,7 @@ const seed: Booking[] = [
     kind: "day",
     status: "Bekräftad",
     payment: "Betald",
-    name: "Anna Lind",
+    name: "Anna Sjöberg",
     email: "anna@example.com",
     contact: exampleContact(),
     date: "2027-02-10",
@@ -451,7 +451,7 @@ const seed: Booking[] = [
     items: ["Skidpass familj", "Skidhyra 2 barn"],
     details: "2 vuxna, 2 barn · Skostorlekar 34 och 37",
     childAges: [10, 12],
-    guestNames: ["Anna Lind", "Erik Lind", "Maja Lind", "Leo Lind"],
+    guestNames: ["Anna Sjöberg", "Erik Sjöberg", "Maja Sjöberg", "Leo Sjöberg"],
     childBirthDates: ["2016-05-14", "2014-08-22"],
     history: ["Bokning bekräftad 2026-09-26"],
   },
@@ -588,14 +588,54 @@ const downloadInvoiceCsv = (booking: Booking) => {
 };
 const STORAGE_KEY = "flottsbro-bookings-v1";
 const CART_KEY = "flottsbro-cart-v1";
+const ACCOUNT_KEY = "flottsbro-account-v1";
+const DEMO_ACCOUNT = { email: "anna@example.com", name: "Anna Sjöberg" };
+const demoCart = (): CartEntry[] => [{
+  id: "flow-stay-summer",
+  draft: {
+    ...createFlowDraft("stay", "summer"),
+    step: 3,
+    adults: 2,
+    children: 2,
+    childAges: [10, 12],
+    pass: "bike",
+    borrowCount: 2,
+    guests: ["Anna Sjöberg", "Erik Sjöberg", "Maja Sjöberg", "Leo Sjöberg"],
+    childBirthDates: ["2016-05-14", "2014-08-22"],
+    borrowGuests: [0, 1],
+    rentalDetails: {
+      0: { activity: "Cykling", shoe: "", height: "170", weight: "" },
+      1: { activity: "Cykling", shoe: "", height: "180", weight: "" },
+    },
+    name: DEMO_ACCOUNT.name,
+    email: DEMO_ACCOUNT.email,
+    contact: exampleContact(),
+    checkoutMode: "login",
+    total: 9265,
+  },
+}];
+const loadAccount = () => {
+  try {
+    const raw = localStorage.getItem(ACCOUNT_KEY);
+    if (raw === null) return DEMO_ACCOUNT;
+    const account = JSON.parse(raw);
+    return account && typeof account.email === "string" && typeof account.name === "string"
+      ? account as typeof DEMO_ACCOUNT
+      : null;
+  } catch {
+    return DEMO_ACCOUNT;
+  }
+};
 const normalizeBooking = (booking: Booking): Booking => {
   const original = seed.find((item) => item.id === booking.id);
+  const renameFamily = (name: string) => name.replace(/^(Anna|Erik|Maja|Leo) Lind$/, "$1 Sjöberg");
   const participants =
     booking.id === "GR-0812" && !booking.participants?.length
       ? original?.participants
       : booking.participants;
   const normalized: Booking = {
     ...booking,
+    name: booking.id === "FL-2418" ? renameFamily(booking.name) : booking.name,
     accountEmail: booking.accountEmail ?? original?.email ??
       (booking.flowSnapshot?.checkoutMode === "login" ? booking.email : undefined),
     contact: booking.contact ?? original?.contact,
@@ -605,7 +645,9 @@ const normalizeBooking = (booking: Booking): Booking => {
         : booking.items.map((item) => item.includes("Cykelhyra")
           ? "Downhillcykel inkl. hjälm och skydd · 2 personer" : item))
       : booking.items,
-    guestNames: booking.guestNames ?? original?.guestNames,
+    guestNames: booking.id === "FL-2418"
+      ? (booking.guestNames ?? original?.guestNames)?.map(renameFamily)
+      : booking.guestNames ?? original?.guestNames,
     childBirthDates: booking.childBirthDates ?? original?.childBirthDates,
     childAges: booking.childAges ?? original?.childAges,
     endDate: booking.endDate ?? original?.endDate,
@@ -622,7 +664,7 @@ const normalizeBooking = (booking: Booking): Booking => {
           : booking.id === "GR-0812" && booking.total === 20800
             ? 28200
             : booking.total,
-    payment: booking.payment.replace(/\s*\(demo\)/gi, ""),
+    payment: booking.payment.replace(/\s*\(demo\)/gi, "").replace(/^Simulerad betalning/, "Betald").replace(/ · simulerad$/, ""),
     history: booking.history.map((entry) =>
       entry
         .replace(/\s*\(demo\)/gi, "")
@@ -646,7 +688,15 @@ const normalizeBooking = (booking: Booking): Booking => {
   };
   return {
     ...normalized,
-    flowSnapshot: normalized.flowSnapshot ?? draftForBooking(normalized, false),
+    flowSnapshot: normalized.flowSnapshot
+      ? booking.id === "FL-2418"
+        ? {
+            ...normalized.flowSnapshot,
+            name: renameFamily(normalized.flowSnapshot.name ?? ""),
+            guests: (normalized.flowSnapshot.guests ?? []).map(renameFamily),
+          }
+        : normalized.flowSnapshot
+      : draftForBooking(normalized, false),
   };
 };
 const load = (): Booking[] => {
@@ -660,7 +710,9 @@ const load = (): Booking[] => {
 };
 const loadCart = (): CartEntry[] => {
   try {
-    const parsed = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+    const raw = localStorage.getItem(CART_KEY);
+    if (raw === null) return demoCart();
+    const parsed = JSON.parse(raw);
     return Array.isArray(parsed)
       ? parsed.filter(
           (item) =>
@@ -674,7 +726,7 @@ const loadCart = (): CartEntry[] => {
         )
       : [];
   } catch {
-    return [];
+    return demoCart();
   }
 };
 const idFor = (kind: Kind) =>
@@ -1127,8 +1179,8 @@ function AccountStep({
           </div>
           <p className="checkout-note">
             {en
-              ? "Sign-in is simulated locally. Your password is not saved."
-              : "Inloggningen simuleras lokalt. Lösenordet sparas inte."}
+              ? "Your password is not saved."
+              : "Lösenordet sparas inte."}
           </p>
         </div>
       )}
@@ -1272,11 +1324,6 @@ function PaymentStep({
         <span>{en ? "To pay" : "Att betala"}</span>
         <strong>{SEK(total)}</strong>
       </div>
-      <p className="checkout-note">
-        {en
-          ? "This is a simulated payment. No money is charged."
-          : "Betalningen simuleras. Inga pengar dras."}
-      </p>
     </div>
   );
 }
@@ -2218,7 +2265,7 @@ function Day({
     } else if (step === 2) {
       setCheckoutMode("guest");
     } else if (step === 3) {
-      setName("Anna Lind");
+      setName("Anna Sjöberg");
       setEmail("anna@example.com");
       setContact(exampleContact());
     } else if (step === 5) {
@@ -2832,7 +2879,7 @@ function Day({
                       <input
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="Anna Lind"
+                        placeholder="Anna Sjöberg"
                         autoComplete="name"
                       />
                     </Field>
@@ -3245,7 +3292,7 @@ function Stay({
     } else if (step === 3) {
       setCheckoutMode("guest");
     } else if (step === 4) {
-      setName(en ? "Alex Miller" : "Anna Lind");
+      setName(en ? "Alex Miller" : "Anna Sjöberg");
       setEmail(en ? "alex@example.com" : "anna@example.com");
       setContact(exampleContact());
     } else if (step === 5) {
@@ -4707,8 +4754,8 @@ function Group({
       </div>
       <p className="invoice-footnote">
         {studentRentalCount} elever lånar skidutrustning. Lärare är gratis för
-        SkiPass och utrustning. Matpriset är ett antagande i prototypen. Boende
-        är ett frånpris och bekräftas mot tillgänglighet.
+        SkiPass och utrustning. Boende är ett frånpris och bekräftas mot
+        tillgänglighet.
       </p>
     </div>
   );
@@ -5405,7 +5452,7 @@ function displayBookingText(value: string, language: "sv" | "en") {
     .replaceAll("Cykelhyra", "Bike rental")
     .replaceAll("Skidhyra", "Ski rental")
     .replaceAll("Utrustningshyra", "Equipment rental")
-    .replaceAll("Simulerad betalning", "Simulated payment")
+    .replaceAll("Betald", "Paid")
     .replaceAll("Fakturaunderlag skapat", "Invoice details created")
     .replaceAll("Faktura väntar", "Invoice pending")
     .replaceAll("Återbetalning väntar", "Refund pending")
@@ -5513,7 +5560,7 @@ function BookingsPage({
             <p><strong>Period:</strong> {booking.date}{booking.endDate && booking.endDate !== booking.date ? ` – ${booking.endDate}` : ""}. {language === "en" ? "Check the booked times for each activity above." : "Kontrollera bokade tider per aktivitet ovan."}</p>
             <p><strong>Inför besöket:</strong> Klä dig efter väder. Hyrd utrustning hämtas vid uthyrningen. Ta med egen utrustning om du valt det.</p>
             <p><strong>Kontakt:</strong> {booking.email}{booking.contact?.phone ? ` · ${booking.contact.phone}` : ""}.</p>
-            <small>Bekräftelsen visas i demosystemet; inget e-postmeddelande skickas.</small>
+            <small>Bekräftelsen visas under Mina bokningar; inget e-postmeddelande skickas.</small>
           </details>
           <div className="customer-booking-actions">
             <Button variant="secondary" onClick={() => onRebook(booking)}>Boka igen</Button>
@@ -5639,7 +5686,7 @@ function Admin({ bookings, language, onEdit, onCancel }: {
   };
   const active = bookings.filter((b) => b.status !== "Avbokad");
   const revenue = active
-    .filter((b) => b.payment.startsWith("Betald") || b.payment.startsWith("Simulerad betalning"))
+    .filter((b) => b.payment.startsWith("Betald"))
     .reduce((s, b) => s + b.total, 0);
   const invoiced = active
     .filter((b) => b.payment === "Fakturaunderlag skapat")
@@ -5691,11 +5738,9 @@ function Admin({ bookings, language, onEdit, onCancel }: {
         }
       />
       <details className="admin-demo-guide card">
-        <summary>Vad visas i demon?</summary>
-        <p><strong>Kundanpassad prototyp:</strong> Gästflöde, gruppbokning, deltagarlista, personalvy, ändringar, prisberäkning och CSV export visas i samma gränssnitt.</p>
-        <p><strong>Simulerat:</strong> Inloggning, betalning, signering, tillgänglighet och lager använder exempeldata i webbläsaren. Inga pengar dras och ingen e-post skickas.</p>
-        <p><strong>Inför en verklig lösning:</strong> Konton, betalväxel, bokningslager, fakturering, kundmeddelanden och behörigheter behöver kopplas till riktiga tjänster. Priser, villkor och kapaciteter behöver fastställas av Flottsbro.</p>
-        <p><strong>Systembyte i den här demon:</strong> Gäst och personal använder två vyer i samma app. Data lagras lokalt i den aktuella webbläsaren.</p>
+        <summary>Om bokningsvyn</summary>
+        <p>Gästflöde, gruppbokning, deltagarlista, personalvy, ändringar, prisberäkning och CSV-export visas i samma gränssnitt.</p>
+        <p>Exempeldata lagras lokalt i den aktuella webbläsaren.</p>
       </details>
       <div className="stats">
         <div className="stat card">
@@ -5709,7 +5754,7 @@ function Admin({ bookings, language, onEdit, onCancel }: {
           <span>Registrerat betalt</span>
           <strong>{SEK(revenue)}</strong>
           <small>
-            <CreditCard size={14} /> Inklusive simulerade betalningar
+            <CreditCard size={14} /> Betalningar med olika metoder
           </small>
         </div>
         <div className="stat card">
@@ -6291,10 +6336,7 @@ function CartDrawer({
                     : SEK(items.reduce((sum, item) => sum + item.draft.total, 0))}
                 </strong>
               </div>
-              <p>
-                Slutför varje bokning för att bekräfta den. Inga verkliga
-                betalningar görs i prototypen.
-              </p>
+              <p>Slutför varje bokning för att bekräfta den.</p>
             </div>
           </>
         )}
@@ -6343,7 +6385,7 @@ function AuthPage({
     setEmail("anna@example.com");
     setPassword("demo1234");
     if (view === "signup") {
-      setName("Anna Lind");
+      setName("Anna Sjöberg");
       setConfirmPassword("demo1234");
     }
     setError("");
@@ -6462,16 +6504,14 @@ function AuthPage({
             <button type="button" className="auth-text-button" onClick={onShowSignup}>
               Ny här? Skapa konto
             </button>
-            <p className="auth-note">
-              Inloggningen är simulerad. Inga riktiga konton används och lösenordet sparas inte.
-            </p>
+            <p className="auth-note">Lösenordet sparas inte.</p>
           </>
         )}
         {view === "signup" && (
           <>
             <h1>Skapa konto</h1>
             <p className="auth-intro">
-              Fyll i dina uppgifter för att fortsätta med ett simulerat konto.
+              Fyll i dina uppgifter för att fortsätta.
             </p>
             <form className="auth-form" onSubmit={submitSignup}>
               <label>
@@ -6529,9 +6569,7 @@ function AuthPage({
             <button type="button" className="auth-text-button" onClick={onShowLogin}>
               Har du redan ett konto? Logga in
             </button>
-            <p className="auth-note">
-              Kontot skapas bara för den här visningen. Inga riktiga konton eller lösenord sparas.
-            </p>
+            <p className="auth-note">Lösenordet sparas inte.</p>
           </>
         )}
         {view === "account" && (
@@ -6549,7 +6587,6 @@ function AuthPage({
                 Logga ut
               </button>
             </div>
-            <p className="auth-note">Kontot är simulerat i den här prototypen.</p>
           </>
         )}
       </div>
@@ -6574,8 +6611,8 @@ function App() {
   const [resetOpen, setResetOpen] = useState(false);
   const [authView, setAuthView] = useState<AuthView>("choice");
   const [pendingDraft, setPendingDraft] = useState<FlowDraft | null>(null);
-  const [signedInEmail, setSignedInEmail] = useState<string | null>(null);
-  const [signedInName, setSignedInName] = useState<string | null>(null);
+  const [signedInEmail, setSignedInEmail] = useState<string | null>(() => loadAccount()?.email ?? null);
+  const [signedInName, setSignedInName] = useState<string | null>(() => loadAccount()?.name ?? null);
   const [returnToBookingsAfterLogin, setReturnToBookingsAfterLogin] = useState(false);
   const [shouldPersist, setShouldPersist] = useState(false);
   useEffect(() => {
@@ -6590,10 +6627,13 @@ function App() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(bookings));
   }, [bookings, shouldPersist]);
   useEffect(() => {
-    if (cartItems.length)
-      localStorage.setItem(CART_KEY, JSON.stringify(cartItems));
-    else localStorage.removeItem(CART_KEY);
+    localStorage.setItem(CART_KEY, JSON.stringify(cartItems));
   }, [cartItems]);
+  useEffect(() => {
+    localStorage.setItem(ACCOUNT_KEY, JSON.stringify(
+      signedInEmail ? { email: signedInEmail, name: signedInName || signedInEmail } : null,
+    ));
+  }, [signedInEmail, signedInName]);
   const onBook = (b: Booking) => {
     setShouldPersist(true);
     setBookings((bs) => [{
@@ -6625,6 +6665,7 @@ function App() {
   const clearSavedData = () => {
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(CART_KEY);
+    localStorage.removeItem(ACCOUNT_KEY);
     localStorage.removeItem("flottsbro-language");
     setLanguage("sv");
     setShouldPersist(false);
@@ -6632,13 +6673,13 @@ function App() {
     setResetOpen(false);
     setPage("overview");
     setMobileOpen(false);
-    setCartItems([]);
+    setCartItems(demoCart());
     setCartOpen(false);
     setSeason("winter");
     setSearchDraft(null);
     setPendingDraft(null);
-    setSignedInEmail(null);
-    setSignedInName(null);
+    setSignedInEmail(DEMO_ACCOUNT.email);
+    setSignedInName(DEMO_ACCOUNT.name);
     setReturnToBookingsAfterLogin(false);
   };
   const launchFlow = (draft: FlowDraft) => {
@@ -6681,7 +6722,7 @@ function App() {
     ...current,
     status: "Avbokad",
     payment: current.payment.includes("Faktura") || current.payment.includes("faktura")
-      ? "Faktura makulerad" : "Återbetalning väntar · simulerad",
+      ? "Faktura makulerad" : "Återbetalning väntar",
     history: [...current.history, `Avbokad ${today()} · bekräftelsen uppdaterad`],
   }));
   const beginFlow = (draft: FlowDraft) => {
@@ -6957,8 +6998,7 @@ function App() {
             </nav>
             <div className="sidebar-bottom">
               <div className="sidebar-disclosure">
-                Exempeldata. Inga verkliga betalningar eller e-postmeddelanden
-                skickas.
+                Exempeldata visas i personalvyn.
               </div>
               <div className="sidebar-location">
                 <MapPin size={15} /> Huddinge, Stockholm
@@ -7007,7 +7047,7 @@ function App() {
             </main>
             <footer>
               <span>© 2026 Flottsbro · Bokningssystem</span>
-              <span>Exempeldata · inga verkliga betalningar</span>
+              <span>Exempeldata</span>
             </footer>
           </div>
         </>
@@ -7100,10 +7140,10 @@ function App() {
               type="button"
               className={`store-account-button${page === "auth" ? " active" : ""}`}
               onClick={openAccount}
-              aria-label={signedInEmail ? "Mitt konto" : "Logga in"}
+              aria-label={signedInEmail ? `Mitt konto: ${signedInName || signedInEmail}` : "Logga in"}
             >
               <UserRound size={19} />
-              <span>{signedInEmail ? "Mitt konto" : "Logga in"}</span>
+              <span>{signedInEmail ? signedInName || "Mitt konto" : "Logga in"}</span>
             </button>
             <button
               className="store-cart-button"
