@@ -19,6 +19,7 @@ import {
 import { installPublicTranslation } from "./locale";
 import { capacityIssues, cabinStock, cabinUnitsLeft, cabinUnitsNeeded, equipmentDemand, equipmentStock, equipmentUnitsLeft, passDemand, passStock, passUnitsLeft, sessionCapacity, sessionSeatsLeft, type EquipmentKind } from "./capacity";
 import { countryLabel } from "./countries";
+import flottsbroLogo from "./assets/flottsbro-logo-2026-blue.svg";
 import {
   Activity,
   ArrowLeft,
@@ -6889,13 +6890,7 @@ function App() {
   };
   const brand = (
     <span className="brand-inner">
-      <span className="brand-mark">
-        <MountainSnow size={23} />
-      </span>
-      <span>
-        <strong>FLOTTSBRO</strong>
-        <small>UPPLEVELSER & BOENDE</small>
-      </span>
+      <img className="flottsbro-logo" src={flottsbroLogo} width="236" height="38" alt="Flottsbro" />
     </span>
   );
   const guestContent = (
