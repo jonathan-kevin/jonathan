@@ -19,7 +19,7 @@ import {
 import { installPublicTranslation } from "./locale";
 import { capacityIssues, cabinStock, cabinUnitsLeft, cabinUnitsNeeded, equipmentDemand, equipmentStock, equipmentUnitsLeft, passDemand, passStock, passUnitsLeft, sessionCapacity, sessionSeatsLeft, type EquipmentKind } from "./capacity";
 import { countryLabel } from "./countries";
-import flottsbroLogo from "./assets/flottsbro-logo-2026-blue.svg";
+import flottsbroLogo from "./assets/flottsbro-logo-2026-green.svg";
 import {
   Activity,
   ArrowLeft,
