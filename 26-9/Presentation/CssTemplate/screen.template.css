@@ -1,6 +1,7 @@
 @charset "utf-8";
 :root {
   color-scheme: light dark;
+  --Sa-Color-Surface: light-dark(var(--White), var(--Gray1200));
   --Sa-Color-Text: light-dark(var(--Gray900), var(--Gray200));
   --Sa-Color-TextSecondary: light-dark(var(--Gray600), var(--Gray400));
   --Sa-Color-Link: light-dark(var(--Blue600), var(--Blue300));
@@ -25,21 +26,26 @@
   --Sa-Color-SideBarFavoriteIcon: var(--Sa-Color-TextSecondary);
   --Sa-Color-SideBarFavoriteBackground: light-dark(var(--Gray50), var(--Gray1100));
   --Sa-Color-SideBarFavoriteBorder: light-dark(var(--Gray200), var(--Gray800));
-  --Sa-Color-MenuGroupFeatureColor1: light-dark(var(--Blue600), var(--Blue300));
-  --Sa-Color-MenuGroupFeatureColor1-Brightness190: light-dark(var(--Blue100), var(--Blue1000));
-  --Sa-Color-MenuGroupFeatureColor1-Brightness180: light-dark(var(--Blue200), var(--Blue900));
-  --Sa-Color-MenuGroupFeatureColor2: light-dark(var(--Purple600), var(--Purple300));
-  --Sa-Color-MenuGroupFeatureColor2-Brightness180: light-dark(var(--Purple200), var(--Purple1000));
-  --Sa-Color-MenuGroupFeatureColor2-Brightness190: light-dark(var(--Purple100), var(--Purple1100));
-  --Sa-Color-MenuGroupFeatureColor3: light-dark(var(--Pink600), var(--Pink300));
-  --Sa-Color-MenuGroupFeatureColor3-Brightness180: light-dark(var(--Pink200), var(--Pink1100));
-  --Sa-Color-MenuGroupFeatureColor3-Brightness190: light-dark(var(--Pink100), var(--Pink1200));
-  --Sa-Color-MenuGroupFeatureColor4: light-dark(var(--Sky700), var(--Sky300));
-  --Sa-Color-MenuGroupFeatureColor4-Brightness180: light-dark(var(--Sky200), var(--Sky900));
-  --Sa-Color-MenuGroupFeatureColor4-Brightness190: light-dark(var(--Sky100), var(--Sky1000));
-  --Sa-Color-MenuGroupFeatureColor5: light-dark(var(--Green400), var(--Green300));
-  --Sa-Color-MenuGroupFeatureColor5-Brightness180: light-dark(var(--Green200), var(--Green900));
-  --Sa-Color-MenuGroupFeatureColor5-Brightness190: light-dark(var(--Green100), var(--Green1000));
+  --Sa-Color-MenuGroupFeatureColor1: var(--Blue600);
+  --Sa-Color-MenuGroupFeatureColor1-Brightness140: var(--Blue600);
+  --Sa-Color-MenuGroupFeatureColor1-Brightness187: var(--Blue100);
+  --Sa-Color-MenuGroupFeatureColor1-Brightness197: var(--Blue50);
+  --Sa-Color-MenuGroupFeatureColor2: var(--Purple600);
+  --Sa-Color-MenuGroupFeatureColor2-Brightness140: var(--Purple600);
+  --Sa-Color-MenuGroupFeatureColor2-Brightness187: var(--Purple200);
+  --Sa-Color-MenuGroupFeatureColor2-Brightness197: var(--Purple100);
+  --Sa-Color-MenuGroupFeatureColor3: var(--Pink600);
+  --Sa-Color-MenuGroupFeatureColor3-Brightness140: var(--Pink600);
+  --Sa-Color-MenuGroupFeatureColor3-Brightness187: var(--Pink200);
+  --Sa-Color-MenuGroupFeatureColor3-Brightness197: var(--Pink100);
+  --Sa-Color-MenuGroupFeatureColor4: var(--Sky600);
+  --Sa-Color-MenuGroupFeatureColor4-Brightness140: var(--Sky700);
+  --Sa-Color-MenuGroupFeatureColor4-Brightness187: var(--Sky200);
+  --Sa-Color-MenuGroupFeatureColor4-Brightness197: var(--Sky100);
+  --Sa-Color-MenuGroupFeatureColor5: var(--Green600);
+  --Sa-Color-MenuGroupFeatureColor5-Brightness140: var(--Green400);
+  --Sa-Color-MenuGroupFeatureColor5-Brightness187: var(--Green200);
+  --Sa-Color-MenuGroupFeatureColor5-Brightness197: var(--Green100);
   --Sa-Color-TooltipText: var(--White);
   --Sa-Color-TooltipBackground: var(--Gray900);
   --Sa-Color-InfoBoxLabel: var(--Sa-Color-TextSecondary);
@@ -171,10 +177,10 @@
   --Blue300: oklch(79.325% 0.10491 259.255);
   --Blue400: oklch(71.878% 0.14635 260.823);
   --Blue500: oklch(62.53% 0.18264 261.566);
-  --Blue600: oklch(55.839% 0.19011 261.408);
+  --Blue600: #2d6ce1;
   --Blue700: oklch(48.951% 0.18379 261.585);
   --Blue800: oklch(42.009% 0.16716 261.544);
-  --Blue900: oklch(35.131% 0.14397 261.37);
+  --Blue900: #063384;
   --Blue1000: oklch(31.909% 0.13389 261.625);
   --Blue1100: oklch(28.287% 0.11942 261.413);
   --Blue1200: oklch(24.457% 0.10284 261.168);
@@ -22983,7 +22989,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   min-width: 0;
   height: fit-content;
   gap: 0.25rem;
-  background-color: light-dark(var(--White), var(--Gray1200));
+  background-color: var(--Sa-Color-Surface);
   border: solid 0.0625rem light-dark(var(--Gray200), var(--Gray800));
 }
 .saMultiPartContent .saMenuBoxWrapper .saMenuBox {
@@ -23016,7 +23022,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saMenuBoxWrapper li.saMenuItemWrapper.saInactive {
   opacity: 0.5;
-  pointer-events: none;
+  cursor: not-allowed;
 }
 .saMenuBoxWrapper .saMenuItemWrapper.saHasDescription .saMenuItem {
   height: 2.5rem;
@@ -23033,6 +23039,7 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saMenuBoxWrapper .saIconHolder {
   position: relative;
+  transition: ease all 0.2s;
   text-decoration: none;
 }
 .saMenuBoxWrapper .saMenuItem {
@@ -23108,12 +23115,12 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   }
   .saMenuBoxWrapper .saMenuItem:hover .saIcon,
   .saMenuBoxWrapper .saMenuItem:hover .saMenuItemTextDesc {
-    color: inherit;
+    color: light-dark(var(--Sa-Color-Primary600), var(--White));
   }
-  .saMenuBoxWrapper .saMenuItem:hover .saBadge {
-    color: light-dark(var(--Sa-Color-Primary50), var(--White));
+  .saMenuBoxWrapper .saMenuItem:hover .saIconHolder:not(.saIconHolderFeatured) .saBadge {
+    color: light-dark(var(--Sa-Color-Primary50), var(--Sa-Color-Surface));
     border-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1000));
-    background: var(--Sa-Color-Primary600);
+    background: light-dark(var(--Sa-Color-Primary600), var(--White));
   }
 }
 .saMenuBoxWrapper .saMenuItem:active {
@@ -23123,7 +23130,10 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
 }
 .saMenuBoxWrapper .saMenuItem:active .saIcon,
 .saMenuBoxWrapper .saMenuItem:active .saMenuItemTextDesc {
-  color: inherit;
+  color: light-dark(var(--Sa-Color-Primary700), var(--White));
+}
+.saMenuBoxWrapper .saMenuItem:active .saIconHolder:not(.saIconHolderFeatured) .saBadge {
+  border-color: light-dark(var(--Sa-Color-Primary100), var(--Gray900));
 }
 .saMenuBoxWrapper .saMenuItem::after {
   content: '';
@@ -23151,6 +23161,9 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.saMenuBoxWrapper .saMenuItemTextHeadingWrapper .saMenuItemPill {
+  margin: 0 0 0 0.5rem;
 }
 .saMenuBoxWrapper .saMenuItemTextDesc {
   font-size: 0.75rem;
@@ -23565,189 +23578,62 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   height: 3rem;
   min-width: 3rem;
   display: flex;
-  transition: border-radius 0.2s ease, background 0.2s ease, color 0.2s ease;
 }
 .saMenuGroup .saMenuBoxWrapper .saFeatured .saIconHolderFeatured .saIcon {
+  color: inherit;
   font-size: 1.5rem;
   min-width: 1.625rem;
+  transition: none;
 }
 .saMenuGroup .saMenuBoxWrapper .saFeatured .saIconHolderFeatured .saBadge {
   font-size: 0.75rem;
-  height: 0.875rem;
-  width: 0.875rem;
-  min-width: 0.875rem;
+  height: 1rem;
+  width: 1rem;
+  min-width: 1rem;
   bottom: 0.375rem;
-  right: 0.25rem;
+  right: 0.375rem;
+  border: none;
+  border: 0.125rem solid var(--Sa-Color-Surface);
 }
-.saMenuGroup .saMenuBoxWrapper .saFeatured1 .saMenuItem .saIconHolderFeatured {
-  background: var(--Sa-Color-MenuGroupFeatureColor1-Brightness190);
+.saFeatured1 .saIconHolderFeatured {
+  color: light-dark(var(--Sa-Color-MenuGroupFeatureColor1), var(--Sa-Color-MenuGroupFeatureColor1-Brightness140));
+  background-color: light-dark(var(--Sa-Color-MenuGroupFeatureColor1-Brightness187), color-mix(in oklch, var(--Sa-Color-MenuGroupFeatureColor1) 15%, transparent));
 }
-.saMenuGroup .saMenuBoxWrapper .saFeatured1 .saMenuItem .saIconHolderFeatured .saIcon {
-  color: var(--Sa-Color-MenuGroupFeatureColor1);
+.saFeatured1 .saBadge {
+  color: light-dark(var(--Sa-Color-MenuGroupFeatureColor1-Brightness187), var(--Sa-Color-Surface));
+  background-color: light-dark(var(--Sa-Color-MenuGroupFeatureColor1), var(--Sa-Color-MenuGroupFeatureColor1-Brightness140));
 }
-.saMenuGroup .saMenuBoxWrapper .saFeatured1 .saMenuItem .saIconHolderFeatured .saBadge {
-  border-color: var(--Sa-Color-MenuGroupFeatureColor1-Brightness190);
-  background: var(--Sa-Color-MenuGroupFeatureColor1);
-  color: var(--Sa-Color-MenuGroupFeatureColor1-Brightness190);
+.saFeatured2 .saIconHolderFeatured {
+  color: light-dark(var(--Sa-Color-MenuGroupFeatureColor2), var(--Sa-Color-MenuGroupFeatureColor2-Brightness140));
+  background-color: light-dark(var(--Sa-Color-MenuGroupFeatureColor2-Brightness187), color-mix(in oklch, var(--Sa-Color-MenuGroupFeatureColor2) 15%, transparent));
 }
-@media (pointer: fine) {
-  .saMenuGroup .saMenuBoxWrapper .saFeatured1 .saMenuItem:hover {
-    background: var(--Sa-Color-MenuGroupFeatureColor1-Brightness190);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured1 .saMenuItem:hover .saIconHolderFeatured {
-    background: var(--Sa-Color-MenuGroupFeatureColor1);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured1 .saMenuItem:hover .saIconHolderFeatured .saIcon {
-    color: var(--White);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured1 .saMenuItem:hover .saIconHolderFeatured .saBadge {
-    border-color: var(--Sa-Color-MenuGroupFeatureColor1);
-    background: var(--White);
-    color: var(--Sa-Color-MenuGroupFeatureColor1);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured1 .saMenuItem:hover .saMenuItemTextHeading,
-  .saMenuGroup .saMenuBoxWrapper .saFeatured1 .saMenuItem:hover .saMenuItemTextDesc {
-    color: var(--Sa-Color-MenuGroupFeatureColor1);
-  }
+.saFeatured2 .saBadge {
+  color: light-dark(var(--Sa-Color-MenuGroupFeatureColor2-Brightness187), var(--Sa-Color-Surface));
+  background-color: light-dark(var(--Sa-Color-MenuGroupFeatureColor2), var(--Sa-Color-MenuGroupFeatureColor2-Brightness140));
 }
-.saMenuGroup .saMenuBoxWrapper .saFeatured1 .saMenuItem:active {
-  background: var(--Sa-Color-MenuGroupFeatureColor1-Brightness180);
+.saFeatured3 .saIconHolderFeatured {
+  color: light-dark(var(--Sa-Color-MenuGroupFeatureColor3), var(--Sa-Color-MenuGroupFeatureColor3-Brightness140));
+  background-color: light-dark(var(--Sa-Color-MenuGroupFeatureColor3-Brightness187), color-mix(in oklch, var(--Sa-Color-MenuGroupFeatureColor3) 15%, transparent));
 }
-.saMenuGroup .saMenuBoxWrapper .saFeatured2 .saMenuItem .saIconHolderFeatured {
-  background: var(--Sa-Color-MenuGroupFeatureColor2-Brightness190);
+.saFeatured3 .saBadge {
+  color: light-dark(var(--Sa-Color-MenuGroupFeatureColor3-Brightness187), var(--Sa-Color-Surface));
+  background-color: light-dark(var(--Sa-Color-MenuGroupFeatureColor3), var(--Sa-Color-MenuGroupFeatureColor3-Brightness140));
 }
-.saMenuGroup .saMenuBoxWrapper .saFeatured2 .saMenuItem .saIconHolderFeatured .saIcon {
-  color: var(--Sa-Color-MenuGroupFeatureColor2);
+.saFeatured4 .saIconHolderFeatured {
+  color: light-dark(var(--Sa-Color-MenuGroupFeatureColor4), var(--Sa-Color-MenuGroupFeatureColor4-Brightness140));
+  background-color: light-dark(var(--Sa-Color-MenuGroupFeatureColor4-Brightness187), color-mix(in oklch, var(--Sa-Color-MenuGroupFeatureColor4) 15%, transparent));
 }
-.saMenuGroup .saMenuBoxWrapper .saFeatured2 .saMenuItem .saIconHolderFeatured .saBadge {
-  border-color: var(--Sa-Color-MenuGroupFeatureColor2-Brightness190);
-  background: var(--Sa-Color-MenuGroupFeatureColor2);
-  color: var(--Sa-Color-MenuGroupFeatureColor2-Brightness190);
+.saFeatured4 .saBadge {
+  color: light-dark(var(--Sa-Color-MenuGroupFeatureColor4-Brightness187), var(--Sa-Color-Surface));
+  background-color: light-dark(var(--Sa-Color-MenuGroupFeatureColor4), var(--Sa-Color-MenuGroupFeatureColor4-Brightness140));
 }
-@media (pointer: fine) {
-  .saMenuGroup .saMenuBoxWrapper .saFeatured2 .saMenuItem:hover {
-    background: var(--Sa-Color-MenuGroupFeatureColor2-Brightness190);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured2 .saMenuItem:hover .saIconHolderFeatured {
-    background: var(--Sa-Color-MenuGroupFeatureColor2);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured2 .saMenuItem:hover .saIconHolderFeatured .saIcon {
-    color: var(--White);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured2 .saMenuItem:hover .saIconHolderFeatured .saBadge {
-    border-color: var(--Sa-Color-MenuGroupFeatureColor2);
-    background: var(--White);
-    color: var(--Sa-Color-MenuGroupFeatureColor2);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured2 .saMenuItem:hover .saMenuItemTextHeading,
-  .saMenuGroup .saMenuBoxWrapper .saFeatured2 .saMenuItem:hover .saMenuItemTextDesc {
-    color: var(--Sa-Color-MenuGroupFeatureColor2);
-  }
+.saFeatured5 .saIconHolderFeatured {
+  color: light-dark(var(--Sa-Color-MenuGroupFeatureColor5), var(--Sa-Color-MenuGroupFeatureColor5-Brightness140));
+  background-color: light-dark(var(--Sa-Color-MenuGroupFeatureColor5-Brightness187), color-mix(in oklch, var(--Sa-Color-MenuGroupFeatureColor5) 15%, transparent));
 }
-.saMenuGroup .saMenuBoxWrapper .saFeatured2 .saMenuItem:active {
-  background: var(--Sa-Color-MenuGroupFeatureColor2-Brightness180);
-}
-.saMenuGroup .saMenuBoxWrapper .saFeatured3 .saMenuItem .saIconHolderFeatured {
-  background: var(--Sa-Color-MenuGroupFeatureColor3-Brightness190);
-}
-.saMenuGroup .saMenuBoxWrapper .saFeatured3 .saMenuItem .saIconHolderFeatured .saIcon {
-  color: var(--Sa-Color-MenuGroupFeatureColor3);
-}
-.saMenuGroup .saMenuBoxWrapper .saFeatured3 .saMenuItem .saIconHolderFeatured .saBadge {
-  border-color: var(--Sa-Color-MenuGroupFeatureColor3-Brightness190);
-  background: var(--Sa-Color-MenuGroupFeatureColor3);
-  color: var(--Sa-Color-MenuGroupFeatureColor3-Brightness190);
-}
-@media (pointer: fine) {
-  .saMenuGroup .saMenuBoxWrapper .saFeatured3 .saMenuItem:hover {
-    background: var(--Sa-Color-MenuGroupFeatureColor3-Brightness190);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured3 .saMenuItem:hover .saIconHolderFeatured {
-    background: var(--Sa-Color-MenuGroupFeatureColor3);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured3 .saMenuItem:hover .saIconHolderFeatured .saIcon {
-    color: var(--White);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured3 .saMenuItem:hover .saIconHolderFeatured .saBadge {
-    border-color: var(--Sa-Color-MenuGroupFeatureColor3);
-    background: var(--White);
-    color: var(--Sa-Color-MenuGroupFeatureColor3);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured3 .saMenuItem:hover .saMenuItemTextHeading,
-  .saMenuGroup .saMenuBoxWrapper .saFeatured3 .saMenuItem:hover .saMenuItemTextDesc {
-    color: var(--Sa-Color-MenuGroupFeatureColor3);
-  }
-}
-.saMenuGroup .saMenuBoxWrapper .saFeatured3 .saMenuItem:active {
-  background: var(--Sa-Color-MenuGroupFeatureColor3-Brightness180);
-}
-.saMenuGroup .saMenuBoxWrapper .saFeatured4 .saMenuItem .saIconHolderFeatured {
-  background: var(--Sa-Color-MenuGroupFeatureColor4-Brightness190);
-}
-.saMenuGroup .saMenuBoxWrapper .saFeatured4 .saMenuItem .saIconHolderFeatured .saIcon {
-  color: var(--Sa-Color-MenuGroupFeatureColor4);
-}
-.saMenuGroup .saMenuBoxWrapper .saFeatured4 .saMenuItem .saIconHolderFeatured .saBadge {
-  border-color: var(--Sa-Color-MenuGroupFeatureColor4-Brightness190);
-  background: var(--Sa-Color-MenuGroupFeatureColor4);
-  color: var(--Sa-Color-MenuGroupFeatureColor4-Brightness190);
-}
-@media (pointer: fine) {
-  .saMenuGroup .saMenuBoxWrapper .saFeatured4 .saMenuItem:hover {
-    background: var(--Sa-Color-MenuGroupFeatureColor4-Brightness190);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured4 .saMenuItem:hover .saIconHolderFeatured {
-    background: var(--Sa-Color-MenuGroupFeatureColor4);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured4 .saMenuItem:hover .saIconHolderFeatured .saIcon {
-    color: var(--White);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured4 .saMenuItem:hover .saIconHolderFeatured .saBadge {
-    border-color: var(--Sa-Color-MenuGroupFeatureColor4);
-    background: var(--White);
-    color: var(--Sa-Color-MenuGroupFeatureColor4);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured4 .saMenuItem:hover .saMenuItemTextHeading,
-  .saMenuGroup .saMenuBoxWrapper .saFeatured4 .saMenuItem:hover .saMenuItemTextDesc {
-    color: var(--Sa-Color-MenuGroupFeatureColor4);
-  }
-}
-.saMenuGroup .saMenuBoxWrapper .saFeatured4 .saMenuItem:active {
-  background: var(--Sa-Color-MenuGroupFeatureColor4-Brightness180);
-}
-.saMenuGroup .saMenuBoxWrapper .saFeatured5 .saMenuItem .saIconHolderFeatured {
-  background: var(--Sa-Color-MenuGroupFeatureColor5-Brightness190);
-}
-.saMenuGroup .saMenuBoxWrapper .saFeatured5 .saMenuItem .saIconHolderFeatured .saIcon {
-  color: var(--Sa-Color-MenuGroupFeatureColor5);
-}
-.saMenuGroup .saMenuBoxWrapper .saFeatured5 .saMenuItem .saIconHolderFeatured .saBadge {
-  border-color: var(--Sa-Color-MenuGroupFeatureColor5-Brightness190);
-  background: var(--Sa-Color-MenuGroupFeatureColor5);
-  color: var(--Sa-Color-MenuGroupFeatureColor5-Brightness190);
-}
-@media (pointer: fine) {
-  .saMenuGroup .saMenuBoxWrapper .saFeatured5 .saMenuItem:hover {
-    background: var(--Sa-Color-MenuGroupFeatureColor5-Brightness190);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured5 .saMenuItem:hover .saIconHolderFeatured {
-    background: var(--Sa-Color-MenuGroupFeatureColor5);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured5 .saMenuItem:hover .saIconHolderFeatured .saIcon {
-    color: var(--White);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured5 .saMenuItem:hover .saIconHolderFeatured .saBadge {
-    border-color: var(--Sa-Color-MenuGroupFeatureColor5);
-    background: var(--White);
-    color: var(--Sa-Color-MenuGroupFeatureColor5);
-  }
-  .saMenuGroup .saMenuBoxWrapper .saFeatured5 .saMenuItem:hover .saMenuItemTextHeading,
-  .saMenuGroup .saMenuBoxWrapper .saFeatured5 .saMenuItem:hover .saMenuItemTextDesc {
-    color: var(--Sa-Color-MenuGroupFeatureColor5);
-  }
-}
-.saMenuGroup .saMenuBoxWrapper .saFeatured5 .saMenuItem:active {
-  background: var(--Sa-Color-MenuGroupFeatureColor5-Brightness180);
+.saFeatured5 .saBadge {
+  color: light-dark(var(--Sa-Color-MenuGroupFeatureColor5-Brightness187), var(--Sa-Color-Surface));
+  background-color: light-dark(var(--Sa-Color-MenuGroupFeatureColor5), var(--Sa-Color-MenuGroupFeatureColor5-Brightness140));
 }
 .saMenuGroup .saMenuBoxDescription {
   font-size: 0.75rem;
@@ -23768,16 +23654,15 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   border-radius: 99rem;
   width: fit-content;
   vertical-align: middle;
+}
+.saItemInner .saMenuItemPill {
   margin: -0.125rem auto auto 0.5rem;
 }
-.saLargeScreen .saHeader .saMenuItemPill {
-  margin: 0 0 -0.25rem 0;
+.saDesktopHeader .saMenuItemPill {
+  margin-top: 0.125rem;
 }
-.saSmallScreen .saHeader .saMenuItemPill {
-  margin: -0.125rem -0.125rem auto 0.5rem;
-}
-.saMenuItemTextHeadingWrapper .saMenuItemPill {
-  margin: 0 0 0 0.5rem;
+.saSmallScreenHeader .saMenuItemPill {
+  margin: -0.125rem auto auto 0.5rem;
 }
 .saMenuItemPill::before {
   content: none;
@@ -23788,9 +23673,9 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   box-shadow: inset 0 0 0 0.0625rem light-dark(var(--Purple200), var(--Purple1000));
 }
 .saMenuItemPill.saNew {
-  background-color: light-dark(var(--Sa-Color-Primary50), var(--Blue1300));
+  background-color: light-dark(var(--Sa-Color-Primary50), var(--Sa-Color-Primary1300));
   color: light-dark(var(--Sa-Color-Primary600), var(--Sa-Color-Primary200));
-  box-shadow: inset 0 0 0 0.0625rem light-dark(var(--Sa-Color-Primary200), var(--Blue1000));
+  box-shadow: inset 0 0 0 0.0625rem light-dark(var(--Sa-Color-Primary200), var(--Sa-Color-Primary1000));
 }
 .saMenuItemPill.saDeprecated {
   background-color: light-dark(var(--Gray50), var(--Gray1000));

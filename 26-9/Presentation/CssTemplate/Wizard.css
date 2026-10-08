@@ -1,0 +1,661 @@
+.saWizardDemo {
+  margin: 0;
+  min-height: 100vh;
+  background: light-dark(#f6f7f9, #171a20);
+  color: var(--Sa-Color-Text);
+  font-family: var(--Font), sans-serif;
+}
+.saWizardDemo * {
+  box-sizing: border-box;
+}
+.saWizardDemo [hidden] {
+  display: none !important;
+}
+.saWizardDemo button,
+.saWizardDemo input,
+.saWizardDemo select {
+  font: inherit;
+}
+.saWizardDemo .saRightFrameRoot {
+  min-width: 0;
+}
+.saWizardPage {
+  max-width: 1420px;
+  margin: 0 auto;
+  padding: 2.25rem 2.5rem 5rem;
+}
+.saWizardPageIntro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.saWizardPageIntro h1 {
+  margin: 0 0 0.3rem;
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  line-height: 1.2;
+}
+.saWizardPageIntro p:last-child {
+  margin: 0;
+  color: var(--Sa-Color-TextSecondary);
+}
+.saWizardEyebrow {
+  margin: 0 0 0.8rem;
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.8rem;
+}
+.saWizardDraft {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: none;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  background: light-dark(#eef3fb, #293344);
+  color: light-dark(#24518b, #bbd4fc);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.saWizardDraft span {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+.saWizardLayout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr) 250px;
+  align-items: start;
+  gap: 1.5rem;
+}
+.saWizardSteps {
+  padding: 1.3rem 0;
+  position: sticky;
+  top: 1rem;
+}
+.saWizardSteps ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.saWizardSteps li + li {
+  margin-top: 0.25rem;
+}
+.saWizardStepsHeading {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.75rem 1rem;
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.saWizardStep {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 0;
+  border-radius: 0.65rem;
+  background: transparent;
+  color: var(--Sa-Color-TextSecondary);
+  text-align: left;
+  cursor: pointer;
+}
+.saWizardStep:disabled {
+  cursor: default;
+}
+.saWizardStep:focus-visible {
+  outline: 2px solid var(--Sa-Color-Primary600);
+  outline-offset: 2px;
+}
+.saActive.saWizardStep {
+  background: light-dark(#eaf0fc, #263249);
+  color: var(--Sa-Color-Text);
+}
+.saComplete.saWizardStep {
+  color: var(--Sa-Color-Text);
+}
+.saWizardStep .saIcon {
+  display: none;
+  margin-left: auto;
+  color: var(--Sa-Color-Primary600);
+}
+.saWizardStep.saComplete .saIcon {
+  display: block;
+}
+.saWizardStepNumber {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 1px solid light-dark(var(--Gray300), var(--Gray700));
+  border-radius: 50%;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.saActive .saWizardStepNumber {
+  background: var(--Sa-Color-Primary600);
+  border-color: var(--Sa-Color-Primary600);
+  color: #fff;
+}
+.saComplete .saWizardStepNumber {
+  border-color: var(--Sa-Color-Primary600);
+  color: var(--Sa-Color-Primary600);
+}
+.saWizardStepText {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+}
+.saWizardStepText strong {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.saWizardStepText small {
+  font-size: 0.72rem;
+  color: var(--Sa-Color-TextSecondary);
+}
+.saWizardStepsHelp {
+  display: flex;
+  gap: 0.6rem;
+  margin: 1.75rem 0.75rem 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid light-dark(var(--Gray200), var(--Gray800));
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.73rem;
+  line-height: 1.5;
+}
+.saWizardStepsHelp p {
+  margin: 0;
+}
+.saWizardWorkarea {
+  min-width: 0;
+  border: 1px solid light-dark(var(--Gray200), var(--Gray800));
+  border-radius: 0.85rem;
+  background: light-dark(#fff, #20242c);
+  box-shadow: 0 4px 22px light-dark(#1a263608, #0002);
+  overflow: hidden;
+}
+.saWizardPanel {
+  min-height: 500px;
+  padding: 2rem;
+}
+.saWizardPanelHeader {
+  margin-bottom: 2rem;
+  max-width: 40rem;
+}
+.saWizardPanelHeader h2 {
+  margin: 0.5rem 0 0.45rem;
+  font-size: 1.45rem;
+  line-height: 1.25;
+}
+.saWizardPanelHeader p {
+  margin: 0;
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.saWizardKicker {
+  color: var(--Sa-Color-Primary600);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+.saWizardFields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  max-width: 43rem;
+}
+.saWizardField {
+  display: grid;
+  align-content: start;
+  gap: 0.45rem;
+}
+.saWizardField label {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.saWizardField label span {
+  color: #c93838;
+}
+.saWizardField .saInputText {
+  width: 100%;
+  min-height: 2.65rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid light-dark(var(--Gray300), var(--Gray700));
+  border-radius: 0.45rem;
+  background: light-dark(#fff, #252a33);
+  color: var(--Sa-Color-Text);
+}
+.saWizardField small {
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.72rem;
+}
+.saWizardFieldWide {
+  grid-column: 1 / -1;
+}
+.saWizardChoiceList {
+  display: grid;
+  gap: 0.8rem;
+}
+.saWizardChoice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 5.5rem;
+  padding: 1rem;
+  border: 1px solid light-dark(var(--Gray300), var(--Gray700));
+  border-radius: 0.7rem;
+  cursor: pointer;
+}
+.saWizardChoice:has(input:checked) {
+  border-color: var(--Sa-Color-Primary600);
+  background: light-dark(#f3f7ff, #263249);
+  box-shadow: 0 0 0 1px var(--Sa-Color-Primary600);
+}
+.saWizardChoice:focus-within {
+  outline: 2px solid var(--Sa-Color-Primary600);
+  outline-offset: 2px;
+}
+.saWizardChoice input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.saWizardChoiceIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 0.55rem;
+  background: light-dark(#eaf0fc, #303c53);
+  color: var(--Sa-Color-Primary600);
+  font-size: 1.2rem;
+}
+.saWizardChoiceIcon .saIcon {
+  color: inherit;
+}
+.saWizardChoiceContent {
+  display: grid;
+  gap: 0.3rem;
+  min-width: 0;
+}
+.saWizardChoiceContent strong {
+  font-size: 0.9rem;
+}
+.saWizardChoiceContent small {
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.76rem;
+}
+.saWizardChoicePrice {
+  margin-left: auto;
+  flex: none;
+  text-align: right;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+.saWizardChoicePrice small {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.7rem;
+  font-weight: 400;
+}
+.saWizardAddons {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.saWizardAddon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.65rem;
+  min-height: 13.7rem;
+  padding: 1rem;
+  border: 1px solid light-dark(var(--Gray300), var(--Gray700));
+  border-radius: 0.7rem;
+  cursor: pointer;
+}
+.saWizardAddon:has(input:checked) {
+  border-color: var(--Sa-Color-Primary600);
+  background: light-dark(#f3f7ff, #263249);
+  box-shadow: 0 0 0 1px var(--Sa-Color-Primary600);
+}
+.saWizardAddon:focus-within {
+  outline: 2px solid var(--Sa-Color-Primary600);
+  outline-offset: 2px;
+}
+.saWizardAddon input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.saWizardAddon strong {
+  font-size: 0.9rem;
+}
+.saWizardAddon > span:not(.saWizardAddonIcon):not(.saWizardAddonBottom) {
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+.saWizardAddonIcon {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 0.55rem;
+  background: light-dark(#eaf0fc, #303c53);
+  color: var(--Sa-Color-Primary600);
+  font-size: 1.15rem;
+}
+.saWizardAddonIcon .saIcon {
+  color: inherit;
+}
+.saWizardAddonBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 0.55rem;
+  font-size: 0.75rem;
+}
+.saWizardAddonAction {
+  color: var(--Sa-Color-Primary600);
+  font-weight: 700;
+}
+.saWizardOptional {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.25rem 0 0;
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.76rem;
+}
+.saWizardReview {
+  display: grid;
+  gap: 1rem;
+}
+.saWizardReview section {
+  padding: 1.1rem 1.25rem;
+  border: 1px solid light-dark(var(--Gray200), var(--Gray800));
+  border-radius: 0.65rem;
+}
+.saWizardReview h3 {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+}
+.saWizardReview dl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem 1rem;
+  margin: 0;
+  font-size: 0.78rem;
+}
+.saWizardReview dt {
+  color: var(--Sa-Color-TextSecondary);
+}
+.saWizardReview dd {
+  margin: 0;
+  text-align: right;
+  font-weight: 600;
+}
+.saWizardReviewNotice {
+  display: flex;
+  gap: 0.65rem;
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border-radius: 0.5rem;
+  background: light-dark(#f3f6fa, #29303a);
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.75rem;
+}
+.saWizardSuccess {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.saWizardSuccess h2 {
+  margin: 1rem 0 0.3rem;
+}
+.saWizardSuccess p {
+  max-width: 25rem;
+  color: var(--Sa-Color-TextSecondary);
+}
+.saWizardSuccess .saWizardButton {
+  margin-top: 1rem;
+}
+.saWizardSuccessIcon {
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: light-dark(#e1f5ea, #1f4936);
+  color: light-dark(#168048, #9ae1b7);
+  font-size: 1.8rem;
+}
+.saWizardFooter {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  border-top: 1px solid light-dark(var(--Gray200), var(--Gray800));
+}
+.saWizardButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 2.5rem;
+  padding: 0.55rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+.saWizardButton:focus-visible {
+  outline: 2px solid var(--Sa-Color-Primary600);
+  outline-offset: 2px;
+}
+.saWizardButton:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.saWizardButton .saIcon {
+  color: inherit;
+}
+.saWizardButtonPrimary {
+  border: 1px solid var(--Sa-Color-Primary600);
+  background: var(--Sa-Color-Primary600);
+  color: #fff;
+}
+.saWizardButtonSecondary {
+  border: 1px solid light-dark(var(--Gray300), var(--Gray700));
+  background: transparent;
+  color: var(--Sa-Color-Text);
+}
+.saWizardError {
+  margin-left: auto;
+  color: #b93434;
+  font-size: 0.75rem;
+  text-align: right;
+}
+.saWizardSummary {
+  position: sticky;
+  top: 1rem;
+  padding: 1.25rem;
+  border: 1px solid light-dark(var(--Gray200), var(--Gray800));
+  border-radius: 0.8rem;
+  background: light-dark(#fff, #20242c);
+}
+.saWizardSummary dl {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.2rem;
+  margin: 1.2rem 0;
+}
+.saWizardSummary dt {
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.68rem;
+}
+.saWizardSummary dd {
+  margin: 0 0 0.7rem;
+  font-size: 0.79rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.saWizardSummary p {
+  margin: 0.8rem 0 0;
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+.saWizardSummaryHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.saWizardSummaryHeader span {
+  color: var(--Sa-Color-TextSecondary);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+.saWizardSummaryHeader h2 {
+  margin: 0.15rem 0 0;
+  font-size: 1rem;
+}
+.saWizardSummaryGlyph {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 0.5rem;
+  background: light-dark(#eaf0fc, #303c53);
+  color: var(--Sa-Color-Primary600);
+  font-size: 1rem;
+}
+.saWizardSummaryGlyph .saIcon {
+  color: inherit;
+}
+.saWizardSummaryTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid light-dark(var(--Gray200), var(--Gray800));
+  font-size: 0.78rem;
+}
+.saWizardSummaryTotal strong {
+  font-size: 1.1rem;
+}
+@media (max-width: 1100px) {
+  .saWizardLayout {
+    grid-template-columns: 180px minmax(0, 1fr);
+  }
+  .saWizardSummary {
+    grid-column: 2;
+    position: static;
+  }
+}
+@media (max-width: 720px) {
+  .saWizardPage {
+    padding: 1.5rem 1rem 3rem;
+  }
+  .saWizardPageIntro {
+    align-items: flex-start;
+  }
+  .saWizardLayout {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .saWizardSteps {
+    width: 100%;
+    position: static;
+    padding: 0;
+  }
+  .saWizardSteps ol {
+    display: flex;
+    gap: 0.35rem;
+  }
+  .saWizardSteps li {
+    flex: 1;
+    min-width: 0;
+  }
+  .saWizardSteps li + li {
+    margin: 0;
+  }
+  .saWizardStepsHeading {
+    padding: 0 0 0.5rem;
+  }
+  .saWizardStep {
+    justify-content: center;
+    padding: 0.45rem 0.2rem;
+  }
+  .saWizardStepText {
+    display: none;
+  }
+  .saWizardStepsHelp {
+    display: none;
+  }
+  .saWizardWorkarea {
+    width: 100%;
+  }
+  .saWizardSummary {
+    width: 100%;
+    grid-column: auto;
+  }
+  .saWizardPanel {
+    min-height: 0;
+    padding: 1.25rem;
+  }
+  .saWizardFooter {
+    padding: 1rem 1.25rem;
+  }
+  .saWizardAddons {
+    grid-template-columns: 1fr;
+  }
+  .saWizardAddon {
+    min-height: 0;
+  }
+}
+@media (max-width: 460px) {
+  .saWizardDraft {
+    display: none;
+  }
+  .saWizardFields {
+    grid-template-columns: 1fr;
+  }
+  .saWizardChoice {
+    flex-wrap: wrap;
+  }
+  .saWizardChoicePrice {
+    width: 100%;
+    margin-left: 3.8rem;
+    text-align: left;
+  }
+  .saWizardChoicePrice small {
+    display: inline;
+  }
+  .saWizardError {
+    max-width: 8rem;
+  }
+}

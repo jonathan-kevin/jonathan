@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Palette and color-mix comparison</title>
+	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css">
+	<style>
+		:root { color-scheme: light; }
+		* { box-sizing: border-box; }
+		body.swatchDemo { margin: 0; background: var(--Gray50); color: var(--Gray900); font: 14px/1.45 var(--Font, system-ui); }
+		.swatchDemoMain { width: min(1440px, 100%); margin: auto; padding: clamp(16px, 3vw, 40px); }
+		.swatchDemoHeader { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 24px; }
+		.swatchDemoHeader h1 { margin: 0 0 6px; font-size: clamp(24px, 3vw, 34px); }
+		.swatchDemoHeader p { max-width: 72ch; margin: 0; color: var(--Gray700); }
+		.swatchDemoExplanation { margin: 0 0 24px; padding: 12px 16px; border: 1px solid var(--Gray200); border-radius: 8px; background: var(--White); }
+		.swatchDemoExplanation code { font-family: "GeistMono", monospace; font-size: .9em; }
+		.swatchDemoGroup { margin: 0 0 30px; }
+		.swatchDemoGroupHeader { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
+		.swatchDemoGroup h2 { margin: 0; font-size: 19px; }
+		.swatchDemoControl { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+		.swatchDemoControl select { padding: 6px 8px; border: 1px solid var(--Gray300); border-radius: 6px; background: var(--White); color: var(--Gray900); font: inherit; }
+		.swatchDemoThemes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+		.swatchDemoTheme { min-width: 0; padding: 16px; border: 1px solid light-dark(var(--Gray200), var(--Gray800)); border-radius: 10px; background: var(--Sa-Color-Surface); color: light-dark(var(--Gray900), var(--Gray100)); }
+		.swatchDemoTheme[data-demo-theme="light"] { color-scheme: light; }
+		.swatchDemoTheme[data-demo-theme="dark"] { color-scheme: dark; }
+		.swatchDemoTheme h3 { margin: 0; font-size: 15px; }
+		.swatchDemoSurface { margin: 2px 0 12px; color: light-dark(var(--Gray600), var(--Gray400)); font-size: 12px; }
+		.swatchDemoTable { width: 100%; border-collapse: collapse; table-layout: fixed; }
+		.swatchDemoTable th { padding: 0 5px 8px; border-bottom: 1px solid light-dark(var(--Gray200), var(--Gray800)); color: light-dark(var(--Gray600), var(--Gray400)); font-size: 11px; font-weight: 500; text-align: left; }
+		.swatchDemoTable td { padding: 5px; border-bottom: 1px solid light-dark(var(--Gray100), var(--Gray1000)); font-variant-numeric: tabular-nums; }
+		.swatchDemoTable tr:last-child td { border-bottom: 0; }
+		.swatchDemoTable th:nth-child(1), .swatchDemoTable td:nth-child(1) { width: 54px; }
+		.swatchDemoTable th:nth-child(4), .swatchDemoTable td:nth-child(4) { width: 62px; text-align: right; }
+		.swatchDemoTable th:nth-child(5), .swatchDemoTable td:nth-child(5) { width: 52px; text-align: right; }
+		.swatchDemoSample { display: block; height: 30px; border: 1px solid light-dark(rgb(0 0 0 / .1), rgb(255 255 255 / .14)); border-radius: 5px; }
+		.swatchDemoNumber { color: light-dark(var(--Gray600), var(--Gray400)); font-family: "GeistMono", monospace; font-size: 11px; }
+		.swatchDemoApproximation { font-family: "GeistMono", monospace; font-size: 11px; }
+		.swatchDemoFootnote { margin: 16px 0 0; color: var(--Gray600); font-size: 12px; }
+		@media (max-width: 760px) { .swatchDemoThemes { grid-template-columns: 1fr; } }
+	</style>
+	<script src="./color-mix-swatches.js" defer></script>
+</head>
+<body class="swatchDemo">
+	<main class="swatchDemoMain">
+		<header class="swatchDemoHeader">
+			<div>
+				<h1>Palette vs. color-mix()</h1>
+				<p>Every palette shade from 50 to 1300, compared with a translucent mix from that color group's chosen source shade.</p>
+			</div>
+		</header>
+		<p class="swatchDemoExplanation">Each group has a selectable source shade. The comparison uses only <code>color-mix(in srgb, var(--Blue600) 3.6%, transparent)</code>–style mixes over <code>--Sa-Color-Surface</code>: white in light mode, Gray1200 in dark mode. If the closest result is 0% or 100% source, the mix is left empty because transparency cannot reproduce that shade. <strong>ΔE</strong> is the remaining perceptual difference in OKLab (lower is closer).</p>
+		<div id="swatchDemoGroups"></div>
+		<p class="swatchDemoFootnote">Gray150 is included because it is an existing palette shade. All values are read from the current CSS variables; the mixes are computed independently for each surface.</p>
+	</main>
+</body>
+</html>
