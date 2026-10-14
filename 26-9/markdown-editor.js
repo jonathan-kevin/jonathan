@@ -28,6 +28,17 @@
 	};
 	// Short numeric colors would be indistinguishable from issue references such as #123.
 	const completeHexColorPattern = /^#(?:[0-9a-f]{8}|[0-9a-f]{6})$/i;
+	const paletteColorNamePattern = /^(?:Gray150|(?:Gray|Blue|Red|Orange|Yellow|Green|Sky|Purple|Pink)(?:50|[1-9]00|1[0-3]00))$/;
+	const paletteColorValuePattern = /^(?:var\(--([A-Za-z]+\d+)\)|--([A-Za-z]+\d+)|([A-Za-z]+\d+))$/;
+	const colorCodeCandidate = String.raw`(?:\#[0-9a-fA-F]{6}(?:[0-9a-fA-F]{2})?|var\(--[A-Za-z]+\d+\)|--[A-Za-z]+\d+|[A-Za-z]+\d+)`;
+	const colorCodeInputPattern = new RegExp(`(^|[^\\w/#-])(${colorCodeCandidate})([ \\t.,;:!?])$`);
+	const colorCodePastePattern = new RegExp(`(?<![\\w/#-])(${colorCodeCandidate})(?![\\w-])`, "g");
+	const getColorCodeSwatch = value => {
+		if (completeHexColorPattern.test(value)) return value;
+		const match = paletteColorValuePattern.exec(value);
+		const name = match?.[1] || match?.[2] || match?.[3];
+		return paletteColorNamePattern.test(name || "") ? `var(--${name})` : null;
+	};
 	const droppedImageTypes = new Set(["image/png", "image/jpeg", "image/gif", "image/webp", "image/avif", "image/bmp"]);
 	const maxDroppedImageBytes = 10 * 1024 * 1024;
 	const isSafeUrl = value => /^(?:(?:https?):\/\/\S+|(?:mailto|tel):\S+|#\S+|(?:\.{0,2}\/)[^\s]+|(?:[a-z0-9_-]+\/)*[a-z0-9_.~-]+(?:[?#]\S*)?)$/i.test(value);
@@ -252,16 +263,16 @@
 			return { "Mod-u": () => this.editor.commands.toggleUnderline() };
 		}
 	});
-	const createHexCode = (Code, InputRule, PasteRule) => Code.extend({
+	const createColorCode = (Code, InputRule, PasteRule) => Code.extend({
 		addAttributes() {
 			return {
 				...this.parent?.(),
-				hexColor: {
+				swatchColor: {
 					default: null,
-					parseHTML: element => completeHexColorPattern.test(element.textContent || "") ? element.textContent : null,
-					renderHTML: attributes => completeHexColorPattern.test(attributes.hexColor || "") ? {
+					parseHTML: element => getColorCodeSwatch(element.textContent || "") ? element.textContent : null,
+					renderHTML: attributes => getColorCodeSwatch(attributes.swatchColor || "") ? {
 						class: "saMarkdownEditorHexColor",
-						style: `--sa-markdown-editor-swatch: ${attributes.hexColor}`
+						style: `--sa-markdown-editor-swatch: ${getColorCodeSwatch(attributes.swatchColor)}`
 					} : {}
 				}
 			};
@@ -269,18 +280,19 @@
 
 		parseMarkdown(token, helpers) {
 			const value = token.text || "";
-			return helpers.applyMark("code", [{ type: "text", text: value }], completeHexColorPattern.test(value) ? { hexColor: value } : null);
+			return helpers.applyMark("code", [{ type: "text", text: value }], getColorCodeSwatch(value) ? { swatchColor: value } : null);
 		},
 
 		addInputRules() {
 			return [...(this.parent?.() || []), new InputRule({
-				find: /(^|[^\w/#])(#(?:[0-9a-f]{8}|[0-9a-f]{6}))([ \t.,;:!?])$/i,
+				find: colorCodeInputPattern,
 				handler: ({ state, range, match }) => {
 					if (state.doc.rangeHasMark(range.from, range.to, state.schema.marks.link)) return null;
 					const color = match[2];
+					if (!getColorCodeSwatch(color)) return null;
 					const from = range.from + match[0].indexOf(color);
 					const transaction = state.tr.insertText(match[3], range.to);
-					transaction.addMark(from, from + color.length, this.type.create({ hexColor: color }));
+					transaction.addMark(from, from + color.length, this.type.create({ swatchColor: color }));
 					transaction.removeStoredMark(this.type);
 				}
 			})];
@@ -288,10 +300,11 @@
 
 		addPasteRules() {
 			return [...(this.parent?.() || []), new PasteRule({
-				find: /(?<![\w/#])(#(?:[0-9a-f]{8}|[0-9a-f]{6}))(?!\w)/gi,
+				find: colorCodePastePattern,
 				handler: ({ state, range, match }) => {
 					if (state.doc.rangeHasMark(range.from, range.to, state.schema.marks.link)) return null;
-					state.tr.addMark(range.from, range.to, this.type.create({ hexColor: match[1] }));
+					if (!getColorCodeSwatch(match[1])) return null;
+					state.tr.addMark(range.from, range.to, this.type.create({ swatchColor: match[1] }));
 					state.tr.removeStoredMark(this.type);
 				}
 			})];
@@ -348,11 +361,11 @@
 						})];
 					}
 				});
-				const hexCodeAttributes = Extension.create({
-					name: "hexCodeAttributes",
+				const colorCodeAttributes = Extension.create({
+					name: "colorCodeAttributes",
 					addProseMirrorPlugins() {
 						return [new Plugin({
-							key: new PluginKey("hexCodeAttributes"),
+							key: new PluginKey("colorCodeAttributes"),
 							appendTransaction: (transactions, _oldState, state) => {
 								if (!transactions.some(transaction => transaction.docChanged)) return null;
 								const transaction = state.tr;
@@ -361,10 +374,10 @@
 									if (!node.isText) return;
 									const mark = node.marks.find(item => item.type === codeType);
 									if (!mark) return;
-									const color = completeHexColorPattern.test(node.text) ? node.text : null;
-									if (mark.attrs.hexColor === color) return;
+									const color = getColorCodeSwatch(node.text) ? node.text : null;
+									if (mark.attrs.swatchColor === color) return;
 									transaction.removeMark(position, position + node.nodeSize, mark);
-									transaction.addMark(position, position + node.nodeSize, codeType.create({ ...mark.attrs, hexColor: color }));
+									transaction.addMark(position, position + node.nodeSize, codeType.create({ ...mark.attrs, swatchColor: color }));
 								});
 								return transaction.docChanged ? transaction.setMeta("addToHistory", false) : null;
 							}
@@ -424,8 +437,8 @@
 						TaskList,
 						TaskItem.configure({ nested: true, a11y: { checkboxLabel: node => `Mark task ${node.firstChild?.textContent || "item"} as ${node.attrs.checked ? "incomplete" : "complete"}` } }),
 						searchHighlights,
-						createHexCode(Code, InputRule, PasteRule),
-						hexCodeAttributes,
+						createColorCode(Code, InputRule, PasteRule),
+						colorCodeAttributes,
 						createCodeBlock(CodeBlockLowlight, createLowlight(common)),
 						createTextColor(Mark),
 						createUnderline(Mark),
