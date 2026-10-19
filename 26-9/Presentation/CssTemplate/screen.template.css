@@ -151,9 +151,10 @@
   --Sa-Color-Stage: light-dark(var(--Purple600), var(--Purple500));
   --Sa-Color-StageBackground: light-dark(var(--Purple50), var(--Purple1300));
   --Sa-Color-StageBorder: light-dark(var(--Purple200), var(--Purple900));
-  --Sa-Color-AdminInProd: light-dark(var(--Red600), var(--Red500));
+  --Sa-Color-AdminInProd: light-dark(var(--Red600), var(--Red400));
   --Sa-Color-AdminInProdBackground: light-dark(var(--Red50), var(--Red1300));
-  --Sa-Color-AdminInProdBorder: light-dark(var(--Red600), var(--Red500));
+  --Sa-Color-AdminInProdBorder: light-dark(var(--Red600), var(--Red400));
+  --Red600-400: light-dark(var(--Red600), var(--Red400));
   --White: #fff;
   --Black: #000;
   --Gray50: #f8f9fb;
@@ -171,10 +172,10 @@
   --Gray1100: #1e2935;
   --Gray1200: #171f2a;
   --Gray1300: #111821;
-  --Blue50: oklch(98.426% 0.00749 260.893);
+  --Blue50: #f7faff;
   --Blue100: oklch(94.937% 0.02422 259.882);
-  --Blue200: oklch(86.988% 0.06422 258.657);
-  --Blue300: oklch(79.325% 0.10491 259.255);
+  --Blue200: #bbd6ff;
+  --Blue300: #93bdff;
   --Blue400: oklch(71.878% 0.14635 260.823);
   --Blue500: oklch(62.53% 0.18264 261.566);
   --Blue600: #2d6ce1;
@@ -6410,49 +6411,27 @@ dialog.saSideBarSmallScreenOverlay::backdrop {
   color: var(--Sa-Color-TextSecondary);
   padding-top: 0.25rem;
 }
+.saAdminInProd .saSideBar {
+  box-shadow: inset 0 0 0 0.125rem var(--Sa-Color-AdminInProdBorder);
+  background-color: var(--Sa-Color-AdminInProdBackground);
+}
+.saSideBar .saAdminInProdText {
+  position: absolute;
+  inset: auto 0 0.5rem 0;
+  text-align: center;
+  color: var(--Sa-Color-AdminInProd);
+  font-weight: 600;
+  text-shadow: -0.125rem -0.125rem 0 var(--Sa-Color-AdminInProdBackground), 0.125rem -0.125rem 0 var(--Sa-Color-AdminInProdBackground), -0.125rem 0.125rem 0 var(--Sa-Color-AdminInProdBackground), 0.125rem 0.125rem 0 var(--Sa-Color-AdminInProdBackground);
+}
+.saLargeScreen .saMinimized.saSideBar .saAdminInProdText {
+  font-size: 0.625rem;
+}
 .saSideBar .saCustomerLogoWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   position: relative;
-}
-.saSideBar .saCustomerLogoWrapper::before {
-  content: '';
-  position: absolute;
-  inset: 50% auto auto 50%;
-  font-size: 2rem;
-  font-weight: 900;
-  text-align: center;
-  transform: translate(-50%, -50%) rotate(25deg);
-}
-.saMinimized.saSideBar .saCustomerLogoWrapper::before {
-  font-size: 0.625rem;
-}
-.saDev .saSideBar .saCustomerLogoWrapper::before {
-  content: var(--Sa-TextDev);
-  color: var(--Sa-Color-Dev);
-  text-shadow: -0.125rem -0.125rem 0 var(--Sa-Color-DevBackground), 0.125rem -0.125rem 0 var(--Sa-Color-DevBackground), -0.125rem 0.125rem 0 var(--Sa-Color-DevBackground), 0.125rem 0.125rem 0 var(--Sa-Color-DevBackground);
-}
-.saStage .saSideBar .saCustomerLogoWrapper::before {
-  content: var(--Sa-TextStage);
-  color: var(--Sa-Color-Stage);
-  text-shadow: -0.125rem -0.125rem 0 var(--Sa-Color-StageBackground), 0.125rem -0.125rem 0 var(--Sa-Color-StageBackground), -0.125rem 0.125rem 0 var(--Sa-Color-StageBackground), 0.125rem 0.125rem 0 var(--Sa-Color-StageBackground);
-}
-.saAdminInProd .saSideBar .saCustomerLogoWrapper::before {
-  content: var(--Sa-TextAdmin);
-  color: var(--Sa-Color-AdminInProd);
-  font-size: 1rem;
-  font-weight: 600;
-  inset: auto auto 0 auto;
-  transform: translate(0, -50%) rotate(0);
-  text-shadow: -0.125rem -0.125rem 0 var(--Sa-Color-AdminBackground), 0.125rem -0.125rem 0 var(--Sa-Color-AdminBackground), -0.125rem 0.125rem 0 var(--Sa-Color-AdminBackground), 0.125rem 0.125rem 0 var(--Sa-Color-AdminBackground);
-}
-.saMinimized.saSideBar .saCustomerLogoWrapper::before {
-  font-size: 0.625rem;
-}
-.saAdminInProd .saMinimized.saSideBar .saCustomerLogoWrapper::before {
-  font-size: 0.5625rem;
 }
 .saSideBar .saCustomerLogo {
   margin-top: 1rem;
