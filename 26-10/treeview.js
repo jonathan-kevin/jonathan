@@ -411,7 +411,7 @@ $(function () {
 				role: 'treeitem',
 				tabindex: -1,
 				'aria-labelledby': id,
-				'aria-keyshortcuts': 'Alt+ArrowUp Alt+ArrowDown',
+				'aria-keyshortcuts': 'Alt+ArrowUp Alt+ArrowDown Delete Backspace',
 			});
 			const $description = this.$row.find('.saFileSizeRow');
 			if ($description.length) {
@@ -468,12 +468,15 @@ $(function () {
 			if (e.altKey && ['ArrowUp', 'ArrowDown'].includes(e.key)) {
 				const before = e.key === 'ArrowUp';
 				const $neighbor = before ? this.$domNode.prev('li') : this.$domNode.next('li');
-				if (this.tree.moveItem(this, $neighbor.data('treeitem'), before ? 'before' : 'after'))
-					this.$row.find('.saTreeXButton[aria-haspopup="menu"]')[0]?.focus();
+				this.tree.moveItem(this, $neighbor.data('treeitem'), before ? 'before' : 'after');
 			} else if (e.altKey) {
 				return;
 			} else {
 				switch (e.key) {
+					case 'Delete':
+					case 'Backspace':
+						if (!e.repeat) this.tree.removeItem(this);
+						break;
 					case 'Enter':
 						if (this.isExpandable)
 							this.isExpanded() ? this.tree.collapseTreeitem(this) : this.tree.expandTreeitem(this);
@@ -969,7 +972,7 @@ $(function () {
 				const $neighbor = before ? item.$domNode.prev('li') : item.$domNode.next('li');
 				event.preventDefault();
 				if (item.tree.moveItem(item, $neighbor.data('treeitem'), before ? 'before' : 'after'))
-					item.$row.find('.saTreeXButton[aria-haspopup="menu"]')[0]?.focus();
+					this.focus();
 				return;
 			}
 			if (event.key === 'Tab') {
