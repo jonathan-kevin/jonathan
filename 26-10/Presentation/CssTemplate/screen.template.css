@@ -34994,10 +34994,6 @@ a.saKpiOuter:active {
   flex-direction: column;
   min-height: 2rem;
 }
-.saTreeViewWrapper .saTreeView.saNoLines li::after,
-.saTreeViewWrapper .saTreeView.saNoLines li > label::after {
-  content: none;
-}
 .saTreeViewWrapper .saTreeView .saLoadingSpinnerWrapper {
   display: flex;
   gap: 0.5rem;
@@ -40555,6 +40551,12 @@ img[data-lightbox-enabled]:focus-visible,
   min-width: 0;
   overflow-wrap: anywhere;
 }
+.saTreeOptionsSeparator {
+  align-self: stretch;
+  border-left: 1px solid var(--Gray300);
+  border-left-color: light-dark(var(--Gray300), var(--Gray800));
+  margin: 0.25rem 0.5rem;
+}
 .saFileDropDescription {
   display: flex;
   align-items: baseline;
@@ -40573,6 +40575,9 @@ img[data-lightbox-enabled]:focus-visible,
   font-size: 1rem;
   height: 1rem;
   width: 1rem;
+}
+.saTreeXViewWrapper {
+  position: relative;
 }
 .saTreeXView {
   interpolate-size: allow-keywords;
@@ -40602,11 +40607,6 @@ img[data-lightbox-enabled]:focus-visible,
 }
 .saTreeXView * {
   box-sizing: border-box;
-}
-.saTreeXView .saBadgeCount {
-  display: inline-flex;
-  width: fit-content;
-  font-weight: 400;
 }
 .saSmallScreen .saTreeXView {
   padding: 0.5rem;
@@ -40699,9 +40699,6 @@ img[data-lightbox-enabled]:focus-visible,
   box-sizing: border-box;
   pointer-events: none;
 }
-.saNoLines .saTreeXView li[role='treeitem']::before {
-  content: none;
-}
 .saTreeXView li[role='treeitem']:last-child::before {
   content: none;
 }
@@ -40712,22 +40709,15 @@ img[data-lightbox-enabled]:focus-visible,
   height: 0;
   visibility: hidden;
 }
-.saTreeXView > li[role='treeitem'] > .saTreeXRow::before {
-  content: none;
-}
-.saTreeXView .saLoadingSpinnerWrapper {
-  display: flex;
-  gap: 0.5rem;
-}
-.saTreeXView .saLoadingProgress {
-  font-size: 0.75rem;
-  color: var(--Gray600);
-  color: light-dark(var(--Gray700), var(--Gray300));
+.saTreeXView .saBadgeCount {
+  display: inline-flex;
+  width: fit-content;
+  font-weight: 400;
 }
 .saTreeXRow {
   display: flex;
   align-items: center;
-  padding: 0.25rem 0.5rem 0.25rem 0.25rem;
+  padding: 0.25rem;
   border-radius: 0.75rem;
   position: relative;
   transition: ease border-radius 0.2s;
@@ -40819,7 +40809,7 @@ img[data-lightbox-enabled]:focus-visible,
   transform: translateX(-1.5rem);
   width: 1rem;
   min-width: 1rem;
-  height: 1rem;
+  height: 50%;
   min-height: 1rem;
   aspect-ratio: 1;
   border-bottom: 0.0625rem solid var(--Gray200);
@@ -40830,13 +40820,11 @@ img[data-lightbox-enabled]:focus-visible,
   pointer-events: none;
   border-bottom-left-radius: var(--tree-line-radius, 0.625rem);
 }
-.saSmallScreen .saTreeXRow::before {
-  height: 1.5rem;
-}
-.saNoLines .saTreeXRow::before {
+.saTreeXView > li[role='treeitem'] > .saTreeXRow::before {
   content: none;
 }
-li[role='treeitem']:focus > .saTreeXRow {
+li[role='treeitem']:focus-visible > .saTreeXRow,
+li[role='treeitem'].saContextMenuOpen > .saTreeXRow {
   background-color: var(--Sa-Color-Primary100);
   background-color: light-dark(var(--Sa-Color-Primary100), var(--Gray1000));
   color: var(--Sa-Color-Primary700);
@@ -40907,13 +40895,17 @@ li[aria-checked="true"] > .saTreeXRow {
   cursor: grab;
   margin-left: auto;
 }
+.saLargeScreen .saTreeXRow .fa-grip-dots-vertical {
+  visibility: hidden;
+}
+.saTreeXRow .fa-grip-dots-vertical:is(.saTreeXRow:hover > *, .saTreeXRow:focus-within > *, li[role='treeitem']:focus-visible > .saTreeXRow > *) {
+  visibility: visible;
+}
 .saTreeXRow .fa-grip-dots-vertical:active {
   cursor: grabbing;
 }
 .saTreeXDropIndicator {
   position: absolute;
-  left: var(--tree-drop-start);
-  right: 0.5rem;
   height: 0.125rem;
   background-color: var(--Sa-Color-Primary600);
   background-color: light-dark(var(--Sa-Color-Primary600), var(--Sa-Color-Primary300));
@@ -40929,12 +40921,6 @@ li[aria-checked="true"] > .saTreeXRow {
   height: 0.5rem;
   border-radius: 50%;
   background-color: inherit;
-}
-.saTreeXDropBefore.saTreeXDropIndicator {
-  top: 0;
-}
-.saTreeXDropAfter.saTreeXDropIndicator {
-  bottom: 0;
 }
 .saTreeXExpander {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;
@@ -41060,7 +41046,7 @@ a.saTreeXLabel:active {
   width: 1.125rem;
   background-color: var(--Sa-Color-Surface);
   border-radius: 0.375rem;
-  box-shadow: inset 0 0 0 1px var(--Gray600);
+  box-shadow: inset 0 0 0 1px var(--Gray400);
   box-shadow: inset 0 0 0 1px light-dark(var(--Gray400), var(--Gray600));
   transition: ease background-color 0.2s, ease box-shadow 0.2s;
   display: none;
@@ -41073,7 +41059,7 @@ a.saTreeXLabel:active {
     display: flex;
   }
 }
-.saTreeXView:not(.saNotCheckable) li[role='treeitem']:focus > .saTreeXRow .saTreeXCheck {
+.saTreeXView:not(.saNotCheckable) li[role='treeitem']:focus-visible > .saTreeXRow .saTreeXCheck {
   display: flex;
 }
 @media (pointer: fine) {
@@ -41092,7 +41078,6 @@ a.saTreeXLabel:active {
   background-color: var(--White);
   transform-origin: center;
   clip-path: polygon(78.5% 38.5%, 46.5% 70.5%, 46.5% 70.5%, 46.172% 70.799%, 45.792% 71.092%, 45.371% 71.373%, 44.916% 71.636%, 44.438% 71.875%, 43.944% 72.084%, 43.445% 72.257%, 42.948% 72.388%, 42.464% 72.471%, 42% 72.5%, 42% 72.5%, 41.537% 72.485%, 41.052% 72.436%, 40.556% 72.352%, 40.056% 72.228%, 39.563% 72.063%, 39.084% 71.852%, 38.63% 71.594%, 38.208% 71.284%, 37.829% 70.921%, 37.5% 70.5%, 21.5% 54.5%, 21.5% 54.5%, 20.825% 53.708%, 20.3% 52.844%, 19.925% 51.926%, 19.7% 50.972%, 19.625% 50%, 19.7% 49.028%, 19.925% 48.074%, 20.3% 47.156%, 20.825% 46.292%, 21.5% 45.5%, 21.5% 45.5%, 22.292% 44.825%, 23.156% 44.3%, 24.074% 43.925%, 25.028% 43.7%, 26% 43.625%, 26.972% 43.7%, 27.926% 43.925%, 28.844% 44.3%, 29.708% 44.825%, 30.5% 45.5%, 42% 57%, 69.5% 29.5%, 69.5% 29.5%, 70.292% 28.825%, 71.156% 28.3%, 72.074% 27.925%, 73.028% 27.7%, 74% 27.625%, 74.972% 27.7%, 75.926% 27.925%, 76.844% 28.3%, 77.708% 28.825%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 78.5% 29.5%, 79.175% 30.292%, 79.7% 31.156%, 80.075% 32.074%, 80.3% 33.028%, 80.375% 34%, 80.3% 34.972%, 80.075% 35.926%, 79.7% 36.844%, 79.175% 37.708%, 78.5% 38.5%);
-  transform: scale(0);
   transform: translate(-50%, -50%) scale(0);
   position: absolute;
   top: 50%;
@@ -41137,7 +41122,7 @@ li[aria-checked='mixed'] > .saTreeXRow .saTreeXCheck::before {
   fill: currentColor;
   font-size: 1rem;
 }
-.saTreeXView:not(.saNotCheckable) li[role='treeitem']:focus > .saTreeXRow .saTreeXType,
+.saTreeXView:not(.saNotCheckable) li[role='treeitem']:focus-visible > .saTreeXRow .saTreeXType,
 .saTreeXView:not(.saNotCheckable) li[aria-checked="true"] > .saTreeXRow .saTreeXType,
 .saTreeXView:not(.saNotCheckable) li[aria-checked="mixed"] > .saTreeXRow .saTreeXType {
   display: none;
@@ -41167,33 +41152,37 @@ li[aria-checked='mixed'] > .saTreeXRow .saTreeXCheck::before {
     transition: none;
   }
 }
-.saTreeXType.saTreeviewXFolder {
+.saTreeXType.saTreeXFolder {
   width: 1rem;
   height: 1rem;
 }
-.saTreeXType.saTreeviewXFolder::before {
+.saTreeXType.saTreeXFolder::before {
   content: '';
   width: 1.125rem;
   height: 1.125rem;
   position: absolute;
-  background-color: light-dark(var(--Sa-Color-Primary200), var(--Gray1000));
-  clip-path: path("M7.125 3C7.48781 3 7.76388 3.11545 8.01172 3.36328L9.64844 5H15C15.2667 5 15.4839 5.08547 15.6992 5.30078C15.9145 5.51609 16 5.73331 16 6V14C16 14.2667 15.9145 14.4839 15.6992 14.6992C15.4839 14.9145 15.2667 15 15 15H3C2.73331 15 2.51609 14.9145 2.30078 14.6992C2.08547 14.4839 2 14.2667 2 14V4C2 3.73331 2.08547 3.51609 2.30078 3.30078C2.51609 3.08547 2.73331 3 3 3H7.125Z");
   inset: 0;
+  background-color: var(--Sa-Color-Primary200);
+  background-color: light-dark(var(--Sa-Color-Primary200), var(--Gray900));
+  clip-path: path("M7.125 3C7.48781 3 7.76388 3.11545 8.01172 3.36328L9.64844 5H15C15.2667 5 15.4839 5.08547 15.6992 5.30078C15.9145 5.51609 16 5.73331 16 6V14C16 14.2667 15.9145 14.4839 15.6992 14.6992C15.4839 14.9145 15.2667 15 15 15H3C2.73331 15 2.51609 14.9145 2.30078 14.6992C2.08547 14.4839 2 14.2667 2 14V4C2 3.73331 2.08547 3.51609 2.30078 3.30078C2.51609 3.08547 2.73331 3 3 3H7.125Z");
 }
-[aria-expanded="true"] > .saTreeXRow .saTreeXType.saTreeviewXFolder::before {
+[aria-expanded="true"] > .saTreeXRow .saTreeXType.saTreeXFolder::before {
+  background-color: var(--Sa-Color-Primary50);
   background-color: light-dark(var(--Sa-Color-Primary50), var(--Gray1100));
 }
-.saTreeXType.saTreeviewXFolder::after {
+.saTreeXType.saTreeXFolder::after {
   content: '';
   width: 1.125rem;
   height: 1.125rem;
   position: absolute;
   inset: 0;
-  background-color: light-dark(var(--Sa-Color-Primary600), var(--Gray400));
+  background-color: var(--Sa-Color-Primary600);
+  background-color: light-dark(var(--Sa-Color-Primary600), var(--Gray300));
   clip-path: path("M1 4C1 3.45833 1.19792 2.98958 1.59375 2.59375C1.98958 2.19792 2.45833 2 3 2H7.125C7.75 2 8.28125 2.21875 8.71875 2.65625L10.0625 4H15C15.5417 4 16.0104 4.19792 16.4062 4.59375C16.8021 4.98958 17 5.45833 17 6V14C17 14.5417 16.8021 15.0104 16.4062 15.4062C16.0104 15.8021 15.5417 16 15 16H3C2.45833 16 1.98958 15.8021 1.59375 15.4062C1.19792 15.0104 1 14.5417 1 14V4ZM3 3.5C2.85417 3.5 2.72917 3.55208 2.625 3.65625C2.54167 3.73958 2.5 3.85417 2.5 4V14C2.5 14.1458 2.54167 14.2708 2.625 14.375C2.72917 14.4583 2.85417 14.5 3 14.5H15C15.1458 14.5 15.2604 14.4583 15.3438 14.375C15.4479 14.2708 15.5 14.1458 15.5 14V6C15.5 5.85417 15.4479 5.73958 15.3438 5.65625C15.2604 5.55208 15.1458 5.5 15 5.5H9.96875C9.61458 5.5 9.3125 5.375 9.0625 5.125L7.65625 3.71875C7.51042 3.57292 7.33333 3.5 7.125 3.5H3Z");
 }
-[aria-expanded="true"] > .saTreeXRow .saTreeXType.saTreeviewXFolder::after {
-  background-color: light-dark(var(--Sa-Color-Primary500), var(--Gray300));
+[aria-expanded="true"] > .saTreeXRow .saTreeXType.saTreeXFolder::after {
+  background-color: var(--Sa-Color-Primary500);
+  background-color: light-dark(var(--Sa-Color-Primary500), var(--Gray400));
 }
 .saTreeXType.fa-file-alt,
 .saTreeXType.fa-file,
@@ -41207,7 +41196,7 @@ li[aria-checked='mixed'] > .saTreeXRow .saTreeXCheck::before {
   color: light-dark(var(--Purple600), var(--Purple400));
 }
 .saTreeXType.fa-page {
-  color: var(--Sa-Color-Primary400);
+  color: var(--Sa-Color-Primary600);
   color: light-dark(var(--Sa-Color-Primary600), var(--Sa-Color-Primary400));
 }
 .saTreeXType.fa-file-word {
@@ -41281,8 +41270,31 @@ li[role='treeitem'].saTreeXDropInside > .saTreeXRow .saTreeXType {
 .saTreeXButtonGroup {
   display: flex;
   gap: 0.25rem;
-  margin-right: 0.5rem;
   flex-shrink: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.saFileSizeRow + .saTreeXButtonGroup {
+  margin-left: 0.5rem;
+}
+@media (pointer: coarse) {
+  .saTreeXButtonGroup {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+.saTreeXButtonGroup:focus-within,
+.saTreeXView .saTreeXRow:focus-within .saTreeXButtonGroup,
+.saTreeXView li[role='treeitem']:focus > .saTreeXRow .saTreeXButtonGroup,
+.saTreeXView li[role='treeitem'].saContextMenuOpen > .saTreeXRow .saTreeXButtonGroup {
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (pointer: fine) {
+  .saTreeXView .saTreeXRow:hover .saTreeXButtonGroup {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 .saTreeXButton {
   transition-property: color, background-color, border-color, transform, border-radius, opacity;

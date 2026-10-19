@@ -8,6 +8,7 @@ $(function () {
 	const trees = [];
 	let itemId = 0;
 	let acceptsFiles = true;
+	let nodeDraggingEnabled = false;
 	const announce = (message) => $('#saTreeXMoveStatus').text(message);
 
 	class Tree {
@@ -42,7 +43,7 @@ $(function () {
 					if (group) group.children.push(ti);
 					ti.isExpandable =
 						$li.children('ul').length > 0 ||
-						$li.children('.saTreeXRow').find('.saTreeviewXFolder').length > 0;
+						$li.children('.saTreeXRow').find('.saTreeXFolder').length > 0;
 					$li.data('treeitem', ti);
 
 					this.treeitems.push(ti);
@@ -100,7 +101,7 @@ $(function () {
 			}
 			if (oldParent && !$oldGroup.children('li').length) {
 				$oldGroup.remove();
-				if (oldParent.$domNode.children('.saTreeXRow').find('.saTreeviewXFolder').length) {
+				if (oldParent.$domNode.children('.saTreeXRow').find('.saTreeXFolder').length) {
 					oldParent.$domNode.attr('aria-expanded', 'false');
 				} else {
 					oldParent.$domNode.removeAttr('aria-expanded');
@@ -410,7 +411,7 @@ $(function () {
 				role: 'treeitem',
 				tabindex: -1,
 				'aria-labelledby': id,
-				'aria-keyshortcuts': 'Alt+ArrowUp Alt+ArrowDown Shift+F10',
+				'aria-keyshortcuts': 'Alt+ArrowUp Alt+ArrowDown',
 			});
 			const $description = this.$row.find('.saFileSizeRow');
 			if ($description.length) {
@@ -454,12 +455,21 @@ $(function () {
 		handleKeydown(e) {
 			// Native buttons and links retain their own keyboard behavior.
 			if (e.target !== this.$domNode[0] || e.ctrlKey || e.metaKey) return;
-			if (e.shiftKey && e.key === 'F10') {
-				openItemMenu(this);
-			} else if (e.altKey && ['ArrowUp', 'ArrowDown'].includes(e.key)) {
+			if (e.key === 'Tab') {
+				if (!e.shiftKey) {
+					const button = this.$row.find('.saTreeXButton:not(:disabled)')[0];
+					if (button) {
+						e.preventDefault();
+						button.focus();
+					}
+				}
+				return;
+			}
+			if (e.altKey && ['ArrowUp', 'ArrowDown'].includes(e.key)) {
 				const before = e.key === 'ArrowUp';
 				const $neighbor = before ? this.$domNode.prev('li') : this.$domNode.next('li');
-				this.tree.moveItem(this, $neighbor.data('treeitem'), before ? 'before' : 'after');
+				if (this.tree.moveItem(this, $neighbor.data('treeitem'), before ? 'before' : 'after'))
+					this.$row.find('.saTreeXButton[aria-haspopup="menu"]')[0]?.focus();
 			} else if (e.altKey) {
 				return;
 			} else {
@@ -546,23 +556,13 @@ $(function () {
 
 	// One source of truth for both desktop and mobile display controls.
 	function setupOptions() {
+		$('.saTreeFontToggle').on('click', () => $('#toggleFont')[0]?.click());
 		const options = [
 			[
-				'.grip',
-				(enabled) => $views.find('.fa-grip-dots-vertical').add($legacy.find('.saDragHandle')).toggle(enabled),
-			],
-			[
-				'.button',
+				'.treeDragDrop',
 				(enabled) => {
-					$views.find('.saTreeXButtonGroup').toggle(enabled);
-					$legacy.find('.saTreeViewButton').toggle(enabled);
-				},
-			],
-			[
-				'.lines',
-				(enabled) => {
-					$views.toggleClass('saNoLines', !enabled);
-					$legacy.toggleClass('saNoLines', !enabled);
+					nodeDraggingEnabled = enabled;
+					trees.forEach(syncNodeDragging);
 				},
 			],
 			[
@@ -601,6 +601,24 @@ $(function () {
 				set($(this).attr('aria-pressed') !== 'true');
 			});
 		});
+		$('.treeSortAlphabetical').on('click', () => {
+			const collator = new Intl.Collator(document.documentElement.lang || undefined, {
+				numeric: true,
+				sensitivity: 'base',
+			});
+			trees.forEach((tree) => {
+				tree.treeitems.filter((item) => item.children.length).forEach((parent) => {
+					const sorted = [...parent.children].sort((a, b) =>
+						Number(b.isExpandable) - Number(a.isExpandable) || collator.compare(a.label, b.label),
+					);
+					const $group = parent.$domNode.children('ul');
+					sorted.forEach((item) => $group.append(item.$domNode));
+				});
+				tree.refreshStructure();
+				tree.updateCheckedAdjacency();
+			});
+			announce('Sorted folders first, then files, alphabetically in every folder.');
+		});
 		const $radiusSelects = $('.saTreeLineRadius');
 		const setRadius = (radius) => {
 			if (!['0.25rem', '0.5rem', '0.625rem', '0.75rem'].includes(radius)) return;
@@ -613,8 +631,18 @@ $(function () {
 		});
 	}
 
+	function syncNodeDragging(tree) {
+		tree.treeitems.forEach((item) => {
+			const enabled = nodeDraggingEnabled && !!item.groupTreeitem;
+			item.$row.attr('draggable', String(enabled));
+			item.$row.find('.fa-grip-dots-vertical').toggle(enabled).attr('draggable', String(enabled));
+			item.$legacyNode?.children('.saNodeContent').attr('draggable', String(enabled));
+			item.$legacyNode?.find('> .saNodeContent .saDragHandle').toggle(enabled).attr('draggable', String(enabled));
+		});
+	}
+
 	function updateFileAppearance(item) {
-		if (item.isExpandable || item.$row.find('.saTreeviewXFolder').length) return;
+		if (item.isExpandable || item.$row.find('.saTreeXFolder').length) return;
 		const useGenericIcon = item.tree.$domNode.hasClass('saNoIcons');
 		item.$row
 			.find('.saTreeXType')
@@ -695,21 +723,12 @@ $(function () {
 				const title = $(this).attr('title') || $(this).text().trim();
 				$(this).replaceWith(document.createTextNode(`(${title})`));
 			});
-			if (item.groupTreeitem) {
-				const $link = $('<a class="saNodeLinkJs" role="button" tabindex="0"></a>').append($text.contents());
-				if (item.isExpandable) $link.attr('aria-expanded', String(item.isExpanded()));
-				$text.append($link);
-			} else {
-				$text.wrapInner('<b></b>');
-			}
-			item.legacyNameText = $text
-				.find('.saNodeLinkJs, b')
-				.first()
-				.contents()
-				.filter((_, node) => node.nodeType === Node.TEXT_NODE)[0];
+			if (!item.groupTreeitem) $text.wrapInner('<b></b>');
+			const $name = item.groupTreeitem ? $text : $text.children('b');
+			item.legacyNameText = $name.contents().filter((_, node) => node.nodeType === Node.TEXT_NODE)[0];
 			if (item.$row.find('.saFileSize').length) {
 				item.legacySizeText = document.createTextNode('');
-				$text.find('.saNodeLinkJs, b').first().append(item.legacySizeText);
+				$name.append(item.legacySizeText);
 			}
 			$content.append($text);
 			$node.append($content);
@@ -723,8 +742,7 @@ $(function () {
 		}
 		$legacy.children().detach();
 		tree.treeitems.filter((item) => !item.groupTreeitem).forEach((item) => $legacy.append(render(item)));
-		$legacy.find('.saTreeViewButton').toggle($('.button').first().attr('aria-pressed') === 'true');
-		$legacy.find('.saDragHandle').toggle($('.grip').first().attr('aria-pressed') === 'true');
+		syncNodeDragging(tree);
 		syncLegacyCheckboxes(tree);
 		tree.treeitems.forEach(updateLegacyMetadata);
 		tree.treeitems.forEach(updateFileAppearance);
@@ -759,7 +777,7 @@ $(function () {
 			$node.children('.saNodeContent').find('input.saExpander').prop('checked', expanded);
 			if (item.isExpandable)
 				$node
-					.find('> .saNodeContent input.saExpander, > .saNodeContent .saNodeLinkJs')
+					.find('> .saNodeContent input.saExpander')
 					.attr('aria-expanded', String(expanded));
 		});
 	}
@@ -784,19 +802,6 @@ $(function () {
 			if (item.openingTimer) $(this).prop('checked', item.isExpanded());
 			$(this).removeData('recursiveToggle');
 		});
-		$legacy.on('click', '.saNodeLinkJs', function (event) {
-			event.preventDefault();
-			const item = $(this).closest('.saNode').data('treeitem');
-			if (item.isExpandable) {
-				item.isExpanded() ? item.tree.collapseTreeitem(item) : item.tree.expandTreeitem(item);
-			} else showDetails(item);
-		});
-		$legacy.on('keydown', '.saNodeLinkJs', function (event) {
-			if (event.key === 'Enter' || event.key === ' ') {
-				event.preventDefault();
-				this.click();
-			}
-		});
 		$legacy.on('click', '.saTreeViewButton', function () {
 			const item = $(this).data('treeitem');
 			if (!this.classList.contains('saTreeViewNavigatorJs')) showDetails(item);
@@ -811,6 +816,15 @@ $(function () {
 	function setupItemMenu() {
 		const $menu = $('#saTreeXContextMenu');
 		const $buttons = $menu.find('[role="menuitem"]');
+		let uploadFolder = null;
+		const $fileInput = $('<input type="file" multiple class="saScreenReaderOnly" tabindex="-1" aria-label="Select files to upload">').appendTo(document.body);
+		$fileInput.on('change', function () {
+			if (uploadFolder && uploadFolder.tree.treeitems.includes(uploadFolder)) addFiles(uploadFolder, this.files);
+			uploadFolder = null;
+			this.value = '';
+		});
+		$fileInput.on('cancel', () => { uploadFolder = null; });
+
 		let currentItem = null;
 		let currentTrigger = null;
 		const available = () => $buttons.filter(':not(:disabled)');
@@ -819,11 +833,12 @@ $(function () {
 			const item = currentItem;
 			const trigger = currentTrigger;
 			$menu.removeClass('saOpen').prop('hidden', true);
+			item.$domNode.add(item.$legacyNode).removeClass('saContextMenuOpen');
 			$(trigger).filter('button').attr('aria-expanded', 'false');
 			currentItem = null;
 			currentTrigger = null;
 			if (restoreFocus) {
-				if (trigger?.isConnected && !$(trigger).closest('.saTreeXButtonGroup').is('[style*="display: none"]'))
+				if (trigger?.isConnected)
 					trigger.focus();
 				else item.tree.setFocusToItem(item);
 			}
@@ -832,6 +847,7 @@ $(function () {
 			close(false);
 			currentItem = item;
 			currentTrigger = trigger;
+			item.$domNode.add(item.$legacyNode).addClass('saContextMenuOpen');
 			$(trigger).filter('button').attr({ 'aria-expanded': 'true', 'aria-controls': 'saTreeXContextMenu' });
 			$menu.attr('aria-label', `Actions for ${item.label}`).prop('hidden', false).addClass('saOpen');
 			const disabled = {
@@ -842,6 +858,7 @@ $(function () {
 					!item.groupTreeitem ||
 					!item.$domNode.next('li').length,
 				remove: !item.groupTreeitem,
+				upload: !acceptsFiles || !item.isExpandable,
 			};
 			$buttons.each(function () {
 				const isDisabled = !!disabled[this.dataset.treeAction];
@@ -864,11 +881,20 @@ $(function () {
 		$buttons.on('click', function () {
 			const item = currentItem;
 			const action = this.dataset.treeAction;
+			const trigger = currentTrigger;
+			const fromLegacy = $(trigger).hasClass('saTreeViewNavigatorJs');
 			close(false);
-			if (action === 'remove') item.tree.removeItem(item);
+			if (action === 'upload') {
+				if (!acceptsFiles || !item.isExpandable) return;
+				uploadFolder = item;
+				$fileInput[0].click();
+			} else if (action === 'remove') item.tree.removeItem(item);
 			else {
 				const $neighbor = action === 'up' ? item.$domNode.prev('li') : item.$domNode.next('li');
 				item.tree.moveItem(item, $neighbor.data('treeitem'), action === 'up' ? 'before' : 'after');
+				// The legacy tree is rebuilt when an item moves, so resolve its new button.
+				const button = fromLegacy ? item.$legacyNode.find('.saTreeViewNavigatorJs')[0] : trigger;
+				button?.focus();
 			}
 		});
 		$menu.on('keydown', (event) => {
@@ -933,18 +959,33 @@ $(function () {
 		);
 		$views.on('click', '.saTreeXButton', function () {
 			const item = $(this).closest('li[role="treeitem"]').data('treeitem');
-			if (this.querySelector('.fa-circle-info')) showDetails(item);
-			else openItemMenu(item, this);
+			if (this.querySelector('.fa-ellipsis-vertical, .fa-ellipsis')) openItemMenu(item, this);
+			else showDetails(item);
 		});
 		$views.on('keydown', '.saTreeXButton', function (event) {
+			if (event.altKey && !event.ctrlKey && !event.metaKey && ['ArrowUp', 'ArrowDown'].includes(event.key)) {
+				const item = $(this).closest('li[role="treeitem"]').data('treeitem');
+				const before = event.key === 'ArrowUp';
+				const $neighbor = before ? item.$domNode.prev('li') : item.$domNode.next('li');
+				event.preventDefault();
+				if (item.tree.moveItem(item, $neighbor.data('treeitem'), before ? 'before' : 'after'))
+					item.$row.find('.saTreeXButton[aria-haspopup="menu"]')[0]?.focus();
+				return;
+			}
+			if (event.key === 'Tab') {
+				const item = $(this).closest('li[role="treeitem"]').data('treeitem');
+				const buttons = item.$row.find('.saTreeXButton:not(:disabled)').toArray();
+				const next = buttons[buttons.indexOf(this) + (event.shiftKey ? -1 : 1)];
+				if (next || event.shiftKey) {
+					event.preventDefault();
+					(next || item.$domNode[0]).focus();
+				}
+				return;
+			}
 			if (this.querySelector('.fa-ellipsis-vertical') && ['ArrowDown', 'ArrowUp'].includes(event.key)) {
 				event.preventDefault();
 				openItemMenu($(this).closest('li[role="treeitem"]').data('treeitem'), this, event.key === 'ArrowUp');
 			}
-		});
-		$views.on('contextmenu', '.saTreeXRow', function (event) {
-			event.preventDefault();
-			openItemMenu($(this).parent('li').data('treeitem'));
 		});
 		return { open, close };
 	}
@@ -1033,7 +1074,7 @@ $(function () {
 			pressedControl = $(event.target).closest(controlSelector).length > 0;
 		});
 		$nodeViews.on('dragstart', rowSelector, function (event) {
-			if (pressedControl || $(event.target).closest(controlSelector).length) {
+			if (!nodeDraggingEnabled || pressedControl || $(event.target).closest(controlSelector).length) {
 				event.preventDefault();
 				return;
 			}
@@ -1097,6 +1138,7 @@ $(function () {
 		});
 		document.addEventListener('scroll', positionIndicator, true);
 		window.addEventListener('resize', positionIndicator);
+		$('.treeDragDrop').on('click', () => { if (!nodeDraggingEnabled) finishDrag(); });
 		$(document).on('dragend drop', finishDrag);
 	}
 
@@ -1162,12 +1204,12 @@ $(function () {
                     </div>
                     <i class="saTreeXType saIcon far" aria-hidden="true"></i><i class="saTreeXCheck" aria-hidden="true"></i>
                 </div>
+                <span class="saTreeXLabel"></span>
+                <div class="saFileSizeRow"><span class="saFileSize"></span><span class="saFileUploadProgressText" aria-hidden="true">0%</span></div>
                 <ul class="saTreeXButtonGroup">
                     <li><button class="saTreeXButton" type="button"><i class="far fa-circle-info saIcon" aria-hidden="true"></i></button></li>
                     <li><button class="saTreeXButton" type="button"><i class="far fa-ellipsis-vertical saIcon" aria-hidden="true"></i></button></li>
                 </ul>
-                <span class="saTreeXLabel"></span>
-                <div class="saFileSizeRow"><span class="saFileSize"></span><span class="saFileUploadProgressText" aria-hidden="true">0%</span></div>
                 <progress class="saScreenReaderOnly" max="100" value="0"></progress>
                 <i class="saIcon far fa-grip-dots-vertical" aria-hidden="true"></i>
             </div>
@@ -1186,30 +1228,48 @@ $(function () {
 			});
 		$item.find('.saFileSize').text(formatFileSize(file.size));
 		$item.find('progress').attr('aria-label', `Demo upload progress for ${file.name}`);
-		$item.find('.fa-grip-dots-vertical').toggle($('.grip').first().attr('aria-pressed') === 'true');
-		$item.find('.saTreeXButtonGroup').toggle($('.button').first().attr('aria-pressed') === 'true');
+		$item.find('.fa-grip-dots-vertical').toggle(nodeDraggingEnabled).attr('draggable', String(nodeDraggingEnabled));
 		return $item;
 	}
 
 	function simulateUpload($item, done) {
-		let progress = 0;
+		const duration = 650 + Math.random() * 1000;
+		const stops = 10 + Math.floor(Math.random() * 9);
+		const weights = Array.from({ length: stops }, () => 0.5 + Math.random());
+		const total = weights.reduce((sum, weight) => sum + weight, 0);
 		const $progress = $item.find('progress');
-		const timer = window.setInterval(() => {
+		let step = 0;
+		let completed = 0;
+		function advance() {
 			if (!$item[0].isConnected) {
-				window.clearInterval(timer);
+				done();
 				return;
 			}
-			progress = Math.min(100, progress + 25);
+			completed += weights[step++];
+			const progress = step === stops ? 100 : Math.min(99, Math.round(completed / total * 100));
 			$progress.val(progress);
 			$item.find('.saFileUploadProgressText').text(`${progress}%`);
 			$item.children('.saTreeXRow').css('--tree-upload-progress', `${progress}%`);
 			if (progress === 100) {
-				window.clearInterval(timer);
+				const $loading = $item.find('.saLoadingWrapper');
+				let cleanupTimer;
+				const removeLoading = () => {
+					window.clearTimeout(cleanupTimer);
+					$loading.off('animationend.uploadComplete').remove();
+					$item.find('.saFileUploadProgressText').remove();
+				};
+				$loading.on('animationend.uploadComplete', (event) => {
+					if (event.target.matches('svg.saLoading') && event.originalEvent.animationName === 'saScalerDown')
+						removeLoading();
+				});
 				$item.removeClass('saLoading').addClass('saDone');
+				// Also clean up when animations are disabled or the row is hidden.
+				cleanupTimer = window.setTimeout(removeLoading, 1500);
 				window.setTimeout(() => $progress.remove(), 2000);
 				done();
-			}
-		}, 500);
+			} else window.setTimeout(advance, duration * weights[step] / total);
+		}
+		window.setTimeout(advance, duration * weights[0] / total);
 	}
 
 	function addFiles(folder, files) {
@@ -1228,15 +1288,17 @@ $(function () {
 		announce(
 			`Added ${added.length} ${added.length === 1 ? 'file' : 'files'} to ${folder.label}. Demo upload in progress.`,
 		);
-		let remaining = added.length;
-		added.forEach(({ $item }) =>
-			simulateUpload($item, () => {
-				if (--remaining === 0)
-					announce(
-						`Demo upload complete: ${added.length} ${added.length === 1 ? 'file' : 'files'} added to ${folder.label}.`,
-					);
-			}),
-		);
+		let nextFile = 0;
+		function uploadNext() {
+			if (nextFile === added.length) {
+				announce(
+					`Demo upload complete: ${added.length} ${added.length === 1 ? 'file' : 'files'} added to ${folder.label}.`,
+				);
+				return;
+			}
+			simulateUpload(added[nextFile++].$item, uploadNext);
+		}
+		uploadNext();
 	}
 
 	function setupFileDrop() {
