@@ -664,6 +664,27 @@ $(function () {
 		return parts.join(' / ');
 	}
 
+	function displayNodeDetails(item) {
+		const parts = [];
+		for (let current = item; current; current = current.groupTreeitem) parts.unshift(current.label);
+		const $path = $('#treeNodeDetails').empty();
+		parts.forEach((part, index) => {
+			if (index) $path.append($('<i class="saIcon far fa-angle-right" aria-hidden="true"></i>'));
+			$path.append($('<span></span>').text(part));
+		});
+	}
+
+	function setupNodeDetails() {
+		// Capture clicks before row handlers stop propagation, then show the resulting state.
+		document.querySelector('.saTreeViewComparison')?.addEventListener('click', (event) => {
+			const row = event.target.closest('.saTreeXRow, .saNodeContent');
+			if (!row) return;
+			const item = $(row).parent('li').data('treeitem');
+			if (!item) return;
+			queueMicrotask(() => displayNodeDetails(item));
+		}, true);
+	}
+
 	function showDetails(item) {
 		const size = item.$row.find('.saFileSize').text();
 		announce(`${itemPath(item)}. ${item.isExpandable ? 'Folder.' : size || 'File.'}`);
@@ -1095,48 +1116,66 @@ $(function () {
 			draggedItem.$legacyNode?.addClass('saDragged');
 			event.stopPropagation();
 		});
-		$nodeViews.on('dragover', rowSelector, function (event) {
+		// One drop surface owns rows, indentation, and the gaps between rows.
+		$nodeViews.on('dragenter dragover', function (event) {
 			if (!draggedItem) return;
 			event.preventDefault();
 			event.stopPropagation();
-			const target = $(this).parent('li').data('treeitem');
-			clearTarget(false);
-			if (!target || target.tree !== draggedItem.tree || draggedItem.$domNode[0].contains(target.$domNode[0])) {
-				clearHover();
+			const legacy = this === $legacy[0];
+			const y = event.originalEvent.clientY;
+			const rows = draggedItem.tree.visibleItems.map((item) => {
+				const row = legacy ? item.$legacyNode?.children('.saNodeContent')[0] : item.$row[0];
+				return { item, bounds: row?.getBoundingClientRect() };
+			}).filter(({ bounds }) => bounds?.height > 0);
+			const hit = rows.find(({ bounds }) => y < bounds.bottom) || rows.at(-1);
+			let target = hit?.item;
+			if (!target || (!legacy && !this.contains(target.$domNode[0]))) {
+				clearTarget();
 				event.originalEvent.dataTransfer.dropEffect = 'none';
 				return;
 			}
-			const bounds = this.getBoundingClientRect();
-			const offset = (event.originalEvent.clientY - bounds.top) / Math.max(bounds.height, 1);
-			dropPosition =
+			const bounds = hit.bounds;
+			const offset = (y - bounds.top) / bounds.height;
+			let position =
 				target.isExpandable && offset >= 0.25 && offset <= 0.75 ? 'inside' : offset < 0.5 ? 'before' : 'after';
-			if (!target.groupTreeitem && dropPosition !== 'inside') {
-				clearHover();
-				dropPosition = null;
+			// Both sides of a gap resolve to before the next visible row, including across folder levels.
+			if (position === 'after') {
+				const next = target.tree.visibleItems[target.tree.visibleItems.indexOf(target) + 1];
+				if (next) {
+					target = next;
+					position = 'before';
+				}
+			}
+			if (
+				(target === draggedItem ? position === 'inside' : draggedItem.$domNode[0].contains(target.$domNode[0])) ||
+				(!target.groupTreeitem && position !== 'inside')
+			) {
+				clearTarget();
 				event.originalEvent.dataTransfer.dropEffect = 'none';
 				return;
 			}
-			dropTarget = target;
-			target.$domNode.addClass(indicators[dropPosition]);
+			if (dropTarget !== target || dropPosition !== position) {
+				clearTarget(false);
+				dropTarget = target;
+				dropPosition = position;
+				target.$domNode.addClass(indicators[position]);
+				target.$legacyNode?.addClass('saDropOn');
+			}
 			positionIndicator();
-			target.$legacyNode?.addClass('saDropOn');
 			scheduleFolderOpening(target);
 			event.originalEvent.dataTransfer.dropEffect = 'move';
 		});
-		$nodeViews.on('dragleave', rowSelector, function (event) {
-			if (
-				draggedItem &&
-				dropTarget === $(this).parent('li').data('treeitem') &&
-				!this.contains(event.originalEvent.relatedTarget)
-			)
-				clearTarget();
+		$nodeViews.on('dragleave', function (event) {
+			if (!draggedItem || this.contains(event.originalEvent.relatedTarget)) return;
+			const { clientX: x, clientY: y } = event.originalEvent;
+			const bounds = this.getBoundingClientRect();
+			if (x < bounds.left || x > bounds.right || y < bounds.top || y > bounds.bottom) clearTarget();
 		});
-		$nodeViews.on('drop', rowSelector, function (event) {
+		$nodeViews.on('drop', function (event) {
 			if (!draggedItem) return;
 			event.preventDefault();
 			event.stopPropagation();
-			if (dropTarget && dropTarget === $(this).parent('li').data('treeitem'))
-				draggedItem.tree.moveItem(draggedItem, dropTarget, dropPosition);
+			if (dropTarget) draggedItem.tree.moveItem(draggedItem, dropTarget, dropPosition);
 			finishDrag();
 		});
 		document.addEventListener('scroll', positionIndicator, true);
@@ -1347,6 +1386,7 @@ $(function () {
 	setupOptions();
 	itemMenu = setupItemMenu();
 	setupLegacyTree();
+	setupNodeDetails();
 	setupNodeDragDrop();
 	setupFileDrop();
 

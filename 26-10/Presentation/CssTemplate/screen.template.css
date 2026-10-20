@@ -41477,12 +41477,33 @@ li[role='treeitem'].saTreeXDropInside > .saTreeXRow .saTreeXType {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: start;
-  gap: 2rem;
+  gap: 1rem;
+  width: fit-content;
 }
 @media (max-width: 60rem) {
   .saTreeViewComparison {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+.saTreeNodeDetails {
+  grid-column: 1 / -1;
+  min-width: 0;
+  gap: 0.25rem;
+  overflow-wrap: anywhere;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--Sa-Color-TextSecondary);
+}
+.saTreeNodeDetails .saIcon {
+  color: light-dark(var(--Gray300), var(--Gray900));
+  font-size: 0.625rem;
+  margin: auto 0.25rem;
+}
+.saTreeNodeDetails span:last-child {
+  color: var(--Sa-Color-Text);
+}
+.saSmallScreen .saTreeNodeDetails {
+  padding: 0 1rem 1rem 1rem;
 }
 .saTreeXContextMenu {
   position: fixed;
