@@ -34,12 +34,14 @@ $(function () {
 			this.typeahead = '';
 			this.lastTreeitem = null;
 			const findTreeitems = ($node, group) => {
-				$node.children('li').each((_, li) => {
+				const $siblings = $node.children('li');
+				$siblings.each((index, li) => {
 					const $li = $(li);
 					const ti = known.get(li) || new Treeitem($li, this, group);
 					if (!known.has(li)) ti.init();
 					ti.groupTreeitem = group;
 					ti.children = [];
+					ti.groupInert = undefined;
 					if (group) group.children.push(ti);
 					ti.isExpandable =
 						$li.children('ul').length > 0 ||
@@ -47,15 +49,17 @@ $(function () {
 					$li.data('treeitem', ti);
 
 					this.treeitems.push(ti);
-					const siblings = $node.children('li[role="treeitem"]');
+					const level = group ? Number(group.$domNode.attr('aria-level')) + 1 : 1;
+					$li.css('--tree-level', level);
 					$li.attr({
-						'aria-level': group ? Number(group.$domNode.attr('aria-level')) + 1 : 1,
-						'aria-posinset': siblings.index(li) + 1,
-						'aria-setsize': siblings.length,
+						'aria-level': level,
+						'aria-posinset': index + 1,
+						'aria-setsize': $siblings.length,
 					});
 
-					if (ti.isExpandable && !$li.is('[aria-expanded]')) $li.attr('aria-expanded', 'false');
-					if (!ti.isExpandable) $li.removeAttr('aria-expanded');
+					const hasChildren = $li.children('ul').children('li').length > 0;
+					if (hasChildren && !$li.is('[aria-expanded]')) $li.attr('aria-expanded', 'false');
+					if (!hasChildren) $li.removeAttr('aria-expanded');
 
 					const $childUl = $li.children('ul');
 					if ($childUl.length) {
@@ -72,6 +76,44 @@ $(function () {
 			this.updateVisibleTreeitems();
 			this.updateFileCount();
 			renderLegacyTree(this);
+		}
+
+		updateSiblingMetadata(parent) {
+			const count = parent.children.length;
+			parent.children.forEach((child, index) => child.$domNode.attr({
+				'aria-posinset': index + 1,
+				'aria-setsize': count,
+			}));
+			if (!count) parent.$domNode.removeAttr('aria-expanded');
+			else if (!parent.$domNode.is('[aria-expanded]')) parent.$domNode.attr('aria-expanded', 'false');
+			parent.groupInert = undefined;
+		}
+
+		updateBranchLevel(item, level) {
+			item.$domNode.css('--tree-level', level).attr('aria-level', level);
+			item.children.forEach((child) => this.updateBranchLevel(child, level + 1));
+		}
+
+		finishStructureChange(parents) {
+			parents.forEach((parent) => this.updateSiblingMetadata(parent));
+			const roots = this.treeitems.filter((item) => !item.groupTreeitem);
+			this.treeitems = [];
+			const visit = (item) => {
+				this.treeitems.push(item);
+				item.children.forEach(visit);
+			};
+			roots.forEach(visit);
+			this.typeahead = '';
+			if (!this.$domNode.hasClass('saNotCheckable')) {
+				const ancestors = new Set();
+				parents.forEach((parent) => {
+					for (let node = parent; node; node = node.groupTreeitem) ancestors.add(node);
+				});
+				// Shared ancestors are recomputed once, after their changed descendants.
+				[...ancestors].sort((a, b) => Number(b.$domNode.attr('aria-level')) - Number(a.$domNode.attr('aria-level')))
+					.forEach((parent) => this.updateParentCheckedState(parent));
+			}
+			this.updateVisibleTreeitems();
 		}
 
 		moveItem(item, target, position) {
@@ -99,21 +141,25 @@ $(function () {
 			} else {
 				item.$domNode.insertAfter(target.$domNode);
 			}
-			if (oldParent && !$oldGroup.children('li').length) {
-				$oldGroup.remove();
-				if (oldParent.$domNode.children('.saTreeXRow').find('.saTreeXFolder').length) {
-					oldParent.$domNode.attr('aria-expanded', 'false');
-				} else {
-					oldParent.$domNode.removeAttr('aria-expanded');
-				}
-				this.checkedItems.delete(oldParent);
-				if (!this.$domNode.hasClass('saNotCheckable')) oldParent.$domNode.attr('aria-checked', 'false');
+			const newParent = position === 'inside' ? target : target.groupTreeitem;
+			oldParent.children.splice(oldParent.children.indexOf(item), 1);
+			const index = position === 'inside' ? newParent.children.length
+				: newParent.children.indexOf(target) + (position === 'after' ? 1 : 0);
+			newParent.children.splice(index, 0, item);
+			item.groupTreeitem = newParent;
+			if (!oldParent.children.length) $oldGroup.remove();
+			if (oldParent !== newParent) this.updateBranchLevel(item, Number(newParent.$domNode.attr('aria-level')) + 1);
+			if (item.$legacyNode && newParent.$legacyNode) {
+				const $oldLegacyGroup = item.$legacyNode.parent();
+				if (position === 'inside') {
+					let $group = newParent.$legacyNode.children('ul');
+					if (!$group.length) $group = $('<ul></ul>').appendTo(newParent.$legacyNode);
+					$group.append(item.$legacyNode);
+				} else if (position === 'before') item.$legacyNode.insertBefore(target.$legacyNode);
+				else item.$legacyNode.insertAfter(target.$legacyNode);
+				if (!$oldLegacyGroup.children('li').length) $oldLegacyGroup.remove();
 			}
-			this.refreshStructure();
-			if (!this.$domNode.hasClass('saNotCheckable')) {
-				[...this.treeitems].reverse().forEach((ti) => this._updateParents(ti));
-			}
-			this.updateCheckedAdjacency();
+			this.finishStructureChange(new Set([oldParent, newParent]));
 			this.setFocusToItem(item);
 			announce(`${item.label} moved ${position === 'inside' ? 'into' : position} ${target.label}.`);
 			return true;
@@ -127,17 +173,26 @@ $(function () {
 			const previous = this.visibleItems[this.visibleItems.indexOf(item) - 1];
 			const parent = item.groupTreeitem;
 			const $group = item.$domNode.parent();
+			const removed = new Set();
+			const collect = (node) => {
+				removed.add(node);
+				node.children.forEach(collect);
+			};
+			collect(item);
+			parent.children.splice(parent.children.indexOf(item), 1);
 			item.$domNode.remove();
-			if (parent && !$group.children('li').length) {
+			item.$legacyNode?.remove();
+			if (!parent.children.length) {
 				$group.remove();
-				parent.$domNode.attr('aria-expanded', 'false');
+				parent.$legacyNode?.children('ul').remove();
 			}
-			this.currentItem = null;
-			this.refreshStructure();
-			if (this.anchorItem && !this.treeitems.includes(this.anchorItem)) this.anchorItem = null;
-			if (!this.$domNode.hasClass('saNotCheckable'))
-				[...this.treeitems].reverse().forEach((ti) => this._updateParents(ti));
-			this.updateCheckedAdjacency();
+			removed.forEach((node) => {
+				this.checkedItems.delete(node);
+				node.isVisible = false;
+			});
+			if (removed.has(this.anchorItem)) this.anchorItem = null;
+			this.finishStructureChange(new Set([parent]));
+			this.updateFileCount();
 			const next = following || previous || parent || this.firstTreeitem;
 			if (next?.isVisible) this.setFocusToItem(next);
 			else if (this.firstTreeitem) this.setFocusToItem(this.firstTreeitem);
@@ -224,40 +279,38 @@ $(function () {
 			});
 		}
 
-		_updateParents(ti) {
-			let parent = ti.groupTreeitem;
-
-			while (parent) {
-				const children = parent.children;
-
-				const checkedCount = children.filter((child) => this.checkedItems.has(child)).length;
-
-				let state;
-
-				if (checkedCount === 0 && !children.some((child) => child.$domNode.attr('aria-checked') === 'mixed')) {
-					state = 'false';
-					this.checkedItems.delete(parent);
-				} else if (checkedCount === children.length) {
-					state = 'true';
-					this.checkedItems.add(parent);
-				} else {
-					state = 'mixed';
-					this.checkedItems.delete(parent);
-				}
-
-				parent.$domNode.attr('aria-checked', state);
-				parent = parent.groupTreeitem;
+		updateParentCheckedState(parent) {
+			const children = parent.children;
+			const checkedCount = children.filter((child) => this.checkedItems.has(child)).length;
+			let state;
+			if (checkedCount === 0 && !children.some((child) => child.$domNode.attr('aria-checked') === 'mixed')) {
+				state = 'false';
+				this.checkedItems.delete(parent);
+			} else if (checkedCount === children.length) {
+				state = 'true';
+				this.checkedItems.add(parent);
+			} else {
+				state = 'mixed';
+				this.checkedItems.delete(parent);
 			}
+			parent.$domNode.attr('aria-checked', state);
+		}
+
+		_updateParents(ti) {
+			for (let parent = ti.groupTreeitem; parent; parent = parent.groupTreeitem)
+				this.updateParentCheckedState(parent);
 		}
 
 		// ---------- Focus ----------
 		setFocusToItem(ti, focus = true) {
 			if (!ti || !ti.isVisible) return;
-			this.currentItem = ti;
-			this.treeitems.forEach((item) => {
-				item.$domNode.attr('tabindex', item === ti ? 0 : -1);
-				item.$row.find('.saTreeXButton').attr('tabindex', item === ti ? 0 : -1);
-			});
+			if (this.currentItem !== ti) {
+				this.currentItem?.$domNode.attr('tabindex', -1);
+				this.currentItem?.$row.find('.saTreeXButton').attr('tabindex', -1);
+				this.currentItem = ti;
+				ti.$domNode.attr('tabindex', 0);
+				ti.$row.find('.saTreeXButton').attr('tabindex', 0);
+			}
 			if (focus) ti.$domNode[0].focus({ preventScroll: true });
 			if (focus) ti.$domNode[0].scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
 		}
@@ -272,10 +325,10 @@ $(function () {
 
 		// ---------- Expand / Collapse ----------
 		toggleBranch(currentItem) {
-			if (!currentItem.isExpandable || currentItem.openingTimer) return;
+			if (!currentItem.children.length || currentItem.openingTimer) return;
 			const expanded = !currentItem.isExpanded();
 			const visit = (item) => {
-				if (!item.isExpandable) return;
+				if (!item.children.length) return;
 				if (expanded) this.expandTreeitem(item, () => item.children.forEach(visit));
 				else {
 					this.collapseTreeitem(item);
@@ -287,7 +340,7 @@ $(function () {
 		}
 
 		expandTreeitem(currentItem, afterOpening) {
-			if (!currentItem.isExpandable || currentItem.openingTimer) return;
+			if (!currentItem.children.length || currentItem.openingTimer) return;
 			const open = () => {
 				if (!this.treeitems.includes(currentItem)) return;
 				currentItem.$domNode.attr('aria-expanded', 'true');
@@ -340,11 +393,20 @@ $(function () {
 		// ---------- Visibility ----------
 		updateVisibleTreeitems() {
 			const hadFocus = this.$domNode[0].contains(document.activeElement);
+			this.visibleItems = [];
+			// treeitems is in preorder: a parent's visibility is known before its children.
 			this.treeitems.forEach((ti) => {
-				ti.isVisible = !ti.$domNode.parentsUntil(this.$domNode, 'li[aria-expanded="false"]').length;
-				ti.$domNode.children('ul[role="group"]').prop('inert', !ti.isExpanded());
+				const parent = ti.groupTreeitem;
+				ti.isVisible = !parent || (parent.isVisible && parent.isExpanded());
+				if (ti.children.length) {
+					const expanded = ti.isExpanded();
+					if (ti.groupInert !== !expanded) {
+						ti.$domNode.children('ul[role="group"]').prop('inert', !expanded);
+						ti.groupInert = !expanded;
+					}
+				}
+				if (ti.isVisible) this.visibleItems.push(ti);
 			});
-			this.visibleItems = this.treeitems.filter((ti) => ti.isVisible);
 			this.firstTreeitem = this.visibleItems[0];
 			this.lastTreeitem = this.visibleItems.at(-1);
 			if (!this.firstTreeitem) {
@@ -375,6 +437,9 @@ $(function () {
 				.empty()
 				.append(document.createTextNode(String(count)), $('<span class="saScreenReaderOnly"> files</span>'))
 				.attr('title', `${count} files`);
+			const root = this.firstTreeitem;
+			const $count = root?.$legacyNode?.children('.saNodeContent').find('.saBadgeCount:not(.saUrgent)').first();
+			$count?.empty().append(document.createTextNode(String(count)), $('<span class="saScreenReaderOnly"> files</span>')).attr('title', `${count} files`);
 		}
 
 		setFocusByFirstCharacter(currentItem, char) {
@@ -411,7 +476,6 @@ $(function () {
 				role: 'treeitem',
 				tabindex: -1,
 				'aria-labelledby': id,
-				'aria-keyshortcuts': 'Alt+ArrowUp Alt+ArrowDown Delete Backspace',
 			});
 			const $description = this.$row.find('.saFileSizeRow');
 			if ($description.length) {
@@ -799,10 +863,9 @@ $(function () {
 			const expanded = item.isExpanded();
 			$node.children('ul').prop('hidden', !expanded);
 			$node.children('.saNodeContent').find('input.saExpander').prop('checked', expanded);
-			if (item.isExpandable)
-				$node
-					.find('> .saNodeContent input.saExpander')
-					.attr('aria-expanded', String(expanded));
+			$node.find('> .saNodeContent input.saExpander')
+				.attr('aria-expanded', item.children.length ? String(expanded) : null)
+				.prop('disabled', !item.children.length);
 		});
 	}
 

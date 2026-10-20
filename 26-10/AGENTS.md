@@ -38,11 +38,11 @@ Before finishing a LESS change, ask: **If I want to understand this component's 
 
 ## Dark mode philosophy
 
-Use [DARK_MODE_COLOR_LOOKUP.md](DARK_MODE_COLOR_LOOKUP.md) for the fixed light-first lookup covering every palette shade and editable Primary shade. Its component role exceptions take precedence; the table does not redefine the palette or replace checking the actual foreground/background pair.
+Use [Colors.less](Colors.less) for the fixed light-first lookup covering every palette shade and editable Primary shade. Its component role exceptions take precedence; the table does not redefine the palette or replace checking the actual foreground/background pair.
 
 Our dark mode philosophy is to preserve the existing light theme, build dark mode around neutral surfaces with clear visual separation, and use accent colors where they communicate meaning. Recreating it requires designing each component’s dark states, rather than reversing the palette.
 
-For color-only work in `26-10`, use the implemented Softadmin LESS in `C:/inetpub/wwwroot/CssTemplate` as the current reference for color choices and state progression. The corresponding source is `//ms216/CssTemplate`; use the local copy when the share is unavailable. `../26-9/Presentation/CssTemplate` remains useful for the earlier conversion approach. Compare matching components and states in files present in both versions; exclude new components and unrelated version differences from color conclusions. Copy the color approach, not the file structure: do not add classes, move selectors, or change component hierarchy for a color-only update. Preserve existing light values unless a specific light-theme defect or palette substitution has been approved. Keep `DiffView.less` out of conversion work unless explicitly requested.
+For color-only work in `26-10`, use the implemented Softadmin LESS in `C:/inetpub/wwwroot/CssTemplate` as the current reference for color choices and state progression. The corresponding source is `//ms216/CssTemplate`; use the local copy when the share is unavailable. `../26-9/Presentation/CssTemplate` remains useful for the earlier conversion approach. Compare matching components and states in files present in both versions; exclude new components and unrelated version differences from color conclusions. Copy the color approach, not the file structure: do not add classes, move selectors, or change component hierarchy for a color-only update. Preserve existing light values unless a specific light-theme defect or palette substitution has been approved.
 
 1. Extend the palette first.
 
