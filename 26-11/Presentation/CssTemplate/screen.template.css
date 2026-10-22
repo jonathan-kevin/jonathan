@@ -75,6 +75,7 @@
   --Sa-Color-SideBarFavoriteIcon: light-dark(var(--Gray500), var(--Gray400));
   --Sa-Color-SystemIconBlack: light-dark(var(--Gray900), var(--Gray200));
   --Sa-Color-SystemIconBlue: light-dark(var(--Blue600), var(--Blue300));
+  --Sa-Color-SystemIconSky: light-dark(var(--Sky400), var(--Sky300));
   --Sa-Color-SystemIconPurple: light-dark(var(--Purple700), var(--Purple300));
   --Sa-Color-SystemIconGreen: light-dark(var(--Green500), var(--Green300));
   --Sa-Color-SystemIconRed: light-dark(var(--Red600), var(--Red400));
@@ -318,6 +319,7 @@ body[data-theme="dark"] {
   --Gray600-800: var(--Gray600);
   --Gray700-1200: var(--Gray700);
   --Gray700-300: var(--Gray700);
+  --Gray700-400: var(--Gray700);
   --Gray700-600: var(--Gray700);
   --Gray800-200: var(--Gray800);
   --Gray900-Black: var(--Gray900);
@@ -351,6 +353,7 @@ body[data-theme="dark"] {
   --Green500-300: var(--Green500);
   --Green50Alpha25-1200Alpha25: var(--Green50);
   --Green600-300: var(--Green600);
+  --Green600-400: var(--Green600);
   --Green600-700: var(--Green600);
   --Green700-200: var(--Green700);
   --Green700-300: var(--Green700);
@@ -484,6 +487,7 @@ body[data-theme="dark"] {
   --Red800-400: var(--Red800);
   --Red900-100: var(--Red900);
   --Sky100-1100: var(--Sky100);
+  --Sky100-1200: var(--Sky100);
   --Sky200-1000: var(--Sky200);
   --Sky200-900: var(--Sky200);
   --Sky300-700: var(--Sky300);
@@ -597,6 +601,7 @@ body[data-theme="dark"] {
     --Green50-1200: light-dark(var(--Green50), var(--Green1200));
     --Green500-300: light-dark(var(--Green500), var(--Green300));
     --Green600-300: light-dark(var(--Green600), var(--Green300));
+    --Green600-400: light-dark(var(--Green600), var(--Green400));
     --Green600-700: light-dark(var(--Green600), var(--Green700));
     --Green700-200: light-dark(var(--Green700), var(--Green200));
     --Green700-300: light-dark(var(--Green700), var(--Green300));
@@ -722,6 +727,7 @@ body[data-theme="dark"] {
     --Red800-400: light-dark(var(--Red800), var(--Red400));
     --Red900-100: light-dark(var(--Red900), var(--Red100));
     --Sky100-1100: light-dark(var(--Sky100), var(--Sky1100));
+    --Sky100-1200: light-dark(var(--Sky100), var(--Sky1200));
     --Sky200-1000: light-dark(var(--Sky200), var(--Sky1000));
     --Sky200-900: light-dark(var(--Sky200), var(--Sky900));
     --Sky300-700: light-dark(var(--Sky300), var(--Sky700));
@@ -2130,8 +2136,14 @@ span.marked {
 .iconpreview.iconblue .icon {
   color: var(--Sa-Color-SystemIconBlue);
 }
+.iconpreview.iconsky .icon {
+  color: var(--Sa-Color-SystemIconSky);
+}
 .iconpreview.iconpurple .icon {
   color: var(--Sa-Color-SystemIconPurple);
+}
+.iconpreview.icongray .icon {
+  color: var(--Sa-Color-Icon);
 }
 .iconpreview.iconblack .icon {
   color: var(--Sa-Color-SystemIconBlack);
@@ -4335,6 +4347,10 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 }
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary:enabled:active,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary:enabled:active,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary[aria-pressed="true"],
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary[aria-pressed="true"],
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary[aria-expanded="true"],
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary[aria-expanded="true"],
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary.saOpen,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary.saOpen {
   color: var(--Primary700-White);
@@ -4343,12 +4359,20 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 }
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary:enabled:active .saIcon,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary:enabled:active .saIcon,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary[aria-pressed="true"] .saIcon,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary[aria-pressed="true"] .saIcon,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary[aria-expanded="true"] .saIcon,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary[aria-expanded="true"] .saIcon,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary.saOpen .saIcon,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary:enabled:active .saBadge,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary:enabled:active .saBadge,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary[aria-pressed="true"] .saBadge,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary[aria-pressed="true"] .saBadge,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary[aria-expanded="true"] .saBadge,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary[aria-expanded="true"] .saBadge,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary.saOpen .saBadge,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary.saOpen .saBadge {
   color: var(--Primary100-Gray900);
@@ -4544,6 +4568,10 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 }
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton:enabled:active,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton:enabled:active,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton[aria-pressed="true"],
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton[aria-pressed="true"],
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton[aria-expanded="true"],
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton[aria-expanded="true"],
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton.saOpen,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton.saOpen {
   color: var(--Primary700-White);
@@ -4552,12 +4580,20 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 }
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton:enabled:active .saIcon,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton:enabled:active .saIcon,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton[aria-pressed="true"] .saIcon,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton[aria-pressed="true"] .saIcon,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton[aria-expanded="true"] .saIcon,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton[aria-expanded="true"] .saIcon,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton.saOpen .saIcon,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton:enabled:active .saBadge,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton:enabled:active .saBadge,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton[aria-pressed="true"] .saBadge,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton[aria-pressed="true"] .saBadge,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton[aria-expanded="true"] .saBadge,
+.saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton[aria-expanded="true"] .saBadge,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton.saOpen .saBadge,
 .saGridTop .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
@@ -5418,12 +5454,42 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   color: var(--Green700-300);
   background-color: var(--Green50-1300);
 }
-.saGrid .saGridRow.saDisabled {
+.saGrid .saGridRow.saDisabled,
+.saGrid .saGridRow[aria-disabled="true"] {
   color: var(--Gray300-700);
+}
+.saGrid .saGridRow.saDeprecated,
+.saGrid .saGridRow.saArchived {
+  color: var(--Gray700-400);
+  background-color: var(--Gray100-900);
 }
 .saGrid .saGridRow.saBeta {
   color: var(--Purple700-300);
   background-color: var(--Purple50-1300);
+}
+.saGrid .saGridRow.saNew {
+  color: var(--Primary700-300);
+  background-color: var(--Primary50-1300);
+}
+.saGrid .saGridRow.saRemoved {
+  color: var(--Gray700-300);
+  background-color: var(--Gray50-1100);
+  position: relative;
+}
+.saGrid .saGridRow.saRemoved::after {
+  content: '';
+  pointer-events: none;
+  height: calc(100% - 1px);
+  width: 100%;
+  position: absolute;
+  inset: 1px 0 0 0;
+  outline: var(--Sa-Color-Surface) 1px dashed;
+  z-index: 2;
+  border-radius: inherit;
+}
+.saGrid .saGridRow.saDraft {
+  color: var(--Sky700-300);
+  background-color: var(--Sky50-1300);
 }
 .saGrid .saGridRow:has(.saCheckbox:checked):not(.saSelected) {
   background-color: var(--Sa-Color-GridRowChecked);
@@ -5447,9 +5513,27 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 .saGrid .saGridRow.saHasOpenContextMenu.saSuccess {
   background-color: var(--Green100-1200);
 }
+.saGrid .saGridRow.saSelected.saDeprecated,
+.saGrid .saGridRow.saHasOpenContextMenu.saDeprecated,
+.saGrid .saGridRow.saSelected.saArchived,
+.saGrid .saGridRow.saHasOpenContextMenu.saArchived {
+  background-color: var(--Gray200-800);
+}
 .saGrid .saGridRow.saSelected.saBeta,
 .saGrid .saGridRow.saHasOpenContextMenu.saBeta {
   background-color: var(--Purple100-1200);
+}
+.saGrid .saGridRow.saSelected.saNew,
+.saGrid .saGridRow.saHasOpenContextMenu.saNew {
+  background-color: var(--Primary100-1200);
+}
+.saGrid .saGridRow.saSelected.saRemoved,
+.saGrid .saGridRow.saHasOpenContextMenu.saRemoved {
+  background-color: var(--Gray100-900);
+}
+.saGrid .saGridRow.saSelected.saDraft,
+.saGrid .saGridRow.saHasOpenContextMenu.saDraft {
+  background-color: var(--Sky100-1200);
 }
 .saGrid .saGridRow.saSelected .saCellUserStyle,
 .saGrid .saGridRow.saHasOpenContextMenu .saCellUserStyle {
@@ -6311,16 +6395,22 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   }
 }
 .saListGrid .saActionRow button:enabled:active,
+.saListGrid .saActionRow button[aria-pressed="true"],
+.saListGrid .saActionRow button[aria-expanded="true"],
 .saListGrid .saActionRow button.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saListGrid .saActionRow button:enabled:active .saIcon,
+.saListGrid .saActionRow button[aria-pressed="true"] .saIcon,
+.saListGrid .saActionRow button[aria-expanded="true"] .saIcon,
 .saListGrid .saActionRow button.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saListGrid .saActionRow button:enabled:active .saBadge,
+.saListGrid .saActionRow button[aria-pressed="true"] .saBadge,
+.saListGrid .saActionRow button[aria-expanded="true"] .saBadge,
 .saListGrid .saActionRow button.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -7930,16 +8020,22 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   }
 }
 .saSideBar .saExpander:enabled:active,
+.saSideBar .saExpander[aria-pressed="true"],
+.saSideBar .saExpander[aria-expanded="true"],
 .saSideBar .saExpander.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saSideBar .saExpander:enabled:active .saIcon,
+.saSideBar .saExpander[aria-pressed="true"] .saIcon,
+.saSideBar .saExpander[aria-expanded="true"] .saIcon,
 .saSideBar .saExpander.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saSideBar .saExpander:enabled:active .saBadge,
+.saSideBar .saExpander[aria-pressed="true"] .saBadge,
+.saSideBar .saExpander[aria-expanded="true"] .saBadge,
 .saSideBar .saExpander.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -8933,6 +9029,10 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 }
 .saPageHeader .saActionLinks .saMoreButton:enabled:active,
 .saPartButtons .saActionLinks .saMoreButton:enabled:active,
+.saPageHeader .saActionLinks .saMoreButton[aria-pressed="true"],
+.saPartButtons .saActionLinks .saMoreButton[aria-pressed="true"],
+.saPageHeader .saActionLinks .saMoreButton[aria-expanded="true"],
+.saPartButtons .saActionLinks .saMoreButton[aria-expanded="true"],
 .saPageHeader .saActionLinks .saMoreButton.saOpen,
 .saPartButtons .saActionLinks .saMoreButton.saOpen {
   color: var(--Primary700-White);
@@ -8941,12 +9041,20 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 }
 .saPageHeader .saActionLinks .saMoreButton:enabled:active .saIcon,
 .saPartButtons .saActionLinks .saMoreButton:enabled:active .saIcon,
+.saPageHeader .saActionLinks .saMoreButton[aria-pressed="true"] .saIcon,
+.saPartButtons .saActionLinks .saMoreButton[aria-pressed="true"] .saIcon,
+.saPageHeader .saActionLinks .saMoreButton[aria-expanded="true"] .saIcon,
+.saPartButtons .saActionLinks .saMoreButton[aria-expanded="true"] .saIcon,
 .saPageHeader .saActionLinks .saMoreButton.saOpen .saIcon,
 .saPartButtons .saActionLinks .saMoreButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saPageHeader .saActionLinks .saMoreButton:enabled:active .saBadge,
 .saPartButtons .saActionLinks .saMoreButton:enabled:active .saBadge,
+.saPageHeader .saActionLinks .saMoreButton[aria-pressed="true"] .saBadge,
+.saPartButtons .saActionLinks .saMoreButton[aria-pressed="true"] .saBadge,
+.saPageHeader .saActionLinks .saMoreButton[aria-expanded="true"] .saBadge,
+.saPartButtons .saActionLinks .saMoreButton[aria-expanded="true"] .saBadge,
 .saPageHeader .saActionLinks .saMoreButton.saOpen .saBadge,
 .saPartButtons .saActionLinks .saMoreButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
@@ -9569,6 +9677,10 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 }
 .saPageHeader .saBrowseButtons .saBrowseButton:enabled:active,
 .saPartButtons .saBrowseButtons .saBrowseButton:enabled:active,
+.saPageHeader .saBrowseButtons .saBrowseButton[aria-pressed="true"],
+.saPartButtons .saBrowseButtons .saBrowseButton[aria-pressed="true"],
+.saPageHeader .saBrowseButtons .saBrowseButton[aria-expanded="true"],
+.saPartButtons .saBrowseButtons .saBrowseButton[aria-expanded="true"],
 .saPageHeader .saBrowseButtons .saBrowseButton.saOpen,
 .saPartButtons .saBrowseButtons .saBrowseButton.saOpen {
   color: var(--Primary700-White);
@@ -9577,12 +9689,20 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 }
 .saPageHeader .saBrowseButtons .saBrowseButton:enabled:active .saIcon,
 .saPartButtons .saBrowseButtons .saBrowseButton:enabled:active .saIcon,
+.saPageHeader .saBrowseButtons .saBrowseButton[aria-pressed="true"] .saIcon,
+.saPartButtons .saBrowseButtons .saBrowseButton[aria-pressed="true"] .saIcon,
+.saPageHeader .saBrowseButtons .saBrowseButton[aria-expanded="true"] .saIcon,
+.saPartButtons .saBrowseButtons .saBrowseButton[aria-expanded="true"] .saIcon,
 .saPageHeader .saBrowseButtons .saBrowseButton.saOpen .saIcon,
 .saPartButtons .saBrowseButtons .saBrowseButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saPageHeader .saBrowseButtons .saBrowseButton:enabled:active .saBadge,
 .saPartButtons .saBrowseButtons .saBrowseButton:enabled:active .saBadge,
+.saPageHeader .saBrowseButtons .saBrowseButton[aria-pressed="true"] .saBadge,
+.saPartButtons .saBrowseButtons .saBrowseButton[aria-pressed="true"] .saBadge,
+.saPageHeader .saBrowseButtons .saBrowseButton[aria-expanded="true"] .saBadge,
+.saPartButtons .saBrowseButtons .saBrowseButton[aria-expanded="true"] .saBadge,
 .saPageHeader .saBrowseButtons .saBrowseButton.saOpen .saBadge,
 .saPartButtons .saBrowseButtons .saBrowseButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
@@ -10822,16 +10942,22 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   }
 }
 .saButtonSecondary:enabled:active,
+.saButtonSecondary[aria-pressed="true"],
+.saButtonSecondary[aria-expanded="true"],
 .saButtonSecondary.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saButtonSecondary:enabled:active .saIcon,
+.saButtonSecondary[aria-pressed="true"] .saIcon,
+.saButtonSecondary[aria-expanded="true"] .saIcon,
 .saButtonSecondary.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saButtonSecondary:enabled:active .saBadge,
+.saButtonSecondary[aria-pressed="true"] .saBadge,
+.saButtonSecondary[aria-expanded="true"] .saBadge,
 .saButtonSecondary.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -11170,16 +11296,22 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   }
 }
 .saDefaultButtonSecondary:enabled:active,
+.saDefaultButtonSecondary[aria-pressed="true"],
+.saDefaultButtonSecondary[aria-expanded="true"],
 .saDefaultButtonSecondary.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saDefaultButtonSecondary:enabled:active .saIcon,
+.saDefaultButtonSecondary[aria-pressed="true"] .saIcon,
+.saDefaultButtonSecondary[aria-expanded="true"] .saIcon,
 .saDefaultButtonSecondary.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saDefaultButtonSecondary:enabled:active .saBadge,
+.saDefaultButtonSecondary[aria-pressed="true"] .saBadge,
+.saDefaultButtonSecondary[aria-expanded="true"] .saBadge,
 .saDefaultButtonSecondary.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -11607,16 +11739,22 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   }
 }
 .saButtonSplit button.saButtonSecondary:enabled:active,
+.saButtonSplit button.saButtonSecondary[aria-pressed="true"],
+.saButtonSplit button.saButtonSecondary[aria-expanded="true"],
 .saButtonSplit button.saButtonSecondary.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saButtonSplit button.saButtonSecondary:enabled:active .saIcon,
+.saButtonSplit button.saButtonSecondary[aria-pressed="true"] .saIcon,
+.saButtonSplit button.saButtonSecondary[aria-expanded="true"] .saIcon,
 .saButtonSplit button.saButtonSecondary.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saButtonSplit button.saButtonSecondary:enabled:active .saBadge,
+.saButtonSplit button.saButtonSecondary[aria-pressed="true"] .saBadge,
+.saButtonSplit button.saButtonSecondary[aria-expanded="true"] .saBadge,
 .saButtonSplit button.saButtonSecondary.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -12790,16 +12928,22 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   }
 }
 .saColumnManager .saRemoveColumnButton:enabled:active,
+.saColumnManager .saRemoveColumnButton[aria-pressed="true"],
+.saColumnManager .saRemoveColumnButton[aria-expanded="true"],
 .saColumnManager .saRemoveColumnButton.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saColumnManager .saRemoveColumnButton:enabled:active .saIcon,
+.saColumnManager .saRemoveColumnButton[aria-pressed="true"] .saIcon,
+.saColumnManager .saRemoveColumnButton[aria-expanded="true"] .saIcon,
 .saColumnManager .saRemoveColumnButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saColumnManager .saRemoveColumnButton:enabled:active .saBadge,
+.saColumnManager .saRemoveColumnButton[aria-pressed="true"] .saBadge,
+.saColumnManager .saRemoveColumnButton[aria-expanded="true"] .saBadge,
 .saColumnManager .saRemoveColumnButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -13464,16 +13608,22 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   }
 }
 .saGalleryWrapper .saGalleryItem .saMoreButton:enabled:active,
+.saGalleryWrapper .saGalleryItem .saMoreButton[aria-pressed="true"],
+.saGalleryWrapper .saGalleryItem .saMoreButton[aria-expanded="true"],
 .saGalleryWrapper .saGalleryItem .saMoreButton.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saGalleryWrapper .saGalleryItem .saMoreButton:enabled:active .saIcon,
+.saGalleryWrapper .saGalleryItem .saMoreButton[aria-pressed="true"] .saIcon,
+.saGalleryWrapper .saGalleryItem .saMoreButton[aria-expanded="true"] .saIcon,
 .saGalleryWrapper .saGalleryItem .saMoreButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saGalleryWrapper .saGalleryItem .saMoreButton:enabled:active .saBadge,
+.saGalleryWrapper .saGalleryItem .saMoreButton[aria-pressed="true"] .saBadge,
+.saGalleryWrapper .saGalleryItem .saMoreButton[aria-expanded="true"] .saBadge,
 .saGalleryWrapper .saGalleryItem .saMoreButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -13812,16 +13962,22 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   }
 }
 .saImageCarouselWrapper .saCarouselInfoButton:enabled:active,
+.saImageCarouselWrapper .saCarouselInfoButton[aria-pressed="true"],
+.saImageCarouselWrapper .saCarouselInfoButton[aria-expanded="true"],
 .saImageCarouselWrapper .saCarouselInfoButton.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saImageCarouselWrapper .saCarouselInfoButton:enabled:active .saIcon,
+.saImageCarouselWrapper .saCarouselInfoButton[aria-pressed="true"] .saIcon,
+.saImageCarouselWrapper .saCarouselInfoButton[aria-expanded="true"] .saIcon,
 .saImageCarouselWrapper .saCarouselInfoButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saImageCarouselWrapper .saCarouselInfoButton:enabled:active .saBadge,
+.saImageCarouselWrapper .saCarouselInfoButton[aria-pressed="true"] .saBadge,
+.saImageCarouselWrapper .saCarouselInfoButton[aria-expanded="true"] .saBadge,
 .saImageCarouselWrapper .saCarouselInfoButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -14013,16 +14169,22 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   }
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton:enabled:active,
+.saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton[aria-pressed="true"],
+.saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton[aria-expanded="true"],
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton:enabled:active .saIcon,
+.saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton[aria-pressed="true"] .saIcon,
+.saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton[aria-expanded="true"] .saIcon,
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton:enabled:active .saBadge,
+.saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton[aria-pressed="true"] .saBadge,
+.saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton[aria-expanded="true"] .saBadge,
 .saImageCarouselWrapper .saCarousel .saActionLinks .saMoreButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -14523,16 +14685,22 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   }
 }
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton:enabled:active,
+.saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton[aria-pressed="true"],
+.saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton[aria-expanded="true"],
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton:enabled:active .saIcon,
+.saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton[aria-pressed="true"] .saIcon,
+.saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton[aria-expanded="true"] .saIcon,
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton:enabled:active .saBadge,
+.saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton[aria-pressed="true"] .saBadge,
+.saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton[aria-expanded="true"] .saBadge,
 .saImageCarouselWrapper .saCarousel .saBrowseButtons .saBrowseButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -14764,16 +14932,22 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   }
 }
 .saImageCarouselWrapper .saCarouselButton:enabled:active,
+.saImageCarouselWrapper .saCarouselButton[aria-pressed="true"],
+.saImageCarouselWrapper .saCarouselButton[aria-expanded="true"],
 .saImageCarouselWrapper .saCarouselButton.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saImageCarouselWrapper .saCarouselButton:enabled:active .saIcon,
+.saImageCarouselWrapper .saCarouselButton[aria-pressed="true"] .saIcon,
+.saImageCarouselWrapper .saCarouselButton[aria-expanded="true"] .saIcon,
 .saImageCarouselWrapper .saCarouselButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saImageCarouselWrapper .saCarouselButton:enabled:active .saBadge,
+.saImageCarouselWrapper .saCarouselButton[aria-pressed="true"] .saBadge,
+.saImageCarouselWrapper .saCarouselButton[aria-expanded="true"] .saBadge,
 .saImageCarouselWrapper .saCarouselButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -16282,16 +16456,22 @@ select.saInputText {
   }
 }
 .saIconOnlyFieldButton:enabled:active,
+.saIconOnlyFieldButton[aria-pressed="true"],
+.saIconOnlyFieldButton[aria-expanded="true"],
 .saIconOnlyFieldButton.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saIconOnlyFieldButton:enabled:active .saIcon,
+.saIconOnlyFieldButton[aria-pressed="true"] .saIcon,
+.saIconOnlyFieldButton[aria-expanded="true"] .saIcon,
 .saIconOnlyFieldButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saIconOnlyFieldButton:enabled:active .saBadge,
+.saIconOnlyFieldButton[aria-pressed="true"] .saBadge,
+.saIconOnlyFieldButton[aria-expanded="true"] .saBadge,
 .saIconOnlyFieldButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -16449,16 +16629,22 @@ select.saInputText {
   }
 }
 .saLabeledFieldButton:enabled:active,
+.saLabeledFieldButton[aria-pressed="true"],
+.saLabeledFieldButton[aria-expanded="true"],
 .saLabeledFieldButton.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saLabeledFieldButton:enabled:active .saIcon,
+.saLabeledFieldButton[aria-pressed="true"] .saIcon,
+.saLabeledFieldButton[aria-expanded="true"] .saIcon,
 .saLabeledFieldButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saLabeledFieldButton:enabled:active .saBadge,
+.saLabeledFieldButton[aria-pressed="true"] .saBadge,
+.saLabeledFieldButton[aria-expanded="true"] .saBadge,
 .saLabeledFieldButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -19864,16 +20050,22 @@ legend + .saInputCardsWrapper {
   }
 }
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton:enabled:active,
+.saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton[aria-pressed="true"],
+.saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton[aria-expanded="true"],
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton:enabled:active .saIcon,
+.saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton[aria-pressed="true"] .saIcon,
+.saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton[aria-expanded="true"] .saIcon,
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton:enabled:active .saBadge,
+.saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton[aria-pressed="true"] .saBadge,
+.saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton[aria-expanded="true"] .saBadge,
 .saLargeScreen .saDatePickerRoot .saDateRangeFooter .saResetButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -22750,16 +22942,22 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   }
 }
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton:enabled:active,
+.saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton[aria-pressed="true"],
+.saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton[aria-expanded="true"],
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton:enabled:active .saIcon,
+.saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton[aria-pressed="true"] .saIcon,
+.saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton[aria-expanded="true"] .saIcon,
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton:enabled:active .saBadge,
+.saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton[aria-pressed="true"] .saBadge,
+.saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton[aria-expanded="true"] .saBadge,
 .saSignatureCanvasRoot.saSignatureSmallScreen .saEditButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -25311,16 +25509,22 @@ softadmin-nodegraph .saNodeTools button .saBadge {
   }
 }
 softadmin-nodegraph .saNodeTools button:enabled:active,
+softadmin-nodegraph .saNodeTools button[aria-pressed="true"],
+softadmin-nodegraph .saNodeTools button[aria-expanded="true"],
 softadmin-nodegraph .saNodeTools button.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 softadmin-nodegraph .saNodeTools button:enabled:active .saIcon,
+softadmin-nodegraph .saNodeTools button[aria-pressed="true"] .saIcon,
+softadmin-nodegraph .saNodeTools button[aria-expanded="true"] .saIcon,
 softadmin-nodegraph .saNodeTools button.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 softadmin-nodegraph .saNodeTools button:enabled:active .saBadge,
+softadmin-nodegraph .saNodeTools button[aria-pressed="true"] .saBadge,
+softadmin-nodegraph .saNodeTools button[aria-expanded="true"] .saBadge,
 softadmin-nodegraph .saNodeTools button.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -26591,16 +26795,22 @@ body.saMiniView {
   }
 }
 .saGroupView .saGroupViewButton:enabled:active,
+.saGroupView .saGroupViewButton[aria-pressed="true"],
+.saGroupView .saGroupViewButton[aria-expanded="true"],
 .saGroupView .saGroupViewButton.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saGroupView .saGroupViewButton:enabled:active .saIcon,
+.saGroupView .saGroupViewButton[aria-pressed="true"] .saIcon,
+.saGroupView .saGroupViewButton[aria-expanded="true"] .saIcon,
 .saGroupView .saGroupViewButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saGroupView .saGroupViewButton:enabled:active .saBadge,
+.saGroupView .saGroupViewButton[aria-pressed="true"] .saBadge,
+.saGroupView .saGroupViewButton[aria-expanded="true"] .saBadge,
 .saGroupView .saGroupViewButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -27013,16 +27223,22 @@ body.saMiniView {
   }
 }
 .saPdfTemplateEditor .saPageButton:enabled:active,
+.saPdfTemplateEditor .saPageButton[aria-pressed="true"],
+.saPdfTemplateEditor .saPageButton[aria-expanded="true"],
 .saPdfTemplateEditor .saPageButton.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saPdfTemplateEditor .saPageButton:enabled:active .saIcon,
+.saPdfTemplateEditor .saPageButton[aria-pressed="true"] .saIcon,
+.saPdfTemplateEditor .saPageButton[aria-expanded="true"] .saIcon,
 .saPdfTemplateEditor .saPageButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saPdfTemplateEditor .saPageButton:enabled:active .saBadge,
+.saPdfTemplateEditor .saPageButton[aria-pressed="true"] .saBadge,
+.saPdfTemplateEditor .saPageButton[aria-expanded="true"] .saBadge,
 .saPdfTemplateEditor .saPageButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -28659,16 +28875,22 @@ body.saMiniView {
   }
 }
 .saCalendarOverlay .saChangeScreenModeButton:enabled:active,
+.saCalendarOverlay .saChangeScreenModeButton[aria-pressed="true"],
+.saCalendarOverlay .saChangeScreenModeButton[aria-expanded="true"],
 .saCalendarOverlay .saChangeScreenModeButton.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saCalendarOverlay .saChangeScreenModeButton:enabled:active .saIcon,
+.saCalendarOverlay .saChangeScreenModeButton[aria-pressed="true"] .saIcon,
+.saCalendarOverlay .saChangeScreenModeButton[aria-expanded="true"] .saIcon,
 .saCalendarOverlay .saChangeScreenModeButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saCalendarOverlay .saChangeScreenModeButton:enabled:active .saBadge,
+.saCalendarOverlay .saChangeScreenModeButton[aria-pressed="true"] .saBadge,
+.saCalendarOverlay .saChangeScreenModeButton[aria-expanded="true"] .saBadge,
 .saCalendarOverlay .saChangeScreenModeButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -29538,6 +29760,10 @@ body.saMiniView {
 }
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary:enabled:active,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary:enabled:active,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary[aria-pressed="true"],
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary[aria-pressed="true"],
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary[aria-expanded="true"],
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary[aria-expanded="true"],
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary.saOpen,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary.saOpen {
   color: var(--Primary700-White);
@@ -29546,12 +29772,20 @@ body.saMiniView {
 }
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary:enabled:active .saIcon,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary:enabled:active .saIcon,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary[aria-pressed="true"] .saIcon,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary[aria-pressed="true"] .saIcon,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary[aria-expanded="true"] .saIcon,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary[aria-expanded="true"] .saIcon,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary.saOpen .saIcon,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary:enabled:active .saBadge,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary:enabled:active .saBadge,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary[aria-pressed="true"] .saBadge,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary[aria-pressed="true"] .saBadge,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary[aria-expanded="true"] .saBadge,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary[aria-expanded="true"] .saBadge,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saButtonSecondary.saOpen .saBadge,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saButtonSecondary.saOpen .saBadge {
   color: var(--Primary100-Gray900);
@@ -29747,6 +29981,10 @@ body.saMiniView {
 }
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton:enabled:active,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton:enabled:active,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton[aria-pressed="true"],
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton[aria-pressed="true"],
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton[aria-expanded="true"],
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton[aria-expanded="true"],
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton.saOpen,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton.saOpen {
   color: var(--Primary700-White);
@@ -29755,12 +29993,20 @@ body.saMiniView {
 }
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton:enabled:active .saIcon,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton:enabled:active .saIcon,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton[aria-pressed="true"] .saIcon,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton[aria-pressed="true"] .saIcon,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton[aria-expanded="true"] .saIcon,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton[aria-expanded="true"] .saIcon,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton.saOpen .saIcon,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton:enabled:active .saBadge,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton:enabled:active .saBadge,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton[aria-pressed="true"] .saBadge,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton[aria-pressed="true"] .saBadge,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton[aria-expanded="true"] .saBadge,
+.saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton[aria-expanded="true"] .saBadge,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saComponentContentLinkButton.saMoreButton.saOpen .saBadge,
 .saCalendarSection .saComponentContentLinksWrapper .saComponentContentLinks .saMoreButton.saMoreButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
@@ -32173,16 +32419,22 @@ a.saKpiOuter:active {
   }
 }
 .saBankgiroLink button:enabled:active,
+.saBankgiroLink button[aria-pressed="true"],
+.saBankgiroLink button[aria-expanded="true"],
 .saBankgiroLink button.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saBankgiroLink button:enabled:active .saIcon,
+.saBankgiroLink button[aria-pressed="true"] .saIcon,
+.saBankgiroLink button[aria-expanded="true"] .saIcon,
 .saBankgiroLink button.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saBankgiroLink button:enabled:active .saBadge,
+.saBankgiroLink button[aria-pressed="true"] .saBadge,
+.saBankgiroLink button[aria-expanded="true"] .saBadge,
 .saBankgiroLink button.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -33497,16 +33749,22 @@ a.saKpiOuter:active {
   }
 }
 .saTreeViewWrapper button.saTreeViewButton:enabled:active,
+.saTreeViewWrapper button.saTreeViewButton[aria-pressed="true"],
+.saTreeViewWrapper button.saTreeViewButton[aria-expanded="true"],
 .saTreeViewWrapper button.saTreeViewButton.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saTreeViewWrapper button.saTreeViewButton:enabled:active .saIcon,
+.saTreeViewWrapper button.saTreeViewButton[aria-pressed="true"] .saIcon,
+.saTreeViewWrapper button.saTreeViewButton[aria-expanded="true"] .saIcon,
 .saTreeViewWrapper button.saTreeViewButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saTreeViewWrapper button.saTreeViewButton:enabled:active .saBadge,
+.saTreeViewWrapper button.saTreeViewButton[aria-pressed="true"] .saBadge,
+.saTreeViewWrapper button.saTreeViewButton[aria-expanded="true"] .saBadge,
 .saTreeViewWrapper button.saTreeViewButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -34864,6 +35122,14 @@ a.saKpiOuter:active {
 .saMenuItem .saMenuItemPill {
   margin: 0 0 0 0.5rem;
 }
+.saGridCell .saMenuItemPill {
+  display: flex;
+}
+.saMenuItemPill.saSuccess {
+  background-color: var(--Green50-1300);
+  color: var(--Green600-400);
+  box-shadow: inset 0 0 0 0.0625rem var(--Green200-1000);
+}
 .saMenuItemPill.saBeta {
   background-color: var(--Purple50-1300);
   color: var(--Purple600-400);
@@ -34879,17 +35145,34 @@ a.saKpiOuter:active {
   color: var(--Gray600-50);
   box-shadow: inset 0 0 0 0.0625rem var(--Gray200-800);
 }
-.saMenuItemPill.saAdminOnly {
+.saMenuItemPill.saArchived {
+  background-color: var(--Gray100-900);
+  color: var(--Gray700-100);
+  box-shadow: inset 0 0 0 0.0625rem var(--Gray200-800);
+}
+.saMenuItemPill.saDisabled {
+  background-color: var(--Gray50-1000);
+  color: var(--Gray500-50);
+}
+.saMenuItemPill.saAdminOnly,
+.saMenuItemPill.saError {
   background-color: var(--Red50-1300);
   color: var(--Red600-400);
   box-shadow: inset 0 0 0 0.0625rem var(--Red200-1000);
+}
+.saMenuItemPill.saRemoved {
+  background-color: var(--Gray50-1000);
+  color: var(--Gray600-50);
+  outline: 0.0625rem dashed var(--Gray300-800);
+  outline-offset: -0.0625rem;
 }
 .saMenuItemPill.saDraft {
   background-color: var(--Sky50-1300);
   color: var(--Sky600-400);
   box-shadow: inset 0 0 0 0.0625rem var(--Sky200-1000);
 }
-.saMenuItemPill.saIssues {
+.saMenuItemPill.saIssues,
+.saMenuItemPill.saWarning {
   background-color: var(--Yellow50-1300);
   color: var(--Yellow600-200);
   box-shadow: inset 0 0 0 0.0625rem var(--Yellow200-1000);
@@ -36283,16 +36566,22 @@ body.saPopup::before {
   }
 }
 .saChatWrapper .saLoadMessagesButton:enabled:active,
+.saChatWrapper .saLoadMessagesButton[aria-pressed="true"],
+.saChatWrapper .saLoadMessagesButton[aria-expanded="true"],
 .saChatWrapper .saLoadMessagesButton.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saChatWrapper .saLoadMessagesButton:enabled:active .saIcon,
+.saChatWrapper .saLoadMessagesButton[aria-pressed="true"] .saIcon,
+.saChatWrapper .saLoadMessagesButton[aria-expanded="true"] .saIcon,
 .saChatWrapper .saLoadMessagesButton.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saChatWrapper .saLoadMessagesButton:enabled:active .saBadge,
+.saChatWrapper .saLoadMessagesButton[aria-pressed="true"] .saBadge,
+.saChatWrapper .saLoadMessagesButton[aria-expanded="true"] .saBadge,
 .saChatWrapper .saLoadMessagesButton.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
@@ -36510,16 +36799,22 @@ body.saPopup::before {
   }
 }
 .saChatWrapper .saChatButtonStop:enabled:active,
+.saChatWrapper .saChatButtonStop[aria-pressed="true"],
+.saChatWrapper .saChatButtonStop[aria-expanded="true"],
 .saChatWrapper .saChatButtonStop.saOpen {
   color: var(--Primary700-White);
   border-color: var(--Primary700-Gray400);
   background: var(--Primary100-Gray900);
 }
 .saChatWrapper .saChatButtonStop:enabled:active .saIcon,
+.saChatWrapper .saChatButtonStop[aria-pressed="true"] .saIcon,
+.saChatWrapper .saChatButtonStop[aria-expanded="true"] .saIcon,
 .saChatWrapper .saChatButtonStop.saOpen .saIcon {
   color: var(--Primary700-White);
 }
 .saChatWrapper .saChatButtonStop:enabled:active .saBadge,
+.saChatWrapper .saChatButtonStop[aria-pressed="true"] .saBadge,
+.saChatWrapper .saChatButtonStop[aria-expanded="true"] .saBadge,
 .saChatWrapper .saChatButtonStop.saOpen .saBadge {
   color: var(--Primary100-Gray900);
   border-color: var(--Primary100-Gray900);
