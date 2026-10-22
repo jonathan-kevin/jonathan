@@ -1368,7 +1368,8 @@ $(document).ready(function () {
 	});
 
 	$('.saGrid tbody').on('mouseenter mouseleave', 'tr', function (event) {
-		$(this).toggleClass('saSelected', event.type === 'mouseenter' && !this.classList.contains('saDisabled'));
+		const isDisabled = this.classList.contains('saDisabled') || this.getAttribute('aria-disabled') === 'true';
+		$(this).toggleClass('saSelected', event.type === 'mouseenter' && !isDisabled);
 	});
 
 	const $attachments = $('#project-attachments');
