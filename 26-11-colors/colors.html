@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Color explorer · Softadmin</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./CssTemplate/screen.template.css">
+  <link rel="stylesheet" href="./demo-theme.css">
+  <link rel="stylesheet" href="./colors.css">
+  <script src="./colors.js" defer></script>
+</head>
+<body class="explorer" data-theme="light">
+  <header class="masthead">
+    <div><h1>Colors</h1><p>Hover to compare. Choose shades to build a card.</p></div>
+    <label class="theme-control">Surroundings<select id="theme"><option value="light">Light</option><option value="dark">Dark</option></select></label>
+  </header>
+  <main>
+    <div class="demo-banner"><span class="status-dot" aria-hidden="true"></span><p><strong>Local demo theme</strong> · Primary maps to <span id="primary-name">Blue</span>. Application colors are normally supplied by Softadmin.</p><label>Demo Primary<select id="primary-family" aria-label="Demo Primary family"></select></label></div>
+    <section class="panel" aria-labelledby="palette-heading">
+      <div class="section-heading"><h2 id="palette-heading">Hover to see contrast</h2><span id="palette-count" class="meta"></span></div>
+      <div class="toolbar"><label>Contrast threshold<select id="threshold"><option value="4.5">Normal text</option><option value="3">Large text / icons</option><option value="7">Enhanced text</option></select></label><button id="clear-selection" class="control" type="button">Clear selection</button><p class="hint">Hover or focus to compare. Click, Enter or Space to pin. Arrow keys move between colors.</p></div>
+      <div class="selection-readout" id="selection-readout" role="status" aria-live="polite">Select a color to highlight compatible colors.</div>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Palette, horizontally scrollable"><table id="palette"><caption class="sr-only">Fixed colors and theme-dependent Primary. Shade zero is shared White.</caption></table></div>
+      <div id="black-token" class="black-token"></div>
+      <details class="semantics"><summary>Application variables and stylesheet status</summary><div id="semantic-status"></div><p>These demo mappings are declared in demo-theme.css. Unresolved colors are never guessed.</p></details>
+    </section>
+    <section class="panel" aria-labelledby="preview-heading">
+      <div class="section-heading"><h2 id="preview-heading">Card preview</h2><div class="toolbar"><button class="control" id="preset-light" type="button">Light neutral</button><button class="control" id="preset-dark" type="button">Dark neutral</button><button class="control" id="pin-candidate" type="button">＋ Pin candidate</button></div></div>
+      <div class="preview-layout"><div class="shade-editor"><div id="preview-families" class="family-strip" role="group" aria-label="Card color family"></div><p class="hint">Choose a family, then a shade in each row. Hover or focus a shade to try it; click to keep it. Faded choices fail contrast.</p><div id="preview-controls" class="preview-controls"></div><label class="apply-control">Apply a palette color to<select id="apply-target"><option value="surface">Card surface</option><option value="label">Label / pill text</option><option value="iconBg">Icon / pill background</option><option value="iconFg">Icon foreground</option></select></label></div><div id="live-preview" class="preview-stage"></div></div>
+      <div id="candidates" class="candidates" aria-label="Pinned candidates"></div>
+      <p id="candidate-status" class="hint" role="status" aria-live="polite">Pin up to four candidates to compare beside one another.</p>
+    </section>
+    <details class="panel matrix-panel" id="matrix-details">
+      <summary id="matrix-heading">Foreground × background matrix</summary>
+      <div class="toolbar"><label>Foreground family<select id="foreground-family"></select></label><button id="swap" class="control" aria-label="Swap foreground and background families" type="button">⇄ Swap</button><label>Background family<select id="background-family"></select></label><label>Show<select id="matrix-filter"><option value="0">All pairs</option><option value="4.5">Pass normal text</option><option value="3">Pass large text / icons</option></select></label><span class="meta" id="matrix-count"></span></div>
+      <p class="hint">Rows are foregrounds; columns are backgrounds. Click a pair to apply it to the preview. Select “All pairs” to inspect failing combinations.</p>
+      <div class="table-scroll matrix-scroll" tabindex="0" role="region" aria-label="Contrast matrix, horizontally scrollable"><table id="matrix"><caption class="sr-only">Foreground and background color pairs</caption></table></div>
+    </details>
+  </main>
+  <footer>Resolved from <code>CssTemplate/screen.template.css</code> · WCAG relative luminance · Fixed shades stay fixed in both themes.</footer>
+</body>
+</html>
+

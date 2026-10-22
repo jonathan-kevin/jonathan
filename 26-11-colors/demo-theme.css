@@ -1,0 +1,22 @@
+/* Local demo only. Softadmin normally supplies these application variables.
+   Fixed palette colors come exclusively from CssTemplate/screen.template.css.
+   The Primary family is mapped to CSS tokens by colors.js. */
+body.explorer {
+  --Sa-Color-Background: var(--Gray50);
+  --Sa-Color-Background: light-dark(var(--Gray50), var(--Gray1300));
+  --Sa-Color-Surface: var(--White);
+  --Sa-Color-Surface: light-dark(var(--White), var(--Gray1200));
+  --Sa-Color-Text: var(--Gray900);
+  --Sa-Color-Text: light-dark(var(--Gray900), var(--Gray100));
+  --Sa-Color-TextSecondary: var(--Gray700);
+  --Sa-Color-TextSecondary: light-dark(var(--Gray700), var(--Gray300));
+  --Sa-Color-Primary: var(--Sa-Color-Primary600);
+}
+@supports not (color: light-dark(white, black)) {
+  body.explorer[data-theme="dark"] {
+    --Sa-Color-Background: var(--Gray1300);
+    --Sa-Color-Surface: var(--Gray1200);
+    --Sa-Color-Text: var(--Gray100);
+    --Sa-Color-TextSecondary: var(--Gray300);
+  }
+}

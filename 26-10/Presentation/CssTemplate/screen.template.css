@@ -9828,6 +9828,155 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   display: flex;
   flex-direction: column;
 }
+.saTopLinks ul {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem;
+}
+.saTopLinks a {
+  display: block;
+  color: var(--Primary600-White);
+  font-weight: 500;
+  line-height: 1.5rem;
+  padding: 0 0.5rem;
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+}
+@media (pointer: fine) {
+  .saTopLinks a:hover {
+    color: var(--Primary700-Gray100);
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
+  }
+}
+.saTopLinks a:active {
+  color: var(--Primary800-Gray200);
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+}
+.saTopLinks button {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: var(--Primary600-Gray100);
+  background: transparent;
+  border-radius: 0.375rem;
+  padding: 0 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  max-width: 1.5rem;
+  min-width: 1.5rem;
+  font-size: 0.875rem;
+}
+.saTopLinks button .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saTopLinks button .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saTopLinks button .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saTopLinks button .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+@media (pointer: fine) {
+  .saTopLinks button:enabled:hover {
+    background-color: var(--Primary50-Gray1000);
+    color: var(--Primary600-White);
+  }
+  .saTopLinks button:enabled:hover .saIcon {
+    color: var(--Primary600-White);
+  }
+}
+.saTopLinks button:enabled:active {
+  background-color: var(--Primary100-Gray900);
+  color: var(--Primary700-White);
+}
+.saTopLinks button:enabled:active .saIcon {
+  color: var(--Primary700-White);
+}
+.saTopLinks button.saDestructive {
+  color: var(--DestructiveButtonBackground-Brightness142);
+  border-color: var(--DestructiveButtonBackgroundBrightness182-Brightness142);
+}
+.saTopLinks button.saDestructive .saIcon {
+  color: var(--DestructiveButtonBackground-Brightness142);
+}
+.saTopLinks button.saDestructive .saBadge {
+  background-color: var(--DestructiveButtonBackground-Brightness142);
+}
+@media (pointer: fine) {
+  .saTopLinks button.saDestructive:hover {
+    color: var(--White);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saTopLinks button.saDestructive:hover .saIcon {
+    color: var(--White);
+  }
+  .saTopLinks button.saDestructive:hover .saBadge {
+    background-color: var(--White);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saTopLinks button.saDestructive:active,
+.saTopLinks button.saDestructive.saOpen {
+  color: var(--White);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saTopLinks button.saDestructive:active .saIcon,
+.saTopLinks button.saDestructive.saOpen .saIcon {
+  color: var(--White);
+}
+.saTopLinks button.saDestructive:active .saBadge,
+.saTopLinks button.saDestructive.saOpen .saBadge {
+  background-color: var(--White);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saTopLinks button:disabled,
+.saTopLinks button.saDisabled {
+  color: var(--Gray300-700);
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saTopLinks button:disabled[data-sa-admin-link],
+.saTopLinks button.saDisabled[data-sa-admin-link] {
+  cursor: default;
+}
+.saTopLinks button:disabled .saIcon,
+.saTopLinks button.saDisabled .saIcon {
+  color: var(--Gray300-700);
+}
+.saTopLinks button:enabled:active {
+  border-radius: 0.625rem;
+}
+.saTopLinks > ul li:first-child a {
+  padding-left: 0;
+}
 .saPageHeader {
   justify-content: center;
   transition: ease 0.2s all;
@@ -10078,45 +10227,32 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   flex-shrink: 1;
   max-width: fit-content;
 }
-.saStandard.saLargeScreenHasTopButtons .saPageHeader .saHeader {
-  height: 7rem;
-}
-.saStandard .saPageHeader .saHeader {
-  gap: 1.5rem;
-  height: 4.5rem;
-}
-.saStandard .saPageHeader .saTopRow {
-  min-height: 1rem;
-}
-.saStandard .saPageHeader .saHeaderWrapper {
-  gap: 0.5rem;
-  flex: 1;
-  min-width: 0;
-  margin-right: 1.5rem;
-}
-.saStandard .saPageHeader .saTitle {
-  gap: 1rem;
-}
-.saCompact.saLargeScreenHasTopButtons .saPageHeader .saHeader {
+.saLargeScreenHasTopButtons .saPageHeader .saHeader {
   height: 6rem;
 }
-.saCompact .saPageHeader .saHeader {
+.saLargeScreenHasTopButtonsLinks .saPageHeader .saHeader {
+  height: 9rem;
+}
+.saLargeScreenHasTopLinks .saPageHeader .saHeader {
+  height: 6rem;
+}
+.saPageHeader .saHeader {
   min-width: 0;
   gap: 1rem;
   height: 4rem;
 }
-.saCompact .saPageHeader .saTopRow {
+.saPageHeader .saTopRow {
   min-height: 1rem;
 }
-.saCompact .saPageHeader .saHeaderWrapper {
+.saPageHeader .saHeaderWrapper {
   flex: 1;
   gap: 0;
   min-width: 0;
 }
-.saCompact .saPageHeader .saBreadcrumbs {
+.saPageHeader .saBreadcrumbs {
   font-size: 0.875rem;
 }
-.saCompact .saPageHeader .saTitle {
+.saPageHeader .saTitle {
   gap: 0.5rem;
 }
 .saSmallScreen .saPageHeader,

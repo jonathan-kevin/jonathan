@@ -6,6 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Jonathan</title>
 	<link rel="stylesheet" href="./src/style/screen.template.css">
+	<style>@import url("../26-11-colors/CssTemplate/screen.template.css") layer(palette);</style>
+	<link rel="stylesheet" href="./color-shades.css">
 	<link rel="stylesheet" href="../src/fontawesome/css/all.css">
 
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -250,162 +252,11 @@
 <script>
 	$(document).ready(function () {
 
-		const colors = [
-			{
-				colorName: "Red",
-				colors: [
-					{ shade: "0", value: "#ffffff" },
-					{ shade: "50", value: "#fff7f7" },
-					{ shade: "100", value: "#ffe8e7" },
-					{ shade: "200", value: "#ffc6c5" },
-					{ shade: "300", value: "#fba4a3" },
-					{ shade: "400", value: "#f58082" },
-					{ shade: "500", value: "#ea4f5b" },
-					{ shade: "600", value: "#e0173e" },
-					{ shade: "700", value: "#bf0024" },
-					{ shade: "800", value: "#9b0002" },
-					{ shade: "900", value: "#790000" },
-					{ shade: "950", value: "#470000" }
-				]
-			},
-			{
-				colorName: "Orange",
-				colors: [
-					{ shade: "0", value: "#ffffff" },
-					{ shade: "50", value: "#fff8f4" },
-					{ shade: "100", value: "#ffeada" },
-					{ shade: "200", value: "#ffc9a4" },
-					{ shade: "300", value: "#ffa56f" },
-					{ shade: "400", value: "#ee894d" },
-					{ shade: "500", value: "#ca6d34" },
-					{ shade: "600", value: "#ae5c28" },
-					{ shade: "700", value: "#924a1d" },
-					{ shade: "800", value: "#763b14" },
-					{ shade: "900", value: "#5b2b0c" },
-					{ shade: "950", value: "#351604" }
-				]
-			},
-			{
-				colorName: "Yellow",
-				colors: [
-					{ shade: "0", value: "#ffffff" },
-					{ shade: "50", value: "#fff8e7" },
-					{ shade: "100", value: "#ffecb7" },
-					{ shade: "200", value: "#ffcd5b" },
-					{ shade: "300", value: "#f6ad00" },
-					{ shade: "400", value: "#da9600" },
-					{ shade: "500", value: "#b67a00" },
-					{ shade: "600", value: "#9c6700" },
-					{ shade: "700", value: "#825400" },
-					{ shade: "800", value: "#694300" },
-					{ shade: "900", value: "#513200" },
-					{ shade: "950", value: "#2e1b00" }
-				]
-			},
-			{
-				colorName: "Green",
-				colors: [
-					{ shade: "0", value: "#ffffff" },
-					{ shade: "50", value: "#f2fcf2" },
-					{ shade: "100", value: "#d6f7d9" },
-					{ shade: "200", value: "#91e89b" },
-					{ shade: "300", value: "#58d36e" },
-					{ shade: "400", value: "#29bb4e" },
-					{ shade: "500", value: "#009b36" },
-					{ shade: "600", value: "#008429" },
-					{ shade: "700", value: "#006d1e" },
-					{ shade: "800", value: "#005815" },
-					{ shade: "900", value: "#00430d" },
-					{ shade: "950", value: "#002504" }
-				]
-			},
-			{
-				colorName: "Sky",
-				colors: [
-					{ shade: "0", value: "#ffffff" },
-					{ shade: "50", value: "#f0fcff" },
-					{ shade: "100", value: "#c4f7ff" },
-					{ shade: "200", value: "#82e1fb" },
-					{ shade: "300", value: "#5ec8e4" },
-					{ shade: "400", value: "#49b0ca" },
-					{ shade: "500", value: "#3591a8" },
-					{ shade: "600", value: "#2a7b90" },
-					{ shade: "700", value: "#206678" },
-					{ shade: "800", value: "#165160" },
-					{ shade: "900", value: "#0f3e4a" },
-					{ shade: "950", value: "#05222a" }
-				]
-			},
-			{
-				colorName: "Blue",
-				colors: [
-					{ shade: "0", value: "#ffffff" },
-					{ shade: "50", value: "#f7faff" },
-					{ shade: "100", value: "#e5efff" },
-					{ shade: "200", value: "#bbd6ff" },
-					{ shade: "300", value: "#93bdff" },
-					{ shade: "400", value: "#6ea3ff" },
-					{ shade: "500", value: "#4582f4" },
-					{ shade: "600", value: "#2d6ce1" },
-					{ shade: "700", value: "#1c57c6" },
-					{ shade: "800", value: "#0f44a6" },
-					{ shade: "900", value: "#063384" },
-					{ shade: "950", value: "#011b50" }
-				]
-			},
-			{
-				colorName: "Purple",
-				colors: [
-					{ shade: "0", value: "#ffffff" },
-					{ shade: "50", value: "#f9f7ff" },
-					{ shade: "100", value: "#f0ebff" },
-					{ shade: "200", value: "#ddccff" },
-					{ shade: "300", value: "#caadff" },
-					{ shade: "400", value: "#b78eff" },
-					{ shade: "500", value: "#9e65ff" },
-					{ shade: "600", value: "#8b4af1" },
-					{ shade: "700", value: "#7734d5" },
-					{ shade: "800", value: "#6123b4" },
-					{ shade: "900", value: "#4c1590" },
-					{ shade: "950", value: "#2c0658" }
-				]
-			},
-			{
-				colorName: "Pink",
-				colors: [
-					{ shade: "0", value: "#ffffff" },
-					{ shade: "50", value: "#fff7fc" },
-					{ shade: "100", value: "#ffe7f7" },
-					{ shade: "200", value: "#ffc1ed" },
-					{ shade: "300", value: "#ff9ae1" },
-					{ shade: "400", value: "#ff6dcd" },
-					{ shade: "500", value: "#e641b2" },
-					{ shade: "600", value: "#ca2c9b" },
-					{ shade: "700", value: "#ac1b82" },
-					{ shade: "800", value: "#8d0e6a" },
-					{ shade: "900", value: "#6e0552" },
-					{ shade: "950", value: "#41012f" }
-				]
-			},
-			{
-				colorName: "Gray",
-				colors: [
-					{ shade: "0", value: "#ffffff" },
-					{ shade: "50", value: "#f8f9fb" },
-					{ shade: "100", value: "#eef1f5" },
-					//{ shade: "150", value: "#dde3ec" },
-					{ shade: "200", value: "#ccd5e2" },
-					{ shade: "300", value: "#adbdd1" },
-					{ shade: "400", value: "#8fa5c0" },
-					{ shade: "500", value: "#7088a4" },
-					{ shade: "600", value: "#60748b" },
-					{ shade: "700", value: "#506072" },
-					{ shade: "800", value: "#404c5b" },
-					{ shade: "900", value: "#313a44" },
-					{ shade: "950", value: "#1c2025" }
-				]
-			},
-		];
+		// Shade metadata only. Values come from the loaded shared CSS palette.
+		const shades = ['0', '50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '1000', '1100', '1200', '1300'];
+		const colors = ['Red', 'Orange', 'Yellow', 'Green', 'Sky', 'Blue', 'Purple', 'Pink', 'Gray'].map(colorName => ({
+			colorName, colors: shades.map(shade => ({ shade }))
+		}));
 
 		/**
 		 * Multi-step color selection for icon and card.
@@ -420,10 +271,10 @@
 		$(function () {
 			const $container = $('<div class="color-selector"></div>');
 			const $step1 = $('<div class="saRow saFamily">	<div class="saCol">		<legend>Color family</legend>				<span id="colorFamilySelected">XXX</span>		</div>	<fieldset class="saRow saGapS" id="colorFamily">	</fieldset>	</div>');
-			const $stepX = $('<div class="saRow">			<div class="saCol">		<legend></legend>							<span></span>									</div>	<fieldset class="saRow saShades"><div>0</div><div>50</div><div>100</div><div>200</div><div>300</div><div>400</div><div>500</div><div>600</div><div>700</div><div>800</div><div>900</div><div>950</div></fieldset>	</div>');
-			const $step2 = $('<div class="saRow">			<div class="saCol">		<legend>Icon background shade</legend>		<span id="iconBgShadeSelected">XXX</span>		</div>	<fieldset class="saRow" id="iconBgShade">			</fieldset>	</div>');
-			const $step3 = $('<div class="saRow">			<div class="saCol">		<legend>Icon text shade</legend>			<span id="iconTextShadeSelected">XXX</span>		</div>	<fieldset class="saRow" id="iconTextShade">			</fieldset>	</div>');
-			const $step4 = $('<div class="saRow">			<div class="saCol">		<legend>Card background shade</legend>		<span id="cardBgShadeSelected">XXX</span>		</div>	<fieldset class="saRow" id="cardBgShade">			</fieldset>	</div>');
+			const $stepX = $(`<div class="saRow">			<div class="saCol">		<legend></legend>							<span></span>									</div>	<fieldset class="saRow saShades">${shades.map(shade => `<div>${shade}</div>`).join('')}</fieldset>	</div>`);
+			const $step2 = $('<div class="saRow">			<div class="saCol">		<legend>Icon background</legend>		<span id="iconBgShadeSelected">XXX</span>		</div>	<fieldset class="saRow" id="iconBgShade">			</fieldset>	</div>');
+			const $step3 = $('<div class="saRow">			<div class="saCol">		<legend>Icon text</legend>			<span id="iconTextShadeSelected">XXX</span>		</div>	<fieldset class="saRow" id="iconTextShade">			</fieldset>	</div>');
+			const $step4 = $('<div class="saRow">			<div class="saCol">		<legend>Card background</legend>		<span id="cardBgShadeSelected">XXX</span>		</div>	<fieldset class="saRow" id="cardBgShade">			</fieldset>	</div>');
 
 			// Update selection display
 			function updateSelectionDisplay() {
@@ -439,8 +290,14 @@
 			$container.on('change', 'input[name="iconTextShade"]', updateSelectionDisplay);
 			$container.on('change', 'input[name="cardBgShade"]', updateSelectionDisplay);
 			const $preview = $('<div class="color-preview"></div>');
+			const $previewBackground = $('<label class="preview-background-toggle"><input type="checkbox" id="previewDarkBackground"> Gray1200 background</label>');
+			const $borderRow = $('<div class="saRow border-color-row"><div class="saCol"><legend>Outline</legend><label class="border-override"><input type="checkbox" id="borderOverride"> Override</label></div><fieldset class="saRow" id="borderColor" aria-label="Outline color"></fieldset></div>');
+			let borderShade = '200';
 
-			$container.append($step1, $stepX, $step2, $step3, $step4, $preview);
+			$container.append($step1, $stepX, $step2, $step3, $step4, $borderRow, $previewBackground, $preview);
+			$previewBackground.on('change', 'input', function () {
+				$preview.toggleClass('dark-background', this.checked);
+			});
 			$('.saCardPreviewWrapper').prepend($container);
 
 			// Step 1: Color family (radio buttons)
@@ -497,7 +354,7 @@
 				colorObj.colors.forEach((s, i) => {
 					const id = `iconBgShade_${s.shade}`;
 					$iconBg.append(
-						`<label class="sa${family}${s.shade}"><input type="radio" name="iconBgShade" value="${s.shade}" id="${id}"></label> `
+						`<label class="sa${family}${s.shade}"><input type="radio" name="iconBgShade" aria-label="Icon background ${family} ${s.shade}" value="${s.shade}" id="${id}"></label> `
 					);
 				});
 				if (keepFocus) {
@@ -534,7 +391,7 @@
 					function luminance(rgb) {
 						return rgb.map(v => {
 							v /= 255;
-							return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+							return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
 						}).reduce((acc, v, i) => acc + v * [0.2126, 0.7152, 0.0722][i], 0);
 					}
 					function contrast(l1, l2) {
@@ -549,7 +406,7 @@
 					const disabled = ratio < 3 ? 'disabled' : '';
 					const id = `iconTextShade_${textObj.shade}`;
 					$iconText.append(
-						`<label class="sa${family}${textObj.shade}"><input type="radio" name="iconTextShade" value="${textObj.shade}" id="${id}" ${disabled}></label> `
+						`<label class="sa${family}${textObj.shade}"><input type="radio" name="iconTextShade" aria-label="Icon foreground ${family} ${textObj.shade}" value="${textObj.shade}" id="${id}" ${disabled}></label> `
 					);
 				});
 				if (keepFocus) {
@@ -574,7 +431,7 @@
 					const disabled = (i === iconBgIndex || Math.abs(i - iconBgIndex) < 2) ? 'disabled' : '';
 					const id = `cardBgShade_${obj.shade}`;
 					$cardBg.append(
-						`<label class="sa${family}${obj.shade}"><input type="radio" name="cardBgShade" value="${obj.shade}" id="${id}" ${disabled}></label> `
+						`<label class="sa${family}${obj.shade}"><input type="radio" name="cardBgShade" aria-label="Card background ${family} ${obj.shade}" value="${obj.shade}" id="${id}" ${disabled}></label> `
 					);
 				});
 				if (keepFocus) {
@@ -586,7 +443,17 @@
 			}
 
 			function updatePreview() {
+				updateSelectionDisplay();
 				const family = getSelected('colorFamily', $container);
+				const borderOverride = $('#borderOverride', $container).prop('checked');
+				const $borderColors = $('#borderColor', $container);
+				if ($borderColors.data('family') !== family) {
+					$borderColors.data('family', family).empty();
+					shades.forEach(shade => {
+						$borderColors.append(`<label class="sa${family}${shade}"><input type="radio" name="borderColor" aria-label="Border color ${family} ${shade}" value="${shade}" ${shade === borderShade ? 'checked' : ''}></label>`);
+					});
+				}
+				$borderColors.toggleClass('readonly', !borderOverride).attr('aria-readonly', String(!borderOverride));
 				const iconBgShade = getSelected('iconBgShade', $container);
 				const iconTextShade = getSelected('iconTextShade', $container);
 				const cardBgShade = getSelected('cardBgShade', $container);
@@ -602,7 +469,29 @@
 						</div>
 					</div>
 				`);
+				if (borderOverride) {
+					const borderToken = borderShade === '0' ? '--White' : `--${family}${borderShade}`;
+					$('.saCardPreview', $preview).css('outline-color', `var(${borderToken})`);
+				}
+				const outlineColor = getComputedStyle($('.saCardPreview', $preview)[0]).outlineColor;
+				$borderColors.find('label').each(function () {
+					const matches = getComputedStyle(this).backgroundColor === outlineColor;
+					$(this).toggleClass('current-outline', matches);
+					$(this).find('input').prop('checked', matches);
+				});
 			}
+
+			$container.on('change', '#borderOverride', updatePreview);
+			$container.on('click keydown', 'input[name="borderColor"]', function (event) {
+				if (!$('#borderOverride', $container).prop('checked') && (event.type === 'click' || [' ', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key))) {
+					event.preventDefault();
+				}
+			});
+			$container.on('change', 'input[name="borderColor"]', function () {
+				if (!$('#borderOverride', $container).prop('checked')) { updatePreview(); return; }
+				borderShade = this.value;
+				updatePreview();
+			});
 
 			$container.on('change', 'input[name="colorFamily"]', function () {
 				updateIconBgShades(false);

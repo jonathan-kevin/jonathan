@@ -373,20 +373,20 @@ $(document).ready(function () {
 
 		if (isSmall) {
 			$body
-				.removeClass('saLargeScreen saPc saCompact')
+				.removeClass('saLargeScreen saLargeScreenHasTopButtonsLinks saPc saCompact')
 				.addClass('saSmallScreen saSmallscreensidebar saSmallScreenSidebarJs saMobile');
 
 			$bodyAlt
-				.removeClass('saLargeScreen saCompact saPc') // assuming this exists on large
+				.removeClass('saLargeScreen saLargeScreenHasTopButtonsLinks saCompact saPc') // assuming this exists on large
 				.addClass('smallscreen saSmallScreen saSmallScreenJs saMobile');
 		} else {
 			$body
 				.removeClass('saSmallScreen saSmallscreensidebar saSmallScreenSidebarJs saMobile')
-				.addClass('saLargeScreen saCompact saPc');
+				.addClass('saLargeScreen saLargeScreenHasTopButtonsLinks saCompact saPc');
 
 			$bodyAlt
 				.removeClass('smallscreen saSmallScreen saSmallScreenJs saMobile')
-				.addClass('saLargeScreen saCompact saPc');
+				.addClass('saLargeScreen saLargeScreenHasTopButtonsLinks saCompact saPc');
 		}
 	}
 
