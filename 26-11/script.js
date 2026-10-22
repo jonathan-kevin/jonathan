@@ -1319,7 +1319,7 @@ $(document).ready(function () {
 	});
 
 	$('.saGrid tbody').on('mouseenter mouseleave', 'tr', function (event) {
-		$(this).toggleClass('saSelected', event.type === 'mouseenter');
+		$(this).toggleClass('saSelected', event.type === 'mouseenter' && !this.classList.contains('saDisabled'));
 	});
 
 	const $attachments = $('#project-attachments');
