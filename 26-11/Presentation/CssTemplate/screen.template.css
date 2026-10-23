@@ -80,6 +80,7 @@
   --Sa-Color-SystemIconGreen: light-dark(var(--Green500), var(--Green300));
   --Sa-Color-SystemIconRed: light-dark(var(--Red600), var(--Red400));
   --Sa-Color-SystemIconYellow: var(--Yellow300);
+  --Sa-Color-SystemIconLightGray: var(--Gray400);
   /* InfoSQL */
   --Sa-Color-NegativeTrend: light-dark(var(--Red600), var(--Red300));
   --Sa-Color-NeutralTrend: light-dark(var(--Gray600), var(--Gray400));
@@ -537,6 +538,7 @@ body[data-theme="dark"] {
 }
 @supports (color: light-dark(white, black)) {
   :root {
+    --Sa-Color-SystemIconLightGray: light-dark(var(--Gray400), var(--Gray500));
     --Blue400-600: light-dark(var(--Blue400), var(--Blue600));
     --Blue400-700: light-dark(var(--Blue400), var(--Blue700));
     --Blue700-400: light-dark(var(--Blue700), var(--Blue400));
@@ -2145,6 +2147,9 @@ span.marked {
 .iconpreview.icongray .icon {
   color: var(--Sa-Color-Icon);
 }
+.iconpreview.iconlightgray .icon {
+  color: var(--Sa-Color-SystemIconLightGray);
+}
 .iconpreview.iconblack .icon {
   color: var(--Sa-Color-SystemIconBlack);
 }
@@ -2846,6 +2851,18 @@ div.saPopupOverlay {
 }
 .systemicon:not(.customcolor) .icon.iconblue {
   color: var(--Sa-Color-SystemIconBlue);
+}
+.systemicon:not(.customcolor) .icon.iconsky {
+  color: var(--Sa-Color-SystemIconSky);
+}
+.systemicon:not(.customcolor) .icon.iconpurple {
+  color: var(--Sa-Color-SystemIconPurple);
+}
+.systemicon:not(.customcolor) .icon.icongray {
+  color: var(--Sa-Color-Icon);
+}
+.systemicon:not(.customcolor) .icon.iconlightgray {
+  color: var(--Sa-Color-SystemIconLightGray);
 }
 .systemicon:not(.customcolor) .icon.iconblack {
   color: var(--Sa-Color-SystemIconBlack);

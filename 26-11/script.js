@@ -1203,25 +1203,17 @@ $(document).ready(function () {
 	$(document).on('keydown', function (event) {
 		const isEditable = $(event.target).closest('input, select, textarea').length > 0
 			|| event.target.isContentEditable;
-		const shortcutKey = event.key?.toLowerCase();
 		const isShortcut = !event.altKey
 			&& !event.ctrlKey
 			&& !event.metaKey
 			&& !event.shiftKey
-			&& (shortcutKey === 'd' || shortcutKey === 'p');
+			&& event.key?.toLowerCase() === 'd';
 
 		if (!isShortcut || isEditable || event.repeat || event.originalEvent?.repeat
 			|| event.originalEvent?.isComposing || event.isDefaultPrevented()) return;
 
-		if (shortcutKey === 'p') {
-			const pillButton = document.querySelector('.togglePill:not(:disabled)');
-			if (!pillButton) return;
-			event.preventDefault();
-			pillButton.click();
-		} else {
-			event.preventDefault();
-			toggleTheme();
-		}
+		event.preventDefault();
+		toggleTheme();
 	});
 
 	function applyTheme() {
@@ -1311,7 +1303,6 @@ $(document).ready(function () {
 			header.querySelector('.saGridHeadingLabel')?.textContent.trim() || 'Status icon');
 		const projectIndex = headers.indexOf('Project');
 		const statusIndex = headers.indexOf('Status');
-		const ownerIndex = headers.indexOf('Owner');
 		if (!desktop || projectIndex < 0) return;
 		const inner = list.querySelector('.saListGridInner');
 		const counter = desktop.querySelector('.saGridHitCounter');
@@ -1364,14 +1355,12 @@ $(document).ready(function () {
 				}
 				const title = document.createElement('h3');
 				title.innerHTML = row.cells[projectIndex].querySelector('.saGridCell')?.innerHTML || '';
-				const pill = row.cells[statusIndex]?.querySelector('.saMenuItemPill');
-				if (pill) title.append(document.createTextNode(' '), pill.cloneNode(true));
 				text.replaceChildren(title);
-				const owner = row.cells[ownerIndex]?.querySelector('.saGridCell');
-				if (owner?.textContent.trim()) {
+				const status = row.cells[statusIndex]?.querySelector('.saGridCell');
+				if (status?.textContent.trim()) {
 					const description = document.createElement('div');
 					description.className = 'saRowHeadingDescription';
-					Array.from(owner.childNodes).forEach(node => description.append(node.cloneNode(true)));
+					Array.from(status.childNodes).forEach(node => description.append(node.cloneNode(true)));
 					text.append(description);
 				}
 				if (checkbox) {
@@ -1380,7 +1369,7 @@ $(document).ready(function () {
 				}
 				body.replaceChildren();
 				Array.from(row.cells).forEach((cell, index) => {
-					if (index === 0 || index === projectIndex) return;
+					if (index === 0 || index === projectIndex || index === statusIndex) return;
 					const field = document.createElement('div');
 					const label = document.createElement('div');
 					label.className = 'saCellLabel';
@@ -1425,47 +1414,6 @@ $(document).ready(function () {
 		syncList();
 		updateGridView();
 	});
-
-	const pillToggleButtons = Array.from(document.querySelectorAll('.togglePill'));
-	if (pillToggleButtons.length) {
-		const statusClasses = ['saError', 'saWarning', 'saSuccess', 'saDisabled', 'saBeta', 'saArchived', 'saNew', 'saRemoved', 'saDraft'];
-		const statusRows = [];
-		document.querySelectorAll('.saGrid').forEach(grid => {
-			const headers = Array.from(grid.querySelectorAll('thead th'));
-			const columnIndex = label => headers.findIndex(header =>
-				header.querySelector('.saGridHeadingLabel')?.textContent.trim() === label);
-			const statusIndex = columnIndex('Status');
-			if (statusIndex < 0) return;
-			grid.querySelectorAll('tbody tr.saGridRow').forEach(row => {
-				const classes = statusClasses.filter(status => row.classList.contains(status));
-				const content = row.cells[statusIndex]?.querySelector('.saGridCell');
-				if (!classes.length || !content) return;
-				statusRows.push({ row, classes, content, label: content.textContent.trim(), originalContent: content.innerHTML });
-			});
-		});
-
-		let showPills = false;
-		pillToggleButtons.forEach(button => {
-			button.setAttribute('aria-pressed', 'false');
-			button.setAttribute('aria-keyshortcuts', 'P');
-			button.addEventListener('click', () => {
-				showPills = !showPills;
-				pillToggleButtons.forEach(toggle => toggle.setAttribute('aria-pressed', String(showPills)));
-				statusRows.forEach(({ row, classes, content, label, originalContent }) => {
-					if (showPills) {
-						row.classList.remove(...classes);
-						const pill = document.createElement('span');
-						pill.classList.add('saMenuItemPill', ...classes);
-						pill.textContent = label;
-						content.replaceChildren(pill);
-					} else {
-						row.classList.add(...classes);
-						content.innerHTML = originalContent;
-					}
-				});
-			});
-		});
-	}
 
 	document.querySelectorAll('.saGrid').forEach(grid => {
 		const selectAll = grid.querySelector('thead .saGridCheckbox input[type="checkbox"]');
