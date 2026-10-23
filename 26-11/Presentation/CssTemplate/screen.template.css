@@ -5460,8 +5460,7 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 }
 .saGrid .saGridRow.saDeprecated,
 .saGrid .saGridRow.saArchived {
-  color: var(--Gray700-400);
-  background-color: var(--Gray100-900);
+  color: var(--Sa-Color-TextSecondary);
 }
 .saGrid .saGridRow.saBeta {
   color: var(--Purple700-300);
@@ -5483,7 +5482,7 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   width: 100%;
   position: absolute;
   inset: 1px 0 0 0;
-  outline: var(--Sa-Color-Surface) 1px dashed;
+  outline: var(--Gray300-700) 1px dashed;
   z-index: 2;
   border-radius: inherit;
 }
@@ -5512,12 +5511,6 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 .saGrid .saGridRow.saSelected.saSuccess,
 .saGrid .saGridRow.saHasOpenContextMenu.saSuccess {
   background-color: var(--Green100-1200);
-}
-.saGrid .saGridRow.saSelected.saDeprecated,
-.saGrid .saGridRow.saHasOpenContextMenu.saDeprecated,
-.saGrid .saGridRow.saSelected.saArchived,
-.saGrid .saGridRow.saHasOpenContextMenu.saArchived {
-  background-color: var(--Gray200-800);
 }
 .saGrid .saGridRow.saSelected.saBeta,
 .saGrid .saGridRow.saHasOpenContextMenu.saBeta {
@@ -6161,6 +6154,54 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 .saListGrid .saRow.saOpen .saExpandButton i {
   transform: rotate(-180deg);
 }
+.saListGrid .saRow.saError {
+  color: var(--Red700-300);
+  background-color: var(--Red50-1300);
+}
+.saListGrid .saRow.saWarning {
+  color: var(--Yellow900-200);
+  background-color: var(--Yellow50-1300);
+}
+.saListGrid .saRow.saSuccess {
+  color: var(--Green700-300);
+  background-color: var(--Green50-1300);
+}
+.saListGrid .saRow.saDisabled,
+.saListGrid .saRow[aria-disabled="true"] {
+  color: var(--Gray300-700);
+}
+.saListGrid .saRow.saDeprecated,
+.saListGrid .saRow.saArchived {
+  color: var(--Sa-Color-TextSecondary);
+}
+.saListGrid .saRow.saBeta {
+  color: var(--Purple700-300);
+  background-color: var(--Purple50-1300);
+}
+.saListGrid .saRow.saNew {
+  color: var(--Primary700-300);
+  background-color: var(--Primary50-1300);
+}
+.saListGrid .saRow.saRemoved {
+  color: var(--Gray700-300);
+  background-color: var(--Gray50-1100);
+  position: relative;
+}
+.saListGrid .saRow.saRemoved::after {
+  content: '';
+  pointer-events: none;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  inset: 0;
+  outline: var(--Gray300-700) 1px dashed;
+  z-index: 2;
+  border-radius: inherit;
+}
+.saListGrid .saRow.saDraft {
+  color: var(--Sky700-300);
+  background-color: var(--Sky50-1300);
+}
 .saListGrid .saRow .saExpandButton i {
   transform: rotate(0deg);
   transition: all 0.2s ease;
@@ -6259,6 +6300,7 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   line-height: 1rem;
   margin-block-start: 0;
   margin-block-end: 0;
+  font-weight: 600;
 }
 .saListGrid .saRowHeading .saRowHeadingDescription {
   font-size: 0.75rem;

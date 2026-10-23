@@ -1302,6 +1302,130 @@ $(document).ready(function () {
 		$splitMenuButton.trigger('focus');
 	});
 
+	document.querySelectorAll('softadmin-grid').forEach(root => {
+		const list = root.querySelector('.saListGrid');
+		const table = root.querySelector('table.saGrid');
+		if (!list || !table) return;
+		const desktop = table.closest('.maincolbody');
+		const headers = Array.from(table.querySelectorAll('thead th'), header =>
+			header.querySelector('.saGridHeadingLabel')?.textContent.trim() || 'Status icon');
+		const projectIndex = headers.indexOf('Project');
+		const statusIndex = headers.indexOf('Status');
+		const ownerIndex = headers.indexOf('Owner');
+		if (!desktop || projectIndex < 0) return;
+		const inner = list.querySelector('.saListGridInner');
+		const counter = desktop.querySelector('.saGridHitCounter');
+		const mobile = window.matchMedia('(max-width: 640px)');
+		let tableView = false;
+		const entries = Array.from(table.querySelectorAll('tbody tr.saGridRow'), (row, index) => {
+			const item = document.createElement('div');
+			item.className = 'saRow';
+			item.dataset.saRow = String(index + 1);
+			item.innerHTML = '<div class="saRowHeading"><button type="button" class="saRowHeadingInner saExpandClickEventsJs" aria-expanded="false"><div class="saRowHeadingTextWrapper"></div><span class="saExpandButton"><i class="far fa-angle-down"></i></span></button></div><div class="saRowBody" style="display: none;"></div>';
+			const heading = item.querySelector('.saRowHeadingInner');
+			const text = item.querySelector('.saRowHeadingTextWrapper');
+			const body = item.querySelector('.saRowBody');
+			heading.addEventListener('click', () => {
+				if (heading.disabled) return;
+				const expanded = heading.getAttribute('aria-expanded') !== 'true';
+				heading.setAttribute('aria-expanded', String(expanded));
+				item.classList.toggle('saOpen', expanded);
+				body.style.display = expanded ? '' : 'none';
+			});
+			const sourceCheckbox = row.querySelector('.saGridCheckbox input[type="checkbox"]');
+			const checkbox = sourceCheckbox?.cloneNode(true);
+			if (checkbox) {
+				checkbox.removeAttribute('id');
+				checkbox.addEventListener('change', () => {
+					sourceCheckbox.checked = checkbox.checked;
+					sourceCheckbox.dispatchEvent(new Event('change', { bubbles: true }));
+				});
+				item.querySelector('.saRowHeading').prepend(checkbox);
+			}
+			inner.append(item);
+			return { row, item, text, body, checkbox, sourceCheckbox };
+		});
+
+		function syncList() {
+			if (counter) list.querySelector('.saGridHitCounter').innerHTML = counter.innerHTML;
+			entries.forEach(({ row, item, text, body, checkbox, sourceCheckbox }) => {
+				const expanded = item.classList.contains('saOpen');
+				item.className = 'saRow' + (expanded ? ' saOpen' : '') + Array.from(row.classList)
+					.filter(name => /^sa(Error|Warning|Success|Disabled|Beta|Archived|New|Removed|Draft|Deprecated)$/.test(name))
+					.map(name => ' ' + name).join('');
+				if (row.hasAttribute('aria-disabled')) item.setAttribute('aria-disabled', row.getAttribute('aria-disabled'));
+				else item.removeAttribute('aria-disabled');
+				const heading = item.querySelector('.saRowHeadingInner');
+				heading.disabled = row.classList.contains('saDisabled') || row.getAttribute('aria-disabled') === 'true';
+				if (heading.disabled) {
+					item.classList.remove('saOpen');
+					heading.setAttribute('aria-expanded', 'false');
+					body.style.display = 'none';
+				}
+				const title = document.createElement('h3');
+				title.innerHTML = row.cells[projectIndex].querySelector('.saGridCell')?.innerHTML || '';
+				const pill = row.cells[statusIndex]?.querySelector('.saMenuItemPill');
+				if (pill) title.append(document.createTextNode(' '), pill.cloneNode(true));
+				text.replaceChildren(title);
+				const owner = row.cells[ownerIndex]?.querySelector('.saGridCell');
+				if (owner?.textContent.trim()) {
+					const description = document.createElement('div');
+					description.className = 'saRowHeadingDescription';
+					Array.from(owner.childNodes).forEach(node => description.append(node.cloneNode(true)));
+					text.append(description);
+				}
+				if (checkbox) {
+					checkbox.checked = sourceCheckbox.checked;
+					checkbox.disabled = sourceCheckbox.disabled;
+				}
+				body.replaceChildren();
+				Array.from(row.cells).forEach((cell, index) => {
+					if (index === 0 || index === projectIndex) return;
+					const field = document.createElement('div');
+					const label = document.createElement('div');
+					label.className = 'saCellLabel';
+					label.textContent = headers[index];
+					const value = document.createElement('div');
+					value.className = 'saCellText';
+					value.innerHTML = cell.querySelector('.saGridCell')?.innerHTML || '';
+					field.append(label, value);
+					body.append(field);
+				});
+				const actions = document.createElement('div');
+				actions.className = 'saActionRow';
+				row.querySelectorAll('.saGridRowButton').forEach(button => {
+					const action = button.cloneNode(true);
+					action.removeAttribute('id');
+					action.className = 'saListGridRowLink';
+					action.append(document.createTextNode(' ' + button.getAttribute('aria-label')));
+					action.addEventListener('click', () => button.click());
+					actions.append(action);
+				});
+				body.append(actions);
+				item.querySelectorAll('nobr').forEach(wrapper => wrapper.replaceWith(...wrapper.childNodes));
+			});
+		}
+
+		function updateGridView() {
+			const showList = mobile.matches && !tableView;
+			desktop.style.display = showList ? 'none' : '';
+			list.style.display = showList ? '' : 'none';
+		}
+		list.querySelector('.saChangeScreenModeButton')?.addEventListener('click', () => {
+			tableView = true;
+			updateGridView();
+		});
+		list.querySelector('.saGridButton:not(.saChangeScreenModeButton)')?.addEventListener('click', () =>
+			desktop.querySelector('.saGridButton:not(.saExcel)')?.click());
+		mobile.addEventListener('change', () => { tableView = false; updateGridView(); });
+		const observer = new MutationObserver(syncList);
+		observer.observe(table, { subtree: true, childList: true, attributes: true, attributeFilter: ['class', 'aria-disabled', 'disabled'] });
+		if (counter) observer.observe(counter, { subtree: true, childList: true, characterData: true, attributes: true });
+		table.addEventListener('change', syncList);
+		syncList();
+		updateGridView();
+	});
+
 	const pillToggleButtons = Array.from(document.querySelectorAll('.togglePill'));
 	if (pillToggleButtons.length) {
 		const statusClasses = ['saError', 'saWarning', 'saSuccess', 'saDisabled', 'saBeta', 'saArchived', 'saNew', 'saRemoved', 'saDraft'];
