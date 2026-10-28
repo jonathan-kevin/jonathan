@@ -392,6 +392,218 @@ $(document).ready(function () {
 
 	updateClasses();
 
+	// The desktop markup supplies both headers and all four menu contents.
+	const responsiveHeaderCollectors = [];
+	$('[data-sa-responsive-header]').each(function (headerIndex) {
+		const desktop = this.querySelector('.saDesktopHeader');
+		const small = this.querySelector('.saSmallScreenHeader');
+		if (!desktop || !small) return;
+
+		const smallBar = small.querySelector('.saActionLinkBar');
+		$(smallBar).addClass('saNavigationBar').empty()
+			.append($(desktop.querySelector('.saActionLinks')).clone(true, true));
+		const smallLinks = $(desktop.querySelector('.saTopLinks')).clone(true, true);
+		$(small.querySelector('.saHeader')).append(smallLinks);
+
+		// Copies must have their own IDs and references, including nested menus.
+		const copiedIds = new Map();
+		$(small).find('[id]').each(function () {
+			const original = this.id;
+			this.id = `${original}-small${headerIndex ? `-${headerIndex}` : ""}`;
+			copiedIds.set(original, this.id);
+		});
+		$(small).find('[aria-controls], [aria-labelledby], [aria-describedby], [for]').each(function () {
+			for (const attribute of ['aria-controls', 'aria-labelledby', 'aria-describedby', 'for']) {
+				const value = this.getAttribute(attribute);
+				if (value) this.setAttribute(attribute, value.split(/\s+/).map(id => copiedIds.get(id) || id).join(' '));
+			}
+		});
+
+		const collectors = [];
+		function copyOption(source, sourceId, isTopItem = false) {
+			const copy = source.cloneNode(true);
+			for (const node of [copy, ...copy.querySelectorAll('*')]) {
+				node.removeAttribute('id');
+				node.removeAttribute('onclick');
+			}
+			copy.removeAttribute('aria-controls');
+			copy.removeAttribute('aria-haspopup');
+			copy.removeAttribute('aria-expanded');
+			if (isTopItem) {
+				copy.className = 'saOptionWrapper';
+				for (const state of ['saInactive', 'saDestructive']) {
+					if (source.classList.contains(state)) copy.classList.add(state);
+				}
+				const option = document.createElement('div');
+				option.className = 'saOption';
+				if (source.classList.contains('saTopLink')) {
+					const destinations = Array.from(copy.querySelectorAll(':scope > .saIcon:not(.fa-arrow-up-right, .fa-angle-down)'));
+					const arrows = Array.from(copy.querySelectorAll('.fa-arrow-up-right'));
+					[...destinations, ...arrows].forEach(icon => {
+						icon.classList.add('saIcon', 'saOptionIcon');
+						icon.remove();
+					});
+					const text = document.createElement('span');
+					text.className = 'saOptionText';
+					text.append(...copy.childNodes);
+					option.append(...destinations, text, ...arrows);
+				} else option.append(...copy.childNodes);
+				copy.append(option);
+			}
+			copy.setAttribute('role', 'menuitem');
+			copy.setAttribute('tabindex', '-1');
+			copy.addEventListener('click', event => {
+				event.preventDefault();
+				source.click();
+			});
+			const item = document.createElement('li');
+			item.dataset.saHeaderOverflow = sourceId;
+			item.append(copy);
+			return item;
+		}
+
+		function createCollector(view, group, availableElement, moreTrigger, selector) {
+			const moreItem = moreTrigger.closest('li');
+			const menu = document.getElementById(moreTrigger.getAttribute('aria-controls'));
+			const list = menu.querySelector(':scope > ul');
+			list.classList.add('saActionLinkList');
+			const allItems = Array.from(group.children).filter(li => li !== moreItem && li.querySelector(':scope > .saTopButton, :scope > .saTopLink'));
+			const entries = Array.from(group.children).filter(li => li !== moreItem && li.querySelector(selector));
+			let previousOverflow;
+			return () => {
+				if (!view.getClientRects().length) return;
+				group.classList.remove('saHeaderActionsCompact');
+				const retained = document.body.classList.contains('saHalfHeaderItems')
+					? allItems.slice(0, Math.ceil(allItems.length / 2)) : allItems;
+				allItems.forEach(li => {
+					li.hidden = !retained.includes(li);
+					li.toggleAttribute('data-sa-header-excluded', li.hidden);
+				});
+				const activeEntries = entries.filter(li => retained.includes(li));
+				const style = getComputedStyle(availableElement);
+				const available = availableElement.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+				for (const li of [...activeEntries].reverse()) {
+					if (group.getBoundingClientRect().width <= available) break;
+					li.hidden = true;
+				}
+				const overflow = activeEntries.filter(li => li.hidden);
+				const signature = overflow.map(li => entries.indexOf(li)).join(',');
+				if (document.activeElement && entries.some(li => li.hidden && li.contains(document.activeElement))) moreTrigger.focus();
+				if (signature !== previousOverflow) {
+					if (menu.contains(document.activeElement)) moreTrigger.focus();
+					list.querySelectorAll(':scope > [data-sa-header-overflow]').forEach(li => li.remove());
+					const groups = [];
+					let ordinary = [];
+					const finishGroup = () => { if (ordinary.length) groups.push(ordinary); ordinary = []; };
+					for (const li of overflow) {
+						const control = li.querySelector(selector);
+						const nestedMenu = li.querySelector('.saContextMenu');
+						if (!nestedMenu) {
+							ordinary.push(copyOption(control, 'top-item', true));
+							continue;
+						}
+						finishGroup();
+						const options = Array.from(nestedMenu.querySelectorAll(':scope > ul > li > .saOptionWrapper'))
+							.map(option => copyOption(option, nestedMenu.id));
+						if (control.classList.contains('saButtonSplit')) {
+							options.unshift(copyOption(control.querySelector(':scope > button'), nestedMenu.id, true));
+						}
+						groups.push(options);
+					}
+					finishGroup();
+					const additions = document.createDocumentFragment();
+					let firstGroup = true;
+					for (const options of groups) {
+						if (!options.length) continue;
+						if (!firstGroup) {
+							const separator = document.createElement('li');
+							separator.dataset.saHeaderOverflow = 'separator';
+							separator.append(document.createElement('hr'));
+							additions.append(separator);
+						}
+						additions.append(...options);
+						firstGroup = false;
+					}
+					list.prepend(additions);
+					previousOverflow = signature;
+				}
+				if (group.classList.contains('saActionLinks')) {
+					group.classList.toggle('saHeaderActionsCompact', group.getBoundingClientRect().width > available);
+				}
+			};
+		}
+
+		for (const view of [desktop, small]) {
+			const actions = view.querySelector('.saActionLinks');
+			const actionTrigger = actions.querySelector('.saMoreButton');
+			collectors.push(createCollector(view, actions, actions.parentElement, actionTrigger,
+				':scope > .saTopButton:not(.saButtonPrimary)'));
+			const links = view.querySelector('.saTopLinks');
+			const linkList = links.querySelector(':scope > ul');
+			collectors.push(createCollector(view, linkList, links, links.querySelector('.saMoreLinks'), ':scope > .saTopLink'));
+		}
+
+		let frame;
+		const collect = () => {
+			cancelAnimationFrame(frame);
+			frame = requestAnimationFrame(() => {
+				collectors.forEach(update => update());
+				if (small.getClientRects().length) {
+					this.closest('.interface')?.style.setProperty('--Sa-ResponsiveHeaderHeight', `${small.getBoundingClientRect().height}px`);
+				}
+				headerMenus.forEach(({ position }) => position());
+			});
+		};
+		const observer = new ResizeObserver(collect);
+		observer.observe(small);
+		$(this).find('.saNavigationBar, .saTopLinks').each(function () { observer.observe(this); });
+		window.addEventListener('resize', collect);
+		document.fonts.ready.then(collect);
+		document.fonts.addEventListener('loadingdone', collect);
+		responsiveHeaderCollectors.push(collect);
+		collect();
+
+		let linksFirst = false;
+		$('#flip').attr({ role: 'button', 'aria-pressed': 'false' }).on('click', event => {
+			event.preventDefault();
+			linksFirst = !linksFirst;
+			for (const view of [desktop, small]) {
+				const links = view.querySelector('.saTopLinks');
+				const actions = view === desktop ? view.querySelector('.saActionLinks') : smallBar;
+				if (linksFirst) actions.before(links);
+				else links.before(actions);
+				view.querySelectorAll('.saContextMenu.saOpen').forEach(menu => {
+					menu.classList.remove('saOpen');
+					menu.setAttribute('aria-hidden', 'true');
+					const trigger = view.querySelector(`[aria-controls="${menu.id}"]`);
+					trigger?.classList.remove('saOpen');
+					trigger?.setAttribute('aria-expanded', 'false');
+				});
+			}
+			$(event.currentTarget).attr('aria-pressed', String(linksFirst));
+			collect();
+		}).on('keydown', event => {
+			if (!['Enter', ' '].includes(event.key)) return;
+			event.preventDefault();
+			event.currentTarget.click();
+		});
+	});
+
+	for (const [selector, hiddenClass] of [['#togglePills', 'saHidePills'], ['#toggleArrows', 'saHideArrows'], ['#toggleLinkIcons', 'saHideLinkIcons'], ['#toggleHalfItems', 'saHalfHeaderItems'], ['#toggleStyles', 'saStyles']]) {
+		$(selector).attr({ role: 'button', 'aria-pressed': String(document.body.classList.contains(hiddenClass)) })
+			.on('click', event => {
+				event.preventDefault();
+				const hidden = document.body.classList.toggle(hiddenClass);
+				$(event.currentTarget).attr('aria-pressed', String(hidden));
+				if (hiddenClass === 'saHalfHeaderItems') headerMenus.forEach(({ setOpen }) => setOpen(false));
+				responsiveHeaderCollectors.forEach(collect => collect());
+			}).on('keydown', event => {
+				if (!['Enter', ' '].includes(event.key)) return;
+				event.preventDefault();
+				event.currentTarget.click();
+			});
+	}
+
 	$(window).on('resize', function () {
 		updateClasses();
 	});
@@ -890,7 +1102,7 @@ $(document).ready(function () {
 					<a class="saOptionWrapper" tabindex="0">
 						<div class="saOption">
 							<i class="far fa-key-skeleton icon saIcon saOptionIcon" aria-hidden="true"></i>
-							<div class="saOptionText">Change password</div>
+							<div class="saOptionText">Change password <span class="saMenuItemPill saBeta">Beta</span></div>
 						</div>
 					</a>
 				</li>
@@ -1268,31 +1480,96 @@ $(document).ready(function () {
 		}
 	});
 
-	const $splitMenuButton = $('.saSplitButtonArrow[aria-controls="saSplitButtonMenu"]');
-	const $splitMenu = $('#saSplitButtonMenu');
-	const $splitMenuRoot = $splitMenuButton.closest('.saButtonSplit');
-
-	function setSplitMenuOpen(isOpen) {
-		$splitMenuButton.toggleClass('saOpen', isOpen).attr('aria-expanded', String(isOpen));
-		$splitMenu.toggleClass('saOpen', isOpen);
-	}
-
-	$splitMenuButton.on('click', function (event) {
-		event.stopPropagation();
-		setSplitMenuOpen(!$splitMenuButton.hasClass('saOpen'));
+	const headerMenus = [];
+	$('[data-sa-responsive-header] button[aria-controls], .saSplitButtonArrow[aria-controls]').each(function () {
+		const menu = document.getElementById(this.getAttribute('aria-controls'));
+		if (!menu?.classList.contains('saContextMenu')) return;
+		const trigger = this;
+		const responsive = !!trigger.closest('[data-sa-responsive-header]');
+		if (responsive) menu.classList.add('saHeaderOverflowMenu');
+		trigger.setAttribute('aria-haspopup', 'menu');
+		trigger.setAttribute('aria-expanded', 'false');
+		menu.setAttribute('role', 'menu');
+		menu.setAttribute('aria-hidden', 'true');
+		menu.setAttribute('aria-label', trigger.getAttribute('aria-label') || trigger.textContent.trim() || 'Export options');
+		const items = () => Array.from(menu.querySelectorAll('.saOptionWrapper')).filter(item =>
+			!item.disabled && !item.classList.contains('saInactive') && item.getAttribute('aria-disabled') !== 'true');
+		const position = () => {
+			if (!responsive || !menu.classList.contains('saOpen')) return;
+			const rect = trigger.getBoundingClientRect();
+			menu.style.maxHeight = `${Math.max(0, window.innerHeight - rect.bottom - 12)}px`;
+			menu.style.left = `${Math.max(8, Math.min(rect.right - menu.offsetWidth, window.innerWidth - menu.offsetWidth - 8))}px`;
+			menu.style.right = 'auto';
+			menu.style.top = `${rect.bottom + 4}px`;
+		};
+		const setOpen = open => {
+			trigger.classList.toggle('saOpen', open);
+			trigger.setAttribute('aria-expanded', String(open));
+			menu.classList.toggle('saOpen', open);
+			menu.setAttribute('aria-hidden', String(!open));
+			if (open) {
+				menu.querySelectorAll('.saOptionWrapper').forEach(item => {
+					item.setAttribute('role', 'menuitem');
+					item.setAttribute('tabindex', '-1');
+				});
+				position();
+			}
+		};
+		headerMenus.push({ trigger, menu, setOpen, position });
+		const openMenu = () => {
+			headerMenus.forEach(other => { if (other.menu !== menu) other.setOpen(false); });
+			setOpen(true);
+		};
+		trigger.addEventListener('click', event => {
+			event.stopPropagation();
+			if (menu.classList.contains('saOpen')) setOpen(false);
+			else { openMenu(); items()[0]?.focus(); }
+		});
+		trigger.addEventListener('keydown', event => {
+			if (!['ArrowDown', 'ArrowUp'].includes(event.key)) return;
+			event.preventDefault();
+			openMenu();
+			const options = items();
+			(event.key === 'ArrowDown' ? options[0] : options.at(-1))?.focus();
+		});
+		menu.addEventListener('click', event => {
+			const item = event.target.closest('.saOptionWrapper');
+			if (!item || !items().includes(item)) return;
+			setOpen(false);
+			trigger.focus();
+		});
+		menu.addEventListener('keydown', event => {
+			const options = items();
+			const index = options.indexOf(document.activeElement);
+			if (['Enter', ' '].includes(event.key) && index !== -1) {
+				event.preventDefault();
+				options[index].click();
+				return;
+			}
+			let next;
+			if (event.key === 'ArrowDown') next = (index + 1) % options.length;
+			if (event.key === 'ArrowUp') next = (index - 1 + options.length) % options.length;
+			if (event.key === 'Home') next = 0;
+			if (event.key === 'End') next = options.length - 1;
+			if (next !== undefined) { event.preventDefault(); options[next]?.focus(); }
+		});
 	});
 
 	$(document).on('click', function (event) {
-		if ($(event.target).closest($splitMenuRoot).length) return;
-		setSplitMenuOpen(false);
+		headerMenus.forEach(({ trigger, menu, setOpen }) => {
+			if (!trigger.contains(event.target) && !menu.contains(event.target)) setOpen(false);
+		});
+	}).on('keydown', function (event) {
+		if (!['Escape', 'Tab'].includes(event.key)) return;
+		headerMenus.forEach(({ trigger, menu, setOpen }) => {
+			if (!menu.classList.contains('saOpen')) return;
+			if (event.key === 'Escape') { event.preventDefault(); trigger.focus(); }
+			else if (menu.contains(document.activeElement)) trigger.focus();
+			setOpen(false);
+		});
 	});
-
-	$(document).on('keydown', function (event) {
-		if (event.key !== 'Escape' || !$splitMenuButton.hasClass('saOpen')) return;
-
-		setSplitMenuOpen(false);
-		$splitMenuButton.trigger('focus');
-	});
+	window.addEventListener('resize', () => headerMenus.forEach(({ setOpen }) => setOpen(false)));
+	document.addEventListener('scroll', () => headerMenus.forEach(({ position }) => position()), true);
 
 	$('.saGrid tbody').on('mouseenter mouseleave', 'tr', function (event) {
 		$(this).toggleClass('saSelected', event.type === 'mouseenter');
