@@ -576,7 +576,9 @@ $(document).ready(function () {
 		});
 	}
 
-	$(document).on('mouseenter', '[aria-label]', function () {
+	$(document).on('mouseenter focusin', '[aria-label]', function (event) {
+		const isEmployee = this.matches('softadmin-magicbox .saBox[role="group"]');
+		if (event.type === 'focusin' && !isEmployee) return;
 		if (!$('body').hasClass('saLargeScreen')) return;
 
 		const label = $(this).attr('aria-label');
@@ -590,13 +592,16 @@ $(document).ready(function () {
 			text: label
 		}).css({
 			position: 'fixed',
-			transform: 'translate(-50%, -100%)'
+			transform: 'translate(-50%, -100%)',
+			whiteSpace: isEmployee ? 'pre-line' : 'normal'
 		}).appendTo('body');
 
 		positionAriaLabelTooltip();
-	}).on('mouseleave', '[aria-label]', function () {
+	}).on('mouseleave focusout', '[aria-label]', function (event) {
+		if (event.type === 'focusout' && !this.matches('softadmin-magicbox .saBox[role="group"]')) return;
 		if (ariaLabelTooltipTarget === this) removeAriaLabelTooltip();
 	});
+	$(document).on('dragstart', 'softadmin-magicbox .saBox', removeAriaLabelTooltip);
 
 	$(window).on('resize scroll', function () {
 		if (!$('body').hasClass('saLargeScreen')) {
@@ -1268,30 +1273,58 @@ $(document).ready(function () {
 		}
 	});
 
-	const $splitMenuButton = $('.saSplitButtonArrow[aria-controls="saSplitButtonMenu"]');
-	const $splitMenu = $('#saSplitButtonMenu');
-	const $splitMenuRoot = $splitMenuButton.closest('.saButtonSplit');
+	$('.saSplitButtonArrow[aria-controls]').each(function () {
+		const $splitMenuButton = $(this);
+		const $splitMenu = $(document.getElementById(this.getAttribute('aria-controls')));
+		const $splitMenuRoot = $splitMenuButton.closest('.saButtonSplit');
 
-	function setSplitMenuOpen(isOpen) {
-		$splitMenuButton.toggleClass('saOpen', isOpen).attr('aria-expanded', String(isOpen));
-		$splitMenu.toggleClass('saOpen', isOpen);
-	}
+		function setSplitMenuOpen(isOpen) {
+			$splitMenuButton.toggleClass('saOpen', isOpen).attr('aria-expanded', String(isOpen));
+			$splitMenu.toggleClass('saOpen', isOpen);
+		}
 
-	$splitMenuButton.on('click', function (event) {
-		event.stopPropagation();
-		setSplitMenuOpen(!$splitMenuButton.hasClass('saOpen'));
-	});
+		$splitMenuButton.on('click', function (event) {
+			event.stopPropagation();
+			$('.saSplitButtonArrow.saOpen').not(this).each(function () {
+				$(this).removeClass('saOpen').attr('aria-expanded', 'false');
+				$(document.getElementById(this.getAttribute('aria-controls'))).removeClass('saOpen');
+			});
+			setSplitMenuOpen(!$splitMenuButton.hasClass('saOpen'));
+		});
+		$splitMenu.on('click', '[role="menuitem"]', function () {
+			setSplitMenuOpen(false);
+			$splitMenuButton.trigger('focus');
+		});
+		$splitMenuButton.on('keydown', function (event) {
+			if (event.key !== 'ArrowDown') return;
+			event.preventDefault();
+			setSplitMenuOpen(true);
+			$splitMenu.find('[role="menuitem"]').first().trigger('focus');
+		});
+		$splitMenu.on('keydown', '[role="menuitem"]', function (event) {
+			const $items = $splitMenu.find('[role="menuitem"]');
+			const index = $items.index(this);
+			let next;
+			if (event.key === 'ArrowDown') next = (index + 1) % $items.length;
+			else if (event.key === 'ArrowUp') next = (index - 1 + $items.length) % $items.length;
+			else if (event.key === 'Home') next = 0;
+			else if (event.key === 'End') next = $items.length - 1;
+			if (next === undefined) return;
+			event.preventDefault();
+			$items.eq(next).trigger('focus');
+		});
 
-	$(document).on('click', function (event) {
-		if ($(event.target).closest($splitMenuRoot).length) return;
-		setSplitMenuOpen(false);
-	});
+		$(document).on('click', function (event) {
+			if ($(event.target).closest($splitMenuRoot).length) return;
+			setSplitMenuOpen(false);
+		});
 
-	$(document).on('keydown', function (event) {
-		if (event.key !== 'Escape' || !$splitMenuButton.hasClass('saOpen')) return;
+		$(document).on('keydown', function (event) {
+			if (event.key !== 'Escape' || !$splitMenuButton.hasClass('saOpen')) return;
 
-		setSplitMenuOpen(false);
-		$splitMenuButton.trigger('focus');
+			setSplitMenuOpen(false);
+			$splitMenuButton.trigger('focus');
+		});
 	});
 
 	document.querySelectorAll('softadmin-grid').forEach(root => {
