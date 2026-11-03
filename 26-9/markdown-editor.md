@@ -30,7 +30,7 @@ The table toolbar also offers left, center, and right column alignment. Place th
 
 PNG, JPEG, GIF, WebP, AVIF, and BMP files can be dragged onto the visual editor. Files up to 10 MB are embedded as base64 data URLs so the generated Markdown remains self-contained; the filename without its extension becomes the initial alternative text and can be edited with the image dialog.
 
-Text color supports Softadmin shades 600–1000, default text color, white, black, and a custom color chooser. Colors remain in the rich document but are deliberately stripped from Markdown. Switching through Markdown therefore removes visual colors. The main color button applies the remembered color; choosing from the popup applies immediately if text was selected before it opened and keeps that text selected.
+The manual color control applies highlights, not foreground text color. It offers one swatch per Softadmin color group, using shade 100 in light mode and shade 1000 in dark mode, plus “No highlight.” There is no custom color, black, white, or other shade in this picker. Highlights remain in the rich document but are deliberately stripped from Markdown. Switching through Markdown therefore removes them. The main button applies the remembered highlight or removes it when “No highlight” is selected; choosing from the popup applies immediately if text was selected before it opened and keeps that text selected. Pasted foreground text colors continue to be preserved visually and omitted from Markdown.
 
 Six- and eight-digit hex colors such as `#f2f2f2` become inline code when typed in rich view and completed with a space or punctuation, or when pasted there. The saved Markdown therefore contains backticks (`` `#f2f2f2` ``). The rendered `<code>` receives `.saMarkdownEditorHexColor` and `--sa-markdown-editor-swatch` for styling, including when a hex value is manually written as inline code. Editing the code updates or removes that class. Existing plain Markdown is not silently rewritten on load or on switching views; code blocks and links are excluded. Short numeric forms such as `#123` are deliberately not converted because they can mean issue references.
 
@@ -52,7 +52,7 @@ document.querySelector('markdown-editor').addEventListener('markdown-editor-acti
 });
 ```
 
-The color popup uses a single tab stop for its swatches. Arrow keys move horizontally and vertically without changing the document. Home/End move to the ends of the current row; Ctrl/Cmd+Home/End move to the first/last swatch. Enter or Space commits the focused swatch, Tab reaches custom color, and Escape returns to the popup trigger. Swatches have color/shade names and a visible keyboard focus outline.
+The highlight popup uses a single tab stop for its swatches. Arrow keys move horizontally and vertically without changing the document. Home/End move to the ends of the current row; Ctrl/Cmd+Home/End move to the first/last swatch. Enter or Space commits the focused swatch, and Escape returns to the popup trigger. Swatches have color names and a visible keyboard focus outline.
 
 Task lists use GitHub-flavored `- [ ]` and `- [x]` Markdown. Toggle them with the Task list button or Ctrl/Cmd+Shift+9. Checkboxes have labels derived from their task text. Enter adds an item; Tab and Shift+Tab nest and lift items.
 

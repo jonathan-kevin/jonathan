@@ -17,7 +17,7 @@
 		import("https://esm.sh/@tiptap/pm@3.31.3/state"),
 		import("https://esm.sh/@tiptap/pm@3.31.3/view"),
 		import("https://esm.sh/@tiptap/pm@3.31.3/history"),
-		import("./markdown-editor-paste.js?v=2"),
+		import("./markdown-editor-paste.js?v=3"),
 		import("https://esm.sh/@tiptap/pm@3.31.3/tables"),
 		import("https://esm.sh/@tiptap/extension-code@3.31.3")
 	]);
@@ -25,6 +25,12 @@
 	const isValidTextColor = value => {
 		const color = String(value || "").trim();
 		return color.length <= 128 && !/[\u0000-\u001f;]/.test(color) && CSS.supports("color", color);
+	};
+	const highlightGroups = ["Gray", "Blue", "Red", "Orange", "Yellow", "Green", "Sky", "Purple", "Pink"];
+	const highlightColorPattern = /^var\(--(Gray|Blue|Red|Orange|Yellow|Green|Sky|Purple|Pink)100\)$/;
+	const getHighlightBackground = value => {
+		const group = highlightColorPattern.exec(value || "")?.[1];
+		return group ? `light-dark(var(--${group}100), var(--${group}1000))` : null;
 	};
 	// Short numeric colors would be indistinguishable from issue references such as #123.
 	const completeHexColorPattern = /^#(?:[0-9a-f]{8}|[0-9a-f]{6})$/i;
@@ -228,12 +234,40 @@
 
 		renderMarkdown(node, helpers) {
 			return helpers.renderChildren(node);
+		}
+	});
+	const createHighlightColor = Mark => Mark.create({
+		name: "highlightColor",
+		excludes: "code",
+
+		addAttributes() {
+			return { color: { default: null } };
+		},
+
+		parseHTML() {
+			return [{
+				tag: "span[data-highlight-color]",
+				getAttrs: element => {
+					const color = element.getAttribute("data-highlight-color");
+					return getHighlightBackground(color) ? { color } : false;
+				}
+			}];
+		},
+
+		renderHTML({ HTMLAttributes }) {
+			const color = HTMLAttributes.color;
+			const background = getHighlightBackground(color);
+			return background ? ["span", { "data-highlight-color": color, class: "saMarkdownEditorHighlight", style: `background-color: ${background}` }, 0] : ["span", 0];
+		},
+
+		renderMarkdown(node, helpers) {
+			return helpers.renderChildren(node);
 		},
 
 		addCommands() {
 			return {
-				setTextColor: color => ({ commands }) => isValidTextColor(color) && commands.setMark(this.name, { color: color.trim() }),
-				unsetTextColor: () => ({ commands }) => commands.unsetMark(this.name)
+				setHighlightColor: color => ({ commands }) => Boolean(getHighlightBackground(color)) && commands.setMark(this.name, { color }),
+				unsetHighlightColor: () => ({ commands }) => commands.unsetMark(this.name)
 			};
 		}
 	});
@@ -441,6 +475,7 @@
 						colorCodeAttributes,
 						createCodeBlock(CodeBlockLowlight, createLowlight(common)),
 						createTextColor(Mark),
+						createHighlightColor(Mark),
 						createUnderline(Mark),
 						Markdown
 					],
@@ -549,13 +584,11 @@
 				}).join("");
 				return `<div role="row">${cells}</div>`;
 			}).join("");
-			const colorGroups = ["Gray", "Blue", "Red", "Orange", "Yellow", "Green", "Sky", "Purple", "Pink", "Bluze"];
-			const colorShades = [600, 700, 800, 900, 1000];
-			const colorSwatches = colorShades.flatMap((shade, rowIndex) => colorGroups.map((group, columnIndex) => {
-				const color = `var(--${group}${shade})`;
-				const label = `${group} ${shade}`;
-				return `<input type="radio" class="saColor" tabindex="-1" data-color-row="${rowIndex}" data-color-column="${columnIndex}" name="${id}-text-color" value="${color}" aria-label="${label}" title="${label}" style="background-color: ${color}; grid-column: ${columnIndex + 1}; grid-row: ${rowIndex + 1};">`;
-			})).join("");
+			const colorSwatches = highlightGroups.map((group, columnIndex) => {
+				const color = `var(--${group}100)`;
+				const label = `${group} highlight`;
+				return `<input type="radio" class="saColor" tabindex="-1" data-color-row="0" data-color-column="${columnIndex}" name="${id}-highlight-color" value="${color}" aria-label="${label}" title="${label}" style="background-color: ${getHighlightBackground(color)}; grid-column: ${columnIndex + 1};">`;
+			}).join("");
 			this.shell = document.createElement("div");
 			this.shell.innerHTML = `
 				<p id="${id}-label" class="saScreenReaderOnly"><strong>Content</strong></p>
@@ -577,25 +610,22 @@
 							</label>
 						</li>
 						<li class="saMarkdownEditorColorControl">
-							<div class="saMarkdownEditorColorButtons" role="group" aria-label="Text color">
-								<button class="saButtonIconToolbar saTextColorApply" data-apply-text-color type="button" aria-label="Apply default text color" title="Apply default text color">
-									<span class="saTextColorIndicator" data-text-color-indicator aria-hidden="true"></span>
+							<div class="saMarkdownEditorColorButtons" role="group" aria-label="Highlight">
+								<button class="saButtonIconToolbar saHighlightApply" data-apply-highlight type="button" aria-label="Remove highlight" title="Remove highlight">
+									<span class="saHighlightIndicator" data-highlight-indicator aria-hidden="true"></span>
 								</button>
-								<button class="saButtonIconToolbar saTextColorMenu" data-color-picker-button aria-label="Choose text color, current color default" aria-haspopup="dialog" aria-expanded="false" aria-controls="${id}-color-picker" type="button"><i class="saIcon far fad fa-angle-down" aria-hidden="true"></i></button>
+								<button class="saButtonIconToolbar saHighlightMenu" data-color-picker-button aria-label="Choose highlight, current selection no highlight" aria-haspopup="dialog" aria-expanded="false" aria-controls="${id}-color-picker" type="button"><i class="saIcon far fad fa-angle-down" aria-hidden="true"></i></button>
 							</div>
-							<div class="saColorPicker saPicker saContextMenu saSouth" id="${id}-color-picker" data-color-picker role="dialog" aria-label="Text color picker" aria-describedby="${id}-color-help" hidden>
-								<p id="${id}-color-help" class="saScreenReaderOnly">Arrow keys browse colors without applying them. Home and End move within a row. Enter or Space chooses a color. Tab reaches custom color. Escape closes the picker.</p>
+							<div class="saColorPicker saPicker saContextMenu saSouth" id="${id}-color-picker" data-color-picker role="dialog" aria-label="Highlight picker" aria-describedby="${id}-color-help" hidden>
+								<p id="${id}-color-help" class="saScreenReaderOnly">Arrow keys browse highlights without applying them. Home and End move within a row. Enter or Space chooses a highlight. Escape closes the picker.</p>
 								<div class="saColors">
 									<fieldset class="saPalette">
-										<legend class="saScreenReaderOnly">Softadmin color shades</legend>
+										<legend class="saScreenReaderOnly">Highlight colors</legend>
 										${colorSwatches}
 									</fieldset>
 									<fieldset class="saPalette saFooter">
-										<legend class="saScreenReaderOnly">Custom and neutral colors</legend>
-										<input type="radio" class="saColor saColorDefault" tabindex="0" data-color-row="5" data-color-column="0" name="${id}-text-color" value="" aria-label="Default text color" title="Default text color" checked>
-										<input class="saColor saExtraColor saColorCustom" type="color" data-custom-text-color aria-label="Custom text color" value="#2d6ce1">
-										<input type="radio" class="saColor saExtraColor saWhite" tabindex="-1" data-color-row="5" data-color-column="8" name="${id}-text-color" value="#ffffff" aria-label="White" style="background-color: #ffffff;">
-										<input type="radio" class="saColor saExtraColor saBlack" tabindex="-1" data-color-row="5" data-color-column="9" name="${id}-text-color" value="#000000" aria-label="Black" style="background-color: #000000;">
+										<legend class="saScreenReaderOnly">Remove highlight</legend>
+										<input type="radio" class="saColor saHighlightNone" tabindex="0" data-color-row="1" data-color-column="0" name="${id}-highlight-color" value="" aria-label="No highlight" title="No highlight" checked>
 									</fieldset>
 								</div>
 							</div>
@@ -742,11 +772,10 @@
 			this.editHelpText = this.editorHelp.textContent;
 			this.tablePreview = this.shell.querySelector("[data-table-preview]");
 			this.colorControl = this.shell.querySelector(".saMarkdownEditorColorControl");
-			this.colorApplyButton = this.shell.querySelector("[data-apply-text-color]");
-			this.colorIndicator = this.shell.querySelector("[data-text-color-indicator]");
+			this.colorApplyButton = this.shell.querySelector("[data-apply-highlight]");
+			this.colorIndicator = this.shell.querySelector("[data-highlight-indicator]");
 			this.colorPicker = this.shell.querySelector("[data-color-picker]");
 			this.colorPickerButtons = this.shell.querySelectorAll("[data-color-picker-button]");
-			this.customColorInput = this.shell.querySelector("[data-custom-text-color]");
 			this.findPanel = this.shell.querySelector("[data-find-panel]");
 			this.findQuery = this.shell.querySelector("[data-find-query]");
 			this.findReplacement = this.shell.querySelector("[data-find-replacement]");
@@ -757,7 +786,7 @@
 			this.replaceRow = this.shell.querySelector("[data-replace-row]");
 			this.replaceToggle = this.shell.querySelector('[data-find-action="toggle-replace"]');
 			this.findButton = this.shell.querySelector('[data-command="find"]');
-			this.selectedTextColor = "";
+			this.selectedHighlightColor = "";
 			this.updateColorControl();
 			this.linkDialog = this.shell.querySelector("[data-link-dialog]");
 			this.urlInput = this.linkDialog.querySelector(`#${id}-url`);
@@ -906,7 +935,7 @@
 				if (value === "paragraph") chain.setParagraph().run();
 				else chain.setHeading({ level: Number(value) }).run();
 			}, options);
-			this.colorApplyButton.addEventListener("click", () => this.applyTextColor(this.selectedTextColor), options);
+			this.colorApplyButton.addEventListener("click", () => this.applyHighlight(this.selectedHighlightColor), options);
 			this.colorPickerButtons.forEach(button => {
 				button.addEventListener("pointerdown", () => this.captureColorSelection(), options);
 				button.addEventListener("click", () => this.toggleColorPicker(true), options);
@@ -919,14 +948,6 @@
 			this.colorPicker.addEventListener("click", event => {
 				const swatch = event.target.closest('input[type="radio"].saColor');
 				if (swatch) this.chooseColorSwatch(swatch);
-			}, options);
-			this.customColorInput.addEventListener("input", () => {
-				if (this.selectTextColor(this.customColorInput.value)) this.applyPendingTextColor();
-			}, options);
-			this.customColorInput.addEventListener("change", () => {
-				const hadSelection = Boolean(this.pendingColorSelection);
-				this.closeColorPicker(!hadSelection);
-				if (hadSelection) this.restorePendingColorSelection();
 			}, options);
 			this.colorPicker.addEventListener("keydown", event => this.handleColorKeydown(event), options);
 			this.colorPicker.addEventListener("focusin", event => {
@@ -1051,9 +1072,9 @@
 		}
 
 		chooseColorSwatch(swatch) {
-			if (!this.selectTextColor(swatch.value)) return;
+			if (!this.selectHighlightColor(swatch.value)) return;
 			const hadSelection = Boolean(this.pendingColorSelection);
-			this.applyPendingTextColor();
+			this.applyPendingHighlight();
 			this.closeColorPicker(!hadSelection);
 			if (hadSelection) this.restorePendingColorSelection();
 		}
@@ -1084,7 +1105,8 @@
 				const delta = event.key === "ArrowLeft" ? -1 : 1;
 				target = inRow[(inRow.indexOf(swatch) + delta + inRow.length) % inRow.length];
 			} else {
-				const nextRow = (row + (event.key === "ArrowUp" ? -1 : 1) + 6) % 6;
+				const rowCount = Math.max(...swatches.map(input => Number(input.dataset.colorRow))) + 1;
+				const nextRow = (row + (event.key === "ArrowUp" ? -1 : 1) + rowCount) % rowCount;
 				target = swatches.filter(input => Number(input.dataset.colorRow) === nextRow)
 					.sort((a, b) => Math.abs(Number(a.dataset.colorColumn) - column) - Math.abs(Number(b.dataset.colorColumn) - column))[0];
 			}
@@ -1106,14 +1128,14 @@
 			else this.closeColorPicker();
 		}
 
-		applyTextColor(value, focusEditor = true, selection = null) {
+		applyHighlight(value, focusEditor = true, selection = null) {
 			const color = String(value || "").trim();
-			if (color && !isValidTextColor(color)) return false;
+			if (color && !getHighlightBackground(color)) return false;
 			const chain = this.editor.chain();
 			if (focusEditor) chain.focus();
 			if (selection) chain.setTextSelection(selection);
-			const changed = color ? chain.setTextColor(color).run() : chain.unsetTextColor().run();
-			if (changed) this.status.textContent = color ? `Text color set to ${color}.` : "Text color removed.";
+			const changed = color ? chain.setHighlightColor(color).run() : chain.unsetHighlightColor().run();
+			if (changed) this.status.textContent = color ? `${highlightColorPattern.exec(color)[1]} highlight applied.` : "Highlight removed.";
 			return changed;
 		}
 
@@ -1123,9 +1145,9 @@
 			this.colorSelectionCaptured = true;
 		}
 
-		applyPendingTextColor() {
+		applyPendingHighlight() {
 			if (!this.pendingColorSelection) return false;
-			return this.applyTextColor(this.selectedTextColor, false, this.pendingColorSelection);
+			return this.applyHighlight(this.selectedHighlightColor, false, this.pendingColorSelection);
 		}
 
 		restorePendingColorSelection() {
@@ -1133,28 +1155,29 @@
 			this.editor.chain().focus().setTextSelection(this.pendingColorSelection).run();
 		}
 
-		selectTextColor(value) {
+		selectHighlightColor(value) {
 			const color = String(value || "").trim();
-			if (color && !isValidTextColor(color)) return false;
-			this.selectedTextColor = color;
+			if (color && !getHighlightBackground(color)) return false;
+			this.selectedHighlightColor = color;
 			this.updateColorControl();
-			this.status.textContent = color ? `${color} selected. Use Apply text color to apply it.` : "Default text color selected. Use Apply text color to remove the current text color.";
+			this.status.textContent = color ? `${highlightColorPattern.exec(color)[1]} highlight selected. Use Apply highlight to apply it.` : "No highlight selected. Use Apply highlight to remove an existing highlight.";
 			return true;
 		}
 
 		updateColorControl() {
-			const selectedColor = isValidTextColor(this.selectedTextColor) ? this.selectedTextColor.trim() : "";
-			const colorName = selectedColor || "default";
-			this.colorIndicator.style.backgroundColor = selectedColor || "var(--Sa-Color-Text)";
-			this.colorApplyButton.setAttribute("aria-label", `Apply ${colorName} text color`);
-			this.colorApplyButton.title = `Apply ${colorName} text color`;
+			const selectedColor = getHighlightBackground(this.selectedHighlightColor) ? this.selectedHighlightColor : "";
+			const colorName = selectedColor ? `${highlightColorPattern.exec(selectedColor)[1]} highlight` : "no highlight";
+			this.colorIndicator.style.backgroundColor = getHighlightBackground(selectedColor) || "transparent";
+			this.colorIndicator.classList.toggle("saNoHighlight", !selectedColor);
+			const applyLabel = selectedColor ? `Apply ${colorName}` : "Remove highlight";
+			this.colorApplyButton.setAttribute("aria-label", applyLabel);
+			this.colorApplyButton.title = applyLabel;
 			this.colorPickerButtons.forEach(button => {
-				button.setAttribute("aria-label", `Choose text color, current color ${colorName}`);
+				button.setAttribute("aria-label", `Choose highlight, current selection ${colorName}`);
 			});
 			this.colorPicker.querySelectorAll('input[type="radio"].saColor').forEach(swatch => {
-				swatch.checked = swatch.value.toLowerCase() === selectedColor.toLowerCase();
+				swatch.checked = swatch.value === selectedColor;
 			});
-			if (/^#[0-9a-f]{6}$/i.test(selectedColor)) this.customColorInput.value = selectedColor;
 		}
 
 		scheduleSelectionToolbar() {

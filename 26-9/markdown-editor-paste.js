@@ -19,6 +19,7 @@ export function cleanPastedHTML(html) {
 	const taskCheckbox = item => Array.from(item.querySelectorAll('input[type="checkbox"]')).find(input => input.closest("li") === item);
 	const isTaskList = list => list?.tagName === "UL" && (list.dataset.type === "taskList" || Array.from(list.children).some(item => item.dataset.type === "taskItem" || taskCheckbox(item)));
 	const validColor = color => color && color.length <= 128 && !/[\u0000-\u001f;]/.test(color) && CSS.supports("color", color);
+	const validHighlight = color => /^var\(--(?:Gray|Blue|Red|Orange|Yellow|Green|Sky|Purple|Pink)100\)$/.test(color || "");
 	const safeURL = (value, image = false) => {
 		if (!value || /[\u0000-\u0020\u007f]/.test(value)) return false;
 		if (image && /^data:image\/(?:png|jpeg|gif|webp|avif|bmp);base64,[a-z0-9+/]+=*$/i.test(value)) return true;
@@ -44,10 +45,11 @@ export function cleanPastedHTML(html) {
 		const fragment = output.createDocumentFragment();
 		if (node.nodeType === 3) {
 			let text = output.createTextNode(node.textContent.replace(/\u00a0/g, " "));
-			for (const [mark, tag] of [["bold", "strong"], ["italic", "em"], ["strike", "s"], ["underline", "u"], ["color", "span"]]) {
+			for (const [mark, tag] of [["bold", "strong"], ["italic", "em"], ["strike", "s"], ["underline", "u"], ["color", "span"], ["highlight", "span"]]) {
 				if (!inherited[mark]) continue;
 				const wrapper = output.createElement(tag);
 				if (mark === "color") wrapper.setAttribute("data-text-color", inherited.color);
+				if (mark === "highlight") wrapper.setAttribute("data-highlight-color", inherited.highlight);
 				wrapper.append(text);
 				text = wrapper;
 			}
@@ -70,6 +72,8 @@ export function cleanPastedHTML(html) {
 		const marks = { ...inherited };
 		const color = node.getAttribute("data-text-color") || styles.color || (node.tagName === "FONT" && node.getAttribute("color"));
 		if (validColor(color)) marks.color = color;
+		const highlight = node.getAttribute("data-highlight-color");
+		if (validHighlight(highlight)) marks.highlight = highlight;
 		if (styles["font-weight"]) marks.bold = /bold|bolder/.test(styles["font-weight"]) || Number(styles["font-weight"]) >= 600;
 		if (styles["font-style"]) marks.italic = /italic|oblique/.test(styles["font-style"]);
 		if (/^(B|STRONG)$/.test(node.tagName)) marks.bold = true;

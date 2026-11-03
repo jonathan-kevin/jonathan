@@ -861,10 +861,6 @@ h6 {
 }
 h1 {
   font-weight: 600;
-  font-size: 2rem;
-  line-height: 2.5rem;
-}
-.saCompact h1 {
   font-size: 1.5rem;
   line-height: 2rem;
 }
@@ -874,10 +870,6 @@ h1 {
 }
 h2 {
   font-weight: 600;
-  font-size: 1.5rem;
-  line-height: 2rem;
-}
-.saCompact h2 {
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
@@ -896,7 +888,7 @@ h3 {
 }
 h4 {
   font-weight: 700;
-  font-size: 0.875rem;
+  font-size: 1rem;
   line-height: 1.375rem;
 }
 .saSmallScreen h4 {
@@ -5455,33 +5447,25 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 .saGrid .saGridRow {
   background-color: var(--Sa-Color-Surface);
 }
-.saGrid .saGridRow .saLocked,
-.saGrid .saGridRow .saGridRowControls {
-  background: inherit;
-}
-.saGrid .saGridRow.saError {
-  color: var(--Red700-300);
-  background-color: var(--Red50-1300);
-}
-.saGrid .saGridRow.saWarning {
-  color: var(--Yellow900-200);
-  background-color: var(--Yellow50-1300);
-}
-.saGrid .saGridRow.saSuccess {
-  color: var(--Green700-300);
-  background-color: var(--Green50-1300);
-}
-.saGrid .saGridRow.saDisabled,
-.saGrid .saGridRow[aria-disabled="true"] {
-  color: var(--Gray300-700);
-}
-.saGrid .saGridRow.saDeprecated,
-.saGrid .saGridRow.saArchived {
+.saGrid .saGridRow.saArchived,
+.saGrid .saGridRow.saDeprecated {
   color: var(--Sa-Color-TextSecondary);
 }
 .saGrid .saGridRow.saBeta {
   color: var(--Purple700-300);
   background-color: var(--Purple50-1300);
+}
+.saGrid .saGridRow.saDisabled,
+.saGrid .saGridRow[aria-disabled="true"] {
+  color: var(--Gray300-700);
+}
+.saGrid .saGridRow.saDraft {
+  color: var(--Sky700-300);
+  background-color: var(--Sky50-1300);
+}
+.saGrid .saGridRow.saError {
+  color: var(--Red700-300);
+  background-color: var(--Red50-1300);
 }
 .saGrid .saGridRow.saNew {
   color: var(--Primary700-300);
@@ -5503,9 +5487,13 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   z-index: 2;
   border-radius: inherit;
 }
-.saGrid .saGridRow.saDraft {
-  color: var(--Sky700-300);
-  background-color: var(--Sky50-1300);
+.saGrid .saGridRow.saSuccess {
+  color: var(--Green700-300);
+  background-color: var(--Green50-1300);
+}
+.saGrid .saGridRow.saWarning {
+  color: var(--Yellow900-200);
+  background-color: var(--Yellow50-1300);
 }
 .saGrid .saGridRow:has(.saCheckbox:checked):not(.saSelected) {
   background-color: var(--Sa-Color-GridRowChecked);
@@ -5517,21 +5505,17 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 .saGrid .saGridRow.saHasOpenContextMenu {
   background-color: var(--Sa-Color-GridRowHighlight);
 }
-.saGrid .saGridRow.saSelected.saError,
-.saGrid .saGridRow.saHasOpenContextMenu.saError {
-  background-color: var(--Red100-1200);
-}
-.saGrid .saGridRow.saSelected.saWarning,
-.saGrid .saGridRow.saHasOpenContextMenu.saWarning {
-  background-color: var(--Yellow100-1200);
-}
-.saGrid .saGridRow.saSelected.saSuccess,
-.saGrid .saGridRow.saHasOpenContextMenu.saSuccess {
-  background-color: var(--Green100-1200);
-}
 .saGrid .saGridRow.saSelected.saBeta,
 .saGrid .saGridRow.saHasOpenContextMenu.saBeta {
   background-color: var(--Purple100-1200);
+}
+.saGrid .saGridRow.saSelected.saDraft,
+.saGrid .saGridRow.saHasOpenContextMenu.saDraft {
+  background-color: var(--Sky100-1200);
+}
+.saGrid .saGridRow.saSelected.saError,
+.saGrid .saGridRow.saHasOpenContextMenu.saError {
+  background-color: var(--Red100-1200);
 }
 .saGrid .saGridRow.saSelected.saNew,
 .saGrid .saGridRow.saHasOpenContextMenu.saNew {
@@ -5541,13 +5525,21 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 .saGrid .saGridRow.saHasOpenContextMenu.saRemoved {
   background-color: var(--Gray100-900);
 }
-.saGrid .saGridRow.saSelected.saDraft,
-.saGrid .saGridRow.saHasOpenContextMenu.saDraft {
-  background-color: var(--Sky100-1200);
+.saGrid .saGridRow.saSelected.saSuccess,
+.saGrid .saGridRow.saHasOpenContextMenu.saSuccess {
+  background-color: var(--Green100-1200);
+}
+.saGrid .saGridRow.saSelected.saWarning,
+.saGrid .saGridRow.saHasOpenContextMenu.saWarning {
+  background-color: var(--Yellow100-1200);
 }
 .saGrid .saGridRow.saSelected .saCellUserStyle,
 .saGrid .saGridRow.saHasOpenContextMenu .saCellUserStyle {
   filter: brightness(0.85);
+}
+.saGrid .saGridRow .saLocked,
+.saGrid .saGridRow .saGridRowControls {
+  background: inherit;
 }
 .saGrid .saGridGroupedRowsHeader > th {
   background: var(--Sa-Color-Surface);
@@ -17206,6 +17198,208 @@ select.saInputText {
   flex-direction: column;
   box-sizing: content-box;
   height: 100%;
+}
+.saInputPage .saFieldConnector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  color: var(--Sa-Color-Icon);
+}
+.saInputPage .saInputAffixWrapper:has(#km3) {
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+.saInputPage .saInputAffixWrapper:has(#mi3) {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.saInputPage .saInputAffixWrapper:has(#km4) {
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+.saInputPage .saInputAffixWrapper:focus-within,
+.saInputPage .saInputAffixWrapper:hover {
+  z-index: 1;
+}
+.saInputPage .saFieldConnectorIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--Gray50-1100);
+  border: 1px solid var(--Gray200-800);
+  border-inline: none;
+  width: 2rem;
+  height: 2rem;
+}
+.saInputPage .saFieldConnectorButton {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  font-family: 'Lexend', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  padding: 0 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  max-width: 1.5rem;
+  min-width: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--Primary600-Gray100);
+  background: transparent;
+}
+.saInputPage .saFieldConnectorButton .saButtonText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.saInputPage .saFieldConnectorButton .saBadgedIcon {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.saInputPage .saFieldConnectorButton .saIcon {
+  transition-property: color, background-color, border-color, transform, border-radius, opacity;
+  transition-duration: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.saInputPage .saFieldConnectorButton:enabled:active {
+  border-radius: 0.625rem;
+}
+.saInputPage .saFieldConnectorButton .saIcon {
+  color: var(--Sa-Color-Icon);
+}
+@media (pointer: fine) {
+  .saInputPage .saFieldConnectorButton:enabled:hover {
+    background-color: var(--Primary50-Gray1000);
+    color: var(--Primary600-White);
+  }
+  .saInputPage .saFieldConnectorButton:enabled:hover .saIcon {
+    color: var(--Primary600-White);
+  }
+}
+.saInputPage .saFieldConnectorButton:enabled:active {
+  background-color: var(--Primary100-Gray900);
+  color: var(--Primary700-White);
+}
+.saInputPage .saFieldConnectorButton:enabled:active .saIcon {
+  color: var(--Primary700-White);
+}
+.saInputPage .saFieldConnectorButton.saDestructive {
+  color: var(--DestructiveButtonBackground-Brightness142);
+  border-color: var(--DestructiveButtonBackgroundBrightness182-Brightness142);
+}
+.saInputPage .saFieldConnectorButton.saDestructive .saIcon {
+  color: var(--DestructiveButtonBackground-Brightness142);
+}
+.saInputPage .saFieldConnectorButton.saDestructive .saBadge {
+  background-color: var(--DestructiveButtonBackground-Brightness142);
+}
+@media (pointer: fine) {
+  .saInputPage .saFieldConnectorButton.saDestructive:hover {
+    color: var(--White);
+    background: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: transparent;
+  }
+  .saInputPage .saFieldConnectorButton.saDestructive:hover .saIcon {
+    color: var(--White);
+  }
+  .saInputPage .saFieldConnectorButton.saDestructive:hover .saBadge {
+    background-color: var(--White);
+    color: var(--Sa-Color-DestructiveButtonBackground);
+    border-color: var(--Sa-Color-DestructiveButtonBackground);
+  }
+}
+.saInputPage .saFieldConnectorButton.saDestructive:active,
+.saInputPage .saFieldConnectorButton.saDestructive.saOpen {
+  color: var(--White);
+  background: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: transparent;
+}
+.saInputPage .saFieldConnectorButton.saDestructive:active .saIcon,
+.saInputPage .saFieldConnectorButton.saDestructive.saOpen .saIcon {
+  color: var(--White);
+}
+.saInputPage .saFieldConnectorButton.saDestructive:active .saBadge,
+.saInputPage .saFieldConnectorButton.saDestructive.saOpen .saBadge {
+  background-color: var(--White);
+  color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+  border-color: var(--Sa-Color-DestructiveButtonBackground-Brightness85);
+}
+.saInputPage .saFieldConnectorButton:disabled,
+.saInputPage .saFieldConnectorButton.saDisabled {
+  color: var(--Gray300-700);
+  background-color: transparent;
+  cursor: not-allowed;
+}
+.saInputPage .saFieldConnectorButton:disabled[data-sa-admin-link],
+.saInputPage .saFieldConnectorButton.saDisabled[data-sa-admin-link] {
+  cursor: default;
+}
+.saInputPage .saFieldConnectorButton:disabled .saIcon,
+.saInputPage .saFieldConnectorButton.saDisabled .saIcon {
+  color: var(--Gray300-700);
+}
+.saInputPage .saFieldConnectorButton .fa-link-simple {
+  display: none;
+}
+.saInputPage .saFieldConnectorButton[aria-pressed="true"] {
+  background-color: var(--Primary100-Gray900);
+}
+.saInputPage .saFieldConnectorButton[aria-pressed="true"] .saIcon {
+  color: var(--Primary600-White);
+}
+.saInputPage .saFieldConnectorButton[aria-pressed="true"] .fa-link-simple-slash {
+  display: none;
+}
+.saInputPage .saFieldConnectorButton[aria-pressed="true"] .fa-link-simple {
+  display: block;
+}
+.saInputPage .saInputTextWrapper.saLinked::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.75rem;
+  height: 0.375rem;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  border-block: 1px solid var(--Gray200-800);
+  background-color: var(--Sa-Color-Surface);
+  z-index: 1;
+  pointer-events: none;
+}
+.saInputPage .saLinker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4.75rem;
+  width: 0.5rem;
+  position: absolute;
+  inset: auto auto 116px 10.5rem;
+  border-radius: 0 0.25rem 0.25rem 0;
+  border: 1px solid var(--Gray200-800);
+  border-left: none;
+}
+.saInputPage .saLinker .saIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--Sa-Color-Surface);
+  color: var(--Sa-Color-Icon);
+  width: 1.5rem;
+  height: 1.5rem;
+  position: relative;
+  right: -0.25rem;
 }
 .saInputPage .saInput {
   display: flex;
@@ -38027,8 +38221,6 @@ img[data-lightbox-enabled]:focus-visible,
 .saMarkdownContent h5,
 .saMarkdownContent h6 {
   margin: 1.5rem 0 0.5rem;
-  line-height: 1.25;
-  font-weight: 600;
 }
 .saMarkdownContent p,
 .saMarkdownContent blockquote,
@@ -38047,18 +38239,23 @@ img[data-lightbox-enabled]:focus-visible,
   list-style: revert;
 }
 .saMarkdownContent ul ul,
+.saMarkdownContent ol ul,
+.saMarkdownContent ul ol,
+.saMarkdownContent ol ol {
+  margin-block: 0;
+}
+.saMarkdownContent ul ul,
 .saMarkdownContent ol ul {
   list-style-type: circle;
 }
 .saMarkdownContent ul ul ul,
+.saMarkdownContent ul ol ul,
 .saMarkdownContent ol ul ul,
-.saMarkdownContent ul ul ol,
-.saMarkdownContent ol ul ol {
+.saMarkdownContent ol ol ul {
   list-style-type: square;
 }
 .saMarkdownContent ul ol,
 .saMarkdownContent ol ol {
-  margin: 0;
   list-style-type: lower-roman;
 }
 .saMarkdownContent ul ul ol,
@@ -38086,7 +38283,6 @@ img[data-lightbox-enabled]:focus-visible,
   margin-bottom: 0;
 }
 .saMarkdownContent table {
-  border-collapse: collapse;
   display: block;
   width: max-content;
   max-width: 100%;
@@ -38098,10 +38294,33 @@ img[data-lightbox-enabled]:focus-visible,
   background: var(--Gray50-1100);
   font-weight: 600;
 }
+.saMarkdownContent tr {
+  height: 2rem;
+}
+.saMarkdownContent tr:first-child th:first-child {
+  border-top-left-radius: 0.5rem;
+}
+.saMarkdownContent tr:first-child th:last-child {
+  border-top-right-radius: 0.5rem;
+}
+.saMarkdownContent tr:last-child td:first-child {
+  border-bottom-left-radius: 0.5rem;
+}
+.saMarkdownContent tr:last-child td {
+  border-bottom: 0.0625rem solid var(--Gray150-800);
+}
+.saMarkdownContent tr:last-child td:last-child {
+  border-bottom-right-radius: 0.5rem;
+}
 .saMarkdownContent th,
 .saMarkdownContent td {
-  padding: 0.375rem 0.75rem;
-  border: 1px solid var(--Gray150-800);
+  padding: 0.125rem 0.625rem;
+  border-top: 0.0625rem solid var(--Gray150-800);
+  border-left: 0.0625rem solid var(--Gray150-800);
+}
+.saMarkdownContent th:last-child,
+.saMarkdownContent td:last-child {
+  border-right: 0.0625rem solid var(--Gray150-800);
 }
 .saMarkdownContent table td > :last-child {
   margin-bottom: 0;
@@ -38128,7 +38347,7 @@ img[data-lightbox-enabled]:focus-visible,
 .saMarkdownContent kbd {
   display: inline-block;
   padding: 0.25rem 0.375rem;
-  font: 11px monospace;
+  font: 0.6875rem monospace;
   line-height: 0.625rem;
   vertical-align: middle;
   background-color: var(--Gray100-1000);
@@ -38174,12 +38393,11 @@ img[data-lightbox-enabled]:focus-visible,
   cursor: pointer;
 }
 .saMarkdownContent img {
-  max-width: max(16rem, calc(100% - 4rem));
-  max-height: 55dvh;
-  height: auto;
   display: block;
-  border-style: none;
-  box-sizing: content-box;
+  max-width: 100%;
+  max-height: 55dvh;
+  width: auto;
+  height: auto;
 }
 .saMarkdownContent figure {
   display: block;
