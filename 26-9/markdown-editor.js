@@ -26,11 +26,20 @@
 		const color = String(value || "").trim();
 		return color.length <= 128 && !/[\u0000-\u001f;]/.test(color) && CSS.supports("color", color);
 	};
-	const highlightGroups = ["Gray", "Blue", "Red", "Orange", "Yellow", "Green", "Sky", "Purple", "Pink"];
+	const highlightSwatches = [["Red", 600], ["Orange", 400], ["Yellow", 200], ["Green", 400], ["Sky", 400], ["Blue", 600], ["Purple", 600], ["Pink", 400], ["Gray", 500]];
 	const highlightColorPattern = /^var\(--(Gray|Blue|Red|Orange|Yellow|Green|Sky|Purple|Pink)100\)$/;
 	const getHighlightBackground = value => {
 		const group = highlightColorPattern.exec(value || "")?.[1];
 		return group ? `light-dark(var(--${group}100), var(--${group}1000))` : null;
+	};
+	const getHighlightForeground = value => {
+		const group = highlightColorPattern.exec(value || "")?.[1];
+		return group ? `light-dark(var(--${group}900), var(--${group}100))` : null;
+	};
+	const getHighlightSwatchColor = value => {
+		const group = highlightColorPattern.exec(value || "")?.[1];
+		const shade = highlightSwatches.find(([name]) => name === group)?.[1];
+		return shade ? `var(--${group}${shade})` : null;
 	};
 	// Short numeric colors would be indistinguishable from issue references such as #123.
 	const completeHexColorPattern = /^#(?:[0-9a-f]{8}|[0-9a-f]{6})$/i;
@@ -257,7 +266,7 @@
 		renderHTML({ HTMLAttributes }) {
 			const color = HTMLAttributes.color;
 			const background = getHighlightBackground(color);
-			return background ? ["span", { "data-highlight-color": color, class: "saMarkdownEditorHighlight", style: `background-color: ${background}` }, 0] : ["span", 0];
+			return background ? ["span", { "data-highlight-color": color, class: "saMarkdownEditorHighlight", style: `background-color: ${background}; color: ${getHighlightForeground(color)}` }, 0] : ["span", 0];
 		},
 
 		renderMarkdown(node, helpers) {
@@ -584,10 +593,10 @@
 				}).join("");
 				return `<div role="row">${cells}</div>`;
 			}).join("");
-			const colorSwatches = highlightGroups.map((group, columnIndex) => {
+			const colorSwatches = highlightSwatches.map(([group, shade], columnIndex) => {
 				const color = `var(--${group}100)`;
 				const label = `${group} highlight`;
-				return `<input type="radio" class="saColor" tabindex="-1" data-color-row="0" data-color-column="${columnIndex}" name="${id}-highlight-color" value="${color}" aria-label="${label}" title="${label}" style="background-color: ${getHighlightBackground(color)}; grid-column: ${columnIndex + 1};">`;
+				return `<input type="radio" class="saColor" tabindex="-1" data-color-row="0" data-color-column="${columnIndex}" name="${id}-highlight-color" value="${color}" aria-label="${label}" title="${label}" style="background-color: var(--${group}${shade}); grid-column: ${columnIndex + 1};">`;
 			}).join("");
 			this.shell = document.createElement("div");
 			this.shell.innerHTML = `
@@ -1167,7 +1176,7 @@
 		updateColorControl() {
 			const selectedColor = getHighlightBackground(this.selectedHighlightColor) ? this.selectedHighlightColor : "";
 			const colorName = selectedColor ? `${highlightColorPattern.exec(selectedColor)[1]} highlight` : "no highlight";
-			this.colorIndicator.style.backgroundColor = getHighlightBackground(selectedColor) || "transparent";
+			this.colorIndicator.style.backgroundColor = getHighlightSwatchColor(selectedColor) || "transparent";
 			this.colorIndicator.classList.toggle("saNoHighlight", !selectedColor);
 			const applyLabel = selectedColor ? `Apply ${colorName}` : "Remove highlight";
 			this.colorApplyButton.setAttribute("aria-label", applyLabel);

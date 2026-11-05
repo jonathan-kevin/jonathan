@@ -6163,29 +6163,27 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
 .saListGrid .saRow.saOpen .saExpandButton i {
   transform: rotate(-180deg);
 }
-.saListGrid .saRow.saError {
-  color: var(--Red700-300);
-  background-color: var(--Red50-1300);
-}
-.saListGrid .saRow.saWarning {
-  color: var(--Yellow900-200);
-  background-color: var(--Yellow50-1300);
-}
-.saListGrid .saRow.saSuccess {
-  color: var(--Green700-300);
-  background-color: var(--Green50-1300);
-}
-.saListGrid .saRow.saDisabled,
-.saListGrid .saRow[aria-disabled="true"] {
-  color: var(--Gray300-700);
-}
-.saListGrid .saRow.saDeprecated,
 .saListGrid .saRow.saArchived {
   color: var(--Sa-Color-TextSecondary);
 }
 .saListGrid .saRow.saBeta {
   color: var(--Purple700-300);
   background-color: var(--Purple50-1300);
+}
+.saListGrid .saRow.saDeprecated {
+  color: var(--Sa-Color-TextSecondary);
+}
+.saListGrid .saRow.saDisabled,
+.saListGrid .saRow[aria-disabled="true"] {
+  color: var(--Gray300-700);
+}
+.saListGrid .saRow.saDraft {
+  color: var(--Sky700-300);
+  background-color: var(--Sky50-1300);
+}
+.saListGrid .saRow.saError {
+  color: var(--Red700-300);
+  background-color: var(--Red50-1300);
 }
 .saListGrid .saRow.saNew {
   color: var(--Primary700-300);
@@ -6207,9 +6205,13 @@ body[data-theme="dark"] .saInfoBoxArea .saInfoBoxLabel .saAiIcon {
   z-index: 2;
   border-radius: inherit;
 }
-.saListGrid .saRow.saDraft {
-  color: var(--Sky700-300);
-  background-color: var(--Sky50-1300);
+.saListGrid .saRow.saSuccess {
+  color: var(--Green700-300);
+  background-color: var(--Green50-1300);
+}
+.saListGrid .saRow.saWarning {
+  color: var(--Yellow900-200);
+  background-color: var(--Yellow50-1300);
 }
 .saListGrid .saRow .saExpandButton i {
   transform: rotate(0deg);
@@ -24914,6 +24916,9 @@ input[type=password].saInputText:-webkit-autofill + .saTrailingIconsWrapper {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+}
+.saMagicBox .saBoxesWrapper:empty {
+  display: none;
 }
 .saMagicBox .saBox {
   border: 1px solid;
