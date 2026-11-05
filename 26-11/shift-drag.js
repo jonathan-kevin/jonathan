@@ -36,14 +36,18 @@
   card.draggable = true;
   if (!cells.has(card.closest('.saBoxContainer'))) legends.set(typeOf(card), card);
  }
+ const removalTargets = new Set([
+  ...[...legends.values()].map(card => card.closest('.saBoxContainer')),
+  ...[...grid.querySelectorAll('.saBoxContainerHeading')].filter(heading => heading.querySelector('br')).map(heading => heading.closest('.saBoxContainer'))
+ ]);
  const status = document.createElement('div');
  status.setAttribute('role', 'status');
- status.style.cssText = 'display: none; position: fixed; bottom: 1rem; right: 1rem; z-index: 1000; max-width: 24rem; padding: .75rem 1rem; border: 1px solid var(--Gray200); border-radius: .375rem; background: var(--Sa-Color-Surface); color: var(--Sa-Color-Text);';
+ status.classList.add('saScreenReaderOnly');
  root.append(status);
  let dragged = null, highlighted = null, statusTimer = null;
  function announce(text) {
-  clearTimeout(statusTimer); status.textContent = text; status.style.display = 'block';
-  statusTimer = setTimeout(() => { status.style.display = 'none'; }, 4000);
+  clearTimeout(statusTimer); status.textContent = text;
+  statusTimer = setTimeout(() => { status.textContent = ''; }, 4000);
  }
  function total(week) {
   return week.cells.reduce((sum, cell) => sum + [...cell.wrapper.querySelectorAll(selector)].reduce((n, card) => n + types[typeOf(card)].hours, 0), 0);
@@ -52,9 +56,11 @@
  function clearHighlight() { highlighted?.classList.remove('saDropOn'); highlighted = null; }
  function finish() { dragged?.classList.remove('saDragged'); dragged = null; clearHighlight(); }
  function plan(container) {
-  const cell = cells.get(container);
-  if (!dragged || !cell) return null;
+  if (!dragged) return null;
   const source = cells.get(dragged.closest('.saBoxContainer'));
+  if (source && removalTargets.has(container)) return { source, remove: true };
+  const cell = cells.get(container);
+  if (!cell) return null;
   if (source === cell) return { cell, source, same: true };
   const existing = cell.wrapper.querySelector(selector);
   const type = typeOf(dragged), existingType = typeOf(existing);
@@ -81,7 +87,7 @@
   if (!move) return;
   event.preventDefault();
   event.dataTransfer.dropEffect = move.error ? 'none' : move.source ? 'move' : 'copy';
-  if (move.error && (status.textContent !== move.error || status.style.display === 'none')) announce(move.error);
+  if (move.error && status.textContent !== move.error) announce(move.error);
   if (!move.error) { highlighted = container; container.classList.add('saDropOn'); }
  });
  grid.addEventListener('dragleave', event => {
@@ -93,6 +99,14 @@
   event.preventDefault();
   if (move.error) { announce(move.error); finish(); return; }
   if (move.same) { finish(); return; }
+  if (move.remove) {
+   const type = typeOf(dragged);
+   dragged.remove();
+   if (!move.source.wrapper.querySelector(selector)) move.source.wrapper.style.removeProperty('min-height');
+   refreshTotals();
+   announce(`${types[type].label} borttaget från ${move.source.week.team}, vecka ${move.source.week.number}.`);
+   finish(); legends.get(type).focus(); return;
+  }
   const card = move.existing ? legends.get('dygn').cloneNode(true) : move.source ? dragged : dragged.cloneNode(true);
   card.classList.remove('saDragged'); card.draggable = true;
   card.setAttribute('aria-label', types[move.type].time);

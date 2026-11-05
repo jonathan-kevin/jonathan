@@ -623,7 +623,7 @@
 								<button class="saButtonIconToolbar saHighlightApply" data-apply-highlight type="button" aria-label="Remove highlight" title="Remove highlight">
 									<span class="saHighlightIndicator" data-highlight-indicator aria-hidden="true"></span>
 								</button>
-								<button class="saButtonIconToolbar saHighlightMenu" data-color-picker-button aria-label="Choose highlight, current selection no highlight" aria-haspopup="dialog" aria-expanded="false" aria-controls="${id}-color-picker" type="button"><i class="saIcon far fad fa-angle-down" aria-hidden="true"></i></button>
+								<button class="saButtonIconToolbar saHighlightMenu" data-color-picker-button aria-label="Choose highlight, current selection no highlight" aria-haspopup="dialog" aria-expanded="false" aria-controls="${id}-color-picker" type="button"><i class="saIcon far fa-angle-down" aria-hidden="true"></i><i class="saIcon fas fa-angle-down" aria-hidden="true"></i></button>
 							</div>
 							<div class="saColorPicker saPicker saContextMenu saSouth" id="${id}-color-picker" data-color-picker role="dialog" aria-label="Highlight picker" aria-describedby="${id}-color-help" hidden>
 								<p id="${id}-color-help" class="saScreenReaderOnly">Arrow keys browse highlights without applying them. Home and End move within a row. Enter or Space chooses a highlight. Escape closes the picker.</p>
