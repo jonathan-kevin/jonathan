@@ -36117,6 +36117,63 @@ body.saPopup::before {
 .saChatWrapper .saChatMessage:not(.saChatSender, .saChatSystem):not(:has(.saChatAvatar)) {
   padding-left: 2rem;
 }
+.saChatWrapper .saChatMessageActionList {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+.saChatWrapper .saChatMessageAction {
+  color: var(--Gray500);
+  margin-bottom: 0.25rem;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+.saChatWrapper .saChatMessageAction.saLoading {
+  padding-right: 2rem;
+  background: linear-gradient(120deg, var(--Gray500) 0%, var(--Gray500) 60%, var(--Gray200) 70%, var(--Gray400) 80%, var(--Gray500) 90%, var(--Gray500) 100%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: chatThinkingShine 5s linear infinite;
+}
+.saChatWrapper .saChatMessageAction code {
+  color: light-dark(var(--Gray900), var(--Gray50));
+}
+@media (pointer: fine) {
+  button.saChatWrapper .saChatMessageAction:hover {
+    color: light-dark(var(--Sa-Color-Primary600), var(--Sa-Color-White));
+  }
+}
+button.saChatWrapper .saChatMessageAction:active {
+  color: light-dark(var(--Sa-Color-Primary900), var(--Gray200));
+}
+.saChatWrapper .saChatMessageAction .saIcon {
+  color: var(--Sa-Color-Icon);
+  transition: ease transform 0.2s;
+  font-size: 1rem;
+  text-align: center;
+  width: 1rem;
+}
+.saChatWrapper .saChatMessageAction .saIcon:last-child {
+  font-size: 0.75rem;
+  width: unset;
+}
+[aria-expanded='true'].saChatWrapper .saChatMessageAction .saIcon:last-child {
+  transform: rotate(-180deg);
+}
+@media (pointer: fine) {
+  button.saChatWrapper .saChatMessageAction:hover .saIcon {
+    color: inherit;
+  }
+}
+button.saChatWrapper .saChatMessageAction:active .saIcon {
+  color: inherit;
+}
 .saChatWrapper .saChatSender {
   align-items: flex-end;
   margin: 0 0 0.25rem 2rem;
@@ -38290,12 +38347,13 @@ img[data-lightbox-enabled]:focus-visible,
   margin-bottom: 0;
 }
 .saMarkdownContent table {
-  display: block;
-  width: max-content;
   max-width: 100%;
   overflow: auto;
   margin: 0 0 1rem;
   font-variant-numeric: tabular-nums;
+  display: table;
+  width: 100%;
+  font-feature-settings: "tnum";
 }
 .saMarkdownContent thead {
   background: var(--Gray50-1100);
