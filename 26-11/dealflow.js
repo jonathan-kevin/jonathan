@@ -26,7 +26,7 @@
  const marker = document.createElement('div');
  marker.className = 'saDealDropMarker';
  marker.setAttribute('aria-hidden', 'true');
- marker.style.cssText = 'position: absolute; left: 0.75rem; right: 0.75rem; height: 3px; border-radius: 2px; background-color: var(--Blue600); pointer-events: none; z-index: 3;';
+ marker.style.cssText = 'position: absolute; left: 0.75rem; right: 0.75rem; height: 3px; border-radius: 2px; background-color: var(--Sa-Color-Link); pointer-events: none; z-index: 3;';
  function clearHighlight() {
   highlighted?.classList.remove('saDropOn');
   highlighted = null;
