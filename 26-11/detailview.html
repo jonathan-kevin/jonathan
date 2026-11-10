@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Detailview</title>
+	<link rel="stylesheet" href="./Presentation/CssTemplate/screen.template.css?v=grasp-static-2" />
+	<link rel="stylesheet" href="../src/fontawesome/css/all.css" />
+	<link rel="stylesheet" href="../src/fontawesome/css/duotone-regular.css" />
+	<meta name="description" content="Demo" />
+	<meta property="og:image" content="./Presentation/img/og-img.png" />
+
+	<script src="../src/jquery-4.0.0.slim.min.js"></script>
+	<script src="./script.js?v=sidebar-dialog-20260925"></script>
+	<script src="./dealflow.js" defer></script>
+<script src="./inline-panel.js" defer></script>
+
+
+<script src="./chat-inline.js?v=static-1" defer></script>
+	<script src="./live.js#css,html,js" defer></script>
+	<link rel="icon" type="image/png" size="16x16" href="https://www.enora.se/favicon.ico" />
+	<style>
+		.saDealflowLink {
+			color: inherit;
+			text-decoration: none;
+
+			&:hover,
+			&:focus-visible {
+				color: var(--Sa-Color-Link);
+				text-decoration: underline;
+			}
+		}
+
+		.saEnoraWordmark {
+			.saLargeScreen .saMinimized & {
+				display: none;
+			}
+		}
+
+		.saEnoraMark {
+			display: none;
+
+			.saLargeScreen .saMinimized & {
+				display: block;
+			}
+		}
+	</style>
+</head>
+
+<body class="saRootBody saLargeScreen saPc saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
+	<div class="saRootContentWrapper">
+		<div class="saSideBarOuter saSideBarOuterJs saClosed">
+			<form name="aspnetForm" method="post" action="./softadmin.aspx" id="aspnetForm">
+				<aside class="saAside">
+					<nav id="SideBar" class="saSideBar saSideBarJs saExpanded">
+						<div class="saAccessibilityBannerHolderJs">
+							<ul class="saAccessibilityBanner">
+								<li><a tabindex="0">Skip to content</a></li>
+								<li><a tabindex="0">Skip to menu</a></li>
+							</ul>
+						</div>
+						<section class="saSideBarSection saSideBarHeaderSmallScreen">
+							<img class="saSideBarHeaderSmallScreenLogo" />
+							<div class="saTitle">
+								<h1>Softadmin® Development System</h1>
+							</div>
+							<button class="saNavigator saButtonHeader" type="button">
+								<i class="saIcon far fa-xmark"></i>
+							</button>
+						</section>
+						<section class="saSideBarSection saSideBarHeader saSideBarSectionJs">
+							<svg class="saCustomerLogo saEnoraWordmark" viewBox="0 0 86 24" fill="none"
+								xmlns="http://www.w3.org/2000/svg" style="width: 86px; height: 3rem">
+								<path
+									d="M74.2785 23.9342C73.0576 23.9342 72.0223 23.5858 71.1724 22.888C70.3441 22.1686 69.9299 21.199 69.9299 19.9782C69.9299 19.1283 70.1262 18.4089 70.5188 17.8201C70.9113 17.2097 71.401 16.6974 71.9899 16.2832C72.6003 15.8691 73.2431 15.5315 73.9193 15.2695C74.6171 15.0084 75.2599 14.7896 75.8487 14.6159L79.4779 13.5697V12.0986C79.4779 10.8993 79.2384 9.95132 78.7585 9.25355C78.2786 8.55578 77.5593 8.20739 76.6004 8.20739C76.1863 8.20739 75.8153 8.25057 75.4885 8.33791C75.1617 8.42526 74.8673 8.55578 74.6063 8.73047V12.5559H70.2244C70.2901 11.815 70.5188 11.0956 70.9113 10.3979C71.3039 9.67849 71.8162 9.05727 72.4482 8.53419C73.1018 7.98952 73.8761 7.5528 74.7702 7.226C75.6642 6.89919 76.6446 6.7353 77.7124 6.7353C79.4347 6.7353 80.8185 7.18184 81.8646 8.07588C82.9324 8.96993 83.4672 10.2879 83.4672 12.0319V21.6122L85.7234 22.5278V23.5416H79.8381L80.263 20.3374H80.0667C79.5005 21.2746 78.7369 22.1137 77.7781 22.8546C76.8193 23.574 75.6524 23.9342 74.2795 23.9342H74.2785ZM76.0774 21.4817C76.7967 21.4817 77.4503 21.2638 78.0392 20.8281C78.628 20.3923 79.1069 19.8359 79.4779 19.1607V14.7464L77.0254 15.6944C76.6986 15.8249 76.3492 15.9888 75.9792 16.1851C75.6083 16.3814 75.2707 16.6208 74.9655 16.9045C74.6602 17.1881 74.41 17.5149 74.2137 17.8859C74.0174 18.2558 73.9193 18.671 73.9193 19.1283C73.9193 19.8692 74.1264 20.4473 74.5405 20.8614C74.9547 21.2756 75.4669 21.4827 76.0774 21.4827V21.4817Z"
+									fill="currentColor"></path>
+								<path
+									d="M56.8795 22.3317H59.1681V9.18798L56.7814 8.20659V7.19281H62.9288L62.3399 11.4766H62.5686C63.1574 10.3647 64.0289 9.37346 65.184 8.50101C66.3391 7.62953 67.6257 7.06229 69.0419 6.80124V11.2479H64.235C64.0387 11.4658 63.8532 11.6945 63.6795 11.9349C63.5274 12.1744 63.3851 12.4364 63.2546 12.72V22.3327H66.2302V23.5428H56.8785V22.3327L56.8795 22.3317Z"
+									fill="currentColor"></path>
+								<path
+									d="M47.888 24C46.6455 24 45.512 23.7929 44.4875 23.3788C43.4629 22.943 42.5914 22.3542 41.8721 21.6133C41.1527 20.8507 40.5972 19.9459 40.2047 18.8997C39.8121 17.832 39.6158 16.6543 39.6158 15.3687C39.6158 14.0831 39.8121 12.9162 40.2047 11.87C40.5972 10.8023 41.1527 9.89742 41.8721 9.15647C42.613 8.39393 43.4855 7.8051 44.4875 7.39095C45.512 6.95521 46.6455 6.73735 47.888 6.73735C49.1304 6.73735 50.2639 6.95521 51.2885 7.39095C52.3131 7.8051 53.1845 8.39393 53.9039 9.15647C54.6233 9.89742 55.1787 10.8023 55.5713 11.87C55.9854 12.9162 56.1925 14.0821 56.1925 15.3687C56.1925 16.6553 55.9854 17.832 55.5713 18.8997C55.1787 19.9459 54.6233 20.8507 53.9039 21.6133C53.1845 22.3542 52.3131 22.943 51.2885 23.3788C50.2639 23.7929 49.1304 24 47.888 24ZM47.888 22.7899C49.152 22.7899 50.1108 22.1138 50.7654 20.7624C51.419 19.3894 51.7458 17.5905 51.7458 15.3677C51.7458 13.1448 51.419 11.3567 50.7654 10.0054C50.1118 8.63241 49.152 7.94544 47.888 7.94544C46.6239 7.94544 45.6641 8.63241 45.0105 10.0054C44.3785 11.3567 44.0625 13.1439 44.0625 15.3677C44.0625 17.5915 44.3785 19.3894 45.0105 20.7624C45.6641 22.1138 46.6239 22.7899 47.888 22.7899Z"
+									fill="currentColor"></path>
+								<path
+									d="M30.8893 22.3316H32.9492V12.7188C32.9492 11.5853 32.7421 10.7021 32.328 10.0701C31.9354 9.43805 31.271 9.12204 30.3338 9.12204C29.4839 9.12204 28.7204 9.40567 28.0452 9.97193C27.369 10.5392 26.8351 11.1486 26.4426 11.8032V22.3316H28.5025V23.5416H20.1322V22.3316H22.3551V9.1878L19.9684 8.20641V7.19263H26.1482L25.5927 10.6589H25.8214C26.475 9.59115 27.3366 8.67551 28.4044 7.91199C29.4721 7.12688 30.693 6.7353 32.0669 6.7353C33.6803 6.7353 34.912 7.24759 35.7619 8.27216C36.6117 9.27514 37.0367 10.5941 37.0367 12.2281V22.3316H39.1948V23.5416H30.8902V22.3316H30.8893Z"
+									fill="currentColor"></path>
+								<path
+									d="M14.1909 22.3315L17.1341 16.1517H18.1479V23.5416H0V22.3315H2.51727V1.21005H0V0H17.9506V6.80104H16.9368L13.9936 1.21005H6.93156V22.3325H14.1899L14.1909 22.3315Z"
+									fill="currentColor"></path>
+								<path d="M14.2234 9.11517H9.85224V13.4863H14.2234V9.11517Z" fill="currentColor"></path>
+							</svg>
+							<img class="saCustomerLogo saEnoraMark" src="./Presentation/img/dealflow/enora-mark.svg"
+								alt="Enora" width="32" height="32" style="width: 2rem; height: 2rem" />
+							<ul class="saSideBarInputGroup">
+								<li>
+									<a class="saSideBarSearchLink" tabindex="0">
+										<div><i class="far fa-magnifying-glass saIcon"></i></div>
+									</a>
+									<label class="saSideBarSearch">
+										<input id="SideBarSearchInput" class="saSearchInput saInputText" type="search"
+											placeholder="Search..." />
+										<i class="far fa-magnifying-glass saIcon"></i>
+									</label>
+								</li>
+								<li>
+									<button class="saImpersonatorWrapper" type="button" value="admin"
+										aria-expanded="false" aria-haspopup="listbox"
+										aria-labelledby="saImpersonatorLabel saImpersonatorValue"
+										aria-controls="saImpersonatorDropdown">
+										<span class="saImpersonator">
+											<span class="saImpersonatorValue" id="saImpersonatorValue">Olivia
+												Rydén</span>
+											<span class="saImpersonatorLabel" id="saImpersonatorLabel">User</span>
+											<i class="saIcon far fa-angle-down saTrailing"></i>
+											<span class="saImpersonatorLetter">A</span>
+										</span>
+									</button>
+								</li>
+							</ul>
+						</section>
+						<section class="saSideBarSection saSideBarBody saSideBarSectionJs">
+							<div class="saSideBarGroup">
+								<h3>Menu</h3>
+								<ul class="saItemList">
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Dashboard" role="link">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-chart-line icon saIcon" aria-hidden="true"></i>
+												</div>
+												<span>Dashboard</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Dealflow" href="./dealflow" aria-current="page">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-columns-3 icon saIcon" aria-hidden="true"></i>
+												</div>
+												<span>Dealflow</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Companies" role="link">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-building icon saIcon" aria-hidden="true"></i>
+												</div>
+												<span>Companies</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Projects" role="link">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-list-check icon saIcon" aria-hidden="true"></i>
+												</div>
+												<span>Projects</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Investors" role="link">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-handshake icon saIcon" aria-hidden="true"></i>
+												</div>
+												<span>Investors</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Reports" role="link">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-chart-column icon saIcon" aria-hidden="true"></i>
+												</div>
+												<span>Reports</span>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a class="saItem saDynamicTooltipJs" tabindex="0"
+											data-sa-minimized-tooltip="Administration" role="link">
+											<div class="saItemInner">
+												<div class="saIconWrapper">
+													<i class="far fa-gear icon saIcon" aria-hidden="true"></i>
+												</div>
+												<span>Administration</span>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</section>
+						<section class="saSideBarSection saSideBarFooter saSideBarSectionJs">
+							<div class="saSideBarFooterPrimary">
+								<div class="saListItem">
+									<button class="saAccountDropdown" type="button" aria-expanded="false"
+										aria-controls="saAccountMenu" aria-haspopup="menu">
+										<div class="saAccountAvatar">OR</div>
+										<span class="saAccountName">Olivia Rydén</span>
+										<i class="far fa-angle-down saIcon"></i>
+									</button>
+								</div>
+								<ul class="saSideBarToolbar">
+									<li>
+										<button type="button">
+											<div class="saIconWrapper">
+												<i class="far fa-gear icon saIcon"></i>
+											</div>
+											<span>Admin</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper">
+												<i class="far fa-chart-network icon saIcon"></i>
+											</div>
+											<span>Database designer</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper">
+												<i class="far fa-window-restore icon saIcon"></i>
+											</div>
+											<span>New tab</span>
+										</button>
+									</li>
+									<li>
+										<button type="button">
+											<div class="saIconWrapper">
+												<i class="far fa-circle-question icon saIcon"></i>
+											</div>
+											<span>View help page - General help</span>
+										</button>
+									</li>
+									<li class="saNotificationsItem">
+										<button id="largeScreenNotifications" type="button">
+											<div class="saSidenavItem"><i class="far fa-bell saIcon"></i></div>
+											<div class="saBadgeCount saUrgent">2</div>
+										</button>
+									</li>
+								</ul>
+							</div>
+							<div class="saSideBarFooterSecondary">
+								<a class="saSoftadminLogo" target="_blank" rel="noopener noreferrer" tabindex="-1"
+									href="https://www.softadmin.com/">
+									<img class="saLogo" src="./Presentation/img/softadmin-logo-minimized.svg" />
+									<img class="saWordmark" src="./Presentation/img/softadmin-logo-expanded.svg" />
+								</a>
+								<button class="saExpander saDynamicTooltipJs" type="button"
+									aria-label="Minimize sidebar" aria-controls="SideBar" aria-expanded="true"
+									aria-keyshortcuts="Alt+M">
+									<i class="far fa-angles-left saIcon" aria-hidden="true"></i>
+								</button>
+							</div>
+						</section>
+					</nav>
+				</aside>
+			</form>
+		</div>
+		<div class="saSideBarSmallScreenOverlay" id="SideBarSmallScreenOverlay" style="display: none"></div>
+		<div class="saRightFrameRoot" style="flex: 1; min-width: 0">
+			<div id="body"
+				class="right standardview saPc saLargeScreen saCompact saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
+				<div class="pagecontentframe">
+					<form class="interface">
+						<header id="pageheader" class="saPageHeaderHolder">
+							<div class="saPageHeader saDesktopHeader">
+								<div class="saHeader">
+									<div class="saRowWrapper">
+										<div class="saTopRow">
+											<nav class="saBreadcrumbs" aria-label="Page navigation">
+												<div class="saBackButtonWrapper">
+													<button class="saBackButton" type="button" disabled
+														aria-label="Back">
+														<i class="far fa-arrow-left saBack saIcon"
+															aria-hidden="true"></i>
+													</button>
+												</div>
+											</nav>
+<button type="button" id="open-grasp-chat" class="saOpenChat" aria-label="Open Grasp chat" aria-controls="grasp-chat-inline" aria-expanded="false"><i class="saIcon far fa-sidebar-flip" aria-hidden="true"></i></button>
+										</div>
+										<div class="saBottomRow">
+											<div class="saTitle">
+												<h1 class="saHeaderText">Västra Bokslutsbyrån AB</h1>
+												<div class="saNoSpinner">
+													<button type="button" class="saFavoriteToggle">
+														<i class="saIcon far fa-star"></i><i
+															class="saIcon fas fa-star"></i>
+													</button>
+												</div>
+												<ul class="saSpecialLinksWrapper"></ul>
+											</div>
+										</div>
+										<nav class="saNavigationBar">
+											<div class="saTopButtons">
+												<div class="saTopButtons saActionLinks">
+													<button class="saTopLink saActionLink saButtonPrimary"
+														type="button">
+														<div class="saIconHolder saOptionIcon" aria-hidden="true">
+															<i class="far fa-pen-to-square icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Edit company</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary"
+														type="button">
+														<div class="saIconHolder saOptionIcon" aria-hidden="true">
+															<i class="far fa-arrow-right-arrow-left icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Change stage</span>
+													</button>
+													<button class="saTopLink saActionLink saButtonSecondary"
+														type="button">
+														<div class="saIconHolder saOptionIcon" aria-hidden="true">
+															<i class="far fa-arrow-down-to-line icon saIcon"></i>
+														</div>
+														<span class="saButtonText saOptionText">Export company profile</span>
+													</button>
+												</div>
+											</div>
+										</nav>
+									</div>
+								</div>
+							</div>
+							<div class="saPageHeader saSmallScreenHeader">
+								<div class="saHeader">
+									<div class="saHeaderInner">
+										<div class="saTopRow">
+											<button class="saSmallScreenBackButton saButtonHeader" type="button"
+												disabled aria-label="Back">
+												<i class="far fa-arrow-left saBack saIcon"></i>
+											</button>
+											<div class="saHeaderWrapper">
+												<div class="saTitle">
+													<h1 class="saHeaderText">Västra Bokslutsbyrån AB</h1>
+												</div>
+											</div>
+											<button type="button" class="saOpenChat saButtonHeader" aria-label="Open Grasp chat" aria-controls="grasp-chat-inline" aria-expanded="false"><i class="saIcon far fa-sidebar-flip" aria-hidden="true"></i></button>
+<button class="saNotifications saButtonHeader" type="button"
+												aria-expanded="false">
+												<i class="far fa-bell saIcon"></i>
+												<div class="saBadgeCount saUrgent">2</div>
+											</button>
+											<button class="saNavigator saButtonHeader" type="button"
+												aria-label="Open menu" data-tooltip="Open menu">
+												<div class="saNavBar"><i class="saIcon far fa-bars"></i></div>
+											</button>
+										</div>
+									</div>
+									<nav class="saBottomRow saActionLinkBar">
+										<div class="saTopButtons saActionLinks">
+											<button class="saTopLink saActionLink saButtonPrimary" type="button">
+												<div class="saIconHolder saOptionIcon" aria-hidden="true">
+													<i class="far fa-pen-to-square icon saIcon"></i>
+												</div>
+												<span class="saButtonText saOptionText">Edit company</span>
+											</button>
+											<button class="saTopLink saActionLink saButtonSecondary" type="button">
+												<div class="saIconHolder saOptionIcon" aria-hidden="true">
+													<i class="far fa-arrow-right-arrow-left icon saIcon"></i>
+												</div>
+												<span class="saButtonText saOptionText">Change stage</span>
+											</button>
+											<button class="saTopLink saActionLink saButtonSecondary" type="button">
+												<div class="saIconHolder saOptionIcon" aria-hidden="true">
+													<i class="far fa-arrow-down-to-line icon saIcon"></i>
+												</div>
+												<span class="saButtonText saOptionText">Export company profile</span>
+											</button>
+										</div>
+									</nav>
+								</div>
+							</div>
+						</header>
+						<div class="maincolinner gradients">
+							<main id="MI_M" class="menuitem pagecontentframe">
+								<div id="MI_ScrollIndicator" class="scrollindicator"></div>
+								<div id="MI_ScrollContent" class="scrollcontent saScrollable"
+									style="height: calc(100dvh - 7.5rem)">
+									<div class="scrollcontent-inner">
+										<softadmin-infosql class="infoarea saInfoArea">
+												<div class="saTimelineWrapper">
+												<ul class="saTimeline saMedium" aria-label="Deal stage">
+<li class="saStep saComplete"><span class="saStepInner"><i class="saIcon far saStepIcon fa-check" aria-hidden="true"></i><div class="saStepText"><div class="saStepHeading">Identified</div></div></span></li>
+<li class="saStep" aria-current="true"><span class="saStepInner"><i class="saIcon far saStepIcon fa-2" aria-hidden="true"></i><div class="saStepText"><div class="saStepHeading">Proposal</div></div></span></li>
+<li class="saStep"><span class="saStepInner"><i class="saIcon far saStepIcon fa-3" aria-hidden="true"></i><div class="saStepText"><div class="saStepHeading">LOI</div></div></span></li>
+<li class="saStep"><span class="saStepInner"><i class="saIcon far saStepIcon fa-4" aria-hidden="true"></i><div class="saStepText"><div class="saStepHeading">DD</div></div></span></li>
+<li class="saStep"><span class="saStepInner"><i class="saIcon far saStepIcon fa-5" aria-hidden="true"></i><div class="saStepText"><div class="saStepHeading">Signed</div></div></span></li>
+<li class="saStep"><span class="saStepInner"><i class="saIcon far saStepIcon fa-6" aria-hidden="true"></i><div class="saStepText"><div class="saStepHeading">Closed</div></div></span></li>
+<li class="saStep"><span class="saStepInner"><i class="saIcon far saStepIcon fa-7" aria-hidden="true"></i><div class="saStepText"><div class="saStepHeading">Integrated</div></div></span></li>
+</ul>
+											</div>
+											<div class="saInfoBoxAreaWrapper">
+												<div class="saInfoBoxArea" style="max-width: 90rem">
+													<div class="saRowWrapper">
+														<div class="saColWrapper" style="gap: 2rem">
+															<!-- Information -->
+															<div class="saCol" style="
+                                                                        width: calc(25dvw - 1rem);
+                                                                        min-width: 16rem;
+                                                                        max-width: 32rem;
+                                                                    ">
+																<div class="saInfoBox saOpen">
+																	<button
+																		class="saInfoBoxHeading saInfoBoxHeadingButton"
+																		type="button">
+																		<div class="saInfoBoxHeaderWrapper">
+																			<h3>Information</h3>
+																		</div>
+																		<i
+																			class="far fa-angle-down saIcon saInfoBoxExpandIcon"></i>
+																	</button>
+																	<div class="saInfoBoxInner">
+																		<div class="saInfoBoxCol">
+																			<div class="saInfoBoxLabel">
+																				Business description
+																			</div>
+																			<p class="saInfoBoxContent">
+																				<span
+																					class="saInfoBoxTextContent">Provides
+																					cloud-based analytics
+																					and reporting tools for
+																					mid-sized retail and logistics
+																					companies.</span>
+																			</p>
+																		</div>
+																		<div class="saInfoBoxCol">
+																			<div class="saInfoBoxLabel">
+																				Company name
+																			</div>
+																			<p class="saInfoBoxContent">
+																				<span
+																					class="saInfoBoxTextContent">Västra
+																					Bokslutsbyrån AB</span>
+																			</p>
+																		</div>
+																		<div class="saInfoBoxCol">
+																			<div class="saInfoBoxLabel">
+																				Registration number
+																			</div>
+																			<p class="saInfoBoxContent">
+																				<span
+																					class="saInfoBoxTextContent">559184-6721</span>
+																			</p>
+																		</div>
+																		<div class="saInfoBoxCol">
+																			<div class="saInfoBoxLabel">
+																				Country
+																			</div>
+																			<p class="saInfoBoxContent">
+																				<span class="saInfoBoxTextContent">🇸🇪
+																					Sweden</span>
+																			</p>
+																		</div>
+																		<div class="saInfoBoxCol">
+																			<div class="saInfoBoxLabel">
+																				Industry
+																			</div>
+																			<p class="saInfoBoxContent">
+																				<span
+																					class="saInfoBoxTextContent">Business
+																					intelligence
+																					software</span>
+																			</p>
+																		</div>
+																		<div class="saInfoBoxCol">
+																			<div class="saInfoBoxLabel">
+																				Website
+																			</div>
+																			<p
+																				class="saInfoBoxContent saUserHtmlContent">
+																				<a href="#"
+																					class="saLinkText">https://www.vastrabokslutsbyran.se</a>
+																			</p>
+																		</div>
+
+<div class="saInfoBoxCol">
+ <div class="saInfoBoxLabel">Company contact</div>
+ <p class="saInfoBoxContent saUserHtmlContent"><a href="#" class="saLinkText">Anna Lindström</a></p>
+</div>
+<div class="saInfoBoxCol">
+ <div class="saInfoBoxLabel">Owner</div>
+ <p class="saInfoBoxContent saUserHtmlContent"><a href="#" class="saLinkText">Karin Holm</a></p>
+</div>
+</div>
+																</div>
+															</div>
+
+															<!-- Operations -->
+															<div class="saCol" style="
+                                                                        width: calc(25dvw - 1rem);
+                                                                        min-width: 16rem;
+                                                                        max-width: 32rem;
+                                                                    ">
+																<div class="saInfoBox saOpen">
+																	<button
+																		class="saInfoBoxHeading saInfoBoxHeadingButton"
+																		type="button">
+																		<div class="saInfoBoxHeaderWrapper">
+																			<h3>Operations</h3>
+																		</div>
+																		<i
+																			class="far fa-angle-down saIcon saInfoBoxExpandIcon"></i>
+																	</button>
+																	<div class="saInfoBoxInner">
+																		<div class="saInfoBoxCol">
+																			<div class="saInfoBoxLabel">
+																				Employees
+																			</div>
+																			<p class="saInfoBoxContent">
+																				<span class="saInfoBoxTextContent"><span
+																						class="saGridText">74</span></span>
+																			</p>
+																		</div>
+																		<div class="saInfoBoxCol">
+																			<div class="saInfoBoxLabel">
+																				Geographic presence
+																			</div>
+																			<p class="saInfoBoxContent">
+																				<span class="saInfoBoxTextContent"><span
+																						class="saGridText">Sweden,
+																						Norway, Denmark and
+																						Finland</span></span>
+																			</p>
+																		</div>
+																		<div class="saInfoBoxCol">
+																			<div class="saInfoBoxLabel">
+																				Revenue
+																			</div>
+																			<p class="saInfoBoxContent">
+																				<span class="saInfoBoxTextContent">SEK
+																					128.4 million (2025)</span>
+																			</p>
+																		</div>
+																		<div class="saInfoBoxCol">
+																			<div class="saInfoBoxLabel">Growth</div>
+																			<p class="saInfoBoxContent">
+																				<span class="saInfoBoxTextContent">12.6%
+																					(year-over-year)</span>
+																			</p>
+																		</div>
+																		<div class="saInfoBoxCol">
+																			<div class="saInfoBoxLabel">EBITDA</div>
+																			<p class="saInfoBoxContent">
+																				<span class="saInfoBoxTextContent">SEK
+																					18.2 million (14.2%)</span>
+																			</p>
+																		</div>
+																	</div>
+																</div>
+															</div>
+
+															<!-- Ownership and management -->
+															<div class="saCol" style="
+                                                                        width: calc(25dvw - 1rem);
+                                                                        min-width: 16rem;
+                                                                        max-width: 32rem;
+                                                                    ">
+																<div class="saInfoBox saOpen">
+																	<button
+																		class="saInfoBoxHeading saInfoBoxHeadingButton"
+																		type="button">
+																		<div class="saInfoBoxHeaderWrapper">
+																			<h3>Ownership and management</h3>
+																		</div>
+																		<i
+																			class="far fa-angle-down saIcon saInfoBoxExpandIcon"></i>
+																	</button>
+																	<div class="saInfoBoxInner">
+																		<div class="saInfoBoxCol">
+																			<div class="saInfoBoxLabel">
+																				Ownership structure
+																			</div>
+																			<div class="saBoxTableWrapper">
+																				<table class="saBoxTable">
+																					<tr>
+																						<th
+																							class="saTableHeading saTableCell">
+																							Shareholder
+																						</th>
+																						<th
+																							class="saTableHeading saTableCell">
+																							Ownership
+																						</th>
+																						<th
+																							class="saTableHeading saTableCell">
+																							Type
+																						</th>
+																					</tr>
+																					<tr>
+																						<td
+																							class="saTableCell saUserHtmlContent">
+																							<a href="#"
+																								class="saLinkText">Anna
+																								Lindström</a>
+																						</td>
+																						<td class="saTableCell">
+																							38%
+																						</td>
+																						<td class="saTableCell">
+																							Founder
+																						</td>
+																					</tr>
+																					<tr>
+																						<td
+																							class="saTableCell saUserHtmlContent">
+																							<a href="#"
+																								class="saLinkText">Erik
+																								Johansson</a>
+																						</td>
+																						<td class="saTableCell">
+																							30%
+																						</td>
+																						<td class="saTableCell">
+																							Founder
+																						</td>
+																					</tr>
+																					<tr>
+																						<td
+																							class="saTableCell saUserHtmlContent">
+																							<a href="#"
+																								class="saLinkText">Nordic
+																								Parts AB</a>
+																						</td>
+																						<td class="saTableCell">
+																							20%
+																						</td>
+																						<td class="saTableCell">
+																							Investment company
+																						</td>
+																					</tr>
+																					<tr>
+																						<td
+																							class="saTableCell saUserHtmlContent">
+																							<a href="#"
+																								class="saLinkText">Svea
+																								AB</a>
+																						</td>
+																						<td class="saTableCell">
+																							12%
+																						</td>
+																						<td class="saTableCell">
+																							Investment company
+																						</td>
+																					</tr>
+																				</table>
+																			</div>
+																		</div>
+
+																		<div class="saInfoBoxCol">
+																			<div class="saInfoBoxLabel">
+																				Board and management
+																			</div>
+																			<div class="saBoxTableWrapper">
+																				<table class="saBoxTable">
+																					<tr>
+																						<th
+																							class="saTableHeading saTableCell">
+																							Name
+																						</th>
+																						<th
+																							class="saTableHeading saTableCell">
+																							Position
+																						</th>
+																					</tr>
+																					<tr>
+																						<td
+																							class="saTableCell saUserHtmlContent">
+																							<a href="#"
+																								class="saLinkText">Anna
+																								Lindström</a>
+																						</td>
+																						<td class="saTableCell">
+																							CEO
+																						</td>
+																					</tr>
+																					<tr>
+																						<td
+																							class="saTableCell saUserHtmlContent">
+																							<a href="#"
+																								class="saLinkText">Erik
+																								Johansson</a>
+																						</td>
+																						<td class="saTableCell">
+																							Chairman of the Board
+																						</td>
+																					</tr>
+																					<tr>
+																						<td
+																							class="saTableCell saUserHtmlContent">
+																							<a href="#"
+																								class="saLinkText">Maria
+																								Berg</a>
+																						</td>
+																						<td class="saTableCell">
+																							CFO
+																						</td>
+																					</tr>
+																					<tr>
+																						<td
+																							class="saTableCell saUserHtmlContent">
+																							<a href="#"
+																								class="saLinkText">Johan
+																								Nilsson</a>
+																						</td>
+																						<td class="saTableCell">
+																							COO
+																						</td>
+																					</tr>
+																				</table>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</softadmin-infosql>
+
+										<softadmin-tabview class="maincolbody saMenuItemRoot saTabView saIFrameTabs">
+											<div class="saTabViewInner">
+												<div class="saTabGroup">
+													<div>
+														<button class="saTab saSelected" type="button">
+															<span><i class="far fa-square icon saIcon"></i></span><span
+																class="saTabText">Workspace</span>
+														</button>
+													</div>
+													<div>
+														<button class="saTab" type="button">
+															<span><i class="far fa-users icon saIcon"></i></span><span
+																class="saTabText">Contacts</span>
+														</button>
+													</div>
+													<div>
+														<button class="saTab" type="button">
+															<span><i
+																	class="far fa-file-lines icon saIcon"></i></span><span
+																class="saTabText">Documents</span>
+														</button>
+													</div>
+													<div>
+														<button class="saTab" type="button">
+															<span><i class="far fa-note icon saIcon"></i></span><span
+																class="saTabText">Notes</span>
+														</button>
+													</div>
+												</div>
+												<div class="saTabContent">
+													<div style="width: 100%; display: block">
+														<div class="iframecontent">
+															<div
+																class="right saMiniView saFitToContent saLargeScreen saPc saCompact saLargeScreenHasTopButtons saSmallScreenHasTopButtons">
+																<div class="pagecontentframe">
+																	<form class="interface">
+																		<header class="saPageHeaderHolder">
+																			<div class="saPageHeader saDesktopHeader">
+																				<div class="saHeader">
+																					<div class="saRowWrapper">
+																						<div class="saTopRow">
+																							<div class="saTitle">
+																								<h2
+																									class="saHeaderText">Workspace</h2>
+																								<div
+																									class="saNoSpinner">
+																									<button
+																										type="button"
+																										class="saFavoriteToggle">
+																										<i
+																											class="saIcon far fa-star"></i><i
+																											class="saIcon fas fa-star"></i>
+																									</button>
+																								</div>
+																								<ul
+																									class="saSpecialLinksWrapper">
+																									<li
+																										class="saNoSpinner">
+																										<button
+																											type="button">
+																											<i
+																												class="far fa-expand icon saIcon"></i>
+																										</button>
+																									</li>
+																								</ul>
+																							</div>
+																						</div>
+																						<nav class="saNavigationBar">
+																							<div class="saTopButtons">
+																								<div
+																									class="saActionLinks">
+																									<button
+																										class="saTopLink saActionLink saButtonSecondary"
+																										type="button">
+																										<div
+																											class="saIconHolder saOptionIcon">
+																											<i
+																												class="far fa-plus icon saIcon"></i>
+																										</div>
+																										<span
+																											class="saButtonText saOptionText">Add activity</span>
+																									</button>
+																								</div>
+																							</div>
+																						</nav>
+																					</div>
+																				</div>
+																			</div>
+																			<div
+																				class="saPageHeader saSmallScreenHeader">
+																				<div class="saHeader">
+																					<div class="saHeaderInner">
+																						<div class="saTopRow">
+																							<div
+																								class="saHeaderWrapper">
+																								<div class="saTitle">
+																									<h1
+																										class="saHeaderText">Workspace
+																									</h1>
+																								</div>
+																							</div>
+																							<button
+																								class="saNavigator saButtonHeader"
+																								type="button">
+																								<div class="saNavBar">
+																									<i
+																										class="saIcon far fa-bars"></i>
+																								</div>
+																							</button>
+																						</div>
+																					</div>
+																					<nav
+																						class="saBottomRow saActionLinkBar">
+																						<div class="saTopButtons saActionLinks">
+																							<div class="saEmptyFiller" style=" display: none;"></div>
+																							<button class="saTopLink saActionLink saButtonPrimary" type="button">
+																								<div class="saIconHolder saOptionIcon">
+																									<i class="far fa-plus icon saIcon"></i>
+																								</div>
+																								<span class="saButtonText saOptionText">Add activity</span>
+																							</button>
+																						</div>
+																					</nav>
+																				</div>
+																			</div>
+																		</header>
+
+																		<div class="maincolinner gradients">
+																			<section class="menuitem pagecontentframe">
+																				<span> </span>
+																				<div class="scrollindicator"></div>
+																				<div class="scrollcontent saScrollable">
+																					<div class="scrollcontent-inner">
+<div class="saWorkspace" lang="en" style="padding-bottom: 1.5rem; font-size: 0.875rem; line-height: 1.5;">
+ <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 2rem; align-items: start;">
+  <section aria-labelledby="proposal-playbook" style="min-width: 0;">
+   <div style="display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; margin-bottom: 0.25rem;"><h2 id="proposal-playbook" style="font-size: 1.125rem; margin: 0;">Playbook</h2></div>
+   <p style="margin: 0 0 1rem; color: var(--Sa-Color-TextSecondary);">Complete these activities in order.</p>
+   <div style="border: 1px solid var(--Gray200-800); border-radius: 0.5rem; overflow: hidden; background: var(--Sa-Color-Surface);">
+    <article style="padding: 1.25rem; background: var(--Sa-Color-InfoBackground);">
+     <div style="display: flex; gap: 1rem; align-items: flex-start;"><input type="checkbox" class="saCheckbox" id="task-valuation" aria-label="Mark Prepare valuation as complete" style="margin-top: 0.4rem; flex-shrink: 0;"><div style="flex: 1; min-width: 0;">
+      <div style="color: var(--Sa-Color-Link); font-size: 0.75rem; font-weight: 500; margin-bottom: 0.25rem;">START HERE</div>
+      <h3 style="font-size: 1rem; margin: 0 0 0.25rem;"><label for="task-valuation">Prepare valuation</label></h3>
+      <p style="margin: 0 0 0.75rem;">Request financial results by country and identify one-off items in EBITDA of SEK 18.2 million.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; font-size: 0.75rem;"><span style="color: var(--Yellow900-100);"><i class="far fa-file-circle-question saIcon" aria-hidden="true"></i> Financials needed</span><span style="color: var(--Sa-Color-TextSecondary);">Karin Holm · Due <time datetime="2026-11-12">12 November</time></span></div>
+     </div></div>
+    </article>
+    <article style="padding: 1.25rem; border-top: 1px solid var(--Gray200-800);">
+     <div style="display: flex; gap: 1rem; align-items: flex-start;"><input type="checkbox" class="saCheckbox" id="task-terms" aria-label="Mark Discuss terms as complete" style="margin-top: 0.3rem; flex-shrink: 0;"><div style="flex: 1; min-width: 0;">
+      <h3 style="font-size: 1rem; margin: 0 0 0.25rem;"><label for="task-terms">Discuss terms with the owners</label></h3>
+      <p style="margin: 0 0 0.75rem; color: var(--Sa-Color-TextSecondary);">Discuss price expectations, their future involvement and a potential earn-out with Anna and Erik.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; font-size: 0.75rem;"><span><i class="far fa-calendar saIcon" aria-hidden="true"></i> Meeting to schedule</span><span style="color: var(--Sa-Color-TextSecondary);">Karin Holm · Due <time datetime="2026-11-14">14 November</time></span></div>
+     </div></div>
+    </article>
+    <article style="padding: 1.25rem; border-top: 1px solid var(--Gray200-800);">
+     <div style="display: flex; gap: 1rem; align-items: flex-start;"><input type="checkbox" class="saCheckbox" id="task-offer" aria-label="Mark Prepare indicative offer as complete" style="margin-top: 0.3rem; flex-shrink: 0;"><div style="flex: 1; min-width: 0;">
+      <h3 style="font-size: 1rem; margin: 0 0 0.25rem;"><label for="task-offer">Prepare indicative offer</label></h3>
+      <p style="margin: 0 0 0.75rem; color: var(--Sa-Color-TextSecondary);">Prepare a valuation range and deal structure for internal review.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; font-size: 0.75rem;"><span style="color: var(--Sa-Color-TextSecondary);"><i class="far fa-clock saIcon" aria-hidden="true"></i> Awaiting valuation and owner discussions</span><span style="color: var(--Sa-Color-TextSecondary);">Karin Holm · <time datetime="2026-11-18">18 November</time></span></div>
+     </div></div>
+    </article>
+   </div>
+  </section>
+  <section aria-labelledby="grasp-signals" style="min-width: 0;">
+   <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; align-items: baseline; margin-bottom: 0.25rem;"><h2 id="grasp-signals" style="display: flex; align-items: center; gap: 0.5rem; font-size: 1.125rem; margin: 0;">Why this company stands out<img src="./Presentation/img/dealflow/grasp-mark.svg" alt="Grasp" aria-label="Insights provided by Grasp" style="width: 1rem; height: 1rem; object-fit: cover; object-position: left; flex-shrink: 0; filter: var(--Sa-WordmarkFilter);"></h2></div>
+   <p style="margin: 0 0 1rem; color: var(--Sa-Color-TextSecondary);">Three signals to explore in acquisition discussions.</p>
+   <div style="border: 1px solid var(--Gray200-800); border-radius: 0.5rem; overflow: hidden; background: var(--Sa-Color-Surface);">
+    <article style="padding: 1.25rem;"><h3 style="font-size: 0.875rem; margin: 0 0 0.25rem;">68% Founder ownership</h3><p style="margin: 0 0 0.75rem; color: var(--Sa-Color-TextSecondary);">Anna and Erik hold a majority stake. Clarify whether both want to sell and their preferred roles after the acquisition.</p><div style="font-size: 0.75rem; color: var(--Sa-Color-TextSecondary);">Source: company ownership structure</div></article>
+    <article style="padding: 1.25rem; border-top: 1px solid var(--Gray200-800);"><h3 style="font-size: 0.875rem; margin: 0 0 0.25rem;">+12.6% Revenue growth</h3><p style="margin: 0 0 0.75rem; color: var(--Sa-Color-TextSecondary);">The drivers of growth are not yet clear. Request a breakdown of new customers, price increases and acquisitions.</p><div style="font-size: 0.75rem; color: var(--Sa-Color-TextSecondary);">Source: financial overview 2025</div></article>
+    <article style="padding: 1.25rem; border-top: 1px solid var(--Gray200-800);"><h3 style="font-size: 0.875rem; margin: 0 0 0.25rem;">4 Nordic markets</h3><p style="margin: 0 0 0.75rem; color: var(--Sa-Color-TextSecondary);">Could strengthen our Nordic platform. Review profitability by country and dependence on local key personnel.</p><div style="font-size: 0.75rem; color: var(--Sa-Color-TextSecondary);">Source: company profile</div></article>
+   </div>
+  </section>
+ <section aria-labelledby="recent-changes" style="min-width: 0;">
+  <h2 id="recent-changes" style="font-size: 1.125rem; margin: 0 0 0.25rem;">Recent changes</h2>
+  <p style="margin: 0 0 1rem; color: var(--Sa-Color-TextSecondary);">Latest updates to the deal.</p>
+  <ol style="list-style: none; margin: 0; padding: 0; border: 1px solid var(--Gray200-800); border-radius: 0.5rem; background: var(--Sa-Color-Surface);">
+   <li style="display: flex; gap: 1.5rem; padding: 1rem 1.25rem;"><time datetime="2026-11-09" style="flex: 0 0 4rem; color: var(--Sa-Color-TextSecondary);">9 Nov</time><span>Financial information updated.</span></li>
+   <li style="display: flex; gap: 1.5rem; padding: 1rem 1.25rem; border-top: 1px solid var(--Gray200-800);"><time datetime="2026-11-06" style="flex: 0 0 4rem; color: var(--Sa-Color-TextSecondary);">6 Nov</time><span>Introductory meeting completed. Moved to Proposal.</span></li>
+   <li style="display: flex; gap: 1.5rem; padding: 1rem 1.25rem; border-top: 1px solid var(--Gray200-800);"><time datetime="2026-11-03" style="flex: 0 0 4rem; color: var(--Sa-Color-TextSecondary);">3 Nov</time><span>Ownership structure confirmed.</span></li>
+  </ol>
+ </section>
+ </div>
+</div>
+
+</div>
+																				</div>
+																			</section>
+																		</div>
+																	</form>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</softadmin-tabview>
+									</div>
+								</div>
+							</main>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+<chat-inline id="grasp-chat-inline" class="saChatInline" role="complementary" aria-labelledby="grasp-chat-title">
+ <header class="saInlineHeader">
+  <h3 class="saInlineTitle" id="grasp-chat-title" tabindex="-1"><img src="./Presentation/img/dealflow/grasp-mark.svg" alt="Grasp" style="width: 1rem; height: 1rem; object-fit: cover; object-position: left; flex-shrink: 0; filter: var(--Sa-WordmarkFilter);"><span>Grasp chat</span></h3>
+  <div class="saInlineActions"><button class="saInlineClose" type="button" data-inline-close aria-label="Close Grasp chat" aria-keyshortcuts="Escape"><i class="saIcon far fa-xmark" aria-hidden="true"></i></button></div>
+ </header>
+ <div class="saChatWrapper saInlineContent">
+  <div class="saChat" style="border: 0;">
+   <div class="saChatDate"><time>Today</time></div>
+   <p class="saChatSystem">Ask about this page, or select text to focus the conversation.</p>
+   <p class="saChatComposerInstruction">AI can make mistakes. Check important info.</p>
+   <div class="saChatComposerWrapper" role="group" aria-label="Compose a chat message">
+    <div class="saChatComposer">
+     <textarea class="saChatTextarea" aria-label="Write a message" placeholder="Write a message…" readonly></textarea>
+     <button class="saChatButtonSend" type="button" aria-label="Send message" disabled><i class="saIcon far fa-arrow-up" aria-hidden="true"></i></button>
+    </div>
+   </div>
+  </div>
+ </div>
+</chat-inline>
+	</div>
+</body>
+
+</html>
